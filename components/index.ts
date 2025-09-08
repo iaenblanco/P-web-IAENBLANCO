@@ -1,0 +1,10 @@
+export { Header } from './Header';
+export { Hero } from './Hero';
+export { Services } from './Services';
+export { Pricing } from './Pricing';
+export { LearningPath } from './LearningPath';
+export { GeminiGenerator } from './GeminiGenerator';
+export { Testimonials } from './Testimonials';
+export { Contact } from './Contact';
+export { Footer } from './Footer';
+export { BackgroundSwitcher } from './BackgroundSwitcher';

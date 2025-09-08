@@ -1,0 +1,2 @@
+# API Key de Gemini - IMPORTANTE: Mantén esto seguro y nunca lo subas a Git
+GEMINI_API_KEY=tu_api_key_de_gemini_aqui

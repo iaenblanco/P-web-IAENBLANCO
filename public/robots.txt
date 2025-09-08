@@ -1,0 +1,19 @@
+User-agent: *
+Allow: /
+
+# Permitir todas las páginas principales
+Allow: /
+Allow: /#services
+Allow: /#pricing
+Allow: /#learning-path
+Allow: /#gemini-generator
+Allow: /#testimonials
+Allow: /#contact
+
+# Bloquear archivos sensibles
+Disallow: /api/
+Disallow: /_next/
+Disallow: /node_modules/
+
+# Sitemap - IMPORTANTE: Actualizar con tu dominio real antes del despliegue
+Sitemap: https://iaenblanco.com/sitemap.xml
