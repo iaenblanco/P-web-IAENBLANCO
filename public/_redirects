@@ -1,1 +1,13 @@
+# Handle API routes first
+/api/*    /api/:splat    200
+
+# Handle static assets
+/_next/static/*    /_next/static/:splat    200
+/_next/image/*    /_next/image/:splat    200
+
+# Handle sitemap and robots
+/sitemap.xml    /sitemap.xml    200
+/robots.txt    /robots.txt    200
+
+# Redirect all other routes to index.html for SPA behavior
 /*    /index.html   200

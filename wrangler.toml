@@ -1,0 +1,10 @@
+name = "iaenblanco-nextjs"
+compatibility_date = "2024-01-01"
+
+[env.production]
+name = "iaenblanco-nextjs"
+
+# Configuración para Cloudflare Pages
+[[pages_builds]]
+build_command = "npm run build"
+build_output_directory = "out"

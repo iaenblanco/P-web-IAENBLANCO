@@ -103,6 +103,14 @@ Después del despliegue, puedes:
 - **Acción**: Si existe el archivo, elimínalo: `rm wrangler.toml`
 - **Nota**: La configuración del build se hace directamente en el dashboard de Cloudflare
 
+### Error 404 después de despliegue exitoso
+- **Problema**: Build exitoso pero página muestra 404
+- **Solución**: Configurar Next.js para Pages con archivos estáticos
+- **Archivos necesarios**:
+  - `public/_redirects` - Para routing SPA
+  - `next.config.js` - Configurado con `output: 'export'`
+  - Build output directory: `.next` (no cambiar)
+
 ### Problemas con el dominio
 - Espera a que se propague el DNS (puede tardar hasta 24 horas)
 - Verifica que los registros CNAME estén configurados correctamente

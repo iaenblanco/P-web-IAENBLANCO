@@ -1,8 +1,13 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  // Configuración para Cloudflare Pages
+  output: 'export',
+  trailingSlash: true,
+  skipTrailingSlashRedirect: true,
+  distDir: 'out',
+  
   images: {
-    domains: ['localhost'],
-    // En producción, añadir el dominio real
+    unoptimized: true,
     remotePatterns: [
       {
         protocol: 'https',
@@ -11,49 +16,36 @@ const nextConfig = {
     ],
   },
 
-  // Configuración específica para Cloudflare Pages
-  ...(process.env.CF_PAGES && {
-    // Deshabilitar la optimización de imágenes en Pages para evitar problemas
-    images: {
-      unoptimized: true,
-    },
-    // Configuración de output para Pages
-    output: 'export',
-    trailingSlash: true,
-  }),
-
-  // Forzar HTTPS en producción
-  ...(process.env.NODE_ENV === 'production' && {
-    async headers() {
-      return [
-        {
-          source: '/(.*)',
-          headers: [
-            {
-              key: 'X-Frame-Options',
-              value: 'DENY',
-            },
-            {
-              key: 'X-Content-Type-Options',
-              value: 'nosniff',
-            },
-            {
-              key: 'Referrer-Policy',
-              value: 'origin-when-cross-origin',
-            },
-            {
-              key: 'Permissions-Policy',
-              value: 'camera=(), microphone=(), geolocation=()',
-            },
-          ],
-        },
-      ];
-    },
-  }),
-
   // Configuración experimental para mejor rendimiento
   experimental: {
     optimizePackageImports: ['lucide-react'],
+  },
+
+  // Configuración de headers para producción
+  async headers() {
+    return [
+      {
+        source: '/(.*)',
+        headers: [
+          {
+            key: 'X-Frame-Options',
+            value: 'DENY',
+          },
+          {
+            key: 'X-Content-Type-Options',
+            value: 'nosniff',
+          },
+          {
+            key: 'Referrer-Policy',
+            value: 'origin-when-cross-origin',
+          },
+          {
+            key: 'Permissions-Policy',
+            value: 'camera=(), microphone=(), geolocation=()',
+          },
+        ],
+      },
+    ];
   },
 }
 
