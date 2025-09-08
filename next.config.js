@@ -11,6 +11,17 @@ const nextConfig = {
     ],
   },
 
+  // Configuración específica para Cloudflare Pages
+  ...(process.env.CF_PAGES && {
+    // Deshabilitar la optimización de imágenes en Pages para evitar problemas
+    images: {
+      unoptimized: true,
+    },
+    // Configuración de output para Pages
+    output: 'export',
+    trailingSlash: true,
+  }),
+
   // Forzar HTTPS en producción
   ...(process.env.NODE_ENV === 'production' && {
     async headers() {

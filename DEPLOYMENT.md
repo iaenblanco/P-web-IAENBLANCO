@@ -97,6 +97,12 @@ Después del despliegue, puedes:
 - Verifica que todas las dependencias estén instaladas: `npm install`
 - Asegúrate de que el build funciona localmente: `npm run build`
 
+### Error con wrangler.toml
+- **Problema**: Si ves errores sobre "wrangler.toml" o campos inesperados
+- **Solución**: Cloudflare Pages no necesita archivo `wrangler.toml` para proyectos Next.js
+- **Acción**: Si existe el archivo, elimínalo: `rm wrangler.toml`
+- **Nota**: La configuración del build se hace directamente en el dashboard de Cloudflare
+
 ### Problemas con el dominio
 - Espera a que se propague el DNS (puede tardar hasta 24 horas)
 - Verifica que los registros CNAME estén configurados correctamente
