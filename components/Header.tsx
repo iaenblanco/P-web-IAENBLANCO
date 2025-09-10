@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
+import Link from 'next/link';
 import { ThemeSelector } from './ThemeSelector';
 
 interface HeaderProps {
@@ -45,37 +46,37 @@ export const Header: React.FC<HeaderProps> = ({ onBackgroundChange }) => {
     >
       <div className="container mx-auto px-6 py-4 flex justify-between items-center">
         <div className="text-2xl font-bold tracking-wider">
-          <a
+          <Link
             href="/"
             aria-label="IAenBlanco - Página principal"
             className="focus:outline-none focus:ring-2 focus:ring-cyan-400 rounded"
           >
             <span className="text-cyan-400">IA</span>enBlanco
-          </a>
+          </Link>
         </div>
 
         {/* Desktop Navigation */}
         <nav className="hidden md:flex items-center space-x-8" role="navigation" aria-label="Navegación principal">
           {navigationItems.map((item) => (
-            <a
+            <Link
               key={item.href}
               href={item.href}
               className="hover:text-cyan-400 transition-colors focus:outline-none focus:ring-2 focus:ring-cyan-400 rounded px-2 py-1"
               aria-label={item.ariaLabel}
             >
               {item.label}
-            </a>
+            </Link>
           ))}
           <ThemeSelector onBackgroundChange={onBackgroundChange} />
         </nav>
 
-        <a
+        <Link
           href="#contact"
           className="hidden md:inline-block bg-cyan-500 hover:bg-cyan-400 text-black font-bold py-2 px-6 rounded-lg transition-transform duration-300 hover:scale-105 shadow-[0_0_15px_rgba(0,255,255,0.5)] focus:outline-none focus:ring-2 focus:ring-cyan-400"
           aria-label="Empezar proyecto - Ir al formulario de contacto"
         >
           Empezar
-        </a>
+        </Link>
 
         {/* Mobile Menu Button */}
         <button
@@ -106,7 +107,7 @@ export const Header: React.FC<HeaderProps> = ({ onBackgroundChange }) => {
         >
           <div className="container mx-auto px-6 py-4 space-y-4">
             {navigationItems.map((item) => (
-              <a
+              <Link
                 key={item.href}
                 href={item.href}
                 className="block text-white hover:text-cyan-400 transition-colors py-2 focus:outline-none focus:ring-2 focus:ring-cyan-400 rounded px-2"
@@ -114,19 +115,19 @@ export const Header: React.FC<HeaderProps> = ({ onBackgroundChange }) => {
                 onClick={closeMobileMenu}
               >
                 {item.label}
-              </a>
+              </Link>
             ))}
             <div className="border-t border-white/10 pt-4">
               <ThemeSelector onBackgroundChange={onBackgroundChange} isMobile={true} />
             </div>
-            <a
+            <Link
               href="#contact"
               className="block bg-cyan-500 hover:bg-cyan-400 text-black font-bold py-3 px-6 rounded-lg text-center transition-transform duration-300 hover:scale-105 shadow-[0_0_15px_rgba(0,255,255,0.5)] focus:outline-none focus:ring-2 focus:ring-cyan-400"
               aria-label="Empezar proyecto - Ir al formulario de contacto"
               onClick={closeMobileMenu}
             >
               Empezar
-            </a>
+            </Link>
           </div>
         </nav>
       )}

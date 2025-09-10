@@ -5,7 +5,12 @@ const nextConfig = {
   trailingSlash: true,
   skipTrailingSlashRedirect: true,
   distDir: 'out',
-  
+
+  // Build cache configuration
+  generateBuildId: async () => {
+    return 'build-cache-' + Date.now()
+  },
+
   images: {
     unoptimized: true,
     remotePatterns: [
