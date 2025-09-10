@@ -2,6 +2,7 @@ export interface Background {
   id: string;
   name: string;
   class: string;
+  previewColor?: string;
 }
 
 export interface BusinessIdea {
