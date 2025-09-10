@@ -8,3 +8,4 @@ export { Testimonials } from './Testimonials';
 export { Contact } from './Contact';
 export { Footer } from './Footer';
 export { BackgroundSwitcher } from './BackgroundSwitcher';
+export { ThemeSelector } from './ThemeSelector';

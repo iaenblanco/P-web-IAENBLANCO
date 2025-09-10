@@ -10,8 +10,7 @@ import {
   GeminiGenerator,
   Testimonials,
   Contact,
-  Footer,
-  BackgroundSwitcher
+  Footer
 } from '@/components';
 
 export default function Home() {
@@ -25,7 +24,7 @@ export default function Home() {
     <div className={`min-h-screen w-full text-white font-sans transition-all duration-500 bg-gradient-to-br ${currentBgClass}`}>
       <div className="absolute inset-0 bg-black/30 backdrop-blur-sm"></div>
       <div className="relative z-10 isolate">
-        <Header />
+        <Header onBackgroundChange={handleBackgroundChange} />
         <Hero />
         <Services />
         <Pricing />
@@ -34,7 +33,6 @@ export default function Home() {
         <Testimonials />
         <Contact />
         <Footer />
-        <BackgroundSwitcher onBackgroundChange={handleBackgroundChange} />
       </div>
     </div>
   );

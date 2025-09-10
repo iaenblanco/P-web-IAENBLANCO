@@ -1,8 +1,13 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
+import { ThemeSelector } from './ThemeSelector';
 
-export const Header: React.FC = () => {
+interface HeaderProps {
+  onBackgroundChange: (bgClass: string) => void;
+}
+
+export const Header: React.FC<HeaderProps> = ({ onBackgroundChange }) => {
   const [scrolled, setScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
@@ -61,6 +66,7 @@ export const Header: React.FC = () => {
               {item.label}
             </a>
           ))}
+          <ThemeSelector onBackgroundChange={onBackgroundChange} />
         </nav>
 
         <a
@@ -110,6 +116,9 @@ export const Header: React.FC = () => {
                 {item.label}
               </a>
             ))}
+            <div className="border-t border-white/10 pt-4">
+              <ThemeSelector onBackgroundChange={onBackgroundChange} isMobile={true} />
+            </div>
             <a
               href="#contact"
               className="block bg-cyan-500 hover:bg-cyan-400 text-black font-bold py-3 px-6 rounded-lg text-center transition-transform duration-300 hover:scale-105 shadow-[0_0_15px_rgba(0,255,255,0.5)] focus:outline-none focus:ring-2 focus:ring-cyan-400"

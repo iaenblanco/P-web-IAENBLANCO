@@ -5,3 +5,4 @@ export { PaletteIcon } from './PaletteIcon';
 export { LightbulbIcon } from './LightbulbIcon';
 export { GraduationCapIcon } from './GraduationCapIcon';
 export { CheckCircleIcon } from './CheckCircleIcon';
+export { MessageIcon } from './MessageIcon';

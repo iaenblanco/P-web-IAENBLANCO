@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrainCircuitIcon, CodeIcon, WandSparklesIcon } from './icons';
+import { BrainCircuitIcon, CodeIcon, WandSparklesIcon, MessageIcon, PaletteIcon, LightbulbIcon } from './icons';
 
 export const Services: React.FC = () => {
   const services = [
@@ -20,12 +20,36 @@ export const Services: React.FC = () => {
       ariaLabel: 'Servicio de desarrollo web con Inteligencia Artificial'
     },
     {
+      icon: PaletteIcon,
+      iconColor: 'text-purple-400',
+      iconAlt: 'Icono de paleta representando diseños y códigos personalizados',
+      title: 'Diseños/Códigos Personalizados en Shopify',
+      description: 'Creamos diseños únicos y códigos personalizados para tu tienda Shopify, optimizando la conversión y experiencia de usuario.',
+      ariaLabel: 'Servicio de diseños y códigos personalizados para Shopify'
+    },
+    {
+      icon: MessageIcon,
+      iconColor: 'text-green-400',
+      iconAlt: 'Icono de mensaje representando chatbots y asistentes virtuales',
+      title: 'Chatbots Inteligentes y Asistentes Virtuales',
+      description: 'Implementamos chatbots avanzados y asistentes virtuales que mejoran la experiencia del cliente y automatizan interacciones.',
+      ariaLabel: 'Servicio de chatbots inteligentes y asistentes virtuales con IA'
+    },
+    {
       icon: WandSparklesIcon,
       iconColor: 'text-blue-400',
       iconAlt: 'Icono de varita mágica con chispas representando soluciones personalizadas',
       title: 'Soluciones a Medida',
       description: 'Desarrollamos soluciones de IA personalizadas para resolver tus desafíos más complejos y optimizar tus procesos.',
       ariaLabel: 'Servicio de soluciones personalizadas con Inteligencia Artificial'
+    },
+    {
+      icon: LightbulbIcon,
+      iconColor: 'text-yellow-400',
+      iconAlt: 'Icono de bombilla representando generación de contenidos con IA',
+      title: 'Generación de Contenidos con IA',
+      description: 'Utilizamos IA para crear contenido atractivo, optimizado para SEO y adaptado a tu marca en diversos formatos.',
+      ariaLabel: 'Servicio de generación de contenidos con Inteligencia Artificial'
     }
   ];
 
