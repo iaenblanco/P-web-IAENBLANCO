@@ -3,7 +3,7 @@
 import React, { useState } from 'react';
 import Link from 'next/link';
 import { Header, Footer } from '@/components';
-import { PhoneIcon, MailIcon, MapPinIcon, ClockIcon, CheckCircleIcon } from '@/components/icons';
+import { PhoneIcon, MailIcon, MapPinIcon, ClockIcon, WandSparklesIcon } from '@/components/icons';
 
 export default function ContactoPage() {
   const [currentBgClass, setCurrentBgClass] = useState('from-[#000428] to-[#004e92]');
@@ -137,7 +137,7 @@ export default function ContactoPage() {
     },
     {
       question: '¿Trabajan con empresas internacionales?',
-      answer: 'Sí, hemos trabajado con clientes de diferentes países de Europa y Latinoamérica.'
+      answer: 'Sí, hemos trabajado con clientes de diferentes países de Latinoamérica, incluyendo Chile, Argentina, Colombia, México y Perú.'
     },
     {
       question: '¿Cuál es el proceso para empezar un proyecto?',

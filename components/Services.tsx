@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrainCircuitIcon, CodeIcon, WandSparklesIcon, MessageIcon, PaletteIcon, LightbulbIcon } from './icons';
+import { BrainCircuitIcon, CodeIcon, WandSparklesIcon, MessageIcon, PaletteIcon, TrendingUpIcon } from './icons';
 
 export const Services: React.FC = () => {
   const services = [
@@ -44,12 +44,12 @@ export const Services: React.FC = () => {
       ariaLabel: 'Servicio de soluciones personalizadas con Inteligencia Artificial'
     },
     {
-      icon: LightbulbIcon,
-      iconColor: 'text-yellow-400',
-      iconAlt: 'Icono de bombilla representando generación de contenidos con IA',
-      title: 'Generación de Contenidos con IA',
-      description: 'Utilizamos IA para crear contenido atractivo, optimizado para SEO y adaptado a tu marca en diversos formatos.',
-      ariaLabel: 'Servicio de generación de contenidos con Inteligencia Artificial'
+      icon: TrendingUpIcon,
+      iconColor: 'text-green-400',
+      iconAlt: 'Icono de tendencias ascendentes representando análisis y métricas de auditoría de sitios web',
+      title: 'Auditoría de Sitios Personalizada con IA',
+      description: 'Detectamos errores críticos en UX, UI, SEO y rendimiento para entregarte un plan claro y accionable adaptado a tu industria.',
+      ariaLabel: 'Servicio de auditoría personalizada de sitios web con Inteligencia Artificial'
     }
   ];
 

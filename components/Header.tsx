@@ -110,7 +110,7 @@ export const Header: React.FC<HeaderProps> = ({ onBackgroundChange }) => {
         { href: '/soluciones/diseno-shopify', label: 'Diseños/Códigos Personalizados en Shopify' },
         { href: '/soluciones/chatbots-asistentes', label: 'Chatbots Inteligentes y Asistentes Virtuales' },
         { href: '/soluciones/soluciones-medida', label: 'Soluciones a Medida' },
-        { href: '/soluciones/generacion-contenidos', label: 'Generación de Contenidos con IA' },
+        { href: '/soluciones/auditoria-sitios-personalizada', label: 'Auditoría de Sitios Personalizada' },
         { href: '/soluciones/educacion-ia', label: 'Educación IA' },
       ]
     },

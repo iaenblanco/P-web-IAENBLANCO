@@ -1,7 +1,7 @@
 import React from 'react';
 import Link from 'next/link';
 import { Header, Footer } from '@/components';
-import { BrainCircuitIcon, CodeIcon, WandSparklesIcon, MessageIcon, PaletteIcon, LightbulbIcon, CheckCircleIcon } from '@/components/icons';
+import { BrainCircuitIcon, CodeIcon, WandSparklesIcon, MessageIcon, PaletteIcon, LightbulbIcon, TrendingUpIcon } from '@/components/icons';
 
 interface SolutionDetail {
   slug: string;
@@ -31,7 +31,7 @@ export async function generateStaticParams() {
     { slug: 'diseno-shopify' },
     { slug: 'chatbots-asistentes' },
     { slug: 'soluciones-medida' },
-    { slug: 'generacion-contenidos' },
+    { slug: 'auditoria-sitios-personalizada' },
     { slug: 'educacion-ia' },
   ];
 }
@@ -69,7 +69,7 @@ export default async function SolutionDetailPage({ params }: { params: Promise<{
       pricing: [
         {
           plan: 'Básico',
-          price: 'Desde 1.500€',
+          price: 'Desde $1.425.000',
           description: 'Ideal para pequeñas empresas o startups',
           features: [
             'Sitio web responsive de hasta 5 páginas',
@@ -80,7 +80,7 @@ export default async function SolutionDetailPage({ params }: { params: Promise<{
         },
         {
           plan: 'Profesional',
-          price: 'Desde 3.500€',
+          price: 'Desde $3.325.000',
           description: 'Para empresas en crecimiento',
           features: [
             'Sitio web completo de hasta 15 páginas',
@@ -93,7 +93,7 @@ export default async function SolutionDetailPage({ params }: { params: Promise<{
         },
         {
           plan: 'Empresarial',
-          price: 'Desde 8.000€',
+          price: 'Desde $7.600.000',
           description: 'Para grandes empresas con necesidades complejas',
           features: [
             'Sitio web personalizado sin límites de páginas',
@@ -145,7 +145,7 @@ export default async function SolutionDetailPage({ params }: { params: Promise<{
       pricing: [
         {
           plan: 'Rediseño Básico',
-          price: 'Desde 800€',
+          price: 'Desde $760.000',
           description: 'Mejora visual de tu tienda existente',
           features: [
             'Rediseño de tema Shopify',
@@ -156,7 +156,7 @@ export default async function SolutionDetailPage({ params }: { params: Promise<{
         },
         {
           plan: 'Personalización Completa',
-          price: 'Desde 2.200€',
+          price: 'Desde $2.090.000',
           description: 'Transformación completa de tu tienda',
           features: [
             'Diseño completamente personalizado',
@@ -169,7 +169,7 @@ export default async function SolutionDetailPage({ params }: { params: Promise<{
         },
         {
           plan: 'Tienda Premium',
-          price: 'Desde 5.000€',
+          price: 'Desde $4.750.000',
           description: 'Solución completa para grandes marcas',
           features: [
             'Diseño premium personalizado',
@@ -221,7 +221,7 @@ export default async function SolutionDetailPage({ params }: { params: Promise<{
       pricing: [
         {
           plan: 'Básico',
-          price: 'Desde 500€',
+          price: 'Desde $475.000',
           description: 'Para pequeñas empresas con necesidades simples',
           features: [
             'Chatbot con respuestas predefinidas',
@@ -232,7 +232,7 @@ export default async function SolutionDetailPage({ params }: { params: Promise<{
         },
         {
           plan: 'Avanzado',
-          price: 'Desde 1.500€',
+          price: 'Desde $1.425.000',
           description: 'IA conversacional para empresas en crecimiento',
           features: [
             'Chatbot con IA generativa',
@@ -245,7 +245,7 @@ export default async function SolutionDetailPage({ params }: { params: Promise<{
         },
         {
           plan: 'Empresarial',
-          price: 'Desde 4.000€',
+          price: 'Desde $3.800.000',
           description: 'Solución completa para grandes empresas',
           features: [
             'Asistente virtual multi-canal',
@@ -297,7 +297,7 @@ export default async function SolutionDetailPage({ params }: { params: Promise<{
       pricing: [
         {
           plan: 'Proyecto Específico',
-          price: 'Desde 5.000€',
+          price: 'Desde $4.750.000',
           description: 'Para desafíos concretos y bien definidos',
           features: [
             'Análisis detallado del problema',
@@ -309,7 +309,7 @@ export default async function SolutionDetailPage({ params }: { params: Promise<{
         },
         {
           plan: 'Transformación Digital',
-          price: 'Desde 15.000€',
+          price: 'Desde $14.250.000',
           description: 'Transformación completa de procesos',
           features: [
             'Análisis completo de la organización',
@@ -349,81 +349,84 @@ export default async function SolutionDetailPage({ params }: { params: Promise<{
       ],
       ctaText: 'Desarrollar Solución Personalizada'
     },
-    'generacion-contenidos': {
-      slug: 'generacion-contenidos',
-      icon: LightbulbIcon,
-      iconColor: 'text-yellow-400',
-      iconAlt: 'Icono de bombilla representando generación de contenidos con IA',
-      title: 'Generación de Contenidos con IA',
-      shortDescription: 'Utilizamos IA para crear contenido atractivo y optimizado.',
-      fullDescription: 'Nuestra plataforma de generación de contenidos con IA crea textos, imágenes, videos y más, todo optimizado para SEO y adaptado a tu marca. Produce contenido de calidad profesional a escala, ahorrando tiempo y recursos.',
-      targetAudience: 'Empresas y creadores de contenido que necesitan producir material de calidad de forma eficiente y consistente.',
+    'auditoria-sitios-personalizada': {
+      slug: 'auditoria-sitios-personalizada',
+      icon: TrendingUpIcon,
+      iconColor: 'text-green-400',
+      iconAlt: 'Icono de tendencias ascendentes representando análisis y métricas de auditoría de sitios web',
+      title: 'Auditoría de Sitios Personalizada con IA',
+      shortDescription: 'Detectamos errores críticos en UX, UI, SEO y rendimiento para entregarte un plan claro y accionable.',
+      fullDescription: 'Una revisión integral de tu sitio web donde combinamos herramientas de inteligencia artificial y análisis experto para identificar oportunidades de mejora en diseño, contenidos, velocidad, accesibilidad y conversiones.',
+      targetAudience: 'Empresas de eCommerce que buscan más ventas, clínicas y profesionales de salud que necesitan confianza y visibilidad, negocios de servicios que quieren generar más leads, y startups que requieren un sitio sólido desde el día uno.',
       benefits: [
-        'Producción de contenido a escala',
-        'Optimización SEO automática',
-        'Consistencia en el tono de marca',
-        'Ahorro significativo de tiempo y costos',
-        'Contenido adaptado a múltiples formatos'
+        'Aumento de conversiones al optimizar la experiencia de usuario',
+        'Mejor posicionamiento en Google con ajustes SEO técnicos',
+        'Mayor confianza gracias a accesibilidad y diseño coherente',
+        'Reporte accionable con quick wins y plan de mediano plazo'
       ],
       process: [
-        { step: 1, title: 'Análisis de marca y objetivos', description: 'Entendemos tu marca, voz y objetivos de contenido.' },
-        { step: 2, title: 'Configuración de IA', description: 'Entrenamos los modelos de IA con tu estilo y preferencias.' },
-        { step: 3, title: 'Implementación de flujos', description: 'Creamos flujos automatizados de generación de contenido.' },
-        { step: 4, title: 'Optimización y escalado', description: 'Optimizamos el rendimiento y escalamos la producción.' }
+        { step: 1, title: 'Diagnóstico inicial', description: 'Revisión de navegación, CTAs, formularios y velocidad.' },
+        { step: 2, title: 'Análisis por área', description: 'Evaluación detallada de UX/UI, SEO, contenidos y performance técnico.' },
+        { step: 3, title: 'Informe completo', description: 'Entrega de reporte con errores, mejoras y recomendaciones priorizadas.' },
+        { step: 4, title: 'Reunión de entrega', description: 'Explicamos hallazgos y próximos pasos.' }
       ],
       pricing: [
         {
-          plan: 'Starter',
-          price: 'Desde 200€/mes',
-          description: 'Para pequeñas empresas o blogs',
+          plan: 'Básico',
+          price: 'Desde $285.000',
+          description: 'Informe express con hallazgos principales',
           features: [
-            'Hasta 50 piezas de contenido al mes',
-            'Generación de artículos y posts',
-            'Optimización SEO básica',
-            '2 tipos de contenido'
+            'Informe PDF con diagnóstico completo',
+            'Análisis de hasta 10 páginas principales',
+            'Recomendaciones prioritarias',
+            'Reunión de 30 minutos para explicación'
           ]
         },
         {
           plan: 'Profesional',
-          price: 'Desde 500€/mes',
-          description: 'Para empresas con necesidades regulares',
+          price: 'Desde $570.000',
+          description: 'Análisis completo + roadmap detallado',
           features: [
-            'Hasta 200 piezas de contenido al mes',
-            'Múltiples formatos (artículos, social media, emails)',
-            'Análisis de rendimiento incluido',
-            'Integración con CMS',
-            'Soporte prioritario'
+            'Informe completo con mockups de mejora',
+            'Análisis ilimitado de páginas',
+            'Plan de implementación por fases',
+            'Reunión de 60 minutos + seguimiento',
+            'Recomendaciones técnicas específicas'
           ],
           popular: true
         },
         {
-          plan: 'Enterprise',
-          price: 'Desde 1.500€/mes',
-          description: 'Para grandes organizaciones',
+          plan: 'Premium',
+          price: 'Desde $1.140.000',
+          description: 'Todo lo anterior + acompañamiento en implementación',
           features: [
-            'Contenido ilimitado',
-            'Todos los formatos disponibles',
-            'API personalizada',
-            'Equipo dedicado de contenido',
-            'Integración completa con sistemas'
+            'Todo lo del plan Profesional',
+            'Acompañamiento en primeras implementaciones',
+            'Seguimiento mensual de progreso',
+            'Acceso prioritario a soporte técnico',
+            'Optimizaciones continuas por 3 meses'
           ]
         }
       ],
       faq: [
         {
-          question: '¿El contenido generado es original y único?',
-          answer: 'Sí, nuestros modelos de IA generan contenido completamente original, evitando problemas de duplicación.'
+          question: '¿Qué incluye exactamente la auditoría?',
+          answer: 'Análisis completo de UX/UI, SEO técnico, velocidad de carga, accesibilidad, contenido y rendimiento de conversiones.'
         },
         {
-          question: '¿Puedo editar el contenido generado?',
-          answer: 'Absolutamente, todo el contenido se puede editar y personalizar según tus necesidades específicas.'
+          question: '¿Cuánto demora el proceso?',
+          answer: 'El análisis completo toma entre 3-5 días hábiles, más el tiempo para preparar el informe personalizado.'
         },
         {
-          question: '¿Qué tipos de contenido pueden generar?',
-          answer: 'Artículos de blog, posts de redes sociales, emails marketing, descripciones de producto, guiones de video, y más.'
+          question: '¿Qué diferencia hay con un informe gratuito online?',
+          answer: 'Los informes gratuitos son genéricos. Nuestra auditoría es personalizada, incluye análisis profundo con IA y recomendaciones específicas para tu industria.'
+        },
+        {
+          question: '¿La auditoría incluye implementación de cambios?',
+          answer: 'El plan Premium incluye acompañamiento en implementación. Los otros planes entregan el roadmap completo para que implementes tú mismo o con tu equipo.'
         }
       ],
-      ctaText: 'Comenzar con Generación de Contenido IA'
+      ctaText: 'Solicitar mi auditoría ahora'
     },
     'educacion-ia': {
       slug: 'educacion-ia',
@@ -450,7 +453,7 @@ export default async function SolutionDetailPage({ params }: { params: Promise<{
       pricing: [
         {
           plan: 'Curso Individual',
-          price: 'Desde 150€',
+          price: 'Desde $142.500',
           description: 'Aprendizaje flexible a tu ritmo',
           features: [
             'Acceso a curso específico',
@@ -461,7 +464,7 @@ export default async function SolutionDetailPage({ params }: { params: Promise<{
         },
         {
           plan: 'Programa Completo',
-          price: 'Desde 800€',
+          price: 'Desde $760.000',
           description: 'Formación completa en IA',
           features: [
             'Todos los cursos incluidos',
@@ -588,7 +591,7 @@ export default async function SolutionDetailPage({ params }: { params: Promise<{
                 {solution.benefits.map((benefit, index) => (
                   <div key={index} className="bg-white/5 backdrop-blur-lg p-6 rounded-xl border border-white/10">
                     <div className="flex items-start">
-                      <CheckCircleIcon className="h-6 w-6 text-green-400 mr-3 mt-1 flex-shrink-0" />
+                      <WandSparklesIcon className="h-6 w-6 text-green-400 mr-3 mt-1 flex-shrink-0" />
                       <p className="text-gray-300">{benefit}</p>
                     </div>
                   </div>
@@ -627,31 +630,35 @@ export default async function SolutionDetailPage({ params }: { params: Promise<{
               <h2 id="solution-pricing-heading" className="text-3xl md:text-4xl font-bold mb-12 text-center">Planes y Precios</h2>
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                 {solution.pricing.map((plan, index) => (
-                  <div key={index} className={`bg-white/5 backdrop-blur-lg p-8 rounded-2xl border ${plan.popular ? 'border-cyan-400 shadow-[0_0_30px_rgba(0,255,255,0.3)]' : 'border-white/10'} relative`}>
+                  <div key={index} className={`bg-white/5 backdrop-blur-lg p-8 rounded-2xl border ${plan.popular ? 'border-cyan-400 shadow-[0_0_30px_rgba(0,255,255,0.3)]' : 'border-white/10'} relative flex flex-col h-full`}>
                     {plan.popular && (
                       <div className="absolute -top-4 left-1/2 transform -translate-x-1/2 bg-cyan-500 text-black px-4 py-1 rounded-full text-sm font-bold">
                         Más Popular
                       </div>
                     )}
-                    <div className="text-center mb-6">
-                      <h3 className="text-2xl font-bold mb-2">{plan.plan}</h3>
-                      <div className="text-3xl font-bold text-cyan-400 mb-2">{plan.price}</div>
-                      <p className="text-gray-400">{plan.description}</p>
+                    <div className="flex-grow">
+                      <div className="text-center mb-6">
+                        <h3 className="text-2xl font-bold mb-2">{plan.plan}</h3>
+                        <div className="text-3xl font-bold text-cyan-400 mb-2">{plan.price}</div>
+                        <p className="text-gray-400">{plan.description}</p>
+                      </div>
+                      <ul className="space-y-3 mb-8">
+                        {plan.features.map((feature, featureIndex) => (
+                          <li key={featureIndex} className="flex items-start">
+                            <WandSparklesIcon className="h-5 w-5 text-green-400 mr-3 mt-0.5 flex-shrink-0" />
+                            <span className="text-gray-300 text-sm">{feature}</span>
+                          </li>
+                        ))}
+                      </ul>
                     </div>
-                    <ul className="space-y-3 mb-8">
-                      {plan.features.map((feature, featureIndex) => (
-                        <li key={featureIndex} className="flex items-start">
-                          <CheckCircleIcon className="h-5 w-5 text-green-400 mr-3 mt-0.5 flex-shrink-0" />
-                          <span className="text-gray-300 text-sm">{feature}</span>
-                        </li>
-                      ))}
-                    </ul>
-                    <Link
-                      href="/contacto"
-                      className={`block text-center py-3 px-6 rounded-lg font-bold transition-transform duration-300 hover:scale-105 ${plan.popular ? 'bg-cyan-500 hover:bg-cyan-400 text-black shadow-[0_0_15px_rgba(0,255,255,0.5)]' : 'bg-white/10 hover:bg-white/20 text-white'}`}
-                    >
-                      {plan.plan === 'Consultar precio' ? 'Consultar' : 'Elegir Plan'}
-                    </Link>
+                    <div className="text-center mt-auto">
+                      <Link
+                        href="/contacto"
+                        className={`block py-3 px-6 rounded-lg font-bold transition-transform duration-300 hover:scale-105 ${plan.popular ? 'bg-cyan-500 hover:bg-cyan-400 text-black shadow-[0_0_15px_rgba(0,255,255,0.5)]' : 'bg-white/10 hover:bg-white/20 text-white'}`}
+                      >
+                        {plan.plan === 'Consultar precio' ? 'Consultar' : 'Elegir Plan'}
+                      </Link>
+                    </div>
                   </div>
                 ))}
               </div>

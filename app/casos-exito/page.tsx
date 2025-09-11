@@ -3,7 +3,7 @@
 import React, { useState } from 'react';
 import Link from 'next/link';
 import { Header, Footer, CaseStudyCard } from '@/components';
-import { CheckCircleIcon, TrendingUpIcon } from '@/components/icons';
+import { WandSparklesIcon, TrendingUpIcon } from '@/components/icons';
 
 export default function CasosExitoPage() {
   const [currentBgClass, setCurrentBgClass] = useState('from-[#000428] to-[#004e92]');
@@ -15,14 +15,14 @@ export default function CasosExitoPage() {
   const caseStudies = [
     {
       title: 'Automatización de Atención al Cliente 24/7',
-      client: 'TechSolutions España',
+      client: 'TechSolutions Chile',
       industry: 'Tecnología',
       problem: 'La empresa recibía cientos de consultas diarias que no podía atender fuera del horario laboral, causando insatisfacción en los clientes.',
       solution: 'Implementamos un chatbot inteligente con IA que maneja el 80% de las consultas automáticamente, escalando solo los casos complejos a agentes humanos.',
       results: [
         'Reducción del 70% en tiempo de respuesta',
         'Aumento del 40% en satisfacción del cliente',
-        'Ahorro de 15.000€ anuales en costos operativos',
+        'Ahorro de $14.250.000 anuales en costos operativos',
         'Disponibilidad 24/7 sin costos adicionales'
       ],
       testimonial: 'El chatbot de IAenBlanco ha revolucionado nuestra atención al cliente. Ahora podemos ofrecer soporte de calidad las 24 horas sin aumentar nuestra plantilla.',
@@ -74,7 +74,7 @@ export default function CasosExitoPage() {
       results: [
         'Reducción del 85% en fraudes exitosos',
         'Detección en tiempo real de transacciones sospechosas',
-        'Ahorro de 2.3 millones de euros en pérdidas por fraude',
+        'Ahorro de $2.195 millones en pérdidas por fraude',
         'Precisión del 95% en detección de fraudes'
       ],
       testimonial: 'El sistema de detección de fraudes con IA nos ha dado una tranquilidad que antes no teníamos. Hemos reducido drásticamente las pérdidas por fraude.',
@@ -100,6 +100,41 @@ export default function CasosExitoPage() {
       href: '/casos-exito/industriapro-manufactura'
     },
     {
+      title: 'Auditoría Web que Triplicó Conversiones',
+      client: 'FashionOnline',
+      industry: 'E-commerce',
+      problem: 'La tienda online tenía un sitio web lento, con problemas de navegación y formularios que no convertían, resultando en una tasa de abandono del carrito del 85%.',
+      solution: 'Realizamos una auditoría completa del sitio identificando 47 errores críticos en UX/UI, SEO y rendimiento. Implementamos las mejoras priorizadas según nuestro roadmap personalizado.',
+      results: [
+        'Aumento del 180% en tasa de conversión',
+        'Reducción del 65% en tiempo de carga de páginas',
+        'Mejora del 40% en posicionamiento SEO',
+        'Incremento del 25% en valor promedio de pedido'
+      ],
+      testimonial: 'La auditoría de IAenBlanco transformó completamente nuestro sitio web. Pasamos de tener un sitio que ahuyentaba clientes a uno que los convierte en compradores fieles.',
+      testimonialAuthor: 'Sofia Ramírez',
+      testimonialRole: 'CEO',
+      href: '/casos-exito/fashiononline-auditoria',
+      featured: true
+    },
+    {
+      title: 'Optimización SEO para Clínica Dental',
+      client: 'SonrisaPerfecta',
+      industry: 'Salud',
+      problem: 'La clínica dental tenía un sitio web con buena presencia pero problemas técnicos que impedían que apareciera en los primeros resultados de búsqueda.',
+      solution: 'Nuestra auditoría identificó problemas críticos de SEO técnico, accesibilidad y rendimiento móvil. Implementamos correcciones específicas para el sector salud.',
+      results: [
+        'Aumento del 300% en consultas desde Google',
+        'Mejora del 85% en puntuación de accesibilidad',
+        'Incremento del 60% en citas agendadas online',
+        'Posicionamiento en top 3 para palabras clave locales'
+      ],
+      testimonial: 'La auditoría nos mostró exactamente qué estaba mal con nuestro sitio. Las mejoras implementadas han revolucionado nuestra captación de pacientes.',
+      testimonialAuthor: 'Dr. Miguel Torres',
+      testimonialRole: 'Director Médico',
+      href: '/casos-exito/sonrisaperfecta-seo'
+    },
+    {
       title: 'Marketing Personalizado con IA',
       client: 'RetailMax',
       industry: 'Retail',
@@ -121,7 +156,7 @@ export default function CasosExitoPage() {
   const stats = [
     { number: '50+', label: 'Proyectos Exitosos' },
     { number: '95%', label: 'Satisfacción Cliente' },
-    { number: '2.5M€', label: 'Ahorro Total Clientes' },
+    { number: '$2.375MM', label: 'Ahorro Total Clientes' },
     { number: '300%', label: 'ROI Promedio' }
   ];
 

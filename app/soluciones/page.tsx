@@ -3,7 +3,7 @@
 import React, { useState } from 'react';
 import Link from 'next/link';
 import { Header, Footer, SolutionCard } from '@/components';
-import { BrainCircuitIcon, CodeIcon, WandSparklesIcon, MessageIcon, PaletteIcon, LightbulbIcon } from '@/components/icons';
+import { BrainCircuitIcon, CodeIcon, WandSparklesIcon, MessageIcon, PaletteIcon, TrendingUpIcon } from '@/components/icons';
 
 export default function SolucionesPage() {
   const [currentBgClass, setCurrentBgClass] = useState('from-[#000428] to-[#004e92]');
@@ -58,15 +58,15 @@ export default function SolucionesPage() {
       href: '/soluciones/soluciones-medida'
     },
     {
-      slug: 'generacion-contenidos',
-      icon: LightbulbIcon,
-      iconColor: 'text-yellow-400',
-      iconAlt: 'Icono de bombilla representando generación de contenidos con IA',
-      title: 'Generación de Contenidos con IA',
-      description: 'Utilizamos IA para crear contenido atractivo, optimizado para SEO y adaptado a tu marca en diversos formatos.',
-      targetAudience: 'Empresas que necesitan contenido de calidad de forma eficiente',
-      benefits: ['Contenido SEO optimizado', 'Generación automática', 'Adaptado a tu marca'],
-      href: '/soluciones/generacion-contenidos'
+      slug: 'auditoria-sitios-personalizada',
+      icon: TrendingUpIcon,
+      iconColor: 'text-green-400',
+      iconAlt: 'Icono de tendencias ascendentes representando análisis y métricas de auditoría de sitios web',
+      title: 'Auditoría de Sitios Personalizada con IA',
+      description: 'Detectamos errores críticos en UX, UI, SEO y rendimiento para entregarte un plan claro y accionable adaptado a tu industria.',
+      targetAudience: 'Empresas que buscan optimizar su presencia digital',
+      benefits: ['Aumento de conversiones', 'Mejor SEO técnico', 'Plan de mejora accionable'],
+      href: '/soluciones/auditoria-sitios-personalizada'
     },
     {
       slug: 'educacion-ia',

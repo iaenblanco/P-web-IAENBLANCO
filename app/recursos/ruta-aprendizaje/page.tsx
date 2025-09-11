@@ -3,7 +3,7 @@
 import React, { useState } from 'react';
 import Link from 'next/link';
 import { Header, Footer } from '@/components';
-import { BrainCircuitIcon, CheckCircleIcon, GraduationCapIcon, LightbulbIcon, CodeIcon, MessageIcon } from '@/components/icons';
+import { BrainCircuitIcon, WandSparklesIcon, GraduationCapIcon, LightbulbIcon, CodeIcon, MessageIcon } from '@/components/icons';
 
 export default function RutaAprendizajePage() {
   const [currentBgClass, setCurrentBgClass] = useState('from-[#000428] to-[#004e92]');
@@ -73,7 +73,7 @@ export default function RutaAprendizajePage() {
       description: 'Aplica lo aprendido en proyectos reales del mundo empresarial.'
     },
     {
-      icon: CheckCircleIcon,
+      icon: WandSparklesIcon,
       title: 'Seguimiento Personalizado',
       description: 'Monitorea tu progreso y recibe feedback personalizado.'
     }
@@ -203,11 +203,11 @@ export default function RutaAprendizajePage() {
                   <div className="space-y-2">
                     <div className="flex justify-between">
                       <span>Programa completo:</span>
-                      <span className="font-bold">599€</span>
+                      <span className="font-bold">$569.050</span>
                     </div>
                     <div className="flex justify-between">
                       <span>Pago mensual:</span>
-                      <span className="font-bold">150€/mes</span>
+                      <span className="font-bold">$142.500/mes</span>
                     </div>
                     <div className="text-sm text-gray-400 mt-3">
                       Incluye acceso vitalicio a materiales y actualizaciones

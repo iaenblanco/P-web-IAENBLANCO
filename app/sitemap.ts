@@ -45,7 +45,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 0.8,
     },
     {
-      url: `${baseUrl}/soluciones/generacion-contenidos`,
+      url: `${baseUrl}/soluciones/auditoria-sitios-personalizada`,
       lastModified: new Date(),
       changeFrequency: 'monthly',
       priority: 0.8,

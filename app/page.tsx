@@ -2,8 +2,8 @@
 
 import React, { useState } from 'react';
 import Link from 'next/link';
-import { Header, Footer, SolutionCard } from '@/components';
-import { BrainCircuitIcon, CodeIcon, WandSparklesIcon, MessageIcon, PaletteIcon, LightbulbIcon, CheckCircleIcon, StarIcon, TrendingUpIcon } from '@/components/icons';
+import { Header, Footer, SolutionCard, AnimatedCounter } from '@/components';
+import { BrainCircuitIcon, CodeIcon, WandSparklesIcon, MessageIcon, PaletteIcon, LightbulbIcon, StarIcon, TrendingUpIcon } from '@/components/icons';
 
 export default function Home() {
   const [currentBgClass, setCurrentBgClass] = useState('from-[#000428] to-[#004e92]');
@@ -19,7 +19,7 @@ export default function Home() {
       iconColor: 'text-fuchsia-400',
       iconAlt: 'Icono de código representando desarrollo web',
       title: 'Páginas Web con IA',
-      description: 'Integramos IA para crear sitios web dinámicos, personalizados y eficientes que cautivan a tus usuarios.',
+      description: 'Integramos IA para crear sitios web dinámicos y personalizados que cautivan a tus usuarios.',
       targetAudience: 'Empresas que necesitan presencia digital moderna',
       benefits: ['Sitios web adaptativos', 'Optimización SEO automática', 'Contenido dinámico generado por IA'],
       href: '/soluciones/paginas-web-ia'
@@ -52,10 +52,10 @@ export default function Home() {
     {
       name: 'María González',
       role: 'CEO',
-      company: 'TechSolutions España',
+      company: 'TechSolutions Chile',
       content: 'IAenBlanco transformó completamente nuestro servicio al cliente con un chatbot que maneja el 80% de las consultas automáticamente.',
       rating: 5,
-      results: ['70% reducción tiempo respuesta', '40% aumento satisfacción cliente', '15.000€ ahorro anual']
+      results: ['70% reducción tiempo respuesta', '40% aumento satisfacción cliente', '$14.250.000 ahorro anual']
     },
     {
       name: 'Carlos Rodríguez',
@@ -76,10 +76,9 @@ export default function Home() {
   ];
 
   const stats = [
-    { number: '50+', label: 'Proyectos Completados' },
-    { number: '95%', label: 'Clientes Satisfechos' },
-    { number: '2.5M€', label: 'Valor Generado' },
-    { number: '300%', label: 'ROI Promedio' }
+    { start: 12, end: 50, suffix: '+', label: 'Proyectos Completados' },
+    { start: 40, end: 95, suffix: '%', label: 'Clientes Satisfechos' },
+    { start: 120, end: 300, suffix: '%', label: 'ROI Promedio' }
   ];
 
   return (
@@ -120,10 +119,16 @@ export default function Home() {
               </div>
 
               {/* Estadísticas rápidas */}
-              <div className="grid grid-cols-2 md:grid-cols-4 gap-6 max-w-4xl mx-auto">
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-3xl mx-auto justify-items-center">
                 {stats.map((stat, index) => (
                   <div key={index} className="text-center">
-                    <div className="text-3xl md:text-4xl font-bold text-cyan-400 mb-2">{stat.number}</div>
+                    <AnimatedCounter
+                      start={stat.start}
+                      end={stat.end}
+                      suffix={stat.suffix}
+                      duration={2500}
+                      className="text-3xl md:text-4xl font-bold text-cyan-400 mb-2"
+                    />
                     <div className="text-sm text-gray-400">{stat.label}</div>
                   </div>
                 ))}
@@ -188,55 +193,59 @@ export default function Home() {
 
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
                 {/* Ruta de Aprendizaje */}
-                <div className="bg-white/5 backdrop-blur-lg p-8 rounded-2xl border border-white/10 hover:border-cyan-400 transition-colors group">
-                  <div className="flex items-center mb-6">
-                    <BrainCircuitIcon className="h-12 w-12 text-cyan-400 mr-4" />
-                    <div>
-                      <h3 className="text-2xl font-bold">Ruta de Aprendizaje IA</h3>
+                <div className="bg-white/5 backdrop-blur-lg p-8 rounded-2xl border border-white/10 hover:border-cyan-400 transition-colors group flex flex-col h-full">
+                  <div className="flex-grow">
+                    <div className="text-center mb-6">
+                      <BrainCircuitIcon className="h-16 w-16 text-cyan-400 mx-auto mb-4" />
+                      <h3 className="text-2xl font-bold mb-2">Ruta de Aprendizaje IA</h3>
                       <p className="text-cyan-400">Curso completo • 12 semanas</p>
                     </div>
+                    <p className="text-gray-300 mb-6 text-justify">
+                      Conviértete en experto en IA con nuestro programa estructurado.
+                      Desde conceptos básicos hasta implementación profesional.
+                    </p>
+                    <div className="flex flex-wrap gap-2 mb-6 justify-center">
+                      <span className="bg-cyan-500/20 text-cyan-400 px-3 py-1 rounded-full text-sm">Proyectos reales</span>
+                      <span className="bg-cyan-500/20 text-cyan-400 px-3 py-1 rounded-full text-sm">Certificación</span>
+                      <span className="bg-cyan-500/20 text-cyan-400 px-3 py-1 rounded-full text-sm">Mentoría</span>
+                    </div>
                   </div>
-                  <p className="text-gray-300 mb-6">
-                    Conviértete en experto en IA con nuestro programa estructurado.
-                    Desde conceptos básicos hasta implementación profesional.
-                  </p>
-                  <div className="flex flex-wrap gap-2 mb-6">
-                    <span className="bg-cyan-500/20 text-cyan-400 px-3 py-1 rounded-full text-sm">Proyectos reales</span>
-                    <span className="bg-cyan-500/20 text-cyan-400 px-3 py-1 rounded-full text-sm">Certificación</span>
-                    <span className="bg-cyan-500/20 text-cyan-400 px-3 py-1 rounded-full text-sm">Mentoría</span>
+                  <div className="text-center mt-auto">
+                    <Link
+                      href="/recursos/ruta-aprendizaje"
+                      className="inline-block bg-cyan-500 hover:bg-cyan-400 text-black font-bold py-3 px-6 rounded-lg transition-transform duration-300 hover:scale-105"
+                    >
+                      Comenzar Aprendizaje
+                    </Link>
                   </div>
-                  <Link
-                    href="/recursos/ruta-aprendizaje"
-                    className="inline-block bg-cyan-500 hover:bg-cyan-400 text-black font-bold py-3 px-6 rounded-lg transition-transform duration-300 hover:scale-105"
-                  >
-                    Comenzar Aprendizaje
-                  </Link>
                 </div>
 
                 {/* Generador de Ideas */}
-                <div className="bg-white/5 backdrop-blur-lg p-8 rounded-2xl border border-white/10 hover:border-purple-400 transition-colors group">
-                  <div className="flex items-center mb-6">
-                    <WandSparklesIcon className="h-12 w-12 text-purple-400 mr-4" />
-                    <div>
-                      <h3 className="text-2xl font-bold">Generador de Ideas IA</h3>
+                <div className="bg-white/5 backdrop-blur-lg p-8 rounded-2xl border border-white/10 hover:border-purple-400 transition-colors group flex flex-col h-full">
+                  <div className="flex-grow">
+                    <div className="text-center mb-6">
+                      <WandSparklesIcon className="h-16 w-16 text-purple-400 mx-auto mb-4" />
+                      <h3 className="text-2xl font-bold mb-2">Generador de Ideas IA</h3>
                       <p className="text-purple-400">Herramienta gratuita • Instantáneo</p>
                     </div>
-                  </div>
-                  <p className="text-gray-300 mb-6">
+                    <p className="text-gray-300 mb-6 text-justify">
                     Utiliza IA para generar ideas innovadoras personalizadas para tu negocio.
-                    Solo describe tu desafío y obtén soluciones creativas.
-                  </p>
-                  <div className="flex flex-wrap gap-2 mb-6">
-                    <span className="bg-purple-500/20 text-purple-400 px-3 py-1 rounded-full text-sm">Ideas personalizadas</span>
-                    <span className="bg-purple-500/20 text-purple-400 px-3 py-1 rounded-full text-sm">Multi-industria</span>
-                    <span className="bg-purple-500/20 text-purple-400 px-3 py-1 rounded-full text-sm">Exportable</span>
+                    Solo describe tu desafío y obtén soluciones creativas rápidamente.
+                    </p>
+                    <div className="flex flex-wrap gap-2 mb-6 justify-center">
+                      <span className="bg-purple-500/20 text-purple-400 px-3 py-1 rounded-full text-sm">Ideas personalizadas</span>
+                      <span className="bg-purple-500/20 text-purple-400 px-3 py-1 rounded-full text-sm">Multi-industria</span>
+                      <span className="bg-purple-500/20 text-purple-400 px-3 py-1 rounded-full text-sm">Exportable</span>
+                    </div>
                   </div>
-                  <Link
-                    href="/recursos/generador-ideas"
-                    className="inline-block bg-purple-500 hover:bg-purple-400 text-white font-bold py-3 px-6 rounded-lg transition-transform duration-300 hover:scale-105"
-                  >
-                    Generar Ideas Ahora
-                  </Link>
+                  <div className="text-center mt-auto">
+                    <Link
+                      href="/recursos/generador-ideas"
+                      className="inline-block bg-purple-500 hover:bg-purple-400 text-white font-bold py-3 px-6 rounded-lg transition-transform duration-300 hover:scale-105"
+                    >
+                      Generar Ideas Ahora
+                    </Link>
+                  </div>
                 </div>
               </div>
             </div>

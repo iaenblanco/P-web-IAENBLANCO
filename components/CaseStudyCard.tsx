@@ -1,6 +1,6 @@
 import React from 'react';
 import Link from 'next/link';
-import { CheckCircleIcon } from './icons';
+import { WandSparklesIcon } from './icons';
 
 interface CaseStudyCardProps {
   title: string;
@@ -59,7 +59,7 @@ export const CaseStudyCard: React.FC<CaseStudyCardProps> = ({
         <ul className="space-y-2">
           {results.map((result, index) => (
             <li key={index} className="flex items-start">
-              <CheckCircleIcon className="h-4 w-4 text-green-400 mr-2 mt-0.5 flex-shrink-0" />
+              <WandSparklesIcon className="h-4 w-4 text-green-400 mr-2 mt-0.5 flex-shrink-0" />
               <span className="text-gray-300 text-sm">{result}</span>
             </li>
           ))}

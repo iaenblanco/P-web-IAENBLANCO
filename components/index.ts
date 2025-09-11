@@ -11,3 +11,4 @@ export { BackgroundSwitcher } from './BackgroundSwitcher';
 export { ThemeSelector } from './ThemeSelector';
 export { SolutionCard } from './SolutionCard';
 export { CaseStudyCard } from './CaseStudyCard';
+export { AnimatedCounter } from './AnimatedCounter';

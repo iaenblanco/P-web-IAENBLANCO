@@ -72,7 +72,7 @@ export default function RootLayout({
         foundingDate: '2024',
         contactPoint: {
           '@type': 'ContactPoint',
-          telephone: '+34-XXX-XXX-XXX',
+          telephone: '+56-9-XXXX-XXXX',
           contactType: 'customer service',
           email: 'nicolas@iaenblanco.com',
           availableLanguage: 'Spanish',
