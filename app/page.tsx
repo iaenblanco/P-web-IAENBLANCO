@@ -264,7 +264,7 @@ export default function Home() {
                         <StarIcon key={i} className="h-5 w-5 text-yellow-400 fill-current" />
                       ))}
                     </div>
-                    <p className="text-gray-300 mb-6 italic">"{testimonial.content}"</p>
+                    <p className="text-gray-300 mb-6 italic">&ldquo;{testimonial.content}&rdquo;</p>
                     <div className="mb-4">
                       <div className="font-bold text-cyan-400">{testimonial.name}</div>
                       <div className="text-sm text-gray-400">{testimonial.role}, {testimonial.company}</div>

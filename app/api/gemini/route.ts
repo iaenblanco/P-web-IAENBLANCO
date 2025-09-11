@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { BusinessIdea, GeminiApiPayload } from '@/lib/types';
+import { BusinessIdea } from '@/lib/types';
 
 export async function POST(request: NextRequest) {
   try {
@@ -31,21 +31,14 @@ export async function POST(request: NextRequest) {
 
     const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-05-20:generateContent?key=${apiKey}`;
 
-    let payload: GeminiApiPayload;
+    let payload: any;
 
     // Si viene un prompt personalizado, usamos respuesta de texto simple
     if (prompt) {
       payload = {
         contents: [{ parts: [{ text: systemPrompt }] }],
         generationConfig: {
-          responseMimeType: "application/json",
-          responseSchema: {
-            type: "ARRAY",
-            items: {
-              type: "STRING",
-              description: "Una idea de negocio innovadora con IA"
-            }
-          }
+          responseMimeType: "text/plain"
         }
       };
     } else {
@@ -84,16 +77,34 @@ export async function POST(request: NextRequest) {
     const candidate = result.candidates?.[0];
 
     if (candidate?.content?.parts?.[0]?.text) {
-      const parsedResponse = JSON.parse(candidate.content.parts[0].text);
+      const responseText = candidate.content.parts[0].text;
 
-      // Si es un array de strings (nuevo formato), devolverlo directamente
-      if (Array.isArray(parsedResponse) && typeof parsedResponse[0] === 'string') {
-        return NextResponse.json({ generatedIdeas: parsedResponse });
+      // Si viene un prompt personalizado, procesar como texto y convertir a array
+      if (prompt) {
+        // Dividir el texto en líneas y filtrar las líneas vacías
+        const ideas = responseText
+          .split('\n')
+          .map((line: string) => line.trim())
+          .filter((line: string) => line.length > 0 && !line.startsWith('```'))
+          .slice(0, 5); // Tomar máximo 5 ideas
+
+        return NextResponse.json({ generatedIdeas: ideas });
       }
 
-      // Si es el formato original con objetos BusinessIdea
-      const ideas: BusinessIdea[] = parsedResponse;
-      return NextResponse.json({ ideas });
+      // Si es el formato original, intentar parsear como JSON
+      try {
+        const ideas: BusinessIdea[] = JSON.parse(responseText);
+        return NextResponse.json({ ideas });
+      } catch (parseError) {
+        // Si no se puede parsear como JSON, devolver como texto
+        const ideas = responseText
+          .split('\n')
+          .map((line: string) => line.trim())
+          .filter((line: string) => line.length > 0)
+          .slice(0, 5);
+
+        return NextResponse.json({ generatedIdeas: ideas });
+      }
     } else {
       throw new Error("La respuesta de la API no tuvo el formato esperado.");
     }

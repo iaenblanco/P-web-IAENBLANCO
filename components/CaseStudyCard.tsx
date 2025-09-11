@@ -67,7 +67,7 @@ export const CaseStudyCard: React.FC<CaseStudyCardProps> = ({
       </div>
 
       <div className="mb-6 p-4 bg-black/20 rounded-lg">
-        <p className="text-gray-300 text-sm italic mb-2">"{testimonial}"</p>
+        <p className="text-gray-300 text-sm italic mb-2">&ldquo;{testimonial}&rdquo;</p>
         <div className="text-cyan-400 text-sm font-semibold">
           {testimonialAuthor}
         </div>

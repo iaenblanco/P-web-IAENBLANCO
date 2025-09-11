@@ -6,7 +6,7 @@ import Image from 'next/image';
 import { ThemeSelector } from './ThemeSelector';
 
 interface HeaderProps {
-  onBackgroundChange: (bgClass: string) => void;
+  onBackgroundChange?: (bgClass: string) => void;
 }
 
 export const Header: React.FC<HeaderProps> = ({ onBackgroundChange }) => {
@@ -217,7 +217,7 @@ export const Header: React.FC<HeaderProps> = ({ onBackgroundChange }) => {
               </Link>
             )
           ))}
-          <ThemeSelector onBackgroundChange={onBackgroundChange} />
+          <ThemeSelector onBackgroundChange={onBackgroundChange || (() => {})} />
         </nav>
 
         <Link
@@ -316,7 +316,7 @@ export const Header: React.FC<HeaderProps> = ({ onBackgroundChange }) => {
               )
             ))}
             <div className="border-t border-white/10 pt-4">
-              <ThemeSelector onBackgroundChange={onBackgroundChange} isMobile={true} />
+              <ThemeSelector onBackgroundChange={onBackgroundChange || (() => {})} isMobile={true} />
             </div>
             <Link
               href="/contacto"

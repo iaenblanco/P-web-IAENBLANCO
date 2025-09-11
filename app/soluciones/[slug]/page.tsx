@@ -36,7 +36,11 @@ export async function generateStaticParams() {
   ];
 }
 
-export default function SolutionDetailPage({ params }: { params: { slug: string } }) {
+// Forzar prerendering estático pero permitir hidratación del cliente
+export const dynamic = 'force-static';
+
+export default async function SolutionDetailPage({ params }: { params: Promise<{ slug: string }> }) {
+  const { slug } = await params;
   const currentBgClass = 'from-[#000428] to-[#004e92]';
 
   const solutions: Record<string, SolutionDetail> = {
@@ -499,12 +503,12 @@ export default function SolutionDetailPage({ params }: { params: { slug: string 
     }
   };
 
-  const solution = solutions[params.slug];
+  const solution = solutions[slug];
 
   if (!solution) {
     return (
       <div className={`min-h-screen w-full text-white font-sans bg-gradient-to-br ${currentBgClass}`}>
-        <Header onBackgroundChange={handleBackgroundChange} />
+        <Header />
         <div className="container mx-auto px-6 py-20 text-center">
           <h1 className="text-4xl font-bold mb-4">Solución no encontrada</h1>
           <p className="text-gray-300 mb-8">La solución que buscas no existe.</p>
