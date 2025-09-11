@@ -9,3 +9,5 @@ export { Contact } from './Contact';
 export { Footer } from './Footer';
 export { BackgroundSwitcher } from './BackgroundSwitcher';
 export { ThemeSelector } from './ThemeSelector';
+export { SolutionCard } from './SolutionCard';
+export { CaseStudyCard } from './CaseStudyCard';
