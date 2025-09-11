@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { ThemeSelector } from './ThemeSelector';
 
 interface HeaderProps {
@@ -51,7 +52,18 @@ export const Header: React.FC<HeaderProps> = ({ onBackgroundChange }) => {
             aria-label="IAenBlanco - Página principal"
             className="focus:outline-none focus:ring-2 focus:ring-cyan-400 rounded"
           >
-            <span className="text-cyan-400">IA</span>enBlanco
+            {/* Logo Image */}
+            <div className="relative w-10 h-10 flex-shrink-0">
+              <Image
+                src="/logo.png"
+                alt="IAenBlanco Logo"
+                fill
+                className="object-contain"
+                priority
+                sizes="40px"
+              />
+            </div>
+
           </Link>
         </div>
 
