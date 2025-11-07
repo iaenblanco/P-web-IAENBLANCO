@@ -1,5 +1,8 @@
+'use client';
+
 import React from 'react';
 import { WandSparklesIcon } from './icons';
+import { CalButton } from './CalButton';
 
 export const Pricing: React.FC = () => {
   return (
@@ -20,7 +23,12 @@ export const Pricing: React.FC = () => {
               <li className="flex items-center"><WandSparklesIcon className="h-5 w-5 text-cyan-400 mr-2 shrink-0"/>Análisis de viabilidad de IA</li>
               <li className="flex items-center"><WandSparklesIcon className="h-5 w-5 text-cyan-400 mr-2 shrink-0"/>Recomendaciones de herramientas</li>
             </ul>
-            <button className="w-full mt-auto bg-white/10 border border-white/20 text-white font-bold py-3 rounded-lg transition-colors hover:bg-white/20">Agendar Llamada</button>
+            <CalButton 
+              calLink="iaenblanco/15min"
+              className="w-full mt-auto bg-white/10 border border-white/20 text-white font-bold py-3 rounded-lg transition-colors hover:bg-white/20"
+            >
+              Agendar Llamada
+            </CalButton>
           </div>
           {/* Plan 2: Professional (Most Popular) */}
           <div className="bg-white/10 backdrop-blur-xl p-8 rounded-3xl border-2 border-cyan-400 shadow-[0_0_40px_rgba(0,255,255,0.4)] relative flex flex-col transition-transform duration-300 hover:scale-105">

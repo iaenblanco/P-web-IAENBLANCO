@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react';
 import Link from 'next/link';
-import { Header, Footer } from '@/components';
+import { Header, Footer, CalButton } from '@/components';
 import { PhoneIcon, MailIcon, MapPinIcon, ClockIcon, WandSparklesIcon } from '@/components/icons';
 
 export default function ContactoPage() {
@@ -167,9 +167,12 @@ export default function ContactoPage() {
             <div className="bg-white/5 backdrop-blur-lg p-6 rounded-xl border border-white/10 max-w-2xl mx-auto">
               <p className="text-lg text-cyan-400 font-semibold mb-2">¿Prefieres una llamada rápida?</p>
               <p className="text-gray-300 mb-4">Agenda una consulta de 15 minutos sin compromiso.</p>
-              <button className="bg-cyan-500 hover:bg-cyan-400 text-black font-bold py-2 px-6 rounded-lg transition-transform duration-300 hover:scale-105">
+              <CalButton 
+                calLink="iaenblanco/15min"
+                className="bg-cyan-500 hover:bg-cyan-400 text-black font-bold py-2 px-6 rounded-lg transition-transform duration-300 hover:scale-105"
+              >
                 Agendar Llamada
-              </button>
+              </CalButton>
             </div>
           </div>
         </section>

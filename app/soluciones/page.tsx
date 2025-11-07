@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react';
 import Link from 'next/link';
-import { Header, Footer, SolutionCard } from '@/components';
+import { Header, Footer, SolutionCard, CalButton } from '@/components';
 import { BrainCircuitIcon, CodeIcon, WandSparklesIcon, MessageIcon, PaletteIcon, TrendingUpIcon } from '@/components/icons';
 
 export default function SolucionesPage() {
@@ -103,12 +103,12 @@ export default function SolucionesPage() {
               </p>
             </div>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Link
-                href="/contacto"
+              <CalButton
+                calLink="iaenblanco/15min"
                 className="bg-gradient-to-r from-cyan-500 to-blue-500 hover:from-cyan-400 hover:to-blue-400 text-black font-bold py-4 px-10 rounded-xl transition-all duration-300 hover:scale-105 shadow-[0_0_25px_rgba(0,255,255,0.6)] text-lg focus:outline-none focus:ring-2 focus:ring-cyan-400"
               >
                 🚀 Agendar Reunión Gratuita
-              </Link>
+              </CalButton>
               <Link
                 href="/casos-exito"
                 className="border-2 border-cyan-400 text-cyan-400 hover:bg-cyan-400 hover:text-black font-bold py-4 px-10 rounded-xl transition-all duration-300 text-lg focus:outline-none focus:ring-2 focus:ring-cyan-400"
@@ -174,12 +174,12 @@ export default function SolucionesPage() {
                   </div>
                 </div>
               </div>
-              <Link
-                href="/contacto"
-                className="inline-block bg-gradient-to-r from-cyan-500 to-blue-500 hover:from-cyan-400 hover:to-blue-400 text-black font-bold py-5 px-12 rounded-xl transition-all duration-300 hover:scale-105 shadow-[0_0_30px_rgba(0,255,255,0.7)] text-lg focus:outline-none focus:ring-2 focus:ring-cyan-400"
+              <CalButton
+                calLink="iaenblanco/15min"
+                className="bg-gradient-to-r from-cyan-500 to-blue-500 hover:from-cyan-400 hover:to-blue-400 text-black font-bold py-5 px-12 rounded-xl transition-all duration-300 hover:scale-105 shadow-[0_0_30px_rgba(0,255,255,0.7)] text-lg focus:outline-none focus:ring-2 focus:ring-cyan-400"
               >
                 🚀 Agendar Mi Reunión Gratuita
-              </Link>
+              </CalButton>
             </div>
           </div>
         </section>

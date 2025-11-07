@@ -1,6 +1,6 @@
 import React from 'react';
 import Link from 'next/link';
-import { Header, Footer } from '@/components';
+import { Header, Footer, CalButton } from '@/components';
 import { BrainCircuitIcon, CodeIcon, WandSparklesIcon, MessageIcon, PaletteIcon, LightbulbIcon, TrendingUpIcon } from '@/components/icons';
 
 interface SolutionDetail {
@@ -448,12 +448,12 @@ export default async function SolutionDetailPage({ params }: { params: Promise<{
                 </p>
               </div>
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                <Link
-                  href="/contacto"
+                <CalButton
+                  calLink="iaenblanco/15min"
                   className="bg-gradient-to-r from-cyan-500 to-blue-500 hover:from-cyan-400 hover:to-blue-400 text-black font-bold py-4 px-10 rounded-xl transition-all duration-300 hover:scale-105 shadow-[0_0_25px_rgba(0,255,255,0.6)] text-lg"
                 >
                   🚀 Agendar Reunión Gratuita
-                </Link>
+                </CalButton>
                 <Link
                   href="#solution-pricing-heading"
                   className="border-2 border-cyan-400 text-cyan-400 hover:bg-cyan-400 hover:text-black font-bold py-4 px-10 rounded-xl transition-all duration-300 text-lg"
@@ -555,12 +555,12 @@ export default async function SolutionDetailPage({ params }: { params: Promise<{
                 </div>
 
                 <div className="text-center">
-                  <Link
-                    href="/contacto"
-                    className="inline-block bg-gradient-to-r from-cyan-500 to-blue-500 hover:from-cyan-400 hover:to-blue-400 text-black font-bold py-4 px-12 rounded-xl transition-all duration-300 hover:scale-105 shadow-[0_0_30px_rgba(0,255,255,0.6)] text-lg"
+                  <CalButton
+                    calLink="iaenblanco/15min"
+                    className="bg-gradient-to-r from-cyan-500 to-blue-500 hover:from-cyan-400 hover:to-blue-400 text-black font-bold py-4 px-12 rounded-xl transition-all duration-300 hover:scale-105 shadow-[0_0_30px_rgba(0,255,255,0.6)] text-lg"
                   >
                     Agendar Reunión Estratégica
-                  </Link>
+                  </CalButton>
                   <p className="text-sm text-gray-400 mt-4">
                     🎯 Sin compromiso • Consulta gratuita de 30 minutos
                   </p>
@@ -629,12 +629,12 @@ export default async function SolutionDetailPage({ params }: { params: Promise<{
                 </div>
               </div>
               <div className="flex flex-col sm:flex-row gap-4 justify-center mb-6">
-                <Link
-                  href="/contacto"
+                <CalButton
+                  calLink="iaenblanco/15min"
                   className="bg-gradient-to-r from-cyan-500 to-blue-500 hover:from-cyan-400 hover:to-blue-400 text-black font-bold py-5 px-12 rounded-xl transition-all duration-300 hover:scale-105 shadow-[0_0_30px_rgba(0,255,255,0.7)] text-lg"
                 >
                   🚀 Agendar Mi Reunión Gratuita
-                </Link>
+                </CalButton>
               </div>
               <Link
                 href="/soluciones"
