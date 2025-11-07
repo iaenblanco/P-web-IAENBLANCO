@@ -32,7 +32,7 @@ export async function generateStaticParams() {
     { slug: 'chatbots-asistentes' },
     { slug: 'soluciones-medida' },
     { slug: 'auditoria-sitios-personalizada' },
-    { slug: 'educacion-ia' },
+    { slug: 'automatizaciones' },
   ];
 }
 
@@ -428,81 +428,103 @@ export default async function SolutionDetailPage({ params }: { params: Promise<{
       ],
       ctaText: 'Solicitar mi auditoría ahora'
     },
-    'educacion-ia': {
-      slug: 'educacion-ia',
-      icon: BrainCircuitIcon,
+    'automatizaciones': {
+      slug: 'automatizaciones',
+      icon: WandSparklesIcon,
       iconColor: 'text-cyan-400',
-      iconAlt: 'Icono de circuito cerebral representando educación en IA',
-      title: 'Educación IA',
-      shortDescription: 'Aprende los fundamentos y aplicaciones avanzadas de la IA.',
-      fullDescription: 'Nuestro programa de educación en IA está diseñado para llevarte desde cero hasta convertirte en un experto. Cursos prácticos, proyectos reales y mentoría personalizada para que domines la inteligencia artificial.',
-      targetAudience: 'Profesionales, emprendedores y empresas que quieren adquirir conocimientos en IA para aplicar en sus negocios.',
+      iconAlt: 'Icono de varita mágica representando automatizaciones',
+      title: 'Automatizaciones',
+      shortDescription: 'Elimina tareas repetitivas y ahorra hasta 30 horas semanales con automatizaciones a medida.',
+      fullDescription: 'Transforma tu negocio con automatizaciones diseñadas específicamente para tus procesos. Usamos IA para identificar las mejores oportunidades de automatización en tu empresa y desarrollamos la solución perfecta, ya sea con inteligencia artificial, scripts personalizados o integraciones entre herramientas. El resultado: procesos que funcionan 24/7, reducción de errores humanos hasta un 95% y tu equipo enfocado en tareas de alto valor. Garantizamos un ROI medible desde el primer mes.',
+      targetAudience: 'Empresas de todos los tamaños que buscan reducir costos operativos, mejorar eficiencia y escalar sin aumentar personal proporcionalmente. Ideal para e-commerce, servicios profesionales, manufacturing, logística y cualquier negocio con procesos repetitivos.',
       benefits: [
-        'Aprendizaje práctico con proyectos reales',
-        'Certificación reconocida en el sector',
-        'Mentoría personalizada por expertos',
-        'Comunidad activa de estudiantes',
-        'Actualización continua con las últimas tendencias'
+        'Ahorra hasta 30 horas semanales por empleado en tareas manuales',
+        'Reduce costos operativos hasta un 60% en procesos automatizados',
+        'Elimina el 95% de errores humanos en tareas repetitivas',
+        'ROI visible entre 1-3 meses con retorno promedio de 400%',
+        'Escala tu negocio sin aumentar headcount proporcionalmente',
+        'Disponibilidad 24/7 sin descansos ni vacaciones',
+        'Solución flexible: con IA o sin IA, según tu necesidad real',
+        'Integración perfecta con tus sistemas y herramientas actuales'
       ],
       process: [
-        { step: 1, title: 'Evaluación inicial', description: 'Evaluamos tu nivel actual y objetivos de aprendizaje.' },
-        { step: 2, title: 'Plan de aprendizaje personalizado', description: 'Creamos un plan adaptado a tus necesidades específicas.' },
-        { step: 3, 'title': 'Aprendizaje guiado', description: 'Cursos interactivos con práctica constante.' },
-        { step: 4, title: 'Proyecto final y certificación', description: 'Aplicación práctica y obtención de certificación.' }
+        { step: 1, title: 'Auditoría de Procesos (Gratuita)', description: 'Usamos IA para analizar y mapear tus procesos. Identificamos qué automatizar y calculamos el ahorro potencial específico para tu caso.' },
+        { step: 2, title: 'Diseño de Solución a Medida', description: 'Diseñamos la mejor solución para cada proceso: puede incluir IA, scripts personalizados, APIs o integraciones. Lo que realmente funcione.' },
+        { step: 3, title: 'Implementación Rápida', description: 'Desarrollamos e implementamos las automatizaciones en 2-4 semanas. Testing exhaustivo antes de producción.' },
+        { step: 4, title: 'Optimización Continua', description: 'Monitoreamos rendimiento y agregamos mejoras basadas en datos reales de uso. Tu solución evoluciona contigo.' }
       ],
       pricing: [
         {
-          plan: 'Curso Individual',
-          price: 'Desde $142.500',
-          description: 'Aprendizaje flexible a tu ritmo',
+          plan: 'Starter',
+          price: 'Desde $950.000',
+          description: 'Perfecta para pequeñas empresas',
           features: [
-            'Acceso a curso específico',
-            'Materiales descargables',
-            'Foro de estudiantes',
-            'Certificado de finalización'
+            'Automatización de 1-3 procesos específicos',
+            'Integración con hasta 5 herramientas',
+            'Dashboard básico de métricas',
+            'Capacitación del equipo incluida',
+            '2 meses de soporte y ajustes',
+            'ROI estimado: 300% en 6 meses'
           ]
         },
         {
-          plan: 'Programa Completo',
-          price: 'Desde $760.000',
-          description: 'Formación completa en IA',
+          plan: 'Business',
+          price: 'Desde $2.850.000',
+          description: 'Transformación completa de procesos',
           features: [
-            'Todos los cursos incluidos',
-            'Mentoría personalizada',
-            'Proyecto final guiado',
-            'Certificación profesional',
-            'Acceso a comunidad premium'
+            'Automatización de 5-10 procesos',
+            'Integraciones ilimitadas',
+            'Soluciones con IA cuando sea necesario',
+            'Dashboard completo con analytics',
+            'Workflows condicionales complejos',
+            '6 meses de soporte prioritario',
+            'ROI estimado: 500% en 4 meses'
           ],
           popular: true
         },
         {
-          plan: 'Formación Empresarial',
-          price: 'Consultar precio',
-          description: 'Capacitación para equipos completos',
+          plan: 'Enterprise',
+          price: 'Desde $7.600.000',
+          description: 'Solución enterprise escalable',
           features: [
-            'Cursos personalizados para tu empresa',
-            'Formación in-house',
-            'Seguimiento de progreso del equipo',
-            'Certificaciones grupales',
-            'Soporte continuo post-formación'
+            'Automatizaciones ilimitadas',
+            'IA avanzada donde aporte valor real',
+            'Integración completa con sistemas legacy',
+            'API personalizada y webhooks',
+            'Equipo dedicado de optimización',
+            'SLA garantizado 99.9% uptime',
+            'Soporte 24/7 y consultoría estratégica',
+            'ROI estimado: 600% en 3 meses'
           ]
         }
       ],
       faq: [
         {
-          question: '¿Necesito conocimientos previos de programación?',
-          answer: 'No es necesario, tenemos cursos desde nivel principiante hasta avanzado para diferentes niveles de conocimiento.'
+          question: '¿Todas las automatizaciones usan IA?',
+          answer: 'No necesariamente. Usamos IA para IDENTIFICAR y DISEÑAR las mejores oportunidades de automatización. La implementación puede incluir IA o no, dependiendo de qué solución funcione mejor para tu caso específico. Lo importante es el resultado: ahorro de tiempo y reducción de costos.'
         },
         {
-          question: '¿Los cursos son online o presenciales?',
-          answer: 'Ofrecemos tanto formato online flexible como sesiones presenciales para empresas.'
+          question: '¿Cuánto tiempo tardan en estar operativas las automatizaciones?',
+          answer: 'Las automatizaciones básicas están funcionando en 1-2 semanas. Proyectos complejos toman 3-4 semanas. Comenzarás a ver ahorros desde el primer día de implementación.'
         },
         {
-          question: '¿Qué certificación obtengo al finalizar?',
-          answer: 'Otorgamos certificaciones reconocidas en IA, válidas para tu CV profesional y desarrollo de carrera.'
+          question: '¿Qué procesos se pueden automatizar?',
+          answer: 'Prácticamente cualquier tarea repetitiva: gestión de emails, procesamiento de datos, entrada de información, generación de reportes, atención al cliente, facturación, inventario, seguimiento de leads, social media, y mucho más. En la auditoría gratuita identificamos tus mejores oportunidades.'
+        },
+        {
+          question: '¿Necesito cambiar mis sistemas actuales?',
+          answer: 'No. Nuestras automatizaciones se integran con tus herramientas existentes (Excel, CRM, ERP, email, bases de datos, etc.) sin necesidad de cambiar tu stack tecnológico.'
+        },
+        {
+          question: '¿Cómo garantizan el ROI?',
+          answer: 'Medimos métricas específicas: horas ahorradas, errores eliminados, costos reducidos. El 94% de nuestros clientes recupera la inversión en menos de 4 meses. Ofrecemos garantía de satisfacción.'
+        },
+        {
+          question: '¿Qué pasa si mi proceso cambia?',
+          answer: 'Las automatizaciones son flexibles y fáciles de ajustar. Incluimos capacitación para que puedas hacer cambios menores, y nuestro soporte te ayuda con modificaciones mayores.'
         }
       ],
-      ctaText: 'Comenzar Aprendizaje en IA'
+      ctaText: 'Solicitar Auditoría Gratuita'
     }
   };
 

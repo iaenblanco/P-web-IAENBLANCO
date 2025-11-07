@@ -69,15 +69,15 @@ export default function SolucionesPage() {
       href: '/soluciones/auditoria-sitios-personalizada'
     },
     {
-      slug: 'educacion-ia',
-      icon: BrainCircuitIcon,
+      slug: 'automatizaciones',
+      icon: WandSparklesIcon,
       iconColor: 'text-cyan-400',
-      iconAlt: 'Icono de circuito cerebral representando educación en IA',
-      title: 'Educación IA',
-      description: 'Aprende los fundamentos y las aplicaciones avanzadas de la IA con cursos diseñados por expertos para todos los niveles.',
-      targetAudience: 'Profesionales y empresas que quieren formarse en IA',
-      benefits: ['Cursos especializados', 'Formación práctica', 'Certificación reconocida'],
-      href: '/soluciones/educacion-ia'
+      iconAlt: 'Icono de varita mágica representando automatizaciones',
+      title: 'Automatizaciones',
+      description: 'Automatiza tus procesos repetitivos y ahorra hasta 30 horas semanales. Usamos IA para identificar oportunidades y diseñamos la mejor solución para tu caso.',
+      targetAudience: 'Empresas que buscan optimizar procesos y reducir costos operativos',
+      benefits: ['Ahorro de hasta 30h semanales', 'Reducción de costos hasta 60%', 'ROI visible en 3 meses'],
+      href: '/soluciones/automatizaciones'
     }
   ];
 

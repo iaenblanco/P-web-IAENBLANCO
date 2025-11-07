@@ -4,12 +4,12 @@ import { BrainCircuitIcon, CodeIcon, WandSparklesIcon, MessageIcon, PaletteIcon,
 export const Services: React.FC = () => {
   const services = [
     {
-      icon: BrainCircuitIcon,
+      icon: WandSparklesIcon,
       iconColor: 'text-cyan-400',
-      iconAlt: 'Icono de circuito cerebral representando educación en IA',
-      title: 'Educación IA',
-      description: 'Aprende los fundamentos y las aplicaciones avanzadas de la IA con cursos diseñados por expertos para todos los niveles.',
-      ariaLabel: 'Servicio de educación en Inteligencia Artificial'
+      iconAlt: 'Icono de varita mágica representando automatizaciones',
+      title: 'Automatizaciones',
+      description: 'Automatiza tus procesos repetitivos y ahorra hasta 30 horas semanales. Usamos IA para identificar oportunidades y diseñamos la solución perfecta para ti.',
+      ariaLabel: 'Servicio de automatizaciones empresariales'
     },
     {
       icon: CodeIcon,

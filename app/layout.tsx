@@ -123,12 +123,12 @@ export default function RootLayout({
       },
       {
         '@type': 'Service',
-        name: 'Educación IA',
-        description: 'Cursos y formación especializada en Inteligencia Artificial',
+        name: 'Automatizaciones',
+        description: 'Automatización de procesos empresariales para reducir costos y aumentar eficiencia. Diseñadas con IA.',
         provider: {
           '@id': `${process.env.NEXT_PUBLIC_SITE_URL || 'https://iaenblanco.com'}/#organization`,
         },
-        serviceType: 'Education',
+        serviceType: 'Automation',
         category: 'Inteligencia Artificial',
       },
     ],

@@ -178,10 +178,10 @@ export default function RecursosPage() {
                 Consultar con un Experto
               </Link>
               <Link
-                href="/soluciones/educacion-ia"
+                href="/soluciones/automatizaciones"
                 className="border-2 border-cyan-400 text-cyan-400 hover:bg-cyan-400 hover:text-black font-bold py-4 px-10 rounded-lg transition-all duration-300"
               >
-                Ver Cursos de IA
+                Ver Automatizaciones
               </Link>
             </div>
           </div>

@@ -25,21 +25,21 @@ export default function Home() {
       href: '/soluciones/paginas-web-ia'
     },
     {
-      slug: 'chatbots-asistentes',
-      icon: MessageIcon,
-      iconColor: 'text-green-400',
-      iconAlt: 'Icono de mensaje representando chatbots',
-      title: 'Chatbots Inteligentes',
-      description: 'Implementamos chatbots avanzados que mejoran la experiencia del cliente y automatizan interacciones.',
-      targetAudience: 'Empresas que buscan servicio 24/7',
-      benefits: ['Atención al cliente 24/7', 'Automatización de procesos', 'Mejora de la experiencia del usuario'],
-      href: '/soluciones/chatbots-asistentes'
+      slug: 'automatizaciones',
+      icon: WandSparklesIcon,
+      iconColor: 'text-cyan-400',
+      iconAlt: 'Icono de varita mágica representando automatizaciones',
+      title: 'Automatizaciones',
+      description: 'Automatiza tus procesos repetitivos y ahorra hasta 30 horas semanales. Usamos IA para identificar oportunidades.',
+      targetAudience: 'Empresas que buscan reducir costos operativos',
+      benefits: ['Ahorro de hasta 30h semanales', 'Reducción de costos hasta 60%', 'ROI visible en 3 meses'],
+      href: '/soluciones/automatizaciones'
     },
     {
       slug: 'soluciones-medida',
-      icon: WandSparklesIcon,
+      icon: LightbulbIcon,
       iconColor: 'text-blue-400',
-      iconAlt: 'Icono de varita mágica representando soluciones personalizadas',
+      iconAlt: 'Icono de bombilla representando soluciones personalizadas',
       title: 'Soluciones a Medida',
       description: 'Desarrollamos soluciones de IA personalizadas para resolver tus desafíos más complejos.',
       targetAudience: 'Empresas con necesidades específicas',
@@ -100,7 +100,7 @@ export default function Home() {
               </h1>
               <p className="text-xl md:text-2xl text-gray-300 mb-8 max-w-4xl mx-auto leading-relaxed">
                 Transformamos negocios mediante soluciones innovadoras de IA.
-                Desde chatbots inteligentes hasta sistemas de automatización predictiva,
+                Desde automatizaciones inteligentes hasta sistemas web personalizados,
                 hacemos que la tecnología trabaje para ti.
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center mb-12">
