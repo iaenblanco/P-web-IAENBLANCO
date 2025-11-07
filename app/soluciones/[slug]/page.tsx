@@ -15,12 +15,11 @@ interface SolutionDetail {
   benefits: string[];
   process: { step: number; title: string; description: string }[];
   pricing: {
-    plan: string;
-    price: string;
+    startingPrice: string;
     description: string;
     features: string[];
-    popular?: boolean;
-  }[];
+  };
+  results: string[];
   faq: { question: string; answer: string }[];
   ctaText: string;
 }
@@ -66,43 +65,23 @@ export default async function SolutionDetailPage({ params }: { params: Promise<{
         { step: 3, title: 'Desarrollo e Integración', description: 'Desarrollamos el sitio web e integramos las funcionalidades de IA de forma transparente.' },
         { step: 4, title: 'Optimización Continua', description: 'Monitoreamos el rendimiento y utilizamos IA para mejoras continuas.' }
       ],
-      pricing: [
-        {
-          plan: 'Básico',
-          price: 'Desde $1.425.000',
-          description: 'Ideal para pequeñas empresas o startups',
-          features: [
-            'Sitio web responsive de hasta 5 páginas',
-            'Integración básica de IA para optimización SEO',
-            'Contenido dinámico básico',
-            '1 mes de soporte incluido'
-          ]
-        },
-        {
-          plan: 'Profesional',
-          price: 'Desde $3.325.000',
-          description: 'Para empresas en crecimiento',
-          features: [
-            'Sitio web completo de hasta 15 páginas',
-            'IA avanzada para personalización de contenido',
-            'Integración con CRM y herramientas de marketing',
-            'Optimización automática de conversiones',
-            '3 meses de soporte incluido'
-          ],
-          popular: true
-        },
-        {
-          plan: 'Empresarial',
-          price: 'Desde $7.600.000',
-          description: 'Para grandes empresas con necesidades complejas',
-          features: [
-            'Sitio web personalizado sin límites de páginas',
-            'IA de última generación con machine learning',
-            'Integraciones avanzadas con sistemas empresariales',
-            'Dashboard de analytics en tiempo real',
-            'Soporte prioritario y mantenimiento continuo'
-          ]
-        }
+      pricing: {
+        startingPrice: '$1.425.000',
+        description: 'El precio final se ajusta según el alcance, complejidad y necesidades específicas de tu proyecto. En nuestra reunión inicial definiremos juntos la solución perfecta para ti.',
+        features: [
+          'Sitio web responsive y optimizado',
+          'Integración de IA para SEO y personalización',
+          'Contenido dinámico adaptativo',
+          'Panel de administración intuitivo',
+          'Capacitación completa incluida',
+          'Soporte técnico post-lanzamiento'
+        ]
+      },
+      results: [
+        'Aumento promedio del 45% en conversiones',
+        'Mejora del 60% en posicionamiento SEO',
+        'Reducción del 30% en costos de mantenimiento',
+        'ROI positivo en los primeros 3 meses'
       ],
       faq: [
         {
@@ -142,43 +121,23 @@ export default async function SolutionDetailPage({ params }: { params: Promise<{
         { step: 3, title: 'Desarrollo e implementación', description: 'Desarrollamos y aplicamos el diseño con códigos personalizados.' },
         { step: 4, title: 'Optimización y testing', description: 'Optimizamos el rendimiento y testeamos todas las funcionalidades.' }
       ],
-      pricing: [
-        {
-          plan: 'Rediseño Básico',
-          price: 'Desde $760.000',
-          description: 'Mejora visual de tu tienda existente',
-          features: [
-            'Rediseño de tema Shopify',
-            'Optimización de páginas de producto',
-            'Mejora de la experiencia móvil',
-            '1 mes de soporte'
-          ]
-        },
-        {
-          plan: 'Personalización Completa',
-          price: 'Desde $2.090.000',
-          description: 'Transformación completa de tu tienda',
-          features: [
-            'Diseño completamente personalizado',
-            'Códigos personalizados avanzados',
-            'Integración de funcionalidades únicas',
-            'Optimización SEO especializada',
-            '3 meses de soporte incluido'
-          ],
-          popular: true
-        },
-        {
-          plan: 'Tienda Premium',
-          price: 'Desde $4.750.000',
-          description: 'Solución completa para grandes marcas',
-          features: [
-            'Diseño premium personalizado',
-            'Desarrollo de apps privadas',
-            'Integraciones avanzadas (ERP, CRM)',
-            'Estrategia de conversión incluida',
-            'Soporte prioritario 6 meses'
-          ]
-        }
+      pricing: {
+        startingPrice: '$760.000',
+        description: 'El costo varía según la complejidad del diseño, funcionalidades requeridas y nivel de personalización. Agenda una reunión para recibir una cotización personalizada basada en tus objetivos de negocio.',
+        features: [
+          'Diseño personalizado de tu tienda Shopify',
+          'Optimización completa para conversión',
+          'Códigos personalizados avanzados',
+          'Integración de funcionalidades únicas',
+          'Optimización móvil y velocidad',
+          'Soporte y mantenimiento incluido'
+        ]
+      },
+      results: [
+        'Incremento promedio del 50% en tasa de conversión',
+        'Reducción del 40% en tasa de abandono',
+        'Mejora del 35% en tiempo de permanencia',
+        'Aumento del 55% en ventas mensuales'
       ],
       faq: [
         {
@@ -218,43 +177,23 @@ export default async function SolutionDetailPage({ params }: { params: Promise<{
         { step: 3, title: 'Desarrollo e integración', description: 'Desarrollamos el chatbot e integramos con tus sistemas.' },
         { step: 4, title: 'Entrenamiento y optimización', description: 'Entrenamos el modelo y optimizamos el rendimiento.' }
       ],
-      pricing: [
-        {
-          plan: 'Básico',
-          price: 'Desde $475.000',
-          description: 'Para pequeñas empresas con necesidades simples',
-          features: [
-            'Chatbot con respuestas predefinidas',
-            'Integración con WhatsApp o web',
-            'Hasta 5 flujos de conversación',
-            '1 mes de soporte'
-          ]
-        },
-        {
-          plan: 'Avanzado',
-          price: 'Desde $1.425.000',
-          description: 'IA conversacional para empresas en crecimiento',
-          features: [
-            'Chatbot con IA generativa',
-            'Aprendizaje automático',
-            'Integración con CRM y base de datos',
-            'Análisis de conversaciones',
-            '3 meses de soporte'
-          ],
-          popular: true
-        },
-        {
-          plan: 'Empresarial',
-          price: 'Desde $3.800.000',
-          description: 'Solución completa para grandes empresas',
-          features: [
-            'Asistente virtual multi-canal',
-            'IA avanzada con comprensión contextual',
-            'Integración completa con sistemas empresariales',
-            'Dashboard de analytics avanzado',
-            'Soporte técnico prioritario'
-          ]
-        }
+      pricing: {
+        startingPrice: '$475.000',
+        description: 'El precio se define según el nivel de inteligencia del chatbot, cantidad de integraciones, volumen de conversaciones y complejidad de los flujos. Te presentaremos opciones adaptadas a tu presupuesto y necesidades.',
+        features: [
+          'Chatbot con IA conversacional',
+          'Integración multi-plataforma',
+          'Flujos de conversación personalizados',
+          'Aprendizaje automático continuo',
+          'Panel de análisis y métricas',
+          'Soporte técnico especializado'
+        ]
+      },
+      results: [
+        'Reducción del 70% en tiempo de respuesta',
+        'Atención 24/7 sin costos adicionales',
+        'Ahorro del 60% en costos de atención',
+        'Satisfacción del cliente sobre 90%'
       ],
       faq: [
         {
@@ -294,44 +233,23 @@ export default async function SolutionDetailPage({ params }: { params: Promise<{
         { step: 3, title: 'Desarrollo iterativo', description: 'Desarrollamos la solución con entregas incrementales.' },
         { step: 4, title: 'Implementación y soporte', description: 'Implementamos y proporcionamos soporte continuo.' }
       ],
-      pricing: [
-        {
-          plan: 'Proyecto Específico',
-          price: 'Desde $4.750.000',
-          description: 'Para desafíos concretos y bien definidos',
-          features: [
-            'Análisis detallado del problema',
-            'Desarrollo de solución específica',
-            'Implementación completa',
-            'Documentación técnica',
-            '2 meses de soporte'
-          ]
-        },
-        {
-          plan: 'Transformación Digital',
-          price: 'Desde $14.250.000',
-          description: 'Transformación completa de procesos',
-          features: [
-            'Análisis completo de la organización',
-            'Múltiples soluciones integradas',
-            'Implementación por fases',
-            'Capacitación del equipo',
-            '6 meses de soporte incluido'
-          ],
-          popular: true
-        },
-        {
-          plan: 'Solución Empresarial',
-          price: 'Consultar precio',
-          description: 'Para grandes empresas con necesidades complejas',
-          features: [
-            'Equipo dedicado de desarrollo',
-            'Soluciones a medida escalables',
-            'Integración con sistemas legacy',
-            'Soporte técnico 24/7',
-            'Mantenimiento y evolución continua'
-          ]
-        }
+      pricing: {
+        startingPrice: '$4.750.000',
+        description: 'Cada proyecto es único. El precio se calcula en base a la complejidad técnica, alcance, tiempo estimado y valor que aportará a tu negocio. En una reunión estratégica evaluaremos tu caso y diseñaremos la propuesta perfecta.',
+        features: [
+          'Análisis completo de tu desafío',
+          'Solución de IA personalizada',
+          'Desarrollo e implementación completa',
+          'Integraciones con tus sistemas',
+          'Capacitación de tu equipo',
+          'Soporte y evolución continua'
+        ]
+      },
+      results: [
+        'ROI promedio del 400% en el primer año',
+        'Reducción de hasta 70% en tiempos de proceso',
+        'Mejora del 85% en precisión de datos',
+        'Ventaja competitiva demostrable'
       ],
       faq: [
         {
@@ -370,43 +288,23 @@ export default async function SolutionDetailPage({ params }: { params: Promise<{
         { step: 3, title: 'Informe completo', description: 'Entrega de reporte con errores, mejoras y recomendaciones priorizadas.' },
         { step: 4, title: 'Reunión de entrega', description: 'Explicamos hallazgos y próximos pasos.' }
       ],
-      pricing: [
-        {
-          plan: 'Básico',
-          price: 'Desde $285.000',
-          description: 'Informe express con hallazgos principales',
-          features: [
-            'Informe PDF con diagnóstico completo',
-            'Análisis de hasta 10 páginas principales',
-            'Recomendaciones prioritarias',
-            'Reunión de 30 minutos para explicación'
-          ]
-        },
-        {
-          plan: 'Profesional',
-          price: 'Desde $570.000',
-          description: 'Análisis completo + roadmap detallado',
-          features: [
-            'Informe completo con mockups de mejora',
-            'Análisis ilimitado de páginas',
-            'Plan de implementación por fases',
-            'Reunión de 60 minutos + seguimiento',
-            'Recomendaciones técnicas específicas'
-          ],
-          popular: true
-        },
-        {
-          plan: 'Premium',
-          price: 'Desde $1.140.000',
-          description: 'Todo lo anterior + acompañamiento en implementación',
-          features: [
-            'Todo lo del plan Profesional',
-            'Acompañamiento en primeras implementaciones',
-            'Seguimiento mensual de progreso',
-            'Acceso prioritario a soporte técnico',
-            'Optimizaciones continuas por 3 meses'
-          ]
-        }
+      pricing: {
+        startingPrice: '$285.000',
+        description: 'El alcance de la auditoría se adapta a tu sitio web: número de páginas, complejidad técnica y profundidad del análisis. En una llamada inicial definiremos el paquete que mejor se ajuste a tus objetivos y presupuesto.',
+        features: [
+          'Auditoría completa de UX/UI y SEO',
+          'Análisis de velocidad y rendimiento',
+          'Informe detallado con mockups',
+          'Roadmap de implementación priorizado',
+          'Reunión de presentación de resultados',
+          'Seguimiento y recomendaciones continuas'
+        ]
+      },
+      results: [
+        'Aumento promedio del 65% en conversiones',
+        'Mejora del 80% en velocidad de carga',
+        'Incremento del 120% en tráfico orgánico',
+        'ROI visible en 2-4 meses'
       ],
       faq: [
         {
@@ -453,50 +351,23 @@ export default async function SolutionDetailPage({ params }: { params: Promise<{
         { step: 3, title: 'Implementación Rápida', description: 'Desarrollamos e implementamos las automatizaciones en 2-4 semanas. Testing exhaustivo antes de producción.' },
         { step: 4, title: 'Optimización Continua', description: 'Monitoreamos rendimiento y agregamos mejoras basadas en datos reales de uso. Tu solución evoluciona contigo.' }
       ],
-      pricing: [
-        {
-          plan: 'Starter',
-          price: 'Desde $950.000',
-          description: 'Perfecta para pequeñas empresas',
-          features: [
-            'Automatización de 1-3 procesos específicos',
-            'Integración con hasta 5 herramientas',
-            'Dashboard básico de métricas',
-            'Capacitación del equipo incluida',
-            '2 meses de soporte y ajustes',
-            'ROI estimado: 300% en 6 meses'
-          ]
-        },
-        {
-          plan: 'Business',
-          price: 'Desde $2.850.000',
-          description: 'Transformación completa de procesos',
-          features: [
-            'Automatización de 5-10 procesos',
-            'Integraciones ilimitadas',
-            'Soluciones con IA cuando sea necesario',
-            'Dashboard completo con analytics',
-            'Workflows condicionales complejos',
-            '6 meses de soporte prioritario',
-            'ROI estimado: 500% en 4 meses'
-          ],
-          popular: true
-        },
-        {
-          plan: 'Enterprise',
-          price: 'Desde $7.600.000',
-          description: 'Solución enterprise escalable',
-          features: [
-            'Automatizaciones ilimitadas',
-            'IA avanzada donde aporte valor real',
-            'Integración completa con sistemas legacy',
-            'API personalizada y webhooks',
-            'Equipo dedicado de optimización',
-            'SLA garantizado 99.9% uptime',
-            'Soporte 24/7 y consultoría estratégica',
-            'ROI estimado: 600% en 3 meses'
-          ]
-        }
+      pricing: {
+        startingPrice: '$950.000',
+        description: 'El precio final depende del número de procesos a automatizar, complejidad de las integraciones y nivel de personalización requerido. Ofrecemos una auditoría GRATUITA donde calcularemos el ROI esperado y definiremos el alcance exacto del proyecto.',
+        features: [
+          'Auditoría gratuita de procesos',
+          'Automatización de procesos clave',
+          'Integraciones con tus herramientas',
+          'Dashboard de métricas y analytics',
+          'Capacitación completa del equipo',
+          'Soporte y optimización continua'
+        ]
+      },
+      results: [
+        'Ahorro de hasta 30 horas semanales por empleado',
+        'Reducción del 60% en costos operativos',
+        'Eliminación del 95% de errores manuales',
+        'ROI promedio del 400% en 3-6 meses'
       ],
       faq: [
         {
@@ -570,21 +441,29 @@ export default async function SolutionDetailPage({ params }: { params: Promise<{
               <h1 id="solution-hero-heading" className="text-4xl md:text-6xl font-bold mb-6">
                 {solution.title}
               </h1>
-              <p className="text-xl text-gray-300 mb-8">{solution.shortDescription}</p>
+              <p className="text-xl text-gray-300 mb-6">{solution.shortDescription}</p>
+              <div className="bg-white/10 backdrop-blur-lg px-6 py-3 rounded-full inline-block mb-8">
+                <p className="text-cyan-400 font-bold text-lg">
+                  💰 Precios desde {solution.pricing.startingPrice}
+                </p>
+              </div>
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
                 <Link
                   href="/contacto"
-                  className="bg-cyan-500 hover:bg-cyan-400 text-black font-bold py-3 px-8 rounded-lg transition-transform duration-300 hover:scale-105 shadow-[0_0_15px_rgba(0,255,255,0.5)]"
+                  className="bg-gradient-to-r from-cyan-500 to-blue-500 hover:from-cyan-400 hover:to-blue-400 text-black font-bold py-4 px-10 rounded-xl transition-all duration-300 hover:scale-105 shadow-[0_0_25px_rgba(0,255,255,0.6)] text-lg"
                 >
-                  {solution.ctaText}
+                  🚀 Agendar Reunión Gratuita
                 </Link>
                 <Link
-                  href="/casos-exito"
-                  className="border-2 border-cyan-400 text-cyan-400 hover:bg-cyan-400 hover:text-black font-bold py-3 px-8 rounded-lg transition-all duration-300"
+                  href="#solution-pricing-heading"
+                  className="border-2 border-cyan-400 text-cyan-400 hover:bg-cyan-400 hover:text-black font-bold py-4 px-10 rounded-xl transition-all duration-300 text-lg"
                 >
-                  Ver Casos de Éxito
+                  Ver Inversión
                 </Link>
               </div>
+              <p className="text-sm text-gray-400 mt-4">
+                ⚡ Respuesta en menos de 24 horas • Sin compromiso
+              </p>
             </div>
           </div>
         </section>
@@ -645,44 +524,62 @@ export default async function SolutionDetailPage({ params }: { params: Promise<{
           </div>
         </section>
 
-        {/* Precios */}
+        {/* Precios y Resultados */}
         <section className="py-20 bg-black/20" aria-labelledby="solution-pricing-heading">
           <div className="container mx-auto px-6">
-            <div className="max-w-6xl mx-auto">
-              <h2 id="solution-pricing-heading" className="text-3xl md:text-4xl font-bold mb-12 text-center">Planes y Precios</h2>
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                {solution.pricing.map((plan, index) => (
-                  <div key={index} className={`bg-white/5 backdrop-blur-lg p-8 rounded-2xl border ${plan.popular ? 'border-cyan-400 shadow-[0_0_30px_rgba(0,255,255,0.3)]' : 'border-white/10'} relative flex flex-col h-full`}>
-                    {plan.popular && (
-                      <div className="absolute -top-4 left-1/2 transform -translate-x-1/2 bg-cyan-500 text-black px-4 py-1 rounded-full text-sm font-bold">
-                        Más Popular
-                      </div>
-                    )}
-                    <div className="flex-grow">
-                      <div className="text-center mb-6">
-                        <h3 className="text-2xl font-bold mb-2">{plan.plan}</h3>
-                        <div className="text-3xl font-bold text-cyan-400 mb-2">{plan.price}</div>
-                        <p className="text-gray-400">{plan.description}</p>
-                      </div>
-                      <ul className="space-y-3 mb-8">
-                        {plan.features.map((feature, featureIndex) => (
-                          <li key={featureIndex} className="flex items-start">
-                            <WandSparklesIcon className="h-5 w-5 text-green-400 mr-3 mt-0.5 flex-shrink-0" />
-                            <span className="text-gray-300 text-sm">{feature}</span>
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
-                    <div className="text-center mt-auto">
-                      <Link
-                        href="/contacto"
-                        className={`block py-3 px-6 rounded-lg font-bold transition-transform duration-300 hover:scale-105 ${plan.popular ? 'bg-cyan-500 hover:bg-cyan-400 text-black shadow-[0_0_15px_rgba(0,255,255,0.5)]' : 'bg-white/10 hover:bg-white/20 text-white'}`}
-                      >
-                        {plan.plan === 'Consultar precio' ? 'Consultar' : 'Elegir Plan'}
-                      </Link>
-                    </div>
+            <div className="max-w-5xl mx-auto">
+              <h2 id="solution-pricing-heading" className="text-3xl md:text-4xl font-bold mb-4 text-center">Inversión</h2>
+              <p className="text-xl text-gray-300 text-center mb-12 max-w-3xl mx-auto">
+                Cada proyecto es único. Trabajamos contigo para crear una solución que se ajuste a tu presupuesto y objetivos.
+              </p>
+              
+              {/* Precio Principal */}
+              <div className="bg-gradient-to-br from-cyan-500/10 to-blue-500/10 backdrop-blur-xl p-10 rounded-3xl border-2 border-cyan-400 shadow-[0_0_50px_rgba(0,255,255,0.3)] mb-8">
+                <div className="text-center mb-8">
+                  <div className="text-sm text-cyan-400 font-semibold mb-2 tracking-wider uppercase">Inversión desde</div>
+                  <div className="text-5xl md:text-6xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-400 mb-4">
+                    {solution.pricing.startingPrice}
                   </div>
-                ))}
+                  <p className="text-gray-300 text-lg max-w-2xl mx-auto leading-relaxed">
+                    {solution.pricing.description}
+                  </p>
+                </div>
+
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+                  {solution.pricing.features.map((feature, index) => (
+                    <div key={index} className="flex items-start bg-white/5 p-4 rounded-xl border border-white/10">
+                      <WandSparklesIcon className="h-6 w-6 text-cyan-400 mr-3 mt-0.5 flex-shrink-0" />
+                      <span className="text-gray-200">{feature}</span>
+                    </div>
+                  ))}
+                </div>
+
+                <div className="text-center">
+                  <Link
+                    href="/contacto"
+                    className="inline-block bg-gradient-to-r from-cyan-500 to-blue-500 hover:from-cyan-400 hover:to-blue-400 text-black font-bold py-4 px-12 rounded-xl transition-all duration-300 hover:scale-105 shadow-[0_0_30px_rgba(0,255,255,0.6)] text-lg"
+                  >
+                    Agendar Reunión Estratégica
+                  </Link>
+                  <p className="text-sm text-gray-400 mt-4">
+                    🎯 Sin compromiso • Consulta gratuita de 30 minutos
+                  </p>
+                </div>
+              </div>
+
+              {/* Resultados Esperados */}
+              <div className="bg-white/5 backdrop-blur-lg p-8 rounded-2xl border border-white/10">
+                <h3 className="text-2xl font-bold mb-6 text-center text-cyan-400">Resultados que puedes esperar</h3>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  {solution.results.map((result, index) => (
+                    <div key={index} className="flex items-center bg-gradient-to-r from-green-500/10 to-cyan-500/10 p-4 rounded-xl border border-green-500/20">
+                      <div className="w-10 h-10 bg-green-500/20 rounded-full flex items-center justify-center mr-4 flex-shrink-0">
+                        <span className="text-2xl">📈</span>
+                      </div>
+                      <span className="text-gray-200 font-medium">{result}</span>
+                    </div>
+                  ))}
+                </div>
               </div>
             </div>
           </div>
@@ -706,26 +603,44 @@ export default async function SolutionDetailPage({ params }: { params: Promise<{
         </section>
 
         {/* CTA Final */}
-        <section className="py-20 bg-black/20" aria-labelledby="solution-final-cta-heading">
-          <div className="container mx-auto px-6 text-center">
-            <h2 id="solution-final-cta-heading" className="text-3xl md:text-4xl font-bold mb-6">
-              ¿Listo para transformar tu negocio con {solution.title}?
-            </h2>
-            <p className="text-xl text-gray-300 max-w-2xl mx-auto mb-8">
-              Comienza hoy mismo y descubre todo el potencial que la IA puede ofrecer a tu empresa.
-            </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Link
-                href="/contacto"
-                className="bg-gradient-to-r from-cyan-500 to-blue-500 hover:from-cyan-400 hover:to-blue-400 text-black font-bold py-4 px-10 rounded-lg transition-transform duration-300 hover:scale-105 shadow-[0_0_20px_rgba(0,255,255,0.6)] text-lg"
-              >
-                {solution.ctaText}
-              </Link>
+        <section className="py-20 bg-gradient-to-br from-cyan-900/20 to-blue-900/20" aria-labelledby="solution-final-cta-heading">
+          <div className="container mx-auto px-6">
+            <div className="max-w-4xl mx-auto bg-gradient-to-br from-cyan-500/10 to-blue-500/10 backdrop-blur-xl p-12 rounded-3xl border-2 border-cyan-400 shadow-[0_0_60px_rgba(0,255,255,0.4)] text-center">
+              <h2 id="solution-final-cta-heading" className="text-3xl md:text-5xl font-bold mb-6">
+                ¿Listo para dar el siguiente paso?
+              </h2>
+              <p className="text-xl text-gray-300 max-w-2xl mx-auto mb-8">
+                Agenda una reunión estratégica gratuita de 30 minutos. Analizaremos tu proyecto, responderemos tus preguntas y te entregaremos una propuesta personalizada.
+              </p>
+              <div className="bg-white/5 backdrop-blur-lg p-6 rounded-2xl mb-8 max-w-xl mx-auto">
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 text-center">
+                  <div>
+                    <div className="text-3xl mb-2">✅</div>
+                    <div className="text-sm text-gray-300">Sin compromiso</div>
+                  </div>
+                  <div>
+                    <div className="text-3xl mb-2">🎯</div>
+                    <div className="text-sm text-gray-300">Propuesta personalizada</div>
+                  </div>
+                  <div>
+                    <div className="text-3xl mb-2">⚡</div>
+                    <div className="text-sm text-gray-300">Respuesta en 24h</div>
+                  </div>
+                </div>
+              </div>
+              <div className="flex flex-col sm:flex-row gap-4 justify-center mb-6">
+                <Link
+                  href="/contacto"
+                  className="bg-gradient-to-r from-cyan-500 to-blue-500 hover:from-cyan-400 hover:to-blue-400 text-black font-bold py-5 px-12 rounded-xl transition-all duration-300 hover:scale-105 shadow-[0_0_30px_rgba(0,255,255,0.7)] text-lg"
+                >
+                  🚀 Agendar Mi Reunión Gratuita
+                </Link>
+              </div>
               <Link
                 href="/soluciones"
-                className="border-2 border-cyan-400 text-cyan-400 hover:bg-cyan-400 hover:text-black font-bold py-4 px-10 rounded-lg transition-all duration-300"
+                className="text-cyan-400 hover:text-cyan-300 font-semibold underline transition-colors"
               >
-                Ver Otras Soluciones
+                Ver otras soluciones →
               </Link>
             </div>
           </div>

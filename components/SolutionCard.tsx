@@ -64,9 +64,9 @@ export const SolutionCard: React.FC<SolutionCardProps> = ({
         <div className="text-center mt-auto">
           <Link
             href={href}
-            className="inline-block bg-cyan-500 hover:bg-cyan-400 text-black font-bold py-2 px-6 rounded-lg transition-transform duration-300 hover:scale-105 shadow-[0_0_15px_rgba(0,255,255,0.5)] focus:outline-none focus:ring-2 focus:ring-cyan-400"
+            className="inline-block bg-cyan-500 hover:bg-cyan-400 text-black font-bold py-3 px-8 rounded-xl transition-all duration-300 hover:scale-105 shadow-[0_0_15px_rgba(0,255,255,0.5)] focus:outline-none focus:ring-2 focus:ring-cyan-400"
           >
-            Ver Detalles y Precios
+            Ver Detalles e Inversión →
           </Link>
         </div>
       )}

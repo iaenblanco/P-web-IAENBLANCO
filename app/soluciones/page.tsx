@@ -93,24 +93,32 @@ export default function SolucionesPage() {
             <h1 id="solutions-hero-heading" className="text-4xl md:text-6xl font-bold mb-6">
               Nuestras <span className="text-cyan-400">Soluciones IA</span>
             </h1>
-            <p className="text-xl text-gray-300 max-w-3xl mx-auto mb-8">
+            <p className="text-xl text-gray-300 max-w-3xl mx-auto mb-6">
               Transformamos tu negocio con tecnología de vanguardia. Descubre cómo la Inteligencia Artificial
               puede revolucionar tus procesos y llevarte al siguiente nivel.
             </p>
+            <div className="bg-white/10 backdrop-blur-lg px-6 py-3 rounded-full inline-block mb-8">
+              <p className="text-cyan-400 font-bold text-lg">
+                💰 Planes desde $285.000 COP
+              </p>
+            </div>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Link
                 href="/contacto"
-                className="bg-cyan-500 hover:bg-cyan-400 text-black font-bold py-3 px-8 rounded-lg transition-transform duration-300 hover:scale-105 shadow-[0_0_15px_rgba(0,255,255,0.5)] focus:outline-none focus:ring-2 focus:ring-cyan-400"
+                className="bg-gradient-to-r from-cyan-500 to-blue-500 hover:from-cyan-400 hover:to-blue-400 text-black font-bold py-4 px-10 rounded-xl transition-all duration-300 hover:scale-105 shadow-[0_0_25px_rgba(0,255,255,0.6)] text-lg focus:outline-none focus:ring-2 focus:ring-cyan-400"
               >
-                Solicitar Consulta Gratuita
+                🚀 Agendar Reunión Gratuita
               </Link>
               <Link
                 href="/casos-exito"
-                className="border-2 border-cyan-400 text-cyan-400 hover:bg-cyan-400 hover:text-black font-bold py-3 px-8 rounded-lg transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-cyan-400"
+                className="border-2 border-cyan-400 text-cyan-400 hover:bg-cyan-400 hover:text-black font-bold py-4 px-10 rounded-xl transition-all duration-300 text-lg focus:outline-none focus:ring-2 focus:ring-cyan-400"
               >
                 Ver Casos de Éxito
               </Link>
             </div>
+            <p className="text-sm text-gray-400 mt-4">
+              ⚡ Propuestas personalizadas • Sin compromiso
+            </p>
           </div>
         </section>
 
@@ -141,20 +149,38 @@ export default function SolucionesPage() {
         </section>
 
         {/* CTA Section */}
-        <section className="py-20 bg-black/20" aria-labelledby="solutions-cta-heading">
-          <div className="container mx-auto px-6 text-center">
-            <h2 id="solutions-cta-heading" className="text-3xl md:text-4xl font-bold mb-6">
-              ¿No encuentras lo que buscas?
-            </h2>
-            <p className="text-xl text-gray-300 max-w-2xl mx-auto mb-8">
-              Podemos desarrollar una solución personalizada que se adapte perfectamente a tus necesidades específicas.
-            </p>
-            <Link
-              href="/contacto"
-              className="inline-block bg-gradient-to-r from-cyan-500 to-blue-500 hover:from-cyan-400 hover:to-blue-400 text-black font-bold py-4 px-10 rounded-lg transition-transform duration-300 hover:scale-105 shadow-[0_0_20px_rgba(0,255,255,0.6)] text-lg focus:outline-none focus:ring-2 focus:ring-cyan-400"
-            >
-              Hablemos de tu Proyecto
-            </Link>
+        <section className="py-20 bg-gradient-to-br from-cyan-900/20 to-blue-900/20" aria-labelledby="solutions-cta-heading">
+          <div className="container mx-auto px-6">
+            <div className="max-w-4xl mx-auto bg-gradient-to-br from-cyan-500/10 to-blue-500/10 backdrop-blur-xl p-12 rounded-3xl border-2 border-cyan-400 shadow-[0_0_60px_rgba(0,255,255,0.4)] text-center">
+              <h2 id="solutions-cta-heading" className="text-3xl md:text-5xl font-bold mb-6">
+                ¿No encuentras lo que buscas?
+              </h2>
+              <p className="text-xl text-gray-300 max-w-2xl mx-auto mb-8">
+                Desarrollamos soluciones personalizadas que se adaptan perfectamente a tus necesidades específicas. Agenda una reunión gratuita de 30 minutos y exploremos juntos las posibilidades.
+              </p>
+              <div className="bg-white/5 backdrop-blur-lg p-6 rounded-2xl mb-8 max-w-xl mx-auto">
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 text-center">
+                  <div>
+                    <div className="text-3xl mb-2">💡</div>
+                    <div className="text-sm text-gray-300">Ideas personalizadas</div>
+                  </div>
+                  <div>
+                    <div className="text-3xl mb-2">📊</div>
+                    <div className="text-sm text-gray-300">Propuesta detallada</div>
+                  </div>
+                  <div>
+                    <div className="text-3xl mb-2">🎯</div>
+                    <div className="text-sm text-gray-300">Sin compromiso</div>
+                  </div>
+                </div>
+              </div>
+              <Link
+                href="/contacto"
+                className="inline-block bg-gradient-to-r from-cyan-500 to-blue-500 hover:from-cyan-400 hover:to-blue-400 text-black font-bold py-5 px-12 rounded-xl transition-all duration-300 hover:scale-105 shadow-[0_0_30px_rgba(0,255,255,0.7)] text-lg focus:outline-none focus:ring-2 focus:ring-cyan-400"
+              >
+                🚀 Agendar Mi Reunión Gratuita
+              </Link>
+            </div>
           </div>
         </section>
 
