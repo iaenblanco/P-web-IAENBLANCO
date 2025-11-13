@@ -11,15 +11,16 @@ interface GoogleTagManagerProps {
  * Inyecta el script en el <head> y el noscript en el <body>
  */
 export function GoogleTagManager({ gtmId }: GoogleTagManagerProps) {
-  // Validar que el GTM ID tenga el formato correcto
-  if (!gtmId || !gtmId.startsWith('GTM-')) {
-    if (process.env.NODE_ENV === 'development') {
-      console.warn('⚠️ Google Tag Manager ID no válido o no configurado')
-    }
-    return null
-  }
-
+  // useEffect debe llamarse siempre, no después de un return condicional
   useEffect(() => {
+    // Validar que el GTM ID tenga el formato correcto
+    if (!gtmId || !gtmId.startsWith('GTM-')) {
+      if (process.env.NODE_ENV === 'development') {
+        console.warn('⚠️ Google Tag Manager ID no válido o no configurado')
+      }
+      return
+    }
+
     // Inyectar el script de GTM en el <head>
     const script = document.createElement('script')
     script.innerHTML = `
@@ -48,6 +49,11 @@ export function GoogleTagManager({ gtmId }: GoogleTagManagerProps) {
       }
     }
   }, [gtmId])
+
+  // Validar para el noscript también
+  if (!gtmId || !gtmId.startsWith('GTM-')) {
+    return null
+  }
 
   return (
     <noscript>
