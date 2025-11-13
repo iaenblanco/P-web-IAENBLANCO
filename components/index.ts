@@ -13,3 +13,4 @@ export { SolutionCard } from './SolutionCard';
 export { CaseStudyCard } from './CaseStudyCard';
 export { AnimatedCounter } from './AnimatedCounter';
 export { CalButton } from './CalButton';
+export { GoogleTagManager } from './GoogleTagManager';

@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 import './globals.css'
+import { GoogleTagManager } from '@/components/GoogleTagManager'
 
 export const metadata: Metadata = {
   title: 'IAenBlanco | Soluciones y Desarrollo con Inteligencia Artificial',
@@ -134,6 +135,8 @@ export default function RootLayout({
     ],
   }
 
+  const gtmId = process.env.NEXT_PUBLIC_GTM_ID || ''
+
   return (
     <html lang="es">
       <head>
@@ -144,7 +147,11 @@ export default function RootLayout({
           }}
         />
       </head>
-      <body className="font-sans">{children}</body>
+      <body className="font-sans">
+        {/* Google Tag Manager - Se inyecta automáticamente en el head */}
+        {gtmId && <GoogleTagManager gtmId={gtmId} />}
+        {children}
+      </body>
     </html>
   )
 }

@@ -1,2 +1,6 @@
 # API Key de Gemini - IMPORTANTE: Mantén esto seguro y nunca lo subas a Git
 GEMINI_API_KEY=tu_api_key_de_gemini_aqui
+
+# Google Tag Manager Container ID (formato: GTM-XXXXXXX)
+# Obtén este ID desde: https://tagmanager.google.com
+NEXT_PUBLIC_GTM_ID=GTM-5MNF9G4Z
