@@ -135,7 +135,8 @@ export default function RootLayout({
     ],
   }
 
-  const gtmId = process.env.NEXT_PUBLIC_GTM_ID || ''
+  // Obtener GTM ID de variables de entorno o usar valor por defecto
+  const gtmId = process.env.NEXT_PUBLIC_GTM_ID || 'GTM-5MNF9G4Z'
 
   return (
     <html lang="es">
