@@ -38,29 +38,29 @@
 }
 * { box-sizing: border-box; margin: 0; padding: 0; }
 html, body { height: 100%; }
-body { background: var(--bg); color: var(--t1); font-family: 'Inter', sans-serif; display: flex; font-size: 14px; min-height: 100vh; overflow-x: hidden; }
+body { background: var(--bg); color: var(--t1); font-family: 'Inter', sans-serif; display: flex; font-size: 13px; height: 100vh; overflow: hidden; }
 
 /* ── UI BÁSICA ── */
-.btn-primary { background: var(--t1); color: #fff; border: none; border-radius: var(--r2); padding: 10px 20px; font-size: 14px; font-weight: 600; cursor: pointer; font-family: 'Inter', sans-serif; transition: all 0.2s; box-shadow: 0 4px 15px rgba(28, 25, 23, 0.3); }
+.btn-primary { background: var(--t1); color: #fff; border: none; border-radius: var(--r2); padding: 8px 16px; font-size: 13px; font-weight: 600; cursor: pointer; font-family: 'Inter', sans-serif; transition: all 0.2s; box-shadow: 0 4px 15px rgba(28, 25, 23, 0.3); }
 .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(28, 25, 23, 0.4); background: #000; }
-.btn-secondary { background: var(--s2); border: 1px solid var(--b2); color: var(--t1); border-radius: var(--r2); padding: 8px 16px; font-size: 13px; font-weight: 500; cursor: pointer; transition: all 0.2s; }
+.btn-secondary { background: var(--s2); border: 1px solid var(--b2); color: var(--t1); border-radius: var(--r2); padding: 6px 12px; font-size: 12px; font-weight: 500; cursor: pointer; transition: all 0.2s; }
 .btn-secondary:hover { background: var(--s3); }
 
 /* ── SIDEBAR ── */
 .sidebar {
-  width: 260px; min-height: 100vh; background: var(--s1);
+  width: 240px; height: 100vh; background: var(--s1);
   border-right: 1px solid var(--b); display: flex; flex-direction: column;
-  padding: 30px 0; position: fixed; top: 0; left: 0; z-index: 100; overflow-y: auto;
+  padding: 20px 0; position: fixed; top: 0; left: 0; z-index: 100; overflow-y: auto;
   box-shadow: 2px 0 20px rgba(0,0,0,0.02);
 }
-.logo { padding: 0 24px 24px; border-bottom: 1px solid var(--b); margin-bottom: 20px; }
-.logo-mark { font-family: 'Outfit', sans-serif; font-size: 20px; font-weight: 800; color: var(--t1); letter-spacing: 0.02em; }
+.logo { padding: 0 20px 16px; border-bottom: 1px solid var(--b); margin-bottom: 12px; }
+.logo-mark { font-family: 'Outfit', sans-serif; font-size: 18px; font-weight: 800; color: var(--t1); letter-spacing: 0.02em; }
 .logo-mark span { color: var(--blue); }
-.logo-sub { font-size: 12px; color: var(--t3); margin-top: 4px; font-weight: 500; }
-.nav-section { font-size: 11px; color: var(--t3); text-transform: uppercase; font-weight: 600; letter-spacing: 0.1em; padding: 10px 24px; margin-top: 10px; }
+.logo-sub { font-size: 11px; color: var(--t3); margin-top: 4px; font-weight: 500; }
+.nav-section { font-size: 10px; color: var(--t3); text-transform: uppercase; font-weight: 600; letter-spacing: 0.1em; padding: 8px 20px; margin-top: 4px; }
 .nav-item {
-  display: flex; align-items: center; gap: 12px; padding: 12px 20px; margin: 0 16px 8px;
-  cursor: pointer; color: var(--t2); font-size: 14px; font-weight: 700; text-transform: uppercase;
+  display: flex; align-items: center; gap: 10px; padding: 10px 16px; margin: 0 12px 6px;
+  cursor: pointer; color: var(--t2); font-size: 13px; font-weight: 700; text-transform: uppercase;
   border-radius: var(--r2); background: rgba(0,0,0,0.02); border: 1px solid rgba(0,0,0,0.04);
   transition: all 0.2s; user-select: none; letter-spacing: 0.05em;
 }
@@ -68,45 +68,45 @@ body { background: var(--bg); color: var(--t1); font-family: 'Inter', sans-serif
 .nav-item.active { background: #fff; color: var(--blue); border-color: var(--blue-dim); box-shadow: 0 4px 15px rgba(79,70,229,0.1); }
 
 /* ── MAIN CONTENT ── */
-.main { margin-left: 260px; flex: 1; padding: 40px 50px; min-height: 100vh; }
-.section { display: none; }
-.section.active { display: block; animation: fadein 0.3s ease; }
+.main { margin-left: 240px; flex: 1; padding: 24px 32px; height: 100vh; overflow-y: auto; display: flex; flex-direction: column; }
+.section { display: none; flex: 1; min-height: 0; }
+.section.active { display: flex; flex-direction: column; animation: fadein 0.3s ease; }
 @keyframes fadein { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
-.page-header { margin-bottom: 30px; display: flex; justify-content: space-between; align-items: flex-end; }
-.page-title { font-family: 'Outfit', sans-serif; font-size: 32px; font-weight: 800; color: var(--t1); margin-bottom: 8px; line-height: 1.1; }
-.page-sub { font-size: 15px; color: var(--t2); }
-.encouraging-badge { background: #FFEDD5; color: var(--warn); padding: 8px 16px; border-radius: 20px; font-weight: 700; font-size: 13px; border: 1px solid #FDBA74; box-shadow: 0 4px 10px rgba(245, 158, 11, 0.1); }
+.page-header { margin-bottom: 16px; display: flex; justify-content: space-between; align-items: flex-end; flex-shrink: 0; }
+.page-title { font-family: 'Outfit', sans-serif; font-size: 26px; font-weight: 800; color: var(--t1); margin-bottom: 4px; line-height: 1.1; }
+.page-sub { font-size: 14px; color: var(--t2); }
+.encouraging-badge { background: #FFEDD5; color: var(--warn); padding: 6px 12px; border-radius: 20px; font-weight: 700; font-size: 12px; border: 1px solid #FDBA74; box-shadow: 0 4px 10px rgba(245, 158, 11, 0.1); }
 
 /* ── CARDS ── */
-.card { background: var(--s2); border: 1px solid var(--b); border-radius: var(--r); padding: 24px; box-shadow: var(--shadow); transition: all 0.2s; }
-.card-title { font-family: 'JetBrains Mono', monospace; font-size: 12px; text-transform: uppercase; font-weight: 600; letter-spacing: 0.05em; color: var(--t3); margin-bottom: 20px; }
+.card { background: var(--s2); border: 1px solid var(--b); border-radius: var(--r); padding: 16px; box-shadow: var(--shadow); transition: all 0.2s; }
+.card-title { font-family: 'JetBrains Mono', monospace; font-size: 11px; text-transform: uppercase; font-weight: 600; letter-spacing: 0.05em; color: var(--t3); margin-bottom: 12px; }
 /* ── CLASES UTILITARIAS ── */
 .no-scrollbar::-webkit-scrollbar { display: none; }
 .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
 
 /* ── KPI GRID ── */
-.kpi-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; margin-bottom: 24px; }
-.kpi { background: var(--s2); border: 1px solid var(--b); border-radius: var(--r); padding: 20px; transition: all 0.2s; position: relative; overflow: hidden; }
+.kpi-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 16px; flex-shrink: 0; }
+.kpi { background: var(--s2); border: 1px solid var(--b); border-radius: var(--r); padding: 16px; transition: all 0.2s; position: relative; overflow: hidden; }
 .kpi::before { content: ''; position: absolute; top: 0; left: 0; width: 4px; height: 100%; border-radius: 4px 0 0 4px; }
 .kpi.accent::before { background: var(--accent); }
 .kpi.hot::before { background: var(--hot); }
 .kpi.ok::before { background: var(--ok); }
 .kpi.blue::before { background: var(--blue); }
-.kpi:hover { transform: translateY(-4px); box-shadow: var(--shadow-hover); }
+.kpi:hover { transform: translateY(-3px); box-shadow: var(--shadow-hover); }
 
-.kpi-label { font-size: 13px; font-weight: 600; color: var(--t2); margin-bottom: 12px; display: flex; align-items: center; gap: 8px; }
-.kpi-icon { padding: 6px; border-radius: 8px; font-size: 14px; }
+.kpi-label { font-size: 12px; font-weight: 600; color: var(--t2); margin-bottom: 8px; display: flex; align-items: center; gap: 8px; }
+.kpi-icon { padding: 4px; border-radius: 6px; font-size: 13px; }
 .kpi.accent .kpi-icon { background: var(--accent-dim); color: var(--accent); }
 .kpi.hot .kpi-icon { background: var(--hot-dim); color: var(--hot); }
 .kpi.ok .kpi-icon { background: var(--ok-dim); color: var(--ok); }
 .kpi.blue .kpi-icon { background: var(--blue-dim); color: var(--blue); }
 
-.kpi-value { font-family: 'Outfit', sans-serif; font-size: 36px; font-weight: 800; line-height: 1; color: var(--t1); }
-.kpi-sub { font-size: 12px; font-weight: 500; color: var(--t3); margin-top: 8px; }
+.kpi-value { font-family: 'Outfit', sans-serif; font-size: 28px; font-weight: 800; line-height: 1; color: var(--t1); }
+.kpi-sub { font-size: 11px; font-weight: 500; color: var(--t3); margin-top: 6px; }
 
 /* ── DOS COLUMNAS ── */
-.grid2 { display: grid; grid-template-columns: 1fr 1.2fr; gap: 30px; margin-bottom: 30px; }
+.grid2 { display: grid; grid-template-columns: 1fr 1.2fr; gap: 20px; margin-bottom: 0; flex: 1; min-height: 0; }
 
 /* ── FUNNEL ── */
 .funnel { display: flex; flex-direction: column; gap: 8px; }
@@ -116,36 +116,36 @@ body { background: var(--bg); color: var(--t1); font-family: 'Inter', sans-serif
 .f-count { font-family: 'Outfit', sans-serif; font-size: 18px; font-weight: 700; }
 
 /* ── WA ALERTA (HUMAN IN THE LOOP) ── */
-.wa-alerts-container { display: flex; flex-direction: column; gap: 16px; }
-.wa-alert { background: #FFFFFF; border: 2px solid var(--hot); border-radius: var(--r); padding: 20px; position: relative; box-shadow: 0 10px 25px var(--hot-dim); }
-.wa-header { display: flex; align-items: center; gap: 10px; margin-bottom: 15px; }
-.wa-pulse { width: 12px; height: 12px; border-radius: 50%; background: var(--hot); animation: pulse 1.5s infinite; }
-@keyframes pulse { 0% {box-shadow: 0 0 0 0 rgba(239,68,68,0.7);} 70% {box-shadow: 0 0 0 10px rgba(239,68,68,0);} 100% {box-shadow: 0 0 0 0 rgba(239,68,68,0);} }
-.wa-title { font-family: 'Outfit', sans-serif; font-size: 16px; font-weight: 800; color: var(--hot); text-transform: uppercase; }
-.wa-msg { background: var(--bg); border-radius: var(--r2); padding: 16px; font-family: 'JetBrains Mono', monospace; font-size: 13px; color: var(--t1); margin-bottom: 16px; border-left: 3px solid var(--hot); }
-.wa-actions { display: flex; gap: 12px; }
+.wa-alerts-container { display: flex; flex-direction: column; gap: 12px; }
+.wa-alert { background: #FFFFFF; border: 2px solid var(--hot); border-radius: var(--r); padding: 12px 16px; position: relative; box-shadow: 0 8px 20px var(--hot-dim); }
+.wa-header { display: flex; align-items: center; gap: 8px; margin-bottom: 10px; }
+.wa-pulse { width: 10px; height: 10px; border-radius: 50%; background: var(--hot); animation: pulse 1.5s infinite; }
+@keyframes pulse { 0% {box-shadow: 0 0 0 0 rgba(239,68,68,0.7);} 70% {box-shadow: 0 0 0 8px rgba(239,68,68,0);} 100% {box-shadow: 0 0 0 0 rgba(239,68,68,0);} }
+.wa-title { font-family: 'Outfit', sans-serif; font-size: 14px; font-weight: 800; color: var(--hot); text-transform: uppercase; }
+.wa-msg { background: var(--bg); border-radius: var(--r2); padding: 12px; font-family: 'JetBrains Mono', monospace; font-size: 12px; color: var(--t1); margin-bottom: 12px; border-left: 3px solid var(--hot); }
+.wa-actions { display: flex; gap: 8px; }
 
 /* ── CRM KANBAN ── */
-.filter-bar { display: flex; gap: 8px; margin-bottom: 16px; flex-wrap: wrap; }
-.filter-btn { background: var(--s2); border: 1px solid var(--b); border-radius: 20px; padding: 6px 12px; font-size: 11px; font-weight: 600; color: var(--t2); cursor: pointer; transition: all 0.2s; }
+.filter-bar { display: flex; gap: 8px; margin-bottom: 12px; flex-wrap: wrap; flex-shrink: 0; }
+.filter-btn { background: var(--s2); border: 1px solid var(--b); border-radius: 20px; padding: 4px 10px; font-size: 11px; font-weight: 600; color: var(--t2); cursor: pointer; transition: all 0.2s; }
 .filter-btn:hover { background: var(--s3); color: var(--t1); }
 .filter-btn.active { background: var(--t1); color: #fff; border-color: var(--t1); box-shadow: 0 4px 10px rgba(28, 25, 23, 0.2); }
 
-.crm-wrap { overflow-x: auto; padding-bottom: 20px; }
-.kanban { display: grid; grid-template-columns: repeat(5, minmax(240px, 1fr)); gap: 16px; min-width: 1200px; height: calc(100vh - 210px); min-height: 480px; }
-.k-col { background: var(--s1); border-radius: var(--r); padding: 16px; display: flex; flex-direction: column; gap: 12px; border: 1px solid var(--b); height: 100%; overflow: hidden; }
-.k-col-head { display: flex; justify-content: space-between; align-items: center; padding-bottom: 12px; border-bottom: 2px solid var(--b); flex-shrink: 0; }
-.k-col-title { font-family: 'Outfit', sans-serif; font-size: 15px; font-weight: 700; color: var(--t1); }
-.k-count { background: var(--s2); border: 1px solid var(--b); padding: 2px 10px; border-radius: 12px; font-size: 12px; font-weight: 600; color: var(--t2); }
+.crm-wrap { overflow-x: auto; flex: 1; min-height: 0; padding-bottom: 8px; }
+.kanban { display: grid; grid-template-columns: repeat(5, minmax(200px, 1fr)); gap: 12px; min-width: 1000px; height: 100%; }
+.k-col { background: var(--s1); border-radius: var(--r); padding: 12px; display: flex; flex-direction: column; gap: 8px; border: 1px solid var(--b); height: 100%; overflow: hidden; }
+.k-col-head { display: flex; justify-content: space-between; align-items: center; padding-bottom: 8px; border-bottom: 2px solid var(--b); flex-shrink: 0; }
+.k-col-title { font-family: 'Outfit', sans-serif; font-size: 14px; font-weight: 700; color: var(--t1); }
+.k-count { background: var(--s2); border: 1px solid var(--b); padding: 2px 8px; border-radius: 12px; font-size: 11px; font-weight: 600; color: var(--t2); }
 
-.lead-card { background: var(--s2); border: 1px solid var(--b); border-radius: var(--r2); padding: 16px; cursor: pointer; transition: all 0.2s; box-shadow: 0 2px 5px rgba(0,0,0,0.02); }
-.lead-card:hover { transform: translateY(-3px); box-shadow: var(--shadow-hover); border-color: var(--blue); }
+.lead-card { background: var(--s2); border: 1px solid var(--b); border-radius: var(--r2); padding: 12px; cursor: pointer; transition: all 0.2s; box-shadow: 0 2px 5px rgba(0,0,0,0.02); }
+.lead-card:hover { transform: translateY(-2px); box-shadow: var(--shadow-hover); border-color: var(--blue); }
 .lead-card.hot { border: 2px solid var(--hot); }
-.lead-name { font-size: 15px; font-weight: 700; color: var(--t1); margin-bottom: 4px; }
-.lead-serv { font-size: 12px; font-weight: 600; color: var(--blue); margin-bottom: 12px; text-transform: uppercase; letter-spacing: 0.05em; }
-.lead-msg { font-size: 13px; color: var(--t2); line-height: 1.5; margin-bottom: 16px; }
+.lead-name { font-size: 14px; font-weight: 700; color: var(--t1); margin-bottom: 2px; }
+.lead-serv { font-size: 11px; font-weight: 600; color: var(--blue); margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.05em; }
+.lead-msg { font-size: 12px; color: var(--t2); line-height: 1.4; margin-bottom: 12px; }
 .lead-foot { display: flex; justify-content: space-between; align-items: center; }
-.badge { padding: 4px 10px; border-radius: 6px; font-size: 11px; font-weight: 700; text-transform: uppercase; }
+.badge { padding: 4px 8px; border-radius: 6px; font-size: 10px; font-weight: 700; text-transform: uppercase; }
 
 /* ── ROADMAP INTERACTIVO (SPRINTS 6 MESES) ── */
 .roadmap-container { display: flex; flex-direction: column; gap: 20px; }
@@ -234,7 +234,7 @@ input[type=range].rm-slider::-webkit-slider-thumb:hover { transform: scale(1.15)
   <div class="nav-item" onclick="nav('crm',this)"><span>RESULTADOS CHATBOTS</span></div>
   
   <div class="nav-section">Progreso & Memoria</div>
-  <div class="nav-item" onclick="nav('roadmap',this)"><span>METAS 60 DÍAS</span></div>
+  <div class="nav-item" onclick="nav('roadmap',this)"><span>METAS</span></div>
   <div class="nav-item" onclick="nav('calendario',this)"><span>CALENDARIO</span></div>
 </aside>
 
@@ -251,13 +251,13 @@ input[type=range].rm-slider::-webkit-slider-thumb:hover { transform: scale(1.15)
   </div>
 
   <!-- Master Progress -->
-  <div style="background: var(--s2); padding: 16px 24px; border-radius: var(--r); margin-bottom: 16px; border: 1px solid var(--b); box-shadow: var(--shadow);">
-    <div style="display: flex; justify-content: space-between; margin-bottom: 12px; align-items: baseline;">
-      <span style="font-weight: 700; font-size: 16px; color: var(--t1);">Progreso Global Meta 60 Días</span>
-      <span id="master-pct" style="font-family: 'Outfit', sans-serif; font-size: 24px; font-weight: 800; color: var(--accent);">00.01%</span>
+  <div style="background: var(--s2); padding: 12px 20px; border-radius: var(--r); margin-bottom: 16px; border: 1px solid var(--b); box-shadow: var(--shadow); flex-shrink: 0;">
+    <div style="display: flex; justify-content: space-between; margin-bottom: 10px; align-items: baseline;">
+      <span style="font-weight: 700; font-size: 15px; color: var(--t1);">Progreso Global Metas</span>
+      <span id="master-pct" style="font-family: 'Outfit', sans-serif; font-size: 20px; font-weight: 800; color: var(--accent);">00.01%</span>
     </div>
-    <div style="height: 14px; background: var(--bg); border-radius: 7px; overflow: hidden; box-shadow: inset 0 2px 4px rgba(0,0,0,0.05);">
-      <div id="master-bar" style="height: 100%; width: 0.01%; background: linear-gradient(90deg, var(--teal), var(--accent)); transition: width 0.3s; border-radius: 7px;"></div>
+    <div style="height: 10px; background: var(--bg); border-radius: 5px; overflow: hidden; box-shadow: inset 0 2px 4px rgba(0,0,0,0.05);">
+      <div id="master-bar" style="height: 100%; width: 0.01%; background: linear-gradient(90deg, var(--teal), var(--accent)); transition: width 0.3s; border-radius: 5px;"></div>
     </div>
   </div>
 
@@ -272,11 +272,11 @@ input[type=range].rm-slider::-webkit-slider-thumb:hover { transform: scale(1.15)
       <div class="kpi-value" id="kpi-pico-count">4</div>
       <div class="kpi-sub" style="color:var(--hot)">Cola en espera de cierre</div>
     </div>
-    <div class="kpi ok" style="padding-bottom:28px;">
+    <div class="kpi ok" style="padding-bottom:24px;">
       <div class="kpi-label"><span class="kpi-icon">💵</span> Ganancias Mensuales</div>
       <div class="kpi-value" id="kpi-ganancias-clp">$450.000</div>
       <div class="kpi-sub" style="color:var(--ok)">Meta: $1.500.000 CLP (<span id="kpi-ganancias-pct">30%</span>)</div>
-      <div style="position:absolute; bottom:0; left:0; width:100%; height:8px; background:var(--s1);">
+      <div style="position:absolute; bottom:0; left:0; width:100%; height:6px; background:var(--s1);">
         <div id="kpi-ganancias-bar" style="height:100%; width: 30%; background:var(--ok); transition:width 0.8s ease-out; border-radius: 0 4px 4px 0;"></div>
       </div>
     </div>
@@ -287,43 +287,47 @@ input[type=range].rm-slider::-webkit-slider-thumb:hover { transform: scale(1.15)
     </div>
   </div>
 
-  <div class="grid2" style="height: calc(100vh - 420px); min-height: 380px; align-items: stretch; margin-bottom: 0;">
+  <div class="grid2" style="align-items: stretch;">
     <!-- Listado Fases (Total Chats Bots) -->
     <div class="card" style="display:flex; flex-direction:column; overflow:hidden;">
       <div class="card-title" style="flex-shrink:0;">Total Chats Bots</div>
-      <div class="no-scrollbar" style="display:flex; flex-direction:column; gap:12px; overflow-y:auto; flex:1; padding-right:5px; padding-bottom:10px;">
-        <div style="background:var(--bg); border:1px solid var(--b); border-radius:var(--r2); padding:16px; display:flex; justify-content:space-between; align-items:center; border-left: 4px solid var(--blue); transition: transform 0.2s; cursor:default;" onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform='none'">
-          <div><div style="font-weight:700; font-size:15px; color:var(--t1)">Fase 1: Interés Inicial</div><div style="font-size:13px; color:var(--t2)">Bots respondiendo dudas básicas</div></div>
-          <div style="font-size:26px; font-weight:800; font-family:'Outfit'; color:var(--blue)">14</div>
+      <div class="no-scrollbar" style="display:flex; flex-direction:column; gap:8px; overflow-y:auto; flex:1; padding-right:5px; padding-bottom:4px;">
+        <div style="background:var(--bg); border:1px solid var(--b); border-radius:var(--r2); padding:10px 14px; display:flex; justify-content:space-between; align-items:center; border-left: 4px solid var(--blue); transition: transform 0.2s; cursor:default;" onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform='none'">
+          <div><div style="font-weight:700; font-size:13px; color:var(--t1)">Fase 1: Interés Inicial</div><div style="font-size:11px; color:var(--t2)">Bots respondiendo dudas</div></div>
+          <div style="font-size:20px; font-weight:800; font-family:'Outfit'; color:var(--blue)">14</div>
         </div>
-        <div style="background:var(--bg); border:1px solid var(--b); border-radius:var(--r2); padding:16px; display:flex; justify-content:space-between; align-items:center; border-left: 4px solid var(--purple); transition: transform 0.2s; cursor:default;" onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform='none'">
-          <div><div style="font-weight:700; font-size:15px; color:var(--t1)">Fase 2: Intercambio</div><div style="font-size:13px; color:var(--t2)">Bots recolectando requerimientos</div></div>
-          <div style="font-size:26px; font-weight:800; font-family:'Outfit'; color:var(--purple)">10</div>
+        <div style="background:var(--bg); border:1px solid var(--b); border-radius:var(--r2); padding:10px 14px; display:flex; justify-content:space-between; align-items:center; border-left: 4px solid var(--purple); transition: transform 0.2s; cursor:default;" onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform='none'">
+          <div><div style="font-weight:700; font-size:13px; color:var(--t1)">Fase 2: Intercambio</div><div style="font-size:11px; color:var(--t2)">Recolectando requerimientos</div></div>
+          <div style="font-size:20px; font-weight:800; font-family:'Outfit'; color:var(--purple)">10</div>
         </div>
-        <div style="background:var(--bg); border:1px solid var(--b); border-radius:var(--r2); padding:16px; display:flex; justify-content:space-between; align-items:center; border-left: 4px solid var(--warn); transition: transform 0.2s; cursor:default;" onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform='none'">
-          <div><div style="font-weight:700; font-size:15px; color:var(--t1)">Fase 3: Demo / Propuesta</div><div style="font-size:13px; color:var(--t2)">Cotización enviada en automático</div></div>
-          <div style="font-size:26px; font-weight:800; font-family:'Outfit'; color:var(--warn)">6</div>
+        <div style="background:var(--bg); border:1px solid var(--b); border-radius:var(--r2); padding:10px 14px; display:flex; justify-content:space-between; align-items:center; border-left: 4px solid var(--warn); transition: transform 0.2s; cursor:default;" onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform='none'">
+          <div><div style="font-weight:700; font-size:13px; color:var(--t1)">Fase 3: Demo / Propuesta</div><div style="font-size:11px; color:var(--t2)">Cotización enviada automático</div></div>
+          <div style="font-size:20px; font-weight:800; font-family:'Outfit'; color:var(--warn)">6</div>
         </div>
-        <div style="background:var(--bg); border:1px solid var(--b); border-radius:var(--r2); padding:16px; display:flex; justify-content:space-between; align-items:center; border-left: 4px solid var(--hot); transition: transform 0.2s; cursor:default;" onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform='none'">
-          <div><div style="font-weight:700; font-size:15px; color:var(--hot)">Fase 4: Picó 🔥</div><div style="font-size:13px; color:var(--t2)">Venta a punto de cerrar (En Cola)</div></div>
-          <div style="font-size:26px; font-weight:800; font-family:'Outfit'; color:var(--hot)" id="funnel-pico-count">4</div>
+        <div style="background:var(--bg); border:1px solid var(--b); border-radius:var(--r2); padding:10px 14px; display:flex; justify-content:space-between; align-items:center; border-left: 4px solid var(--hot); transition: transform 0.2s; cursor:default;" onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform='none'">
+          <div><div style="font-weight:700; font-size:13px; color:var(--hot)">Fase 4: Picó 🔥</div><div style="font-size:11px; color:var(--t2)">Venta a punto de cerrar (Cola)</div></div>
+          <div style="font-size:20px; font-weight:800; font-family:'Outfit'; color:var(--hot)" id="funnel-pico-count">4</div>
+        </div>
+        <div style="background:var(--bg); border:1px solid var(--b); border-radius:var(--r2); padding:10px 14px; display:flex; justify-content:space-between; align-items:center; border-left: 4px solid var(--ok); transition: transform 0.2s; cursor:default;" onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform='none'">
+          <div><div style="font-weight:700; font-size:13px; color:var(--ok)">Fase 5: Cierre ✅</div><div style="font-size:11px; color:var(--t2)">Venta cerrada y cobrada</div></div>
+          <div style="font-size:20px; font-weight:800; font-family:'Outfit'; color:var(--ok)">2</div>
         </div>
       </div>
     </div>
 
     <!-- Human in the Loop Queue (Cola de Ventas) -->
-    <div class="card" style="border-left: 4px solid var(--hot); display:flex; flex-direction:column; gap:16px; overflow:hidden;">
+    <div class="card" style="border-left: 4px solid var(--hot); display:flex; flex-direction:column; gap:12px; overflow:hidden;">
       <div class="card-title" style="color:var(--hot); margin-bottom:0; flex-shrink:0;">Human-in-the-Loop (Cola Urgencias)</div>
       
       <div id="active-alert-container" style="flex-shrink:0;">
         <!-- Renderizado por JS -->
       </div>
 
-      <div style="font-size:12px; font-weight:700; color:var(--t3); text-transform:uppercase; letter-spacing:0.05em; border-bottom: 1px solid var(--b); padding-bottom:8px; display:flex; justify-content:space-between; flex-shrink:0; align-items:center;">
-        <span>COLA DE ESPERA (PICÓ)</span><span id="queue-counter" style="color:var(--hot);">0/10</span>
+      <div style="font-size:11px; font-weight:700; color:var(--t3); text-transform:uppercase; letter-spacing:0.05em; border-bottom: 1px solid var(--b); padding-bottom:6px; margin-bottom: 4px; display:flex; justify-content:space-between; flex-shrink:0; align-items:center;">
+        <span>COLA DE ESPERA (PICÓ)</span><span id="queue-counter" style="color:var(--hot);">0/20</span>
       </div>
       
-      <div id="queue-container" style="display:flex; flex-direction:row; gap:12px; padding-bottom:10px; overflow-x:auto; overflow-y:hidden; flex-shrink:0;">
+      <div id="queue-container" class="no-scrollbar" style="display:flex; flex-wrap:wrap; align-content:flex-start; gap:8px; padding-bottom:10px; overflow-y:auto; flex:1; min-height:0;">
         <!-- Renderizado por JS -->
       </div>
     </div>
@@ -413,11 +417,11 @@ input[type=range].rm-slider::-webkit-slider-thumb:hover { transform: scale(1.15)
   </div>
 </section>
 
-<!-- ───── ROADMAP INTERACTIVO (METAS 60 DÍAS) ───── -->
+<!-- ───── ROADMAP INTERACTIVO (METAS) ───── -->
 <section id="roadmap" class="section">
   <div class="page-header">
     <div>
-      <div class="page-title">METAS IAENBLANCO: PRÓXIMOS 60 DÍAS</div>
+      <div class="page-title">METAS IAENBLANCO</div>
       <div class="page-sub">si no rendimos, sanexid</div>
     </div>
   </div>
@@ -757,6 +761,13 @@ let picoQueue = [
   { id: 7, topic: 'Rediseño Web', client: 'Agencia XYZ', msg: '🤖 Bot pausado...\\n🗣️ "Necesitamos cambiar la fecha del evento en vivo ahora ya."' }
 ];
 
+// Replicar hasta generar 20 en cola de espera para llenar las columnas visuales
+while (picoQueue.length < 21) {
+  let clone = Object.assign({}, picoQueue[Math.floor(Math.random() * 7)]);
+  clone.id = picoQueue.length + 1;
+  picoQueue.push(clone);
+}
+
 function renderPicoQueue() {
   const activeContainer = document.getElementById('active-alert-container');
   const queueContainer = document.getElementById('queue-container');
@@ -785,7 +796,7 @@ function renderPicoQueue() {
         </div>
         <div class="wa-msg" style="white-space: pre-line;"><b>${active.client} dice:</b>\\n${active.msg}</div>
         <div class="wa-actions">
-          <button class="btn-primary" style="background:var(--hot); box-shadow: 0 4px 15px var(--hot-dim); width:100%; font-size:15px;" onclick="resolvePicó()">🔥 CLIC AQUÍ PARA VENDERLE Y PASAR AL SIGUIENTE</button>
+          <button class="btn-primary" style="background:var(--hot); box-shadow: 0 4px 15px var(--hot-dim); width:100%; font-size:13px; padding: 8px;" onclick="resolvePicó()">🔥 CLIC AQUÍ PARA VENDERLE Y PASAR</button>
         </div>
       </div>
     `;
@@ -793,12 +804,13 @@ function renderPicoQueue() {
   
   if(queueContainer) {
     let qHtml = '';
-    const maxSigns = Math.min(picoQueue.length, 11);
+    const maxSigns = picoQueue.length;
     for(let i=1; i<maxSigns; i++) {
       const q = picoQueue[i];
       qHtml += `
-        <button onclick="makeMainPicó(${i})" style="background:var(--s2); border:1px solid var(--b); border-radius:12px; min-width:48px; height:48px; font-size:20px; cursor:pointer; display:flex; align-items:center; justify-content:center; box-shadow:0 2px 4px rgba(0,0,0,0.02); transition:initial;" onmouseover="this.style.transform='translateY(-2px)'; this.style.borderColor='var(--hot)';" onmouseout="this.style.transform='none'; this.style.borderColor='var(--b)';" title="${q.client} - ${q.topic}">
-          🚨
+        <button onclick="makeMainPicó(${i})" style="background:var(--s2); border:1px solid var(--b); border-radius:8px; padding: 0 12px; height:36px; font-size:12px; font-weight:700; color:var(--t2); cursor:pointer; display:flex; align-items:center; gap:6px; box-shadow:0 2px 4px rgba(0,0,0,0.02); transition:initial; white-space:nowrap;" onmouseover="this.style.transform='translateY(-2px)'; this.style.borderColor='var(--hot)'; this.style.color='var(--hot)';" onmouseout="this.style.transform='none'; this.style.borderColor='var(--b)'; this.style.color='var(--t2)';" title="${q.topic}">
+          <span style="display:inline-block; width:8px; height:8px; background:var(--hot); border-radius:50%; opacity:0.8;"></span>
+          ${q.client}
         </button>
       `;
     }
