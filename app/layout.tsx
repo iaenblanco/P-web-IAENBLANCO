@@ -3,23 +3,27 @@ import './globals.css'
 import { GoogleTagManager } from '@/components/GoogleTagManager'
 
 export const metadata: Metadata = {
-  title: 'IAenBlanco | Soluciones y Desarrollo con Inteligencia Artificial',
+  title: 'IAenBLANCO SpA | Soluciones y Desarrollo con Inteligencia Artificial',
   description: 'Creamos soluciones web a medida, ofrecemos consultoría y te enseñamos sobre el poder de la IA para transformar tu negocio.',
   keywords: 'inteligencia artificial, IA, desarrollo web, consultoría IA, machine learning, automatización, transformación digital',
-  authors: [{ name: 'IAenBlanco' }],
-  creator: 'IAenBlanco',
-  publisher: 'IAenBlanco',
+  authors: [{ name: 'IAenBLANCO SpA' }],
+  creator: 'IAenBLANCO SpA',
+  publisher: 'IAenBLANCO SpA',
   openGraph: {
-    title: 'IAenBlanco | Soluciones y Desarrollo con Inteligencia Artificial',
+    title: 'IAenBLANCO SpA | Soluciones y Desarrollo con Inteligencia Artificial',
     description: 'Creamos soluciones web a medida, ofrecemos consultoría y te enseñamos sobre el poder de la IA para transformar tu negocio.',
     url: process.env.NEXT_PUBLIC_SITE_URL || 'https://iaenblanco.com',
-    siteName: 'IAenBlanco',
-    locale: 'es_ES',
+    siteName: 'IAenBLANCO SpA',
+    locale: 'es_CL',
     type: 'website',
+  },
+  other: {
+    country_name: 'Chile',
+    locality: 'Santiago',
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'IAenBlanco | Soluciones y Desarrollo con Inteligencia Artificial',
+    title: 'IAenBLANCO SpA | Soluciones y Desarrollo con Inteligencia Artificial',
     description: 'Creamos soluciones web a medida, ofrecemos consultoría y te enseñamos sobre el poder de la IA para transformar tu negocio.',
     creator: '@iaenblanco',
   },
@@ -61,7 +65,15 @@ export default function RootLayout({
       {
         '@type': 'Organization',
         '@id': `${process.env.NEXT_PUBLIC_SITE_URL || 'https://iaenblanco.com'}/#organization`,
-        name: 'IAenBlanco',
+        name: 'IAenBLANCO SpA',
+        legalName: 'IAenBLANCO SpA',
+        taxID: '784038610',
+        address: {
+          '@type': 'PostalAddress',
+          streetAddress: 'Magdalena 206, Dpto 102',
+          addressLocality: 'Las Condes, Santiago',
+          addressCountry: 'CL',
+        },
         url: process.env.NEXT_PUBLIC_SITE_URL || 'https://iaenblanco.com',
         logo: {
           '@type': 'ImageObject',
@@ -88,7 +100,7 @@ export default function RootLayout({
         '@type': 'WebSite',
         '@id': `${process.env.NEXT_PUBLIC_SITE_URL || 'https://iaenblanco.com'}/#website`,
         url: process.env.NEXT_PUBLIC_SITE_URL || 'https://iaenblanco.com',
-        name: 'IAenBlanco - Soluciones con IA',
+        name: 'IAenBLANCO SpA - Soluciones con IA',
         description: 'Creamos soluciones web a medida con Inteligencia Artificial',
         publisher: {
           '@id': `${process.env.NEXT_PUBLIC_SITE_URL || 'https://iaenblanco.com'}/#organization`,

@@ -208,6 +208,33 @@ export default function ContactoPage() {
           </div>
         </section>
 
+        {/* Información Empresarial */}
+        <section className="py-12" aria-labelledby="info-empresarial-heading">
+          <div className="container mx-auto px-6">
+            <div className="max-w-4xl mx-auto bg-gradient-to-r from-cyan-900/20 to-purple-900/20 backdrop-blur-lg p-8 rounded-2xl border border-white/10">
+              <h2 id="info-empresarial-heading" className="text-2xl font-bold mb-8 text-center text-cyan-400">Información Empresarial</h2>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-6">
+                <div className="flex flex-col">
+                  <span className="text-gray-400 text-sm uppercase tracking-wider mb-1">Razón Social</span>
+                  <span className="text-white font-semibold">IAenBLANCO SpA</span>
+                </div>
+                <div className="flex flex-col">
+                  <span className="text-gray-400 text-sm uppercase tracking-wider mb-1">RUT</span>
+                  <span className="text-white font-semibold">78.403.861-0</span>
+                </div>
+                <div className="flex flex-col">
+                  <span className="text-gray-400 text-sm uppercase tracking-wider mb-1">Dirección Comercial</span>
+                  <span className="text-white font-semibold">Magdalena 206, Dpto 102, Las Condes</span>
+                </div>
+                <div className="flex flex-col">
+                  <span className="text-gray-400 text-sm uppercase tracking-wider mb-1">Giro</span>
+                  <span className="text-white font-semibold">Desarrollo de software y soluciones de IA</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
         {/* Formulario de Contacto */}
         <section className="py-20" aria-labelledby="contacto-form-heading">
           <div className="container mx-auto px-6">
