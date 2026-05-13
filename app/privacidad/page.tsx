@@ -27,7 +27,7 @@ export default function PrivacidadPage() {
                 <section>
                   <h2 className="text-2xl font-semibold text-white mb-4">1. Información que Recopilamos</h2>
                   <p>
-                    En IAenBLANCO SpA, RUT 78.403.861-0, con domicilio en Magdalena 206, Dpto 102, Santiago, Chile, nos tomamos muy en serio su privacidad. Recopilamos información que usted nos proporciona directamente cuando completa formularios en nuestro sitio, se registra para servicios o se comunica con nosotros. Esto puede incluir su nombre, dirección de correo electrónico, número de teléfono e información de su empresa.
+                    En IAenBlanco SpA, RUT 78.403.861-0, con domicilio en Badajoz 100 Of 1014, Las Condes, Santiago, Chile, nos tomamos muy en serio su privacidad. Recopilamos información que usted nos proporciona directamente cuando completa formularios en nuestro sitio, se registra para servicios o se comunica con nosotros. Esto puede incluir su nombre, dirección de correo electrónico, número de teléfono e información de su empresa.
                   </p>
                 </section>
 
@@ -68,13 +68,13 @@ export default function PrivacidadPage() {
                 <section>
                   <h2 className="text-2xl font-semibold text-white mb-4">6. Sus Derechos</h2>
                   <p>
-                    Usted tiene derecho a solicitar acceso a la información personal que tenemos sobre usted, así como a solicitar la corrección o eliminación de dicha información. Para ejercer estos derechos, por favor contáctenos a través de nicolas@iaenblanco.com.
+                    Usted tiene derecho a solicitar acceso a la información personal que tenemos sobre usted, así como a solicitar la corrección o eliminación de dicha información. Para ejercer estos derechos, por favor contáctenos a través de contacto@iaenblanco.com.
                   </p>
                 </section>
               </div>
 
               <div className="mt-12 pt-8 border-t border-white/10 text-sm text-gray-400">
-                Última actualización: 23 de abril de 2026
+                Última actualización: 13 de mayo de 2026
               </div>
             </div>
           </div>

@@ -87,9 +87,9 @@ export default function ContactoPage() {
     {
       icon: MailIcon,
       title: 'Email',
-      content: 'nicolas@iaenblanco.com',
+      content: 'contacto@iaenblanco.com',
       description: 'Respuesta en 24 horas',
-      href: 'mailto:nicolas@iaenblanco.com'
+      href: 'mailto:contacto@iaenblanco.com'
     },
     {
       icon: PhoneIcon,
@@ -216,7 +216,7 @@ export default function ContactoPage() {
               <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-6">
                 <div className="flex flex-col">
                   <span className="text-gray-400 text-sm uppercase tracking-wider mb-1">Razón Social</span>
-                  <span className="text-white font-semibold">IAenBLANCO SpA</span>
+                  <span className="text-white font-semibold">IAenBlanco SpA</span>
                 </div>
                 <div className="flex flex-col">
                   <span className="text-gray-400 text-sm uppercase tracking-wider mb-1">RUT</span>
@@ -224,7 +224,7 @@ export default function ContactoPage() {
                 </div>
                 <div className="flex flex-col">
                   <span className="text-gray-400 text-sm uppercase tracking-wider mb-1">Dirección Comercial</span>
-                  <span className="text-white font-semibold">Magdalena 206, Dpto 102, Las Condes</span>
+                  <span className="text-white font-semibold">Badajoz 100 Of 1014, Las Condes</span>
                 </div>
                 <div className="flex flex-col">
                   <span className="text-gray-400 text-sm uppercase tracking-wider mb-1">Giro</span>

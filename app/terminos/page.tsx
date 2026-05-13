@@ -27,7 +27,7 @@ export default function TerminosPage() {
                 <section>
                   <h2 className="text-2xl font-semibold text-white mb-4">1. Introducción</h2>
                   <p>
-                    Bienvenido a IAenBLANCO SpA, RUT 78.403.861-0, con domicilio en Magdalena 206, Dpto 102, Santiago, Chile. Al acceder y utilizar este sitio web, usted acepta cumplir y estar sujeto a los siguientes términos y condiciones de uso. Si no está de acuerdo con alguna parte de estos términos, le rogamos que no utilice nuestro sitio web.
+                    Bienvenido a IAenBlanco SpA, RUT 78.403.861-0, con domicilio en Badajoz 100 Of 1014, Las Condes, Santiago, Chile. Al acceder y utilizar este sitio web, usted acepta cumplir y estar sujeto a los siguientes términos y condiciones de uso. Si no está de acuerdo con alguna parte de estos términos, le rogamos que no utilice nuestro sitio web.
                   </p>
                 </section>
 
@@ -48,14 +48,14 @@ export default function TerminosPage() {
                 <section>
                   <h2 className="text-2xl font-semibold text-white mb-4">4. Limitación de Responsabilidad</h2>
                   <p>
-                    El uso de cualquier información o material en este sitio web es bajo su propio riesgo, por lo que IAenBLANCO SpA no será responsable. Será su propia responsabilidad asegurarse de que cualquier producto, servicio o información disponible a través de este sitio web cumpla con sus requisitos específicos.
+                    El uso de cualquier información o material en este sitio web es bajo su propio riesgo, por lo que IAenBlanco SpA no será responsable. Será su propia responsabilidad asegurarse de que cualquier producto, servicio o información disponible a través de este sitio web cumpla con sus requisitos específicos.
                   </p>
                 </section>
 
                 <section>
                   <h2 className="text-2xl font-semibold text-white mb-4">5. Modificaciones</h2>
                   <p>
-                    IAenBLANCO SpA se reserva el derecho de revisar estos términos en cualquier momento sin previo aviso. Al utilizar este sitio web, usted acepta estar sujeto a la versión actual de estos términos y condiciones.
+                    IAenBlanco SpA se reserva el derecho de revisar estos términos en cualquier momento sin previo aviso. Al utilizar este sitio web, usted acepta estar sujeto a la versión actual de estos términos y condiciones.
                   </p>
                 </section>
 
@@ -68,7 +68,7 @@ export default function TerminosPage() {
               </div>
 
               <div className="mt-12 pt-8 border-t border-white/10 text-sm text-gray-400">
-                Última actualización: 23 de abril de 2026
+                Última actualización: 13 de mayo de 2026
               </div>
             </div>
           </div>
