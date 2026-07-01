@@ -1,6 +1,8 @@
 import type { Metadata } from 'next'
 import './globals.css'
 import { GoogleTagManager } from '@/components/GoogleTagManager'
+import { GalaxyThemeProvider } from '@/components/theme/GalaxyThemeProvider'
+import { themeInitScript } from '@/components/theme/galaxy-theme'
 
 export const metadata: Metadata = {
   title: 'IAenBlanco SpA | Soluciones y Desarrollo con Inteligencia Artificial',
@@ -151,7 +153,7 @@ export default function RootLayout({
   const gtmId = process.env.NEXT_PUBLIC_GTM_ID || 'GTM-5MNF9G4Z'
 
   return (
-    <html lang="es">
+    <html lang="es" suppressHydrationWarning>
       <head>
         <script
           type="application/ld+json"
@@ -159,11 +161,13 @@ export default function RootLayout({
             __html: JSON.stringify(jsonLd),
           }}
         />
+        {/* Tema global: setea el acento desde localStorage antes del primer pintado (evita FOUC y persiste al navegar) */}
+        <script dangerouslySetInnerHTML={{ __html: themeInitScript() }} />
       </head>
       <body className="font-sans">
         {/* Google Tag Manager - Se inyecta automáticamente en el head */}
         {gtmId && <GoogleTagManager gtmId={gtmId} />}
-        {children}
+        <GalaxyThemeProvider>{children}</GalaxyThemeProvider>
       </body>
     </html>
   )

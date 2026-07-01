@@ -5,24 +5,12 @@ import { Suspense, lazy } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { CalButton } from '@/components/CalButton';
+import { GALAXY_THEMES } from '@/components/theme/galaxy-theme';
+import { useGalaxyTheme } from '@/components/theme/GalaxyThemeProvider';
 
 const Spline = lazy(() => import('@splinetool/react-spline'));
 
 const CAL_LINK = 'iaenblanco/15min';
-
-// Temas de color para la animación (Spline). Como la escena 3D no es propia,
-// recoloreamos el render completo con un filtro CSS hue-rotate. El `accent`/`glow`
-// se exponen como variables CSS para teñir botones y bordes a juego.
-type GalaxyTheme = { id: string; name: string; dot: string; filter: string; accent: string; glow: string };
-
-const GALAXY_THEMES: GalaxyTheme[] = [
-  { id: 'violeta', name: 'Violeta', dot: '#a78bfa', filter: 'none', accent: '#a78bfa', glow: 'rgba(139,92,246,0.5)' },
-  { id: 'cian', name: 'Cian', dot: '#22d3ee', filter: 'hue-rotate(245deg) saturate(1.2)', accent: '#22d3ee', glow: 'rgba(6,182,212,0.5)' },
-  { id: 'esmeralda', name: 'Esmeralda', dot: '#34d399', filter: 'hue-rotate(175deg) saturate(1.1) brightness(1.03)', accent: '#34d399', glow: 'rgba(16,185,129,0.5)' },
-  { id: 'magenta', name: 'Magenta', dot: '#f472b6', filter: 'hue-rotate(40deg) saturate(1.25)', accent: '#f472b6', glow: 'rgba(236,72,153,0.5)' },
-];
-
-const STORAGE_KEY = 'galaxy-theme';
 
 const solucionesItems = [
   { href: '/soluciones/paginas-web-ia', label: 'Páginas Web con IA' },
@@ -46,7 +34,7 @@ function CheckIcon({ className }: { className?: string }) {
   );
 }
 
-function HeroSplineBackground({ filter }: { filter: string }) {
+function HeroSplineBackground() {
   return (
     <div style={{
       position: 'relative',
@@ -55,7 +43,7 @@ function HeroSplineBackground({ filter }: { filter: string }) {
       pointerEvents: 'auto',
       overflow: 'hidden',
     }}>
-      <div style={{ width: '100%', height: '100vh', filter, transition: 'filter 0.6s ease' }}>
+      <div style={{ width: '100%', height: '100vh', filter: 'var(--galaxy-filter, none)', transition: 'filter 0.6s ease' }}>
         <Suspense fallback={<div style={{ width: '100%', height: '100vh', background: '#000' }} />}>
           <Spline
             style={{
@@ -130,22 +118,6 @@ function GalaxyThemeSelector({ themeId, setThemeId, variant }: { themeId: string
         ))}
       </div>
     </div>
-  );
-}
-
-function ScreenshotSection({ screenshotRef }: { screenshotRef: React.RefObject<HTMLDivElement> }) {
-  return (
-    <section className="relative z-10 container mx-auto px-4 md:px-6 lg:px-8 mt-11 md:mt-12">
-      <div ref={screenshotRef} className="bg-gray-900 rounded-xl overflow-hidden shadow-2xl border border-gray-700/50 w-full md:w-[80%] lg:w-[70%] mx-auto">
-        <div>
-          <img
-            src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=2400&h=1350&q=80&auto=format&fit=crop"
-            alt="Panel de analíticas y métricas potenciadas por Inteligencia Artificial"
-            className="w-full h-auto block rounded-lg mx-auto"
-          />
-        </div>
-      </div>
-    </section>
   );
 }
 
@@ -330,38 +302,15 @@ function Navbar({ themeId, setThemeId }: { themeId: string; setThemeId: (id: str
 }
 
 export const HeroSection = () => {
-  const screenshotRef = useRef<HTMLDivElement>(null);
   const heroContentRef = useRef<HTMLDivElement>(null);
-  const [themeId, setThemeId] = useState(GALAXY_THEMES[0].id);
-  const activeTheme = GALAXY_THEMES.find(t => t.id === themeId) ?? GALAXY_THEMES[0];
+  const { themeId, setThemeId } = useGalaxyTheme();
 
-  // Recuperar la preferencia guardada (después de la hidratación para evitar mismatch).
-  useEffect(() => {
-    try {
-      const saved = localStorage.getItem(STORAGE_KEY);
-      if (saved && GALAXY_THEMES.some(t => t.id === saved)) setThemeId(saved);
-    } catch { /* localStorage no disponible */ }
-  }, []);
-
-  const selectTheme = (id: string) => {
-    setThemeId(id);
-    try { localStorage.setItem(STORAGE_KEY, id); } catch { /* no-op */ }
-  };
-
-  const themeStyle = {
-    '--galaxy-accent': activeTheme.accent,
-    '--galaxy-glow': activeTheme.glow,
-  } as React.CSSProperties;
-
+  // Fade-out del contenido del hero al hacer scroll.
   useEffect(() => {
     const handleScroll = () => {
-      if (screenshotRef.current && heroContentRef.current) {
+      if (heroContentRef.current) {
         requestAnimationFrame(() => {
           const scrollPosition = window.pageYOffset;
-          if (screenshotRef.current) {
-            screenshotRef.current.style.transform = `translateY(-${scrollPosition * 0.5}px)`;
-          }
-
           const maxScroll = 400;
           const opacity = 1 - Math.min(scrollPosition / maxScroll, 1);
           if (heroContentRef.current) {
@@ -375,12 +324,12 @@ export const HeroSection = () => {
   }, []);
 
   return (
-    <div className="relative" style={themeStyle}>
-      <Navbar themeId={themeId} setThemeId={selectTheme} />
+    <div className="relative">
+      <Navbar themeId={themeId} setThemeId={setThemeId} />
 
       <div className="relative min-h-screen">
         <div className="absolute inset-0 z-0 pointer-events-auto">
-          <HeroSplineBackground filter={activeTheme.filter} />
+          <HeroSplineBackground />
         </div>
 
         <div ref={heroContentRef} style={{
@@ -389,27 +338,6 @@ export const HeroSection = () => {
         }}>
           <div className="container mx-auto">
             <HeroContent />
-          </div>
-        </div>
-      </div>
-
-      <div className="bg-black relative z-10" style={{ marginTop: '-10vh' }}>
-        <ScreenshotSection screenshotRef={screenshotRef} />
-        <div className="container mx-auto px-4 py-16 text-white text-center">
-          <h2 className="text-3xl md:text-4xl font-bold mb-4">Soluciones de IA diseñadas para tu negocio</h2>
-          <p className="max-w-xl mx-auto opacity-80 mb-8">
-            Automatizaciones, chatbots, páginas web con IA, auditorías y desarrollos a medida. Agenda una reunión gratuita y diseñemos juntos la solución ideal para tu empresa.
-          </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <CalButton
-              calLink={CAL_LINK}
-              className="bg-[var(--galaxy-accent)] hover:brightness-110 text-black font-bold py-3 px-8 rounded-xl transition-all duration-300 hover:scale-105 shadow-[0_0_25px_var(--galaxy-glow)]"
-            >
-              Agenda tu reunión gratuita
-            </CalButton>
-            <Link href="/soluciones" className="border-2 border-[color:var(--galaxy-accent)] text-[color:var(--galaxy-accent)] hover:bg-[var(--galaxy-accent)] hover:text-black font-bold py-3 px-8 rounded-xl transition-all duration-300">
-              Ver todas las soluciones
-            </Link>
           </div>
         </div>
       </div>
