@@ -1,41 +1,43 @@
-import { MapPinIcon, CheckCircleIcon, StarIcon, ClockIcon } from '@/components/icons';
+import { Building, SparkCheck, GrowthBars, Stopwatch } from './icons';
+import { IconBadge } from './IconBadge';
+
+const items = [
+  {
+    Icon: Building,
+    text: 'Empresa chilena registrada · Las Condes, Santiago',
+  },
+  {
+    Icon: SparkCheck,
+    text: '+50 proyectos entregados',
+  },
+  {
+    Icon: GrowthBars,
+    text: 'Clientes reales con resultados verificables',
+  },
+  {
+    Icon: Stopwatch,
+    text: 'Respuesta en menos de 24 h hábiles',
+  },
+];
 
 export function TrustBar() {
-  const items = [
-    {
-      Icono: MapPinIcon,
-      texto: 'Empresa chilena registrada · Las Condes, Santiago',
-    },
-    {
-      Icono: CheckCircleIcon,
-      texto: '+50 proyectos entregados',
-    },
-    {
-      Icono: StarIcon,
-      texto: 'Clientes reales con resultados verificables',
-    },
-    {
-      Icono: ClockIcon,
-      texto: 'Respuesta en menos de 24 h hábiles',
-    },
-  ];
-
   return (
-    <section className="py-12 md:py-16">
+    <section className="bg-[#f4f3f0] text-neutral-900 py-12 md:py-16">
       <div className="container mx-auto px-6">
-        <div className="border-t border-white/10 pt-12 md:pt-16">
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-6 text-center md:text-left">
-            {items.map(({ Icono, texto }) => (
-              <div
-                key={texto}
-                className="flex flex-col items-center gap-3 md:flex-row md:items-start"
-              >
-                <Icono className="h-7 w-7 shrink-0 text-[color:var(--galaxy-accent)]" />
-                <p className="text-sm text-white/80">{texto}</p>
-              </div>
-            ))}
+        <div className="border-t border-black/[0.08] pt-12 md:pt-16">
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
+            {items.map((item) => {
+              const { Icon } = item;
+              return (
+                <div key={item.text} className="group flex items-center gap-3">
+                  <IconBadge Icon={Icon} />
+                  <span className="text-sm text-neutral-700">{item.text}</span>
+                </div>
+              );
+            })}
           </div>
-          <p className="text-white/60 text-sm mt-10 text-center">
+
+          <p className="text-neutral-500 text-sm text-center mt-10">
             IAenBlanco SpA · RUT 78.403.861-0 · Emitimos boleta y factura
           </p>
         </div>

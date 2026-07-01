@@ -1,20 +1,14 @@
 'use client';
 
-import { useState } from 'react';
 import Link from 'next/link';
-import {
-  CheckCircleIcon,
-  MessageIcon,
-  PaletteIcon,
-  WandSparklesIcon,
-  CodeIcon,
-  BrainCircuitIcon,
-} from '@/components/icons';
+import { AuditFrame, AssistantWave, Storefront, AutomationFlow, WebGrowth, NodeNetwork, SparkCheck } from './icons';
 import { CalButton } from '@/components/CalButton';
+import { IconBadge } from './IconBadge';
 import { useUF, formatCLP, formatUF, ufToCLP } from '@/lib/uf';
 
 type Service = {
-  Icon: typeof CheckCircleIcon;
+  Icon: typeof AuditFrame;
+  label: string;
   title: string;
   description: string;
   ideal: string;
@@ -28,7 +22,8 @@ type Service = {
 
 const SERVICES: Service[] = [
   {
-    Icon: CheckCircleIcon,
+    Icon: AuditFrame,
+    label: 'Auditoría',
     title: 'Auditoría de Sitios con IA',
     description: 'Encontramos qué frena tus ventas y te damos un plan claro para arreglarlo.',
     ideal: 'eCommerce, clínicas, servicios y startups',
@@ -39,7 +34,8 @@ const SERVICES: Service[] = [
     ctaLabel: 'Ver detalle',
   },
   {
-    Icon: MessageIcon,
+    Icon: AssistantWave,
+    label: 'Chatbots',
     title: 'Chatbots y Asistentes Virtuales',
     description: 'Atención al cliente 24/7 que responde, califica y agenda por ti.',
     ideal: 'Empresas que quieren bajar costos de soporte',
@@ -50,7 +46,8 @@ const SERVICES: Service[] = [
     ctaLabel: 'Ver detalle',
   },
   {
-    Icon: PaletteIcon,
+    Icon: Storefront,
+    label: 'Shopify',
     title: 'Diseño y Código en Shopify',
     description: 'Tu tienda Shopify, más rápida y diseñada para vender.',
     ideal: 'Tiendas online que buscan más conversión',
@@ -61,7 +58,8 @@ const SERVICES: Service[] = [
     ctaLabel: 'Ver detalle',
   },
   {
-    Icon: WandSparklesIcon,
+    Icon: AutomationFlow,
+    label: 'Automatización',
     title: 'Automatizaciones',
     description: 'Recupera hasta 30 horas semanales eliminando tareas manuales.',
     ideal: 'Cualquier empresa con procesos repetitivos',
@@ -73,7 +71,8 @@ const SERVICES: Service[] = [
     ctaLabel: 'Ver detalle',
   },
   {
-    Icon: CodeIcon,
+    Icon: WebGrowth,
+    label: 'Web',
     title: 'Páginas Web con IA',
     description: 'Un sitio que se adapta a cada visitante y trabaja por ti.',
     ideal: 'Empresas que necesitan presencia digital moderna',
@@ -84,7 +83,8 @@ const SERVICES: Service[] = [
     ctaLabel: 'Ver detalle',
   },
   {
-    Icon: BrainCircuitIcon,
+    Icon: NodeNetwork,
+    label: 'A medida',
     title: 'Soluciones a Medida',
     description: '¿Tu desafío no entra en una caja? Lo diseñamos contigo.',
     ideal: 'Empresas con necesidades específicas',
@@ -95,63 +95,43 @@ const SERVICES: Service[] = [
   },
 ];
 
+function Arrow() {
+  return (
+    <svg className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+      <path strokeLinecap="round" strokeLinejoin="round" d="M5 12h14M13 6l6 6-6 6" />
+    </svg>
+  );
+}
+
 export function ServicesSection() {
   const { uf, loading, isFallback, fecha } = useUF();
-  const [unidad, setUnidad] = useState('UF');
-
-  const notaEquivalente =
-    'Equivalente en pesos con la UF de hoy: ' +
-    (loading ? 'cargando…' : formatCLP(uf)) +
-    (isFallback ? ' (aprox.)' : fecha ? ' (al ' + fecha.slice(0, 10) + ')' : '') +
-    '. Precios referenciales, se confirman en tu reunión.';
 
   return (
-    <section id="servicios" className="py-20 md:py-28">
+    <section id="servicios" className="bg-[#f4f3f0] text-neutral-900 py-24 md:py-32">
       <div className="container mx-auto px-6">
-        <div className="text-center mb-12 md:mb-16">
-          <h2 className="text-3xl md:text-4xl font-semibold text-white">
+        {/* Encabezado editorial, alineado a la izquierda */}
+        <div className="max-w-3xl">
+          <div className="flex items-center gap-2 text-sm font-medium text-neutral-500">
+            <span className="h-1.5 w-1.5 rounded-full bg-[var(--galaxy-accent)]" />
+            Servicios
+          </div>
+          <h2 className="font-display text-4xl md:text-6xl font-semibold tracking-tight leading-[1.03] mt-5">
             Servicios y precios claros. Sin sorpresas.
           </h2>
-          <p className="text-white/70 text-lg mt-4 max-w-2xl mx-auto">
-            Precios de referencia en UF, la unidad estable de Chile. El valor final se confirma en
-            tu reunión, según el alcance real de tu proyecto.
+          <p className="text-neutral-500 text-lg mt-5 max-w-xl">
+            Precios de referencia en UF, la unidad estable de Chile. El valor final se confirma en tu
+            reunión, según el alcance real de tu proyecto.
+          </p>
+          <p className="text-neutral-400 text-sm mt-4">
+            El equivalente en pesos se calcula con la UF de hoy
+            {loading ? '…' : ': ' + formatCLP(uf)}
+            {isFallback ? ' (aprox.)' : fecha ? ' (al ' + fecha.slice(0, 10) + ')' : ''}. Valores
+            referenciales.
           </p>
         </div>
 
-        <div className="flex justify-end mb-4">
-          <div className="inline-flex gap-1 rounded-xl p-1">
-            <button
-              type="button"
-              onClick={() => setUnidad('UF')}
-              aria-pressed={unidad === 'UF'}
-              className={
-                'px-4 py-1.5 rounded-lg text-sm font-medium transition-colors ' +
-                (unidad === 'UF'
-                  ? 'bg-[var(--galaxy-accent)] text-[color:var(--galaxy-on-accent)]'
-                  : 'border border-white/15 text-white/70')
-              }
-            >
-              UF
-            </button>
-            <button
-              type="button"
-              onClick={() => setUnidad('CLP')}
-              aria-pressed={unidad === 'CLP'}
-              className={
-                'px-4 py-1.5 rounded-lg text-sm font-medium transition-colors ' +
-                (unidad === 'CLP'
-                  ? 'bg-[var(--galaxy-accent)] text-[color:var(--galaxy-on-accent)]'
-                  : 'border border-white/15 text-white/70')
-              }
-            >
-              CLP
-            </button>
-          </div>
-        </div>
-
-        <p className="text-white/60 text-sm mb-8">{notaEquivalente}</p>
-
-        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+        {/* Grilla de servicios */}
+        <div className="grid gap-5 md:grid-cols-2 lg:grid-cols-3 mt-14">
           {SERVICES.map((service) => {
             const { Icon } = service;
             const clp = ufToCLP(service.priceUF, uf);
@@ -159,62 +139,59 @@ export function ServicesSection() {
               <div
                 key={service.title}
                 className={
-                  'relative flex flex-col bg-white/[0.03] border rounded-2xl p-6 backdrop-blur-sm hover:border-white/20 transition-colors ' +
-                  (service.featured ? 'border-[color:var(--galaxy-accent)]' : 'border-white/10')
+                  'group relative flex flex-col rounded-3xl bg-white p-8 transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_12px_50px_rgba(0,0,0,0.08)] ' +
+                  (service.featured
+                    ? 'ring-1 ring-[color:var(--galaxy-accent)] shadow-[0_8px_40px_rgba(0,0,0,0.06)]'
+                    : 'border border-black/[0.07]')
                 }
               >
                 {service.featured && (
-                  <span className="absolute -top-3 left-6 bg-[color:var(--galaxy-accent)]/10 text-[color:var(--galaxy-accent)] border border-[color:var(--galaxy-accent)]/30 rounded-full px-3 py-1 text-xs font-medium">
+                  <span className="absolute right-6 top-6 text-[color:var(--galaxy-accent)] text-[11px] font-semibold tracking-[0.12em] uppercase">
                     Más solicitado
                   </span>
                 )}
 
-                <Icon className="h-7 w-7 text-[color:var(--galaxy-accent)]" />
-                <h3 className="text-lg font-semibold text-white mt-4">{service.title}</h3>
-                <p className="text-white/70 text-sm mt-2">{service.description}</p>
-                <p className="text-white/50 text-xs mt-2">Ideal para: {service.ideal}</p>
+                <IconBadge Icon={Icon} />
+                <span className="mt-5 block text-[11px] font-semibold uppercase tracking-[0.16em] text-neutral-400">
+                  {service.label}
+                </span>
+                <h3 className="font-display text-xl font-semibold mt-1">{service.title}</h3>
+                <p className="text-neutral-500 text-sm mt-2">{service.description}</p>
+                <p className="text-neutral-400 text-xs mt-3">Ideal para: {service.ideal}</p>
 
-                <ul className="mt-4 space-y-2">
+                <ul className="mt-5 space-y-2 flex-1">
                   {service.benefits.map((benefit) => (
-                    <li key={benefit} className="flex items-start gap-2 text-sm text-white/80">
-                      <CheckCircleIcon className="h-4 w-4 text-[color:var(--galaxy-accent)] shrink-0 mt-0.5" />
+                    <li key={benefit} className="flex items-start gap-2 text-sm text-neutral-700">
+                      <SparkCheck className="h-4 w-4 text-[color:var(--galaxy-accent)] shrink-0 mt-0.5" />
                       <span>{benefit}</span>
                     </li>
                   ))}
                 </ul>
 
-                <div className="mt-6">
-                  {unidad === 'UF' ? (
-                    <>
-                      <p className="text-2xl font-bold text-[color:var(--galaxy-accent)]">
-                        desde {formatUF(service.priceUF)}
-                      </p>
-                      <p className="text-white/50 text-sm mt-1">≈ {formatCLP(clp)}</p>
-                    </>
-                  ) : (
-                    <>
-                      <p className="text-2xl font-bold text-[color:var(--galaxy-accent)]">
-                        desde {formatCLP(clp)}
-                      </p>
-                      <p className="text-white/50 text-sm mt-1">≈ {formatUF(service.priceUF)}</p>
-                    </>
-                  )}
-                </div>
-
-                <div className="mt-6">
+                <div className="mt-6 pt-6 border-t border-black/[0.07] flex items-end justify-between gap-4">
+                  <div>
+                    <p className="font-display text-3xl font-semibold leading-none">
+                      desde {formatUF(service.priceUF)}
+                    </p>
+                    <p className="text-neutral-400 text-sm mt-1.5">
+                      ≈ {loading ? '…' : formatCLP(clp)} hoy
+                    </p>
+                  </div>
                   {service.cta === 'cal' ? (
                     <CalButton
                       calLink="iaenblanco/15min"
-                      className="border border-white/15 text-white hover:border-[color:var(--galaxy-accent)] rounded-lg px-4 py-2 text-sm inline-block transition-colors"
+                      className="shrink-0 inline-flex items-center gap-1.5 rounded-full bg-neutral-900 text-white px-4 py-2 text-sm font-medium hover:bg-neutral-700 transition-colors"
                     >
                       {service.ctaLabel}
+                      <Arrow />
                     </CalButton>
                   ) : (
                     <Link
                       href={service.href!}
-                      className="border border-white/15 text-white hover:border-[color:var(--galaxy-accent)] rounded-lg px-4 py-2 text-sm inline-block transition-colors"
+                      className="shrink-0 inline-flex items-center gap-1.5 rounded-full bg-neutral-900 text-white px-4 py-2 text-sm font-medium hover:bg-neutral-700 transition-colors"
                     >
                       {service.ctaLabel}
+                      <Arrow />
                     </Link>
                   )}
                 </div>
@@ -223,15 +200,17 @@ export function ServicesSection() {
           })}
         </div>
 
-        <div className="text-center mt-16">
-          <p className="text-white/70 text-lg mb-6">
-            ¿No sabes cuál necesitas? Agenda 15 min y te orientamos.
+        {/* CTA de sección */}
+        <div className="mt-14 flex flex-col sm:flex-row sm:items-center gap-6">
+          <p className="text-neutral-600 text-lg max-w-md">
+            ¿No sabes cuál necesitas? Agenda 15 minutos y te orientamos, sin compromiso.
           </p>
           <CalButton
             calLink="iaenblanco/15min"
-            className="bg-[var(--galaxy-accent)] text-[color:var(--galaxy-on-accent)] font-semibold px-8 py-3 rounded-xl hover:brightness-110 inline-block"
+            className="shrink-0 inline-flex items-center gap-2 rounded-full bg-[var(--galaxy-accent)] text-[color:var(--galaxy-on-accent)] px-7 py-3.5 font-medium hover:brightness-110 transition"
           >
             Agendar reunión gratis
+            <Arrow />
           </CalButton>
         </div>
       </div>

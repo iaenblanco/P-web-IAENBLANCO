@@ -124,10 +124,14 @@ function GalaxyThemeSelector({ themeId, setThemeId, variant }: { themeId: string
 function HeroContent() {
   return (
     <div className="text-left text-white pt-16 sm:pt-24 md:pt-32 px-4 max-w-3xl">
-      <h1 className="text-3xl sm:text-5xl md:text-7xl font-bold mb-4 leading-tight tracking-wide">
-        Creamos el futuro <br className="sm:hidden" />de tu negocio<br className="sm:hidden" /> con Inteligencia Artificial.
+      <div className="inline-flex items-center gap-2 text-sm font-medium text-white/70 mb-5">
+        <span className="h-1.5 w-1.5 rounded-full bg-[var(--galaxy-accent)]" />
+        Agencia chilena de IA · Growth · Automatización
+      </div>
+      <h1 className="font-display text-4xl sm:text-6xl md:text-7xl font-medium mb-5 leading-[1.05] tracking-tight">
+        Creamos el futuro de tu negocio con Inteligencia Artificial.
       </h1>
-      <p className="text-base sm:text-lg md:text-xl mb-6 sm:mb-8 opacity-80 max-w-xl">
+      <p className="text-base sm:text-lg md:text-xl mb-6 sm:mb-8 text-white/75 max-w-xl">
         Transformamos empresas con soluciones innovadoras de IA: desde automatizaciones inteligentes y chatbots hasta páginas web a medida. Hacemos que la tecnología trabaje para ti.
       </p>
       <div className="flex pointer-events-auto flex-col sm:flex-row items-start space-y-3 sm:space-y-0 sm:space-x-3">
@@ -155,6 +159,7 @@ function Navbar({ themeId, setThemeId }: { themeId: string; setThemeId: (id: str
     soluciones: false,
     recursos: false,
   });
+  const [scrolled, setScrolled] = useState(false);
 
   const handleMouseEnterNavItem = (item: string) => setHoveredNavItem(item);
   const handleMouseLeaveNavItem = () => setHoveredNavItem(null);
@@ -183,6 +188,13 @@ function Navbar({ themeId, setThemeId }: { themeId: string; setThemeId: (id: str
      return `text-sm transition duration-150 ${colorClass} ${extraClasses}`;
   };
 
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > window.innerHeight * 0.85);
+    onScroll();
+    window.addEventListener('scroll', onScroll, { passive: true });
+    return () => window.removeEventListener('scroll', onScroll);
+  }, []);
+
    useEffect(() => {
     const handleResize = () => {
       if (window.innerWidth >= 1024 && isMobileMenuOpen) {
@@ -199,7 +211,7 @@ function Navbar({ themeId, setThemeId }: { themeId: string; setThemeId: (id: str
   }, [isMobileMenuOpen]);
 
   return (
-    <nav className="fixed top-0 left-0 right-0 z-20" style={{ backgroundColor: 'rgba(13, 13, 24, 0.3)', backdropFilter: 'blur(8px)', WebkitBackdropFilter: 'blur(8px)', borderRadius: '0 0 15px 15px' }}>
+    <nav className="fixed top-0 left-0 right-0 z-20 transition-all duration-300" style={{ backgroundColor: scrolled ? 'rgba(10, 10, 15, 0.92)' : 'rgba(13, 13, 24, 0.3)', backdropFilter: 'blur(8px)', WebkitBackdropFilter: 'blur(8px)', borderRadius: '0 0 15px 15px', boxShadow: scrolled ? '0 10px 30px rgba(0, 0, 0, 0.18)' : 'none' }}>
       <div className="container mx-auto px-4 py-4 md:px-6 lg:px-8 flex items-center justify-between">
         <div className="flex items-center space-x-6 lg:space-x-8">
           <Link href="/" aria-label="IAenBlanco - Inicio" className="block">

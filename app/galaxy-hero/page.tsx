@@ -20,7 +20,7 @@ export const metadata: Metadata = {
 
 export default function NuevaHomePage() {
   return (
-    <main className="bg-[#060810] text-white">
+    <main className="bg-[#f4f3f0] text-neutral-900">
       <HeroSection />
       <TrustBar />
       <ValueProps />
@@ -30,7 +30,9 @@ export default function NuevaHomePage() {
       <Guarantees />
       <FAQ />
       <FinalCTA />
-      <Footer />
+      <div className="bg-[#0a0a0f]">
+        <Footer />
+      </div>
     </main>
   )
 }
