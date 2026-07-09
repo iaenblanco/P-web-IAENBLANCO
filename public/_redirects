@@ -2,8 +2,16 @@
 /sitemap.xml    /sitemap.xml    200
 /robots.txt    /robots.txt    200
 
-# Handle API routes
-/api/*    /api/:splat    200
+# Redirect retired content
+/soluciones/paginas-web-ia/    /servicios/desarrollo-web-ia/    301
+/soluciones/diseno-shopify/    /servicios/desarrollo-web-ia/    301
+/soluciones/chatbots-asistentes/    /servicios/soluciones-ia-medida/    301
+/soluciones/soluciones-medida/    /servicios/soluciones-ia-medida/    301
+/soluciones/automatizaciones/    /servicios/automatizaciones/    301
+/soluciones/auditoria-sitios-personalizada/    /#servicios    301
+/soluciones/    /#servicios    301
+/casos-exito/    /    301
+/recursos/*    /    301
 
 # Handle static assets
 /_next/static/*    /_next/static/:splat    200

@@ -1,106 +1,42 @@
-import { MetadataRoute } from 'next'
+import type { MetadataRoute } from 'next'
+import { services, SITE_URL } from '@/lib/site'
 
 export const dynamic = 'force-static'
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://iaenblanco.com'
-
-  return [
-    // Homepage
+  const staticRoutes: MetadataRoute.Sitemap = [
     {
-      url: baseUrl,
-      lastModified: new Date(),
-      changeFrequency: 'weekly',
+      url: `${SITE_URL}/`,
+      changeFrequency: 'monthly',
       priority: 1,
     },
-    // Soluciones
     {
-      url: `${baseUrl}/soluciones`,
-      lastModified: new Date(),
-      changeFrequency: 'weekly',
-      priority: 0.9,
-    },
-    {
-      url: `${baseUrl}/soluciones/paginas-web-ia`,
-      lastModified: new Date(),
+      url: `${SITE_URL}/productos/`,
       changeFrequency: 'monthly',
-      priority: 0.8,
+      priority: 0.85,
     },
     {
-      url: `${baseUrl}/soluciones/diseno-shopify`,
-      lastModified: new Date(),
-      changeFrequency: 'monthly',
-      priority: 0.8,
-    },
-    {
-      url: `${baseUrl}/soluciones/chatbots-asistentes`,
-      lastModified: new Date(),
-      changeFrequency: 'monthly',
-      priority: 0.8,
-    },
-    {
-      url: `${baseUrl}/soluciones/soluciones-medida`,
-      lastModified: new Date(),
-      changeFrequency: 'monthly',
-      priority: 0.8,
-    },
-    {
-      url: `${baseUrl}/soluciones/auditoria-sitios-personalizada`,
-      lastModified: new Date(),
-      changeFrequency: 'monthly',
-      priority: 0.8,
-    },
-    {
-      url: `${baseUrl}/soluciones/automatizaciones`,
-      lastModified: new Date(),
-      changeFrequency: 'monthly',
-      priority: 0.8,
-    },
-    // Recursos
-    {
-      url: `${baseUrl}/recursos`,
-      lastModified: new Date(),
-      changeFrequency: 'weekly',
-      priority: 0.8,
-    },
-    {
-      url: `${baseUrl}/recursos/ruta-aprendizaje`,
-      lastModified: new Date(),
-      changeFrequency: 'weekly',
-      priority: 0.9,
-    },
-    {
-      url: `${baseUrl}/recursos/generador-ideas`,
-      lastModified: new Date(),
-      changeFrequency: 'weekly',
-      priority: 0.9,
-    },
-    // Casos de Éxito
-    {
-      url: `${baseUrl}/casos-exito`,
-      lastModified: new Date(),
-      changeFrequency: 'weekly',
-      priority: 0.8,
-    },
-    // Contacto
-    {
-      url: `${baseUrl}/contacto`,
-      lastModified: new Date(),
-      changeFrequency: 'monthly',
+      url: `${SITE_URL}/contacto/`,
+      changeFrequency: 'yearly',
       priority: 0.7,
     },
-    // Legal
     {
-      url: `${baseUrl}/terminos`,
-      lastModified: new Date(),
-      changeFrequency: 'monthly',
-      priority: 0.5,
+      url: `${SITE_URL}/privacidad/`,
+      changeFrequency: 'yearly',
+      priority: 0.3,
     },
     {
-      url: `${baseUrl}/privacidad`,
-      lastModified: new Date(),
-      changeFrequency: 'monthly',
-      priority: 0.5,
+      url: `${SITE_URL}/terminos/`,
+      changeFrequency: 'yearly',
+      priority: 0.3,
     },
   ]
+
+  const serviceRoutes: MetadataRoute.Sitemap = services.map((service) => ({
+    url: `${SITE_URL}/servicios/${service.slug}/`,
+    changeFrequency: 'monthly',
+    priority: 0.9,
+  }))
+
+  return [...staticRoutes, ...serviceRoutes]
 }

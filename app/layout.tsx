@@ -1,33 +1,84 @@
-import type { Metadata } from 'next'
+import type { Metadata, Viewport } from 'next'
+import { IBM_Plex_Mono, Instrument_Sans } from 'next/font/google'
 import './globals.css'
+import { CustomCursor } from '@/components/CustomCursor'
+import { Footer } from '@/components/Footer'
 import { GoogleTagManager } from '@/components/GoogleTagManager'
-import { GalaxyThemeProvider } from '@/components/theme/GalaxyThemeProvider'
-import { themeInitScript } from '@/components/theme/galaxy-theme'
+import { Header } from '@/components/Header'
+import {
+  CONTACT_EMAIL,
+  services,
+  SITE_URL,
+  socialLinks,
+} from '@/lib/site'
+
+const instrumentSans = Instrument_Sans({
+  subsets: ['latin'],
+  variable: '--font-sans',
+  display: 'swap',
+})
+
+const ibmPlexMono = IBM_Plex_Mono({
+  subsets: ['latin'],
+  weight: ['400', '500'],
+  variable: '--font-mono',
+  display: 'swap',
+})
 
 export const metadata: Metadata = {
-  title: 'IAenBlanco SpA | Soluciones y Desarrollo con Inteligencia Artificial',
-  description: 'Creamos soluciones web a medida, ofrecemos consultoría y te enseñamos sobre el poder de la IA para transformar tu negocio.',
-  keywords: 'inteligencia artificial, IA, desarrollo web, consultoría IA, machine learning, automatización, transformación digital',
-  authors: [{ name: 'IAenBlanco SpA' }],
+  metadataBase: new URL(SITE_URL),
+  title: {
+    default: 'IAenBlanco | Inteligencia artificial en operación',
+    template: '%s | IAenBlanco',
+  },
+  description:
+    'Diseñamos sitios web, plataformas, automatizaciones y soluciones de inteligencia artificial conectadas con operaciones reales.',
+  keywords: [
+    'inteligencia artificial para empresas',
+    'soluciones de IA a medida',
+    'desarrollo web con IA',
+    'desarrollo Shopify',
+    'software a medida',
+    'automatización de procesos',
+  ],
+  authors: [{ name: 'IAenBlanco SpA', url: SITE_URL }],
   creator: 'IAenBlanco SpA',
   publisher: 'IAenBlanco SpA',
-  openGraph: {
-    title: 'IAenBlanco SpA | Soluciones y Desarrollo con Inteligencia Artificial',
-    description: 'Creamos soluciones web a medida, ofrecemos consultoría y te enseñamos sobre el poder de la IA para transformar tu negocio.',
-    url: process.env.NEXT_PUBLIC_SITE_URL || 'https://iaenblanco.com',
-    siteName: 'IAenBlanco SpA',
-    locale: 'es_CL',
-    type: 'website',
+  manifest: '/manifest.json',
+  icons: {
+    icon: [
+      { url: '/favicon.ico', sizes: 'any' },
+      { url: '/icon-192x192.png', sizes: '192x192', type: 'image/png' },
+      { url: '/icon-512x512.png', sizes: '512x512', type: 'image/png' },
+    ],
+    apple: [{ url: '/apple-touch-icon.png', sizes: '180x180', type: 'image/png' }],
   },
-  other: {
-    country_name: 'Chile',
-    locality: 'Santiago',
+  alternates: {
+    canonical: '/',
+  },
+  openGraph: {
+    type: 'website',
+    locale: 'es_CL',
+    url: SITE_URL,
+    siteName: 'IAenBlanco',
+    title: 'IAenBlanco | Inteligencia artificial en operación',
+    description:
+      'Sistemas web, automatizaciones y soluciones de IA construidas alrededor de tu operación.',
+    images: [
+      {
+        url: '/logo.png',
+        width: 1024,
+        height: 1024,
+        alt: 'IAenBlanco',
+      },
+    ],
   },
   twitter: {
-    card: 'summary_large_image',
-    title: 'IAenBlanco SpA | Soluciones y Desarrollo con Inteligencia Artificial',
-    description: 'Creamos soluciones web a medida, ofrecemos consultoría y te enseñamos sobre el poder de la IA para transformar tu negocio.',
-    creator: '@iaenblanco',
+    card: 'summary',
+    title: 'IAenBlanco | Inteligencia artificial en operación',
+    description:
+      'Sistemas web, automatizaciones y soluciones de IA construidas alrededor de tu operación.',
+    images: ['/logo.png'],
   },
   robots: {
     index: true,
@@ -35,139 +86,74 @@ export const metadata: Metadata = {
     googleBot: {
       index: true,
       follow: true,
-      'max-video-preview': -1,
       'max-image-preview': 'large',
       'max-snippet': -1,
+      'max-video-preview': -1,
     },
   },
-  verification: {
-    google: 'tu-codigo-de-verificacion-google-search-console',
-  },
-  icons: {
-    icon: [
-      { url: '/favicon.ico', sizes: 'any' },
-      { url: '/icon-192x192.png', sizes: '192x192', type: 'image/png' },
-      { url: '/icon-512x512.png', sizes: '512x512', type: 'image/png' },
-    ],
-    apple: [
-      { url: '/apple-touch-icon.png', sizes: '180x180', type: 'image/png' },
-    ],
-  },
-  manifest: '/manifest.json',
 }
 
-export default function RootLayout({
-  children,
-}: {
-  children: React.ReactNode
-}) {
-  const jsonLd = {
-    '@context': 'https://schema.org',
-    '@graph': [
-      {
-        '@type': 'Organization',
-        '@id': `${process.env.NEXT_PUBLIC_SITE_URL || 'https://iaenblanco.com'}/#organization`,
-        name: 'IAenBlanco SpA',
-        legalName: 'IAenBlanco SpA',
-        taxID: '784038610',
-        address: {
-          '@type': 'PostalAddress',
-          streetAddress: 'Badajoz 100 Of 1014',
-          addressLocality: 'Las Condes, Santiago',
-          addressCountry: 'CL',
-        },
-        url: process.env.NEXT_PUBLIC_SITE_URL || 'https://iaenblanco.com',
-        logo: {
-          '@type': 'ImageObject',
-          url: `${process.env.NEXT_PUBLIC_SITE_URL || 'https://iaenblanco.com'}/logo.png`,
-          width: 512,
-          height: 512,
-        },
-        description: 'Especialistas en soluciones de Inteligencia Artificial para transformación digital de negocios.',
-        foundingDate: '2024',
-        contactPoint: {
-          '@type': 'ContactPoint',
-          telephone: '+56-9-XXXX-XXXX',
-          contactType: 'customer service',
-          email: 'contacto@iaenblanco.com',
-          availableLanguage: 'Spanish',
-        },
-        sameAs: [
-          'https://linkedin.com/company/iaenblanco',
-          'https://twitter.com/iaenblanco',
-          process.env.NEXT_PUBLIC_SITE_URL || 'https://iaenblanco.com',
-        ],
-      },
-      {
-        '@type': 'WebSite',
-        '@id': `${process.env.NEXT_PUBLIC_SITE_URL || 'https://iaenblanco.com'}/#website`,
-        url: process.env.NEXT_PUBLIC_SITE_URL || 'https://iaenblanco.com',
-        name: 'IAenBlanco SpA - Soluciones con IA',
-        description: 'Creamos soluciones web a medida con Inteligencia Artificial',
-        publisher: {
-          '@id': `${process.env.NEXT_PUBLIC_SITE_URL || 'https://iaenblanco.com'}/#organization`,
-        },
-        potentialAction: {
-          '@type': 'SearchAction',
-          target: {
-            '@type': 'EntryPoint',
-            urlTemplate: `${process.env.NEXT_PUBLIC_SITE_URL || 'https://iaenblanco.com'}/search?q={search_term_string}`,
-          },
-          'query-input': 'required name=search_term_string',
-        },
-      },
-      {
-        '@type': 'Service',
-        name: 'Desarrollo Web con IA',
-        description: 'Integramos IA para crear sitios web dinámicos y personalizados',
-        provider: {
-          '@id': `${process.env.NEXT_PUBLIC_SITE_URL || 'https://iaenblanco.com'}/#organization`,
-        },
-        serviceType: 'Web Development',
-        category: 'Inteligencia Artificial',
-      },
-      {
-        '@type': 'Service',
-        name: 'Consultoría IA',
-        description: 'Análisis estratégico y recomendaciones de implementación de IA',
-        provider: {
-          '@id': `${process.env.NEXT_PUBLIC_SITE_URL || 'https://iaenblanco.com'}/#organization`,
-        },
-        serviceType: 'Consulting',
-        category: 'Inteligencia Artificial',
-      },
-      {
-        '@type': 'Service',
-        name: 'Automatizaciones',
-        description: 'Automatización de procesos empresariales para reducir costos y aumentar eficiencia. Diseñadas con IA.',
-        provider: {
-          '@id': `${process.env.NEXT_PUBLIC_SITE_URL || 'https://iaenblanco.com'}/#organization`,
-        },
-        serviceType: 'Automation',
-        category: 'Inteligencia Artificial',
-      },
-    ],
-  }
+export const viewport: Viewport = {
+  themeColor: '#f4f2ec',
+  colorScheme: 'light',
+}
 
-  // Obtener GTM ID de variables de entorno o usar valor por defecto
+const organizationSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Organization',
+  '@id': `${SITE_URL}/#organization`,
+  name: 'IAenBlanco SpA',
+  url: SITE_URL,
+  logo: `${SITE_URL}/logo.png`,
+  email: CONTACT_EMAIL,
+  contactPoint: {
+    '@type': 'ContactPoint',
+    telephone: '+56 9 7768 4800',
+    contactType: 'sales',
+    availableLanguage: ['Spanish'],
+  },
+  address: {
+    '@type': 'PostalAddress',
+    streetAddress: 'Badajoz 100 Of 1014',
+    addressLocality: 'Las Condes',
+    addressRegion: 'Santiago',
+    addressCountry: 'CL',
+  },
+  areaServed: 'Latin America',
+  sameAs: [socialLinks.linkedin, socialLinks.instagram],
+  hasOfferCatalog: {
+    '@type': 'OfferCatalog',
+    name: 'Servicios de IAenBlanco',
+    itemListElement: services.map((service) => ({
+      '@type': 'Offer',
+      itemOffered: {
+        '@type': 'Service',
+        name: service.title,
+        description: service.seoDescription,
+        url: `${SITE_URL}/servicios/${service.slug}/`,
+      },
+    })),
+  },
+}
+
+export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   const gtmId = process.env.NEXT_PUBLIC_GTM_ID || 'GTM-5MNF9G4Z'
 
   return (
-    <html lang="es" suppressHydrationWarning>
-      <head>
+    <html lang="es" className={`${instrumentSans.variable} ${ibmPlexMono.variable}`}>
+      <body>
+        <a className="skip-link" href="#contenido">
+          Saltar al contenido
+        </a>
+        {process.env.NODE_ENV === 'production' ? <GoogleTagManager gtmId={gtmId} /> : null}
+        <Header />
+        {children}
+        <Footer />
+        <CustomCursor />
         <script
           type="application/ld+json"
-          dangerouslySetInnerHTML={{
-            __html: JSON.stringify(jsonLd),
-          }}
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationSchema) }}
         />
-        {/* Tema global: setea el acento desde localStorage antes del primer pintado (evita FOUC y persiste al navegar) */}
-        <script dangerouslySetInnerHTML={{ __html: themeInitScript() }} />
-      </head>
-      <body className="font-sans">
-        {/* Google Tag Manager - Se inyecta automáticamente en el head */}
-        {gtmId && <GoogleTagManager gtmId={gtmId} />}
-        <GalaxyThemeProvider>{children}</GalaxyThemeProvider>
       </body>
     </html>
   )

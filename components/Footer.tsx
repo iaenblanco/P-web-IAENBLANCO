@@ -1,48 +1,86 @@
-import React from 'react';
+import Image from 'next/image'
+import Link from 'next/link'
+import {
+  CONTACT_EMAIL,
+  services,
+  socialLinks,
+  WHATSAPP_URL,
+} from '@/lib/site'
 
-export const Footer: React.FC = () => {
+function ArrowUpRight() {
   return (
-    <footer className="border-t border-white/10 mt-12 bg-black/20 backdrop-blur-sm">
-      <div className="container mx-auto px-6 py-12">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-start">
-          {/* Columna Izquierda: Identidad y Datos Legales */}
-          <div className="text-left space-y-4">
-            <address className="not-italic text-gray-400 space-y-1">
-              <p className="text-white font-bold text-lg mb-2">IAenBlanco SpA</p>
-              <p>Badajoz 100 Of 1014,</p>
-              <p>Las Condes, Santiago, Chile.</p>
-              <p className="text-cyan-400/80 font-mono text-sm mt-2">RUT: 78.403.861-0</p>
-            </address>
+    <svg viewBox="0 0 20 20" fill="none" aria-hidden="true">
+      <path d="M5 15 15 5M7 5h8v8" stroke="currentColor" strokeWidth="1.5" />
+    </svg>
+  )
+}
+
+export function Footer() {
+  return (
+    <footer className="site-footer">
+      <div className="site-footer__signal" aria-hidden="true">
+        <span />
+        <span />
+        <span />
+      </div>
+
+      <div className="site-footer__inner">
+        <div className="site-footer__top">
+          <div className="site-footer__statement">
+            <div className="footer-logo">
+              <Image src="/logo.png" width={1024} height={1024} alt="IAenBlanco" />
+            </div>
+            <p className="eyebrow eyebrow--dark">IA aplicada a operaciones reales</p>
+            <h2>Construyamos el sistema que tu negocio necesita.</h2>
+            <a
+              href={WHATSAPP_URL}
+              target="_blank"
+              rel="noreferrer"
+              className="footer-primary-link"
+              data-cursor="Hablemos"
+            >
+              Iniciar conversación
+              <ArrowUpRight />
+            </a>
           </div>
 
-          {/* Columna Derecha: Navegación Legal y Contacto */}
-          <div className="md:text-right flex flex-col md:items-end space-y-4">
-            <nav className="flex flex-col md:flex-row gap-4 md:gap-8 text-sm">
-              <a href="/terminos" className="text-gray-400 hover:text-cyan-400 transition-colors">Términos y Condiciones</a>
-              <a href="/privacidad" className="text-gray-400 hover:text-cyan-400 transition-colors">Política de Privacidad</a>
-            </nav>
-            
-            <p className="text-sm">
-              <a href="mailto:contacto@iaenblanco.com" className="text-gray-300 hover:text-cyan-400 transition-colors flex items-center md:justify-end gap-2">
-                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-                </svg>
-                contacto@iaenblanco.com
+          <div className="site-footer__nav">
+            <div>
+              <p>Navegación</p>
+              <Link href="/">Inicio</Link>
+              <Link href="/productos">Productos</Link>
+              <Link href="/contacto">Contacto</Link>
+            </div>
+            <div>
+              <p>Servicios</p>
+              {services.map((service) => (
+                <Link key={service.slug} href={`/servicios/${service.slug}`}>
+                  {service.shortTitle}
+                </Link>
+              ))}
+            </div>
+            <div>
+              <p>Conecta</p>
+              <a href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a>
+              <a href={socialLinks.linkedin} target="_blank" rel="noreferrer">
+                LinkedIn
               </a>
-            </p>
+              <a href={socialLinks.instagram} target="_blank" rel="noreferrer">
+                Instagram
+              </a>
+            </div>
           </div>
         </div>
 
-        {/* Copyright Inferior */}
-        <div className="mt-12 pt-8 border-t border-white/5 text-center">
-          <p className="text-gray-500 text-sm">
-            &copy; 2026 IAenBlanco SpA &middot; RUT 78.403.861-0 &middot; Las Condes, Santiago, Chile
-          </p>
-          <p className="text-gray-600 text-xs mt-2 italic">
-            Construyendo el futuro, una línea de código a la vez.
-          </p>
+        <div className="site-footer__bottom">
+          <p>© {new Date().getFullYear()} IAenBlanco SpA</p>
+          <div>
+            <Link href="/privacidad">Privacidad</Link>
+            <Link href="/terminos">Términos</Link>
+          </div>
+          <p>Chile · Latinoamérica</p>
         </div>
       </div>
     </footer>
-  );
-};
+  )
+}

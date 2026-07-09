@@ -1,11 +1,11 @@
 {
-  "name": "IAenBlanco SpA - Soluciones de IA",
-  "short_name": "IAenBlanco SpA",
-  "description": "Transformamos ideas en realidad con tecnología de vanguardia de Inteligencia Artificial",
+  "name": "IAenBlanco | Inteligencia artificial en operación",
+  "short_name": "IAenBlanco",
+  "description": "Sitios, plataformas, automatizaciones y soluciones de IA conectadas con operaciones reales.",
   "start_url": "/",
   "display": "standalone",
-  "background_color": "#000000",
-  "theme_color": "#00ffff",
+  "background_color": "#f4f2ec",
+  "theme_color": "#f4f2ec",
   "icons": [
     {
       "src": "/icon-192x192.png",

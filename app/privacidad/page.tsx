@@ -1,87 +1,110 @@
-'use client';
+import type { Metadata } from 'next'
+import { CONTACT_EMAIL, SITE_URL } from '@/lib/site'
 
-import React, { useState } from 'react';
-import { Header, Footer } from '@/components';
+export const metadata: Metadata = {
+  title: 'Política de privacidad',
+  description: 'Política de privacidad y tratamiento de datos del sitio de IAenBlanco SpA.',
+  alternates: {
+    canonical: `${SITE_URL}/privacidad/`,
+  },
+}
 
-export default function PrivacidadPage() {
-  const [currentBgClass, setCurrentBgClass] = useState('from-[#000428] to-[#004e92]');
+const sections = [
+  {
+    title: 'Responsable del tratamiento',
+    content: (
+      <p>
+        IAenBlanco SpA, RUT 78.403.861-0, con domicilio en Badajoz 100 Of 1014,
+        Las Condes, Santiago de Chile, es responsable del tratamiento de los datos
+        vinculados con este sitio.
+      </p>
+    ),
+  },
+  {
+    title: 'Información que podemos recibir',
+    content: (
+      <p>
+        Este sitio no utiliza formularios de contacto ni crea cuentas de usuario.
+        Podemos recibir los datos que decidas compartir voluntariamente al escribirnos
+        por correo electrónico o WhatsApp, como tu nombre, datos de contacto,
+        organización y antecedentes de un proyecto.
+      </p>
+    ),
+  },
+  {
+    title: 'Uso de la información',
+    content: (
+      <>
+        <p>Usamos esa información exclusivamente para:</p>
+        <ul>
+          <li>Responder consultas y evaluar posibles proyectos.</li>
+          <li>Preparar propuestas o coordinar la prestación de servicios.</li>
+          <li>Mantener comunicaciones vinculadas con una relación comercial.</li>
+          <li>Cumplir obligaciones legales o contractuales aplicables.</li>
+        </ul>
+      </>
+    ),
+  },
+  {
+    title: 'Medición y cookies',
+    content: (
+      <p>
+        Utilizamos Google Tag Manager y Google Analytics para comprender, de forma
+        agregada, cómo se utiliza el sitio. Estas herramientas pueden emplear cookies
+        o tecnologías similares y registrar información técnica como navegador,
+        dispositivo, páginas visitadas y origen aproximado de la sesión. Puedes
+        restringir las cookies desde la configuración de tu navegador.
+      </p>
+    ),
+  },
+  {
+    title: 'Servicios externos',
+    content: (
+      <p>
+        Los enlaces a WhatsApp, LinkedIn, Instagram y sitios de productos conducen
+        a servicios administrados por terceros. El tratamiento de datos que ocurra
+        allí se rige por las políticas de cada plataforma.
+      </p>
+    ),
+  },
+  {
+    title: 'Conservación y derechos',
+    content: (
+      <p>
+        Conservamos la información durante el tiempo necesario para atender la
+        consulta, mantener la relación comercial o cumplir obligaciones aplicables.
+        Puedes solicitar acceso, corrección o eliminación escribiendo a{' '}
+        <a href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a>.
+      </p>
+    ),
+  },
+]
 
-  const handleBackgroundChange = (bgClass: string) => {
-    setCurrentBgClass(bgClass);
-  };
-
+export default function PrivacyPage() {
   return (
-    <div className={`min-h-screen w-full text-white font-sans transition-all duration-500 bg-gradient-to-br ${currentBgClass}`}>
-      <div className="absolute inset-0 bg-black/30 backdrop-blur-sm"></div>
-      <div className="relative z-10 isolate">
-        <Header onBackgroundChange={handleBackgroundChange} />
-
-        <main className="pt-32 pb-20">
-          <div className="container mx-auto px-6">
-            <div className="max-w-4xl mx-auto bg-white/5 backdrop-blur-lg p-8 md:p-12 rounded-2xl border border-white/10 shadow-2xl">
-              <h1 className="text-4xl md:text-5xl font-bold mb-8 text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-purple-400">
-                Política de Privacidad
-              </h1>
-              
-              <div className="space-y-8 text-gray-300 leading-relaxed">
-                <section>
-                  <h2 className="text-2xl font-semibold text-white mb-4">1. Información que Recopilamos</h2>
-                  <p>
-                    En IAenBlanco SpA, RUT 78.403.861-0, con domicilio en Badajoz 100 Of 1014, Las Condes, Santiago, Chile, nos tomamos muy en serio su privacidad. Recopilamos información que usted nos proporciona directamente cuando completa formularios en nuestro sitio, se registra para servicios o se comunica con nosotros. Esto puede incluir su nombre, dirección de correo electrónico, número de teléfono e información de su empresa.
-                  </p>
-                </section>
-
-                <section>
-                  <h2 className="text-2xl font-semibold text-white mb-4">2. Uso de la Información</h2>
-                  <p>
-                    Utilizamos la información recopilada para:
-                  </p>
-                  <ul className="list-disc pl-6 mt-2 space-y-2">
-                    <li>Proporcionar, mantener y mejorar nuestros servicios.</li>
-                    <li>Responder a sus consultas y proporcionar servicio al cliente.</li>
-                    <li>Enviar comunicaciones técnicas, actualizaciones y mensajes administrativos.</li>
-                    <li>Comunicarnos con usted sobre productos, servicios y eventos que puedan ser de su interés.</li>
-                  </ul>
-                </section>
-
-                <section>
-                  <h2 className="text-2xl font-semibold text-white mb-4">3. Protección de Datos</h2>
-                  <p>
-                    Implementamos una variedad de medidas de seguridad para mantener la seguridad de su información personal. Utilizamos tecnologías de cifrado y firewalls para proteger contra el acceso no autorizado a nuestros sistemas.
-                  </p>
-                </section>
-
-                <section>
-                  <h2 className="text-2xl font-semibold text-white mb-4">4. Cookies</h2>
-                  <p>
-                    Nuestro sitio web utiliza cookies propias y de terceros (como el Píxel de Meta y Google Analytics) para mejorar la experiencia del usuario, medir el rendimiento del sitio y optimizar nuestras campañas de marketing. Estas herramientas nos permiten entender cómo interactúan los visitantes con nuestro contenido de forma agregada y anónima. Usted puede configurar su navegador para rechazar todas o algunas cookies, aunque esto podría afectar la funcionalidad de ciertas partes del sitio.
-                  </p>
-                </section>
-
-                <section>
-                  <h2 className="text-2xl font-semibold text-white mb-4">5. Compartir Información con Terceros</h2>
-                  <p>
-                    No vendemos, comercializamos ni transferimos de otro modo a terceros su información de identificación personal sin su consentimiento, excepto para el propósito expreso de entregar el producto o servicio solicitado.
-                  </p>
-                </section>
-
-                <section>
-                  <h2 className="text-2xl font-semibold text-white mb-4">6. Sus Derechos</h2>
-                  <p>
-                    Usted tiene derecho a solicitar acceso a la información personal que tenemos sobre usted, así como a solicitar la corrección o eliminación de dicha información. Para ejercer estos derechos, por favor contáctenos a través de contacto@iaenblanco.com.
-                  </p>
-                </section>
+    <main id="contenido" className="legal-page">
+      <div className="section-shell legal-page__layout">
+        <aside>
+          <p className="eyebrow">Documento legal</p>
+          <h1>Política de privacidad</h1>
+          <p>Última actualización<br />9 de julio de 2026</p>
+        </aside>
+        <article>
+          <p className="legal-page__intro">
+            Esta política explica qué información puede recibir IAenBlanco a través
+            de su sitio y cómo la utiliza.
+          </p>
+          {sections.map((section, index) => (
+            <section key={section.title}>
+              <span>0{index + 1}</span>
+              <div>
+                <h2>{section.title}</h2>
+                {section.content}
               </div>
-
-              <div className="mt-12 pt-8 border-t border-white/10 text-sm text-gray-400">
-                Última actualización: 13 de mayo de 2026
-              </div>
-            </div>
-          </div>
-        </main>
-
-        <Footer />
+            </section>
+          ))}
+        </article>
       </div>
-    </div>
-  );
+    </main>
+  )
 }

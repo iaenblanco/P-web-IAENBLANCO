@@ -1,125 +1,40 @@
-# 🚀 Despliegue en Cloudflare Pages
+# Despliegue en Cloudflare Pages
 
-## 📋 Requisitos previos
+El proyecto usa `output: 'export'`; no requiere un servidor Node ni funciones.
 
-1. **Cuenta en Cloudflare**: https://dash.cloudflare.com/
-2. **API Key de Gemini**: https://aistudio.google.com/app/apikey
-3. **Git instalado** (opcional pero recomendado)
+## Configuración del proyecto
 
-## 🔐 Configuración de Variables de Entorno
+- Production branch: `main`
+- Build command: `npm run build`
+- Build output directory: `out`
+- Root directory: `/`
 
-### Paso 1: Preparar tu API Key
-1. Ve a [Google AI Studio](https://aistudio.google.com/app/apikey)
-2. Crea una nueva API Key (o usa una existente)
-3. **IMPORTANTE**: Copia la API Key y guárdala en un lugar seguro
+## Variable de entorno
 
-### Paso 2: Configurar variables en Cloudflare
-1. Ve a tu [Dashboard de Cloudflare](https://dash.cloudflare.com/)
-2. Selecciona tu sitio web (Pages)
-3. Ve a **Settings** → **Environment variables**
-4. Añade la siguiente variable:
+Configura el contenedor de Google Tag Manager en producción:
 
-```
-Name: GEMINI_API_KEY
-Value: [tu_api_key_aqui_sin_comillas]
-Type: Encrypted
+```text
+NEXT_PUBLIC_GTM_ID=GTM-5MNF9G4Z
 ```
 
-⚠️ **IMPORTANTE**: Usa "Encrypted" para que tu API Key esté protegida.
+No se requieren otras variables.
 
-## 📦 Despliegue
+## Flujo recomendado
 
-### Opción 1: Despliegue desde GitHub (Recomendado)
+1. Ejecutar `npm install`.
+2. Ejecutar `npx tsc --noEmit`.
+3. Ejecutar `npm run build`.
+4. Revisar el contenido de `out/` localmente.
+5. Publicar solo después de validar diseño, contenido, enlaces y Analytics.
 
-1. **Sube tu código a GitHub**:
-   ```bash
-   git add .
-   git commit -m "Preparar para despliegue en Cloudflare"
-   git push origin main
-   ```
+## Dominio
 
-2. **Conecta Cloudflare Pages con GitHub**:
-   - Ve a [Cloudflare Pages Dashboard](https://dash.cloudflare.com/pages)
-   - Haz clic en "Create a project"
-   - Selecciona "Connect to Git"
-   - Elige tu repositorio de GitHub
+En Cloudflare Pages, agrega `iaenblanco.com` en **Custom domains** y conserva los
+registros DNS indicados por Cloudflare.
 
-3. **Configuración del build**:
-   ```
-   Production branch: main
-   Build command: npm run build
-   Build output directory: .next
-   Root directory: /
-   ```
+## Verificación posterior
 
-4. **Variables de entorno**: Asegúrate de configurar `GEMINI_API_KEY` como se explicó arriba
-
-5. **Deploy**: Haz clic en "Save and Deploy"
-
-### Opción 2: Despliegue directo desde archivos
-
-1. **Construye el proyecto localmente**:
-   ```bash
-   npm run build
-   ```
-
-2. **Sube la carpeta `.next`** a Cloudflare Pages usando su interfaz web
-
-## 🔒 Seguridad
-
-- ✅ Las variables de entorno están encriptadas en Cloudflare
-- ✅ El archivo `.env.local` está en `.gitignore`
-- ✅ Tu API Key nunca se expone en el código fuente
-- ✅ Las APIs están protegidas con validaciones
-
-## 🌐 Configuración del dominio
-
-Si quieres usar tu propio dominio:
-
-1. Ve a **Settings** → **Custom domains**
-2. Añade tu dominio
-3. Configura los registros DNS según las instrucciones de Cloudflare
-
-## 📊 Monitoreo
-
-Después del despliegue, puedes:
-- Ver logs en tiempo real en Cloudflare Dashboard
-- Configurar analytics
-- Monitorear el rendimiento
-
-## 🚨 Solución de problemas
-
-### Error 500 en las APIs
-- Verifica que `GEMINI_API_KEY` esté configurada correctamente
-- Asegúrate de que la API Key tenga permisos adecuados
-
-### Build fallando
-- Verifica que todas las dependencias estén instaladas: `npm install`
-- Asegúrate de que el build funciona localmente: `npm run build`
-
-### Error con wrangler.toml
-- **Problema**: Si ves errores sobre "wrangler.toml" o campos inesperados
-- **Solución**: Cloudflare Pages no necesita archivo `wrangler.toml` para proyectos Next.js
-- **Acción**: Si existe el archivo, elimínalo: `rm wrangler.toml`
-- **Nota**: La configuración del build se hace directamente en el dashboard de Cloudflare
-
-### Error 404 después de despliegue exitoso
-- **Problema**: Build exitoso pero página muestra 404
-- **Solución**: Configurar Next.js para Pages con archivos estáticos
-- **Archivos necesarios**:
-  - `public/_redirects` - Para routing SPA
-  - `next.config.js` - Configurado con `output: 'export'`
-  - Build output directory: `.next` (no cambiar)
-
-### Problemas con el dominio
-- Espera a que se propague el DNS (puede tardar hasta 24 horas)
-- Verifica que los registros CNAME estén configurados correctamente
-
-## 📞 Soporte
-
-Si tienes problemas:
-1. Revisa los logs en Cloudflare Dashboard
-2. Verifica la configuración de variables de entorno
-3. Asegúrate de que tu API Key de Gemini sea válida
-
-¡Tu sitio debería estar funcionando en minutos! 🎉
+- Confirmar que `/sitemap.xml` y `/robots.txt` respondan correctamente.
+- Verificar el contenedor `GTM-5MNF9G4Z` en modo Preview.
+- Probar WhatsApp, correo, LinkedIn, Instagram, Unifícalo y todas las rutas.
+- Revisar el sitio en escritorio y móvil antes de dirigir tráfico.

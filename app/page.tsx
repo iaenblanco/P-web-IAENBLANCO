@@ -1,338 +1,166 @@
-'use client';
+import Link from 'next/link'
+import { ContactBand } from '@/components/ContactBand'
+import { OperationalField } from '@/components/OperationalField'
+import { Reveal } from '@/components/Reveal'
+import { ServiceSystem } from '@/components/ServiceSystem'
+import { TypingLine } from '@/components/TypingLine'
+import { clients, WHATSAPP_URL } from '@/lib/site'
 
-import React, { useState } from 'react';
-import Link from 'next/link';
-import { Header, Footer, SolutionCard, AnimatedCounter } from '@/components';
-import { BrainCircuitIcon, CodeIcon, WandSparklesIcon, MessageIcon, PaletteIcon, LightbulbIcon, StarIcon, TrendingUpIcon } from '@/components/icons';
-
-export default function Home() {
-  const [currentBgClass, setCurrentBgClass] = useState('from-[#000428] to-[#004e92]');
-
-  const handleBackgroundChange = (bgClass: string) => {
-    setCurrentBgClass(bgClass);
-  };
-
-  const featuredSolutions = [
-    {
-      slug: 'paginas-web-ia',
-      icon: CodeIcon,
-      iconColor: 'text-fuchsia-400',
-      iconAlt: 'Icono de código representando desarrollo web',
-      title: 'Páginas Web con IA',
-      description: 'Integramos IA para crear sitios web dinámicos y personalizados que cautivan a tus usuarios.',
-      targetAudience: 'Empresas que necesitan presencia digital moderna',
-      benefits: ['Sitios web adaptativos', 'Optimización SEO automática', 'Contenido dinámico generado por IA'],
-      href: '/soluciones/paginas-web-ia'
-    },
-    {
-      slug: 'automatizaciones',
-      icon: WandSparklesIcon,
-      iconColor: 'text-cyan-400',
-      iconAlt: 'Icono de varita mágica representando automatizaciones',
-      title: 'Automatizaciones',
-      description: 'Automatiza tus procesos repetitivos y ahorra hasta 30 horas semanales. Usamos IA para identificar oportunidades.',
-      targetAudience: 'Empresas que buscan reducir costos operativos',
-      benefits: ['Ahorro de hasta 30h semanales', 'Reducción de costos hasta 60%', 'ROI visible en 3 meses'],
-      href: '/soluciones/automatizaciones'
-    },
-    {
-      slug: 'soluciones-medida',
-      icon: LightbulbIcon,
-      iconColor: 'text-blue-400',
-      iconAlt: 'Icono de bombilla representando soluciones personalizadas',
-      title: 'Soluciones a Medida',
-      description: 'Desarrollamos soluciones de IA personalizadas para resolver tus desafíos más complejos.',
-      targetAudience: 'Empresas con necesidades específicas',
-      benefits: ['Soluciones personalizadas', 'Optimización de procesos', 'Automatización inteligente'],
-      href: '/soluciones/soluciones-medida'
-    }
-  ];
-
-  const testimonials = [
-    {
-      name: 'María González',
-      role: 'CEO',
-      company: 'TechSolutions Chile',
-      content: 'IAenBlanco transformó completamente nuestro servicio al cliente con un chatbot que maneja el 80% de las consultas automáticamente.',
-      rating: 5,
-      results: ['70% reducción tiempo respuesta', '40% aumento satisfacción cliente', '$14.250.000 ahorro anual']
-    },
-    {
-      name: 'Carlos Rodríguez',
-      role: 'Director de Operaciones',
-      company: 'ModaExpress',
-      content: 'El sistema de inventario con IA nos permitió reducir el 50% de productos con sobrestock y aumentar un 25% la rotación.',
-      rating: 5,
-      results: ['50% menos sobrestock', '25% más rotación inventario', '15% margen beneficio mejorado']
-    },
-    {
-      name: 'Ana Martínez',
-      role: 'Directora Académica',
-      company: 'EduTech Academy',
-      content: 'La personalización del contenido educativo aumentó la finalización de cursos en un 35% y mejoró las calificaciones.',
-      rating: 5,
-      results: ['60% menos abandono', '35% más finalización cursos', '45% mejora calificaciones']
-    }
-  ];
-
-  const stats = [
-    { start: 12, end: 50, suffix: '+', label: 'Proyectos Completados' },
-    { start: 40, end: 95, suffix: '%', label: 'Clientes Satisfechos' },
-    { start: 120, end: 300, suffix: '%', label: 'ROI Promedio' }
-  ];
-
+function ArrowUpRight() {
   return (
-    <div className={`min-h-screen w-full text-white font-sans transition-all duration-500 bg-gradient-to-br ${currentBgClass}`}>
-      <div className="absolute inset-0 bg-black/30 backdrop-blur-sm"></div>
-      <div className="relative z-10 isolate">
-        <Header onBackgroundChange={handleBackgroundChange} />
+    <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+      <path d="M6 18 18 6M8 6h10v10" stroke="currentColor" strokeWidth="1.5" />
+    </svg>
+  )
+}
 
-        {/* Hero Section - Encabezado principal */}
-        <section className="pt-24 pb-20" aria-labelledby="home-hero-heading">
-          <div className="container mx-auto px-6">
-            <div className="max-w-5xl mx-auto text-center">
-              <h1 id="home-hero-heading" className="text-5xl md:text-7xl font-bold mb-6 leading-tight">
-                Creamos el <span className="text-cyan-400">Futuro</span> con
-                <br />
-                <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-purple-400">
-                  Inteligencia Artificial
-                </span>
-              </h1>
-              <p className="text-xl md:text-2xl text-gray-300 mb-8 max-w-4xl mx-auto leading-relaxed">
-                Transformamos negocios mediante soluciones innovadoras de IA.
-                Desde automatizaciones inteligentes hasta sistemas web personalizados,
-                hacemos que la tecnología trabaje para ti.
-              </p>
-              <div className="flex flex-col sm:flex-row gap-4 justify-center mb-12">
-                <Link
-                  href="/soluciones"
-                  className="bg-cyan-500 hover:bg-cyan-400 text-black font-bold py-4 px-10 rounded-lg transition-transform duration-300 hover:scale-105 shadow-[0_0_15px_rgba(0,255,255,0.5)] text-lg"
-                >
-                  Explorar Soluciones
-                </Link>
-                <Link
-                  href="/contacto"
-                  className="border-2 border-cyan-400 text-cyan-400 hover:bg-cyan-400 hover:text-black font-bold py-4 px-10 rounded-lg transition-all duration-300"
-                >
-                  Hablemos de tu Proyecto
-                </Link>
-              </div>
+function ArrowDown() {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+      <path d="M12 4v15m-6-6 6 6 6-6" stroke="currentColor" strokeWidth="1.5" />
+    </svg>
+  )
+}
 
-              {/* Estadísticas rápidas */}
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-3xl mx-auto justify-items-center">
-                {stats.map((stat, index) => (
-                  <div key={index} className="text-center">
-                    <AnimatedCounter
-                      start={stat.start}
-                      end={stat.end}
-                      suffix={stat.suffix}
-                      duration={2500}
-                      className="text-3xl md:text-4xl font-bold text-cyan-400 mb-2"
-                    />
-                    <div className="text-sm text-gray-400">{stat.label}</div>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
-        </section>
-
-        {/* Introducción a las 6 soluciones */}
-        <section className="py-20 bg-black/20" aria-labelledby="home-solutions-heading">
-          <div className="container mx-auto px-6">
-            <div className="text-center mb-12">
-              <h2 id="home-solutions-heading" className="text-3xl md:text-4xl font-bold mb-4">
-                Nuestras Soluciones de IA
-              </h2>
-              <p className="text-lg text-gray-400 max-w-2xl mx-auto">
-                Tecnología de vanguardia aplicada a desafíos reales de negocio.
-                Descubre cómo podemos transformar tu empresa.
-              </p>
-            </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-12">
-              {featuredSolutions.map((solution, index) => (
-                <SolutionCard
-                  key={index}
-                  slug={solution.slug}
-                  icon={solution.icon}
-                  iconColor={solution.iconColor}
-                  iconAlt={solution.iconAlt}
-                  title={solution.title}
-                  description={solution.description}
-                  targetAudience={solution.targetAudience}
-                  benefits={solution.benefits}
-                  href={solution.href}
-                />
-              ))}
-            </div>
-
-            <div className="text-center">
-              <Link
-                href="/soluciones"
-                className="inline-block bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-400 hover:to-pink-400 text-white font-bold py-3 px-8 rounded-lg transition-transform duration-300 hover:scale-105 shadow-[0_0_20px_rgba(147,51,234,0.6)]"
+export default function HomePage() {
+  return (
+    <main id="contenido">
+      <section className="home-hero" aria-labelledby="home-title">
+        <div className="home-hero__grid" aria-hidden="true" />
+        <div className="section-shell home-hero__inner">
+          <div className="home-hero__content">
+            <p className="hero-kicker">
+              <span />
+              Inteligencia artificial en operación
+            </p>
+            <h1 id="home-title">
+              La IA deja de ser promesa.
+              <em>Empieza a operar.</em>
+            </h1>
+            <p className="home-hero__summary">
+              Diseñamos sitios, plataformas, automatizaciones y soluciones de IA
+              conectadas con la realidad de tu negocio.
+            </p>
+            <div className="home-hero__actions">
+              <a
+                href={WHATSAPP_URL}
+                target="_blank"
+                rel="noreferrer"
+                className="button button--primary"
+                data-cursor="WhatsApp"
               >
-                Ver Todas las Soluciones
+                Cuéntanos tu idea
+                <ArrowUpRight />
+              </a>
+              <Link href="#servicios" className="button button--text">
+                Explorar capacidades
+                <ArrowDown />
               </Link>
             </div>
+            <TypingLine />
           </div>
-        </section>
 
-        {/* Acceso a Recursos */}
-        <section className="py-20" aria-labelledby="home-resources-heading">
-          <div className="container mx-auto px-6">
-            <div className="max-w-6xl mx-auto">
-              <div className="text-center mb-12">
-                <h2 id="home-resources-heading" className="text-3xl md:text-4xl font-bold mb-4">
-                  Recursos y Herramientas
-                </h2>
-                <p className="text-lg text-gray-400 max-w-2xl mx-auto">
-                  Aprende IA de forma práctica y genera ideas innovadoras con nuestras herramientas gratuitas.
-                </p>
-              </div>
-
-              <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-                {/* Ruta de Aprendizaje */}
-                <div className="bg-white/5 backdrop-blur-lg p-8 rounded-2xl border border-white/10 hover:border-cyan-400 transition-colors group flex flex-col h-full">
-                  <div className="flex-grow">
-                    <div className="text-center mb-6">
-                      <BrainCircuitIcon className="h-16 w-16 text-cyan-400 mx-auto mb-4" />
-                      <h3 className="text-2xl font-bold mb-2">Ruta de Aprendizaje IA</h3>
-                      <p className="text-cyan-400">Curso completo • 12 semanas</p>
-                    </div>
-                    <p className="text-gray-300 mb-6 text-justify">
-                      Conviértete en experto en IA con nuestro programa estructurado.
-                      Desde conceptos básicos hasta implementación profesional.
-                    </p>
-                    <div className="flex flex-wrap gap-2 mb-6 justify-center">
-                      <span className="bg-cyan-500/20 text-cyan-400 px-3 py-1 rounded-full text-sm">Proyectos reales</span>
-                      <span className="bg-cyan-500/20 text-cyan-400 px-3 py-1 rounded-full text-sm">Certificación</span>
-                      <span className="bg-cyan-500/20 text-cyan-400 px-3 py-1 rounded-full text-sm">Mentoría</span>
-                    </div>
-                  </div>
-                  <div className="text-center mt-auto">
-                    <Link
-                      href="/recursos/ruta-aprendizaje"
-                      className="inline-block bg-cyan-500 hover:bg-cyan-400 text-black font-bold py-3 px-6 rounded-lg transition-transform duration-300 hover:scale-105"
-                    >
-                      Comenzar Aprendizaje
-                    </Link>
-                  </div>
-                </div>
-
-                {/* Generador de Ideas */}
-                <div className="bg-white/5 backdrop-blur-lg p-8 rounded-2xl border border-white/10 hover:border-purple-400 transition-colors group flex flex-col h-full">
-                  <div className="flex-grow">
-                    <div className="text-center mb-6">
-                      <WandSparklesIcon className="h-16 w-16 text-purple-400 mx-auto mb-4" />
-                      <h3 className="text-2xl font-bold mb-2">Generador de Ideas IA</h3>
-                      <p className="text-purple-400">Herramienta gratuita • Instantáneo</p>
-                    </div>
-                    <p className="text-gray-300 mb-6 text-justify">
-                    Utiliza IA para generar ideas innovadoras personalizadas para tu negocio.
-                    Solo describe tu desafío y obtén soluciones creativas rápidamente.
-                    </p>
-                    <div className="flex flex-wrap gap-2 mb-6 justify-center">
-                      <span className="bg-purple-500/20 text-purple-400 px-3 py-1 rounded-full text-sm">Ideas personalizadas</span>
-                      <span className="bg-purple-500/20 text-purple-400 px-3 py-1 rounded-full text-sm">Multi-industria</span>
-                      <span className="bg-purple-500/20 text-purple-400 px-3 py-1 rounded-full text-sm">Exportable</span>
-                    </div>
-                  </div>
-                  <div className="text-center mt-auto">
-                    <Link
-                      href="/recursos/generador-ideas"
-                      className="inline-block bg-purple-500 hover:bg-purple-400 text-white font-bold py-3 px-6 rounded-lg transition-transform duration-300 hover:scale-105"
-                    >
-                      Generar Ideas Ahora
-                    </Link>
-                  </div>
-                </div>
-              </div>
+          <div className="home-hero__visual">
+            <OperationalField />
+            <div className="hero-readout hero-readout--top">
+              <span>Estado</span>
+              <strong><i /> Operativo</strong>
+            </div>
+            <div className="hero-readout hero-readout--bottom">
+              <span>Señal</span>
+              <strong>Negocio → Sistema</strong>
             </div>
           </div>
-        </section>
+        </div>
+        <div className="home-hero__index section-shell">
+          <span>IAenBlanco / 2026</span>
+          <span>Chile → Latinoamérica</span>
+          <span>Scroll para descubrir</span>
+        </div>
+      </section>
 
-        {/* Testimonios Destacados */}
-        <section className="py-20 bg-black/20" aria-labelledby="home-testimonials-heading">
-          <div className="container mx-auto px-6">
-            <div className="max-w-6xl mx-auto">
-              <div className="text-center mb-12">
-                <h2 id="home-testimonials-heading" className="text-3xl md:text-4xl font-bold mb-4">
-                  Lo que dicen nuestros clientes
-                </h2>
-                <p className="text-lg text-gray-400">
-                  Resultados reales de proyectos exitosos con IA.
-                </p>
-              </div>
-
-              <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-12">
-                {testimonials.map((testimonial, index) => (
-                  <div key={index} className="bg-white/5 backdrop-blur-lg p-6 rounded-xl border border-white/10">
-                    <div className="flex items-center mb-4">
-                      {[...Array(testimonial.rating)].map((_, i) => (
-                        <StarIcon key={i} className="h-5 w-5 text-yellow-400 fill-current" />
-                      ))}
-                    </div>
-                    <p className="text-gray-300 mb-6 italic">&ldquo;{testimonial.content}&rdquo;</p>
-                    <div className="mb-4">
-                      <div className="font-bold text-cyan-400">{testimonial.name}</div>
-                      <div className="text-sm text-gray-400">{testimonial.role}, {testimonial.company}</div>
-                    </div>
-                    <div className="space-y-2">
-                      {testimonial.results.map((result, resultIndex) => (
-                        <div key={resultIndex} className="flex items-center text-sm">
-                          <TrendingUpIcon className="h-4 w-4 text-green-400 mr-2" />
-                          <span className="text-gray-300">{result}</span>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                ))}
-              </div>
-
-              <div className="text-center">
-                <Link
-                  href="/casos-exito"
-                  className="inline-block bg-gradient-to-r from-green-500 to-teal-500 hover:from-green-400 hover:to-teal-400 text-white font-bold py-3 px-8 rounded-lg transition-transform duration-300 hover:scale-105 shadow-[0_0_20px_rgba(34,197,94,0.6)]"
-                >
-                  Ver Más Casos de Éxito
-                </Link>
-              </div>
-            </div>
+      <section className="client-rail" aria-label="Clientes de IAenBlanco">
+        <div className="section-shell">
+          <p>Han trabajado con nosotros</p>
+          <div className="client-rail__names">
+            {clients.map((client) => <span key={client}>{client}</span>)}
           </div>
-        </section>
+        </div>
+      </section>
 
-        {/* CTA Final */}
-        <section className="py-20" aria-labelledby="home-final-cta-heading">
-          <div className="container mx-auto px-6">
-            <div className="max-w-4xl mx-auto text-center bg-gradient-to-r from-cyan-500/10 to-purple-500/10 backdrop-blur-lg p-12 rounded-3xl border border-white/10">
-              <h2 id="home-final-cta-heading" className="text-4xl md:text-5xl font-bold mb-6">
-                ¿Listo para transformar tu negocio?
-              </h2>
-              <p className="text-xl text-gray-300 mb-8 max-w-2xl mx-auto">
-                Únete a las empresas que ya están aprovechando el poder de la IA.
-                Comienza tu transformación digital hoy mismo.
-              </p>
-              <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                <Link
-                  href="/contacto"
-                  className="bg-gradient-to-r from-cyan-500 to-blue-500 hover:from-cyan-400 hover:to-blue-400 text-black font-bold py-4 px-10 rounded-lg transition-transform duration-300 hover:scale-105 shadow-[0_0_20px_rgba(0,255,255,0.6)] text-lg"
-                >
-                  Empezar mi Proyecto
-                </Link>
-                <Link
-                  href="/soluciones"
-                  className="border-2 border-white/30 text-white hover:bg-white/10 font-bold py-4 px-10 rounded-lg transition-all duration-300"
-                >
-                  Explorar Soluciones
-                </Link>
-              </div>
-            </div>
+      <section className="positioning-section">
+        <div className="section-shell positioning-section__grid">
+          <Reveal>
+            <p className="eyebrow">Nuestro enfoque</p>
+          </Reveal>
+          <Reveal className="positioning-section__statement">
+            <h2>
+              La tecnología importa.
+              <span>Lo que cambia tu operación, más.</span>
+            </h2>
+            <p>
+              Partimos por entender el problema, no por imponer una herramienta.
+              Después diseñamos el sistema, conectamos las piezas y lo dejamos
+              funcionando dentro del negocio.
+            </p>
+          </Reveal>
+          <Reveal className="positioning-section__aside" delay={120}>
+            <span>Web</span>
+            <span>Backend</span>
+            <span>Automatización</span>
+            <span>Inteligencia</span>
+          </Reveal>
+        </div>
+      </section>
+
+      <ServiceSystem />
+
+      <section className="operating-model" aria-labelledby="model-heading">
+        <div className="section-shell">
+          <Reveal className="operating-model__heading">
+            <p className="eyebrow">Cómo trabajamos</p>
+            <h2 id="model-heading">De una necesidad abierta a un sistema funcionando.</h2>
+          </Reveal>
+
+          <div className="operating-model__steps">
+            {[
+              {
+                number: '01',
+                title: 'Entender',
+                text: 'Mapeamos el desafío, la operación y las restricciones antes de elegir una solución.',
+              },
+              {
+                number: '02',
+                title: 'Construir',
+                text: 'Diseñamos y desarrollamos la capa exacta: interfaz, backend, integración o IA.',
+              },
+              {
+                number: '03',
+                title: 'Operar',
+                text: 'Ponemos el sistema en marcha y lo acompañamos con soporte o evolución continua.',
+              },
+            ].map((step, index) => (
+              <Reveal key={step.number} className="operating-step" delay={index * 90}>
+                <span>{step.number}</span>
+                <h3>{step.title}</h3>
+                <p>{step.text}</p>
+              </Reveal>
+            ))}
           </div>
-        </section>
 
-        <Footer />
-      </div>
-    </div>
-  );
+          <Reveal className="industry-line">
+            <p>Experiencia aplicada en</p>
+            <div>
+              <span>E-commerce</span>
+              <span>Logística</span>
+              <span>Inmobiliario</span>
+              <span>Negocios con agenda</span>
+            </div>
+          </Reveal>
+        </div>
+      </section>
+
+      <ContactBand />
+    </main>
+  )
 }
