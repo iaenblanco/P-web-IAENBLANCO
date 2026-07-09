@@ -28,10 +28,11 @@ const vertexShaderSource = `
       sx * p.y + cx * p.z
     );
 
-    p.y += sin(p.x * 1.7 + u_time * 0.35) * 0.035;
+    p.y += sin(p.x * 1.7 + u_time * 0.48) * 0.055;
+    p.z += cos(p.y * 1.4 - u_time * 0.24) * 0.025;
     float camera = p.z + 5.3;
     gl_Position = vec4((p.x / camera) * 2.7 / u_aspect, (p.y / camera) * 2.7, 0.0, 1.0);
-    gl_PointSize = u_point_size * (5.3 / camera);
+    gl_PointSize = u_point_size * (5.3 / camera) * (1.0 + sin(u_time * 1.1 + a_position.x * 2.2) * 0.08);
     v_depth = clamp(1.0 - (p.z + 2.0) / 4.0, 0.18, 1.0);
   }
 `
@@ -208,29 +209,32 @@ export function OperationalField() {
 
     const draw = (now: number) => {
       resize()
-      rotationX += (targetX - rotationX) * 0.035
-      rotationY += (targetY - rotationY) * 0.035
+      const elapsed = (now - startedAt) / 1000
+      const idleX = targetX + Math.sin(elapsed * 0.22) * 0.045
+      const idleY = targetY + Math.cos(elapsed * 0.19) * 0.035
+      rotationX += (idleX - rotationX) * 0.035
+      rotationY += (idleY - rotationY) * 0.035
 
       gl.clearColor(0, 0, 0, 0)
       gl.clear(gl.COLOR_BUFFER_BIT)
       gl.useProgram(program)
       gl.uniform2f(rotationLocation, rotationX, rotationY)
       gl.uniform1f(aspectLocation, width / height)
-      gl.uniform1f(timeLocation, (now - startedAt) / 1000)
-      gl.uniform1f(pointSizeLocation, Math.min(window.devicePixelRatio || 1, 1.6) * 5.2)
+      gl.uniform1f(timeLocation, elapsed)
+      gl.uniform1f(pointSizeLocation, Math.min(window.devicePixelRatio || 1, 1.6) * 6.2)
 
       gl.bindBuffer(gl.ARRAY_BUFFER, lineBuffer)
       gl.enableVertexAttribArray(positionLocation)
       gl.vertexAttribPointer(positionLocation, 3, gl.FLOAT, false, 0, 0)
-      gl.uniform3f(colorLocation, 0.15, 0.39, 0.49)
-      gl.uniform1f(alphaLocation, 0.28)
+      gl.uniform3f(colorLocation, 0.08, 0.49, 0.64)
+      gl.uniform1f(alphaLocation, 0.48)
       gl.uniform1f(pointsLocation, 0)
       gl.drawArrays(gl.LINES, 0, lines.length / 3)
 
       gl.bindBuffer(gl.ARRAY_BUFFER, pointBuffer)
       gl.vertexAttribPointer(positionLocation, 3, gl.FLOAT, false, 0, 0)
-      gl.uniform3f(colorLocation, 0.25, 0.69, 0.82)
-      gl.uniform1f(alphaLocation, 0.84)
+      gl.uniform3f(colorLocation, 0.1, 0.7, 0.85)
+      gl.uniform1f(alphaLocation, 1)
       gl.uniform1f(pointsLocation, 1)
       gl.drawArrays(gl.POINTS, 0, points.length / 3)
 
@@ -292,14 +296,14 @@ export function OperationalField() {
         fill="none"
         preserveAspectRatio="xMidYMid meet"
       >
-        <g stroke="#28647D" strokeOpacity=".3">
+        <g stroke="#1B7E9D" strokeOpacity=".48">
           <path d="M82 126 206 76l128 74 126-58 136 86" />
           <path d="m82 126 34 132 132 34 86-142 100 126 162-98" />
           <path d="m116 258 26 152 144 54 148-188 92 130" />
           <path d="m248 292 38 172 154 28 86-86" />
           <path d="m206 76 42 216M334 150l100 126M460 92l-26 184" />
         </g>
-        <g fill="#40B0D0">
+        <g fill="#28A7C8">
           {[
             [82, 126], [206, 76], [334, 150], [460, 92], [596, 178],
             [116, 258], [248, 292], [434, 276], [142, 410], [286, 464],
