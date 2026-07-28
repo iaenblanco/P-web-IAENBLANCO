@@ -145,12 +145,12 @@ export const services: Service[] = [
   {
     slug: 'leads-magnet',
     index: '05',
-    shortTitle: 'Leads Magnet',
-    title: 'Leads Magnet para ventas B2B',
-    eyebrow: 'Prospección que sigue avanzando',
-    statement: 'Un programa mensual que encuentra, contacta y trabaja oportunidades B2B de forma automatizada.',
+    shortTitle: 'Leads B2B',
+    title: 'Leads B2B gestionados',
+    eyebrow: 'Servicio comercial operado',
+    statement: 'Un programa mensual para encontrar, priorizar y trabajar oportunidades B2B con método, datos y automatización.',
     description:
-      'Leads Magnet se conecta con tu negocio, identifica prospectos alineados con el perfil objetivo y automatiza el contacto y seguimiento hasta cerrar una venta o agendar una reunión. No es un SaaS: es un servicio gestionado por IAenBlanco.',
+      'Operamos prospección B2B como servicio: definimos el perfil de cliente ideal, buscamos empresas, priorizamos oportunidades y automatizamos parte del contacto y seguimiento. Leads puede ser parte de la tecnología, pero la prestación es gestionada por IAenBlanco.',
     capabilities: [
       'Definición del perfil de cliente objetivo',
       'Búsqueda y clasificación de prospectos B2B',
@@ -165,22 +165,24 @@ export const services: Service[] = [
       'Negocios que quieren mantener seguimiento sin sumar tareas manuales',
     ],
     signals: ['B2B', 'Prospección', 'Contacto', 'Seguimiento'],
-    seoTitle: 'Leads Magnet: prospección B2B automatizada',
+    seoTitle: 'Prospección B2B gestionada',
     seoDescription:
-      'Programa mensual de prospección B2B que identifica, contacta y trabaja oportunidades de forma automatizada.',
+      'Servicio mensual de prospección B2B que identifica, prioriza y trabaja oportunidades comerciales con datos, automatización y operación gestionada.',
   },
 ]
 
 export const products = [
   {
     name: 'Unifícalo',
-    status: 'Prelanzamiento',
+    status: 'Piloto abierto',
+    eyebrow: 'E-commerce multicanal',
+    promise: 'Tu stock, precios y boletas cuadran solos en todos tus canales.',
     description:
-      'Conecta Bsale con tus canales de venta para que stock, precios y documentos tributarios dejen de operar a ciegas.',
+      'Unifícalo conecta la plataforma que manda tu operación con tus canales de venta para que cada venta descuente stock, cada precio se respete y cada documento salga desde una sola fuente de verdad.',
     problems: [
-      'Detecta dónde y desde cuándo falló una sincronización.',
-      'Reduce el riesgo de vender el mismo stock más de una vez.',
-      'Ordena boletas y notas de crédito entre canales.',
+      'Evita sobreventas entre tienda online, marketplaces, POS y delivery.',
+      'Reduce precios cruzados y listas desactualizadas por canal.',
+      'Automatiza boletas, notas de crédito y trazabilidad operativa.',
     ],
     integrations: [
       'Bsale',
@@ -193,20 +195,38 @@ export const products = [
       'Paris',
     ],
     href: 'https://unificalo.cl',
-    available: true,
+    available: false,
   },
   {
     name: 'Citaly',
-    status: 'Próximamente',
+    status: 'Validación comercial',
+    eyebrow: 'Agenda + agente IA',
+    promise: 'Tu WhatsApp responde, entiende audios y agenda horas aunque estés atendiendo.',
     description:
-      'Una agenda para negocios de belleza cuyo punto de entrada es un agente de IA especializado en WhatsApp.',
+      'Citaly conecta WhatsApp con una agenda real: el agente entiende solicitudes, ofrece horarios disponibles, confirma reservas y deriva a un humano cuando corresponde.',
     problems: [
-      'Agenda, reagenda y cancela mediante conversación.',
-      'Comprende audios y responde consultas de clientes.',
-      'Gestiona recordatorios, cobros, profesionales y métricas.',
+      'Agenda, reagenda y cancela horas por conversación.',
+      'Transcribe audios y responde con disponibilidad real.',
+      'Centraliza recordatorios, clientes, equipo, cobros y reportes.',
     ],
-    integrations: ['WhatsApp', 'Agenda', 'Cobros', 'Clientes'],
+    integrations: ['WhatsApp', 'Agenda', 'Audios', 'Reservas', 'Recordatorios', 'CRM'],
     href: 'https://citaly.cl',
+    available: false,
+  },
+  {
+    name: 'Leads',
+    status: 'Acceso piloto',
+    eyebrow: 'Prospección B2B',
+    promise: 'Empresas reales, evidencia pública y seguimiento comercial antes que mensajes masivos.',
+    description:
+      'Leads permite buscar empresas chilenas por rubro y ubicación, revisar evidencia disponible, priorizar contactos con canal directo y trabajar el pipeline desde un solo espacio.',
+    problems: [
+      'Define mercados concretos por rubro, comuna y zona.',
+      'Distingue leads listos de registros que requieren revisión.',
+      'Ordena contacto, seguimiento y avance hacia reunión o venta.',
+    ],
+    integrations: ['Fuentes públicas', 'Evidencia', 'Score', 'Pipeline', 'WhatsApp', 'CRM'],
+    href: 'https://leads.iaenblanco.com',
     available: false,
   },
 ]

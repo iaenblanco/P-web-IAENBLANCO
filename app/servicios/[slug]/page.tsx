@@ -186,7 +186,7 @@ export default async function ServicePage({ params }: ServicePageProps) {
       <section className="next-service">
         <div className="section-shell">
           <p>Siguiente capacidad</p>
-          <Link href={`/servicios/${nextService.slug}`} data-cursor="Siguiente">
+          <Link href={`/servicios/${nextService.slug}`} prefetch={false} data-cursor="Siguiente">
             <span>{nextService.index}</span>
             {nextService.title}
             <Arrow />

@@ -28,7 +28,7 @@ export function Footer() {
         <div className="site-footer__top">
           <div className="site-footer__statement">
             <div className="footer-logo">
-              <Image src="/logo.png" width={1024} height={1024} alt="IAenBlanco" />
+              <Image src="/logo-ui.webp" width={256} height={256} alt="IAenBlanco" />
             </div>
             <p className="eyebrow eyebrow--dark">IA aplicada a operaciones reales</p>
             <h2>Construyamos el sistema que tu negocio necesita.</h2>
@@ -47,14 +47,14 @@ export function Footer() {
           <div className="site-footer__nav">
             <div>
               <p>Navegación</p>
-              <Link href="/">Inicio</Link>
-              <Link href="/productos">Productos</Link>
-              <Link href="/contacto">Contacto</Link>
+              <Link href="/" prefetch={false}>Inicio</Link>
+              <Link href="/productos" prefetch={false}>Productos</Link>
+              <Link href="/contacto" prefetch={false}>Contacto</Link>
             </div>
             <div>
               <p>Servicios</p>
               {services.map((service) => (
-                <Link key={service.slug} href={`/servicios/${service.slug}`}>
+                <Link key={service.slug} href={`/servicios/${service.slug}`} prefetch={false}>
                   {service.shortTitle}
                 </Link>
               ))}
@@ -75,8 +75,8 @@ export function Footer() {
         <div className="site-footer__bottom">
           <p>© {new Date().getFullYear()} IAenBlanco SpA</p>
           <div>
-            <Link href="/privacidad">Privacidad</Link>
-            <Link href="/terminos">Términos</Link>
+            <Link href="/privacidad" prefetch={false}>Privacidad</Link>
+            <Link href="/terminos" prefetch={false}>Términos</Link>
           </div>
           <p>Chile · Latinoamérica</p>
         </div>

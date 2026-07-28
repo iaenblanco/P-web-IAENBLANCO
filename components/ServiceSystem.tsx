@@ -1,8 +1,5 @@
-'use client'
-
 import Link from 'next/link'
-import { useEffect, useRef, useState } from 'react'
-import { services } from '@/lib/site'
+import { services, WHATSAPP_URL } from '@/lib/site'
 
 function Arrow() {
   return (
@@ -12,7 +9,7 @@ function Arrow() {
   )
 }
 
-function SystemDiagram({ active }: { active: number }) {
+function SystemDiagram() {
   const points = [
     [62, 136],
     [146, 72],
@@ -25,7 +22,7 @@ function SystemDiagram({ active }: { active: number }) {
     <div className="system-diagram" aria-hidden="true">
       <div className="system-diagram__status">
         <span>system.map</span>
-        <span>0{active + 1} / 05</span>
+        <span>05 / 05</span>
       </div>
       <svg viewBox="0 0 480 230" fill="none">
         <path
@@ -34,10 +31,10 @@ function SystemDiagram({ active }: { active: number }) {
         />
         <path
           className="system-diagram__active-path"
-          d={`M62 136 ${points.slice(1, active + 1).map(([x, y]) => `L${x} ${y}`).join(' ')}`}
+          d={`M62 136 ${points.slice(1).map(([x, y]) => `L${x} ${y}`).join(' ')}`}
         />
         {points.map(([cx, cy], index) => (
-          <g key={`${cx}-${cy}`} className={index <= active ? 'is-active' : ''}>
+          <g key={`${cx}-${cy}`} className="is-active">
             <circle className="system-diagram__pulse" cx={cx} cy={cy} r="14" />
             <circle className="system-diagram__node" cx={cx} cy={cy} r="5" />
           </g>
@@ -45,36 +42,33 @@ function SystemDiagram({ active }: { active: number }) {
       </svg>
       <div className="system-diagram__readout">
         <span>Entrada</span>
-        <strong>{services[active].signals[0]}</strong>
+        <strong>Problema</strong>
         <span>Salida</span>
-        <strong>{services[active].signals[services[active].signals.length - 1]}</strong>
+        <strong>Sistema</strong>
       </div>
     </div>
   )
 }
 
+const serviceResults: Record<string, string> = {
+  'desarrollo-web-ia': 'Una web clara, rápida y preparada para convertir visitas en conversaciones.',
+  'plataformas-software-medida': 'Un sistema propio para ordenar procesos que una herramienta estándar no resuelve.',
+  automatizaciones: 'Menos tareas manuales, menos errores y más visibilidad para decidir.',
+  'soluciones-ia-medida': 'IA conectada a datos, reglas y herramientas reales del negocio.',
+  'leads-magnet': 'Prospección B2B operada con criterio, seguimiento y oportunidades priorizadas.',
+}
+
 export function ServiceSystem() {
-  const [active, setActive] = useState(0)
-  const itemRefs = useRef<Array<HTMLElement | null>>([])
-
-  useEffect(() => {
-    const observers = itemRefs.current.map((element, index) => {
-      if (!element) return null
-      const observer = new IntersectionObserver(
-        ([entry]) => {
-          if (entry.isIntersecting) setActive(index)
-        },
-        { rootMargin: '-38% 0px -38% 0px', threshold: 0 },
-      )
-      observer.observe(element)
-      return observer
-    })
-
-    return () => observers.forEach((observer) => observer?.disconnect())
-  }, [])
+  const coreServices = services.filter((service) => service.slug !== 'leads-magnet')
+  const commercialService = services.find((service) => service.slug === 'leads-magnet')
 
   return (
-    <section className="services-system" id="servicios" aria-labelledby="services-heading">
+    <section
+      className="services-system"
+      id="servicios"
+      aria-labelledby="services-heading"
+      data-cursor-theme="signal"
+    >
       <div className="section-shell">
         <div className="services-system__intro">
           <p className="eyebrow">Sistema de capacidades</p>
@@ -82,25 +76,21 @@ export function ServiceSystem() {
             Una operación conectada necesita más que una herramienta aislada.
           </h2>
           <p>
-            Diseñamos la capa que falta: desde la experiencia visible hasta el backend,
-            las automatizaciones y la inteligencia que mueve el sistema.
+            Cuatro capacidades construyen la base digital. Leads B2B queda separado
+            como una operación comercial gestionada, para evitar mezclar servicio con producto.
           </p>
         </div>
 
         <div className="services-system__layout">
           <div className="services-system__sticky">
-            <SystemDiagram active={active} />
+            <SystemDiagram />
           </div>
 
           <div className="services-system__list">
-            {services.map((service, index) => (
+            {coreServices.map((service, index) => (
               <article
                 key={service.slug}
-                ref={(element) => {
-                  itemRefs.current[index] = element
-                }}
-                className={active === index ? 'service-entry is-active' : 'service-entry'}
-                onMouseEnter={() => setActive(index)}
+                className={index === 0 ? 'service-entry is-active' : 'service-entry'}
               >
                 <div className="service-entry__heading">
                   <span>{service.index}</span>
@@ -108,20 +98,81 @@ export function ServiceSystem() {
                 </div>
                 <h3>{service.title}</h3>
                 <p className="service-entry__description">{service.description}</p>
+                <p className="service-entry__result">
+                  <span>Resultado</span>
+                  {serviceResults[service.slug]}
+                </p>
                 <div className="service-entry__signals">
                   {service.signals.map((signal) => <span key={signal}>{signal}</span>)}
                 </div>
                 <Link
                   href={`/servicios/${service.slug}`}
+                  prefetch={false}
                   className="service-entry__link"
                   data-cursor="Abrir"
+                  data-cursor-theme="signal"
                 >
                   Ver capacidad
                   <Arrow />
                 </Link>
               </article>
             ))}
+            {commercialService ? (
+              <article className="service-entry service-entry--commercial">
+                <div className="service-entry__heading">
+                  <span>{commercialService.index}</span>
+                  <p>{commercialService.eyebrow}</p>
+                </div>
+                <div className="service-entry--commercial__grid">
+                  <div>
+                    <h3>{commercialService.title}</h3>
+                    <p className="service-entry__description">{commercialService.description}</p>
+                    <p className="service-entry__result">
+                      <span>Resultado</span>
+                      {serviceResults[commercialService.slug]}
+                    </p>
+                  </div>
+                  <div className="service-entry__pipeline" aria-label="Flujo comercial de Leads B2B">
+                    <span>ICP</span>
+                    <i />
+                    <span>Evidencia</span>
+                    <i />
+                    <span>Contacto</span>
+                    <i />
+                    <span>Seguimiento</span>
+                  </div>
+                </div>
+                <div className="service-entry__signals">
+                  {commercialService.signals.map((signal) => <span key={signal}>{signal}</span>)}
+                </div>
+                <Link
+                  href={`/servicios/${commercialService.slug}`}
+                  prefetch={false}
+                  className="service-entry__link"
+                  data-cursor="Abrir"
+                  data-cursor-theme="signal"
+                >
+                  Ver operación B2B
+                  <Arrow />
+                </Link>
+              </article>
+            ) : null}
           </div>
+        </div>
+
+        <div className="services-system__cta">
+          <p>Cuéntanos qué debería funcionar mejor en tu negocio.</p>
+          <a
+            href={WHATSAPP_URL}
+            target="_blank"
+            rel="noreferrer"
+            className="button button--primary"
+            data-cursor="WhatsApp"
+            data-cursor-theme="signal"
+          >
+            Conversar por WhatsApp
+            <Arrow />
+          </a>
         </div>
       </div>
     </section>

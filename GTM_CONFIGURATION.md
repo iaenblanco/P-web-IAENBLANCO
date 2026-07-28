@@ -1,250 +1,381 @@
-# 🎯 Guía de Configuración: Google Analytics 4 y Facebook Pixel en GTM
+# Guia especifica de medicion IAenBlanco: GTM, GA4 y Meta Pixel
 
-Esta guía te ayudará a configurar Google Analytics 4 (GA4) y Facebook Pixel dentro de Google Tag Manager para tu sitio web **iaenblanco.com**.
+Esta guia reemplaza la configuracion generica anterior. Su objetivo es evitar eventos duplicados, no confundir clics con conversiones reales y dejar una arquitectura clara para medir `iaenblanco.com` en produccion.
 
----
+Estado actual del sitio:
+- Dominio objetivo: `https://iaenblanco.com`
+- Contenedor GTM configurado en el codigo: `GTM-5MNF9G4Z`
+- La web ya empuja eventos propios a `window.dataLayer`
+- La medicion se considera preparada, no cerrada, hasta validar GTM, GA4 y Meta en produccion
 
-## ✅ Paso 1: Verificar que GTM está instalado
+## 1. Verificacion correcta de GTM
 
-1. Abre tu sitio web: https://iaenblanco.com
-2. Abre las herramientas de desarrollador (F12)
-3. Ve a la pestaña **Console**
-4. Escribe: `dataLayer` y presiona Enter
-5. Si ves un array `[]`, ¡GTM está funcionando correctamente! ✅
+Ver `window.dataLayer` en consola no demuestra por si solo que GTM este funcionando. La web puede crear `dataLayer` aunque el contenedor no haya cargado.
 
-**O usa la extensión de Chrome:**
-- Instala [Tag Assistant Legacy](https://chrome.google.com/webstore/detail/tag-assistant-legacy-by-g/kejbdjndbnbjgmefkgdddjlbokphdefk)
-- Visita tu sitio y verifica que aparezca el tag GTM
+Validacion minima:
 
----
+1. Abrir `https://iaenblanco.com` en produccion.
+2. Confirmar en Network que se solicite:
+   `https://www.googletagmanager.com/gtm.js?id=GTM-5MNF9G4Z`
+3. Confirmar en consola o en Tag Assistant que exista el evento `gtm.js`.
+4. Abrir [Tag Assistant](https://tagassistant.google.com/) o el modo Preview de GTM.
+5. Confirmar que el contenedor aparece conectado.
+6. Ejecutar clics reales y verificar que cada evento active una sola etiqueta.
 
-## 📊 Paso 2: Configurar Google Analytics 4 (GA4) en GTM
+No usar Tag Assistant Legacy como referencia principal. Usar el Tag Assistant actual y el modo Preview de Google Tag Manager.
 
-### 2.1 Crear una propiedad de GA4
+## 2. Principio de arquitectura
 
-1. Ve a [Google Analytics](https://analytics.google.com/)
-2. Si no tienes cuenta, créala
-3. Crea una nueva **Propiedad** → **GA4**
-4. Configura:
-   - **Nombre de la propiedad**: IAenBlanco Web
-   - **Zona horaria**: Tu zona horaria
-   - **Moneda**: Tu moneda
-5. **IMPORTANTE**: Copia tu **Measurement ID** (formato: `G-XXXXXXXXXX`)
+La web ya comunica interacciones estructuradas mediante `dataLayer`. Por lo tanto, GTM no debe depender de textos de botones como "Agendar", "Hablemos" o "Ver producto".
 
-### 2.2 Crear el Tag de GA4 en GTM
+No crear activadores de este tipo:
+- `Click Text contains Agendar`
+- `Click Text contains WhatsApp`
+- `Click URL contains contacto`
 
-**⚠️ IMPORTANTE:** Google ha actualizado GTM. Ahora usa "Etiqueta de Google" (Google Tag) en lugar de "GA4 Configuration".
+Crear activadores de tipo Custom Event con los nombres exactos que envia el sitio.
 
-1. Ve a [Google Tag Manager](https://tagmanager.google.com/)
-2. Selecciona tu contenedor: **GTM-5MNF9G4Z**
-3. Ve a **Tags** → **Nuevo**
-4. Configura el tag:
-   - **Nombre**: `GA4 - Configuración`
-   - **Tipo de tag**: Busca y selecciona **`Etiqueta de Google`** o **`Google Tag`** (es la nueva opción unificada)
-   - **ID de etiqueta**: Pega tu Measurement ID (`G-XXXXXXXXXX`)
-   - **Triggering**: Selecciona `All Pages` (Todas las páginas) o `Initialization - All Pages`
+## 3. Estado de eventos
 
-5. Haz clic en **Guardar**
+| Evento dataLayer | Estado | Uso recomendado |
+| --- | --- | --- |
+| `cta_whatsapp_click` | Implementado y verificado localmente | Microconversion |
+| `service_click` | Implementado; pendiente de validar en GTM Preview | Interes |
+| `product_click` | Implementado; pendiente de validar en GTM Preview | Interes |
+| `contact_click` | Implementado; pendiente de validar en GTM Preview | Microconversion |
+| `case_click` | Implementado; pendiente de validar en GTM Preview | Confianza |
+| `form_start` | Implementado; pendiente de validar con formulario real | Interaccion |
+| `form_submit` | Implementado como intento HTML | Diagnostico tecnico, no conversion |
+| `generate_lead` | Preparado en la capa tecnica; pendiente de conectarse a exito real | Conversion principal |
+| `form_error` | Preparado como convencion tecnica | Diagnostico sin datos personales |
 
-**Nota:** Si no encuentras "Etiqueta de Google", busca "Google Tag" o simplemente escribe "Google" en el buscador y selecciona la opción que tenga el logo de Google Analytics.
+Importante:
+- `form_submit` no debe marcarse como conversion.
+- `generate_lead` solo debe enviarse cuando el envio se confirme exitosamente desde la interfaz o el backend.
+- Abrir WhatsApp no debe registrarse como `Lead`; es una senal de intencion, no un lead confirmado.
+- `form_error` no debe incluir nombres, correos, telefonos, mensajes ni otros datos personales.
 
-### 2.3 Configurar eventos personalizados (Opcional pero recomendado)
+## 4. Parametros disponibles
 
-#### Evento: Clic en botón "Agendar"
-1. **Tags** → **Nuevo**
-2. **Nombre**: `GA4 - Evento Agendar`
-3. **Tipo**: `Google Analytics: GA4 Event`
-4. **ID de configuración**: Selecciona tu tag de configuración GA4
-5. **Nombre del evento**: `agendar_click`
-6. **Triggering**: Crea un nuevo trigger:
-   - **Tipo**: `Click - All Elements`
-   - **Condición**: `Click Text` `contains` `Agendar` (o el texto de tu botón)
-7. **Guardar**
+Eventos de clic:
 
-#### Evento: Envío de formulario de contacto
-1. **Tags** → **Nuevo**
-2. **Nombre**: `GA4 - Evento Contacto`
-3. **Tipo**: `Google Analytics: GA4 Event`
-4. **ID de configuración**: Selecciona tu tag de configuración GA4
-5. **Nombre del evento**: `form_contact_submit`
-6. **Triggering**: Crea un nuevo trigger:
-   - **Tipo**: `Form Submission`
-   - **Condición**: `Form URL` `contains` `contacto` (o la URL de tu formulario)
-7. **Guardar**
-
-### 2.4 Publicar los cambios
-
-1. Haz clic en **Enviar** (arriba a la derecha)
-2. **Nombre de versión**: `Configuración inicial GA4`
-3. **Descripción**: `Agregar Google Analytics 4`
-4. Haz clic en **Publicar**
-
----
-
-## 📱 Paso 3: Configurar Facebook Pixel en GTM
-
-### 3.1 Crear un Pixel de Facebook
-
-1. Ve a [Meta Business Suite](https://business.facebook.com/)
-2. Ve a **Eventos** → **Píxeles**
-3. Haz clic en **Crear píxel**
-4. **Nombre**: `IAenBlanco Web Pixel`
-5. **IMPORTANTE**: Copia tu **ID de píxel** (número de 15-16 dígitos, ejemplo: `123456789012345`)
-
-### 3.2 Crear el Tag Base de Facebook Pixel en GTM
-
-1. En GTM, ve a **Tags** → **Nuevo**
-2. Configura el tag:
-   - **Nombre**: `Facebook Pixel - Base`
-   - **Tipo de tag**: `HTML personalizado`
-   - **HTML**: Pega este código (reemplaza `TU_PIXEL_ID` con tu ID real):
-
-```html
-<script>
-!function(f,b,e,v,n,t,s)
-{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
-n.callMethod.apply(n,arguments):n.queue.push(arguments)};
-if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
-n.queue=[];t=b.createElement(e);t.async=!0;
-t.src=v;s=b.getElementsByTagName(e)[0];
-s.parentNode.insertBefore(t,s)}(window, document,'script',
-'https://connect.facebook.net/en_US/fbevents.js');
-fbq('init', 'TU_PIXEL_ID');
-fbq('track', 'PageView');
-</script>
-<noscript><img height="1" width="1" style="display:none"
-src="https://www.facebook.com/tr?id=TU_PIXEL_ID&ev=PageView&noscript=1"
-/></noscript>
+```js
+{
+  event: 'cta_whatsapp_click',
+  cta_text: 'Texto visible del enlace',
+  link_text: 'Texto visible del enlace',
+  link_url: 'URL de destino',
+  destination: 'URL de destino',
+  page_path: '/ruta-actual/',
+  section: 'Seccion de origen',
+  service_name: 'Servicio, si aplica',
+  product_name: 'Producto, si aplica',
+  device_type: 'mobile | tablet | desktop',
+  traffic_source_raw: 'utm_source, source, referrer o direct'
+}
 ```
 
-3. **Triggering**: Selecciona `All Pages`
-4. **Guardar**
+Eventos de formulario:
 
-### 3.3 Configurar eventos estándar de Facebook
+```js
+{
+  event: 'form_start',
+  form_name: 'Nombre tecnico del formulario',
+  page_path: '/ruta-actual/',
+  section: 'Seccion de origen',
+  device_type: 'mobile | tablet | desktop',
+  traffic_source_raw: 'utm_source, source, referrer o direct'
+}
+```
 
-#### Evento: Lead (Formulario de contacto)
-1. **Tags** → **Nuevo**
-2. **Nombre**: `Facebook Pixel - Lead`
-3. **Tipo**: `HTML personalizado`
-4. **HTML**: 
+`generate_lead` debe mantener al menos:
+
+```js
+{
+  event: 'generate_lead',
+  form_name: 'Nombre tecnico del formulario',
+  page_path: '/ruta-actual/',
+  section: 'Seccion de origen',
+  device_type: 'mobile | tablet | desktop',
+  traffic_source_raw: 'utm_source, source, referrer o direct'
+}
+```
+
+`form_error` debe ser tecnico y no sensible:
+
+```js
+{
+  event: 'form_error',
+  form_name: 'contact_form',
+  error_type: 'network_error',
+  page_path: '/ruta-actual/',
+  section: 'contacto',
+  device_type: 'mobile | tablet | desktop',
+  traffic_source_raw: 'utm_source, source, referrer o direct'
+}
+```
+
+`traffic_source_raw` puede servir para diagnostico, pero no debe usarse como fuente oficial de atribucion. Para informes comerciales usar dimensiones nativas de GA4:
+- Session source / medium.
+- First user source / medium.
+- Campaign.
+- Default channel group.
+
+## 5. Variables de capa de datos en GTM
+
+Crear variables de tipo Data Layer Variable segun se necesiten en las etiquetas:
+
+| Variable GTM | Nombre en dataLayer |
+| --- | --- |
+| `DLV - cta_text` | `cta_text` |
+| `DLV - link_text` | `link_text` |
+| `DLV - link_url` | `link_url` |
+| `DLV - destination` | `destination` |
+| `DLV - page_path` | `page_path` |
+| `DLV - section` | `section` |
+| `DLV - service_name` | `service_name` |
+| `DLV - product_name` | `product_name` |
+| `DLV - form_name` | `form_name` |
+| `DLV - error_type` | `error_type` |
+| `DLV - device_type` | `device_type` |
+| `DLV - traffic_source_raw` | `traffic_source_raw` |
+
+Agregar parametros solo cuando correspondan al evento. No reutilizar una plantilla que mande parametros vacios o parametros de eventos anteriores.
+
+Dimensiones personalizadas recomendadas en GA4:
+- `section`
+- `service_name`
+- `product_name`
+- `form_name`
+
+Opcional:
+- `cta_text`
+- `error_type`, solo si se va a analizar diagnostico de formularios.
+
+No crear dimensiones personalizadas para:
+- `device_type`
+- `traffic_source_raw`
+- `page_path`
+- `link_url`
+
+GA4 ya ofrece dimensiones predefinidas para dispositivo, fuente/medio, campana, pagina y URLs. Usar dimensiones predefinidas siempre que exista una equivalente.
+
+## 6. Configuracion recomendada en GTM
+
+### Etiqueta base
+
+Nombre:
+`Google Tag - IAenBlanco`
+
+Tipo:
+`Google Tag`
+
+Tag ID:
+`G-XXXXXXXXXX`
+
+Trigger:
+`Initialization - All Pages`
+
+La etiqueta de consentimiento o CMP debe usar:
+`Consent Initialization - All Pages`
+
+No usar `Consent Initialization - All Pages` para la etiqueta normal de GA4. Ese activador queda reservado para etiquetas que definen o actualizan el estado de consentimiento.
+
+### Activadores Custom Event
+
+Crear estos activadores:
+
+| Nombre del activador | Event name |
+| --- | --- |
+| `CE - cta_whatsapp_click` | `cta_whatsapp_click` |
+| `CE - service_click` | `service_click` |
+| `CE - product_click` | `product_click` |
+| `CE - contact_click` | `contact_click` |
+| `CE - case_click` | `case_click` |
+| `CE - form_start` | `form_start` |
+| `CE - generate_lead` | `generate_lead` |
+
+Activadores opcionales de diagnostico:
+
+| Nombre del activador | Event name |
+| --- | --- |
+| `CE - form_submit` | `form_submit` |
+| `CE - form_error` | `form_error` |
+
+### Etiquetas GA4
+
+| Etiqueta | Evento GA4 | Trigger |
+| --- | --- | --- |
+| `GA4 - WhatsApp Click` | `cta_whatsapp_click` | `CE - cta_whatsapp_click` |
+| `GA4 - Service Click` | `service_click` | `CE - service_click` |
+| `GA4 - Product Click` | `product_click` | `CE - product_click` |
+| `GA4 - Contact Click` | `contact_click` | `CE - contact_click` |
+| `GA4 - Case Click` | `case_click` | `CE - case_click` |
+| `GA4 - Form Start` | `form_start` | `CE - form_start` |
+| `GA4 - Generate Lead` | `generate_lead` | `CE - generate_lead` |
+
+No crear inicialmente una etiqueta GA4 para `form_submit`. Mantenerlo en `dataLayer` y GTM Preview como diagnostico tecnico. Si mas adelante se necesita reportar errores, usar `form_error` con parametros no sensibles.
+
+Parametros sugeridos por etiqueta:
+- WhatsApp: `section`, `cta_text`, `destination`, `page_path`.
+- Service Click: `section`, `service_name`, `page_path`.
+- Product Click: `section`, `product_name`, `destination`, `page_path`.
+- Contact Click: `section`, `cta_text`, `destination`, `page_path`.
+- Case Click: `section`, `page_path`.
+- Form Start: `section`, `form_name`, `page_path`.
+- Generate Lead: `section`, `form_name`, `page_path`.
+
+Marcar como evento clave principal:
+- `generate_lead`
+
+No marcar inicialmente como evento clave:
+- `service_click`
+- `product_click`
+- `case_click`
+- `form_start`
+
+`cta_whatsapp_click` puede ser evento clave secundario o microconversion, pero debe diferenciarse del lead confirmado.
+
+## 7. Formularios y duplicacion
+
+GA4 puede medir `form_start` y `form_submit` mediante Medicion mejorada. Si esa opcion queda activa y la web tambien envia eventos manuales, pueden aparecer duplicados.
+
+Recomendacion para IAenBlanco:
+
+1. Desactivar las interacciones automaticas de formularios en Medicion mejorada de GA4.
+2. Mantener la instrumentacion propia del sitio.
+3. Usar `form_start` como senal de interaccion.
+4. Usar `form_submit` solo como diagnostico local/Preview.
+5. Enviar `generate_lead` solo cuando el envio termine correctamente.
+6. Enviar `form_error` solo con informacion tecnica no sensible cuando falle el envio.
+
+Flujo esperado:
+
+```text
+form_start
+  -> intento de envio
+  -> respuesta exitosa
+  -> generate_lead
+```
+
+Si hay fallo:
+
+```text
+form_start
+  -> intento de envio
+  -> form_error
+```
+
+No mapear `form_submit` a `generate_lead`.
+
+## 8. Meta Pixel
+
+Usar el nombre actual Meta Pixel. "Facebook Pixel" sigue siendo entendible, pero no debe ser el nombre principal de la guia.
+
+Configuracion minima:
+
+| Evento del sitio | Evento Meta | Trigger |
+| --- | --- | --- |
+| Carga de pagina | `PageView` | `All Pages` |
+| `generate_lead` | `Lead` | `CE - generate_lead` |
+| `cta_whatsapp_click` | Evento personalizado `WhatsAppClick` | `CE - cta_whatsapp_click` |
+| Pagina individual de producto | `ViewContent` | Solo cuando exista una pagina de producto relevante |
+
+Ejemplo de evento personalizado WhatsApp:
 
 ```html
 <script>
-fbq('track', 'Lead', {
-  content_name: 'Formulario de Contacto',
-  content_category: 'Contacto'
+fbq("trackCustom", "WhatsAppClick", {
+  section: "{{DLV - section}}",
+  destination: "{{DLV - destination}}"
 });
 </script>
 ```
 
-5. **Triggering**: Usa el mismo trigger del formulario que creaste para GA4
-6. **Guardar**
+No usar:
+- `Schedule`, salvo que exista una reserva confirmada dentro del sitio.
+- `Lead` por un simple clic en WhatsApp.
+- Bloques `<noscript>` dentro de una etiqueta HTML personalizada de GTM. Si JavaScript esta desactivado, GTM no ejecuta esa etiqueta, por lo que ese respaldo no aporta valor real ahi.
 
-#### Evento: Schedule (Clic en Agendar)
-1. **Tags** → **Nuevo**
-2. **Nombre**: `Facebook Pixel - Schedule`
-3. **Tipo**: `HTML personalizado`
-4. **HTML**:
+Verificar Meta con Test Events de Events Manager antes de publicar cambios definitivos.
 
-```html
-<script>
-fbq('track', 'Schedule', {
-  content_name: 'Botón Agendar',
-  content_category: 'CTA'
-});
-</script>
-```
+## 9. Validacion en produccion
 
-5. **Triggering**: Usa el mismo trigger del botón Agendar
-6. **Guardar**
+La validacion debe ocurrir en cuatro niveles.
 
-### 3.4 Publicar los cambios
+### GTM Preview
 
-1. Haz clic en **Enviar**
-2. **Nombre de versión**: `Configuración Facebook Pixel`
-3. **Descripción**: `Agregar Facebook Pixel con eventos`
-4. Haz clic en **Publicar**
+Confirmar:
+- Se recibe el evento en `dataLayer`.
+- Se activa el trigger correcto.
+- Se dispara una sola etiqueta.
+- No hay duplicados.
+- `form_submit` no dispara `generate_lead`.
 
----
+### GA4 DebugView
 
-## 🧪 Paso 4: Verificar que todo funciona
+Confirmar:
+- Nombre del evento.
+- Parametros.
+- Pagina.
+- Dispositivo mediante dimensiones nativas.
+- Atribucion mediante dimensiones nativas.
+- `generate_lead` aparece una sola vez cuando corresponde.
 
-### Verificar GA4
+### GA4 Tiempo real
 
-1. Ve a [Google Analytics](https://analytics.google.com/)
-2. Selecciona tu propiedad GA4
-3. Ve a **Informes** → **Tiempo real**
-4. Visita tu sitio web en otra pestaña
-5. Deberías ver tu visita en tiempo real ✅
+Confirmar:
+- El evento llega a la propiedad correcta.
+- La sesion aparece en la ruta esperada.
+- Los eventos no se duplican.
 
-### Verificar Facebook Pixel
+### Meta Events Manager
 
-1. Instala la extensión [Facebook Pixel Helper](https://chrome.google.com/webstore/detail/facebook-pixel-helper/fdgfkebogiimcoedlicjlajpkdmockpc)
-2. Visita tu sitio web
-3. Haz clic en el icono de la extensión
-4. Deberías ver tu Pixel ID y eventos ✅
+Confirmar:
+- Recepcion del evento.
+- Pixel ID correcto.
+- URL correcta.
+- Ausencia de duplicados.
+- Diagnosticos sin alertas criticas.
 
-### Verificar en GTM Preview Mode
+No declarar la medicion completa hasta pasar estos cuatro niveles en produccion.
 
-1. En GTM, haz clic en **Vista previa**
-2. Ingresa tu URL: `https://iaenblanco.com`
-3. Navega por tu sitio
-4. Verifica que los tags se disparen correctamente
+## 10. Privacidad, cookies y consentimiento
 
----
+IAenBlanco opera desde Chile, por lo que la guia no debe limitarse a GDPR o CCPA.
 
-## 📈 Eventos Recomendados para Trackear
+La publicacion definitiva debe considerar:
+- Politica de privacidad.
+- Finalidad de Analytics y Meta Pixel.
+- Terceros que reciben informacion.
+- Plazo de conservacion.
+- Transferencias internacionales.
+- Mecanismo para ejercer derechos.
+- Consentimiento para medicion publicitaria cuando corresponda.
+- Google Consent Mode.
+- Bloqueo o adaptacion de Meta Pixel segun la decision del usuario.
 
-### Eventos de GA4 que puedes agregar:
+Consent Mode debe contemplar, al menos:
+- `analytics_storage`
+- `ad_storage`
+- `ad_user_data`
+- `ad_personalization`
 
-1. **`page_view`** - Ya configurado automáticamente
-2. **`agendar_click`** - Clic en botón de agendar
-3. **`form_contact_submit`** - Envío de formulario de contacto
-4. **`scroll_depth`** - Scroll profundo (90% de la página)
-5. **`video_play`** - Si tienes videos
-6. **`download`** - Descargas de recursos
-7. **`search`** - Búsquedas en el sitio
+La Ley chilena 21.719 incorpora derechos de los titulares y reglas relevantes para tratamiento automatizado, perfilamiento, finalidad, transparencia y ejercicio de derechos. Esta seccion requiere revision legal antes de publicarse como politica definitiva.
 
-### Eventos de Facebook Pixel:
+## 11. Fuentes oficiales usadas para esta guia
 
-1. **`PageView`** - Ya configurado
-2. **`Lead`** - Formularios completados
-3. **`Schedule`** - Agendamientos
-4. **`ViewContent`** - Visualización de contenido importante
-5. **`InitiateCheckout`** - Si tienes proceso de compra
+- Google Tag Manager Data Layer: https://developers.google.com/tag-platform/tag-manager/datalayer
+- Tag Assistant: https://tagassistant.google.com/
+- GTM Custom Event trigger: https://support.google.com/tagmanager/answer/7679219
+- GTM Consent Mode support: https://support.google.com/tagmanager/answer/10718549
+- GA4 Custom dimensions and metrics: https://support.google.com/analytics/answer/14240153
+- GA4 Enhanced Measurement: https://support.google.com/analytics/answer/9216061
+- GA4 Recommended Events: https://developers.google.com/analytics/devguides/collection/ga4/reference/events
+- Meta Pixel conversion tracking: https://developers.facebook.com/documentation/meta-pixel/implementation/conversion-tracking
+- Meta Test Events: https://www.facebook.com/business/help/2040882565969969
+- Ley Chile 21.719: https://www.bcn.cl/leychile/navegar?idNorma=1209272
 
----
+## 12. Cierre correcto
 
-## 🔒 Privacidad y Consentimiento (GDPR/CCPA)
-
-Si tu sitio necesita cumplir con GDPR o CCPA, considera:
-
-1. **Instalar un banner de cookies** (ej: Cookiebot, OneTrust)
-2. **Configurar consentimiento en GTM**:
-   - Ve a **Contenedor** → **Configuración** → **Consentimiento**
-   - Habilita el modo de consentimiento
-   - Configura los tags para requerir consentimiento
-
----
-
-## 🚀 Próximos Pasos
-
-1. ✅ Configura GA4 y Facebook Pixel siguiendo esta guía
-2. ✅ Verifica que todo funciona
-3. ✅ Espera 24-48 horas para ver datos en los dashboards
-4. ✅ Configura conversiones y objetivos en GA4
-5. ✅ Crea audiencias en Facebook para retargeting
-
----
-
-## 📞 Soporte
-
-Si tienes problemas:
-- [Documentación oficial de GTM](https://support.google.com/tagmanager)
-- [Documentación de GA4](https://support.google.com/analytics/answer/10089681)
-- [Documentación de Facebook Pixel](https://www.facebook.com/business/help/952354354575702)
-
----
-
-**¡Listo!** Tu sitio web ahora tiene tracking completo con Google Analytics 4 y Facebook Pixel a través de Google Tag Manager. 🎉
-
+La capa de medicion del sitio esta preparada. La implementacion se considerara completa despues de validar GTM, GA4 y Meta en produccion, confirmar que no existen duplicaciones y verificar que los eventos comerciales aparecen correctamente en los reportes.

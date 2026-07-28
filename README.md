@@ -6,7 +6,7 @@ El proyecto genera una exportación completamente estática para Cloudflare Page
 ## Rutas
 
 - `/` — Inicio
-- `/productos/` — Unifícalo y Citaly
+- `/productos/` — Unifícalo, Citaly y Leads.IAenBlanco
 - `/contacto/` — WhatsApp y correo
 - `/servicios/[slug]/` — cinco páginas de servicio
 - `/privacidad/`
