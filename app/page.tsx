@@ -62,7 +62,7 @@ const heroServiceCards = [
   { title: 'Software', detail: 'Sistemas a medida', theme: 'software' },
   { title: 'Automatizaciones', detail: 'Flujos operativos', theme: 'automation' },
   { title: 'IA a medida', detail: 'Agentes y modelos', theme: 'ai' },
-  { title: 'Leads B2B', detail: 'Servicio gestionado', theme: 'magnet' },
+  { title: 'Prospección B2B', detail: 'Servicio gestionado', theme: 'magnet' },
 ]
 
 const heroProductCards = [
@@ -1456,15 +1456,13 @@ export default function HomePage() {
 
       <TrustProofSection />
 
-      <SystemMapSection />
-
       <ProblemSection />
-
-      <ProductLabSection />
 
       <ServiceSystem />
 
       <FeaturedCaseSection />
+
+      <ProductLabSection />
 
       <section className="operating-model" aria-labelledby="model-heading">
         <div className="section-shell">

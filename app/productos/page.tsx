@@ -259,7 +259,7 @@ export default function ProductsPage() {
         <div className="section-shell">
           <p className="hero-kicker"><span /> Productos propios</p>
           <h1>
-            Productos que convierten
+            Productos que convierten{' '}
             <em>problemas reales en sistemas.</em>
           </h1>
           <p>

@@ -145,8 +145,8 @@ export const services: Service[] = [
   {
     slug: 'leads-magnet',
     index: '05',
-    shortTitle: 'Leads B2B',
-    title: 'Leads B2B gestionados',
+    shortTitle: 'Prospección B2B',
+    title: 'Prospección B2B gestionada',
     eyebrow: 'Servicio comercial operado',
     statement: 'Un programa mensual para encontrar, priorizar y trabajar oportunidades B2B con método, datos y automatización.',
     description:

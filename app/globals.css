@@ -1271,7 +1271,7 @@ button {
 .hero-concept-map {
   position: relative;
   width: 100%;
-  height: 480px;
+  height: 540px;
   overflow: hidden;
   --concept-service: #1faad1;
   --concept-product: #d99019;
@@ -1324,7 +1324,7 @@ button {
   inset: 0;
   z-index: 1;
   width: 100%;
-  height: 100%;
+  height: 480px;
   overflow: visible;
 }
 
@@ -1640,11 +1640,11 @@ button {
 
 .hero-concept-process {
   right: 44px;
-  bottom: 8px;
+  bottom: 16px;
   left: 44px;
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
-  min-height: 56px;
+  min-height: 62px;
   border: 1px solid rgba(64, 176, 208, 0.22);
   background: rgba(251, 250, 247, 0.7);
   box-shadow: 0 14px 32px rgba(7, 10, 15, 0.07);
@@ -1666,9 +1666,10 @@ button {
 .process-step strong {
   color: var(--ink);
   font-family: var(--font-mono);
-  font-size: 15px;
+  font-size: clamp(13px, 1.05vw, 15px);
   font-weight: 760;
   letter-spacing: 0.02em;
+  line-height: 1.12;
   text-transform: uppercase;
 }
 
@@ -7903,6 +7904,34 @@ button {
 }
 
 @media (min-width: 901px) and (max-width: 1200px) {
+  .home-hero__inner {
+    grid-template-columns: 1fr;
+    gap: 42px;
+    min-height: auto;
+    padding-top: 58px;
+    padding-bottom: 70px;
+  }
+
+  .home-hero__content {
+    max-width: 760px;
+  }
+
+  .home-hero__visual {
+    justify-self: center;
+    width: min(100%, 760px);
+    min-height: auto;
+  }
+
+  .home-hero h1 {
+    max-width: 760px;
+    font-size: clamp(62px, 7vw, 84px);
+  }
+
+  .home-hero__summary {
+    max-width: 680px;
+    font-size: 21px;
+  }
+
   .summary-orb {
     grid-template-columns: 26% minmax(0, 1fr);
     gap: 8px;
@@ -8037,6 +8066,11 @@ button {
     opacity: 1;
     visibility: visible;
     transform: translateY(0);
+  }
+
+  .mobile-nav-shell:not([open]) .mobile-navigation {
+    display: none;
+    pointer-events: none;
   }
 
   .mobile-navigation__inner {
@@ -10456,6 +10490,11 @@ button {
 
   .page-hero__actions {
     grid-column: 1;
+  }
+
+  .page-hero > .section-shell > p:not(.hero-kicker) {
+    grid-column: 1;
+    max-width: 100%;
   }
 }
 

@@ -179,7 +179,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
           'plataformas-software-medida': 'Software',
           automatizaciones: 'Automatizaciones',
           'soluciones-ia-medida': 'IA a medida',
-          'leads-magnet': 'Leads B2B'
+          'leads-magnet': 'Prospeccion B2B'
         };
         return services[slug] || '';
       }

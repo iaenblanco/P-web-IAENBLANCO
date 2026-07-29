@@ -76,7 +76,7 @@ export function ServiceSystem() {
             Una operación conectada necesita más que una herramienta aislada.
           </h2>
           <p>
-            Cuatro capacidades construyen la base digital. Leads B2B queda separado
+            Cuatro capacidades construyen la base digital. La prospección B2B queda separada
             como una operación comercial gestionada, para evitar mezclar servicio con producto.
           </p>
         </div>
@@ -132,7 +132,7 @@ export function ServiceSystem() {
                       {serviceResults[commercialService.slug]}
                     </p>
                   </div>
-                  <div className="service-entry__pipeline" aria-label="Flujo comercial de Leads B2B">
+                  <div className="service-entry__pipeline" aria-label="Flujo comercial de prospección B2B">
                     <span>ICP</span>
                     <i />
                     <span>Evidencia</span>
