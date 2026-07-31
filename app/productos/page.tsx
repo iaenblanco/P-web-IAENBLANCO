@@ -213,7 +213,7 @@ function ProductVisual({ index }: { index: number }) {
       <ProductNetworkVisual
         theme="citaly"
         engine="agenda.engine"
-        status="Validacion comercial"
+        status="Validación comercial"
         brand="citaly-mark"
         title="Citaly"
         detail="WhatsApp + agenda + IA"
@@ -237,7 +237,7 @@ function ProductVisual({ index }: { index: number }) {
       engine="lead.engine"
       status="Acceso piloto"
       title="Leads"
-      detail="Prospeccion + scoring"
+      detail="Prospección + scoring"
       outputLabel="salida comercial"
       outputText="Oportunidad priorizada"
       nodes={[

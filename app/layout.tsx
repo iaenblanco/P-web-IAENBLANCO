@@ -185,15 +185,15 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
           'plataformas-software-medida': 'Plataformas y software',
           automatizaciones: 'Automatizaciones e integraciones',
           'soluciones-ia-medida': 'Soluciones de IA',
-          'prospeccion-b2b-gestionada': 'Prospeccion B2B gestionada',
-          'leads-magnet': 'Prospeccion B2B gestionada'
+          'prospeccion-b2b-gestionada': 'Prospección B2B gestionada',
+          'leads-magnet': 'Prospección B2B gestionada'
         };
         return services[slug] || '';
       }
       function productNameFrom(anchor){
         var href = anchor.getAttribute('href') || '';
         var absolute = anchor.href || href;
-        if (absolute.indexOf('unificalo.cl') !== -1) return 'Unificalo';
+        if (absolute.indexOf('unificalo.cl') !== -1) return 'Unifícalo';
         if (absolute.indexOf('citaly.cl') !== -1) return 'Citaly';
         if (absolute.indexOf('leads.iaenblanco.com') !== -1) return 'Leads';
         if (pathFor(anchor).indexOf('/productos') === 0) return 'Productos';

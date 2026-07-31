@@ -70,7 +70,7 @@ const serviceLinkLabels: Record<string, string> = {
 export function ServiceSystem() {
   const coreServices = services.filter((service) => service.slug !== 'prospeccion-b2b-gestionada')
   const commercialService = services.find((service) => service.slug === 'prospeccion-b2b-gestionada')
-  const diagnosticUrl = getWhatsappUrl('Hola IAenBlanco, quiero revisar que servicio calza mejor con mi negocio.')
+  const diagnosticUrl = getWhatsappUrl('Hola IAenBlanco, quiero revisar qué servicio calza mejor con mi negocio.')
 
   return (
     <section
@@ -134,7 +134,7 @@ export function ServiceSystem() {
         <div className="services-problem-router__note">
           <span />
           <p>
-            No tienes que elegir perfecto. Si el problema cruza web, software, automatizacion o IA,
+            No tienes que elegir perfecto. Si el problema cruza web, software, automatización o IA,
             partimos ordenando el alcance antes de construir.
           </p>
         </div>

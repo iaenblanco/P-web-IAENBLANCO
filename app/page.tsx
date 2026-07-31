@@ -26,7 +26,7 @@ function ArrowDown() {
 const heroServiceNodes = [
   { name: 'Sitios web', theme: 'web', x: '18%', y: '22%', point: [112, 122] },
   { name: 'Software', theme: 'software', x: '18%', y: '41%', point: [112, 228] },
-  { name: 'Automatizacion', theme: 'automation', x: '18%', y: '60%', point: [112, 334] },
+  { name: 'Automatización', theme: 'automation', x: '18%', y: '60%', point: [112, 334] },
   { name: 'IA a medida', theme: 'ai', x: '18%', y: '79%', point: [112, 440] },
 ]
 
@@ -38,7 +38,7 @@ const heroPlatformNodes = [
 ]
 
 const heroProductNodes = [
-  { name: 'Unificalo', theme: 'unificalo', x: '82%', y: '25%', point: [508, 138] },
+  { name: 'Unifícalo', theme: 'unificalo', x: '82%', y: '25%', point: [508, 138] },
   { name: 'Citaly', theme: 'citaly', x: '82%', y: '50%', point: [508, 280] },
   { name: 'Leads', theme: 'leads', x: '82%', y: '75%', point: [508, 422] },
 ]
@@ -179,7 +179,7 @@ const clientProofs = [
     project: 'E-commerce e integraciones',
     system: 'Canal digital + catálogo + operación comercial',
     result: 'Una presencia preparada para vender, ordenar oferta y sostener crecimiento.',
-    proof: 'Canal trabajado por IAenBlanco para ordenar catalogo, venta online y operacion comercial.',
+    proof: 'Canal trabajado por IAenBlanco para ordenar catálogo, venta online y operación comercial.',
   },
   {
     client: 'YoMeEncargo',
@@ -189,7 +189,7 @@ const clientProofs = [
     project: 'Plataforma y experiencia comercial digital',
     system: 'Servicio explicado + flujo comercial + solicitud entrante',
     result: 'Una interfaz que convierte una oferta amplia en una experiencia fácil de entender.',
-    proof: 'Experiencia creada por IAenBlanco para explicar servicios, ordenar flujo y facilitar conversion.',
+    proof: 'Experiencia creada por IAenBlanco para explicar servicios, ordenar flujo y facilitar conversión.',
   },
   {
     client: 'Granja Magdalena Pet',
@@ -200,7 +200,7 @@ const clientProofs = [
     project: 'Canal digital especializado',
     system: 'Línea de negocio + canal propio + venta especializada',
     result: 'Un espacio diferenciado para comunicar y vender una categoría específica.',
-    proof: 'Linea especializada con presencia propia para comunicar y vender una categoria especifica.',
+    proof: 'Línea especializada con presencia propia para comunicar y vender una categoría específica.',
   },
   {
     client: 'Inasec Pets',
@@ -210,7 +210,7 @@ const clientProofs = [
     project: 'Presencia comercial digital',
     system: 'Oferta clara + captura de interés + contacto',
     result: 'Una base web para explicar oferta y abrir conversaciones comerciales.',
-    proof: 'Presencia web enfocada en comunicar oferta y capturar interes comercial.',
+    proof: 'Presencia web enfocada en comunicar oferta y capturar interés comercial.',
   },
 ]
 

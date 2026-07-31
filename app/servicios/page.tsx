@@ -43,7 +43,7 @@ function ArrowRight() {
 export default function ServicesIndexPage() {
   const coreServices = services.filter((service) => service.slug !== 'prospeccion-b2b-gestionada')
   const managedService = services.find((service) => service.slug === 'prospeccion-b2b-gestionada')
-  const diagnosticUrl = getWhatsappUrl('Hola IAenBlanco, quiero diagnosticar que servicio necesita mi negocio.')
+  const diagnosticUrl = getWhatsappUrl('Hola IAenBlanco, quiero diagnosticar qué servicio necesita mi negocio.')
 
   return (
     <main id="contenido" className="services-index">
@@ -54,9 +54,9 @@ export default function ServicesIndexPage() {
             <h1>De una necesidad abierta a un sistema funcionando.</h1>
           </div>
           <p>
-            Disenamos y construimos sitios web, plataformas, automatizaciones y soluciones de IA
-            alrededor de la operacion real de tu negocio. Si el problema es comercial, tambien
-            podemos operar prospeccion B2B gestionada.
+            Diseñamos y construimos sitios web, plataformas, automatizaciones y soluciones de IA
+            alrededor de la operación real de tu negocio. Si el problema es comercial, también
+            podemos operar prospección B2B gestionada.
           </p>
         </div>
       </section>
@@ -65,7 +65,7 @@ export default function ServicesIndexPage() {
         <div className="section-shell">
           <div className="services-index-heading">
             <p className="eyebrow">Entrada por problema</p>
-            <h2>Elige la frase que mas se parece a lo que necesitas resolver.</h2>
+            <h2>Elige la frase que más se parece a lo que necesitas resolver.</h2>
           </div>
           <div className="services-index-problems">
             {serviceProblemEntries.map((entry) => {
@@ -105,8 +105,8 @@ export default function ServicesIndexPage() {
           <div className="services-index-editorial-note">
             <span />
             <p>
-              No necesitas saber si el problema requiere una web, automatizacion, software o IA.
-              La primera conversacion sirve para definirlo con criterio y ordenar el siguiente paso.
+              No necesitas saber si el problema requiere una web, automatización, software o IA.
+              La primera conversación sirve para definirlo con criterio y ordenar el siguiente paso.
             </p>
           </div>
         </div>
@@ -116,7 +116,7 @@ export default function ServicesIndexPage() {
         <div className="section-shell">
           <div className="services-index-heading">
             <p className="eyebrow">Capacidades principales</p>
-            <h2>Cuatro formas de construir la base digital de tu operacion.</h2>
+            <h2>Cuatro formas de construir la base digital de tu operación.</h2>
           </div>
           <div className="services-index-cards">
             {coreServices.map((service) => (
@@ -203,10 +203,10 @@ export default function ServicesIndexPage() {
         <div className="section-shell services-index-final__inner">
           <div>
             <p className="eyebrow">Diagnóstico</p>
-            <h2>No necesitas llegar con la solucion definida.</h2>
+            <h2>No necesitas llegar con la solución definida.</h2>
             <p>
               Puedes llegar con el problema, el proceso o la idea. Nosotros te ayudamos a ordenar
-              que construir, que automatizar y que dejar para una siguiente etapa.
+              qué construir, qué automatizar y qué dejar para una siguiente etapa.
             </p>
           </div>
           <a

@@ -2212,6 +2212,11 @@ button {
   border-bottom: 1px solid var(--line-soft);
 }
 
+.service-page-section--website-proof {
+  padding-top: clamp(36px, 4.8vw, 72px);
+  padding-bottom: clamp(46px, 5.8vw, 84px);
+}
+
 .services-index-heading,
 .service-page-section__heading {
   display: grid;
@@ -3168,8 +3173,6 @@ button {
 
 @media (max-width: 1180px) {
   .services-index-cards,
-  .services-web-proof-grid,
-  .services-web-proof-grid--service-page,
   .service-build-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
@@ -3186,6 +3189,25 @@ button {
   }
 }
 
+@media (min-width: 901px) and (max-width: 1439px) {
+  .services-web-proof-grid,
+  .services-web-proof-grid--service-page {
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+  }
+
+  .services-web-proof-grid article {
+    grid-column: span 2;
+  }
+
+  .services-web-proof-grid article:nth-child(4) {
+    grid-column: 2 / span 2;
+  }
+
+  .services-web-proof-grid article:nth-child(5) {
+    grid-column: 4 / span 2;
+  }
+}
+
 @media (max-width: 900px) {
   .services-problem-router,
   .services-index-problems,
@@ -3194,6 +3216,10 @@ button {
   .services-web-proof-grid--service-page,
   .service-use-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .services-web-proof-grid article {
+    grid-column: auto;
   }
 
   .services-index-hero__inner,
@@ -12926,7 +12952,7 @@ button {
   }
 
   .summary-system-label--services::after {
-    content: "Web / Software / Automatizacion / IA";
+    content: "Web / Software / Automatización / IA";
   }
 
   .summary-system-label--platforms::after {
@@ -12934,7 +12960,7 @@ button {
   }
 
   .summary-system-label--products::after {
-    content: "Unificalo / Citaly / Leads";
+    content: "Unifícalo / Citaly / Leads";
   }
 
   .hero-summary-map__explore {
@@ -13183,7 +13209,7 @@ button {
   }
 
   .summary-system-label--services::after {
-    content: "Web / Software / Automatizacion / IA";
+    content: "Web / Software / Automatización / IA";
   }
 
   .summary-system-label--platforms::after {
@@ -13191,7 +13217,7 @@ button {
   }
 
   .summary-system-label--products::after {
-    content: "Unificalo / Citaly / Leads";
+    content: "Unifícalo / Citaly / Leads";
   }
 
   .hero-concept-group {
