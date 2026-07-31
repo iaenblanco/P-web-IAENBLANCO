@@ -173,6 +173,7 @@ export const services: Service[] = [
 
 export const products = [
   {
+    id: 'unificalo',
     name: 'Unifícalo',
     status: 'Piloto abierto',
     eyebrow: 'E-commerce multicanal',
@@ -198,6 +199,7 @@ export const products = [
     available: false,
   },
   {
+    id: 'citaly',
     name: 'Citaly',
     status: 'Validación comercial',
     eyebrow: 'Agenda + agente IA',
@@ -214,6 +216,7 @@ export const products = [
     available: false,
   },
   {
+    id: 'leads',
     name: 'Leads',
     status: 'Acceso piloto',
     eyebrow: 'Prospección B2B',

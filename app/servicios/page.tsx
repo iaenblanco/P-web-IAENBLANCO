@@ -40,6 +40,11 @@ function ArrowRight() {
   )
 }
 
+function serviceNameForSlug(slug?: string) {
+  if (!slug) return 'Diagnóstico'
+  return services.find((service) => service.slug === slug)?.shortTitle || 'Servicios'
+}
+
 export default function ServicesIndexPage() {
   const coreServices = services.filter((service) => service.slug !== 'prospeccion-b2b-gestionada')
   const managedService = services.find((service) => service.slug === 'prospeccion-b2b-gestionada')
@@ -70,6 +75,8 @@ export default function ServicesIndexPage() {
           <div className="services-index-problems">
             {serviceProblemEntries.map((entry) => {
               const isExternal = entry.href.startsWith('http')
+              const serviceId = entry.serviceSlug || 'diagnostico'
+              const serviceName = serviceNameForSlug(entry.serviceSlug)
               const body = (
                 <>
                   <strong>{entry.label}</strong>
@@ -85,7 +92,9 @@ export default function ServicesIndexPage() {
                   target="_blank"
                   rel="noreferrer"
                   data-analytics-event="service_whatsapp_click"
-                  data-service-name="Diagnóstico"
+                  data-service-id={serviceId}
+                  data-service-name={serviceName}
+                  data-entry-problem={entry.label}
                 >
                   {body}
                 </a>
@@ -95,7 +104,9 @@ export default function ServicesIndexPage() {
                   href={entry.href}
                   prefetch={false}
                   data-analytics-event="service_cta_click"
-                  data-service-name={entry.label}
+                  data-service-id={serviceId}
+                  data-service-name={serviceName}
+                  data-entry-problem={entry.label}
                 >
                   {body}
                 </Link>
@@ -131,6 +142,7 @@ export default function ServicesIndexPage() {
                   href={`/servicios/${service.slug}`}
                   prefetch={false}
                   data-analytics-event="service_cta_click"
+                  data-service-id={service.slug}
                   data-service-name={service.shortTitle}
                 >
                   Ver servicio
@@ -157,6 +169,7 @@ export default function ServicesIndexPage() {
               href={`/servicios/${managedService.slug}`}
               prefetch={false}
               data-analytics-event="service_cta_click"
+              data-service-id={managedService.slug}
               data-service-name={managedService.shortTitle}
             >
               Ver operación
@@ -188,7 +201,9 @@ export default function ServicesIndexPage() {
                   rel="noreferrer"
                   className="services-web-proof-grid__link"
                   data-analytics-event="service_case_click"
-                  data-service-name={item.client}
+                  data-service-id="desarrollo-web-ia"
+                  data-service-name="Sitios web y Shopify"
+                  data-case-name={item.client}
                 >
                   Ver sitio
                   <ArrowUpRight />
@@ -215,6 +230,7 @@ export default function ServicesIndexPage() {
             rel="noreferrer"
             className="button button--primary"
             data-analytics-event="service_whatsapp_click"
+            data-service-id="diagnostico"
             data-service-name="Diagnóstico"
           >
             Pedir diagnóstico

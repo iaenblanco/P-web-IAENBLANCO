@@ -24,9 +24,9 @@ export type ServiceCase = {
   label: string
   title: string
   text: string
+  href: string
+  actionLabel: string
   logo?: string
-  href?: string
-  actionLabel?: string
 }
 
 export type WebsiteProofCase = {
@@ -61,7 +61,7 @@ export type ServicePageContent = {
     }
   }
   useCases: { title: string; text: string }[]
-  caseStudy: ServiceCase
+  caseStudy?: ServiceCase
   process: { title: string; text: string }[]
   engagementModes: string[]
   faqs: ServiceFaq[]
@@ -218,14 +218,6 @@ export const servicePageContent: Record<ServiceSlug, ServicePageContent> = {
         text: 'Crear una landing enfocada en comunicar valor, validar interés y abrir conversaciones.',
       },
     ],
-    caseStudy: {
-      client: 'Granja Magdalena',
-      label: 'Sitio desarrollado por IAenBlanco',
-      title: 'Canal digital preparado para vender.',
-      text: 'La experiencia se penso como un canal comercial desarrollado por IAenBlanco: catálogo, narrativa de oferta, estructura visual y una operación digital más clara para sostener crecimiento.',
-      href: 'https://granjamagdalena.cl/',
-      actionLabel: 'Ver sitio',
-    },
     process: [
       { title: 'Entender oferta', text: 'Revisamos público, propuesta, servicios, productos y decisión de compra.' },
       { title: 'Ordenar narrativa', text: 'Definimos páginas, bloques, mensajes y llamados a la acción.' },
@@ -240,32 +232,32 @@ export const servicePageContent: Record<ServiceSlug, ServicePageContent> = {
     ],
     faqs: [
       {
-        question: 'Sirve si todavía no tengo todo el contenido listo?',
+        question: '¿Sirve si todavía no tengo todo el contenido listo?',
         answer:
           'Sí. Podemos partir ordenando la narrativa y definir qué contenido falta antes de diseñar o desarrollar.',
       },
       {
-        question: 'Pueden conectar la web con WhatsApp?',
+        question: '¿Pueden conectar la web con WhatsApp?',
         answer:
           'Sí. El flujo puede llevar a WhatsApp con contexto, formularios o rutas de contacto según la intención del visitante.',
       },
       {
-        question: 'También trabajan Shopify?',
+        question: '¿También trabajan Shopify?',
         answer:
           'Sí. Shopify entra dentro del servicio cuando la necesidad es vender, ordenar catálogo o mejorar la experiencia de compra.',
       },
       {
-        question: 'Qué necesitan para cotizar una web?',
+        question: '¿Qué necesitan para cotizar una web?',
         answer:
           'Necesitamos entender oferta, público, objetivo comercial, páginas necesarias, referencias visuales, integraciones y si existe contenido base o hay que construirlo.',
       },
       {
-        question: 'De qué depende el plazo?',
+        question: '¿De qué depende el plazo?',
         answer:
           'Depende del tamaño del sitio, contenido disponible, nivel de diseño, integraciones y rondas de revisión. Lo definimos por etapas para evitar crecer sin control.',
       },
       {
-        question: 'Qué pasa después de lanzar?',
+        question: '¿Qué pasa después de lanzar?',
         answer:
           'Podemos dejar una etapa de ajustes, medición básica y evolución mensual para mejorar contenido, conversión o nuevas secciones.',
       },
@@ -281,7 +273,7 @@ export const servicePageContent: Record<ServiceSlug, ServicePageContent> = {
     whatsappMessage:
       'Hola IAenBlanco, quiero revisar una plataforma o software a medida para ordenar mi operación.',
     problems: [
-      'La información vive en varias planillas y nadie sabe cual es la versión correcta.',
+      'La información vive en varias planillas y nadie sabe cuál es la versión correcta.',
       'El equipo repite tareas porque el proceso no está centralizado.',
       'Hay permisos, estados o reglas que una herramienta genérica no entiende.',
       'La gerencia necesita visibilidad sin pedir reportes manuales todo el tiempo.',
@@ -340,9 +332,9 @@ export const servicePageContent: Record<ServiceSlug, ServicePageContent> = {
       client: 'Propinvest',
       label: 'Plataforma desarrollada por IAenBlanco',
       title: 'Catálogo inmobiliario editable.',
-      text: 'IAenBlanco construyo una base digital para administrar propiedades, comunicar fichas y mantener contenido comercial sin depender de cambios manuales externos.',
+      text: 'IAenBlanco construyó una base digital para administrar propiedades, comunicar fichas y mantener contenido comercial sin depender de cambios manuales externos. La administración interna no es pública.',
       href: 'https://propinvest.cl/',
-      actionLabel: 'Ver sitio',
+      actionLabel: 'Ver sitio público',
     },
     process: [
       { title: 'Mapear operación', text: 'Detectamos usuarios, información, reglas y puntos de fricción.' },
@@ -358,32 +350,32 @@ export const servicePageContent: Record<ServiceSlug, ServicePageContent> = {
     ],
     faqs: [
       {
-        question: 'Conviene hacer software a medida o usar una herramienta existente?',
+        question: '¿Conviene hacer software a medida o usar una herramienta existente?',
         answer:
           'Depende del proceso. Si la herramienta existente obliga a cambiar demasiado la operación o genera trabajo manual, puede hacer sentido construir una capa propia.',
       },
       {
-        question: 'Se puede partir pequeño?',
+        question: '¿Se puede partir pequeño?',
         answer:
           'Sí. Lo recomendable es partir por el flujo que más impacto tiene y luego evolucionar con uso real.',
       },
       {
-        question: 'Incluye usuarios y permisos?',
+        question: '¿Incluye usuarios y permisos?',
         answer:
           'Sí, cuando el proceso lo requiere. Es parte central de una plataforma operativa.',
       },
       {
-        question: 'Qué necesitan para cotizar una plataforma?',
+        question: '¿Qué necesitan para cotizar una plataforma?',
         answer:
-          'Necesitamos entender usuarios, roles, datos, estados, reglas, reportes, herramientas existentes y que parte del proceso duele más hoy.',
+          'Necesitamos entender usuarios, roles, datos, estados, reglas, reportes, herramientas existentes y qué parte del proceso duele más hoy.',
       },
       {
-        question: 'Cómo se define el alcance inicial?',
+        question: '¿Cómo se define el alcance inicial?',
         answer:
           'Priorizamos el flujo crítico y separamos MVP, mejoras posteriores y funcionalidades que no conviene construir todavía.',
       },
       {
-        question: 'De qué depende el plazo?',
+        question: '¿De qué depende el plazo?',
         answer:
           'Depende de cantidad de usuarios, reglas, integraciones, volumen de datos y nivel de administración requerido. Por eso lo cerramos por etapas.',
       },
@@ -435,7 +427,7 @@ export const servicePageContent: Record<ServiceSlug, ServicePageContent> = {
       steps: [
         { title: 'Sistema A', detail: 'Entrada de datos.' },
         { title: 'Validación', detail: 'Campos y condiciones.' },
-        { title: 'Reglas', detail: 'Decision automática.' },
+        { title: 'Reglas', detail: 'Decisión automática.' },
         { title: 'Sistema B', detail: 'Actualización.' },
         { title: 'Alerta / dashboard', detail: 'Visibilidad.' },
       ],
@@ -460,15 +452,15 @@ export const servicePageContent: Record<ServiceSlug, ServicePageContent> = {
     ],
     caseStudy: {
       client: 'Granja Magdalena',
-      label: 'Operación conectada por IAenBlanco',
-      title: 'E-commerce e integraciones operativas.',
-      text: 'La evidencia se usa como referencia de operación conectada desarrollada por IAenBlanco: canal digital, catálogo, venta e integraciones pensadas para reducir fricción entre oferta y gestión.',
+      label: 'Contexto operativo relacionado',
+      title: 'E-commerce conectado a una operación comercial.',
+      text: 'El sitio público muestra el contexto comercial trabajado con Granja Magdalena. Las integraciones, validaciones y flujos internos no son visibles desde el enlace público.',
       href: 'https://granjamagdalena.cl/',
-      actionLabel: 'Ver sitio',
+      actionLabel: 'Ver sitio público',
     },
     process: [
-      { title: 'Detectar repeticion', text: 'Elegimos un flujo manual con volumen, error o impacto operativo.' },
-      { title: 'Definir reglas', text: 'Acordamos que se automatiza, que se valida y que debe revisar una persona.' },
+      { title: 'Detectar repetición', text: 'Elegimos un flujo manual con volumen, error o impacto operativo.' },
+      { title: 'Definir reglas', text: 'Acordamos qué se automatiza, qué se valida y qué debe revisar una persona.' },
       { title: 'Conectar y probar', text: 'Implementamos la integración y probamos casos reales antes de operar.' },
       { title: 'Monitorear', text: 'Dejamos alertas y visibilidad para detectar fallas o mejoras.' },
     ],
@@ -480,32 +472,32 @@ export const servicePageContent: Record<ServiceSlug, ServicePageContent> = {
     ],
     faqs: [
       {
-        question: 'Todo se debe automatizar?',
+        question: '¿Todo se debe automatizar?',
         answer:
           'No. Primero se automatizan tareas repetidas y reglas claras. Las excepciones importantes deben quedar con revisión humana.',
       },
       {
-        question: 'Pueden conectar herramientas que ya usamos?',
+        question: '¿Pueden conectar herramientas que ya usamos?',
         answer:
           'Sí, cuando las herramientas permiten integración o existe una forma segura de trabajar con sus datos.',
       },
       {
-        question: 'Cómo evitamos que una automatización falle sin que nadie se entere?',
+        question: '¿Cómo evitamos que una automatización falle sin que nadie se entere?',
         answer:
           'El flujo debe incluir alertas, registros y estados visibles. Eso es parte del diseño operativo.',
       },
       {
-        question: 'Qué herramientas se pueden conectar?',
+        question: '¿Qué herramientas se pueden conectar?',
         answer:
           'Depende del caso, pero normalmente revisamos APIs, planillas, formularios, WhatsApp, email, CRM, e-commerce, dashboards y sistemas administrativos.',
       },
       {
-        question: 'Qué necesitan para cotizar una automatización?',
+        question: '¿Qué necesitan para cotizar una automatización?',
         answer:
           'Necesitamos conocer entrada, salida esperada, reglas, frecuencia, excepciones, herramientas involucradas y quién debe revisar cuando algo no calza.',
       },
       {
-        question: 'De qué depende el plazo?',
+        question: '¿De qué depende el plazo?',
         answer:
           'Depende de la claridad del flujo, disponibilidad de integraciones, pruebas necesarias y cantidad de excepciones que deban quedar controladas.',
       },
@@ -521,7 +513,7 @@ export const servicePageContent: Record<ServiceSlug, ServicePageContent> = {
     whatsappMessage:
       'Hola IAenBlanco, quiero evaluar una solución de IA aplicada a mi operación.',
     problems: [
-      'La empresa quiere usar IA, pero no tiene claro en que proceso aplicarla.',
+      'La empresa quiere usar IA, pero no tiene claro en qué proceso aplicarla.',
       'Las consultas repetidas consumen tiempo del equipo.',
       'Hay información dispersa que podría responderse o analizarse mejor.',
       'Se necesita automatizar una tarea, pero manteniendo control humano.',
@@ -599,32 +591,32 @@ export const servicePageContent: Record<ServiceSlug, ServicePageContent> = {
     ],
     faqs: [
       {
-        question: 'La IA reemplaza al equipo?',
+        question: '¿La IA reemplaza al equipo?',
         answer:
           'No necesariamente. La usamos para reducir carga repetitiva, mejorar respuesta o apoyar decisiones, manteniendo control humano donde hace falta.',
       },
       {
-        question: 'Qué pasa si la IA no sabe responder?',
+        question: '¿Qué pasa si la IA no sabe responder?',
         answer:
           'Debe existir una regla de derivación o solicitud de más contexto. Eso se define antes de operar.',
       },
       {
-        question: 'Necesito tener datos perfectos para empezar?',
+        question: '¿Necesito tener datos perfectos para empezar?',
         answer:
           'No, pero sí necesitamos ordenar el contexto mínimo para que la solución sea confiable y útil.',
       },
       {
-        question: 'En qué se diferencia de usar ChatGPT directamente?',
+        question: '¿En qué se diferencia de usar ChatGPT directamente?',
         answer:
           'Una solución a medida trabaja con información, reglas, permisos, herramientas y flujos propios de tu empresa. No es solamente una conversación aislada.',
       },
       {
-        question: 'Qué necesitan para cotizar una solución de IA?',
+        question: '¿Qué necesitan para cotizar una solución de IA?',
         answer:
           'Necesitamos entender la tarea, el canal, la información disponible, los límites de respuesta, las herramientas a conectar y los casos donde debe intervenir una persona.',
       },
       {
-        question: 'Conviene partir con un prototipo?',
+        question: '¿Conviene partir con un prototipo?',
         answer:
           'Sí. En IA suele ser mejor validar un caso acotado, probar respuestas con situaciones reales y luego ampliar el alcance.',
       },
@@ -699,9 +691,9 @@ export const servicePageContent: Record<ServiceSlug, ServicePageContent> = {
     ],
     caseStudy: {
       client: 'Leads',
-      label: 'Operación comercial gestionada por IAenBlanco',
+      label: 'Tecnología propia que apoya la operación gestionada',
       title: 'Prospección con evidencia y pipeline.',
-      text: 'Leads es el producto propio que materializa parte de esta lógica: búsqueda, evidencia, score y seguimiento en un mismo flujo.',
+      text: 'Leads es tecnología propia de IAenBlanco para ordenar búsqueda, evidencia, score y seguimiento. El servicio gestionado agrega criterio comercial, configuración y operación sobre esa base.',
       href: 'https://leads.iaenblanco.com/',
       actionLabel: 'Ver producto',
     },
@@ -719,37 +711,37 @@ export const servicePageContent: Record<ServiceSlug, ServicePageContent> = {
     ],
     faqs: [
       {
-        question: 'Esto es lo mismo que comprar una base de datos?',
+        question: '¿Esto es lo mismo que comprar una base de datos?',
         answer:
           'No. La base sola no resuelve priorización ni seguimiento. La propuesta es una operación gestionada con criterios y evidencia.',
       },
       {
-        question: 'Ustedes envían mensajes masivos?',
+        question: '¿Ustedes envían mensajes masivos?',
         answer:
           'El foco es ordenar a quién contactar, por qué y con qué contexto. La ejecución del contacto se define según la estrategia comercial.',
       },
       {
-        question: 'Cómo se diferencia del producto Leads?',
+        question: '¿Cómo se diferencia del producto Leads?',
         answer:
           'Leads es un producto propio. Prospección B2B gestionada es el servicio operativo que puede apoyarse en esa lógica, pero incluye criterio, configuración y seguimiento.',
       },
       {
-        question: 'Qué significan ICP, scoring y pipeline?',
+        question: '¿Qué significan ICP, scoring y pipeline?',
         answer:
           'ICP es el tipo de cliente ideal. Scoring es la prioridad comercial de cada empresa. Pipeline es el estado y próximo paso de cada oportunidad.',
       },
       {
-        question: 'Qué debe hacer el cliente durante la operación?',
+        question: '¿Qué debe hacer el cliente durante la operación?',
         answer:
           'El cliente valida oferta, criterios, mensajes y conversaciones reales. IAenBlanco ordena búsqueda, evidencia, prioridad y seguimiento, pero no reemplaza el cierre comercial.',
       },
       {
-        question: 'Garantizan reuniones o ventas?',
+        question: '¿Garantizan reuniones o ventas?',
         answer:
           'No prometemos resultados cerrados. La prospección mejora foco, contexto y seguimiento; las reuniones o ventas dependen también de oferta, timing, conversación y cierre.',
       },
       {
-        question: 'Qué necesitan para cotizar este servicio?',
+        question: '¿Qué necesitan para cotizar este servicio?',
         answer:
           'Necesitamos entender oferta, mercado objetivo, ticket, zona, capacidad comercial, criterios de descarte y si el cliente ya tiene bases o historial de contactos.',
       },

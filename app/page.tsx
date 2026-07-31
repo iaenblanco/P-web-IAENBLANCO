@@ -1226,6 +1226,7 @@ function ProductLabSection() {
                   className="product-unified__cta"
                   data-cursor="Ver"
                   data-cursor-theme={product.theme}
+                  data-product-id={product.id}
                   data-product-name={product.name}
                   data-section="Productos propios"
                 >

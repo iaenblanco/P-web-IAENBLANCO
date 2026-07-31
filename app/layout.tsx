@@ -171,33 +171,51 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
         catch (error) { return anchor.getAttribute('href') || ''; }
       }
       function serviceNameFrom(anchor){
-        var path = pathFor(anchor);
         var explicit = anchor.getAttribute('data-service-name');
         if (explicit) return clean(explicit);
-        return serviceNameFromPath(path);
+        return serviceMetaFromPath(pathFor(anchor)).name;
+      }
+      function serviceIdFrom(anchor){
+        var explicit = anchor.getAttribute('data-service-id');
+        if (explicit) return clean(explicit);
+        return serviceMetaFromPath(pathFor(anchor)).id;
       }
       function serviceNameFromPath(path){
+        return serviceMetaFromPath(path).name;
+      }
+      function serviceIdFromPath(path){
+        return serviceMetaFromPath(path).id;
+      }
+      function serviceMetaFromPath(path){
         var slug = path.split('/servicios/')[1] || '';
         slug = slug.replace(/\\/$/, '');
         var services = {
-          '': 'Servicios',
-          'desarrollo-web-ia': 'Sitios web y Shopify',
-          'plataformas-software-medida': 'Plataformas y software',
-          automatizaciones: 'Automatizaciones e integraciones',
-          'soluciones-ia-medida': 'Soluciones de IA',
-          'prospeccion-b2b-gestionada': 'Prospección B2B gestionada',
-          'leads-magnet': 'Prospección B2B gestionada'
+          '': { id: 'servicios', name: 'Servicios' },
+          'desarrollo-web-ia': { id: 'desarrollo-web-ia', name: 'Sitios web y Shopify' },
+          'plataformas-software-medida': { id: 'plataformas-software-medida', name: 'Plataformas y software' },
+          automatizaciones: { id: 'automatizaciones', name: 'Automatizaciones e integraciones' },
+          'soluciones-ia-medida': { id: 'soluciones-ia-medida', name: 'Soluciones de IA' },
+          'prospeccion-b2b-gestionada': { id: 'prospeccion-b2b-gestionada', name: 'Prospección B2B gestionada' },
+          'leads-magnet': { id: 'prospeccion-b2b-gestionada', name: 'Prospección B2B gestionada' }
         };
-        return services[slug] || '';
+        return services[slug] || { id: '', name: '' };
+      }
+      function productIdFrom(anchor){
+        var explicit = anchor.getAttribute('data-product-id');
+        if (explicit) return clean(explicit);
+        return productMetaFrom(anchor).id;
       }
       function productNameFrom(anchor){
+        return productMetaFrom(anchor).name;
+      }
+      function productMetaFrom(anchor){
         var href = anchor.getAttribute('href') || '';
         var absolute = anchor.href || href;
-        if (absolute.indexOf('unificalo.cl') !== -1) return 'Unifícalo';
-        if (absolute.indexOf('citaly.cl') !== -1) return 'Citaly';
-        if (absolute.indexOf('leads.iaenblanco.com') !== -1) return 'Leads';
-        if (pathFor(anchor).indexOf('/productos') === 0) return 'Productos';
-        return '';
+        if (absolute.indexOf('unificalo.cl') !== -1) return { id: 'unificalo', name: 'Unifícalo' };
+        if (absolute.indexOf('citaly.cl') !== -1) return { id: 'citaly', name: 'Citaly' };
+        if (absolute.indexOf('leads.iaenblanco.com') !== -1) return { id: 'leads', name: 'Leads' };
+        if (pathFor(anchor).indexOf('/productos') === 0) return { id: 'productos', name: 'Productos' };
+        return { id: '', name: '' };
       }
       function eventNameFor(anchor){
         var explicitEvent = anchor.getAttribute('data-analytics-event');
@@ -221,6 +239,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
         w.dataLayer = w.dataLayer || [];
         w.dataLayer.push({
           event: 'service_view',
+          service_id: serviceIdFromPath(w.location.pathname),
           service_name: serviceNameFromPath(w.location.pathname),
           page_path: w.location.pathname,
           device_type: deviceType(),
@@ -255,8 +274,12 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
           destination: anchor.href,
           page_path: w.location.pathname,
           section: sectionFor(anchor),
+          service_id: serviceIdFrom(anchor),
           service_name: serviceNameFrom(anchor),
+          product_id: productIdFrom(anchor),
           product_name: productNameFrom(anchor),
+          case_name: clean(anchor.getAttribute('data-case-name')),
+          entry_problem: clean(anchor.getAttribute('data-entry-problem')),
           device_type: deviceType(),
           traffic_source_raw: trafficSourceRaw()
         });
@@ -268,6 +291,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
         w.dataLayer = w.dataLayer || [];
         w.dataLayer.push({
           event: 'service_faq_open',
+          service_id: clean(detail.getAttribute('data-service-id')) || serviceIdFromPath(w.location.pathname),
           service_name: clean(detail.getAttribute('data-service-name')) || serviceNameFromPath(w.location.pathname),
           faq_question: clean(detail.querySelector('summary') ? detail.querySelector('summary').textContent : ''),
           page_path: w.location.pathname,

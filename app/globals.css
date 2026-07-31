@@ -2516,7 +2516,8 @@ button {
   gap: 8px;
   width: max-content;
   margin-top: auto;
-  padding-top: 18px;
+  min-height: 44px;
+  padding: 12px 0;
   color: var(--ink);
   font-family: var(--font-mono);
   font-size: 12px;
@@ -3189,7 +3190,7 @@ button {
   }
 }
 
-@media (min-width: 901px) and (max-width: 1439px) {
+@media (min-width: 901px) and (max-width: 1599px) {
   .services-web-proof-grid,
   .services-web-proof-grid--service-page {
     grid-template-columns: repeat(6, minmax(0, 1fr));
@@ -3278,6 +3279,21 @@ button {
   .services-problem-router__item,
   .services-index-problems a {
     min-height: 118px;
+  }
+
+  .services-web-proof-grid article {
+    min-height: auto;
+    padding: 20px;
+  }
+
+  .services-web-proof-grid__logo {
+    min-height: 96px;
+  }
+
+  .services-web-proof-grid__link {
+    width: 100%;
+    justify-content: space-between;
+    font-size: 14px;
   }
 
   .services-index-hero h1,

@@ -79,7 +79,7 @@ const appliedExamplesBySlug: Record<ServicePageContent['slug'], AppliedExample> 
       { title: 'Narrativa', text: 'Problema, solución, prueba y siguiente paso en orden.' },
       { title: 'Contacto', text: 'WhatsApp o formulario con contexto de la intención.' },
     ],
-    note: 'Para proyectos web, la evidencia ideal es desktop + mobile + cambio de narrativa.',
+    note: 'Mostramos cada proyecto en escritorio y móvil para comprobar claridad, adaptación y recorrido comercial.',
   },
   'plataformas-software-medida': {
     eyebrow: 'Control de alcance',
@@ -109,16 +109,16 @@ const appliedExamplesBySlug: Record<ServicePageContent['slug'], AppliedExample> 
   },
   'soluciones-ia-medida': {
     eyebrow: 'Ejemplo aplicado',
-    title: 'De una consulta por WhatsApp a una reserva controlada.',
+    title: 'De una consulta por WhatsApp a una reserva confirmada.',
     lead:
-      'El primer diagrama explica la arquitectura. Este ejemplo muestra cómo la IA opera dentro de un flujo real de atención y agenda.',
+      'La persona escribe o envía un audio. La IA identifica lo que necesita, consulta disponibilidad, propone un horario y deriva al equipo cuando falta información.',
     items: [
       { title: 'Consulta', text: 'Llega un mensaje o audio por WhatsApp.' },
       { title: 'Intención', text: 'El agente reconoce necesidad, servicio y urgencia.' },
       { title: 'Agenda', text: 'Revisa disponibilidad y reglas del negocio.' },
       { title: 'Confirmación', text: 'Propone horario, confirma o deriva a una persona.' },
     ],
-    note: 'El objetivo no es responder por responder: es transformar intención en una acción operativa con control.',
+    note: 'Cada paso opera con reglas, disponibilidad real y revisión humana cuando corresponde.',
   },
   'prospeccion-b2b-gestionada': {
     eyebrow: 'Operación comercial',
@@ -267,7 +267,9 @@ function WebsiteProofGrid() {
                 rel="noreferrer"
                 className="services-web-proof-grid__link"
                 data-analytics-event="service_case_click"
-                data-service-name={item.client}
+                data-service-id="desarrollo-web-ia"
+                data-service-name="Sitios web y Shopify"
+                data-case-name={item.client}
               >
                 Ver sitio
                 <ArrowUpRight />
@@ -290,7 +292,7 @@ export function ServicePageTemplate({
   const appliedExample = appliedExamplesBySlug[content.slug]
   const responsibilities = responsibilitiesBySlug[content.slug]
   const showWebsiteProofs = content.slug === 'desarrollo-web-ia'
-  const showCaseStudy = !showWebsiteProofs
+  const caseStudy = showWebsiteProofs ? undefined : content.caseStudy
 
   return (
     <main id="contenido" className="service-page">
@@ -313,6 +315,7 @@ export function ServicePageTemplate({
                 rel="noreferrer"
                 className="button button--primary"
                 data-analytics-event="service_whatsapp_click"
+                data-service-id={service.slug}
                 data-service-name={service.shortTitle}
               >
                 {content.primaryCta}
@@ -322,6 +325,7 @@ export function ServicePageTemplate({
                 href="#entregables"
                 className="button button--text"
                 data-analytics-event="service_cta_click"
+                data-service-id={service.slug}
                 data-service-name={service.shortTitle}
               >
                 Ver entregables
@@ -403,6 +407,7 @@ export function ServicePageTemplate({
             rel="noreferrer"
             className="button button--text"
             data-analytics-event="service_whatsapp_click"
+            data-service-id={service.slug}
             data-service-name={service.shortTitle}
           >
             {content.primaryCta}
@@ -428,23 +433,25 @@ export function ServicePageTemplate({
         </div>
       </section>
 
-      {showCaseStudy ? (
+      {caseStudy ? (
         <section className="service-page-section service-page-section--case">
           <div className="section-shell service-case-card">
             <div>
-              <p className="eyebrow">{content.caseStudy.label}</p>
-              <h2>{content.caseStudy.title}</h2>
-              <p>{content.caseStudy.text}</p>
+              <p className="eyebrow">{caseStudy.label}</p>
+              <h2>{caseStudy.title}</h2>
+              <p>{caseStudy.text}</p>
             </div>
             <a
-              href={content.caseStudy.href}
+              href={caseStudy.href}
               target="_blank"
               rel="noreferrer"
               data-analytics-event="service_case_click"
+              data-service-id={service.slug}
               data-service-name={service.shortTitle}
+              data-case-name={caseStudy.client}
             >
-              <span>{content.caseStudy.client}</span>
-              <strong>{content.caseStudy.actionLabel}</strong>
+              <span>{caseStudy.client}</span>
+              <strong>{caseStudy.actionLabel}</strong>
               <ArrowUpRight />
             </a>
           </div>
@@ -496,6 +503,7 @@ export function ServicePageTemplate({
               <details
                 key={faq.question}
                 data-service-faq
+                data-service-id={service.slug}
                 data-service-name={service.shortTitle}
               >
                 <summary>{faq.question}</summary>
@@ -522,6 +530,7 @@ export function ServicePageTemplate({
             rel="noreferrer"
             className="button button--primary"
             data-analytics-event="service_whatsapp_click"
+            data-service-id={service.slug}
             data-service-name={service.shortTitle}
           >
             {content.primaryCta}
@@ -537,6 +546,7 @@ export function ServicePageTemplate({
             href={`/servicios/${nextService.slug}`}
             prefetch={false}
             data-analytics-event="service_next_click"
+            data-service-id={service.slug}
             data-service-name={service.shortTitle}
           >
             <span>{nextService.index}</span>

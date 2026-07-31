@@ -308,6 +308,8 @@ export default function ProductsPage() {
                 rel="noreferrer"
                 data-cursor="Ver"
                 data-cursor-theme={productPreviewAssets[index].theme}
+                data-product-id={product.id}
+                data-product-name={product.name}
               >
                 Ver producto
                 <ArrowUpRight />
@@ -353,6 +355,8 @@ export default function ProductsPage() {
                     className="button button--text"
                     data-cursor="Ver"
                     data-cursor-theme={index === 0 ? 'unificalo' : index === 1 ? 'citaly' : 'leads'}
+                    data-product-id={product.id}
+                    data-product-name={product.name}
                   >
                     Ver producto
                     <ArrowUpRight />

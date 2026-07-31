@@ -10,6 +10,11 @@ function Arrow() {
   )
 }
 
+function serviceNameForSlug(slug?: string) {
+  if (!slug) return 'Diagnóstico'
+  return services.find((service) => service.slug === slug)?.shortTitle || 'Servicios'
+}
+
 function SystemDiagram() {
   const points = [
     [62, 136],
@@ -94,6 +99,8 @@ export function ServiceSystem() {
         <div className="services-problem-router" aria-label="Entradas por problema">
           {serviceProblemEntries.map((entry) => {
             const isExternal = entry.href.startsWith('http')
+            const serviceId = entry.serviceSlug || 'diagnostico'
+            const serviceName = serviceNameForSlug(entry.serviceSlug)
             const className = entry.serviceSlug
               ? 'services-problem-router__item'
               : 'services-problem-router__item services-problem-router__item--diagnostic'
@@ -113,7 +120,9 @@ export function ServiceSystem() {
                 rel="noreferrer"
                 className={className}
                 data-analytics-event="service_whatsapp_click"
-                data-service-name="Diagnóstico"
+                data-service-id={serviceId}
+                data-service-name={serviceName}
+                data-entry-problem={entry.label}
               >
                 {body}
               </a>
@@ -124,7 +133,9 @@ export function ServiceSystem() {
                 prefetch={false}
                 className={className}
                 data-analytics-event="service_cta_click"
-                data-service-name={entry.label}
+                data-service-id={serviceId}
+                data-service-name={serviceName}
+                data-entry-problem={entry.label}
               >
                 {body}
               </Link>
@@ -170,6 +181,7 @@ export function ServiceSystem() {
                   data-cursor="Abrir"
                   data-cursor-theme="signal"
                   data-analytics-event="service_cta_click"
+                  data-service-id={service.slug}
                   data-service-name={service.shortTitle}
                 >
                   {serviceLinkLabels[service.slug]}
@@ -209,6 +221,7 @@ export function ServiceSystem() {
                   data-cursor="Abrir"
                   data-cursor-theme="signal"
                   data-analytics-event="service_cta_click"
+                  data-service-id={commercialService.slug}
                   data-service-name={commercialService.shortTitle}
                 >
                   {serviceLinkLabels[commercialService.slug]}
@@ -229,6 +242,7 @@ export function ServiceSystem() {
             data-cursor="WhatsApp"
             data-cursor-theme="signal"
             data-analytics-event="service_whatsapp_click"
+            data-service-id="diagnostico"
             data-service-name="Diagnóstico"
           >
             Conversar por WhatsApp
