@@ -79,6 +79,12 @@ export type ServicePageContentWithCase = BaseServicePageContent & {
 
 export type ServicePageContent = WebsiteServicePageContent | ServicePageContentWithCase
 
+export type ServicePageContentMap = {
+  'desarrollo-web-ia': WebsiteServicePageContent
+} & {
+  [K in Exclude<ServiceSlug, 'desarrollo-web-ia'>]: ServicePageContentWithCase & { slug: K }
+}
+
 const diagnosticMessage =
   'Hola IAenBlanco, quiero revisar qué servicio calza mejor con mi negocio.'
 
@@ -163,7 +169,7 @@ export const websiteProofCases: WebsiteProofCase[] = [
   },
 ]
 
-export const servicePageContent: Record<ServiceSlug, ServicePageContent> = {
+export const servicePageContent: ServicePageContentMap = {
   'desarrollo-web-ia': {
     slug: 'desarrollo-web-ia',
     result: 'Una web que explica, genera confianza y empuja al contacto.',
@@ -464,8 +470,8 @@ export const servicePageContent: Record<ServiceSlug, ServicePageContent> = {
     caseStudy: {
       client: 'Granja Magdalena',
       label: 'Contexto de aplicación',
-      title: 'Un canal comercial con procesos por detrás.',
-      text: 'El sitio público permite entender el tipo de operación donde trabajamos flujos: catálogo, consultas, pedidos y seguimiento. Las automatizaciones internas se documentan con capturas o dashboards privados cuando el cliente lo autoriza.',
+      title: 'Un canal comercial con procesos que pueden conectarse.',
+      text: 'El sitio público muestra el contexto comercial donde este tipo de automatizaciones aporta valor: catálogo, consultas, pedidos y seguimiento. Los flujos internos no se exponen públicamente por confidencialidad.',
       href: 'https://granjamagdalena.cl/',
       actionLabel: 'Ver contexto público',
     },

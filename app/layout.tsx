@@ -252,12 +252,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
           return w.location.pathname.indexOf('/servicios') === 0 ? 'service_whatsapp_click' : 'cta_whatsapp_click';
         }
         if (href.indexOf('/servicios/') === 0 || absolute.indexOf('/servicios/') !== -1) return 'service_click';
-        if (href.indexOf('/productos') === 0 || absolute.indexOf('/productos') !== -1) return 'product_click';
-        if (
-          absolute.indexOf('unificalo.cl') !== -1 ||
-          absolute.indexOf('citaly.cl') !== -1 ||
-          absolute.indexOf('leads.iaenblanco.com') !== -1
-        ) return 'product_click';
+        if (productMetaFrom(anchor).id) return 'product_click';
         if (href.indexOf('/contacto') === 0 || absolute.indexOf('/contacto') !== -1 || href.indexOf('mailto:') === 0) return 'contact_click';
         return '';
       }
