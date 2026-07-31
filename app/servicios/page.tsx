@@ -3,7 +3,6 @@ import Link from 'next/link'
 import { BrandLogo } from '@/components/BrandLogo'
 import { services, SITE_URL, getWhatsappUrl } from '@/lib/site'
 import {
-  relatedServiceCases,
   serviceProblemEntries,
   websiteProofCases,
 } from '@/lib/services-content'
@@ -183,30 +182,17 @@ export default function ServicesIndexPage() {
                 <h3>{item.client}</h3>
                 <strong>{item.title}</strong>
                 <p>{item.text}</p>
-              </article>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      <section className="services-index-section" id="casos-relacionados">
-        <div className="section-shell">
-          <div className="services-index-heading">
-            <p className="eyebrow">Casos relacionados</p>
-            <h2>Trabajo real aplicado en operaciones y canales concretos.</h2>
-          </div>
-          <div className="services-case-grid">
-            {relatedServiceCases.map((item) => (
-              <article key={item.client}>
-                {item.logo ? (
-                  <div className="services-case-grid__logo">
-                    <BrandLogo name={item.logo} alt={item.client} />
-                  </div>
-                ) : null}
-                <span>{item.label}</span>
-                <h3>{item.client}</h3>
-                <strong>{item.title}</strong>
-                <p>{item.text}</p>
+                <a
+                  href={item.href}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="services-web-proof-grid__link"
+                  data-analytics-event="service_case_click"
+                  data-service-name={item.client}
+                >
+                  Ver sitio
+                  <ArrowUpRight />
+                </a>
               </article>
             ))}
           </div>

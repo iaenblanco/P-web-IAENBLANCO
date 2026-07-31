@@ -261,6 +261,17 @@ function WebsiteProofGrid() {
               <h3>{item.client}</h3>
               <strong>{item.title}</strong>
               <p>{item.text}</p>
+              <a
+                href={item.href}
+                target="_blank"
+                rel="noreferrer"
+                className="services-web-proof-grid__link"
+                data-analytics-event="service_case_click"
+                data-service-name={item.client}
+              >
+                Ver sitio
+                <ArrowUpRight />
+              </a>
             </article>
           ))}
         </div>
@@ -279,6 +290,7 @@ export function ServicePageTemplate({
   const appliedExample = appliedExamplesBySlug[content.slug]
   const responsibilities = responsibilitiesBySlug[content.slug]
   const showWebsiteProofs = content.slug === 'desarrollo-web-ia'
+  const showCaseStudy = !showWebsiteProofs
 
   return (
     <main id="contenido" className="service-page">
@@ -416,24 +428,28 @@ export function ServicePageTemplate({
         </div>
       </section>
 
-      <section className="service-page-section service-page-section--case">
-        <div className="section-shell service-case-card">
-          <div>
-            <p className="eyebrow">{content.caseStudy.label}</p>
-            <h2>{content.caseStudy.title}</h2>
-            <p>{content.caseStudy.text}</p>
+      {showCaseStudy ? (
+        <section className="service-page-section service-page-section--case">
+          <div className="section-shell service-case-card">
+            <div>
+              <p className="eyebrow">{content.caseStudy.label}</p>
+              <h2>{content.caseStudy.title}</h2>
+              <p>{content.caseStudy.text}</p>
+            </div>
+            <a
+              href={content.caseStudy.href}
+              target="_blank"
+              rel="noreferrer"
+              data-analytics-event="service_case_click"
+              data-service-name={service.shortTitle}
+            >
+              <span>{content.caseStudy.client}</span>
+              <strong>{content.caseStudy.actionLabel}</strong>
+              <ArrowUpRight />
+            </a>
           </div>
-          <Link
-            href="/servicios/#casos-relacionados"
-            data-analytics-event="service_case_click"
-            data-service-name={service.shortTitle}
-          >
-            <span>{content.caseStudy.client}</span>
-            <strong>Ver casos relacionados</strong>
-            <ArrowUpRight />
-          </Link>
-        </div>
-      </section>
+        </section>
+      ) : null}
 
       {responsibilities ? <ResponsibilityGrid title={responsibilities.title} rows={responsibilities.rows} /> : null}
 

@@ -25,6 +25,8 @@ export type ServiceCase = {
   title: string
   text: string
   logo?: string
+  href?: string
+  actionLabel?: string
 }
 
 export type WebsiteProofCase = {
@@ -33,6 +35,7 @@ export type WebsiteProofCase = {
   sector: string
   title: string
   text: string
+  href: string
 }
 
 export type ServiceFaq = {
@@ -106,79 +109,46 @@ export const serviceProblemEntries: ServiceProblemEntry[] = [
   },
 ]
 
-export const relatedServiceCases: ServiceCase[] = [
-  {
-    client: 'Propinvest',
-    logo: 'propinvest',
-    label: 'Sitio desarrollado',
-    title: 'Presencia inmobiliaria autoadministrable.',
-    text: 'Sitio desarrollado por IAenBlanco para explicar propiedades, actualizar contenido y ordenar solicitudes comerciales.',
-  },
-  {
-    client: 'Granja Magdalena',
-    logo: 'granja-magdalena',
-    label: 'Sitio desarrollado',
-    title: 'Canal digital preparado para vender.',
-    text: 'Sitio desarrollado por IAenBlanco para mostrar catalogo, comunicar oferta y sostener una operacion digital mas ordenada.',
-  },
-  {
-    client: 'YoMeEncargo',
-    logo: 'yomercargo',
-    label: 'Sitio desarrollado',
-    title: 'Servicio explicado con flujo de contacto.',
-    text: 'Sitio desarrollado por IAenBlanco para transformar una oferta amplia en una experiencia mas facil de entender y solicitar.',
-  },
-  {
-    client: 'Granja Magdalena Pet',
-    logo: 'granjapet',
-    label: 'Sitio desarrollado',
-    title: 'Canal digital para linea especializada.',
-    text: 'Sitio desarrollado por IAenBlanco para comunicar y vender una categoria especifica con identidad propia.',
-  },
-  {
-    client: 'Inasec Pets',
-    logo: 'inasec-pets',
-    label: 'Sitio desarrollado',
-    title: 'Presencia digital para oferta especializada.',
-    text: 'Sitio desarrollado por IAenBlanco para explicar oferta, ordenar interes y abrir conversaciones comerciales.',
-  },
-]
-
 export const websiteProofCases: WebsiteProofCase[] = [
   {
     client: 'Propinvest',
     logo: 'propinvest',
     sector: 'Inmobiliario',
     title: 'Plataforma inmobiliaria editable',
-    text: 'Web desarrollada por IAenBlanco para presentar propiedades, contenido comercial y contacto desde una base autoadministrable.',
+    text: 'Presencia autoadministrable para presentar propiedades, editar contenido comercial y ordenar solicitudes.',
+    href: 'https://propinvest.cl/',
   },
   {
     client: 'Granja Magdalena',
     logo: 'granja-magdalena',
     sector: 'E-commerce',
     title: 'Canal digital y catalogo comercial',
-    text: 'Web desarrollada por IAenBlanco para comunicar catalogo, oferta y operacion comercial preparada para vender.',
+    text: 'E-commerce y catalogo comercial desarrollado para comunicar la oferta y sostener la operacion de venta.',
+    href: 'https://granjamagdalena.cl/',
   },
   {
     client: 'YoMeEncargo',
     logo: 'yomercargo',
     sector: 'Servicios',
     title: 'Experiencia comercial digital',
-    text: 'Web desarrollada por IAenBlanco para explicar un servicio amplio y guiar al usuario hacia una solicitud concreta.',
+    text: 'Experiencia de servicios creada para explicar una oferta amplia y guiar al usuario hacia una solicitud concreta.',
+    href: 'https://yomeencargo.cl/',
   },
   {
     client: 'Granja Magdalena Pet',
     logo: 'granjapet',
     sector: 'Mascotas',
     title: 'Canal propio para linea especializada',
-    text: 'Web desarrollada por IAenBlanco para separar una categoria de negocio y darle presencia comercial propia.',
+    text: 'Canal propio para separar una categoria de negocio y darle presencia comercial con identidad independiente.',
+    href: 'https://granjamagdalenapet.cl/',
   },
   {
     client: 'Inasec Pets',
     logo: 'inasec-pets',
     sector: 'Retail especializado',
     title: 'Presencia web para capturar interes',
-    text: 'Web desarrollada por IAenBlanco para ordenar la comunicacion de oferta y abrir conversaciones comerciales.',
+    text: 'Presencia web enfocada en ordenar la comunicacion de oferta y abrir conversaciones comerciales.',
+    href: 'https://inasecpets.cl/',
   },
 ]
 
@@ -253,6 +223,8 @@ export const servicePageContent: Record<ServiceSlug, ServicePageContent> = {
       label: 'Sitio desarrollado por IAenBlanco',
       title: 'Canal digital preparado para vender.',
       text: 'La experiencia se penso como un canal comercial desarrollado por IAenBlanco: catalogo, narrativa de oferta, estructura visual y una operacion digital mas clara para sostener crecimiento.',
+      href: 'https://granjamagdalena.cl/',
+      actionLabel: 'Ver sitio',
     },
     process: [
       { title: 'Entender oferta', text: 'Revisamos publico, propuesta, servicios, productos y decision de compra.' },
@@ -369,6 +341,8 @@ export const servicePageContent: Record<ServiceSlug, ServicePageContent> = {
       label: 'Sitio desarrollado por IAenBlanco',
       title: 'Catalogo inmobiliario editable.',
       text: 'IAenBlanco construyo una base digital para administrar propiedades, comunicar fichas y mantener contenido comercial sin depender de cambios manuales externos.',
+      href: 'https://propinvest.cl/',
+      actionLabel: 'Ver sitio',
     },
     process: [
       { title: 'Mapear operacion', text: 'Detectamos usuarios, informacion, reglas y puntos de friccion.' },
@@ -489,6 +463,8 @@ export const servicePageContent: Record<ServiceSlug, ServicePageContent> = {
       label: 'Sitio desarrollado por IAenBlanco',
       title: 'E-commerce e integraciones operativas.',
       text: 'La evidencia se usa como referencia de operacion conectada desarrollada por IAenBlanco: canal digital, catalogo, venta e integraciones pensadas para reducir friccion entre oferta y gestion.',
+      href: 'https://granjamagdalena.cl/',
+      actionLabel: 'Ver sitio',
     },
     process: [
       { title: 'Detectar repeticion', text: 'Elegimos un flujo manual con volumen, error o impacto operativo.' },
@@ -606,6 +582,8 @@ export const servicePageContent: Record<ServiceSlug, ServicePageContent> = {
       label: 'Producto propio',
       title: 'Agenda y atencion por WhatsApp con IA.',
       text: 'Citaly sirve como evidencia interna de una logica aplicada: entender consultas, revisar disponibilidad y apoyar reservas sin perder control operativo.',
+      href: 'https://citaly.cl/',
+      actionLabel: 'Ver producto',
     },
     process: [
       { title: 'Elegir proceso', text: 'Buscamos una tarea donde la IA pueda aportar utilidad real.' },
@@ -724,6 +702,8 @@ export const servicePageContent: Record<ServiceSlug, ServicePageContent> = {
       label: 'Producto propio',
       title: 'Prospeccion con evidencia y pipeline.',
       text: 'Leads es el producto propio que materializa parte de esta logica: busqueda, evidencia, score y seguimiento en un mismo flujo.',
+      href: 'https://leads.iaenblanco.com/',
+      actionLabel: 'Ver producto',
     },
     process: [
       { title: 'Definir mercado', text: 'Acordamos ICP, zonas, rubros y criterios de oportunidad.' },

@@ -169,7 +169,7 @@ const clientProofs = [
     project: 'Plataforma inmobiliaria autoadministrable',
     system: 'Catálogo editable + contenido comercial + contacto',
     result: 'Un canal que el equipo puede actualizar sin depender de cambios manuales.',
-    proof: 'Sitio desarrollado por IAenBlanco para mostrar propiedades, fichas y contenido comercial desde un sistema editable.',
+    proof: 'Base desarrollada por IAenBlanco para mostrar propiedades, fichas y contenido comercial desde un sistema editable.',
   },
   {
     client: 'Granja Magdalena',
@@ -179,7 +179,7 @@ const clientProofs = [
     project: 'E-commerce e integraciones',
     system: 'Canal digital + catálogo + operación comercial',
     result: 'Una presencia preparada para vender, ordenar oferta y sostener crecimiento.',
-    proof: 'Sitio desarrollado por IAenBlanco para ordenar catálogo, venta online y operación comercial en un canal digital.',
+    proof: 'Canal trabajado por IAenBlanco para ordenar catalogo, venta online y operacion comercial.',
   },
   {
     client: 'YoMeEncargo',
@@ -189,7 +189,7 @@ const clientProofs = [
     project: 'Plataforma y experiencia comercial digital',
     system: 'Servicio explicado + flujo comercial + solicitud entrante',
     result: 'Una interfaz que convierte una oferta amplia en una experiencia fácil de entender.',
-    proof: 'Sitio desarrollado por IAenBlanco para explicar servicios, ordenar flujo y facilitar conversión.',
+    proof: 'Experiencia creada por IAenBlanco para explicar servicios, ordenar flujo y facilitar conversion.',
   },
   {
     client: 'Granja Magdalena Pet',
@@ -200,7 +200,7 @@ const clientProofs = [
     project: 'Canal digital especializado',
     system: 'Línea de negocio + canal propio + venta especializada',
     result: 'Un espacio diferenciado para comunicar y vender una categoría específica.',
-    proof: 'Sitio desarrollado por IAenBlanco para dar presencia y venta a una línea de negocio específica.',
+    proof: 'Linea especializada con presencia propia para comunicar y vender una categoria especifica.',
   },
   {
     client: 'Inasec Pets',
@@ -210,7 +210,7 @@ const clientProofs = [
     project: 'Presencia comercial digital',
     system: 'Oferta clara + captura de interés + contacto',
     result: 'Una base web para explicar oferta y abrir conversaciones comerciales.',
-    proof: 'Sitio desarrollado por IAenBlanco para comunicar oferta y capturar interés comercial.',
+    proof: 'Presencia web enfocada en comunicar oferta y capturar interes comercial.',
   },
 ]
 
@@ -997,8 +997,8 @@ function TrustProofSection() {
             Empresas y operaciones que ya hemos ayudado a digitalizar.
           </h2>
           <p>
-            Proyectos reales, clientes reales y sistemas construidos alrededor de
-            necesidades concretas de operación.
+            Sitios y sistemas desarrollados por IAenBlanco alrededor de necesidades
+            concretas de operación.
           </p>
         </Reveal>
 
@@ -1024,8 +1024,8 @@ function TrustProofSection() {
                     <p>{proof.system}</p>
                   </div>
                   <div>
-                    <span>Resultado</span>
-                    <p>{proof.result}</p>
+                    <span>Desarrollo</span>
+                    <p>{proof.proof}</p>
                   </div>
                 </div>
               </div>
@@ -1048,7 +1048,7 @@ function TrustProofSection() {
                   )}
                 </span>
                 <strong>{proof.client}</strong>
-                <p>{proof.result}</p>
+                <p>{proof.proof}</p>
               </article>
             ))}
           </div>
