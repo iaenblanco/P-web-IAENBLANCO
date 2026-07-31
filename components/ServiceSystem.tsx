@@ -1,5 +1,6 @@
 import Link from 'next/link'
-import { services, WHATSAPP_URL } from '@/lib/site'
+import { getWhatsappUrl, services } from '@/lib/site'
+import { serviceProblemEntries } from '@/lib/services-content'
 
 function Arrow() {
   return (
@@ -51,24 +52,25 @@ function SystemDiagram() {
 }
 
 const serviceResults: Record<string, string> = {
-  'desarrollo-web-ia': 'Una página que se entiende rápido, proyecta confianza y lleva al visitante a conversar.',
+  'desarrollo-web-ia': 'Una experiencia que se entiende rápido, proyecta confianza y lleva al visitante a conversar.',
   'plataformas-software-medida': 'Un panel o plataforma propia para ordenar permisos, datos y procesos internos.',
   automatizaciones: 'Flujos conectados que reducen copia manual, errores y tiempos muertos.',
   'soluciones-ia-medida': 'Un agente o herramienta de IA usable, conectado al contexto real del negocio.',
-  'leads-magnet': 'Una cartera priorizada de empresas con evidencia y próximos pasos comerciales.',
+  'prospeccion-b2b-gestionada': 'Una cartera priorizada de empresas con evidencia y próximos pasos comerciales.',
 }
 
 const serviceLinkLabels: Record<string, string> = {
-  'desarrollo-web-ia': 'Ver sitios web',
+  'desarrollo-web-ia': 'Ver sitios web y Shopify',
   'plataformas-software-medida': 'Ver software',
   automatizaciones: 'Ver automatizaciones',
-  'soluciones-ia-medida': 'Ver IA a medida',
-  'leads-magnet': 'Ver prospección B2B',
+  'soluciones-ia-medida': 'Ver soluciones de IA',
+  'prospeccion-b2b-gestionada': 'Ver prospección B2B',
 }
 
 export function ServiceSystem() {
-  const coreServices = services.filter((service) => service.slug !== 'leads-magnet')
-  const commercialService = services.find((service) => service.slug === 'leads-magnet')
+  const coreServices = services.filter((service) => service.slug !== 'prospeccion-b2b-gestionada')
+  const commercialService = services.find((service) => service.slug === 'prospeccion-b2b-gestionada')
+  const diagnosticUrl = getWhatsappUrl('Hola IAenBlanco, quiero revisar que servicio calza mejor con mi negocio.')
 
   return (
     <section
@@ -84,9 +86,50 @@ export function ServiceSystem() {
             Una operación conectada necesita más que una herramienta aislada.
           </h2>
           <p>
-            Cuatro capacidades construyen la base digital. La prospección B2B queda separada
-            como una operación comercial gestionada, para evitar mezclar servicio con producto.
+            Cuatro capacidades construyen la base digital. La prospección B2B queda separada como
+            una operación gestionada, para que el cliente entienda qué se construye y qué se opera.
           </p>
+        </div>
+
+        <div className="services-problem-router" aria-label="Entradas por problema">
+          {serviceProblemEntries.map((entry) => {
+            const isExternal = entry.href.startsWith('http')
+            const className = entry.serviceSlug
+              ? 'services-problem-router__item'
+              : 'services-problem-router__item services-problem-router__item--diagnostic'
+            const body = (
+              <>
+                <strong>{entry.label}</strong>
+                <span>{entry.detail}</span>
+                <Arrow />
+              </>
+            )
+
+            return isExternal ? (
+              <a
+                key={entry.label}
+                href={entry.href}
+                target="_blank"
+                rel="noreferrer"
+                className={className}
+                data-analytics-event="service_whatsapp_click"
+                data-service-name="Diagnóstico"
+              >
+                {body}
+              </a>
+            ) : (
+              <Link
+                key={entry.label}
+                href={entry.href}
+                prefetch={false}
+                className={className}
+                data-analytics-event="service_cta_click"
+                data-service-name={entry.label}
+              >
+                {body}
+              </Link>
+            )
+          })}
         </div>
 
         <div className="services-system__layout">
@@ -119,6 +162,8 @@ export function ServiceSystem() {
                   className="service-entry__link"
                   data-cursor="Abrir"
                   data-cursor-theme="signal"
+                  data-analytics-event="service_cta_click"
+                  data-service-name={service.shortTitle}
                 >
                   {serviceLinkLabels[service.slug]}
                   <Arrow />
@@ -129,7 +174,7 @@ export function ServiceSystem() {
               <article className="service-entry service-entry--commercial">
                 <div className="service-entry__heading">
                   <span>{commercialService.index}</span>
-                  <p>{commercialService.eyebrow}</p>
+                  <p>Operación gestionada</p>
                 </div>
                 <div className="service-entry--commercial__grid">
                   <div>
@@ -159,6 +204,8 @@ export function ServiceSystem() {
                   className="service-entry__link"
                   data-cursor="Abrir"
                   data-cursor-theme="signal"
+                  data-analytics-event="service_cta_click"
+                  data-service-name={commercialService.shortTitle}
                 >
                   {serviceLinkLabels[commercialService.slug]}
                   <Arrow />
@@ -171,12 +218,14 @@ export function ServiceSystem() {
         <div className="services-system__cta">
           <p>Cuéntanos qué debería funcionar mejor en tu negocio.</p>
           <a
-            href={WHATSAPP_URL}
+            href={diagnosticUrl}
             target="_blank"
             rel="noreferrer"
             className="button button--primary"
             data-cursor="WhatsApp"
             data-cursor-theme="signal"
+            data-analytics-event="service_whatsapp_click"
+            data-service-name="Diagnóstico"
           >
             Conversar por WhatsApp
             <Arrow />

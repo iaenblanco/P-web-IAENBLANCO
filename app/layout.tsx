@@ -172,14 +172,21 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
       }
       function serviceNameFrom(anchor){
         var path = pathFor(anchor);
+        var explicit = anchor.getAttribute('data-service-name');
+        if (explicit) return clean(explicit);
+        return serviceNameFromPath(path);
+      }
+      function serviceNameFromPath(path){
         var slug = path.split('/servicios/')[1] || '';
         slug = slug.replace(/\\/$/, '');
         var services = {
-          'desarrollo-web-ia': 'Sitios web',
-          'plataformas-software-medida': 'Software',
-          automatizaciones: 'Automatizaciones',
-          'soluciones-ia-medida': 'IA a medida',
-          'leads-magnet': 'Prospeccion B2B'
+          '': 'Servicios',
+          'desarrollo-web-ia': 'Sitios web y Shopify',
+          'plataformas-software-medida': 'Plataformas y software',
+          automatizaciones: 'Automatizaciones e integraciones',
+          'soluciones-ia-medida': 'Soluciones de IA',
+          'prospeccion-b2b-gestionada': 'Prospeccion B2B gestionada',
+          'leads-magnet': 'Prospeccion B2B gestionada'
         };
         return services[slug] || '';
       }
@@ -193,9 +200,13 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
         return '';
       }
       function eventNameFor(anchor){
+        var explicitEvent = anchor.getAttribute('data-analytics-event');
+        if (explicitEvent) return clean(explicitEvent);
         var href = anchor.getAttribute('href') || '';
         var absolute = anchor.href || href;
-        if (href.indexOf('wa.me/') !== -1 || absolute.indexOf('wa.me/') !== -1) return 'cta_whatsapp_click';
+        if (href.indexOf('wa.me/') !== -1 || absolute.indexOf('wa.me/') !== -1) {
+          return w.location.pathname.indexOf('/servicios') === 0 ? 'service_whatsapp_click' : 'cta_whatsapp_click';
+        }
         if (href.indexOf('/servicios/') === 0 || absolute.indexOf('/servicios/') !== -1) return 'service_click';
         if (href.indexOf('/productos') === 0 || absolute.indexOf('/productos') !== -1) return 'product_click';
         if (
@@ -205,6 +216,16 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
         ) return 'product_click';
         if (href.indexOf('/contacto') === 0 || absolute.indexOf('/contacto') !== -1 || href.indexOf('mailto:') === 0) return 'contact_click';
         return '';
+      }
+      if (w.location.pathname.indexOf('/servicios') === 0) {
+        w.dataLayer = w.dataLayer || [];
+        w.dataLayer.push({
+          event: 'service_view',
+          service_name: serviceNameFromPath(w.location.pathname),
+          page_path: w.location.pathname,
+          device_type: deviceType(),
+          traffic_source_raw: trafficSourceRaw()
+        });
       }
       d.addEventListener('click', function(event){
         var target = event.target;
@@ -240,6 +261,21 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
           traffic_source_raw: trafficSourceRaw()
         });
       }, { passive: true });
+      d.addEventListener('toggle', function(event){
+        var target = event.target;
+        var detail = target && target.closest ? target.closest('details[data-service-faq]') : null;
+        if (!detail || !detail.open) return;
+        w.dataLayer = w.dataLayer || [];
+        w.dataLayer.push({
+          event: 'service_faq_open',
+          service_name: clean(detail.getAttribute('data-service-name')) || serviceNameFromPath(w.location.pathname),
+          faq_question: clean(detail.querySelector('summary') ? detail.querySelector('summary').textContent : ''),
+          page_path: w.location.pathname,
+          section: sectionFor(detail),
+          device_type: deviceType(),
+          traffic_source_raw: trafficSourceRaw()
+        });
+      }, true);
       d.addEventListener('focusin', function(event){
         var target = event.target;
         var field = target && target.closest ? target.closest('input, textarea, select, [contenteditable="true"]') : null;

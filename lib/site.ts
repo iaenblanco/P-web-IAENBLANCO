@@ -37,12 +37,12 @@ export const services: Service[] = [
   {
     slug: 'desarrollo-web-ia',
     index: '01',
-    shortTitle: 'Sitios web',
-    title: 'Sitios web que explican, venden y se sienten premium',
+    shortTitle: 'Sitios web y Shopify',
+    title: 'Sitios web y Shopify que convierten visitas en conversaciones',
     eyebrow: 'Presencia que convierte',
     statement: 'Tu web tiene que explicar por qué confiar, qué ofreces y cómo iniciar una conversación.',
     description:
-      'Construimos sitios corporativos, landings comerciales y tiendas Shopify con narrativa, diseño y base técnica: una página que ordena tu oferta, carga rápido y empuja al contacto.',
+      'Construimos sitios corporativos, landings comerciales y tiendas Shopify con narrativa, diseño y base técnica: una experiencia que ordena tu oferta, carga rápido y empuja al contacto.',
     capabilities: [
       'Narrativa comercial y arquitectura de contenido',
       'Diseño responsive con identidad premium',
@@ -57,14 +57,14 @@ export const services: Service[] = [
       'Marcas que quieren dejar atrás una web genérica',
     ],
     signals: ['Narrativa', 'UX', 'Shopify', 'Conversión'],
-    seoTitle: 'Sitios web comerciales, Shopify y landing pages',
+    seoTitle: 'Sitios web y Shopify que convierten',
     seoDescription:
       'Diseñamos y desarrollamos sitios web comerciales, corporativos, landing pages y Shopify con foco en confianza, conversión y rendimiento.',
   },
   {
     slug: 'plataformas-software-medida',
     index: '02',
-    shortTitle: 'Software',
+    shortTitle: 'Plataformas y software',
     title: 'Software a medida para operaciones que no caben en una plantilla',
     eyebrow: 'Sistema propio',
     statement: 'Cuando el negocio depende de planillas, permisos y reglas internas, conviene construir la herramienta exacta.',
@@ -91,8 +91,8 @@ export const services: Service[] = [
   {
     slug: 'automatizaciones',
     index: '03',
-    shortTitle: 'Automatizaciones',
-    title: 'Automatizaciones que sacan trabajo manual del equipo',
+    shortTitle: 'Automatizaciones e integraciones',
+    title: 'Automatizaciones e integraciones que sacan trabajo manual del equipo',
     eyebrow: 'Flujos que avanzan solos',
     statement: 'Conectamos sistemas para que la información se mueva, se valide y avise sin copiar y pegar.',
     description:
@@ -111,14 +111,14 @@ export const services: Service[] = [
       'Negocios que necesitan alertas y control diario',
     ],
     signals: ['APIs', 'Alertas', 'Documentos', 'Dashboards'],
-    seoTitle: 'Automatización de procesos empresariales',
+    seoTitle: 'Automatizaciones e integraciones para empresas',
     seoDescription:
       'Automatizamos procesos empresariales con integraciones, alertas, documentos y dashboards para reducir trabajo manual y errores operativos.',
   },
   {
     slug: 'soluciones-ia-medida',
     index: '04',
-    shortTitle: 'IA a medida',
+    shortTitle: 'Soluciones de IA',
     title: 'IA aplicada a atención, análisis y operación interna',
     eyebrow: 'Agentes conectados',
     statement: 'La IA sirve cuando entiende contexto, toma información real y ejecuta dentro del flujo de trabajo.',
@@ -137,15 +137,15 @@ export const services: Service[] = [
       'Equipos que reciben consultas, documentos o datos repetidos',
       'Negocios que necesitan automatizar decisiones con contexto',
     ],
-    signals: ['Agentes', 'Contexto', 'LLM', 'Integración'],
+    signals: ['Agentes', 'Contexto', 'Modelos', 'Integración'],
     seoTitle: 'Soluciones de inteligencia artificial a medida',
     seoDescription:
       'Diseñamos agentes, asistentes y soluciones de inteligencia artificial a medida, conectados a datos, conversaciones y sistemas reales.',
   },
   {
-    slug: 'leads-magnet',
+    slug: 'prospeccion-b2b-gestionada',
     index: '05',
-    shortTitle: 'Prospección B2B',
+    shortTitle: 'Prospección B2B gestionada',
     title: 'Prospección B2B operada con datos y seguimiento',
     eyebrow: 'Crecimiento comercial',
     statement: 'No es una base de datos suelta: es una operación para decidir a quién contactar, por qué y cuándo insistir.',
@@ -233,4 +233,8 @@ export const products = [
 
 export function getService(slug: string) {
   return services.find((service) => service.slug === slug)
+}
+
+export function getWhatsappUrl(message: string) {
+  return `https://wa.me/56977684800?text=${encodeURIComponent(message)}`
 }

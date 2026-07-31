@@ -111,7 +111,7 @@ export function Header() {
             >
               <div className="services-menu__label">
                 <span>Capacidades</span>
-                <span>05 sistemas</span>
+                <span>05 servicios</span>
               </div>
               <div className="services-menu__grid">
                 {services.map((service) => (
@@ -132,6 +132,16 @@ export function Header() {
                   </Link>
                 ))}
               </div>
+              <Link
+                href="/servicios"
+                prefetch={false}
+                className="products-menu__all"
+                role="menuitem"
+                onClick={forceCloseDesktopMenu}
+              >
+                Ver página de servicios
+                <ArrowUpRight className="services-menu__arrow" />
+              </Link>
             </div>
           </div>
 
@@ -241,6 +251,10 @@ export function Header() {
               </Link>
               <div className="mobile-navigation__services">
                 <p><span>02</span> Servicios</p>
+                <Link href="/servicios" prefetch={false}>
+                  Ver todos los servicios
+                  <ArrowUpRight />
+                </Link>
                 {services.map((service) => (
                   <Link key={service.slug} href={`/servicios/${service.slug}`} prefetch={false}>
                     {service.shortTitle}

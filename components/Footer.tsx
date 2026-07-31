@@ -49,7 +49,7 @@ export function Footer() {
             <div>
               <p>Navegación</p>
               <Link href="/" prefetch={false}>Inicio</Link>
-              <Link href="/#servicios" prefetch={false}>Servicios</Link>
+              <Link href="/servicios" prefetch={false}>Servicios</Link>
               <Link href="/productos" prefetch={false}>Productos</Link>
               <Link href="/contacto" prefetch={false}>Contacto</Link>
             </div>
