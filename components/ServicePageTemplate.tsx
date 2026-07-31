@@ -1,7 +1,8 @@
 import Link from 'next/link'
+import { BrandLogo } from '@/components/BrandLogo'
 import type { Service } from '@/lib/site'
 import { getWhatsappUrl } from '@/lib/site'
-import type { ServicePageContent } from '@/lib/services-content'
+import { websiteProofCases, type ServicePageContent } from '@/lib/services-content'
 
 type ServicePageTemplateProps = {
   service: Service
@@ -242,6 +243,32 @@ function ResponsibilityGrid({
   )
 }
 
+function WebsiteProofGrid() {
+  return (
+    <section className="service-page-section service-page-section--website-proof">
+      <div className="section-shell">
+        <div className="service-page-section__heading service-page-section__heading--wide">
+          <p className="eyebrow">Webs desarrolladas</p>
+          <h2>Clientes reales donde IAenBlanco construyo la presencia digital.</h2>
+        </div>
+        <div className="services-web-proof-grid services-web-proof-grid--service-page">
+          {websiteProofCases.map((item) => (
+            <article key={item.client}>
+              <div className="services-web-proof-grid__logo">
+                <BrandLogo name={item.logo} alt={item.client} />
+              </div>
+              <span>{item.sector}</span>
+              <h3>{item.client}</h3>
+              <strong>{item.title}</strong>
+              <p>{item.text}</p>
+            </article>
+          ))}
+        </div>
+      </div>
+    </section>
+  )
+}
+
 export function ServicePageTemplate({
   service,
   content,
@@ -251,6 +278,7 @@ export function ServicePageTemplate({
   const sectionCopy = sectionCopyBySlug[content.slug]
   const appliedExample = appliedExamplesBySlug[content.slug]
   const responsibilities = responsibilitiesBySlug[content.slug]
+  const showWebsiteProofs = content.slug === 'desarrollo-web-ia'
 
   return (
     <main id="contenido" className="service-page">
@@ -352,6 +380,8 @@ export function ServicePageTemplate({
         </div>
       </section>
 
+      {showWebsiteProofs ? <WebsiteProofGrid /> : null}
+
       <section className="service-page-mid-cta">
         <div className="section-shell service-page-mid-cta__inner">
           <p>Si esto se parece a tu problema, podemos revisar el alcance antes de proponer una solucion.</p>
@@ -399,7 +429,7 @@ export function ServicePageTemplate({
             data-service-name={service.shortTitle}
           >
             <span>{content.caseStudy.client}</span>
-            Ver casos relacionados
+            <strong>Ver casos relacionados</strong>
             <ArrowUpRight />
           </Link>
         </div>

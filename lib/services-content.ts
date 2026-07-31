@@ -24,6 +24,15 @@ export type ServiceCase = {
   label: string
   title: string
   text: string
+  logo?: string
+}
+
+export type WebsiteProofCase = {
+  client: string
+  logo: string
+  sector: string
+  title: string
+  text: string
 }
 
 export type ServiceFaq = {
@@ -100,21 +109,76 @@ export const serviceProblemEntries: ServiceProblemEntry[] = [
 export const relatedServiceCases: ServiceCase[] = [
   {
     client: 'Propinvest',
-    label: 'Plataforma editable',
+    logo: 'propinvest',
+    label: 'Sitio desarrollado',
     title: 'Presencia inmobiliaria autoadministrable.',
-    text: 'Un canal web donde el equipo puede explicar propiedades, actualizar contenido y ordenar solicitudes comerciales.',
+    text: 'Sitio desarrollado por IAenBlanco para explicar propiedades, actualizar contenido y ordenar solicitudes comerciales.',
   },
   {
     client: 'Granja Magdalena',
-    label: 'E-commerce e integraciones',
+    logo: 'granja-magdalena',
+    label: 'Sitio desarrollado',
     title: 'Canal digital preparado para vender.',
-    text: 'Un espacio comercial para mostrar catalogo, comunicar oferta y sostener una operacion digital mas ordenada.',
+    text: 'Sitio desarrollado por IAenBlanco para mostrar catalogo, comunicar oferta y sostener una operacion digital mas ordenada.',
   },
   {
     client: 'YoMeEncargo',
-    label: 'Experiencia comercial digital',
+    logo: 'yomercargo',
+    label: 'Sitio desarrollado',
     title: 'Servicio explicado con flujo de contacto.',
-    text: 'Una interfaz que transforma una oferta amplia en una experiencia mas facil de entender y solicitar.',
+    text: 'Sitio desarrollado por IAenBlanco para transformar una oferta amplia en una experiencia mas facil de entender y solicitar.',
+  },
+  {
+    client: 'Granja Magdalena Pet',
+    logo: 'granjapet',
+    label: 'Sitio desarrollado',
+    title: 'Canal digital para linea especializada.',
+    text: 'Sitio desarrollado por IAenBlanco para comunicar y vender una categoria especifica con identidad propia.',
+  },
+  {
+    client: 'Inasec Pets',
+    logo: 'inasec-pets',
+    label: 'Sitio desarrollado',
+    title: 'Presencia digital para oferta especializada.',
+    text: 'Sitio desarrollado por IAenBlanco para explicar oferta, ordenar interes y abrir conversaciones comerciales.',
+  },
+]
+
+export const websiteProofCases: WebsiteProofCase[] = [
+  {
+    client: 'Propinvest',
+    logo: 'propinvest',
+    sector: 'Inmobiliario',
+    title: 'Plataforma inmobiliaria editable',
+    text: 'Web desarrollada por IAenBlanco para presentar propiedades, contenido comercial y contacto desde una base autoadministrable.',
+  },
+  {
+    client: 'Granja Magdalena',
+    logo: 'granja-magdalena',
+    sector: 'E-commerce',
+    title: 'Canal digital y catalogo comercial',
+    text: 'Web desarrollada por IAenBlanco para comunicar catalogo, oferta y operacion comercial preparada para vender.',
+  },
+  {
+    client: 'YoMeEncargo',
+    logo: 'yomercargo',
+    sector: 'Servicios',
+    title: 'Experiencia comercial digital',
+    text: 'Web desarrollada por IAenBlanco para explicar un servicio amplio y guiar al usuario hacia una solicitud concreta.',
+  },
+  {
+    client: 'Granja Magdalena Pet',
+    logo: 'granjapet',
+    sector: 'Mascotas',
+    title: 'Canal propio para linea especializada',
+    text: 'Web desarrollada por IAenBlanco para separar una categoria de negocio y darle presencia comercial propia.',
+  },
+  {
+    client: 'Inasec Pets',
+    logo: 'inasec-pets',
+    sector: 'Retail especializado',
+    title: 'Presencia web para capturar interes',
+    text: 'Web desarrollada por IAenBlanco para ordenar la comunicacion de oferta y abrir conversaciones comerciales.',
   },
 ]
 
@@ -186,9 +250,9 @@ export const servicePageContent: Record<ServiceSlug, ServicePageContent> = {
     ],
     caseStudy: {
       client: 'Granja Magdalena',
-      label: 'Caso real',
+      label: 'Sitio desarrollado por IAenBlanco',
       title: 'Canal digital preparado para vender.',
-      text: 'La experiencia se penso como un canal comercial: catalogo, narrativa de oferta, estructura visual y una operacion digital mas clara para sostener crecimiento.',
+      text: 'La experiencia se penso como un canal comercial desarrollado por IAenBlanco: catalogo, narrativa de oferta, estructura visual y una operacion digital mas clara para sostener crecimiento.',
     },
     process: [
       { title: 'Entender oferta', text: 'Revisamos publico, propuesta, servicios, productos y decision de compra.' },
@@ -302,9 +366,9 @@ export const servicePageContent: Record<ServiceSlug, ServicePageContent> = {
     ],
     caseStudy: {
       client: 'Propinvest',
-      label: 'Caso real',
+      label: 'Sitio desarrollado por IAenBlanco',
       title: 'Catalogo inmobiliario editable.',
-      text: 'Se construyo una base digital para administrar propiedades, comunicar fichas y mantener contenido comercial sin depender de cambios manuales externos.',
+      text: 'IAenBlanco construyo una base digital para administrar propiedades, comunicar fichas y mantener contenido comercial sin depender de cambios manuales externos.',
     },
     process: [
       { title: 'Mapear operacion', text: 'Detectamos usuarios, informacion, reglas y puntos de friccion.' },
@@ -422,9 +486,9 @@ export const servicePageContent: Record<ServiceSlug, ServicePageContent> = {
     ],
     caseStudy: {
       client: 'Granja Magdalena',
-      label: 'Evidencia real',
+      label: 'Sitio desarrollado por IAenBlanco',
       title: 'E-commerce e integraciones operativas.',
-      text: 'La evidencia se usa como referencia de operacion conectada: canal digital, catalogo, venta e integraciones pensadas para reducir friccion entre oferta y gestion.',
+      text: 'La evidencia se usa como referencia de operacion conectada desarrollada por IAenBlanco: canal digital, catalogo, venta e integraciones pensadas para reducir friccion entre oferta y gestion.',
     },
     process: [
       { title: 'Detectar repeticion', text: 'Elegimos un flujo manual con volumen, error o impacto operativo.' },

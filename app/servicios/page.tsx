@@ -1,9 +1,11 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
+import { BrandLogo } from '@/components/BrandLogo'
 import { services, SITE_URL, getWhatsappUrl } from '@/lib/site'
 import {
   relatedServiceCases,
   serviceProblemEntries,
+  websiteProofCases,
 } from '@/lib/services-content'
 
 export const metadata: Metadata = {
@@ -165,6 +167,28 @@ export default function ServicesIndexPage() {
         </section>
       ) : null}
 
+      <section className="services-index-section services-index-section--web-proof">
+        <div className="section-shell">
+          <div className="services-index-heading">
+            <p className="eyebrow">Evidencia web real</p>
+            <h2>Sitios de clientes desarrollados por IAenBlanco.</h2>
+          </div>
+          <div className="services-web-proof-grid">
+            {websiteProofCases.map((item) => (
+              <article key={item.client}>
+                <div className="services-web-proof-grid__logo">
+                  <BrandLogo name={item.logo} alt={item.client} />
+                </div>
+                <span>{item.sector}</span>
+                <h3>{item.client}</h3>
+                <strong>{item.title}</strong>
+                <p>{item.text}</p>
+              </article>
+            ))}
+          </div>
+        </div>
+      </section>
+
       <section className="services-index-section" id="casos-relacionados">
         <div className="section-shell">
           <div className="services-index-heading">
@@ -174,6 +198,11 @@ export default function ServicesIndexPage() {
           <div className="services-case-grid">
             {relatedServiceCases.map((item) => (
               <article key={item.client}>
+                {item.logo ? (
+                  <div className="services-case-grid__logo">
+                    <BrandLogo name={item.logo} alt={item.client} />
+                  </div>
+                ) : null}
                 <span>{item.label}</span>
                 <h3>{item.client}</h3>
                 <strong>{item.title}</strong>

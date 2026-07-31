@@ -2429,6 +2429,86 @@ button {
   gap: 12px;
 }
 
+.services-web-proof-grid {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.services-web-proof-grid article {
+  display: flex;
+  flex-direction: column;
+  min-height: 330px;
+  padding: 18px;
+  border: 1px solid rgba(7, 10, 15, 0.12);
+  background:
+    linear-gradient(rgba(64, 176, 208, 0.045) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(64, 176, 208, 0.045) 1px, transparent 1px),
+    rgba(251, 250, 247, 0.86);
+  background-size: 24px 24px;
+}
+
+.services-web-proof-grid__logo,
+.services-case-grid__logo {
+  display: grid;
+  place-items: center;
+  width: 100%;
+  min-height: 118px;
+  margin-bottom: 18px;
+  border: 1px solid rgba(64, 176, 208, 0.28);
+  background: rgba(251, 250, 247, 0.78);
+}
+
+.services-web-proof-grid .brand-logo,
+.services-case-grid__logo .brand-logo {
+  width: min(76%, 150px);
+  max-height: 68px;
+  object-fit: contain;
+}
+
+.services-web-proof-grid .brand-logo--granja-magdalena {
+  max-height: 82px;
+}
+
+.services-web-proof-grid .brand-logo--granjapet,
+.services-case-grid__logo .brand-logo--granjapet {
+  width: min(72%, 128px);
+  max-height: 62px;
+}
+
+.services-web-proof-grid span {
+  color: var(--signal);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.services-web-proof-grid h3 {
+  margin: 14px 0 10px;
+  font-size: clamp(22px, 2vw, 30px);
+  line-height: 0.98;
+}
+
+.services-web-proof-grid strong {
+  display: block;
+  margin-bottom: 12px;
+  color: #18212a;
+  font-size: 15px;
+  line-height: 1.2;
+}
+
+.services-web-proof-grid p {
+  margin: auto 0 0;
+  color: #4c5661;
+  font-size: 14px;
+  line-height: 1.4;
+}
+
+.services-web-proof-grid--service-page {
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+}
+
 .services-case-grid article {
   min-height: 250px;
   padding: 24px;
@@ -2436,12 +2516,17 @@ button {
 
 .services-case-grid article > span {
   display: inline-flex;
-  margin-bottom: 36px;
+  margin-bottom: 20px;
   color: var(--signal);
   font-family: var(--font-mono);
   font-size: 11px;
   font-weight: 600;
   text-transform: uppercase;
+}
+
+.services-case-grid__logo {
+  min-height: 96px;
+  margin-bottom: 18px;
 }
 
 .services-case-grid strong {
@@ -2951,6 +3036,11 @@ button {
   font-size: 14px;
 }
 
+.service-case-card a strong {
+  font-size: 12px;
+  font-weight: 600;
+}
+
 .service-process-list article {
   display: grid;
   grid-template-columns: 58px minmax(0, 1fr);
@@ -3057,6 +3147,8 @@ button {
 
 @media (max-width: 1180px) {
   .services-index-cards,
+  .services-web-proof-grid,
+  .services-web-proof-grid--service-page,
   .service-build-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
@@ -3077,6 +3169,8 @@ button {
   .services-problem-router,
   .services-index-problems,
   .services-case-grid,
+  .services-web-proof-grid,
+  .services-web-proof-grid--service-page,
   .service-use-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
@@ -3124,6 +3218,8 @@ button {
   .services-index-problems,
   .services-index-cards,
   .services-case-grid,
+  .services-web-proof-grid,
+  .services-web-proof-grid--service-page,
   .service-build-grid,
   .service-use-grid,
   .service-mode-grid,

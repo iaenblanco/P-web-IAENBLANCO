@@ -169,7 +169,7 @@ const clientProofs = [
     project: 'Plataforma inmobiliaria autoadministrable',
     system: 'Catálogo editable + contenido comercial + contacto',
     result: 'Un canal que el equipo puede actualizar sin depender de cambios manuales.',
-    proof: 'Propiedades, fichas y contenido comercial gestionados desde un sistema editable.',
+    proof: 'Sitio desarrollado por IAenBlanco para mostrar propiedades, fichas y contenido comercial desde un sistema editable.',
   },
   {
     client: 'Granja Magdalena',
@@ -179,7 +179,7 @@ const clientProofs = [
     project: 'E-commerce e integraciones',
     system: 'Canal digital + catálogo + operación comercial',
     result: 'Una presencia preparada para vender, ordenar oferta y sostener crecimiento.',
-    proof: 'Catálogo, venta online y operación comercial ordenados en un canal digital.',
+    proof: 'Sitio desarrollado por IAenBlanco para ordenar catálogo, venta online y operación comercial en un canal digital.',
   },
   {
     client: 'YoMeEncargo',
@@ -189,7 +189,7 @@ const clientProofs = [
     project: 'Plataforma y experiencia comercial digital',
     system: 'Servicio explicado + flujo comercial + solicitud entrante',
     result: 'Una interfaz que convierte una oferta amplia en una experiencia fácil de entender.',
-    proof: 'Interfaz comercial para explicar servicios, ordenar flujo y facilitar conversión.',
+    proof: 'Sitio desarrollado por IAenBlanco para explicar servicios, ordenar flujo y facilitar conversión.',
   },
   {
     client: 'Granja Magdalena Pet',
@@ -200,7 +200,7 @@ const clientProofs = [
     project: 'Canal digital especializado',
     system: 'Línea de negocio + canal propio + venta especializada',
     result: 'Un espacio diferenciado para comunicar y vender una categoría específica.',
-    proof: 'Presencia y venta orientada a una línea de negocio específica.',
+    proof: 'Sitio desarrollado por IAenBlanco para dar presencia y venta a una línea de negocio específica.',
   },
   {
     client: 'Inasec Pets',
@@ -210,7 +210,7 @@ const clientProofs = [
     project: 'Presencia comercial digital',
     system: 'Oferta clara + captura de interés + contacto',
     result: 'Una base web para explicar oferta y abrir conversaciones comerciales.',
-    proof: 'Estructura web para comunicar oferta y capturar interés.',
+    proof: 'Sitio desarrollado por IAenBlanco para comunicar oferta y capturar interés comercial.',
   },
 ]
 
