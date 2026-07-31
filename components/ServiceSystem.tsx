@@ -51,11 +51,19 @@ function SystemDiagram() {
 }
 
 const serviceResults: Record<string, string> = {
-  'desarrollo-web-ia': 'Una web clara, rápida y preparada para convertir visitas en conversaciones.',
-  'plataformas-software-medida': 'Un sistema propio para ordenar procesos que una herramienta estándar no resuelve.',
-  automatizaciones: 'Menos tareas manuales, menos errores y más visibilidad para decidir.',
-  'soluciones-ia-medida': 'IA conectada a datos, reglas y herramientas reales del negocio.',
-  'leads-magnet': 'Prospección B2B operada con criterio, seguimiento y oportunidades priorizadas.',
+  'desarrollo-web-ia': 'Una página que se entiende rápido, proyecta confianza y lleva al visitante a conversar.',
+  'plataformas-software-medida': 'Un panel o plataforma propia para ordenar permisos, datos y procesos internos.',
+  automatizaciones: 'Flujos conectados que reducen copia manual, errores y tiempos muertos.',
+  'soluciones-ia-medida': 'Un agente o herramienta de IA usable, conectado al contexto real del negocio.',
+  'leads-magnet': 'Una cartera priorizada de empresas con evidencia y próximos pasos comerciales.',
+}
+
+const serviceLinkLabels: Record<string, string> = {
+  'desarrollo-web-ia': 'Ver sitios web',
+  'plataformas-software-medida': 'Ver software',
+  automatizaciones: 'Ver automatizaciones',
+  'soluciones-ia-medida': 'Ver IA a medida',
+  'leads-magnet': 'Ver prospección B2B',
 }
 
 export function ServiceSystem() {
@@ -112,7 +120,7 @@ export function ServiceSystem() {
                   data-cursor="Abrir"
                   data-cursor-theme="signal"
                 >
-                  Ver capacidad
+                  {serviceLinkLabels[service.slug]}
                   <Arrow />
                 </Link>
               </article>
@@ -152,7 +160,7 @@ export function ServiceSystem() {
                   data-cursor="Abrir"
                   data-cursor-theme="signal"
                 >
-                  Ver operación B2B
+                  {serviceLinkLabels[commercialService.slug]}
                   <Arrow />
                 </Link>
               </article>

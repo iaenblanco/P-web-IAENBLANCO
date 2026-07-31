@@ -31,6 +31,7 @@ export function Footer() {
               <Image src="/logo-ui.webp" width={256} height={256} alt="IAenBlanco" />
             </div>
             <p className="eyebrow eyebrow--dark">IA aplicada a operaciones reales</p>
+            <p className="site-footer__tagline">Sistemas digitales para operación y crecimiento.</p>
             <h2>Construyamos el sistema que tu negocio necesita.</h2>
             <a
               href={WHATSAPP_URL}
@@ -39,7 +40,7 @@ export function Footer() {
               className="footer-primary-link"
               data-cursor="Hablemos"
             >
-              Iniciar conversación
+              Hablemos
               <ArrowUpRight />
             </a>
           </div>
@@ -48,6 +49,7 @@ export function Footer() {
             <div>
               <p>Navegación</p>
               <Link href="/" prefetch={false}>Inicio</Link>
+              <Link href="/#servicios" prefetch={false}>Servicios</Link>
               <Link href="/productos" prefetch={false}>Productos</Link>
               <Link href="/contacto" prefetch={false}>Contacto</Link>
             </div>
@@ -60,8 +62,11 @@ export function Footer() {
               ))}
             </div>
             <div>
-              <p>Conecta</p>
+              <p>Contacto</p>
               <a href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a>
+              <a href={WHATSAPP_URL} target="_blank" rel="noreferrer">
+                WhatsApp
+              </a>
               <a href={socialLinks.linkedin} target="_blank" rel="noreferrer">
                 LinkedIn
               </a>

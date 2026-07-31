@@ -1,5 +1,8 @@
+'use client'
+
 import Link from 'next/link'
-import { services, WHATSAPP_URL } from '@/lib/site'
+import { useEffect, useRef, useState } from 'react'
+import { products, services, WHATSAPP_URL } from '@/lib/site'
 
 function ArrowUpRight({ className = '' }: { className?: string }) {
   return (
@@ -19,6 +22,35 @@ function MenuIcon() {
 }
 
 export function Header() {
+  const [openMenu, setOpenMenu] = useState<'services' | 'products' | null>(null)
+  const closeTimer = useRef<ReturnType<typeof setTimeout> | null>(null)
+
+  function clearCloseTimer() {
+    if (closeTimer.current) {
+      clearTimeout(closeTimer.current)
+      closeTimer.current = null
+    }
+  }
+
+  function openDesktopMenu(menu: 'services' | 'products') {
+    clearCloseTimer()
+    setOpenMenu(menu)
+  }
+
+  function closeDesktopMenu() {
+    clearCloseTimer()
+    closeTimer.current = setTimeout(() => setOpenMenu(null), 90)
+  }
+
+  function forceCloseDesktopMenu() {
+    clearCloseTimer()
+    setOpenMenu(null)
+  }
+
+  useEffect(() => () => {
+    if (closeTimer.current) clearTimeout(closeTimer.current)
+  }, [])
+
   return (
     <header className="site-header">
       <div className="site-header__inner">
@@ -43,15 +75,39 @@ export function Header() {
             Inicio
           </Link>
 
-          <details className="services-nav">
-            <summary className="nav-link" aria-controls="services-menu">
+          <div
+            className={`nav-menu services-nav${openMenu === 'services' ? ' is-open' : ''}`}
+            onMouseEnter={() => openDesktopMenu('services')}
+            onMouseLeave={closeDesktopMenu}
+            onFocus={() => openDesktopMenu('services')}
+            onBlur={(event) => {
+              const nextTarget = event.relatedTarget as Node | null
+              if (!nextTarget || !event.currentTarget.contains(nextTarget)) closeDesktopMenu()
+            }}
+            onKeyDown={(event) => {
+              if (event.key === 'Escape') {
+                forceCloseDesktopMenu()
+                const activeElement = document.activeElement
+                if (activeElement instanceof HTMLElement) activeElement.blur()
+              }
+            }}
+          >
+            <button
+              type="button"
+              className="nav-link"
+              aria-controls="services-menu"
+              aria-expanded={openMenu === 'services'}
+              aria-haspopup="menu"
+              onClick={() => openDesktopMenu('services')}
+            >
               Servicios
-              <span className="nav-chevron">⌄</span>
-            </summary>
+              <span className={`nav-chevron${openMenu === 'services' ? ' is-open' : ''}`}>⌄</span>
+            </button>
 
             <div
               id="services-menu"
               className="services-menu"
+              role="menu"
             >
               <div className="services-menu__label">
                 <span>Capacidades</span>
@@ -64,6 +120,8 @@ export function Header() {
                     prefetch={false}
                     className="services-menu__item"
                     key={service.slug}
+                    role="menuitem"
+                    onClick={forceCloseDesktopMenu}
                   >
                     <span className="services-menu__index">{service.index}</span>
                     <span>
@@ -75,15 +133,78 @@ export function Header() {
                 ))}
               </div>
             </div>
-          </details>
+          </div>
 
-          <Link
-            className="nav-link"
-            href="/productos"
-            prefetch={false}
+          <div
+            className={`nav-menu products-nav${openMenu === 'products' ? ' is-open' : ''}`}
+            onMouseEnter={() => openDesktopMenu('products')}
+            onMouseLeave={closeDesktopMenu}
+            onFocus={() => openDesktopMenu('products')}
+            onBlur={(event) => {
+              const nextTarget = event.relatedTarget as Node | null
+              if (!nextTarget || !event.currentTarget.contains(nextTarget)) closeDesktopMenu()
+            }}
+            onKeyDown={(event) => {
+              if (event.key === 'Escape') {
+                forceCloseDesktopMenu()
+                const activeElement = document.activeElement
+                if (activeElement instanceof HTMLElement) activeElement.blur()
+              }
+            }}
           >
-            Productos
-          </Link>
+            <button
+              type="button"
+              className="nav-link"
+              aria-controls="products-menu"
+              aria-expanded={openMenu === 'products'}
+              aria-haspopup="menu"
+              onClick={() => openDesktopMenu('products')}
+            >
+              Productos
+              <span className={`nav-chevron${openMenu === 'products' ? ' is-open' : ''}`}>⌄</span>
+            </button>
+
+            <div
+              id="products-menu"
+              className="services-menu products-menu"
+              role="menu"
+            >
+              <div className="services-menu__label">
+                <span>Productos propios</span>
+                <span>03 sistemas</span>
+              </div>
+              <div className="services-menu__grid products-menu__grid">
+                {products.map((product, index) => (
+                  <a
+                    href={product.href}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="services-menu__item products-menu__item"
+                    key={product.name}
+                    role="menuitem"
+                    onClick={forceCloseDesktopMenu}
+                  >
+                    <span className="services-menu__index">{String(index + 1).padStart(2, '0')}</span>
+                    <span>
+                      <strong>{product.name}</strong>
+                      <small>{product.eyebrow}</small>
+                    </span>
+                    <ArrowUpRight className="services-menu__arrow" />
+                  </a>
+                ))}
+              </div>
+              <Link
+                href="/productos"
+                prefetch={false}
+                className="products-menu__all"
+                role="menuitem"
+                onClick={forceCloseDesktopMenu}
+              >
+                Ver página de productos
+                <ArrowUpRight className="services-menu__arrow" />
+              </Link>
+            </div>
+          </div>
           <Link
             className="nav-link"
             href="/contacto"

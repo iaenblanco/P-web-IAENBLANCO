@@ -1,11 +1,11 @@
 import Image from 'next/image'
-import type { CSSProperties } from 'react'
+import { Fragment, type CSSProperties } from 'react'
 import { BrandLogo } from '@/components/BrandLogo'
 import { ContactBand } from '@/components/ContactBand'
 import { Reveal } from '@/components/Reveal'
 import { ServiceSystem } from '@/components/ServiceSystem'
 import { TypingLine } from '@/components/TypingLine'
-import { products, WHATSAPP_URL } from '@/lib/site'
+import { WHATSAPP_URL } from '@/lib/site'
 
 function ArrowUpRight() {
   return (
@@ -205,6 +205,7 @@ const clientProofs = [
   {
     client: 'Inasec Pets',
     mark: 'Inasec Pets',
+    logo: 'inasec-pets',
     sector: 'Retail especializado',
     project: 'Presencia comercial digital',
     system: 'Oferta clara + captura de interés + contacto',
@@ -217,44 +218,6 @@ const trustSignals = [
   { value: 'Clientes reales', label: 'proyectos públicos, no solo conceptos internos' },
   { value: 'Sistemas propios', label: 'Unifícalo, Citaly y Leads como laboratorio operativo' },
   { value: 'Operación aplicada', label: 'web, software, automatización e IA conectados' },
-]
-
-const featuredCase = {
-  client: 'Propinvest',
-  eyebrow: 'Caso destacado',
-  title: 'Una plataforma inmobiliaria editable para mostrar operación real.',
-  intro:
-    'Propinvest necesitaba una presencia digital que no dependiera de cambios manuales para comunicar propiedades, contenidos y oportunidades comerciales.',
-  points: [
-    {
-      label: 'Problema',
-      text: 'La oferta inmobiliaria necesitaba orden, autonomía y una experiencia clara para el usuario final.',
-    },
-    {
-      label: 'Sistema construido',
-      text: 'Plataforma web autoadministrable con fichas, contenido comercial y estructura preparada para crecer.',
-    },
-    {
-      label: 'Resultado',
-      text: 'Un canal digital más fácil de actualizar, explicar y usar como soporte comercial.',
-    },
-  ],
-  facts: ['Autoadministrable', 'Contenido editable', 'Contacto ordenado'],
-}
-
-const secondaryCases = [
-  {
-    client: 'Granja Magdalena',
-    logo: 'granja-magdalena',
-    type: 'E-commerce',
-    result: 'Canal digital para vender, comunicar catálogo y ordenar operación comercial.',
-  },
-  {
-    client: 'YoMeEncargo',
-    logo: 'yomercargo',
-    type: 'Servicios',
-    result: 'Experiencia comercial para explicar la oferta y facilitar solicitudes entrantes.',
-  },
 ]
 
 const problemCards = [
@@ -296,99 +259,57 @@ const systemMapSteps = [
   { title: 'Sistema', detail: 'Dejamos una operación funcionando.' },
 ]
 
-const productDemos = [
+const productRows = [
   {
     id: 'unificalo',
     theme: 'unificalo',
     name: 'Unifícalo',
-    eyebrow: 'Sync multicanal',
-    description: 'Stock, precios y boletas cuadran solos en todos los canales desde una fuente de verdad.',
-    source: 'Bsale',
-    sourceTheme: 'bsale',
-    core: 'Unifícalo',
-    coreTheme: 'unificalo',
-    outputs: [
-      { title: 'Shopify', theme: 'shopify' },
-      { title: 'Mercado Libre', theme: 'meli' },
+    category: 'E-commerce multicanal',
+    status: 'Piloto abierto',
+    problem: 'Vender por varios canales puede desordenar stock, precios y documentos.',
+    promise: 'Tu stock, precios y documentos se mantienen coordinados en todos tus canales.',
+    steps: [
+      { label: 'Recibe', title: 'Bsale o sistema principal', detail: 'Stock, precios y documentos', theme: 'bsale' },
+      { label: 'Procesa', title: 'Sincroniza la operación', detail: 'Actualiza la información', theme: 'automation' },
+      { label: 'Entrega', title: 'Canales coordinados', detail: 'Shopify y marketplaces', theme: 'shopify' },
     ],
-    signals: ['Sin sobreventas', 'Precios correctos', 'DTE automáticos', 'Trazabilidad'],
-    href: 'https://unificalo.cl',
+    benefits: ['Menos sobreventas.', 'Precios consistentes.', 'Documentos centralizados.'],
     cta: 'Ver Unifícalo',
+    href: 'https://unificalo.cl',
   },
   {
     id: 'citaly',
     theme: 'citaly',
     name: 'Citaly',
-    eyebrow: 'Agenda + agente IA',
-    description: 'WhatsApp responde, entiende audios y agenda con disponibilidad real mientras el equipo atiende.',
-    source: 'WhatsApp',
-    sourceTheme: 'wa',
-    core: 'Agente IA',
-    coreTheme: 'ai',
-    outputs: [
-      { title: 'Agenda', theme: 'software' },
-      { title: 'Confirmación', theme: 'citaly' },
+    category: 'Agenda + agente IA',
+    status: 'Validación comercial',
+    problem: 'Responder WhatsApp y coordinar reservas consume tiempo mientras el negocio está atendiendo.',
+    promise: 'Tu WhatsApp responde y convierte consultas en reservas mientras tú atiendes.',
+    steps: [
+      { label: 'Recibe', title: 'Consultas por WhatsApp', detail: 'Texto y audios', theme: 'wa' },
+      { label: 'Procesa', title: 'Entiende y revisa agenda', detail: 'Agente de IA', theme: 'ai' },
+      { label: 'Entrega', title: 'Horario y reserva', detail: 'Agenda y confirmación', theme: 'software' },
     ],
-    signals: ['Texto y audios', 'Agenda real', 'Reserva', 'Recordatorio'],
-    href: 'https://citaly.cl',
+    benefits: ['Entiende textos y audios.', 'Consulta disponibilidad real.', 'Confirma y recuerda reservas.'],
     cta: 'Ver Citaly',
+    href: 'https://citaly.cl',
   },
   {
     id: 'leads',
     theme: 'leads',
     name: 'Leads',
-    eyebrow: 'Prospección B2B',
-    description: 'Empresas reales, evidencia pública y seguimiento antes de enviar mensajes masivos.',
-    source: 'Empresas',
-    sourceTheme: 'business',
-    core: 'Scoring',
-    coreTheme: 'leads',
-    outputs: [
-      { title: 'Contacto', theme: 'crm' },
-      { title: 'Seguimiento', theme: 'automation' },
+    category: 'Prospección B2B',
+    status: 'Acceso piloto',
+    problem: 'Encontrar empresas reales y decidir a quién contactar exige demasiada búsqueda manual.',
+    promise: 'Encuentra empresas reales y prioriza a quién contactar antes de iniciar el seguimiento.',
+    steps: [
+      { label: 'Recibe', title: 'Mercado objetivo', detail: 'Rubro, zona y perfil', theme: 'business' },
+      { label: 'Procesa', title: 'Busca y prioriza', detail: 'Evidencia y scoring', theme: 'leads' },
+      { label: 'Entrega', title: 'Empresas ordenadas', detail: 'Pipeline y seguimiento', theme: 'automation' },
     ],
-    signals: ['Fuentes públicas', 'Evidencia', 'Score', 'Pipeline'],
-    href: 'https://leads.iaenblanco.com',
+    benefits: ['Evidencia pública.', 'Scoring comercial.', 'Pipeline ordenado.'],
     cta: 'Ver Leads',
-  },
-]
-
-const productFlowSystems = [
-  {
-    id: 'unificalo',
-    name: 'Unifícalo',
-    eyebrow: 'Sync multicanal',
-    theme: 'unificalo',
-    source: { title: 'Canal maestro', theme: 'bsale' },
-    outputs: [
-      { title: 'Shopify', theme: 'shopify' },
-      { title: 'Marketplace', theme: 'meli' },
-    ],
-    chips: ['Stock', 'Precios', 'Boletas', 'Sin sobreventas'],
-  },
-  {
-    id: 'citaly',
-    name: 'Citaly',
-    eyebrow: 'Agenda + agente IA',
-    theme: 'citaly',
-    source: { title: 'WhatsApp', theme: 'wa' },
-    outputs: [
-      { title: 'Agenda real', theme: 'software' },
-      { title: 'Reserva', theme: 'citaly' },
-    ],
-    chips: ['Audios', '24/7', 'Disponibilidad', 'Recordatorios'],
-  },
-  {
-    id: 'leads',
-    name: 'Leads',
-    eyebrow: 'Prospección B2B',
-    theme: 'leads',
-    source: { title: 'Mercado', theme: 'business' },
-    outputs: [
-      { title: 'Evidencia', theme: 'leads' },
-      { title: 'Pipeline', theme: 'automation' },
-    ],
-    chips: ['Rubro', 'Zona', 'Score', 'Seguimiento'],
+    href: 'https://leads.iaenblanco.com',
   },
 ]
 
@@ -1086,10 +1007,9 @@ function TrustProofSection() {
             <article className="trust-proof-card" key={proof.client}>
               <div
                 className={`trust-proof-card__mark${proof.logoTone === 'dark' ? ' trust-proof-card__mark--dark' : ''}`}
-                aria-hidden="true"
               >
                 {proof.logo ? (
-                  <BrandLogo name={proof.logo} className="trust-proof-card__logo" />
+                  <BrandLogo name={proof.logo} alt={proof.client} className="trust-proof-card__logo" />
                 ) : (
                   <span>{proof.mark}</span>
                 )}
@@ -1120,10 +1040,9 @@ function TrustProofSection() {
               <article key={proof.client}>
                 <span
                   className={`trust-proof-card__mark${proof.logoTone === 'dark' ? ' trust-proof-card__mark--dark' : ''}`}
-                  aria-hidden="true"
                 >
                   {proof.logo ? (
-                    <BrandLogo name={proof.logo} className="trust-proof-card__logo" />
+                    <BrandLogo name={proof.logo} alt={proof.client} className="trust-proof-card__logo" />
                   ) : (
                     <span>{proof.mark}</span>
                   )}
@@ -1210,124 +1129,36 @@ function ProblemSection() {
   )
 }
 
-function FeaturedCaseSection() {
+function ProductFlowUnit({
+  label,
+  title,
+  detail,
+  theme,
+}: {
+  label: string
+  title: string
+  detail: string
+  theme: string
+}) {
   return (
-    <section className="featured-case" aria-labelledby="featured-case-heading">
-      <div className="section-shell featured-case__grid">
-        <Reveal className="featured-case__copy">
-          <p className="eyebrow">{featuredCase.eyebrow}</p>
-          <h2 id="featured-case-heading">{featuredCase.title}</h2>
-          <p>{featuredCase.intro}</p>
-          <div className="featured-case__points">
-            {featuredCase.points.map((point) => (
-              <article key={point.label}>
-                <span>{point.label}</span>
-                <p>{point.text}</p>
-              </article>
-            ))}
-          </div>
-          <div className="featured-case__facts">
-            {featuredCase.facts.map((fact) => <span key={fact}>{fact}</span>)}
-          </div>
-          <div className="featured-case__more" aria-label="Otros casos públicos">
-            {secondaryCases.map((item) => (
-              <article key={item.client}>
-                <span className="featured-case__client-logo" aria-hidden="true">
-                  <BrandLogo name={item.logo} />
-                </span>
-                <span>{item.type}</span>
-                <strong>{item.client}</strong>
-                <p>{item.result}</p>
-              </article>
-            ))}
-          </div>
-        </Reveal>
-
-        <Reveal className="featured-case__visual" delay={100}>
-          <div className="case-window" aria-hidden="true">
-            <div className="case-window__bar">
-              <span className="case-window__client-logo">
-                <BrandLogo name="propinvest" />
-              </span>
-              <i />
-            </div>
-            <div className="case-window__hero">
-              <p>Propiedades destacadas</p>
-              <strong>Catálogo editable</strong>
-              <span>Filtro · ficha · contacto</span>
-            </div>
-            <div className="case-window__grid">
-              {['Departamento', 'Casa', 'Oficina'].map((item, index) => (
-                <article key={item}>
-                  <span>{String(index + 1).padStart(2, '0')}</span>
-                  <strong>{item}</strong>
-                  <i />
-                </article>
-              ))}
-            </div>
-            <div className="case-window__admin">
-              <span>Admin</span>
-              <strong>Actualizar contenido</strong>
-              <p>Imagen · precio · estado · descripción</p>
-            </div>
-          </div>
-        </Reveal>
+    <div className="product-unified__unit">
+      <span className="product-unified__unit-icon"><HeroLogo theme={theme} /></span>
+      <div>
+        <span>{label}</span>
+        <strong>{title}</strong>
+        <p>{detail}</p>
       </div>
-    </section>
+    </div>
   )
 }
 
-function ProductSystemMap() {
+function FlowArrow() {
   return (
-    <div className="product-flow-panel" aria-label="Productos propios de IAenBlanco y sus flujos operativos">
-      <div className="product-flow-panel__heading">
-        <p>Flujos propios</p>
-        <h3>Qué recibe, qué procesa y qué entrega.</h3>
-      </div>
-
-      <div className="product-flow-list">
-        {productFlowSystems.map((flow, index) => (
-          <article
-            key={flow.id}
-            className={`product-flow-card product-flow-card--${flow.theme}`}
-            style={{ '--node-index': index } as CSSProperties}
-          >
-            <div className="product-flow-card__intro">
-              <span>{String(index + 1).padStart(2, '0')}</span>
-              <div>
-                <p>{flow.eyebrow}</p>
-                <h4>{flow.name}</h4>
-              </div>
-            </div>
-
-            <div className="product-flow-card__diagram">
-              <div className="product-flow-node product-flow-node--source">
-                <span><HeroLogo theme={flow.source.theme} /></span>
-                <strong>{flow.source.title}</strong>
-              </div>
-              <i aria-hidden="true" />
-              <div className="product-flow-core">
-                <span><HeroLogo theme={flow.theme} /></span>
-                <strong>{flow.name}</strong>
-              </div>
-              <i aria-hidden="true" />
-              <div className="product-flow-output">
-                {flow.outputs.map((output) => (
-                  <div key={output.title} className="product-flow-node">
-                    <span><HeroLogo theme={output.theme} /></span>
-                    <strong>{output.title}</strong>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            <div className="product-flow-card__chips">
-              {flow.chips.map((chip) => <span key={chip}>{chip}</span>)}
-            </div>
-          </article>
-        ))}
-      </div>
-    </div>
+    <span className="product-unified__arrow" aria-hidden="true">
+      <svg viewBox="0 0 34 12" fill="none">
+        <path d="M1 6h30m-5-5 6 5-6 5" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round" />
+      </svg>
+    </span>
   )
 }
 
@@ -1340,65 +1171,71 @@ function ProductLabSection() {
         </Reveal>
         <Reveal className="ecosystem-lab__heading">
           <h2 id="ecosystem-heading">
-            Productos que prueban cómo construimos operación.
+            Productos que convierten operaciones reales en sistemas.
           </h2>
           <p>
-            Unifícalo, Citaly y Leads muestran nuestra forma de trabajar:
-            entradas claras, procesamiento útil y resultados operativos.
+            Unifícalo, Citaly y Leads resuelven tres operaciones distintas:
+            sincronizar canales, atender y agendar, y encontrar oportunidades comerciales.
           </p>
         </Reveal>
       </div>
 
-      <div className="section-shell ecosystem-lab__stage product-demo">
-        <Reveal className="ecosystem-lab__image product-system-visual" delay={80}>
-          <ProductSystemMap />
-        </Reveal>
-
-        <div className="ecosystem-lab__cards product-demo__details">
-          {productDemos.map((demo, index) => {
-            const product = products.find((item) => item.name === demo.name) || products[index]
-            return (
-              <Reveal
-                key={demo.name}
-                className={`ecosystem-card ecosystem-card--${demo.theme}`}
-                delay={index * 110}
-              >
-                <article className="ecosystem-card__selector ecosystem-card__detail">
-                  <div className="ecosystem-card__media">
-                    <span className="ecosystem-card__mark"><HeroLogo theme={demo.theme} /></span>
-                    <span>{demo.eyebrow}</span>
-                  </div>
-                  <div className="ecosystem-card__body">
-                    <div className="ecosystem-card__meta-line">
-                      <p>{product.eyebrow}</p>
-                      <span>{product.status}</span>
-                    </div>
+      <div className="section-shell product-unified" aria-label="Productos propios y flujos operativos">
+        {productRows.map((product, index) => (
+          <Reveal
+            key={product.id}
+            className={`product-unified__row product-unified__row--${product.theme}`}
+            delay={index * 90}
+          >
+            <article style={{ '--product-index': index } as CSSProperties}>
+              <div className="product-unified__identity">
+                <div className="product-unified__meta">
+                  <span>{String(index + 1).padStart(2, '0')}</span>
+                  <p>{product.category}</p>
+                  <strong>{product.status}</strong>
+                </div>
+                <div className="product-unified__brand">
+                  <i><HeroLogo theme={product.theme} /></i>
+                  <div>
                     <h3>{product.name}</h3>
-                    <strong>{product.promise}</strong>
-                    <div className="ecosystem-card__flow">
-                      {demo.signals.slice(0, 3).map((step) => <span key={step}>{step}</span>)}
-                    </div>
-                    <a
-                      href={product.href}
-                      target="_blank"
-                      rel="noreferrer"
-                      className="ecosystem-card__cta"
-                      data-cursor="Ver"
-                      data-cursor-theme={demo.theme}
-                    >
-                      Ver producto
-                      <ArrowUpRight />
-                    </a>
                   </div>
-                  <div className="ecosystem-card__sticker">
-                    <span>{String(index + 1).padStart(2, '0')}</span>
-                    <p>Producto</p>
-                  </div>
-                </article>
-              </Reveal>
-            )
-          })}
-        </div>
+                  <p>{product.problem}</p>
+                </div>
+              </div>
+
+              <div className="product-unified__flow" aria-label={`${product.name}: entrada, proceso y salida`}>
+                {product.steps.map((step, stepIndex) => (
+                  <Fragment key={step.label}>
+                    <ProductFlowUnit {...step} />
+                    {stepIndex < product.steps.length - 1 ? <FlowArrow /> : null}
+                  </Fragment>
+                ))}
+              </div>
+
+              <div className="product-unified__result">
+                <span>Resultado</span>
+                <p className="product-unified__promise">{product.promise}</p>
+                <ul className="product-unified__benefits" aria-label={`Beneficios de ${product.name}`}>
+                  {product.benefits.map((benefit) => <li key={benefit}>{benefit}</li>)}
+                </ul>
+
+                <a
+                  href={product.href}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="product-unified__cta"
+                  data-cursor="Ver"
+                  data-cursor-theme={product.theme}
+                  data-product-name={product.name}
+                  data-section="Productos propios"
+                >
+                  {product.cta}
+                  <ArrowUpRight />
+                </a>
+              </div>
+            </article>
+          </Reveal>
+        ))}
       </div>
     </section>
   )
@@ -1459,8 +1296,6 @@ export default function HomePage() {
       <ProblemSection />
 
       <ServiceSystem />
-
-      <FeaturedCaseSection />
 
       <ProductLabSection />
 

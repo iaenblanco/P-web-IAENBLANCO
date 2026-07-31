@@ -36,6 +36,11 @@ const brandLogoAssets = {
     width: 420,
     height: 218,
   },
+  'inasec-pets': {
+    src: '/brand-assets/inasec-pets-logo.webp',
+    width: 185,
+    height: 104,
+  },
 } as const
 
 type BrandLogoProps = {
