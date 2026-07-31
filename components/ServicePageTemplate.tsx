@@ -546,8 +546,12 @@ export function ServicePageTemplate({
             href={`/servicios/${nextService.slug}`}
             prefetch={false}
             data-analytics-event="service_next_click"
-            data-service-id={service.slug}
-            data-service-name={service.shortTitle}
+            data-service-id={nextService.slug}
+            data-service-name={nextService.shortTitle}
+            data-source-service-id={service.slug}
+            data-source-service-name={service.shortTitle}
+            data-target-service-id={nextService.slug}
+            data-target-service-name={nextService.shortTitle}
           >
             <span>{nextService.index}</span>
             {nextService.title}

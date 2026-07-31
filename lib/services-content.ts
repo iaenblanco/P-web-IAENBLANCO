@@ -43,7 +43,7 @@ export type ServiceFaq = {
   answer: string
 }
 
-export type ServicePageContent = {
+type BaseServicePageContent = {
   slug: ServiceSlug
   result: string
   heroLead: string
@@ -61,12 +61,23 @@ export type ServicePageContent = {
     }
   }
   useCases: { title: string; text: string }[]
-  caseStudy?: ServiceCase
   process: { title: string; text: string }[]
   engagementModes: string[]
   faqs: ServiceFaq[]
   nextSlug: ServiceSlug
 }
+
+export type WebsiteServicePageContent = BaseServicePageContent & {
+  slug: 'desarrollo-web-ia'
+  caseStudy?: never
+}
+
+export type ServicePageContentWithCase = BaseServicePageContent & {
+  slug: Exclude<ServiceSlug, 'desarrollo-web-ia'>
+  caseStudy: ServiceCase
+}
+
+export type ServicePageContent = WebsiteServicePageContent | ServicePageContentWithCase
 
 const diagnosticMessage =
   'Hola IAenBlanco, quiero revisar qué servicio calza mejor con mi negocio.'
@@ -452,11 +463,11 @@ export const servicePageContent: Record<ServiceSlug, ServicePageContent> = {
     ],
     caseStudy: {
       client: 'Granja Magdalena',
-      label: 'Contexto operativo relacionado',
-      title: 'E-commerce conectado a una operación comercial.',
-      text: 'El sitio público muestra el contexto comercial trabajado con Granja Magdalena. Las integraciones, validaciones y flujos internos no son visibles desde el enlace público.',
+      label: 'Contexto de aplicación',
+      title: 'Un canal comercial con procesos por detrás.',
+      text: 'El sitio público permite entender el tipo de operación donde trabajamos flujos: catálogo, consultas, pedidos y seguimiento. Las automatizaciones internas se documentan con capturas o dashboards privados cuando el cliente lo autoriza.',
       href: 'https://granjamagdalena.cl/',
-      actionLabel: 'Ver sitio público',
+      actionLabel: 'Ver contexto público',
     },
     process: [
       { title: 'Detectar repetición', text: 'Elegimos un flujo manual con volumen, error o impacto operativo.' },

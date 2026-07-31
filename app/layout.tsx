@@ -5,6 +5,7 @@ import { Footer } from '@/components/Footer'
 import { Header } from '@/components/Header'
 import {
   CONTACT_EMAIL,
+  products,
   services,
   SITE_URL,
   socialLinks,
@@ -134,8 +135,35 @@ const organizationSchema = {
   },
 }
 
+const prospectionService = services.find((service) => service.slug === 'prospeccion-b2b-gestionada')
+
+const serviceTrackingCatalog = services.reduce<Record<string, { id: string; name: string }>>(
+  (catalog, service) => {
+    catalog[service.slug] = { id: service.slug, name: service.shortTitle }
+    return catalog
+  },
+  {
+    '': { id: 'servicios', name: 'Servicios' },
+    'leads-magnet': {
+      id: prospectionService?.slug || 'prospeccion-b2b-gestionada',
+      name: prospectionService?.shortTitle || 'Prospección B2B gestionada',
+    },
+  },
+)
+
+const productTrackingCatalog = [
+  ...products.map((product) => ({
+    id: product.id,
+    name: product.name,
+    href: product.href,
+  })),
+  { id: 'productos', name: 'Productos', href: '/productos' },
+]
+
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   const gtmId = process.env.NEXT_PUBLIC_GTM_ID || 'GTM-5MNF9G4Z'
+  const serviceTrackingCatalogJson = JSON.stringify(serviceTrackingCatalog).replace(/</g, '\\u003c')
+  const productTrackingCatalogJson = JSON.stringify(productTrackingCatalog).replace(/</g, '\\u003c')
   const gtmSnippet = `
     (function(w,d,s,l,i){
       var productionHosts = ['iaenblanco.com','www.iaenblanco.com'];
@@ -150,6 +178,8 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
     (function(w,d){
       if (w.__iaenblancoTracking) return;
       w.__iaenblancoTracking = true;
+      var serviceCatalog = ${serviceTrackingCatalogJson};
+      var productCatalog = ${productTrackingCatalogJson};
       function clean(text){ return (text || '').replace(/\\s+/g,' ').trim().slice(0,120); }
       function sectionFor(element){
         var section = element.closest ? element.closest('section') : null;
@@ -189,16 +219,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
       function serviceMetaFromPath(path){
         var slug = path.split('/servicios/')[1] || '';
         slug = slug.replace(/\\/$/, '');
-        var services = {
-          '': { id: 'servicios', name: 'Servicios' },
-          'desarrollo-web-ia': { id: 'desarrollo-web-ia', name: 'Sitios web y Shopify' },
-          'plataformas-software-medida': { id: 'plataformas-software-medida', name: 'Plataformas y software' },
-          automatizaciones: { id: 'automatizaciones', name: 'Automatizaciones e integraciones' },
-          'soluciones-ia-medida': { id: 'soluciones-ia-medida', name: 'Soluciones de IA' },
-          'prospeccion-b2b-gestionada': { id: 'prospeccion-b2b-gestionada', name: 'Prospección B2B gestionada' },
-          'leads-magnet': { id: 'prospeccion-b2b-gestionada', name: 'Prospección B2B gestionada' }
-        };
-        return services[slug] || { id: '', name: '' };
+        return serviceCatalog[slug] || { id: '', name: '' };
       }
       function productIdFrom(anchor){
         var explicit = anchor.getAttribute('data-product-id');
@@ -209,12 +230,17 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
         return productMetaFrom(anchor).name;
       }
       function productMetaFrom(anchor){
+        var explicitId = anchor.getAttribute('data-product-id');
+        var explicitName = anchor.getAttribute('data-product-name');
+        if (explicitId || explicitName) return { id: clean(explicitId), name: clean(explicitName) };
         var href = anchor.getAttribute('href') || '';
         var absolute = anchor.href || href;
-        if (absolute.indexOf('unificalo.cl') !== -1) return { id: 'unificalo', name: 'Unifícalo' };
-        if (absolute.indexOf('citaly.cl') !== -1) return { id: 'citaly', name: 'Citaly' };
-        if (absolute.indexOf('leads.iaenblanco.com') !== -1) return { id: 'leads', name: 'Leads' };
-        if (pathFor(anchor).indexOf('/productos') === 0) return { id: 'productos', name: 'Productos' };
+        var anchorPath = pathFor(anchor);
+        for (var index = 0; index < productCatalog.length; index += 1) {
+          var product = productCatalog[index];
+          if (product.href.charAt(0) === '/' && anchorPath.indexOf(product.href) === 0) return { id: product.id, name: product.name };
+          if (product.href.charAt(0) !== '/' && absolute.indexOf(product.href) !== -1) return { id: product.id, name: product.name };
+        }
         return { id: '', name: '' };
       }
       function eventNameFor(anchor){
@@ -276,6 +302,10 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
           section: sectionFor(anchor),
           service_id: serviceIdFrom(anchor),
           service_name: serviceNameFrom(anchor),
+          source_service_id: clean(anchor.getAttribute('data-source-service-id')),
+          source_service_name: clean(anchor.getAttribute('data-source-service-name')),
+          target_service_id: clean(anchor.getAttribute('data-target-service-id')) || serviceIdFrom(anchor),
+          target_service_name: clean(anchor.getAttribute('data-target-service-name')) || serviceNameFrom(anchor),
           product_id: productIdFrom(anchor),
           product_name: productNameFrom(anchor),
           case_name: clean(anchor.getAttribute('data-case-name')),

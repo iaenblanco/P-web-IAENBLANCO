@@ -3261,6 +3261,14 @@ button {
   }
 }
 
+@media (min-width: 641px) and (max-width: 900px) {
+  .services-web-proof-grid article:last-child:nth-child(odd) {
+    grid-column: 1 / -1;
+    width: calc(50% - 6px);
+    justify-self: center;
+  }
+}
+
 @media (max-width: 640px) {
   .services-problem-router,
   .services-index-problems,
