@@ -2120,6 +2120,37 @@ button {
   color: #d99019;
 }
 
+.services-problem-router__note,
+.services-index-editorial-note {
+  display: grid;
+  grid-template-columns: 12px minmax(0, 760px);
+  gap: 14px;
+  align-items: start;
+  margin: -18px 0 46px;
+  color: #35404b;
+}
+
+.services-index-editorial-note {
+  margin: 18px 0 0;
+}
+
+.services-problem-router__note span,
+.services-index-editorial-note span {
+  width: 8px;
+  height: 8px;
+  margin-top: 8px;
+  border-radius: 50%;
+  background: var(--signal);
+  box-shadow: 0 0 0 5px rgba(64, 176, 208, 0.12);
+}
+
+.services-problem-router__note p,
+.services-index-editorial-note p {
+  margin: 0;
+  font-size: clamp(15px, 1.25vw, 18px);
+  line-height: 1.45;
+}
+
 .services-index,
 .service-page {
   background:
@@ -2210,6 +2241,10 @@ button {
 .services-case-grid article,
 .service-build-grid article,
 .service-use-grid article,
+.service-applied-example,
+.service-applied-example__grid article,
+.service-responsibility-grid,
+.service-responsibility-grid > div,
 .service-case-card,
 .service-problem-list article,
 .service-process-list article,
@@ -2733,6 +2768,154 @@ button {
   line-height: 1.45;
 }
 
+.service-page-section--applied {
+  background:
+    linear-gradient(135deg, rgba(64, 176, 208, 0.08), transparent 44%),
+    rgba(251, 250, 247, 0.58);
+}
+
+.service-applied-example {
+  display: grid;
+  grid-template-columns: minmax(260px, 0.48fr) minmax(0, 1fr);
+  gap: clamp(24px, 4vw, 54px);
+  align-items: stretch;
+  padding: clamp(24px, 4vw, 44px);
+  background:
+    linear-gradient(rgba(64, 176, 208, 0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(64, 176, 208, 0.05) 1px, transparent 1px),
+    rgba(251, 250, 247, 0.9);
+  background-size: 28px 28px;
+}
+
+.service-applied-example__copy {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 24px;
+}
+
+.service-applied-example__copy h2 {
+  margin: 0;
+  font-size: clamp(34px, 4.6vw, 72px);
+  line-height: 0.92;
+}
+
+.service-applied-example__copy > p:not(.eyebrow) {
+  margin: 0;
+  color: #35404b;
+  font-size: clamp(16px, 1.35vw, 20px);
+  line-height: 1.45;
+}
+
+.service-applied-example__grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.service-applied-example__grid article {
+  min-height: 180px;
+  padding: 20px;
+  background: rgba(251, 250, 247, 0.86);
+}
+
+.service-applied-example__grid span {
+  color: var(--signal);
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.service-applied-example__grid h3 {
+  margin: 38px 0 10px;
+  font-size: clamp(20px, 2vw, 30px);
+  line-height: 1;
+}
+
+.service-applied-example__grid p {
+  margin: 0;
+  color: #35404b;
+  font-size: 15px;
+  line-height: 1.42;
+}
+
+.service-applied-example__note {
+  grid-column: 1 / -1;
+  margin: 0;
+  padding: 15px 18px;
+  border-left: 3px solid var(--signal);
+  background: rgba(235, 249, 250, 0.52);
+  color: #26313c;
+  font-size: 15px;
+  line-height: 1.45;
+}
+
+.service-page-mid-cta {
+  padding: 28px 0;
+  border-bottom: 1px solid var(--line-soft);
+  background: rgba(235, 249, 250, 0.34);
+}
+
+.service-page-mid-cta__inner {
+  display: flex;
+  justify-content: space-between;
+  gap: 24px;
+  align-items: center;
+}
+
+.service-page-mid-cta p {
+  max-width: 760px;
+  margin: 0;
+  color: #26313c;
+  font-size: clamp(16px, 1.35vw, 20px);
+  line-height: 1.35;
+}
+
+.service-page-section--responsibilities {
+  background: rgba(255, 248, 232, 0.22);
+}
+
+.service-responsibility-grid {
+  overflow: hidden;
+  background: rgba(251, 250, 247, 0.88);
+}
+
+.service-responsibility-grid > div {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  border-width: 0 0 1px;
+}
+
+.service-responsibility-grid > div:last-child {
+  border-bottom: 0;
+}
+
+.service-responsibility-grid span,
+.service-responsibility-grid p {
+  margin: 0;
+  padding: 18px 20px;
+}
+
+.service-responsibility-grid span {
+  color: #9b640f;
+  background: rgba(255, 248, 232, 0.78);
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.service-responsibility-grid p {
+  color: #26313c;
+  font-size: 15px;
+  line-height: 1.45;
+}
+
+.service-responsibility-grid p + p,
+.service-responsibility-grid span + span {
+  border-left: 1px solid var(--line);
+}
+
 .service-case-card {
   display: grid;
   grid-template-columns: minmax(0, 1fr) minmax(260px, 0.32fr);
@@ -2902,9 +3085,15 @@ button {
   .services-managed-card,
   .services-index-final__inner,
   .service-page-two-col,
+  .service-applied-example,
   .service-case-card,
   .service-page-cta__inner {
     grid-template-columns: 1fr;
+  }
+
+  .service-page-mid-cta__inner {
+    align-items: flex-start;
+    flex-direction: column;
   }
 
   .services-index-hero__inner {
@@ -2924,7 +3113,8 @@ button {
   }
 
   .service-mode-grid,
-  .service-deliverables {
+  .service-deliverables,
+  .service-applied-example__grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
@@ -2937,7 +3127,8 @@ button {
   .service-build-grid,
   .service-use-grid,
   .service-mode-grid,
-  .service-deliverables {
+  .service-deliverables,
+  .service-applied-example__grid {
     grid-template-columns: 1fr;
   }
 
@@ -2952,15 +3143,31 @@ button {
   }
 
   .service-page-hero__actions,
+  .service-page-mid-cta .button,
   .service-page-cta .button,
   .services-index-final .button {
     width: 100%;
   }
 
   .service-page-hero__actions .button,
+  .service-page-mid-cta .button,
   .service-page-cta .button,
   .services-index-final .button {
     justify-content: center;
+  }
+
+  .service-applied-example__grid article {
+    min-height: auto;
+  }
+
+  .service-responsibility-grid > div {
+    grid-template-columns: 1fr;
+  }
+
+  .service-responsibility-grid p + p,
+  .service-responsibility-grid span + span {
+    border-left: 0;
+    border-top: 1px solid var(--line);
   }
 
   .service-flow {
@@ -3010,10 +3217,14 @@ button {
 
   .services-index .eyebrow,
   .service-page .eyebrow,
+  .services-problem-router__note p,
+  .services-index-editorial-note p,
   .services-index-cards article > div,
   .services-managed-card__flow span,
   .service-mode-grid span,
   .services-case-grid article > span,
+  .service-applied-example__grid span,
+  .service-responsibility-grid span,
   .service-page-hero__meta span,
   .service-page-hero__signals span,
   .service-flow__header,
@@ -3038,6 +3249,8 @@ button {
   .services-system .service-entry__pipeline span,
   .services-index .eyebrow,
   .service-page .eyebrow,
+  .services-problem-router__note p,
+  .services-index-editorial-note p,
   .services-index-cards article > div,
   .services-index-cards a,
   .services-managed-card > a,
@@ -3045,6 +3258,8 @@ button {
   .service-mode-grid span,
   .services-case-grid article > span,
   .service-case-card a,
+  .service-applied-example__grid span,
+  .service-responsibility-grid span,
   .service-page-hero__meta span,
   .service-page-hero__signals span,
   .services-system .button,

@@ -97,39 +97,6 @@ export const serviceProblemEntries: ServiceProblemEntry[] = [
   },
 ]
 
-export const servicesMatrix = [
-  {
-    need: 'Explicar mejor mi oferta y convertir visitas.',
-    service: 'Sitios web y Shopify',
-    result: 'Una experiencia clara, rapida y orientada a contacto o compra.',
-    href: '/servicios/desarrollo-web-ia/',
-  },
-  {
-    need: 'Ordenar una operacion que ya no cabe en planillas.',
-    service: 'Plataformas y software',
-    result: 'Un sistema propio con permisos, reglas, datos y paneles.',
-    href: '/servicios/plataformas-software-medida/',
-  },
-  {
-    need: 'Evitar copiar informacion entre herramientas.',
-    service: 'Automatizaciones e integraciones',
-    result: 'Flujos conectados que validan, avisan y actualizan estados.',
-    href: '/servicios/automatizaciones/',
-  },
-  {
-    need: 'Usar IA con informacion real del negocio.',
-    service: 'Soluciones de IA',
-    result: 'Agentes o asistentes con contexto, herramientas y control humano.',
-    href: '/servicios/soluciones-ia-medida/',
-  },
-  {
-    need: 'Abrir mercado B2B con metodo.',
-    service: 'Prospeccion B2B gestionada',
-    result: 'Empresas priorizadas con evidencia y seguimiento comercial.',
-    href: '/servicios/prospeccion-b2b-gestionada/',
-  },
-]
-
 export const relatedServiceCases: ServiceCase[] = [
   {
     client: 'Propinvest',
@@ -218,10 +185,10 @@ export const servicePageContent: Record<ServiceSlug, ServicePageContent> = {
       },
     ],
     caseStudy: {
-      client: 'Propinvest',
+      client: 'Granja Magdalena',
       label: 'Caso real',
-      title: 'Plataforma inmobiliaria editable.',
-      text: 'La presencia digital se estructuro para mostrar oferta inmobiliaria, contenido comercial y contacto desde un sistema que el equipo puede actualizar.',
+      title: 'Canal digital preparado para vender.',
+      text: 'La experiencia se penso como un canal comercial: catalogo, narrativa de oferta, estructura visual y una operacion digital mas clara para sostener crecimiento.',
     },
     process: [
       { title: 'Entender oferta', text: 'Revisamos publico, propuesta, servicios, productos y decision de compra.' },
@@ -250,6 +217,21 @@ export const servicePageContent: Record<ServiceSlug, ServicePageContent> = {
         question: 'Tambien trabajan Shopify?',
         answer:
           'Si. Shopify entra dentro del servicio cuando la necesidad es vender, ordenar catalogo o mejorar la experiencia de compra.',
+      },
+      {
+        question: 'Que necesitan para cotizar una web?',
+        answer:
+          'Necesitamos entender oferta, publico, objetivo comercial, paginas necesarias, referencias visuales, integraciones y si existe contenido base o hay que construirlo.',
+      },
+      {
+        question: 'De que depende el plazo?',
+        answer:
+          'Depende del tamano del sitio, contenido disponible, nivel de diseno, integraciones y rondas de revision. Lo definimos por etapas para evitar crecer sin control.',
+      },
+      {
+        question: 'Que pasa despues de lanzar?',
+        answer:
+          'Podemos dejar una etapa de ajustes, medicion basica y evolucion mensual para mejorar contenido, conversion o nuevas secciones.',
       },
     ],
     nextSlug: 'plataformas-software-medida',
@@ -352,6 +334,21 @@ export const servicePageContent: Record<ServiceSlug, ServicePageContent> = {
         answer:
           'Si, cuando el proceso lo requiere. Es parte central de una plataforma operativa.',
       },
+      {
+        question: 'Que necesitan para cotizar una plataforma?',
+        answer:
+          'Necesitamos entender usuarios, roles, datos, estados, reglas, reportes, herramientas existentes y que parte del proceso duele mas hoy.',
+      },
+      {
+        question: 'Como se define el alcance inicial?',
+        answer:
+          'Priorizamos el flujo critico y separamos MVP, mejoras posteriores y funcionalidades que no conviene construir todavia.',
+      },
+      {
+        question: 'De que depende el plazo?',
+        answer:
+          'Depende de cantidad de usuarios, reglas, integraciones, volumen de datos y nivel de administracion requerido. Por eso lo cerramos por etapas.',
+      },
     ],
     nextSlug: 'automatizaciones',
   },
@@ -427,7 +424,7 @@ export const servicePageContent: Record<ServiceSlug, ServicePageContent> = {
       client: 'Granja Magdalena',
       label: 'Evidencia real',
       title: 'E-commerce e integraciones operativas.',
-      text: 'La experiencia digital se trabajo con una mirada de catalogo, operacion comercial e integraciones para ordenar el canal de venta.',
+      text: 'La evidencia se usa como referencia de operacion conectada: canal digital, catalogo, venta e integraciones pensadas para reducir friccion entre oferta y gestion.',
     },
     process: [
       { title: 'Detectar repeticion', text: 'Elegimos un flujo manual con volumen, error o impacto operativo.' },
@@ -456,6 +453,21 @@ export const servicePageContent: Record<ServiceSlug, ServicePageContent> = {
         question: 'Como evitamos que una automatizacion falle sin que nadie se entere?',
         answer:
           'El flujo debe incluir alertas, registros y estados visibles. Eso es parte del diseno operativo.',
+      },
+      {
+        question: 'Que herramientas se pueden conectar?',
+        answer:
+          'Depende del caso, pero normalmente revisamos APIs, planillas, formularios, WhatsApp, email, CRM, e-commerce, dashboards y sistemas administrativos.',
+      },
+      {
+        question: 'Que necesitan para cotizar una automatizacion?',
+        answer:
+          'Necesitamos conocer entrada, salida esperada, reglas, frecuencia, excepciones, herramientas involucradas y quien debe revisar cuando algo no calza.',
+      },
+      {
+        question: 'De que depende el plazo?',
+        answer:
+          'Depende de la claridad del flujo, disponibilidad de integraciones, pruebas necesarias y cantidad de excepciones que deban quedar controladas.',
       },
     ],
     nextSlug: 'soluciones-ia-medida',
@@ -559,6 +571,21 @@ export const servicePageContent: Record<ServiceSlug, ServicePageContent> = {
         answer:
           'No, pero si necesitamos ordenar el contexto minimo para que la solucion sea confiable y util.',
       },
+      {
+        question: 'En que se diferencia de usar ChatGPT directamente?',
+        answer:
+          'Una solucion a medida trabaja con informacion, reglas, permisos, herramientas y flujos propios de tu empresa. No es solamente una conversacion aislada.',
+      },
+      {
+        question: 'Que necesitan para cotizar una solucion de IA?',
+        answer:
+          'Necesitamos entender la tarea, el canal, la informacion disponible, los limites de respuesta, las herramientas a conectar y los casos donde debe intervenir una persona.',
+      },
+      {
+        question: 'Conviene partir con un prototipo?',
+        answer:
+          'Si. En IA suele ser mejor validar un caso acotado, probar respuestas con situaciones reales y luego ampliar el alcance.',
+      },
     ],
     nextSlug: 'prospeccion-b2b-gestionada',
   },
@@ -566,7 +593,7 @@ export const servicePageContent: Record<ServiceSlug, ServicePageContent> = {
     slug: 'prospeccion-b2b-gestionada',
     result: 'Una operacion comercial para decidir a quien contactar y por que.',
     heroLead:
-      'Prospeccion B2B gestionada no es una lista fria. Es un flujo operado con ICP, busqueda, evidencia, priorizacion, contacto y seguimiento para abrir conversaciones con mejor contexto.',
+      'Prospeccion B2B gestionada no es una lista fria. Es un flujo operado con cliente ideal, busqueda, evidencia, priorizacion, contacto y seguimiento para abrir conversaciones con mejor contexto.',
     primaryCta: 'Ordenar mi prospeccion',
     whatsappMessage:
       'Hola IAenBlanco, quiero revisar una operacion de prospeccion B2B gestionada.',
@@ -579,7 +606,7 @@ export const servicePageContent: Record<ServiceSlug, ServicePageContent> = {
     builds: [
       {
         title: 'ICP y mercado objetivo',
-        text: 'Definimos rubros, zonas, perfiles y senales para buscar empresas con mejor fit.',
+        text: 'Definimos el cliente ideal: rubros, zonas, perfiles y senales para buscar empresas con mejor fit.',
       },
       {
         title: 'Busqueda y evidencia',
@@ -587,11 +614,11 @@ export const servicePageContent: Record<ServiceSlug, ServicePageContent> = {
       },
       {
         title: 'Scoring y priorizacion',
-        text: 'Ordenamos oportunidades para que el equipo no parta desde una lista plana.',
+        text: 'Aplicamos criterios de prioridad para decidir a quien contactar primero y por que.',
       },
       {
         title: 'Seguimiento comercial',
-        text: 'Estructuramos contacto, estado, proximos pasos y continuidad.',
+        text: 'Estructuramos pipeline: estado, contexto, proximos pasos y continuidad comercial.',
       },
     ],
     deliverables: [
@@ -661,6 +688,26 @@ export const servicePageContent: Record<ServiceSlug, ServicePageContent> = {
         question: 'Como se diferencia del producto Leads?',
         answer:
           'Leads es un producto propio. Prospeccion B2B gestionada es el servicio operativo que puede apoyarse en esa logica, pero incluye criterio, configuracion y seguimiento.',
+      },
+      {
+        question: 'Que significan ICP, scoring y pipeline?',
+        answer:
+          'ICP es el tipo de cliente ideal. Scoring es la prioridad comercial de cada empresa. Pipeline es el estado y proximo paso de cada oportunidad.',
+      },
+      {
+        question: 'Que debe hacer el cliente durante la operacion?',
+        answer:
+          'El cliente valida oferta, criterios, mensajes y conversaciones reales. IAenBlanco ordena busqueda, evidencia, prioridad y seguimiento, pero no reemplaza el cierre comercial.',
+      },
+      {
+        question: 'Garantizan reuniones o ventas?',
+        answer:
+          'No prometemos resultados cerrados. La prospeccion mejora foco, contexto y seguimiento; las reuniones o ventas dependen tambien de oferta, timing, conversacion y cierre.',
+      },
+      {
+        question: 'Que necesitan para cotizar este servicio?',
+        answer:
+          'Necesitamos entender oferta, mercado objetivo, ticket, zona, capacidad comercial, criterios de descarte y si el cliente ya tiene bases o historial de contactos.',
       },
     ],
     nextSlug: 'desarrollo-web-ia',

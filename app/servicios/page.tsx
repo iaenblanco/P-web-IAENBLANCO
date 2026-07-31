@@ -4,7 +4,6 @@ import { services, SITE_URL, getWhatsappUrl } from '@/lib/site'
 import {
   relatedServiceCases,
   serviceProblemEntries,
-  servicesMatrix,
 } from '@/lib/services-content'
 
 export const metadata: Metadata = {
@@ -102,6 +101,13 @@ export default function ServicesIndexPage() {
               )
             })}
           </div>
+          <div className="services-index-editorial-note">
+            <span />
+            <p>
+              No necesitas saber si el problema requiere una web, automatizacion, software o IA.
+              La primera conversacion sirve para definirlo con criterio y ordenar el siguiente paso.
+            </p>
+          </div>
         </div>
       </section>
 
@@ -158,36 +164,6 @@ export default function ServicesIndexPage() {
           </div>
         </section>
       ) : null}
-
-      <section className="services-index-section">
-        <div className="section-shell">
-          <div className="services-index-heading">
-            <p className="eyebrow">Necesidad / servicio / resultado</p>
-            <h2>Una lectura rapida para decidir por donde partir.</h2>
-          </div>
-          <div className="services-matrix" role="table" aria-label="Matriz de servicios IAenBlanco">
-            <div role="row">
-              <span role="columnheader">Necesidad</span>
-              <span role="columnheader">Servicio</span>
-              <span role="columnheader">Resultado</span>
-            </div>
-            {servicesMatrix.map((row) => (
-              <Link
-                href={row.href}
-                prefetch={false}
-                role="row"
-                key={row.service}
-                data-analytics-event="service_cta_click"
-                data-service-name={row.service}
-              >
-                <span role="cell">{row.need}</span>
-                <strong role="cell">{row.service}</strong>
-                <span role="cell">{row.result}</span>
-              </Link>
-            ))}
-          </div>
-        </div>
-      </section>
 
       <section className="services-index-section" id="casos-relacionados">
         <div className="section-shell">

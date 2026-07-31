@@ -131,6 +131,13 @@ export function ServiceSystem() {
             )
           })}
         </div>
+        <div className="services-problem-router__note">
+          <span />
+          <p>
+            No tienes que elegir perfecto. Si el problema cruza web, software, automatizacion o IA,
+            partimos ordenando el alcance antes de construir.
+          </p>
+        </div>
 
         <div className="services-system__layout">
           <div className="services-system__sticky">
@@ -194,9 +201,6 @@ export function ServiceSystem() {
                     <i />
                     <span>Seguimiento</span>
                   </div>
-                </div>
-                <div className="service-entry__signals">
-                  {commercialService.signals.map((signal) => <span key={signal}>{signal}</span>)}
                 </div>
                 <Link
                   href={`/servicios/${commercialService.slug}`}
