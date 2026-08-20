@@ -104,6 +104,8 @@ const clientProofs = [
     logo: 'yomercargo',
     sector: 'Fletes y mudanzas',
     project: 'Su sitio de servicios, ordenado para que se entienda',
+    velocidad: '0,6 s',
+    peso: '770 KB',
     system: 'Cada servicio explicado por separado y un camino claro hasta pedir la cotización.',
     proof: 'Ofrecen muchas cosas distintas. El sitio las ordena para que cada visitante encuentre la suya.',
     destacado: true,
@@ -115,6 +117,8 @@ const clientProofs = [
     logo: 'propinvest',
     sector: 'Corredora de propiedades',
     project: 'Su catálogo de propiedades, que ellos mismos actualizan',
+    velocidad: '0,4 s',
+    peso: '572 KB',
     system: 'Sitio con fichas de propiedades, textos editables y formulario de contacto.',
     proof: 'Suben una propiedad nueva y queda publicada, sin tener que pedirnos ayuda.',
   },
@@ -125,6 +129,8 @@ const clientProofs = [
     logo: 'granja-magdalena',
     sector: 'Venta de alimentos',
     project: 'Su tienda online',
+    velocidad: '1,1 s',
+    peso: '4,6 MB',
     system: 'Catálogo, carro de compra y la venta ordenada en un solo lugar.',
     proof: 'Pasaron de mostrar sus productos a poder venderlos por internet.',
   },
@@ -136,6 +142,8 @@ const clientProofs = [
     logoTone: 'dark',
     sector: 'Alimento para mascotas',
     project: 'Una tienda aparte para su línea de mascotas',
+    velocidad: '1,4 s',
+    peso: '2,1 MB',
     system: 'Sitio propio, separado del principal, con su propia cara.',
     proof: 'Su línea de mascotas tiene espacio propio en vez de perderse en el catálogo general.',
   },
@@ -146,15 +154,17 @@ const clientProofs = [
     logo: 'inasec-pets',
     sector: 'Tienda especializada',
     project: 'Su sitio para mostrar lo que venden y recibir consultas',
+    velocidad: '1,7 s',
+    peso: '3,2 MB',
     system: 'Oferta explicada de forma simple y una vía directa de contacto.',
     proof: 'Quien los encuentra entiende qué venden y sabe cómo escribirles.',
   },
 ]
 
 const trustSignals = [
-  { value: '5 sitios en línea', label: 'no son maquetas ni bocetos: son los sitios que están atendiendo clientes hoy' },
+  { value: 'Menos de 2 segundos', label: 'es lo que demora en aparecer el contenido en los cinco sitios' },
+  { value: 'Los cinco en celular', label: 'sin desplazar de lado, con los botones alcanzables con el pulgar' },
   { value: '5 rubros distintos', label: 'mudanzas, propiedades, alimentos, mascotas y retail especializado' },
-  { value: '3 programas propios', label: 'Unifícalo, Citaly y Leads, funcionando y contratables por separado' },
 ]
 
 const problemCards = [
@@ -807,6 +817,17 @@ function TrustProofSection() {
                     </div>
                   </dl>
 
+                  <dl className="trabajo__medida">
+                    <div>
+                      <dt>Se ve en</dt>
+                      <dd>{proof.velocidad}</dd>
+                    </div>
+                    <div>
+                      <dt>En celular</dt>
+                      <dd>Sin desplazar de lado</dd>
+                    </div>
+                  </dl>
+
                   <span className="trabajo__cta">
                     Abrir el sitio
                     <ArrowUpRight />
@@ -816,6 +837,16 @@ function TrustProofSection() {
             </Reveal>
           ))}
         </div>
+
+        <Reveal className="trust-proof__metodo" delay={130}>
+          <p>
+            <strong>Los cinco medidos el 19 de agosto de 2026</strong>, con Chrome, en
+            computador y en celular. «Se ve en» es cuánto demora en aparecer el contenido.
+            Ninguno obliga a desplazar de lado en el teléfono, los cinco usan conexión
+            segura y los cinco tienen su descripción lista para Google. Puedes comprobarlo
+            tú: abre cualquiera y mídelo.
+          </p>
+        </Reveal>
 
         <Reveal className="trust-proof__signals" delay={140}>
           {trustSignals.map((signal) => (

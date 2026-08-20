@@ -36,6 +36,10 @@ export type WebsiteProofCase = {
   title: string
   text: string
   href: string
+  /** Nombre del archivo en /public/trabajos, sin extensión. */
+  captura: string
+  /** Cuánto demora en verse el contenido. Medido, no estimado. */
+  velocidad: string
 }
 
 export type ServiceFaq = {
@@ -134,6 +138,8 @@ export const websiteProofCases: WebsiteProofCase[] = [
     title: 'Su catálogo de propiedades, que ellos mismos actualizan',
     text: 'Suben una propiedad nueva y queda publicada, sin tener que pedirnos ayuda.',
     href: 'https://propinvest.cl/',
+    captura: 'propinvest',
+    velocidad: '0,4 s',
   },
   {
     client: 'Granja Magdalena',
@@ -142,6 +148,8 @@ export const websiteProofCases: WebsiteProofCase[] = [
     title: 'Su tienda online',
     text: 'Pasaron de mostrar sus productos a poder venderlos por internet.',
     href: 'https://granjamagdalena.cl/',
+    captura: 'granjamagdalena',
+    velocidad: '1,1 s',
   },
   {
     client: 'YoMeEncargo',
@@ -150,6 +158,8 @@ export const websiteProofCases: WebsiteProofCase[] = [
     title: 'Su sitio de servicios, ordenado para que se entienda',
     text: 'Ofrecen muchas cosas distintas. El sitio las ordena para que cada visitante encuentre la suya.',
     href: 'https://yomeencargo.cl/',
+    captura: 'yomeencargo',
+    velocidad: '0,6 s',
   },
   {
     client: 'Granja Magdalena Pet',
@@ -158,6 +168,8 @@ export const websiteProofCases: WebsiteProofCase[] = [
     title: 'Una tienda aparte para su línea de mascotas',
     text: 'Su línea de mascotas tiene espacio propio en vez de perderse dentro del catálogo general.',
     href: 'https://granjamagdalenapet.cl/',
+    captura: 'granjapet',
+    velocidad: '1,4 s',
   },
   {
     client: 'Inasec Pets',
@@ -166,6 +178,8 @@ export const websiteProofCases: WebsiteProofCase[] = [
     title: 'Su sitio para mostrar lo que venden y recibir consultas',
     text: 'Quien los encuentra entiende qué venden y sabe cómo escribirles.',
     href: 'https://inasecpets.cl/',
+    captura: 'inasecpets',
+    velocidad: '1,7 s',
   },
 ]
 

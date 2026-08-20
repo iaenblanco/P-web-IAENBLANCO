@@ -1,4 +1,5 @@
 import type { Metadata } from 'next'
+import Image from 'next/image'
 import Link from 'next/link'
 import { BrandLogo } from '@/components/BrandLogo'
 import { services, SITE_URL, getWhatsappUrl } from '@/lib/site'
@@ -188,13 +189,27 @@ export default function ServicesIndexPage() {
           <div className="services-web-proof-grid">
             {websiteProofCases.map((item) => (
               <article key={item.client}>
+                <figure className="services-web-proof-grid__captura">
+                  <Image
+                    src={`/trabajos/${item.captura}.webp`}
+                    alt={`Portada del sitio de ${item.client}`}
+                    width={1120}
+                    height={700}
+                    sizes="(max-width: 900px) 100vw, 380px"
+                    quality={78}
+                  />
+                </figure>
                 <div className="services-web-proof-grid__logo">
-                  <BrandLogo name={item.logo} alt={item.client} />
+                  <BrandLogo name={item.logo} alt={item.client} loading="eager" sizes="40px" />
                 </div>
                 <span>{item.sector}</span>
                 <h3>{item.client}</h3>
                 <strong>{item.title}</strong>
                 <p>{item.text}</p>
+                <p className="services-web-proof-grid__medida">
+                  <span>Se ve en</span>
+                  {item.velocidad}
+                </p>
                 <a
                   href={item.href}
                   target="_blank"
