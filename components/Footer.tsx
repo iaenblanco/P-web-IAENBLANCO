@@ -34,7 +34,7 @@ export function Footer() {
             </div>
             <p className="eyebrow eyebrow--dark">Tecnología que se usa, no que se explica</p>
             <p className="site-footer__tagline">Sitios web, programas a medida y asistentes con IA.</p>
-            <h2>Cuéntanos qué te está costando y vemos qué se puede hacer.</h2>
+            <h2>Trabajamos con negocios chilenos que ya están funcionando.</h2>
             <a
               href={WHATSAPP_URL}
               target="_blank"

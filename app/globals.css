@@ -14631,9 +14631,14 @@ button {
    pintaba 6,5 px por fuera del borde de su caja.
    Se recupera ancho estrechando las flechas y el relleno, y se agrega
    partición de palabra como red de seguridad.
+
+   Corregido: este bloque empezaba en 901 px y pisaba la regla que apila el
+   flujo en una columna entre 768 y 1099 px. A 1024 px cada paso quedaba con
+   37 px utiles y palabras como "Actualiza" se partian en dos lineas. Los tres
+   pasos en fila solo tienen sentido desde 1100 px.
    ========================================================================== */
 
-@media (min-width: 901px) and (max-width: 1400px) {
+@media (min-width: 1181px) and (max-width: 1400px) {
   .product-unified__flow {
     grid-template-columns: minmax(0, 1fr) 22px minmax(0, 1fr) 22px minmax(0, 1fr);
     gap: var(--espacio-1);
@@ -15588,5 +15593,126 @@ button {
   .unify-node span,
   .unify-node strong {
     overflow-wrap: anywhere;
+  }
+}
+
+/* El mapa del hero partia "Automatizar" en "Automatiza / r": la pastilla tenia
+   80 px utiles para una palabra de 84 px. Menos relleno lateral, un pelo menos
+   de espacio entre letras, y ninguna palabra se parte a la mitad. */
+
+.summary-orb strong {
+  padding-right: clamp(5px, 0.7vw, 7px);
+  padding-left: clamp(5px, 0.7vw, 7px);
+  letter-spacing: -0.03em;
+  overflow-wrap: normal;
+  word-break: normal;
+  hyphens: manual;
+}
+
+/* El carril del flujo de Unifícalo dejaba 77 px utiles por paso y
+   "marketplaces" mide 91 px a 14 px: la palabra se partia en dos lineas.
+   El carril central se lleva un poco del ancho de las columnas vecinas, que
+   iban sobradas (la de la derecha solo tiene que alojar un boton de 190 px). */
+
+@media (min-width: 1181px) {
+  .product-unified__row article {
+    grid-template-columns: minmax(0, 27fr) minmax(0, 45fr) minmax(0, 28fr);
+  }
+
+  .product-unified__unit {
+    padding: 15px 13px;
+  }
+}
+
+/* Entre 1181 y 1280 px el carril todavia queda justo: flechas mas estrechas
+   y, como red de seguridad, particion con guion (no un corte a mitad de
+   palabra) si alguna vez no alcanza. */
+
+@media (min-width: 1181px) and (max-width: 1320px) {
+  .product-unified__flow {
+    grid-template-columns: minmax(0, 1fr) 24px minmax(0, 1fr) 24px minmax(0, 1fr);
+  }
+
+  .product-unified__unit {
+    padding: 14px 10px;
+  }
+}
+
+.product-unified__unit p,
+.product-unified__unit span {
+  overflow-wrap: break-word;
+  word-break: normal;
+  hyphens: auto;
+}
+
+/* Entre 1100 y 1180 px el panel del producto todavia no tiene ancho para tres
+   pasos en fila (cada uno quedaba en 72 px). Se apilan, como debajo de 1100. */
+
+@media (min-width: 1100px) and (max-width: 1180px) {
+  .product-unified__flow {
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--espacio-2);
+  }
+
+  .product-unified__arrow {
+    justify-self: center;
+    min-height: 18px;
+    transform: rotate(90deg);
+  }
+}
+
+/* "Seguimiento", "Oportunidad" e "informacion" median mas que el ancho util
+   del paso y se partian a la mitad; y como el paso cambia de ancho en cada
+   pantalla, ajustar un tamano fijo solo movia el problema de sitio.
+   La etiqueta pasa a medir en proporcion a SU PROPIA caja: nunca puede
+   pasarse. Se deja un tamano fijo de respaldo por si el navegador no
+   entiende unidades de contenedor. */
+
+.service-flow__step {
+  padding-right: 10px;
+  padding-left: 10px;
+  container-type: inline-size;
+}
+
+.service-flow__step strong {
+  letter-spacing: -0.015em;
+  overflow-wrap: normal;
+  word-break: normal;
+  hyphens: manual;
+}
+
+@supports (width: 1cqi) {
+  .service-flow__step strong {
+    font-size: clamp(14px, 15cqi, 20px);
+  }
+}
+
+/* --------------------------------------------------------------------------
+   Titulares que se miden contra SU columna, no contra la pantalla.
+
+   A 1440 px habia titulares de 69 px dentro de columnas de 355 px: cinco
+   lineas de tres o cuatro palabras, que se leen como una escalera y no como
+   un titular. El tamano pasa a depender del ancho de la propia columna, asi
+   que ninguno se pasa de tres o cuatro lineas en ningun ancho de pantalla.
+   Se deja el tamano anterior de respaldo para navegadores sin unidades de
+   contenedor.
+   -------------------------------------------------------------------------- */
+
+.services-managed-card > div,
+.service-page-section__heading,
+.service-applied-example__copy,
+.site-footer__statement {
+  container-type: inline-size;
+}
+
+@supports (width: 1cqi) {
+  .services-managed-card > div > h2,
+  .service-page-section__heading > h2,
+  .service-applied-example__copy > h2 {
+    font-size: clamp(30px, 11.5cqi, 60px);
+  }
+
+  .site-footer__statement > h2 {
+    font-size: clamp(28px, 10cqi, 62px);
   }
 }
