@@ -90,38 +90,38 @@ const diagnosticMessage =
 
 export const serviceProblemEntries: ServiceProblemEntry[] = [
   {
-    label: 'Necesito una web que convierta.',
-    detail: 'Oferta clara, confianza visual y contacto mejor guiado.',
+    label: 'No tengo sitio web, o el que tengo da vergüenza.',
+    detail: 'Te hacemos el sitio o la tienda online.',
     href: '/servicios/desarrollo-web-ia/',
     serviceSlug: 'desarrollo-web-ia',
   },
   {
-    label: 'Mi operación depende de planillas.',
-    detail: 'Paneles, permisos, datos y reglas en una plataforma propia.',
+    label: 'Llevo el negocio en planillas de Excel.',
+    detail: 'Te hacemos un programa con tus reglas y tus permisos.',
     href: '/servicios/plataformas-software-medida/',
     serviceSlug: 'plataformas-software-medida',
   },
   {
-    label: 'Mis herramientas no están conectadas.',
-    detail: 'Flujos entre sistemas, validaciones, alertas y reportes.',
+    label: 'Paso el día copiando datos de un lado a otro.',
+    detail: 'Hacemos que esas tareas se hagan solas.',
     href: '/servicios/automatizaciones/',
     serviceSlug: 'automatizaciones',
   },
   {
-    label: 'Quiero aplicar IA.',
-    detail: 'Agentes y asistentes conectados al contexto real.',
+    label: 'Contesto las mismas preguntas todo el día.',
+    detail: 'Te armamos un asistente que responde por ti.',
     href: '/servicios/soluciones-ia-medida/',
     serviceSlug: 'soluciones-ia-medida',
   },
   {
-    label: 'Necesito oportunidades B2B.',
-    detail: 'ICP, búsqueda, evidencia, priorización y seguimiento.',
+    label: 'Necesito clientes nuevos y no sé por dónde partir.',
+    detail: 'Te buscamos empresas reales a las que venderle.',
     href: '/servicios/prospeccion-b2b-gestionada/',
     serviceSlug: 'prospeccion-b2b-gestionada',
   },
   {
-    label: 'No sé qué solución necesito.',
-    detail: 'Partimos por diagnosticar la fricción y ordenar el siguiente paso.',
+    label: 'Sé que algo se puede mejorar, pero no sé qué.',
+    detail: 'Conversemos y lo ordenamos juntos, sin costo.',
     href: getWhatsappUrl(diagnosticMessage),
   },
 ]
@@ -130,41 +130,41 @@ export const websiteProofCases: WebsiteProofCase[] = [
   {
     client: 'Propinvest',
     logo: 'propinvest',
-    sector: 'Inmobiliario',
-    title: 'Plataforma inmobiliaria editable',
-    text: 'Presencia autoadministrable para presentar propiedades, editar contenido comercial y ordenar solicitudes.',
+    sector: 'Corredora de propiedades',
+    title: 'Su catálogo de propiedades, que ellos mismos actualizan',
+    text: 'Suben una propiedad nueva y queda publicada, sin tener que pedirnos ayuda.',
     href: 'https://propinvest.cl/',
   },
   {
     client: 'Granja Magdalena',
     logo: 'granja-magdalena',
-    sector: 'E-commerce',
-    title: 'Canal digital y catálogo comercial',
-    text: 'E-commerce y catálogo comercial desarrollado para comunicar la oferta y sostener la operación de venta.',
+    sector: 'Venta de productos',
+    title: 'Su tienda online',
+    text: 'Pasaron de mostrar sus productos a poder venderlos por internet.',
     href: 'https://granjamagdalena.cl/',
   },
   {
     client: 'YoMeEncargo',
     logo: 'yomercargo',
-    sector: 'Servicios',
-    title: 'Experiencia comercial digital',
-    text: 'Experiencia de servicios creada para explicar una oferta amplia y guiar al usuario hacia una solicitud concreta.',
+    sector: 'Empresa de servicios',
+    title: 'Su sitio de servicios, ordenado para que se entienda',
+    text: 'Ofrecen muchas cosas distintas. El sitio las ordena para que cada visitante encuentre la suya.',
     href: 'https://yomeencargo.cl/',
   },
   {
     client: 'Granja Magdalena Pet',
     logo: 'granjapet',
-    sector: 'Mascotas',
-    title: 'Canal propio para línea especializada',
-    text: 'Canal propio para separar una categoría de negocio y darle presencia comercial con identidad independiente.',
+    sector: 'Productos para mascotas',
+    title: 'Una tienda aparte para su línea de mascotas',
+    text: 'Su línea de mascotas tiene espacio propio en vez de perderse dentro del catálogo general.',
     href: 'https://granjamagdalenapet.cl/',
   },
   {
     client: 'Inasec Pets',
     logo: 'inasec-pets',
-    sector: 'Retail especializado',
-    title: 'Presencia web para capturar interés',
-    text: 'Presencia web enfocada en ordenar la comunicación de oferta y abrir conversaciones comerciales.',
+    sector: 'Tienda especializada',
+    title: 'Su sitio para mostrar lo que venden y recibir consultas',
+    text: 'Quien los encuentra entiende qué venden y sabe cómo escribirles.',
     href: 'https://inasecpets.cl/',
   },
 ]
@@ -172,47 +172,47 @@ export const websiteProofCases: WebsiteProofCase[] = [
 export const servicePageContent: ServicePageContentMap = {
   'desarrollo-web-ia': {
     slug: 'desarrollo-web-ia',
-    result: 'Una web que explica, genera confianza y empuja al contacto.',
+    result: 'Un sitio que se entiende rápido, se ve serio y hace que te escriban.',
     heroLead:
-      'Convertimos tu oferta en una experiencia web clara: mensaje, estructura, diseño, velocidad, medición y contacto. La página deja de ser vitrina pasiva y empieza a trabajar como parte del sistema comercial.',
-    primaryCta: 'Diagnosticar mi web',
+      'Ordenamos qué dice tu sitio, en qué orden y cómo se ve. La idea es simple: que quien entre entienda al tiro qué haces, sienta que puede confiar y sepa cómo escribirte. Que deje de ser un folleto y empiece a traerte consultas.',
+    primaryCta: 'Quiero revisar mi sitio',
     whatsappMessage:
       'Hola IAenBlanco, quiero revisar un proyecto de sitio web o Shopify que convierta mejor.',
     problems: [
-      'La web se ve correcta, pero no explica rápido por qué elegir tu empresa.',
-      'El visitante no entiende qué hacer después de leer la oferta.',
-      'El diseño no transmite el nivel real del servicio o producto.',
-      'La página depende de textos largos y no guía hacia WhatsApp, compra o formulario.',
-      'El sitio carga lento o se siente poco cuidado en celular.',
+      'Tu sitio se ve bien, pero no explica en diez segundos por qué elegirte a ti.',
+      'La gente lee y no sabe qué hacer después: no encuentra el botón ni el número.',
+      'Tu trabajo es bueno, pero el sitio lo hace ver más chico de lo que es.',
+      'Hay mucho texto y ningún camino claro hacia el WhatsApp o el carro de compra.',
+      'En el celular se ve apretado, o se demora tanto que la gente se va.',
     ],
     builds: [
       {
-        title: 'Arquitectura comercial',
-        text: 'Ordenamos mensaje, secciones, jerarquía y CTAs para que la página venda sin sentirse forzada.',
+        title: 'Ordenar qué dice y en qué orden',
+        text: 'Definimos qué dice cada parte del sitio y en qué orden, para que se lea solo.',
       },
       {
-        title: 'Interfaz premium y responsive',
-        text: 'Diseñamos una experiencia coherente con la marca, legible y preparada para desktop y mobile.',
+        title: 'Diseño que se ve bien en cualquier pantalla',
+        text: 'Un diseño que va con tu marca, que se lee fácil y que se ve igual de bien en el computador y en el celular.',
       },
       {
-        title: 'Sitio, landing o Shopify',
-        text: 'Construimos el canal que corresponde: corporativo, landing de venta, catálogo o tienda online.',
+        title: 'El tipo de sitio que te conviene',
+        text: 'Puede ser el sitio de tu empresa, una página para una promoción, un catálogo o una tienda online. Vemos cuál te sirve.',
       },
       {
-        title: 'Conversión y seguimiento',
-        text: 'Conectamos WhatsApp, formularios, eventos básicos y rutas para que el contacto no se pierda.',
+        title: 'Que te puedan contactar fácil',
+        text: 'Botón de WhatsApp, formulario o carro de compra, puestos donde la persona los va a buscar.',
       },
     ],
     deliverables: [
-      'Mapa de contenido y narrativa comercial.',
-      'Diseño responsive de las secciones principales.',
-      'Desarrollo web optimizado para carga y lectura.',
-      'Integración con WhatsApp, formulario o flujo de compra.',
-      'Base SEO técnica: metadata, estructura y sitemap cuando corresponda.',
-      'Checklist de publicación y ajustes posteriores.',
+      'El plan de qué dice cada página, aprobado por ti.',
+      'El diseño de todas las secciones, para computador y celular.',
+      'El sitio programado, rápido y fácil de leer.',
+      'Tu WhatsApp, tu formulario o tu carro de compra, funcionando.',
+      'Lo necesario para que Google pueda encontrarte y mostrarte bien.',
+      'La publicación hecha y los ajustes que salgan después.',
     ],
     diagram: {
-      label: 'Flujo web comercial',
+      label: 'Cómo funciona',
       steps: [
         { title: 'Mensaje', detail: 'Qué vendes y por qué confiar.' },
         { title: 'Experiencia', detail: 'Recorrido claro y visual.' },
@@ -236,98 +236,98 @@ export const servicePageContent: ServicePageContentMap = {
       },
     ],
     process: [
-      { title: 'Entender oferta', text: 'Revisamos público, propuesta, servicios, productos y decisión de compra.' },
-      { title: 'Ordenar narrativa', text: 'Definimos páginas, bloques, mensajes y llamados a la acción.' },
-      { title: 'Diseñar y construir', text: 'Creamos la interfaz y la implementamos con foco en velocidad y claridad.' },
-      { title: 'Publicar y medir', text: 'Dejamos el sitio listo para operar, revisar comportamiento y ajustar.' },
+      { title: 'Entender qué vendes', text: 'Vemos a quién le vendes, qué ofreces y cómo decide comprar tu cliente.' },
+      { title: 'Ordenar qué se dice', text: 'Definimos las páginas, qué va en cada una y dónde ponemos los botones.' },
+      { title: 'Diseñarlo y programarlo', text: 'Lo diseñamos y lo programamos, cuidando que cargue rápido y se entienda.' },
+      { title: 'Publicarlo y ver cómo va', text: 'Lo dejamos en línea, miramos cómo se comporta y ajustamos lo que haga falta.' },
     ],
     engagementModes: [
-      'Landing comercial puntual.',
-      'Sitio corporativo completo.',
-      'Shopify o catálogo de venta.',
-      'Evolución mensual de contenido y conversión.',
+      'Una sola página, para una promoción o un servicio.',
+      'El sitio completo de tu empresa.',
+      'Una tienda online para vender por internet.',
+      'Un plan mensual para ir mejorándolo.',
     ],
     faqs: [
       {
         question: '¿Sirve si todavía no tengo todo el contenido listo?',
         answer:
-          'Sí. Podemos partir ordenando la narrativa y definir qué contenido falta antes de diseñar o desarrollar.',
+          'Sí, es lo más normal. Partimos ordenando qué hay que decir y te vamos pidiendo lo que falta: fotos, textos, precios.',
       },
       {
         question: '¿Pueden conectar la web con WhatsApp?',
         answer:
-          'Sí. El flujo puede llevar a WhatsApp con contexto, formularios o rutas de contacto según la intención del visitante.',
+          'Sí, y es lo que más recomendamos. El botón abre tu WhatsApp con el mensaje ya escrito, así sabes de qué página viene la persona.',
       },
       {
-        question: '¿También trabajan Shopify?',
+        question: '¿Y si quiero vender por internet?',
         answer:
-          'Sí. Shopify entra dentro del servicio cuando la necesidad es vender, ordenar catálogo o mejorar la experiencia de compra.',
+          'Sí. Hacemos tiendas online, con catálogo, carro de compra y medios de pago. Te decimos qué plataforma conviene según lo que vendas.',
       },
       {
-        question: '¿Qué necesitan para cotizar una web?',
+        question: '¿Qué necesitan para darme un precio?',
         answer:
-          'Necesitamos entender oferta, público, objetivo comercial, páginas necesarias, referencias visuales, integraciones y si existe contenido base o hay que construirlo.',
+          'Saber qué vendes, a quién, cuántas páginas necesitas, si ya tienes fotos y textos, y algún sitio que te guste como referencia.',
       },
       {
         question: '¿De qué depende el plazo?',
         answer:
-          'Depende del tamaño del sitio, contenido disponible, nivel de diseño, integraciones y rondas de revisión. Lo definimos por etapas para evitar crecer sin control.',
+          'De cuántas páginas sean, de si tienes el contenido listo y de cuántas vueltas de revisión quieras. Un sitio simple puede estar en pocas semanas.',
       },
       {
         question: '¿Qué pasa después de lanzar?',
         answer:
-          'Podemos dejar una etapa de ajustes, medición básica y evolución mensual para mejorar contenido, conversión o nuevas secciones.',
+          'Quedamos disponibles para los ajustes que salgan. Y si quieres, seguimos mes a mes agregando contenido y mejorando lo que no esté funcionando.',
       },
     ],
     nextSlug: 'plataformas-software-medida',
   },
   'plataformas-software-medida': {
     slug: 'plataformas-software-medida',
-    result: 'Una herramienta propia para operar con reglas, datos y control.',
+    result: 'Un programa propio donde tu equipo trabaja con la misma información.',
     heroLead:
-      'Cuando la operación crece, las planillas y herramientas genéricas empiezan a romperse. Construimos plataformas internas, paneles y software a medida para que el equipo trabaje con un flujo claro.',
-    primaryCta: 'Revisar mi operación',
+      'Llega un punto en que el Excel ya no da: se duplican archivos, alguien pisa el dato de otro y nadie sabe cuál es la versión buena. Te hacemos un programa con tus reglas, donde cada persona entra con su cuenta y ve solo lo que le toca.',
+    primaryCta: 'Quiero salir del Excel',
     whatsappMessage:
       'Hola IAenBlanco, quiero revisar una plataforma o software a medida para ordenar mi operación.',
     problems: [
-      'La información vive en varias planillas y nadie sabe cuál es la versión correcta.',
-      'El equipo repite tareas porque el proceso no está centralizado.',
-      'Hay permisos, estados o reglas que una herramienta genérica no entiende.',
-      'La gerencia necesita visibilidad sin pedir reportes manuales todo el tiempo.',
+      'Hay tres versiones de la misma planilla y nadie sabe cuál es la buena.',
+      'Se repite trabajo porque cada uno tiene su archivo aparte.',
+      'Necesitas que cada persona vea solo lo suyo, y el Excel no sabe hacer eso.',
+      'Para saber cómo va el mes hay que pedirle el reporte a alguien.',
     ],
     builds: [
       {
-        title: 'Modelo operativo',
-        text: 'Traducimos el proceso real a usuarios, permisos, reglas, estados y datos.',
+        title: 'Cómo trabajas hoy',
+        text: 'Miramos cómo trabajas de verdad y lo convertimos en las reglas del programa.',
       },
       {
-        title: 'Paneles de trabajo',
-        text: 'Creamos interfaces para cargar, revisar, aprobar, consultar o controlar información.',
+        title: 'Las pantallas donde trabaja tu equipo',
+        text: 'Pantallas simples para cargar, revisar, aprobar y buscar lo que necesiten.',
       },
       {
-        title: 'Backend y datos',
-        text: 'Ordenamos la lógica que sostiene el sistema: registros, relaciones, validaciones y seguridad.',
+        title: 'Dónde se guarda la información',
+        text: 'Dejamos la información guardada, ordenada y protegida, sin archivos sueltos.',
       },
       {
-        title: 'Evolución por etapas',
-        text: 'Construimos lo necesario primero y dejamos una base preparada para crecer.',
+        title: 'Crece de a poco',
+        text: 'Hacemos primero lo que más te urge, y dejamos todo listo para agregar más después.',
       },
     ],
     deliverables: [
-      'Levantamiento funcional del proceso.',
-      'Mapa de roles, permisos y estados.',
-      'Interfaz de panel o plataforma.',
-      'Base de datos y reglas operativas.',
-      'Flujos de carga, edición, búsqueda y control.',
-      'Documentación de uso y soporte inicial.',
+      'Un documento con cómo trabajas hoy, escrito y validado contigo.',
+      'Quién puede ver y hacer qué, definido contigo.',
+      'Las pantallas del programa, listas para usar.',
+      'Toda tu información guardada y ordenada, con tus reglas aplicadas.',
+      'Poder cargar, editar, buscar y revisar sin depender de nadie.',
+      'Un instructivo simple y acompañamiento las primeras semanas.',
     ],
     diagram: {
-      label: 'Arquitectura operativa',
+      label: 'Cómo funciona por dentro',
       steps: [
         { title: 'Usuarios', detail: 'Equipo y roles.' },
         { title: 'Permisos', detail: 'Qué puede hacer cada perfil.' },
         { title: 'Reglas', detail: 'Validaciones y estados.' },
-        { title: 'Backend / datos', detail: 'Fuente ordenada.' },
+        { title: 'La información', detail: 'Guardada y ordenada.' },
         { title: 'Panel', detail: 'Operación visible.' },
       ],
     },
@@ -347,106 +347,106 @@ export const servicePageContent: ServicePageContentMap = {
     ],
     caseStudy: {
       client: 'Propinvest',
-      label: 'Plataforma desarrollada por IAenBlanco',
+      label: 'Un trabajo nuestro',
       title: 'Catálogo inmobiliario editable.',
       text: 'IAenBlanco construyó una base digital para administrar propiedades, comunicar fichas y mantener contenido comercial sin depender de cambios manuales externos. La administración interna no es pública.',
       href: 'https://propinvest.cl/',
-      actionLabel: 'Ver sitio público',
+      actionLabel: 'Abrir el sitio',
     },
     process: [
-      { title: 'Mapear operación', text: 'Detectamos usuarios, información, reglas y puntos de fricción.' },
-      { title: 'Definir alcance', text: 'Priorizamos la primera versión para resolver lo crítico sin sobredimensionar.' },
-      { title: 'Construir sistema', text: 'Implementamos paneles, datos, permisos y flujos internos.' },
-      { title: 'Operar y evolucionar', text: 'Acompañamos uso real, ajustes y nuevas etapas.' },
+      { title: 'Entender cómo trabajas', text: 'Vemos quién hace qué, con qué información y dónde se traba todo.' },
+      { title: 'Acordar hasta dónde llega', text: 'Elegimos qué entra en la primera versión, para no gastar de más ni demorarnos de más.' },
+      { title: 'Construirlo', text: 'Programamos las pantallas, las reglas y los permisos de cada persona.' },
+      { title: 'Usarlo y mejorarlo', text: 'Te acompañamos mientras lo usan de verdad, y agregamos lo que vaya faltando.' },
     ],
     engagementModes: [
-      'MVP funcional.',
-      'Plataforma interna completa.',
-      'Panel conectado a sistemas existentes.',
-      'Retainer de soporte y evolución.',
+      'Una primera versión que ya puedes usar.',
+      'El programa completo para todo tu equipo.',
+      'Una pantalla conectada a los programas que ya usas.',
+      'Un plan mensual de soporte y mejoras.',
     ],
     faqs: [
       {
-        question: '¿Conviene hacer software a medida o usar una herramienta existente?',
+        question: '¿No me conviene mejor comprar un programa ya hecho?',
         answer:
-          'Depende del proceso. Si la herramienta existente obliga a cambiar demasiado la operación o genera trabajo manual, puede hacer sentido construir una capa propia.',
+          'A veces sí, y te lo vamos a decir. Un programa a medida se justifica cuando el que existe te obliga a cambiar cómo trabajas, o cuando igual terminas usando Excel al lado.',
       },
       {
         question: '¿Se puede partir pequeño?',
         answer:
-          'Sí. Lo recomendable es partir por el flujo que más impacto tiene y luego evolucionar con uso real.',
+          'Sí, y es lo que recomendamos. Partimos por lo que más te duele hoy. El resto lo agregamos después, cuando ya lo estés usando.',
       },
       {
-        question: '¿Incluye usuarios y permisos?',
+        question: '¿Puedo controlar quién ve qué?',
         answer:
-          'Sí, cuando el proceso lo requiere. Es parte central de una plataforma operativa.',
+          'Sí. Cada persona entra con su cuenta y ve solo lo que le corresponde. Es una de las razones principales para dejar el Excel.',
       },
       {
-        question: '¿Qué necesitan para cotizar una plataforma?',
+        question: '¿Qué necesitan para darme un precio?',
         answer:
-          'Necesitamos entender usuarios, roles, datos, estados, reglas, reportes, herramientas existentes y qué parte del proceso duele más hoy.',
+          'Saber cuántas personas lo van a usar, qué hace cada una, qué información manejan y qué parte del proceso te duele más hoy. Una conversación suele bastar.',
       },
       {
-        question: '¿Cómo se define el alcance inicial?',
+        question: '¿Cómo decidimos qué entra en la primera versión?',
         answer:
-          'Priorizamos el flujo crítico y separamos MVP, mejoras posteriores y funcionalidades que no conviene construir todavía.',
+          'Partimos por lo que más te duele. Lo demás queda anotado para después, y te decimos con franqueza qué no vale la pena construir todavía.',
       },
       {
         question: '¿De qué depende el plazo?',
         answer:
-          'Depende de cantidad de usuarios, reglas, integraciones, volumen de datos y nivel de administración requerido. Por eso lo cerramos por etapas.',
+          'De cuánta gente lo use, cuántas reglas tenga y con qué programas se conecte. Por eso lo hacemos por etapas: así ves resultados antes.',
       },
     ],
     nextSlug: 'automatizaciones',
   },
   automatizaciones: {
     slug: 'automatizaciones',
-    result: 'Menos copia manual, menos errores y más visibilidad operativa.',
+    result: 'Horas que dejas de perder copiando datos, y menos errores.',
     heroLead:
-      'Conectamos sistemas y tareas repetidas para que la información se mueva con reglas claras. La automatización no es magia: es un flujo bien definido, validado y monitoreado.',
-    primaryCta: 'Automatizar un flujo',
+      'Si alguien de tu equipo hace la misma tarea todas las mañanas, esa tarea se puede hacer sola. Conectamos los programas que ya usas para que la información viaje sin que nadie la copie, y para que te avise cuando algo se sale de lo normal.',
+    primaryCta: 'Quiero automatizar una tarea',
     whatsappMessage:
       'Hola IAenBlanco, quiero revisar un flujo manual que podría automatizarse.',
     problems: [
-      'El equipo copia datos entre sistemas, planillas o correos.',
-      'Los errores aparecen porque falta validación antes de actualizar información.',
-      'Nadie recibe alerta cuando un estado cambia o algo queda pendiente.',
-      'Los reportes se preparan manualmente y llegan tarde.',
+      'Alguien pasa los mismos datos de un programa a otro, todos los días.',
+      'Se cuelan errores porque nadie alcanza a revisar antes de guardar.',
+      'Algo queda pendiente y te enteras cuando ya es tarde.',
+      'Armar el reporte del mes toma horas y siempre llega atrasado.',
     ],
     builds: [
       {
-        title: 'Mapa de flujo',
-        text: 'Identificamos entrada, reglas, validaciones, excepciones y salida esperada.',
+        title: 'Dibujar la tarea',
+        text: 'Anotamos qué entra, qué hay que revisar, qué pasa si algo falla y qué tiene que salir.',
       },
       {
-        title: 'Integraciones',
-        text: 'Conectamos herramientas existentes para evitar doble digitación y tareas repetidas.',
+        title: 'Conectar tus programas',
+        text: 'Que los programas que ya usas se hablen entre ellos, para no escribir lo mismo dos veces.',
       },
       {
-        title: 'Validaciones y alertas',
-        text: 'Agregamos controles para detectar datos incompletos, errores o situaciones que requieren revisión.',
+        title: 'Revisiones y avisos',
+        text: 'El programa revisa que no falte nada y te avisa cuando algo necesita tu ojo.',
       },
       {
-        title: 'Tablero de seguimiento',
-        text: 'Dejamos visibilidad sobre estados, pendientes y resultados operativos.',
+        title: 'Una pantalla para ver cómo va',
+        text: 'Entras y ves en qué va todo, qué está pendiente y qué ya se hizo.',
       },
     ],
     deliverables: [
-      'Mapa del flujo actual y flujo objetivo.',
-      'Reglas de validación y excepciones.',
-      'Integración entre sistemas o fuentes de datos.',
-      'Alertas operativas.',
-      'Dashboard o registro de seguimiento.',
-      'Documentación para operar y mantener el flujo.',
+      'Un dibujo de cómo se hace hoy y cómo va a quedar.',
+      'Qué se revisa automáticamente y qué pasa cuando algo no calza.',
+      'Tus programas y planillas conectados entre sí.',
+      'Avisos automáticos cuando algo falla o queda pendiente.',
+      'Una pantalla simple para ver cómo va todo.',
+      'Un instructivo para que tu equipo lo entienda y lo pueda mantener.',
     ],
     diagram: {
-      label: 'Flujo automatizado',
+      label: 'Cómo funciona',
       steps: [
         { title: 'Sistema A', detail: 'Entrada de datos.' },
         { title: 'Validación', detail: 'Campos y condiciones.' },
         { title: 'Reglas', detail: 'Decisión automática.' },
         { title: 'Sistema B', detail: 'Actualización.' },
-        { title: 'Alerta / dashboard', detail: 'Visibilidad.' },
+        { title: 'Aviso', detail: 'Te enteras al tiro.' },
       ],
       exception: {
         title: 'Excepción',
@@ -469,11 +469,11 @@ export const servicePageContent: ServicePageContentMap = {
     ],
     caseStudy: {
       client: 'Granja Magdalena',
-      label: 'Contexto de aplicación',
+      label: 'Dónde se aplica',
       title: 'Un canal comercial con procesos que pueden conectarse.',
       text: 'El sitio público muestra el contexto comercial donde este tipo de automatizaciones aporta valor: catálogo, consultas, pedidos y seguimiento. Los flujos internos no se exponen públicamente por confidencialidad.',
       href: 'https://granjamagdalena.cl/',
-      actionLabel: 'Ver contexto público',
+      actionLabel: 'Abrir el sitio',
     },
     process: [
       { title: 'Detectar repetición', text: 'Elegimos un flujo manual con volumen, error o impacto operativo.' },
@@ -482,87 +482,87 @@ export const servicePageContent: ServicePageContentMap = {
       { title: 'Monitorear', text: 'Dejamos alertas y visibilidad para detectar fallas o mejoras.' },
     ],
     engagementModes: [
-      'Automatización puntual.',
-      'Paquete de integraciones por proceso.',
-      'Dashboard operativo conectado.',
-      'Mantención y mejora continua.',
+      'Una tarea específica, resuelta.',
+      'Varias tareas de un mismo proceso, en un paquete.',
+      'Una pantalla donde ves el estado de todo.',
+      'Mantención mensual y mejoras.',
     ],
     faqs: [
       {
         question: '¿Todo se debe automatizar?',
         answer:
-          'No. Primero se automatizan tareas repetidas y reglas claras. Las excepciones importantes deben quedar con revisión humana.',
+          'No, y te lo vamos a decir de frente. Se automatiza lo repetido y lo que tiene reglas claras. Lo que necesita criterio, mejor que lo siga viendo una persona.',
       },
       {
-        question: '¿Pueden conectar herramientas que ya usamos?',
+        question: '¿Sirve con los programas que ya tengo?',
         answer:
-          'Sí, cuando las herramientas permiten integración o existe una forma segura de trabajar con sus datos.',
+          'Casi siempre sí. Lo revisamos antes de prometerte nada: si un programa no se deja conectar, te lo decimos al tiro.',
       },
       {
-        question: '¿Cómo evitamos que una automatización falle sin que nadie se entere?',
+        question: '¿Y si falla y nadie se da cuenta?',
         answer:
-          'El flujo debe incluir alertas, registros y estados visibles. Eso es parte del diseño operativo.',
+          'Por eso siempre incluimos avisos. Si algo se cae o queda a medias, te llega el aviso. Nada falla en silencio.',
       },
       {
-        question: '¿Qué herramientas se pueden conectar?',
+        question: '¿Qué se puede conectar?',
         answer:
-          'Depende del caso, pero normalmente revisamos APIs, planillas, formularios, WhatsApp, email, CRM, e-commerce, dashboards y sistemas administrativos.',
+          'Depende del caso, pero lo habitual es conectar planillas, formularios, WhatsApp, correo, tu tienda online y los programas administrativos que ya usas.',
       },
       {
-        question: '¿Qué necesitan para cotizar una automatización?',
+        question: '¿Qué necesitan para darme un precio?',
         answer:
-          'Necesitamos conocer entrada, salida esperada, reglas, frecuencia, excepciones, herramientas involucradas y quién debe revisar cuando algo no calza.',
+          'Que nos cuentes la tarea: qué haces hoy paso a paso, cada cuánto, con qué programas y qué pasa cuando algo sale raro.',
       },
       {
         question: '¿De qué depende el plazo?',
         answer:
-          'Depende de la claridad del flujo, disponibilidad de integraciones, pruebas necesarias y cantidad de excepciones que deban quedar controladas.',
+          'De qué tan clara esté la tarea y de cuántos casos raros haya que cubrir. Una automatización simple puede estar en días.',
       },
     ],
     nextSlug: 'soluciones-ia-medida',
   },
   'soluciones-ia-medida': {
     slug: 'soluciones-ia-medida',
-    result: 'IA conectada al contexto real, con control y utilidad operativa.',
+    result: 'Un asistente que responde de verdad, con la información de tu negocio.',
     heroLead:
-      'La IA aporta valor cuando entiende el contexto del negocio y opera dentro de un flujo. Diseñamos agentes, asistentes y modelos aplicados a atención, análisis o tareas internas.',
-    primaryCta: 'Evaluar uso de IA',
+      'La inteligencia artificial sirve cuando sabe de tu negocio. Si no sabe, inventa — y eso frente a un cliente sale caro. Le damos tu información real, definimos qué puede y qué no puede contestar, y cuando el caso es delicado te lo pasa a ti.',
+    primaryCta: 'Quiero ver si me sirve',
     whatsappMessage:
       'Hola IAenBlanco, quiero evaluar una solución de IA aplicada a mi operación.',
     problems: [
-      'La empresa quiere usar IA, pero no tiene claro en qué proceso aplicarla.',
-      'Las consultas repetidas consumen tiempo del equipo.',
-      'Hay información dispersa que podría responderse o analizarse mejor.',
-      'Se necesita automatizar una tarea, pero manteniendo control humano.',
+      'Te dijeron que uses IA pero nadie te explicó para qué te serviría a ti.',
+      'Contestas las mismas cinco preguntas todo el día.',
+      'Tienes información repartida en muchas partes y cuesta sacarle provecho.',
+      'Quieres que algo se haga solo, pero sin perder el control de lo importante.',
     ],
     builds: [
       {
-        title: 'Caso de uso claro',
-        text: 'Definimos qué debe resolver la IA, dónde se detiene y cuándo deriva a una persona.',
+        title: 'Para qué lo vas a usar',
+        text: 'Acordamos qué puede contestar el asistente, qué no, y cuándo te tiene que pasar el caso.',
       },
       {
-        title: 'Contexto y datos',
-        text: 'Preparamos la información que el agente o asistente necesita para responder con criterio.',
+        title: 'Enseñarle sobre tu negocio',
+        text: 'Le damos tu información real: precios, horarios, servicios, lo que sea que necesite saber.',
       },
       {
-        title: 'Agente o asistente',
-        text: 'Construimos la experiencia de uso y la conectamos con herramientas reales cuando corresponde.',
+        title: 'Armar el asistente',
+        text: 'Lo dejamos andando donde lo necesitas: en tu sitio, en WhatsApp o adentro de tu programa.',
       },
       {
-        title: 'Validación y control',
-        text: 'Probamos respuestas, límites, tono, seguridad y casos donde debe pedir revisión humana.',
+        title: 'Probarlo antes de soltarlo',
+        text: 'Lo probamos contigo hasta que responda bien, con tu tono y sin decir cosas que no debe.',
       },
     ],
     deliverables: [
-      'Definición del caso de uso y límites.',
-      'Mapa de información y contexto.',
-      'Agente, asistente o flujo con IA.',
-      'Conexión con herramientas o canales cuando corresponde.',
-      'Pruebas con casos reales.',
-      'Reglas de derivación y control humano.',
+      'Qué va a hacer el asistente y qué no, por escrito.',
+      'La información de tu negocio que el asistente va a usar.',
+      'El asistente funcionando, donde lo necesitas.',
+      'Conectado a WhatsApp, a tu sitio o a tu programa, según el caso.',
+      'Pruebas con casos de verdad, no con ejemplos inventados.',
+      'Cuándo te pasa el caso a ti, definido y probado.',
     ],
     diagram: {
-      label: 'Agente con contexto',
+      label: 'Cómo funciona',
       steps: [
         { title: 'Solicitud', detail: 'Pregunta o tarea.' },
         { title: 'Contexto', detail: 'Datos relevantes.' },
@@ -588,7 +588,7 @@ export const servicePageContent: ServicePageContentMap = {
     ],
     caseStudy: {
       client: 'Citaly',
-      label: 'Producto con IA desarrollado por IAenBlanco',
+      label: 'Un programa nuestro',
       title: 'Agenda y atención por WhatsApp con IA.',
       text: 'Citaly sirve como evidencia interna de una lógica aplicada: entender consultas, revisar disponibilidad y apoyar reservas sin perder control operativo.',
       href: 'https://citaly.cl/',
@@ -601,94 +601,94 @@ export const servicePageContent: ServicePageContentMap = {
       { title: 'Probar y ajustar', text: 'Validamos respuestas, errores, derivaciones y casos límite.' },
     ],
     engagementModes: [
-      'Prototipo de IA validable.',
-      'Agente conectado a canal o sistema.',
-      'Asistente interno.',
-      'Evolución y entrenamiento operativo.',
+      'Una prueba chica para ver si te sirve.',
+      'Un asistente conectado a tu WhatsApp o a tu sitio.',
+      'Un asistente para uso interno del equipo.',
+      'Mejoras y entrenamiento a medida que lo usan.',
     ],
     faqs: [
       {
-        question: '¿La IA reemplaza al equipo?',
+        question: '¿Esto reemplaza a mi gente?',
         answer:
-          'No necesariamente. La usamos para reducir carga repetitiva, mejorar respuesta o apoyar decisiones, manteniendo control humano donde hace falta.',
+          'No. Sirve para sacarle de encima lo repetitivo a tu equipo, no para reemplazarlo. Lo que necesita criterio sigue siendo de una persona.',
       },
       {
-        question: '¿Qué pasa si la IA no sabe responder?',
+        question: '¿Y si le preguntan algo que no sabe?',
         answer:
-          'Debe existir una regla de derivación o solicitud de más contexto. Eso se define antes de operar.',
+          'Lo dejamos configurado para que diga que no sabe y te pase el caso, en vez de inventar. Eso se define contigo antes de soltarlo.',
       },
       {
-        question: '¿Necesito tener datos perfectos para empezar?',
+        question: '¿Necesito tener todo ordenado para empezar?',
         answer:
-          'No, pero sí necesitamos ordenar el contexto mínimo para que la solución sea confiable y útil.',
+          'No. Pero sí hay que juntar lo mínimo: tus servicios, tus precios, tus horarios. Sin eso, el asistente inventa, y eso no le sirve a nadie.',
       },
       {
-        question: '¿En qué se diferencia de usar ChatGPT directamente?',
+        question: '¿En qué se diferencia de usar ChatGPT?',
         answer:
-          'Una solución a medida trabaja con información, reglas, permisos, herramientas y flujos propios de tu empresa. No es solamente una conversación aislada.',
+          'ChatGPT no sabe tus precios, tus horarios ni tu stock. Este asistente sí, porque le damos tu información y le ponemos límites de qué puede decir.',
       },
       {
-        question: '¿Qué necesitan para cotizar una solución de IA?',
+        question: '¿Qué necesitan para darme un precio?',
         answer:
-          'Necesitamos entender la tarea, el canal, la información disponible, los límites de respuesta, las herramientas a conectar y los casos donde debe intervenir una persona.',
+          'Saber qué quieres que haga, dónde va a estar (WhatsApp, tu sitio), qué información tiene disponible y en qué casos debe pasarte el caso a ti.',
       },
       {
-        question: '¿Conviene partir con un prototipo?',
+        question: '¿Puedo probarlo antes de comprometerme?',
         answer:
-          'Sí. En IA suele ser mejor validar un caso acotado, probar respuestas con situaciones reales y luego ampliar el alcance.',
+          'Sí, y es lo que recomendamos. Partimos con algo chico, lo pruebas con casos reales de tu negocio, y si funciona lo ampliamos.',
       },
     ],
     nextSlug: 'prospeccion-b2b-gestionada',
   },
   'prospeccion-b2b-gestionada': {
     slug: 'prospeccion-b2b-gestionada',
-    result: 'Una operación comercial para decidir a quién contactar y por qué.',
+    result: 'Una lista de empresas ordenada por prioridad, con el contacto y qué decirles.',
     heroLead:
-      'Prospección B2B gestionada no es una lista fría. Es un flujo operado con cliente ideal, búsqueda, evidencia, priorización, contacto y seguimiento para abrir conversaciones con mejor contexto.',
-    primaryCta: 'Ordenar mi prospección',
+      'Esto no es una base de datos comprada. Definimos juntos a qué empresas les quieres vender, las buscamos una por una, revisamos que existan de verdad y que tengan cómo contactarlas, y te las pasamos ordenadas: primero las que más te calzan, cada una con un mensaje sugerido.',
+    primaryCta: 'Quiero clientes nuevos',
     whatsappMessage:
-      'Hola IAenBlanco, quiero revisar una operación de prospección B2B gestionada.',
+      'Hola IAenBlanco, quiero que me ayuden a encontrar clientes nuevos para mi empresa.',
     problems: [
-      'El equipo comercial no sabe a qué empresas priorizar primero.',
-      'La búsqueda de prospectos consume demasiado tiempo manual.',
-      'Los contactos se hacen sin evidencia suficiente ni criterio compartido.',
-      'El seguimiento queda disperso y se pierden oportunidades.',
+      'No saben a qué empresa llamar primero, así que llaman a cualquiera.',
+      'Buscar empresas a mano se come la mañana entera.',
+      'Se contacta a ciegas, sin saber si esa empresa siquiera calza.',
+      'El seguimiento queda en cuadernos y notas sueltas, y se pierden ventas.',
     ],
     builds: [
       {
-        title: 'ICP y mercado objetivo',
-        text: 'Definimos el cliente ideal: rubros, zonas, perfiles y señales para buscar empresas con mejor fit.',
+        title: 'A quién le queremos vender',
+        text: 'Acordamos qué tipo de empresa te compra: rubro, tamaño, zona y qué señales mirar.',
       },
       {
-        title: 'Búsqueda y evidencia',
-        text: 'Levantamos empresas reales y contexto público útil para decidir si vale la pena contactar.',
+        title: 'Buscarlas y revisarlas',
+        text: 'Las buscamos una por una y revisamos que existan, que sigan operando y que tengan cómo contactarlas.',
       },
       {
-        title: 'Scoring y priorización',
-        text: 'Aplicamos criterios de prioridad para decidir a quién contactar primero y por qué.',
+        title: 'Cuáles van primero',
+        text: 'Las ordenamos: arriba las que más te calzan, con el motivo anotado.',
       },
       {
-        title: 'Seguimiento comercial',
-        text: 'Estructuramos pipeline: estado, contexto, próximos pasos y continuidad comercial.',
+        title: 'No perder el hilo',
+        text: 'Dejamos anotado en qué va cada empresa, qué se conversó y cuál es el siguiente paso.',
       },
     ],
     deliverables: [
-      'Definición de ICP y criterios de búsqueda.',
-      'Base priorizada de empresas objetivo.',
-      'Evidencia pública organizada.',
-      'Criterios de scoring y fit comercial.',
-      'Pipeline de contacto y seguimiento.',
-      'Recomendaciones de acción comercial.',
+      'El perfil de empresa que buscamos, acordado contigo.',
+      'La lista de empresas, ordenada por cuáles te calzan más.',
+      'De cada empresa: qué encontramos, dónde y cómo contactarla.',
+      'Con qué criterio ordenamos cuáles van primero.',
+      'Un registro de a quién se contactó y en qué quedó.',
+      'Qué decirle a cada una para partir la conversación.',
     ],
     diagram: {
-      label: 'Operación de prospección',
+      label: 'Cómo funciona',
       steps: [
-        { title: 'ICP', detail: 'Cliente ideal.' },
+        { title: 'El perfil', detail: 'A quién buscamos.' },
         { title: 'Búsqueda', detail: 'Empresas reales.' },
         { title: 'Evidencia', detail: 'Señales públicas.' },
-        { title: 'Scoring', detail: 'Prioridad.' },
+        { title: 'El orden', detail: 'Cuáles primero.' },
         { title: 'Contacto', detail: 'Acción comercial.' },
-        { title: 'Seguimiento', detail: 'Pipeline.' },
+        { title: 'El seguimiento', detail: 'En qué quedó cada una.' },
         { title: 'Oportunidad', detail: 'Próximo paso.' },
       ],
     },
@@ -708,44 +708,44 @@ export const servicePageContent: ServicePageContentMap = {
     ],
     caseStudy: {
       client: 'Leads',
-      label: 'Tecnología propia que apoya la operación gestionada',
-      title: 'Prospección con evidencia y pipeline.',
+      label: 'Un programa nuestro',
+      title: 'Empresas reales, ordenadas por prioridad.',
       text: 'Leads es tecnología propia de IAenBlanco para ordenar búsqueda, evidencia, score y seguimiento. El servicio gestionado agrega criterio comercial, configuración y operación sobre esa base.',
       href: 'https://leads.iaenblanco.com/',
       actionLabel: 'Ver producto',
     },
     process: [
-      { title: 'Definir mercado', text: 'Acordamos ICP, zonas, rubros y criterios de oportunidad.' },
+      { title: 'Definir a quién', text: 'Acordamos qué tipo de empresa, en qué rubro y en qué zona.' },
       { title: 'Levantar empresas', text: 'Buscamos registros reales y evidencia pública relevante.' },
       { title: 'Priorizar', text: 'Ordenamos por fit, señales y calidad de información.' },
       { title: 'Operar seguimiento', text: 'Estructuramos contacto, estados y próximos pasos comerciales.' },
     ],
     engagementModes: [
-      'Diagnóstico de mercado objetivo.',
-      'Operación mensual gestionada.',
-      'Base priorizada para equipo comercial.',
-      'Acompañamiento de pipeline y seguimiento.',
+      'Un diagnóstico de a quién te conviene venderle.',
+      'El servicio mensual completo, operado por nosotros.',
+      'Solo la lista, ordenada, para que la trabaje tu equipo.',
+      'Te acompañamos en el seguimiento de cada contacto.',
     ],
     faqs: [
       {
         question: '¿Esto es lo mismo que comprar una base de datos?',
         answer:
-          'No. La base sola no resuelve priorización ni seguimiento. La propuesta es una operación gestionada con criterios y evidencia.',
+          'No. Una base comprada es un archivo con miles de nombres que no contestan. Acá revisamos empresa por empresa, te decimos cuáles van primero y por qué.',
       },
       {
-        question: '¿Ustedes envían mensajes masivos?',
+        question: '¿Mandan mensajes masivos en mi nombre?',
         answer:
-          'El foco es ordenar a quién contactar, por qué y con qué contexto. La ejecución del contacto se define según la estrategia comercial.',
+          'No. Nuestro trabajo es decirte a quién contactar, por qué y qué decirle. Quién manda el mensaje lo acordamos contigo: puedes ser tú o tu equipo.',
       },
       {
-        question: '¿Cómo se diferencia del producto Leads?',
+        question: '¿En qué se diferencia del programa Leads?',
         answer:
-          'Leads es un producto propio. Prospección B2B gestionada es el servicio operativo que puede apoyarse en esa lógica, pero incluye criterio, configuración y seguimiento.',
+          'Leads es un programa que usas tú mismo. Este servicio lo operamos nosotros: definimos el perfil contigo, revisamos empresa por empresa y te acompañamos en el seguimiento.',
       },
       {
-        question: '¿Qué significan ICP, scoring y pipeline?',
+        question: '¿De dónde salen esas empresas?',
         answer:
-          'ICP es el tipo de cliente ideal. Scoring es la prioridad comercial de cada empresa. Pipeline es el estado y próximo paso de cada oportunidad.',
+          'De fuentes públicas: sitios web, registros abiertos y directorios. No compramos bases de datos ni usamos información que la empresa no haya publicado ella misma.',
       },
       {
         question: '¿Qué debe hacer el cliente durante la operación?',
@@ -758,9 +758,9 @@ export const servicePageContent: ServicePageContentMap = {
           'No prometemos resultados cerrados. La prospección mejora foco, contexto y seguimiento; las reuniones o ventas dependen también de oferta, timing, conversación y cierre.',
       },
       {
-        question: '¿Qué necesitan para cotizar este servicio?',
+        question: '¿Qué necesitan para darme un precio?',
         answer:
-          'Necesitamos entender oferta, mercado objetivo, ticket, zona, capacidad comercial, criterios de descarte y si el cliente ya tiene bases o historial de contactos.',
+          'Saber qué vendes, a qué tipo de empresa, en qué zona, cuánto cobras más o menos y a cuántas empresas alcanza a contactar tu equipo al mes.',
       },
     ],
     nextSlug: 'desarrollo-web-ia',

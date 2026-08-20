@@ -13446,7 +13446,7 @@ button {
   align-items: center;
   gap: 7px;
   width: max-content;
-  min-height: 40px;
+  min-height: 44px;
   margin-top: 8px;
   color: var(--graphite);
   font-family: var(--font-mono);
@@ -13901,4 +13901,12 @@ button {
 .services-index-final .eyebrow,
 .service-page-cta .eyebrow {
   color: rgba(255, 255, 255, 0.62);
+}
+
+/* Los enlaces a cada servicio son la navegación principal: en el celular
+   quedaban en 30 px, bajo el mínimo cómodo para el pulgar. */
+
+.service-entry__link {
+  min-height: 44px;
+  align-items: center;
 }

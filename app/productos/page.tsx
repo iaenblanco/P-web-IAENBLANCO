@@ -230,10 +230,10 @@ export default function ProductsPage() {
     <main id="contenido">
       <section className="page-hero page-hero--products" data-cursor-theme="signal">
         <div className="section-shell">
-          <p className="hero-kicker"><span /> Productos propios</p>
+          <p className="hero-kicker"><span /> Programas listos para usar</p>
           <h1>
-            Productos que convierten{' '}
-            <em>problemas reales en sistemas.</em>
+            Tres programas nuestros{' '}
+            <em>que puedes contratar hoy.</em>
           </h1>
           <p>
             Tres productos propios para sincronizar ventas, gestionar agendas y activar
@@ -326,7 +326,7 @@ export default function ProductsPage() {
 
       <ContactBand
         eyebrow="Productos propios"
-        title="¿Quieres revisar si alguno calza con tu operación?"
+        title="¿No sabes cuál te sirve? Escríbenos y lo vemos."
       />
     </main>
   )

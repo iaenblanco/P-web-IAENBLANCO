@@ -9,8 +9,8 @@ function ArrowUpRight() {
 }
 
 export function ContactBand({
-  eyebrow = 'El siguiente sistema puede ser el tuyo',
-  title = 'Conversemos sobre lo que quieres poner en operación.',
+  eyebrow = 'La primera conversación no cuesta nada',
+  title = 'Cuéntanos qué te está costando hoy.',
 }: {
   eyebrow?: string
   title?: string

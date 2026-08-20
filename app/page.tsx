@@ -5,7 +5,8 @@ import { ContactBand } from '@/components/ContactBand'
 import { Reveal } from '@/components/Reveal'
 import { ServiceSystem } from '@/components/ServiceSystem'
 import { TypingLine } from '@/components/TypingLine'
-import { products, WHATSAPP_URL } from '@/lib/site'
+import Link from 'next/link'
+import { getWhatsappUrl, products, WHATSAPP_URL } from '@/lib/site'
 
 function ArrowUpRight() {
   return (
@@ -25,9 +26,9 @@ function ArrowDown() {
 
 const heroSummaryServices = [
   { title: 'Sitios web', theme: 'web' },
-  { title: 'Software', theme: 'software' },
-  { title: 'Automatizaciones', theme: 'automation' },
-  { title: 'IA a medida', theme: 'ai' },
+  { title: 'Programas a medida', theme: 'software' },
+  { title: 'Tareas automáticas', theme: 'automation' },
+  { title: 'Asistentes con IA', theme: 'ai' },
 ]
 
 const heroSummaryProducts = [
@@ -40,7 +41,7 @@ const heroSummaryPlatforms = [
   { title: 'WhatsApp', theme: 'wa' },
   { title: 'Shopify', theme: 'shopify' },
   { title: 'Bsale', theme: 'bsale' },
-  { title: 'Datos / CRM', theme: 'crm' },
+  { title: 'Tus planillas', theme: 'crm' },
 ]
 
 const summaryMap = {
@@ -100,33 +101,30 @@ const clientProofs = [
     href: 'https://propinvest.cl/',
     mark: 'Propinvest',
     logo: 'propinvest',
-    sector: 'Inmobiliario',
-    project: 'Plataforma inmobiliaria autoadministrable',
-    system: 'Catálogo editable + contenido comercial + contacto',
-    result: 'Un canal que el equipo puede actualizar sin depender de cambios manuales.',
-    proof: 'Base desarrollada por IAenBlanco para mostrar propiedades, fichas y contenido comercial desde un sistema editable.',
+    sector: 'Corredora de propiedades',
+    project: 'Su catálogo de propiedades, que ellos mismos actualizan',
+    system: 'Sitio con fichas de propiedades, textos editables y formulario de contacto.',
+    proof: 'Suben una propiedad nueva y queda publicada, sin tener que pedirnos ayuda.',
   },
   {
     client: 'Granja Magdalena',
     href: 'https://granjamagdalena.cl/',
     mark: 'Granja Magdalena',
     logo: 'granja-magdalena',
-    sector: 'E-commerce',
-    project: 'E-commerce e integraciones',
-    system: 'Canal digital + catálogo + operación comercial',
-    result: 'Una presencia preparada para vender, ordenar oferta y sostener crecimiento.',
-    proof: 'Canal trabajado por IAenBlanco para ordenar catálogo, venta online y operación comercial.',
+    sector: 'Venta de productos',
+    project: 'Su tienda online',
+    system: 'Catálogo, carro de compra y la venta ordenada en un solo lugar.',
+    proof: 'Pasaron de mostrar sus productos a poder venderlos por internet.',
   },
   {
     client: 'YoMeEncargo',
     href: 'https://yomeencargo.cl/',
     mark: 'YoMeEncargo',
     logo: 'yomercargo',
-    sector: 'Servicios',
-    project: 'Plataforma y experiencia comercial digital',
-    system: 'Servicio explicado + flujo comercial + solicitud entrante',
-    result: 'Una interfaz que convierte una oferta amplia en una experiencia fácil de entender.',
-    proof: 'Experiencia creada por IAenBlanco para explicar servicios, ordenar flujo y facilitar conversión.',
+    sector: 'Empresa de servicios',
+    project: 'Su sitio de servicios, ordenado para que se entienda',
+    system: 'Cada servicio explicado por separado y un camino claro hasta pedirlo.',
+    proof: 'Ofrecen muchas cosas distintas. El sitio las ordena para que cada visitante encuentre la suya.',
   },
   {
     client: 'Granja Magdalena Pet',
@@ -134,61 +132,77 @@ const clientProofs = [
     mark: 'GM Pet',
     logo: 'granjapet',
     logoTone: 'dark',
-    sector: 'Mascotas',
-    project: 'Canal digital especializado',
-    system: 'Línea de negocio + canal propio + venta especializada',
-    result: 'Un espacio diferenciado para comunicar y vender una categoría específica.',
-    proof: 'Línea especializada con presencia propia para comunicar y vender una categoría específica.',
+    sector: 'Productos para mascotas',
+    project: 'Una tienda aparte para su línea de mascotas',
+    system: 'Sitio propio, separado del principal, con su propia cara.',
+    proof: 'Su línea de mascotas tiene espacio propio en vez de perderse dentro del catálogo general.',
   },
   {
     client: 'Inasec Pets',
     href: 'https://inasecpets.cl/',
     mark: 'Inasec Pets',
     logo: 'inasec-pets',
-    sector: 'Retail especializado',
-    project: 'Presencia comercial digital',
-    system: 'Oferta clara + captura de interés + contacto',
-    result: 'Una base web para explicar oferta y abrir conversaciones comerciales.',
-    proof: 'Presencia web enfocada en comunicar oferta y capturar interés comercial.',
+    sector: 'Tienda especializada',
+    project: 'Su sitio para mostrar lo que venden y recibir consultas',
+    system: 'Oferta explicada de forma simple y una vía directa de contacto.',
+    proof: 'Quien los encuentra entiende qué venden y sabe cómo escribirles.',
   },
 ]
 
 const trustSignals = [
   { value: '5 sitios', label: 'de clientes en línea hoy: puedes abrirlos y revisarlos uno por uno' },
   { value: '4 rubros', label: 'inmobiliario, e-commerce, servicios y retail especializado' },
-  { value: '3 productos', label: 'Unifícalo, Citaly y Leads, funcionando y contratables por separado' },
+  { value: '3 programas', label: 'Unifícalo, Citaly y Leads: nuestros, funcionando y contratables por separado' },
 ]
 
 const problemCards = [
   {
-    title: 'Procesos manuales',
-    detail: 'La operación depende de planillas y tareas repetidas.',
-    response: 'Automatizamos el flujo y dejamos trazabilidad.',
-    icon: 'automation',
-  },
-  {
-    title: 'Sistemas desconectados',
-    detail: 'La información se copia entre herramientas.',
-    response: 'Conectamos datos, APIs y canales comerciales.',
-    icon: 'software',
-  },
-  {
-    title: 'Poca visibilidad',
-    detail: 'El equipo decide sin información centralizada.',
-    response: 'Creamos paneles, reglas y estados claros.',
-    icon: 'business',
-  },
-  {
-    title: 'Web que no convierte',
-    detail: 'La página no explica ni mueve al contacto.',
-    response: 'Diseñamos experiencias que guían a conversar.',
+    title: 'No tengo sitio web, o el que tengo da vergüenza',
+    detail: 'La gente te busca en Google y no encuentra nada serio.',
+    response: 'Te hacemos el sitio o la tienda online.',
     icon: 'web',
+    href: '/servicios/desarrollo-web-ia/',
+    slug: 'desarrollo-web-ia',
   },
   {
-    title: 'IA sin operación',
-    detail: 'La idea existe, pero no está conectada al negocio.',
-    response: 'Construimos agentes conectados a contexto real.',
+    title: 'Llevo el negocio en planillas de Excel',
+    detail: 'Cada uno tiene su versión y nadie sabe cuál es la buena.',
+    response: 'Te hacemos un programa con tus reglas.',
+    icon: 'software',
+    href: '/servicios/plataformas-software-medida/',
+    slug: 'plataformas-software-medida',
+  },
+  {
+    title: 'Paso el día copiando datos de un lado a otro',
+    detail: 'Lo mismo, todas las mañanas, y a veces se escapa un error.',
+    response: 'Hacemos que esas tareas se hagan solas.',
+    icon: 'automation',
+    href: '/servicios/automatizaciones/',
+    slug: 'automatizaciones',
+  },
+  {
+    title: 'Contesto las mismas preguntas todo el día',
+    detail: 'Y cuando no alcanzas a responder, el cliente se va a otro lado.',
+    response: 'Te armamos un asistente que responde por ti.',
     icon: 'ai',
+    href: '/servicios/soluciones-ia-medida/',
+    slug: 'soluciones-ia-medida',
+  },
+  {
+    title: 'Necesito clientes nuevos y no sé por dónde partir',
+    detail: 'Las listas compradas no contestan y salir a buscar toma semanas.',
+    response: 'Te buscamos empresas reales a las que venderle.',
+    icon: 'magnet',
+    href: '/servicios/prospeccion-b2b-gestionada/',
+    slug: 'prospeccion-b2b-gestionada',
+  },
+  {
+    title: 'Sé que algo se puede mejorar, pero no sé qué',
+    detail: 'Sabes dónde duele, no cómo se arregla. Eso es normal.',
+    response: 'Conversemos y lo ordenamos juntos.',
+    icon: 'business',
+    href: 'whatsapp',
+    slug: 'diagnostico',
   },
 ]
 
@@ -197,45 +211,57 @@ const productRows = [
     id: 'unificalo',
     theme: 'unificalo',
     name: 'Unifícalo',
-    category: 'E-commerce multicanal',
+    category: 'Para quien vende en varios lados',
     problem: 'Vendiste lo mismo dos veces. El reembolso y la disculpa los pones tú.',
-    promise: 'Tu stock, precios y documentos se mantienen coordinados en todos tus canales.',
+    promise: 'Tu inventario, tus precios y tus boletas cuadran solos en todos lados.',
     steps: [
-      { label: 'Recibe', title: 'Bsale o sistema principal', detail: 'Stock, precios y documentos', theme: 'bsale' },
-      { label: 'Procesa', title: 'Sincroniza la operación', detail: 'Actualiza la información', theme: 'automation' },
-      { label: 'Entrega', title: 'Canales coordinados', detail: 'Shopify y marketplaces', theme: 'shopify' },
+      { label: 'Toma', title: 'Tu sistema de siempre', detail: 'Inventario, precios y boletas', theme: 'bsale' },
+      { label: 'Ordena', title: 'Deja todo cuadrado', detail: 'Sin que nadie lo actualice', theme: 'automation' },
+      { label: 'Actualiza', title: 'Todos tus canales', detail: 'Tienda online y marketplaces', theme: 'shopify' },
     ],
-    benefits: ['Menos sobreventas.', 'Precios consistentes.', 'Documentos centralizados.'],
+    benefits: [
+      'Dejas de vender lo que ya no tienes.',
+      'El mismo precio en todas partes.',
+      'Las boletas salen solas.',
+    ],
     href: 'https://unificalo.cl',
   },
   {
     id: 'citaly',
     theme: 'citaly',
     name: 'Citaly',
-    category: 'Agenda + agente IA',
+    category: 'Para negocios que atienden con hora',
     problem: 'El WhatsApp suena mientras tienes un cliente al frente. Uno de los dos espera.',
-    promise: 'Tu WhatsApp responde y convierte consultas en reservas mientras tú atiendes.',
+    promise: 'Tu WhatsApp contesta y agenda la hora mientras tú sigues atendiendo.',
     steps: [
-      { label: 'Recibe', title: 'Consultas por WhatsApp', detail: 'Texto y audios', theme: 'wa' },
-      { label: 'Procesa', title: 'Entiende y revisa agenda', detail: 'Agente de IA', theme: 'ai' },
-      { label: 'Entrega', title: 'Horario y reserva', detail: 'Agenda y confirmación', theme: 'software' },
+      { label: 'Recibe', title: 'El mensaje del cliente', detail: 'Escrito o por audio', theme: 'wa' },
+      { label: 'Entiende', title: 'Qué está pidiendo', detail: 'Y mira tu agenda real', theme: 'ai' },
+      { label: 'Agenda', title: 'La hora y la confirma', detail: 'Sin que tú toques nada', theme: 'software' },
     ],
-    benefits: ['Entiende textos y audios.', 'Consulta disponibilidad real.', 'Confirma y recuerda reservas.'],
+    benefits: [
+      'Entiende también los audios.',
+      'Solo ofrece horas que tienes libres.',
+      'Confirma y recuerda la cita.',
+    ],
     href: 'https://citaly.cl',
   },
   {
     id: 'leads',
     theme: 'leads',
     name: 'Leads',
-    category: 'Prospección B2B',
+    category: 'Para quien le vende a empresas',
     problem: 'Buscar empresas a mano se come la mañana y no sabes cuáles valen la pena.',
-    promise: 'Encuentra empresas reales y prioriza a quién contactar antes de iniciar el seguimiento.',
+    promise: 'Encuentras empresas reales y sabes a cuáles llamar primero.',
     steps: [
-      { label: 'Recibe', title: 'Mercado objetivo', detail: 'Rubro, zona y perfil', theme: 'business' },
-      { label: 'Procesa', title: 'Busca y prioriza', detail: 'Evidencia y scoring', theme: 'leads' },
-      { label: 'Entrega', title: 'Empresas ordenadas', detail: 'Pipeline y seguimiento', theme: 'automation' },
+      { label: 'Eliges', title: 'A quién quieres venderle', detail: 'Rubro y comuna', theme: 'business' },
+      { label: 'Busca', title: 'Empresas de verdad', detail: 'Y revisa que existan', theme: 'leads' },
+      { label: 'Ordena', title: 'Cuáles van primero', detail: 'Con su contacto', theme: 'automation' },
     ],
-    benefits: ['Evidencia pública.', 'Scoring comercial.', 'Pipeline ordenado.'],
+    benefits: [
+      'Empresas que existen, no listas compradas.',
+      'Ordenadas por cuáles te calzan más.',
+      'Con el seguimiento en el mismo lugar.',
+    ],
     href: 'https://leads.iaenblanco.com',
   },
 ]
@@ -620,22 +646,22 @@ function HeroSummaryMap() {
         className="summary-system-label summary-system-label--services"
         style={summaryBoxStyle(summaryMap.services.label)}
       >
-        <span>Entrada</span>
-        <strong>Servicios</strong>
+        <span>Te hacemos</span>
+        <strong>A tu medida</strong>
       </div>
       <div
         className="summary-system-label summary-system-label--products"
         style={summaryBoxStyle(summaryMap.products.label)}
       >
-        <span>Salida</span>
-        <strong>Productos</strong>
+        <span>O usas los nuestros</span>
+        <strong>Ya listos</strong>
       </div>
       <div
         className="summary-system-label summary-system-label--platforms"
         style={summaryBoxStyle(summaryMap.platforms.label)}
       >
-        <span>Conecta</span>
-        <strong>Plataformas</strong>
+        <span>Se conecta con</span>
+        <strong>Lo que ya usas</strong>
       </div>
 
       <div
@@ -687,15 +713,15 @@ function HeroSummaryMap() {
       </div>
 
       <div className="summary-flow" style={summaryBoxStyle(summaryMap.flow)}>
-        <span>Negocio</span>
+        <span>Nos cuentas</span>
         <i />
-        <span>Procesos</span>
+        <span>Lo construimos</span>
         <i />
-        <span>Sistemas inteligentes</span>
+        <span>Queda funcionando</span>
       </div>
 
       <a href="#servicios" className="hero-summary-map__explore" data-cursor="Servicios">
-        Ver capacidades
+        Ver los servicios
         <ArrowDown />
       </a>
     </div>
@@ -707,14 +733,13 @@ function TrustProofSection() {
     <section className="trust-proof" aria-labelledby="trust-proof-heading">
       <div className="section-shell trust-proof__grid">
         <Reveal className="trust-proof__copy">
-          <p className="eyebrow">Prueba real</p>
+          <p className="eyebrow">Trabajos reales</p>
           <h2 id="trust-proof-heading">
-            Empresas y operaciones que ya hemos ayudado a digitalizar.
+            Negocios reales para los que ya trabajamos.
           </h2>
           <p>
-            Sitios y sistemas desarrollados por IAenBlanco alrededor de necesidades
-            concretas de operación. Los cinco están en línea: ábrelos y revisa el
-            trabajo antes de escribirnos.
+            Cinco empresas chilenas, cinco necesidades distintas. Los cinco sitios están
+            funcionando ahora mismo: ábrelos y revisa el trabajo antes de escribirnos.
           </p>
         </Reveal>
 
@@ -736,11 +761,11 @@ function TrustProofSection() {
                 <strong>{proof.project}</strong>
                 <div className="trust-proof-card__evidence">
                   <div>
-                    <span>Sistema</span>
+                    <span>Qué le hicimos</span>
                     <p>{proof.system}</p>
                   </div>
                   <div>
-                    <span>Desarrollo</span>
+                    <span>Para qué le sirve</span>
                     <p>{proof.proof}</p>
                   </div>
                 </div>
@@ -762,7 +787,7 @@ function TrustProofSection() {
         </Reveal>
 
         <Reveal className="trust-proof__logos" delay={120}>
-          <p>También aplicado en líneas especializadas</p>
+          <p>También trabajamos con estas dos líneas</p>
           <div>
             {clientProofs.slice(3).map((proof) => (
               <article key={proof.client}>
@@ -807,30 +832,70 @@ function TrustProofSection() {
 }
 
 function ProblemSection() {
+  const diagnostico = getWhatsappUrl(
+    'Hola IAenBlanco, sé que algo se puede mejorar en mi negocio pero no tengo claro qué. ¿Conversamos?',
+  )
+
   return (
-    <section className="problem-strip" aria-labelledby="problem-strip-heading">
+    <section className="problem-strip" id="empezar" aria-labelledby="problem-strip-heading">
       <div className="section-shell problem-strip__inner">
         <Reveal className="problem-strip__heading">
-          <p className="eyebrow">Problemas que resolvemos</p>
+          <p className="eyebrow">Empieza por acá</p>
           <h2 id="problem-strip-heading">
-            Cuando la operación crece, la tecnología tiene que ordenar.
+            ¿Cuál de estas frases se parece más a lo que te pasa?
           </h2>
+          <p className="problem-strip__lead">
+            Elige la tuya y te llevamos directo a lo que hacemos para eso. No necesitas
+            saber cómo se llama la solución.
+          </p>
         </Reveal>
         <div className="problem-strip__grid">
-          {problemCards.map((problem, index) => (
-            <Reveal key={problem.title} className="problem-card" delay={index * 60}>
-              <div className="problem-card__top">
-                <span>{String(index + 1).padStart(2, '0')}</span>
-                <i aria-hidden="true"><HeroLogo theme={problem.icon} /></i>
-              </div>
-              <strong>{problem.title}</strong>
-              <p>{problem.detail}</p>
-              <div className="problem-card__response">
-                <span>Respuesta IAenBlanco</span>
-                <p>{problem.response}</p>
-              </div>
-            </Reveal>
-          ))}
+          {problemCards.map((problem, index) => {
+            const esWhatsapp = problem.href === 'whatsapp'
+            const contenido = (
+              <>
+                <div className="problem-card__top">
+                  <span>{String(index + 1).padStart(2, '0')}</span>
+                  <i aria-hidden="true"><HeroLogo theme={problem.icon} /></i>
+                </div>
+                <strong>{problem.title}</strong>
+                <p>{problem.detail}</p>
+                <div className="problem-card__response">
+                  <span>Lo que hacemos</span>
+                  <p>{problem.response}</p>
+                </div>
+              </>
+            )
+
+            return (
+              <Reveal key={problem.title} delay={index * 60}>
+                {esWhatsapp ? (
+                  <a
+                    href={diagnostico}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="problem-card problem-card--diagnostic"
+                    data-cursor="WhatsApp"
+                    data-analytics-event="service_whatsapp_click"
+                    data-service-id={problem.slug}
+                  >
+                    {contenido}
+                  </a>
+                ) : (
+                  <Link
+                    href={problem.href}
+                    prefetch={false}
+                    className="problem-card"
+                    data-cursor="Ver"
+                    data-analytics-event="service_cta_click"
+                    data-service-id={problem.slug}
+                  >
+                    {contenido}
+                  </Link>
+                )}
+              </Reveal>
+            )
+          })}
         </div>
       </div>
     </section>
@@ -875,16 +940,16 @@ function ProductLabSection() {
     <section className="ecosystem-lab" aria-labelledby="ecosystem-heading">
       <div className="section-shell ecosystem-lab__intro">
         <Reveal>
-          <p className="eyebrow">Productos propios</p>
+          <p className="eyebrow">Programas listos para usar</p>
         </Reveal>
         <Reveal className="ecosystem-lab__heading">
           <h2 id="ecosystem-heading">
-            Productos que convierten operaciones reales en sistemas.
+            Tres programas nuestros que puedes contratar hoy.
           </h2>
           <p>
-            Unifícalo, Citaly y Leads resuelven tres operaciones distintas: sincronizar
-            canales, atender y agendar, y encontrar oportunidades comerciales. Los tres
-            están funcionando y los tres se contratan solos, sin pasar por nosotros.
+            Además de trabajos a medida, hicimos tres programas propios para problemas que
+            vimos repetirse. Los tres funcionan hoy, los tres parten sin compromiso y los
+            contratas directo, sin hablar con nosotros.
           </p>
         </Reveal>
       </div>
@@ -970,15 +1035,16 @@ export default function HomePage() {
           <div className="home-hero__content">
             <p className="hero-kicker">
               <span />
-              Sitios web · Software a medida · Automatización · IA · Prospección B2B
+              Sitios web · Tiendas online · Programas a medida · Asistentes con IA
             </p>
             <h1 id="home-title">
-              La IA deja de ser promesa.
-              <em>Empieza a operar.</em>
+              Te hacemos la parte tecnológica.
+              <em>Tú sigue con lo tuyo.</em>
             </h1>
             <p className="home-hero__summary">
-              Construimos sitios web, software a medida, automatizaciones y agentes de
-              IA para empresas en Chile. Y los dejamos funcionando.
+              Hacemos sitios web, tiendas online, programas a la medida de tu negocio y
+              asistentes con inteligencia artificial. Los dejamos funcionando y te
+              acompañamos después.
             </p>
             <div className="home-hero__actions">
               <a
@@ -993,7 +1059,7 @@ export default function HomePage() {
                 <ArrowUpRight />
               </a>
               <a href="#servicios" className="button button--text">
-                Explorar capacidades
+                Ver qué hacemos
                 <ArrowDown />
               </a>
             </div>
@@ -1006,7 +1072,7 @@ export default function HomePage() {
         </div>
         <div className="home-hero__index section-shell">
           <span>5 sitios de clientes en línea</span>
-          <span>3 productos propios contratables</span>
+          <span>3 programas propios funcionando</span>
           <span>Santiago · Chile</span>
         </div>
       </section>
@@ -1024,11 +1090,11 @@ export default function HomePage() {
           <Reveal className="operating-model__heading">
             <p className="eyebrow">Cómo trabajamos</p>
             <div>
-              <h2 id="model-heading">De una necesidad abierta a un sistema funcionando.</h2>
+              <h2 id="model-heading">Tres pasos, y en ninguno te dejamos solo.</h2>
               <p className="operating-model__copy">
-                La tecnología importa. Lo que cambia tu operación, más. Por eso
-                primero entendemos el problema, después construimos la capa exacta
-                y finalmente acompañamos su puesta en marcha.
+                No partimos vendiéndote algo. Partimos entendiendo qué te está costando
+                hoy. Recién ahí sabemos qué hay que construir, y te lo decimos antes de
+                empezar.
               </p>
             </div>
           </Reveal>
@@ -1037,21 +1103,21 @@ export default function HomePage() {
             {[
               {
                 number: '01',
-                title: 'Entender',
-                text: 'Mapeamos el desafío, la operación y las restricciones antes de elegir una solución.',
-                deliverable: 'Mapa de problema y alcance',
+                title: 'Conversamos',
+                text: 'Nos cuentas cómo trabajas hoy y qué te está costando. Sin compromiso y sin costo.',
+                deliverable: 'Te decimos qué haríamos y cuánto abarca',
               },
               {
                 number: '02',
-                title: 'Construir',
-                text: 'Diseñamos y desarrollamos la capa exacta: interfaz, backend, integración o IA.',
-                deliverable: 'Prototipo, sistema y conexiones',
+                title: 'Lo construimos',
+                text: 'Hacemos lo acordado y te vamos mostrando avances, para que no haya sorpresas al final.',
+                deliverable: 'Tu sitio, tu programa o tu asistente, funcionando',
               },
               {
                 number: '03',
-                title: 'Operar',
-                text: 'Ponemos el sistema en marcha y lo acompañamos con soporte o evolución continua.',
-                deliverable: 'Puesta en marcha y mejora continua',
+                title: 'Lo dejamos andando',
+                text: 'Lo publicamos, te enseñamos a usarlo y quedamos disponibles para los ajustes que salgan.',
+                deliverable: 'Puesta en marcha y soporte después',
               },
             ].map((step, index) => (
               <Reveal key={step.number} className="operating-step" delay={index * 90}>
@@ -1064,12 +1130,12 @@ export default function HomePage() {
           </div>
 
           <Reveal className="industry-line">
-            <p>Experiencia aplicada en</p>
+            <p>Ya trabajamos con negocios de</p>
             <div>
-              <span>E-commerce</span>
-              <span>Logística</span>
-              <span>Inmobiliario</span>
-              <span>Negocios con agenda</span>
+              <span>Venta de productos</span>
+              <span>Propiedades</span>
+              <span>Servicios a empresas</span>
+              <span>Negocios con hora agendada</span>
             </div>
           </Reveal>
         </div>

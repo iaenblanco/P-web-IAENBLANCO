@@ -30,7 +30,7 @@ const ibmPlexMono = IBM_Plex_Mono({
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   title: {
-    default: 'IAenBlanco | Inteligencia artificial en operación',
+    default: 'IAenBlanco | Sitios web, programas a medida e IA para tu negocio',
     template: '%s | IAenBlanco',
   },
   description:
@@ -63,9 +63,9 @@ export const metadata: Metadata = {
     locale: 'es_CL',
     url: SITE_URL,
     siteName: 'IAenBlanco',
-    title: 'IAenBlanco | Inteligencia artificial en operación',
+    title: 'IAenBlanco | Sitios web, programas a medida e IA para tu negocio',
     description:
-      'Sistemas web, automatizaciones y soluciones de IA construidas alrededor de tu operación.',
+      'Hacemos sitios web, tiendas online, programas a la medida de tu negocio y asistentes con inteligencia artificial. En Chile.',
     images: [
       {
         url: '/logo.png',
@@ -77,9 +77,9 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary',
-    title: 'IAenBlanco | Inteligencia artificial en operación',
+    title: 'IAenBlanco | Sitios web, programas a medida e IA para tu negocio',
     description:
-      'Sistemas web, automatizaciones y soluciones de IA construidas alrededor de tu operación.',
+      'Hacemos sitios web, tiendas online, programas a la medida de tu negocio y asistentes con inteligencia artificial. En Chile.',
     images: ['/logo.png'],
   },
   robots: {

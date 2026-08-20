@@ -31,107 +31,107 @@ type AppliedExample = {
 
 const sectionCopyBySlug: Record<ServicePageContent['slug'], SectionCopy> = {
   'desarrollo-web-ia': {
-    problems: 'Cuando una página se ve bien, pero no ayuda a vender.',
-    builds: 'Convertimos la oferta en una experiencia comercial clara.',
-    deliverables: 'Lo que queda listo para publicar, medir y mejorar.',
-    useCases: 'Tres escenarios donde una web debe trabajar comercialmente.',
-    process: 'De mensaje confuso a recorrido web preparado para convertir.',
+    problems: 'Si te pasa alguna de estas, tu sitio no está trabajando.',
+    builds: 'Esto es lo que hacemos, paso a paso.',
+    deliverables: 'Esto es lo que recibes al final.',
+    useCases: 'Tres casos típicos.',
+    process: 'Cómo llegamos de una idea vaga a un sitio publicado.',
   },
   'plataformas-software-medida': {
-    problems: 'Cuando la operación ya superó las planillas.',
-    builds: 'Construimos la herramienta que el proceso realmente necesita.',
-    deliverables: 'Lo que queda instalado para operar con reglas y control.',
-    useCases: 'Tres formas de ordenar una operación con software propio.',
-    process: 'De proceso disperso a primera versión usable y escalable.',
+    problems: 'Si te pasa alguna de estas, el Excel ya no da.',
+    builds: 'Esto es lo que hacemos, paso a paso.',
+    deliverables: 'Esto es lo que recibes al final.',
+    useCases: 'Tres casos típicos.',
+    process: 'Cómo llegamos de un proceso desordenado a un programa que funciona.',
   },
   automatizaciones: {
-    problems: 'Cuando copiar, revisar y avisar consume al equipo.',
-    builds: 'Conectamos entradas, reglas y salidas para reducir trabajo manual.',
-    deliverables: 'Lo que queda funcionando para mover información con control.',
-    useCases: 'Tres automatizaciones habituales cuando el proceso ya está definido.',
-    process: 'De tarea repetida a flujo conectado, probado y monitoreado.',
+    problems: 'Si te pasa alguna de estas, hay horas que estás perdiendo.',
+    builds: 'Esto es lo que hacemos, paso a paso.',
+    deliverables: 'Esto es lo que recibes al final.',
+    useCases: 'Tres casos típicos.',
+    process: 'Cómo llegamos de una tarea repetida a algo que corre solo.',
   },
   'soluciones-ia-medida': {
-    problems: 'Cuando una tarea necesita contexto, no solo una respuesta automática.',
-    builds: 'Diseñamos IA con reglas, herramientas y derivación humana.',
-    deliverables: 'Lo que queda preparado para usar IA de forma controlada.',
-    useCases: 'Tres aplicaciones donde la IA se vuelve parte de la operación.',
-    process: 'De idea abstracta a agente probado con casos reales.',
+    problems: 'Si te pasa alguna de estas, un asistente te sirve.',
+    builds: 'Esto es lo que hacemos, paso a paso.',
+    deliverables: 'Esto es lo que recibes al final.',
+    useCases: 'Tres casos típicos.',
+    process: 'Cómo llegamos de una idea a un asistente probado con casos reales.',
   },
   'prospeccion-b2b-gestionada': {
-    problems: 'Cuando el equipo comercial no sabe por dónde comenzar.',
-    builds: 'Ordenamos mercado, evidencia y seguimiento antes de contactar.',
-    deliverables: 'Lo que queda listo para prospectar con criterio compartido.',
-    useCases: 'Tres situaciones donde conviene operar prospección con método.',
-    process: 'De mercado amplio a oportunidades priorizadas y trazables.',
+    problems: 'Si te pasa alguna de estas, te sirve que lo hagamos nosotros.',
+    builds: 'Esto es lo que hacemos, mes a mes.',
+    deliverables: 'Esto es lo que recibes cada mes.',
+    useCases: 'Tres casos típicos.',
+    process: 'Cómo llegamos de "quiero vender más" a una lista con nombre y apellido.',
   },
 }
 
 const appliedExamplesBySlug: Record<ServicePageContent['slug'], AppliedExample> = {
   'desarrollo-web-ia': {
-    eyebrow: 'Ejemplo aplicado',
-    title: 'Cómo una web deja de ser vitrina y empieza a guiar decisiones.',
+    eyebrow: 'Cómo lo revisamos',
+    title: 'Cómo revisamos que el sitio de verdad funcione.',
     lead:
-      'La prueba visual no debería ser solo una captura bonita: debe mostrar que el visitante entiende, confía y sabe qué hacer después.',
+      'No basta con que se vea lindo. Antes de publicar revisamos que se entienda, que dé confianza y que la persona sepa qué hacer.',
     items: [
-      { title: 'Desktop', text: 'Jerarquía clara, oferta visible y CTA sin fricción.' },
-      { title: 'Mobile', text: 'Lectura rápida, botones alcanzables y texto sin saturación.' },
-      { title: 'Narrativa', text: 'Problema, solución, prueba y siguiente paso en orden.' },
-      { title: 'Contacto', text: 'WhatsApp o formulario con contexto de la intención.' },
+      { title: 'En computador', text: 'Se ve completo, ordenado y con el botón a la vista.' },
+      { title: 'En celular', text: 'Se lee cómodo y los botones se alcanzan con el pulgar.' },
+      { title: 'El orden', text: 'Problema, solución, prueba y qué hacer después.' },
+      { title: 'El contacto', text: 'WhatsApp o formulario, listos y probados.' },
     ],
-    note: 'Mostramos cada proyecto en escritorio y móvil para comprobar claridad, adaptación y recorrido comercial.',
+    note: 'Te mostramos cada avance en computador y en celular, para que veas exactamente cómo va quedando.',
   },
   'plataformas-software-medida': {
-    eyebrow: 'Control de alcance',
-    title: 'Cómo evitamos construir de más.',
+    eyebrow: 'Para que no te salga caro',
+    title: 'Cómo evitamos construir cosas que no vas a usar.',
     lead:
-      'El software a medida no parte construyendo todo. Primero se reduce incertidumbre y se define una primera versión que pruebe el flujo crítico.',
+      'Un programa a medida no se hace entero de una vez. Partimos por lo que más te duele, lo pruebas de verdad, y recién ahí seguimos.',
     items: [
-      { title: 'Priorización', text: 'Separar lo imprescindible de lo que puede esperar.' },
-      { title: 'Prototipo', text: 'Validar pantallas, estados y reglas antes del desarrollo completo.' },
-      { title: 'MVP', text: 'Lanzar una versión pequeña, usable y medible.' },
-      { title: 'Evolución', text: 'Mejorar con uso real, no con supuestos infinitos.' },
+      { title: 'Elegir', text: 'Separamos lo que no puede faltar de lo que puede esperar.' },
+      { title: 'Mostrar', text: 'Te mostramos las pantallas antes de programarlas.' },
+      { title: 'Probar', text: 'Sale una primera versión chica que tu equipo ya puede usar.' },
+      { title: 'Mejorar', text: 'Agregamos lo que falte según cómo lo usen de verdad.' },
     ],
-    note: 'Esto ayuda a controlar costo, plazo y expectativas desde el inicio.',
+    note: 'Así sabes desde el principio cuánto cuesta, cuánto demora y qué vas a recibir.',
   },
   automatizaciones: {
-    eyebrow: 'Ejemplo aplicado',
-    title: 'Un flujo automatizado se entiende por entrada, regla y salida.',
+    eyebrow: 'Cómo lo revisamos',
+    title: 'Toda tarea automática tiene tres partes, y una cuarta por si algo falla.',
     lead:
-      'Antes de automatizar, definimos qué dato entra, qué condición debe cumplirse, dónde se actualiza y qué pasa si algo falla.',
+      'Antes de automatizar nada, dejamos claro qué información entra, qué hay que revisar, dónde tiene que quedar y qué pasa si algo no calza.',
     items: [
-      { title: 'Entrada', text: 'Formulario, pedido, planilla, WhatsApp, API o sistema interno.' },
-      { title: 'Validación', text: 'Campos obligatorios, estados, montos, stock o reglas del negocio.' },
-      { title: 'Salida', text: 'Actualización, alerta, documento, registro o dashboard.' },
-      { title: 'Excepción', text: 'Derivación humana cuando el flujo no tiene información suficiente.' },
+      { title: 'Qué entra', text: 'Un formulario, un pedido, una planilla o un mensaje de WhatsApp.' },
+      { title: 'Qué se revisa', text: 'Que no falten datos, que los montos cuadren, que haya inventario.' },
+      { title: 'Qué sale', text: 'Un dato actualizado, un aviso, un documento o un registro.' },
+      { title: 'Si algo falla', text: 'Te avisa a ti en vez de seguir con información incompleta.' },
     ],
-    note: 'No prometemos magia: prometemos un proceso definido, probado y visible.',
+    note: 'No prometemos magia. Prometemos algo definido, probado y que puedes revisar cuando quieras.',
   },
   'soluciones-ia-medida': {
-    eyebrow: 'Ejemplo aplicado',
+    eyebrow: 'Cómo lo revisamos',
     title: 'De una consulta por WhatsApp a una reserva confirmada.',
     lead:
-      'La persona escribe o envía un audio. La IA identifica lo que necesita, consulta disponibilidad, propone un horario y deriva al equipo cuando falta información.',
+      'Un cliente escribe o manda un audio. El asistente entiende qué necesita, mira las horas libres de verdad, propone una y la confirma. Si el caso se complica, te lo pasa.',
     items: [
-      { title: 'Consulta', text: 'Llega un mensaje o audio por WhatsApp.' },
-      { title: 'Intención', text: 'El agente reconoce necesidad, servicio y urgencia.' },
-      { title: 'Agenda', text: 'Revisa disponibilidad y reglas del negocio.' },
-      { title: 'Confirmación', text: 'Propone horario, confirma o deriva a una persona.' },
+      { title: 'Llega', text: 'Un mensaje o un audio por WhatsApp.' },
+      { title: 'Entiende', text: 'Qué necesita, para qué servicio y qué tan urgente es.' },
+      { title: 'Revisa', text: 'Tus horas libres reales y tus reglas.' },
+      { title: 'Responde', text: 'Propone la hora y la confirma, o te pasa el caso a ti.' },
     ],
-    note: 'Cada paso opera con reglas, disponibilidad real y revisión humana cuando corresponde.',
+    note: 'Cada paso usa tus reglas y tu agenda real. Y siempre hay un punto donde entra una persona.',
   },
   'prospeccion-b2b-gestionada': {
-    eyebrow: 'Operación comercial',
-    title: 'La prospección mejora cuando todos entienden el criterio.',
+    eyebrow: 'Cómo decidimos',
+    title: 'Antes de buscar, acordamos con qué criterio.',
     lead:
-      'El objetivo no es inflar una base: es saber qué empresas calzan, por qué importan y qué acción comercial corresponde.',
+      'La gracia no es entregarte mil nombres. Es que sepas por qué esa empresa está en la lista y qué corresponde hacer con ella.',
     items: [
-      { title: 'ICP', text: 'Tipo de empresa que realmente calza con tu oferta.' },
-      { title: 'Scoring', text: 'Criterio para decidir a quién contactar primero.' },
-      { title: 'Pipeline', text: 'Estado, contexto y próximo paso de cada oportunidad.' },
-      { title: 'Seguimiento', text: 'Continuidad para que la oportunidad no se pierda.' },
+      { title: 'El perfil', text: 'Qué tipo de empresa te compra de verdad.' },
+      { title: 'El orden', text: 'Con qué criterio decidimos a quién llamar primero.' },
+      { title: 'El registro', text: 'En qué va cada empresa y cuál es el siguiente paso.' },
+      { title: 'La insistencia', text: 'Volver a tocar la puerta sin que se pierda el hilo.' },
     ],
-    note: 'La venta sigue dependiendo de la oferta, la conversación y el cierre comercial.',
+    note: 'Ojo: nosotros te abrimos la puerta. La venta la cierras tú, con tu oferta y tu conversación.',
   },
 }
 
@@ -223,7 +223,7 @@ function ResponsibilityGrid({
     <section className="service-page-section service-page-section--responsibilities">
       <div className="section-shell">
         <div className="service-page-section__heading service-page-section__heading--wide">
-          <p className="eyebrow">Responsabilidades</p>
+          <p className="eyebrow">Quién hace qué</p>
           <h2>{title}</h2>
         </div>
         <div className="service-responsibility-grid">
@@ -248,8 +248,8 @@ function WebsiteProofGrid() {
     <section className="service-page-section service-page-section--website-proof">
       <div className="section-shell">
         <div className="service-page-section__heading service-page-section__heading--wide">
-          <p className="eyebrow">Webs desarrolladas</p>
-          <h2>Clientes reales donde IAenBlanco construyó la presencia digital.</h2>
+          <p className="eyebrow">Trabajos reales</p>
+          <h2>Negocios chilenos para los que ya hicimos esto.</h2>
         </div>
         <div className="services-web-proof-grid services-web-proof-grid--service-page">
           {websiteProofCases.map((item) => (
@@ -328,7 +328,7 @@ export function ServicePageTemplate({
                 data-service-id={service.slug}
                 data-service-name={service.shortTitle}
               >
-                Ver entregables
+                Ver qué recibes
                 <ArrowRight />
               </a>
             </div>
@@ -342,7 +342,7 @@ export function ServicePageTemplate({
       <section className="service-page-section service-page-section--problems">
         <div className="section-shell service-page-two-col">
           <div className="service-page-section__heading">
-            <p className="eyebrow">Problemas reconocibles</p>
+            <p className="eyebrow">¿Te suena?</p>
             <h2>{sectionCopy.problems}</h2>
           </div>
           <div className="service-problem-list">
@@ -359,7 +359,7 @@ export function ServicePageTemplate({
       <section className="service-page-section">
         <div className="section-shell">
           <div className="service-page-section__heading service-page-section__heading--wide">
-            <p className="eyebrow">Qué construimos</p>
+            <p className="eyebrow">Cómo lo hacemos</p>
             <h2>{sectionCopy.builds}</h2>
           </div>
           <div className="service-build-grid">
@@ -376,7 +376,7 @@ export function ServicePageTemplate({
       <section className="service-page-section service-page-section--deliverables" id="entregables">
         <div className="section-shell service-page-two-col">
           <div className="service-page-section__heading">
-            <p className="eyebrow">Entregables</p>
+            <p className="eyebrow">Qué recibes</p>
             <h2>{sectionCopy.deliverables}</h2>
           </div>
           <div className="service-deliverables">
@@ -400,7 +400,7 @@ export function ServicePageTemplate({
 
       <section className="service-page-mid-cta">
         <div className="section-shell service-page-mid-cta__inner">
-          <p>Si esto se parece a tu problema, podemos revisar el alcance antes de proponer una solución.</p>
+          <p>¿Se parece a lo que te pasa? Escríbenos y lo revisamos antes de proponerte nada.</p>
           <a
             href={whatsappUrl}
             target="_blank"
@@ -419,7 +419,7 @@ export function ServicePageTemplate({
       <section className="service-page-section">
         <div className="section-shell">
           <div className="service-page-section__heading service-page-section__heading--wide">
-            <p className="eyebrow">Casos de uso</p>
+            <p className="eyebrow">Ejemplos</p>
             <h2>{sectionCopy.useCases}</h2>
           </div>
           <div className="service-use-grid">
@@ -460,31 +460,11 @@ export function ServicePageTemplate({
 
       {responsibilities ? <ResponsibilityGrid title={responsibilities.title} rows={responsibilities.rows} /> : null}
 
-      <section className="service-page-section">
-        <div className="section-shell service-page-two-col">
-          <div className="service-page-section__heading">
-            <p className="eyebrow">Proceso</p>
-            <h2>{sectionCopy.process}</h2>
-          </div>
-          <div className="service-process-list">
-            {content.process.map((step, index) => (
-              <article key={step.title}>
-                <span>{String(index + 1).padStart(2, '0')}</span>
-                <div>
-                  <h3>{step.title}</h3>
-                  <p>{step.text}</p>
-                </div>
-              </article>
-            ))}
-          </div>
-        </div>
-      </section>
-
       <section className="service-page-section service-page-section--modes">
         <div className="section-shell">
           <div className="service-page-section__heading service-page-section__heading--wide">
-            <p className="eyebrow">Modalidades</p>
-            <h2>El formato depende del problema y del nivel de operación que quieras activar.</h2>
+            <p className="eyebrow">Formas de trabajar</p>
+            <h2>Se puede hacer completo o por partes. Lo vemos según tu presupuesto.</h2>
           </div>
           <div className="service-mode-grid">
             {content.engagementModes.map((mode) => <span key={mode}>{mode}</span>)}
@@ -495,8 +475,8 @@ export function ServicePageTemplate({
       <section className="service-page-section service-page-section--faq">
         <div className="section-shell service-page-two-col">
           <div className="service-page-section__heading">
-            <p className="eyebrow">FAQ</p>
-            <h2>Preguntas útiles antes de cotizar.</h2>
+            <p className="eyebrow">Preguntas frecuentes</p>
+            <h2>Lo que nos preguntan siempre.</h2>
           </div>
           <div className="service-faq-list">
             {content.faqs.map((faq) => (
@@ -517,11 +497,11 @@ export function ServicePageTemplate({
       <section className="service-page-cta">
         <div className="section-shell service-page-cta__inner">
           <div>
-            <p className="eyebrow">Siguiente paso</p>
-            <h2>Conversemos con contexto, no con una solución prearmada.</h2>
+            <p className="eyebrow">El siguiente paso</p>
+            <h2>Cuéntanos tu caso antes de que te propongamos algo.</h2>
             <p>
-              Cuéntanos qué está pasando en tu operación y definimos si este servicio es el camino
-              correcto o si conviene partir por otro frente.
+              Nos cuentas qué te está costando y te decimos con franqueza si este servicio es lo
+              que necesitas o si te conviene partir por otro lado. La conversación no cuesta nada.
             </p>
           </div>
           <a

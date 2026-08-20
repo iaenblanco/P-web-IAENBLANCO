@@ -8,16 +8,16 @@ import {
 } from '@/lib/services-content'
 
 export const metadata: Metadata = {
-  title: 'Servicios de IA, software, automatización y web',
+  title: 'Todo lo que hacemos, explicado sin tecnicismos',
   description:
-    'Servicios para transformar operaciones reales en sistemas digitales: sitios web, software, automatizaciones, soluciones de IA y prospección B2B gestionada.',
+    'Sitios web y tiendas online, programas a la medida de tu negocio, tareas que se hacen solas, asistentes con inteligencia artificial y búsqueda de clientes nuevos.',
   alternates: {
     canonical: `${SITE_URL}/servicios/`,
   },
   openGraph: {
-    title: 'Servicios de IA, software, automatización y web | IAenBlanco',
+    title: 'Todo lo que hacemos, explicado sin tecnicismos | IAenBlanco',
     description:
-      'Sitios web, plataformas, automatizaciones, soluciones de IA y prospección B2B gestionada para operaciones reales.',
+      'Sitios web, programas a medida, tareas automáticas, asistentes con IA y búsqueda de clientes nuevos para empresas chilenas.',
     url: `${SITE_URL}/servicios/`,
     siteName: 'IAenBlanco',
     type: 'website',
@@ -56,12 +56,12 @@ export default function ServicesIndexPage() {
         <div className="section-shell services-index-hero__inner">
           <div>
             <p className="eyebrow">Servicios IAenBlanco</p>
-            <h1>De una necesidad abierta a un sistema funcionando.</h1>
+            <h1>Todo lo que hacemos, explicado sin tecnicismos.</h1>
           </div>
           <p>
-            Diseñamos y construimos sitios web, plataformas, automatizaciones y soluciones de IA
-            alrededor de la operación real de tu negocio. Si el problema es comercial, también
-            podemos operar prospección B2B gestionada.
+            Hacemos sitios web y tiendas online, programas a la medida de tu negocio, tareas que
+            se hacen solas y asistentes con inteligencia artificial. Y si lo que necesitas son
+            clientes nuevos, eso lo operamos nosotros mes a mes.
           </p>
         </div>
       </section>
@@ -69,8 +69,8 @@ export default function ServicesIndexPage() {
       <section className="services-index-section">
         <div className="section-shell">
           <div className="services-index-heading">
-            <p className="eyebrow">Entrada por problema</p>
-            <h2>Elige la frase que más se parece a lo que necesitas resolver.</h2>
+            <p className="eyebrow">Empieza por acá</p>
+            <h2>Elige la frase que más se parece a lo que te pasa.</h2>
           </div>
           <div className="services-index-problems">
             {serviceProblemEntries.map((entry) => {
@@ -116,8 +116,8 @@ export default function ServicesIndexPage() {
           <div className="services-index-editorial-note">
             <span />
             <p>
-              No necesitas saber si el problema requiere una web, automatización, software o IA.
-              La primera conversación sirve para definirlo con criterio y ordenar el siguiente paso.
+              No necesitas saber cómo se llama la solución. Para eso está la primera conversación:
+              tú cuentas qué te está costando y nosotros te decimos qué haríamos.
             </p>
           </div>
         </div>
@@ -126,8 +126,8 @@ export default function ServicesIndexPage() {
       <section className="services-index-section">
         <div className="section-shell">
           <div className="services-index-heading">
-            <p className="eyebrow">Capacidades principales</p>
-            <h2>Cuatro formas de construir la base digital de tu operación.</h2>
+            <p className="eyebrow">Lo que construimos</p>
+            <h2>Cuatro cosas que hacemos para ti, y que después quedan tuyas.</h2>
           </div>
           <div className="services-index-cards">
             {coreServices.map((service) => (
@@ -145,7 +145,7 @@ export default function ServicesIndexPage() {
                   data-service-id={service.slug}
                   data-service-name={service.shortTitle}
                 >
-                  Ver servicio
+                  Ver cómo lo hacemos
                   <ArrowRight />
                 </Link>
               </article>
@@ -158,7 +158,7 @@ export default function ServicesIndexPage() {
         <section className="services-index-section services-index-section--managed">
           <div className="section-shell services-managed-card">
             <div>
-              <p className="eyebrow">Operación gestionada</p>
+              <p className="eyebrow">Este lo operamos nosotros</p>
               <h2>{managedService.title}</h2>
               <p>{managedService.description}</p>
             </div>
@@ -172,7 +172,7 @@ export default function ServicesIndexPage() {
               data-service-id={managedService.slug}
               data-service-name={managedService.shortTitle}
             >
-              Ver operación
+              Ver cómo funciona
               <ArrowRight />
             </Link>
           </div>
@@ -182,8 +182,8 @@ export default function ServicesIndexPage() {
       <section className="services-index-section services-index-section--web-proof">
         <div className="section-shell">
           <div className="services-index-heading">
-            <p className="eyebrow">Evidencia web real</p>
-            <h2>Sitios de clientes desarrollados por IAenBlanco.</h2>
+            <p className="eyebrow">Trabajos reales</p>
+            <h2>Negocios chilenos para los que ya trabajamos. Ábrelos y revisa.</h2>
           </div>
           <div className="services-web-proof-grid">
             {websiteProofCases.map((item) => (
@@ -205,7 +205,7 @@ export default function ServicesIndexPage() {
                   data-service-name="Sitios web y Shopify"
                   data-case-name={item.client}
                 >
-                  Ver sitio
+                  Abrir el sitio
                   <ArrowUpRight />
                 </a>
               </article>
@@ -217,11 +217,11 @@ export default function ServicesIndexPage() {
       <section className="services-index-final">
         <div className="section-shell services-index-final__inner">
           <div>
-            <p className="eyebrow">Diagnóstico</p>
-            <h2>No necesitas llegar con la solución definida.</h2>
+            <p className="eyebrow">Sin compromiso</p>
+            <h2>No necesitas saber qué pedir.</h2>
             <p>
-              Puedes llegar con el problema, el proceso o la idea. Nosotros te ayudamos a ordenar
-              qué construir, qué automatizar y qué dejar para una siguiente etapa.
+              Llega con el problema, no con la solución. Nosotros te decimos qué conviene hacer
+              primero, qué puede esperar y qué directamente no vale la pena.
             </p>
           </div>
           <a
@@ -233,7 +233,7 @@ export default function ServicesIndexPage() {
             data-service-id="diagnostico"
             data-service-name="Diagnóstico"
           >
-            Pedir diagnóstico
+            Conversemos, sin costo
             <ArrowUpRight />
           </a>
         </div>

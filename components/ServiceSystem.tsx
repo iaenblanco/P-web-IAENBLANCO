@@ -1,6 +1,5 @@
 import Link from 'next/link'
 import { getWhatsappUrl, services } from '@/lib/site'
-import { serviceProblemEntries } from '@/lib/services-content'
 
 function Arrow() {
   return (
@@ -8,11 +7,6 @@ function Arrow() {
       <path d="M4 12h15M14 6l6 6-6 6" stroke="currentColor" strokeWidth="1.5" />
     </svg>
   )
-}
-
-function serviceNameForSlug(slug?: string) {
-  if (!slug) return 'Diagnóstico'
-  return services.find((service) => service.slug === slug)?.shortTitle || 'Servicios'
 }
 
 function SystemDiagram() {
@@ -57,19 +51,19 @@ function SystemDiagram() {
 }
 
 const serviceResults: Record<string, string> = {
-  'desarrollo-web-ia': 'Una experiencia que se entiende rápido, proyecta confianza y lleva al visitante a conversar.',
-  'plataformas-software-medida': 'Un panel o plataforma propia para ordenar permisos, datos y procesos internos.',
-  automatizaciones: 'Flujos conectados que reducen copia manual, errores y tiempos muertos.',
-  'soluciones-ia-medida': 'Un agente o herramienta de IA usable, conectado al contexto real del negocio.',
-  'prospeccion-b2b-gestionada': 'Una cartera priorizada de empresas con evidencia y próximos pasos comerciales.',
+  'desarrollo-web-ia': 'Un sitio que se entiende rápido, se ve serio y hace que te escriban.',
+  'plataformas-software-medida': 'Un programa propio donde tu equipo trabaja con la misma información.',
+  automatizaciones: 'Horas que dejas de perder copiando datos, y menos errores.',
+  'soluciones-ia-medida': 'Un asistente que responde de verdad, con la información de tu negocio.',
+  'prospeccion-b2b-gestionada': 'Una lista de empresas ordenada por prioridad, con el contacto y qué decirles.',
 }
 
 const serviceLinkLabels: Record<string, string> = {
-  'desarrollo-web-ia': 'Ver sitios web y Shopify',
-  'plataformas-software-medida': 'Ver software',
-  automatizaciones: 'Ver automatizaciones',
-  'soluciones-ia-medida': 'Ver soluciones de IA',
-  'prospeccion-b2b-gestionada': 'Ver prospección B2B',
+  'desarrollo-web-ia': 'Ver cómo lo hacemos',
+  'plataformas-software-medida': 'Ver cómo lo hacemos',
+  automatizaciones: 'Ver cómo lo hacemos',
+  'soluciones-ia-medida': 'Ver cómo lo hacemos',
+  'prospeccion-b2b-gestionada': 'Ver cómo funciona',
 }
 
 export function ServiceSystem() {
@@ -86,69 +80,14 @@ export function ServiceSystem() {
     >
       <div className="section-shell">
         <div className="services-system__intro">
-          <p className="eyebrow">Sistema de capacidades</p>
+          <p className="eyebrow">Qué hacemos</p>
           <h2 id="services-heading">
-            Una operación conectada necesita más que una herramienta aislada.
+            Cinco servicios, explicados sin tecnicismos.
           </h2>
           <p>
-            Trabajamos de dos formas. Construimos a medida lo que tu operación necesita, con las
-            cuatro capacidades de abajo. Y si el problema es comercial, operamos nosotros la
-            prospección B2B mes a mes. Aparte tenemos tres productos propios que puedes contratar
-            directo, sin proyecto de por medio.
-          </p>
-        </div>
-
-        <div className="services-problem-router" aria-label="Entradas por problema">
-          {serviceProblemEntries.map((entry) => {
-            const isExternal = entry.href.startsWith('http')
-            const serviceId = entry.serviceSlug || 'diagnostico'
-            const serviceName = serviceNameForSlug(entry.serviceSlug)
-            const className = entry.serviceSlug
-              ? 'services-problem-router__item'
-              : 'services-problem-router__item services-problem-router__item--diagnostic'
-            const body = (
-              <>
-                <strong>{entry.label}</strong>
-                <span>{entry.detail}</span>
-                <Arrow />
-              </>
-            )
-
-            return isExternal ? (
-              <a
-                key={entry.label}
-                href={entry.href}
-                target="_blank"
-                rel="noreferrer"
-                className={className}
-                data-analytics-event="service_whatsapp_click"
-                data-service-id={serviceId}
-                data-service-name={serviceName}
-                data-entry-problem={entry.label}
-              >
-                {body}
-              </a>
-            ) : (
-              <Link
-                key={entry.label}
-                href={entry.href}
-                prefetch={false}
-                className={className}
-                data-analytics-event="service_cta_click"
-                data-service-id={serviceId}
-                data-service-name={serviceName}
-                data-entry-problem={entry.label}
-              >
-                {body}
-              </Link>
-            )
-          })}
-        </div>
-        <div className="services-problem-router__note">
-          <span />
-          <p>
-            No tienes que elegir perfecto. Si el problema cruza web, software, automatización o IA,
-            partimos ordenando el alcance antes de construir.
+            Los cuatro primeros son cosas que construimos para ti y quedan tuyas. El quinto es
+            distinto: lo operamos nosotros todos los meses. Si no sabes cuál te sirve, no importa
+            — eso lo resolvemos conversando.
           </p>
         </div>
 
@@ -195,7 +134,7 @@ export function ServiceSystem() {
               <article className="service-entry service-entry--commercial">
                 <div className="service-entry__heading">
                   <span>{commercialService.index}</span>
-                  <p>Operación gestionada</p>
+                  <p>Lo operamos nosotros</p>
                 </div>
                 <div className="service-entry--commercial__grid">
                   <div>
@@ -235,7 +174,7 @@ export function ServiceSystem() {
         </div>
 
         <div className="services-system__cta">
-          <p>Cuéntanos qué debería funcionar mejor en tu negocio.</p>
+          <p>¿No tienes claro cuál te sirve? Cuéntanos qué te está costando y lo vemos juntos.</p>
           <a
             href={diagnosticUrl}
             target="_blank"
