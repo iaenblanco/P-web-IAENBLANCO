@@ -154,9 +154,9 @@ const clientProofs = [
 ]
 
 const trustSignals = [
-  { value: '5 sitios', label: 'de clientes en linea hoy: puedes abrirlos y revisarlos uno por uno' },
+  { value: '5 sitios', label: 'de clientes en línea hoy: puedes abrirlos y revisarlos uno por uno' },
   { value: '4 rubros', label: 'inmobiliario, e-commerce, servicios y retail especializado' },
-  { value: '3 productos', label: 'Unificalo, Citaly y Leads, funcionando y contratables por separado' },
+  { value: '3 productos', label: 'Unifícalo, Citaly y Leads, funcionando y contratables por separado' },
 ]
 
 const problemCards = [
@@ -713,7 +713,8 @@ function TrustProofSection() {
           </h2>
           <p>
             Sitios y sistemas desarrollados por IAenBlanco alrededor de necesidades
-            concretas de operación.
+            concretas de operación. Los cinco están en línea: ábrelos y revisa el
+            trabajo antes de escribirnos.
           </p>
         </Reveal>
 

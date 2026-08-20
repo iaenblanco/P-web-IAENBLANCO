@@ -1,6 +1,8 @@
 import Image from 'next/image'
 import Link from 'next/link'
 import {
+  COMPANY_ADDRESS,
+  COMPANY_LEGAL_NAME,
   CONTACT_EMAIL,
   services,
   socialLinks,
@@ -78,12 +80,12 @@ export function Footer() {
         </div>
 
         <div className="site-footer__bottom">
-          <p>© {new Date().getFullYear()} IAenBlanco SpA</p>
+          <p>© {new Date().getFullYear()} {COMPANY_LEGAL_NAME}</p>
           <div>
             <Link href="/privacidad" prefetch={false}>Privacidad</Link>
             <Link href="/terminos" prefetch={false}>Términos</Link>
           </div>
-          <p>Chile · Latinoamérica</p>
+          <p>{COMPANY_ADDRESS}</p>
         </div>
       </div>
     </footer>

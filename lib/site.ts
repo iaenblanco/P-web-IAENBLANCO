@@ -5,6 +5,10 @@ export const WHATSAPP_URL =
 
 export const CONTACT_EMAIL = 'contacto@iaenblanco.com'
 
+/** Identidad legal. Ya viaja en el JSON-LD de cada página; el footer la muestra. */
+export const COMPANY_LEGAL_NAME = 'IAenBlanco SpA'
+export const COMPANY_ADDRESS = 'Badajoz 100 Of 1014 · Las Condes, Santiago'
+
 export const socialLinks = {
   linkedin: 'https://cl.linkedin.com/in/iaenblanco',
   instagram: 'https://www.instagram.com/iaenblanco/',

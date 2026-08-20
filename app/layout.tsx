@@ -6,6 +6,7 @@ import { Footer } from '@/components/Footer'
 import { GoogleTagManager } from '@/components/GoogleTagManager'
 import { Header } from '@/components/Header'
 import {
+  COMPANY_LEGAL_NAME,
   CONTACT_EMAIL,
   products,
   services,
@@ -103,7 +104,7 @@ const organizationSchema = {
   '@context': 'https://schema.org',
   '@type': 'Organization',
   '@id': `${SITE_URL}/#organization`,
-  name: 'IAenBlanco SpA',
+  name: COMPANY_LEGAL_NAME,
   url: SITE_URL,
   logo: `${SITE_URL}/logo.png`,
   email: CONTACT_EMAIL,
