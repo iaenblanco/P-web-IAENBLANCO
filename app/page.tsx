@@ -770,24 +770,47 @@ function TrustProofSection() {
                 data-case-name={proof.client}
               >
                 <figure className="trabajo__captura">
-                  <Image
-                    src={`/trabajos/${proof.captura}.webp`}
-                    alt={`Portada del sitio de ${proof.client} en computador`}
-                    width={1120}
-                    height={700}
-                    sizes={proof.destacado ? '(max-width: 900px) 100vw, 720px' : '(max-width: 900px) 100vw, 610px'}
-                    quality={80}
-                    priority={proof.destacado}
-                  />
-                  <span className="trabajo__movil">
-                    <Image
-                      src={`/trabajos/${proof.captura}-movil.webp`}
-                      alt={`El mismo sitio de ${proof.client} visto en celular`}
-                      width={420}
-                      height={887}
-                      sizes="150px"
-                      quality={78}
+                  {/* Bajo 620 px la tarjeta ocupa una sola columna y mide entre
+                      350 y 590 px: la captura de 1120 px pesaba tres veces lo
+                      necesario. Se sirve una de 760 px, que sigue dando el doble
+                      de resolucion en un telefono. El export estatico no genera
+                      srcset, asi que la eleccion va escrita a mano. */}
+                  <picture>
+                    <source
+                      media="(max-width: 620px)"
+                      srcSet={`/trabajos/${proof.captura}-sm.webp`}
+                      width={760}
+                      height={475}
                     />
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img
+                      src={`/trabajos/${proof.captura}.webp`}
+                      alt={`Portada del sitio de ${proof.client} en computador`}
+                      width={1120}
+                      height={700}
+                      loading={proof.destacado ? 'eager' : 'lazy'}
+                      decoding="async"
+                      {...(proof.destacado ? { fetchPriority: 'high' as const } : {})}
+                    />
+                  </picture>
+                  <span className="trabajo__movil">
+                    <picture>
+                      <source
+                        media="(max-width: 620px)"
+                        srcSet={`/trabajos/${proof.captura}-movil-sm.webp`}
+                        width={220}
+                        height={465}
+                      />
+                      {/* eslint-disable-next-line @next/next/no-img-element */}
+                      <img
+                        src={`/trabajos/${proof.captura}-movil.webp`}
+                        alt={`El mismo sitio de ${proof.client} visto en celular`}
+                        width={420}
+                        height={887}
+                        loading="lazy"
+                        decoding="async"
+                      />
+                    </picture>
                   </span>
                 </figure>
 

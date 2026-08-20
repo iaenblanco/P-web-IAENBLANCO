@@ -15716,3 +15716,10 @@ button {
     font-size: clamp(28px, 10cqi, 62px);
   }
 }
+
+/* <picture> solo elige el archivo; para la maquetacion no existe. */
+
+.trabajo__captura picture,
+.trabajo__movil picture {
+  display: contents;
+}
