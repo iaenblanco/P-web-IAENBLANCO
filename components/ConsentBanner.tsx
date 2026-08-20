@@ -48,10 +48,13 @@ export function ConsentBanner() {
           <p className="eyebrow eyebrow--dark" id="consent-title">
             Medición
           </p>
+          {/* Lo esencial en dos lineas: en un telefono el aviso se comia media
+              pantalla antes de que el visitante viera nada del sitio. El resto
+              (que se puede cambiar de opinion, que se puede borrar) esta en la
+              pagina de privacidad, enlazada aqui mismo. */}
           <p>
-            Usamos Google Analytics y Meta para entender cómo se usa el sitio. No se carga
-            nada hasta que decidas, y puedes cambiar de opinión borrando los datos del sitio
-            en tu navegador. Detalles en{' '}
+            Usamos Google Analytics y Meta para saber cómo se usa el sitio. No se carga nada
+            hasta que decidas. Detalles en{' '}
             <Link href="/privacidad" prefetch={false}>
               privacidad
             </Link>

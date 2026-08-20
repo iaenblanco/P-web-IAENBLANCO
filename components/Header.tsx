@@ -230,8 +230,12 @@ export function Header() {
           target="_blank"
           rel="noreferrer"
           data-cursor="WhatsApp"
+          aria-label="Escribirnos por WhatsApp"
         >
-          Hablemos
+          {/* En el telefono no hay hover que aclare a donde lleva, asi que el
+              boton dice el canal por su nombre. */}
+          <span className="header-cta__ancho">Hablemos</span>
+          <span className="header-cta__angosto">WhatsApp</span>
           <ArrowUpRight className="header-cta__icon" />
         </a>
 

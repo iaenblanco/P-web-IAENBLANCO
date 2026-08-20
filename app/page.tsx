@@ -732,10 +732,6 @@ function HeroSummaryMap() {
         <span>Queda funcionando</span>
       </div>
 
-      <a href="#servicios" className="hero-summary-map__explore" data-cursor="Servicios">
-        Ver los servicios
-        <ArrowDown />
-      </a>
     </div>
   )
 }
@@ -1131,6 +1127,12 @@ export default function HomePage() {
 
           <div className="home-hero__visual">
             <HeroSummaryMap />
+            {/* Va despues del mapa, no flotando fuera de su marco: es el pie
+                del diagrama y asi se comporta en la maquetacion. */}
+            <a href="#servicios" className="hero-summary-map__explore" data-cursor="Servicios">
+              Ver los servicios
+              <ArrowDown />
+            </a>
           </div>
         </div>
         <div className="home-hero__index section-shell">

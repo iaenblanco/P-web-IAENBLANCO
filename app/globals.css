@@ -15723,3 +15723,67 @@ button {
 .trabajo__movil picture {
   display: contents;
 }
+
+/* --------------------------------------------------------------------------
+   En el telefono no habia ninguna forma de escribirnos sin abrir el menu.
+
+   El boton de la cabecera se escondia bajo 900 px y quedaba solo la
+   hamburguesa: en la pantalla donde llega la mayoria, el canal principal
+   estaba a dos toques y escondido. La columna del medio de la cabecera estaba
+   vacia, asi que el boton se queda ahi, compacto, y dice "WhatsApp" en vez de
+   "Hablemos" porque en tactil no hay hover que lo aclare.
+   -------------------------------------------------------------------------- */
+
+.header-cta__angosto {
+  display: none;
+}
+
+@media (max-width: 900px) {
+  .header-cta {
+    display: inline-flex;
+    grid-column: 2;
+    justify-self: end;
+    min-height: 44px;
+    margin-right: 10px;
+    padding: 0 14px;
+    gap: 8px;
+    font-size: 13px;
+  }
+
+  .header-cta__ancho {
+    display: none;
+  }
+
+  .header-cta__angosto {
+    display: inline;
+  }
+
+  .header-cta__icon {
+    width: 14px;
+    height: 14px;
+  }
+}
+
+@media (max-width: 360px) {
+  .header-cta {
+    margin-right: 6px;
+    padding: 0 11px;
+    font-size: 12px;
+  }
+}
+
+/* El pie del mapa del hero era un hijo absoluto colgando 34 px por debajo del
+   marco. Ahora es una fila mas de la columna visual: misma posicion a la
+   vista, pero sin texto por fuera de una caja con borde. */
+
+.home-hero__visual {
+  align-content: center;
+  gap: 14px;
+}
+
+.hero-summary-map__explore {
+  position: static;
+  right: auto;
+  bottom: auto;
+  justify-self: end;
+}
