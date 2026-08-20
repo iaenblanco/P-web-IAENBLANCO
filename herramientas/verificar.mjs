@@ -273,29 +273,30 @@ const REVISAR = String.raw`
     }
   });
 
-  // 10. un icono superpuesto encima del texto
-  //     Solo cuentan los iconos anclados (absolute/fixed): una flecha que
-  //     viaja dentro de la propia linea de texto no se pisa con ella.
-  const iconos = [...document.querySelectorAll('svg')].filter((sv) => {
-    const c = getComputedStyle(sv);
-    if (c.position !== 'absolute' && c.position !== 'fixed') return false;
-    if (c.display === 'none' || c.visibility === 'hidden' || +c.opacity < 0.1) return false;
-    if (excluido(sv)) return false;
-    const r = sv.getBoundingClientRect();
-    return r.width > 5 && r.height > 5;
+  // 10. un icono pintado ENCIMA del texto
+  //     No basta con que las cajas se crucen: el dibujo de fondo de un
+  //     diagrama cruza todo y va por debajo. Lo que importa es quien pinta
+  //     arriba, y eso lo contesta el propio navegador: se pregunta que hay
+  //     en el punto donde estan las letras.
+  cajas.forEach(({ e, t }) => {
+    const puntos = [
+      [(t.left + t.right) / 2, (t.top + t.bottom) / 2],
+      [t.right - 3, (t.top + t.bottom) / 2],
+      [t.left + 3, (t.top + t.bottom) / 2],
+    ];
+    for (const [x, y] of puntos) {
+      if (x < 0 || y < 0 || x > innerWidth || y > innerHeight) continue;
+      const arriba = document.elementFromPoint(x, y);
+      if (!arriba || arriba === e || e.contains(arriba) || arriba.contains(e)) continue;
+      const sv = arriba.closest('svg');
+      if (!sv || e.contains(sv)) continue;
+      const c = getComputedStyle(sv);
+      if (c.position !== 'absolute' && c.position !== 'fixed') continue;
+      if (excluido(sv)) continue;
+      F.icono.push({ sel: ruta(e), t: (e.textContent || '').trim().slice(0, 30) });
+      return;
+    }
   });
-  if (iconos.length) {
-    cajas.forEach(({ e, t }) => {
-      for (const sv of iconos) {
-        if (e.contains(sv) === false && sv.contains(e) === false) {
-          const r = sv.getBoundingClientRect();
-          const ix = Math.min(t.right, r.right) - Math.max(t.left, r.left);
-          const iy = Math.min(t.bottom, r.bottom) - Math.max(t.top, r.top);
-          if (ix > 1.5 && iy > 1.5) { F.icono.push({ sel: ruta(e), t: (e.textContent || '').trim().slice(0, 30) }); return }
-        }
-      }
-    });
-  }
 
   return F;
 })()
