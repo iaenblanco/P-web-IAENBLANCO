@@ -15336,3 +15336,62 @@ button {
   max-height: 100%;
   object-fit: contain;
 }
+
+/* Los hijos de la sección de trabajos conservaban el grid-area con nombre de
+   la maqueta anterior ("copy", "signals"). Al pasar el contenedor a una sola
+   columna, dos de ellos caían en la misma celda y el encabezado se pisaba con
+   las señales. */
+
+.trust-proof__copy,
+.trust-proof__signals,
+.trust-proof__metodo,
+.trabajos {
+  grid-area: auto;
+}
+
+/* Igual que en trabajos: el encabezado de "Empieza por acá" caía en la misma
+   celda que su bajada y los dos textos se pisaban. */
+
+.problem-strip__heading,
+.problem-strip__grid {
+  grid-area: auto;
+}
+
+/* Los titulares llevan interlineado apretado, así que la tinta de su última
+   línea baja más de lo que mide su caja y rozaba la primera línea del texto
+   que sigue. Un respiro mínimo entre titular y bajada. */
+
+.problem-strip__lead {
+  margin-top: var(--espacio-1);
+}
+
+.services-index-problems strong + span,
+.services-index-problems span {
+  margin-top: 4px;
+  display: block;
+}
+
+.services-index-cards h3 + p,
+.services-index-cards article > p {
+  margin-top: 6px;
+}
+
+.trabajo__ficha h3 + strong {
+  margin-top: 2px;
+}
+
+/* Mismo caso en las fichas de servicio: el título de cada bloque rozaba su
+   propio texto. Regla general para todos los pares título + párrafo que
+   viven pegados dentro de una tarjeta. */
+
+.service-build-grid h3 + p,
+.service-use-grid h3 + p,
+.service-applied-example__grid h3 + p,
+.service-process-list h3 + p,
+.service-case-card h3 + p,
+.services-web-proof-grid h3 + strong,
+.services-web-proof-grid strong + p,
+.service-flow__step strong + p,
+.trabajo__detalle dt + dd {
+  margin-top: 6px;
+}

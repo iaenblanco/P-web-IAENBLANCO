@@ -26,9 +26,9 @@ function ArrowDown() {
 
 const heroSummaryServices = [
   { title: 'Sitios web', theme: 'web' },
-  { title: 'Programas a medida', theme: 'software' },
-  { title: 'Tareas automáticas', theme: 'automation' },
-  { title: 'Asistentes con IA', theme: 'ai' },
+  { title: 'Programas', theme: 'software' },
+  { title: 'Automatizar', theme: 'automation' },
+  { title: 'Asistentes IA', theme: 'ai' },
 ]
 
 const heroSummaryProducts = [
@@ -41,7 +41,7 @@ const heroSummaryPlatforms = [
   { title: 'WhatsApp', theme: 'wa' },
   { title: 'Shopify', theme: 'shopify' },
   { title: 'Bsale', theme: 'bsale' },
-  { title: 'Tus planillas', theme: 'crm' },
+  { title: 'Planillas', theme: 'crm' },
 ]
 
 const summaryMap = {
@@ -665,7 +665,7 @@ function HeroSummaryMap() {
         className="summary-system-label summary-system-label--products"
         style={summaryBoxStyle(summaryMap.products.label)}
       >
-        <span>O usas los nuestros</span>
+        <span>O los nuestros</span>
         <strong>Ya listos</strong>
       </div>
       <div
