@@ -15787,3 +15787,113 @@ button {
   bottom: auto;
   justify-self: end;
 }
+
+/* --------------------------------------------------------------------------
+   El mapa del hero se encoge, su letra no: a 1280 px la barra "Nos cuentas /
+   Lo construimos / Queda funcionando" caia justo encima de los nombres de las
+   plataformas y no se leia ninguno de los dos. El diagrama esta dibujado en
+   una cuadricula de 720 x 560 y todo se coloca en porcentaje, asi que la
+   unica pieza que no acompanaba era el texto. Ahora tambien se mide contra
+   el ancho del mapa. Bajo 900 px el mapa se convierte en una lista apilada y
+   ahi manda el piso de legibilidad del telefono.
+   -------------------------------------------------------------------------- */
+
+@supports (width: 1cqi) {
+  @media (min-width: 901px) {
+    .hero-summary-map {
+      container-type: inline-size;
+    }
+
+    .summary-system-label span {
+      font-size: max(10.5px, 2.01cqi);
+    }
+
+    /* La fila de plataformas es la que choca contra la barra del flujo: su
+       caja mide icono + separacion + una linea de texto, y las tres piezas
+       tienen que encoger a la par del mapa o el nombre queda debajo de la
+       barra. Sin piso en px: aqui el limite lo pone el espacio disponible. */
+    .summary-platform strong {
+      font-size: 2.01cqi;
+    }
+
+    .summary-platform span {
+      width: 6.2cqi;
+    }
+
+    .summary-platform {
+      gap: 1.34cqi;
+    }
+
+    .summary-system-label strong,
+    .summary-orb strong,
+    .summary-flow span {
+      font-size: max(11.5px, 2.35cqi);
+    }
+  }
+}
+
+/* --------------------------------------------------------------------------
+   Pie de pagina: los enlaces median 18 px de alto. En un monitor con mouse se
+   aciertan; con el pulgar, no. En pantalla tactil se les da altura de sobra.
+   -------------------------------------------------------------------------- */
+
+@media (max-width: 900px) {
+  .site-footer__nav a,
+  .site-footer__bottom a {
+    display: flex;
+    align-items: center;
+    min-height: 44px;
+  }
+
+  .site-footer__nav > div {
+    gap: 0;
+  }
+
+  .footer-primary-link {
+    min-height: 46px;
+    font-size: 15px;
+  }
+
+  /* los que quedaban por debajo del piso en tablet */
+  .product-unified__meta p,
+  .product-unified__meta strong,
+  .product-unified__result > span,
+  .product-unified__unit span {
+    font-size: 13px;
+  }
+}
+
+/* Las etiquetas del diagrama de Unificalo tambien contra su propia caja:
+   a 768 px "marketplace" y "comerciales" se partian a la mitad. */
+
+@media (max-width: 900px) {
+  .unify-node {
+    width: 120px;
+    padding: 10px 8px;
+  }
+
+  .unify-node span {
+    font-size: 13px;
+  }
+
+  .unify-node strong {
+    font-size: 12px;
+    letter-spacing: 0.01em;
+  }
+}
+
+/* En pantallas de 360 px la orbita mide 307 px: con nodos de 112 y un nucleo
+   de 112 el nodo de la derecha se montaba encima del nucleo y el texto
+   quedaba sobre el borde del circulo. Se estrechan los dos. */
+
+@media (max-width: 430px) {
+  .product-network-node {
+    width: 96px;
+    padding: 8px;
+  }
+
+  .product-network-hub {
+    width: 88px;
+    height: 88px;
+  }
+}
