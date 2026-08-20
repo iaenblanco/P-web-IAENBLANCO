@@ -15178,3 +15178,41 @@ button {
   border: 1px solid var(--line);
   background: var(--paper-bright);
 }
+
+/* El sitio promete "se ve bien en el celular": el trabajo destacado lo enseña
+   con la misma portada vista en un teléfono, superpuesta a la de escritorio. */
+
+.trabajo__movil {
+  position: absolute;
+  right: clamp(16px, 3%, 34px);
+  bottom: -1px;
+  z-index: 2;
+  display: block;
+  width: clamp(96px, 15%, 148px);
+  border: 1px solid rgba(7, 10, 15, 0.16);
+  border-bottom: 0;
+  border-radius: 12px 12px 0 0;
+  background: var(--paper-bright);
+  box-shadow: 0 18px 40px rgba(7, 10, 15, 0.24);
+  overflow: hidden;
+  transition: transform 620ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.trabajo__movil img {
+  display: block;
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+  object-position: top center;
+}
+
+.trabajo__enlace:hover .trabajo__movil {
+  transform: translateY(-6px);
+}
+
+@media (max-width: 620px) {
+  .trabajo__movil {
+    width: 84px;
+    right: 12px;
+  }
+}

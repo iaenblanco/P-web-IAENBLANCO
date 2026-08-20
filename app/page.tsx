@@ -762,13 +762,25 @@ function TrustProofSection() {
                 <figure className="trabajo__captura">
                   <Image
                     src={`/trabajos/${proof.captura}.webp`}
-                    alt={`Portada del sitio de ${proof.client}`}
+                    alt={`Portada del sitio de ${proof.client} en computador`}
                     width={1120}
                     height={700}
                     sizes={proof.destacado ? '(max-width: 900px) 100vw, 720px' : '(max-width: 900px) 100vw, 610px'}
                     quality={80}
                     priority={proof.destacado}
                   />
+                  {proof.destacado ? (
+                    <span className="trabajo__movil">
+                      <Image
+                        src={`/trabajos/${proof.captura}-movil.webp`}
+                        alt={`El mismo sitio de ${proof.client} visto en celular`}
+                        width={420}
+                        height={887}
+                        sizes="150px"
+                        quality={78}
+                      />
+                    </span>
+                  ) : null}
                 </figure>
 
                 <div className="trabajo__ficha">
