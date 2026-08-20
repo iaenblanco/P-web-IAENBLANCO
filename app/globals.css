@@ -15897,3 +15897,12 @@ button {
     height: 88px;
   }
 }
+
+/* La flecha de estas tarjetas esta anclada arriba a la derecha y el titular
+   llegaba a pisarla ("...o el que tengo↗" a 390 px). Se le reserva el hueco:
+   18 px de flecha + 18 px de margen + un respiro. */
+
+.services-index-problems strong,
+.services-index-problems span {
+  padding-right: 44px;
+}
