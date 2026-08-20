@@ -1159,6 +1159,32 @@ export default function HomePage() {
             ))}
           </div>
 
+          <Reveal className="objeciones" delay={60}>
+            <div>
+              <h3>¿Cuánto cuesta?</h3>
+              <p>
+                Depende de lo que necesites, y por eso no ponemos un precio en la web
+                que después no calce. Lo que sí te garantizamos: el número te lo damos
+                antes de empezar, por escrito, y no cambia a mitad de camino.
+              </p>
+            </div>
+            <div>
+              <h3>¿Y si a mitad de camino no me gusta?</h3>
+              <p>
+                No trabajamos meses a puerta cerrada. Te vamos mostrando avances desde
+                la primera semana, así que cualquier cosa que no te cuadre la corregimos
+                cuando todavía es barato corregirla.
+              </p>
+            </div>
+            <div>
+              <h3>¿Después quedo amarrado con ustedes?</h3>
+              <p>
+                No. Lo que construimos queda tuyo: tu dominio, tus cuentas, tus datos.
+                Si más adelante quieres que lo siga otro, se lo entregas y listo.
+              </p>
+            </div>
+          </Reveal>
+
           <Reveal className="industry-line">
             <p>Ya trabajamos con negocios de</p>
             <div>

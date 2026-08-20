@@ -15395,3 +15395,45 @@ button {
 .trabajo__detalle dt + dd {
   margin-top: 6px;
 }
+
+/* Las tres preguntas que frenan a alguien antes de escribir. Van dentro de
+   "Cómo trabajamos", que es la banda oscura, y por eso heredan su tratamiento. */
+
+.objeciones {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--gap);
+  margin-top: var(--espacio-5);
+  padding-top: var(--espacio-4);
+  border-top: 1px solid rgba(255, 255, 255, 0.16);
+}
+
+.objeciones > div {
+  display: grid;
+  gap: 8px;
+  align-content: start;
+}
+
+.objeciones h3 {
+  margin: 0;
+  color: var(--ice);
+  font-size: 18px;
+  font-weight: 640;
+  letter-spacing: -0.02em;
+  line-height: 1.25;
+}
+
+.objeciones p {
+  margin: 0;
+  max-width: 42ch;
+  color: rgba(255, 255, 255, 0.74);
+  font-size: 15.5px;
+  line-height: 1.55;
+}
+
+@media (max-width: 900px) {
+  .objeciones {
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--espacio-3);
+  }
+}
