@@ -68,19 +68,19 @@ export const metadata: Metadata = {
       'Hacemos sitios web, tiendas online, programas a la medida de tu negocio y asistentes con inteligencia artificial. En Chile.',
     images: [
       {
-        url: '/logo.png',
-        width: 1024,
-        height: 1024,
-        alt: 'IAenBlanco',
+        url: '/og.png',
+        width: 1200,
+        height: 630,
+        alt: 'IAenBlanco: sitios web, tiendas online y programas a la medida de tu negocio.',
       },
     ],
   },
   twitter: {
-    card: 'summary',
+    card: 'summary_large_image',
     title: 'IAenBlanco | Sitios web, programas a medida e IA para tu negocio',
     description:
       'Hacemos sitios web, tiendas online, programas a la medida de tu negocio y asistentes con inteligencia artificial. En Chile.',
-    images: ['/logo.png'],
+    images: ['/og.png'],
   },
   robots: {
     index: true,

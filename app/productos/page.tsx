@@ -196,7 +196,7 @@ function ProductVisual({ index }: { index: number }) {
           { title: 'WhatsApp', detail: 'entrada', color: '#7ac943', x: 128, y: 118 },
           { title: 'Audio', detail: 'comprende', color: '#8cc84b', x: 108, y: 312 },
           { title: 'Cliente', detail: 'mensaje', color: '#b5f26e', x: 176, y: 442 },
-          { title: 'Agenda', detail: 'disponibilidad', color: '#8cc84b', x: 486, y: 118 },
+          { title: 'Agenda', detail: 'horas libres', color: '#8cc84b', x: 486, y: 118 },
           { title: 'Reserva', detail: 'confirma', color: '#b5f26e', x: 522, y: 318 },
           { title: 'Agente', detail: 'IA 24/7', color: '#28d9e5', x: 438, y: 450 },
         ]}

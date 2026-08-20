@@ -22,6 +22,14 @@ export const metadata: Metadata = {
     url: `${SITE_URL}/servicios/`,
     siteName: 'IAenBlanco',
     type: 'website',
+    images: [
+      {
+        url: '/og.png',
+        width: 1200,
+        height: 630,
+        alt: 'IAenBlanco: sitios web, tiendas online y programas a la medida de tu negocio.',
+      },
+    ],
   },
 }
 

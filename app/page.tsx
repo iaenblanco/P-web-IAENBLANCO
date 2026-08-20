@@ -779,18 +779,16 @@ function TrustProofSection() {
                     quality={80}
                     priority={proof.destacado}
                   />
-                  {proof.destacado ? (
-                    <span className="trabajo__movil">
-                      <Image
-                        src={`/trabajos/${proof.captura}-movil.webp`}
-                        alt={`El mismo sitio de ${proof.client} visto en celular`}
-                        width={420}
-                        height={887}
-                        sizes="150px"
-                        quality={78}
-                      />
-                    </span>
-                  ) : null}
+                  <span className="trabajo__movil">
+                    <Image
+                      src={`/trabajos/${proof.captura}-movil.webp`}
+                      alt={`El mismo sitio de ${proof.client} visto en celular`}
+                      width={420}
+                      height={887}
+                      sizes="150px"
+                      quality={78}
+                    />
+                  </span>
                 </figure>
 
                 <div className="trabajo__ficha">
@@ -838,14 +836,26 @@ function TrustProofSection() {
           ))}
         </div>
 
-        <Reveal className="trust-proof__metodo" delay={130}>
-          <p>
-            <strong>Los cinco medidos el 19 de agosto de 2026</strong>, con Chrome, en
-            computador y en celular. «Se ve en» es cuánto demora en aparecer el contenido.
-            Ninguno obliga a desplazar de lado en el teléfono, los cinco usan conexión
-            segura y los cinco tienen su descripción lista para Google. Puedes comprobarlo
-            tú: abre cualquiera y mídelo.
-          </p>
+        <Reveal className="trust-proof__notas" delay={130}>
+          <div>
+            <h3>Cómo medimos esos números</h3>
+            <p>
+              Los cinco sitios medidos el 19 de agosto de 2026, con Chrome, en computador y
+              en celular. «Se ve en» es cuánto demora en aparecer el contenido. Ninguno
+              obliga a desplazar de lado en el teléfono, los cinco usan conexión segura y
+              los cinco tienen su descripción lista para Google. Puedes comprobarlo tú:
+              abre cualquiera y mídelo.
+            </p>
+          </div>
+          <div>
+            <h3>¿Y este sitio?</h3>
+            <p>
+              También es nuestro, y le aplicamos lo mismo que a los de arriba: cada texto
+              con contraste revisado uno por uno, ninguna imagen sin descripción, y en el
+              celular no tienes que desplazar de lado ni estirar para leer. Si te gusta
+              cómo se comporta mientras lo recorres, así trabajamos.
+            </p>
+          </div>
         </Reveal>
 
         <Reveal className="trust-proof__signals" delay={140}>
