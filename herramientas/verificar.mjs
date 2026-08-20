@@ -1,4 +1,4 @@
-// La batería completa: diez criterios, todas las rutas, todos los anchos.
+// La batería completa: once criterios, todas las rutas, todos los anchos.
 // Cada uno es comprobable: o el número es cero, o sale la falla con su
 // selector, su texto y cuánto se pasa. Nada es opinión.
 //
@@ -15,6 +15,10 @@
 // que se ve. Quedan fuera a propósito el enlace "Saltar al contenido" (vive
 // fuera de pantalla), la capa de consentimiento (flota por diseño) y el
 // contenido de un <details> cerrado (el navegador lo apila en el resumen).
+//
+// Si el servidor se cae a mitad de camino, Chrome pinta su propia pantalla de
+// error y medirla devuelve basura con pinta de hallazgo. El script lo detecta,
+// lo dice y termina con codigo 2.
 import { spawn } from 'node:child_process'
 import { setTimeout as espera } from 'node:timers/promises'
 
@@ -46,7 +50,7 @@ class S {
 
 const REVISAR = String.raw`
 (() => {
-  const F = { contraste: [], fuera: [], sobreLinea: [], encima: [], toque: [], scrollH: [], imagenes: [], chico: [], partida: [], icono: [] };
+  const F = { contraste: [], fuera: [], sobreLinea: [], encima: [], toque: [], scrollH: [], imagenes: [], chico: [], partida: [], icono: [], cortado: [] };
   const nom = (e) => e.tagName.toLowerCase() + (typeof e.className === 'string' && e.className.trim() ? '.' + e.className.trim().split(/\s+/).filter(c => c !== 'is-visible' && c !== 'reveal').slice(0, 3).join('.') : '');
   const ruta = (e) => [e.parentElement, e].filter(Boolean).map(nom).join(' > ');
   const movil = innerWidth < 800;
@@ -251,8 +255,8 @@ const REVISAR = String.raw`
     });
   }
 
-  // 9. palabras partidas a la mitad (se mide palabra por palabra, no solo
-  //    los textos de una sola palabra)
+  // 9. palabras partidas a la mitad (palabra por palabra, no solo los
+  //    textos de una sola palabra)
   document.querySelectorAll('*').forEach((e) => {
     if (e.closest('svg') || excluido(e)) return;
     if (!e.childNodes.length || ![...e.childNodes].every((n) => n.nodeType === 3)) return;
@@ -298,6 +302,15 @@ const REVISAR = String.raw`
     }
   });
 
+  // 11. texto recortado por el borde de la pantalla
+  //     Distinto de "scrollH": cuando un antepasado tiene overflow hidden la
+  //     pagina NO se desplaza de lado, simplemente se pierde el final de la
+  //     frase. Es lo que se ve como "la seccion sale cortada".
+  cajas.forEach(({ e, t }) => {
+    const d = Math.max(t.right - innerWidth, -t.left);
+    if (d > 2) F.cortado.push({ sel: ruta(e), d: Math.round(d), t: (e.textContent || '').trim().slice(0, 30) });
+  });
+
   return F;
 })()
 `
@@ -309,7 +322,7 @@ const { targetId } = await s.e('Target.createTarget', { url: 'about:blank' })
 const { sessionId } = await s.e('Target.attachToTarget', { targetId, flatten: true })
 await s.e('Page.enable', {}, sessionId); await s.e('Runtime.enable', {}, sessionId)
 
-const CRIT = ['contraste', 'fuera', 'sobreLinea', 'encima', 'toque', 'scrollH', 'imagenes', 'chico', 'partida', 'icono']
+const CRIT = ['contraste', 'fuera', 'sobreLinea', 'encima', 'toque', 'scrollH', 'imagenes', 'chico', 'partida', 'icono', 'cortado']
 const total = Object.fromEntries(CRIT.map(c => [c, 0]))
 const detalle = []
 
@@ -319,6 +332,15 @@ for (const W of ANCHOS) {
     await s.e('Page.navigate', { url: BASE + ruta }, sessionId)
     await espera(2100)
     await s.e('Runtime.evaluate', { expression: `(async()=>{for(let y=0;y<document.body.scrollHeight;y+=500){scrollTo(0,y);await new Promise(r=>setTimeout(r,80))}scrollTo(0,0);await new Promise(r=>setTimeout(r,900));return 1})()`, awaitPromise: true }, sessionId)
+    // Si el servidor se cayo, Chrome pinta su propia pagina de error y medirla
+    // devuelve basura con pinta de hallazgo. Mejor detenerse.
+    const cargo = (await s.e('Runtime.evaluate', { expression: `(() => ({ error: document.body.className.includes('neterror'), header: !!document.querySelector('.site-header'), titulo: document.title }))()`, returnByValue: true }, sessionId)).result.value
+    if (cargo.error || !cargo.header) {
+      console.log(`
+!! ${W}px ${ruta} NO CARGO (${cargo.titulo || 'sin titulo'}). Revisa que el servidor siga arriba.`)
+      process.exitCode = 2
+      continue
+    }
     const alto = (await s.e('Runtime.evaluate', { expression: 'document.body.scrollHeight', returnByValue: true }, sessionId)).result.value
     const paso = W < 800 ? 700 : 820
     const visto = Object.fromEntries(CRIT.map(c => [c, new Map()]))

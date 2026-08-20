@@ -15906,3 +15906,19 @@ button {
 .services-index-problems span {
   padding-right: 44px;
 }
+
+/* --------------------------------------------------------------------------
+   Ninguna caja de ancho intrinseco puede pasarse de su columna.
+
+   La ficha "CUÁNTO DEMORA / Entre 2 y 6 semanas..." usa `width: max-content`
+   con `max-width: 100%`, pero una regla anterior — `.service-page-hero__copy
+   > p { max-width: 720px }` — le ganaba en especificidad: a 390 px la caja
+   media 452 px dentro de una columna de 366 y la seccion la recortaba con
+   overflow hidden. Se veia "según cuántas página", cortado, sin barra de
+   scroll que delatara nada.
+   -------------------------------------------------------------------------- */
+
+.service-page-hero__copy > p.service-page-hero__plazo,
+.service-entry > p.service-entry__plazo {
+  max-width: 100%;
+}

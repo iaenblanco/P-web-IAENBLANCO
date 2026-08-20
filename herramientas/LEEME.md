@@ -2,7 +2,7 @@
 
 ## `verificar.mjs`
 
-Revisa el sitio ya construido y mide diez cosas que un visitante nota aunque no
+Revisa el sitio ya construido y mide once cosas que un visitante nota aunque no
 sepa nombrarlas. Cada una da un número: si es cero, está bien; si no, sale la
 falla con su selector, su texto y cuánto se pasa.
 
@@ -17,6 +17,7 @@ falla con su selector, su texto y cuánto se pasa.
 | `imagenes` | Imágenes a la vista que no cargaron, o sin atributo `alt`. |
 | `chico` | En el teléfono, texto por debajo de 12 px. |
 | `partida` | Palabras cortadas a la mitad al final de una línea. |
+| `cortado` | Texto que el borde de la pantalla recorta sin que aparezca barra de scroll. |
 | `icono` | Un icono anclado pintado encima del texto. |
 
 ### Cómo se corre
