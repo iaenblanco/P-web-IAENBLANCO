@@ -139,7 +139,7 @@ export const websiteProofCases: WebsiteProofCase[] = [
     text: 'Suben una propiedad nueva y queda publicada, sin tener que pedirnos ayuda.',
     href: 'https://propinvest.cl/',
     captura: 'propinvest',
-    velocidad: '0,4 s',
+    velocidad: 'menos de 1 s',
   },
   {
     client: 'Granja Magdalena',
@@ -149,7 +149,7 @@ export const websiteProofCases: WebsiteProofCase[] = [
     text: 'Pasaron de mostrar sus productos a poder venderlos por internet.',
     href: 'https://granjamagdalena.cl/',
     captura: 'granjamagdalena',
-    velocidad: '1,1 s',
+    velocidad: 'menos de 1,5 s',
   },
   {
     client: 'YoMeEncargo',
@@ -159,7 +159,7 @@ export const websiteProofCases: WebsiteProofCase[] = [
     text: 'Ofrecen muchas cosas distintas. El sitio las ordena para que cada visitante encuentre la suya.',
     href: 'https://yomeencargo.cl/',
     captura: 'yomeencargo',
-    velocidad: '0,6 s',
+    velocidad: 'menos de 1,5 s',
   },
   {
     client: 'Granja Magdalena Pet',
@@ -169,7 +169,7 @@ export const websiteProofCases: WebsiteProofCase[] = [
     text: 'Su línea de mascotas tiene espacio propio en vez de perderse dentro del catálogo general.',
     href: 'https://granjamagdalenapet.cl/',
     captura: 'granjapet',
-    velocidad: '1,4 s',
+    velocidad: 'menos de 2 s',
   },
   {
     client: 'Inasec Pets',
@@ -179,7 +179,7 @@ export const websiteProofCases: WebsiteProofCase[] = [
     text: 'Quien los encuentra entiende qué venden y sabe cómo escribirles.',
     href: 'https://inasecpets.cl/',
     captura: 'inasecpets',
-    velocidad: '1,7 s',
+    velocidad: 'menos de 2 s',
   },
 ]
 
