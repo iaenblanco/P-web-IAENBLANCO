@@ -112,6 +112,10 @@ export function ServiceSystem() {
                   <span>Resultado</span>
                   {serviceResults[service.slug]}
                 </p>
+                <p className="service-entry__plazo">
+                  <span>Cuánto demora</span>
+                  {service.plazo}
+                </p>
                 <div className="service-entry__signals">
                   {service.signals.map((signal) => <span key={signal}>{signal}</span>)}
                 </div>
@@ -144,15 +148,19 @@ export function ServiceSystem() {
                       <span>Resultado</span>
                       {serviceResults[commercialService.slug]}
                     </p>
+                    <p className="service-entry__plazo">
+                      <span>Cuánto demora</span>
+                      {commercialService.plazo}
+                    </p>
                   </div>
-                  <div className="service-entry__pipeline" aria-label="Flujo comercial de prospección B2B">
-                    <span>ICP</span>
+                  <div className="service-entry__pipeline" aria-label="Cómo trabajamos la búsqueda de clientes">
+                    <span>Definimos a quién</span>
                     <i />
-                    <span>Evidencia</span>
+                    <span>Buscamos</span>
                     <i />
-                    <span>Contacto</span>
+                    <span>Verificamos</span>
                     <i />
-                    <span>Seguimiento</span>
+                    <span>Te las pasamos</span>
                   </div>
                 </div>
                 <Link

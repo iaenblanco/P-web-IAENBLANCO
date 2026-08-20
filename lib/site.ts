@@ -32,6 +32,8 @@ export type Service = {
   description: string
   capabilities: string[]
   idealFor: string[]
+  /** Rango típico, no un compromiso. Se ajusta acá y cambia en todo el sitio. */
+  plazo: string
   signals: string[]
   seoTitle: string
   seoDescription: string
@@ -60,6 +62,7 @@ export const services: Service[] = [
       'Empresas cuyo sitio se ve viejo y no genera consultas',
       'Quien quiere empezar a vender por internet',
     ],
+    plazo: 'Entre 2 y 6 semanas, según cuántas páginas sean',
     signals: ['Sitio web', 'Tienda online', 'Se ve bien en el celular', 'Botón de WhatsApp'],
     seoTitle: 'Sitios web y tiendas online para empresas',
     seoDescription:
@@ -87,6 +90,7 @@ export const services: Service[] = [
       'Empresas con una forma de trabajar muy propia',
       'Negocios donde cada persona debería ver solo lo suyo',
     ],
+    plazo: 'La primera versión, entre 6 y 12 semanas',
     signals: ['Tus reglas', 'Cada uno ve lo suyo', 'Todo en un lugar', 'Adiós al Excel'],
     seoTitle: 'Programas y plataformas a la medida de tu empresa',
     seoDescription:
@@ -114,6 +118,7 @@ export const services: Service[] = [
       'Negocios que pierden tiempo revisando en qué va cada cosa',
       'Quien necesita enterarse al tiro cuando algo se cae',
     ],
+    plazo: 'Entre 1 y 3 semanas por tarea',
     signals: ['Conecta tus programas', 'Te avisa solo', 'Menos errores', 'Ahorra horas'],
     seoTitle: 'Automatizar tareas repetitivas en tu empresa',
     seoDescription:
@@ -141,6 +146,7 @@ export const services: Service[] = [
       'Equipos que contestan las mismas preguntas todo el día',
       'Negocios con muchos documentos o mensajes por revisar',
     ],
+    plazo: 'Entre 3 y 6 semanas, con pruebas incluidas',
     signals: ['Responde solo', 'Sabe de tu negocio', 'Disponible siempre', 'Te pasa lo difícil'],
     seoTitle: 'Asistentes con inteligencia artificial para empresas',
     seoDescription:
@@ -168,6 +174,7 @@ export const services: Service[] = [
       'Equipos comerciales que necesitan abrir mercado nuevo',
       'Quien está cansado de listas compradas que no responden',
     ],
+    plazo: 'Servicio mensual; la primera entrega a las 2 semanas',
     signals: ['Empresas reales', 'Verificadas una a una', 'Ordenadas por prioridad', 'Con qué decirles'],
     seoTitle: 'Buscamos clientes nuevos para tu empresa',
     seoDescription:

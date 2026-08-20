@@ -142,7 +142,7 @@ const responsibilitiesBySlug: Partial<Record<ServicePageContent['slug'], { title
       { ia: 'Define y busca mercado objetivo.', client: 'Valida oferta, rubro y tipo de cliente ideal.' },
       { ia: 'Organiza evidencia y señales comerciales.', client: 'Aprueba criterios de fit y descarte.' },
       { ia: 'Prioriza oportunidades y ordena seguimiento.', client: 'Atiende conversaciones y confirma interés real.' },
-      { ia: 'Mantiene trazabilidad del pipeline.', client: 'Gestiona propuesta, negociación y cierre.' },
+      { ia: 'Deja registrado en qué va cada empresa.', client: 'Gestiona la propuesta, la negociación y el cierre.' },
     ],
   },
 }
@@ -308,6 +308,10 @@ export function ServicePageTemplate({
             <div className="service-page-hero__signals">
               {service.signals.map((signal) => <span key={signal}>{signal}</span>)}
             </div>
+            <p className="service-page-hero__plazo">
+              <span>Cuánto demora</span>
+              {service.plazo}
+            </p>
             <div className="service-page-hero__actions">
               <a
                 href={whatsappUrl}

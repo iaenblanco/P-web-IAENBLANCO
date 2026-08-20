@@ -98,9 +98,20 @@ function summaryPointStyle(x: number, y: number, w?: number) {
 
 const clientProofs = [
   {
+    client: 'YoMeEncargo',
+    href: 'https://yomeencargo.cl/',
+    captura: 'yomeencargo',
+    logo: 'yomercargo',
+    sector: 'Fletes y mudanzas',
+    project: 'Su sitio de servicios, ordenado para que se entienda',
+    system: 'Cada servicio explicado por separado y un camino claro hasta pedir la cotización.',
+    proof: 'Ofrecen muchas cosas distintas. El sitio las ordena para que cada visitante encuentre la suya.',
+    destacado: true,
+  },
+  {
     client: 'Propinvest',
     href: 'https://propinvest.cl/',
-    mark: 'Propinvest',
+    captura: 'propinvest',
     logo: 'propinvest',
     sector: 'Corredora de propiedades',
     project: 'Su catálogo de propiedades, que ellos mismos actualizan',
@@ -110,38 +121,28 @@ const clientProofs = [
   {
     client: 'Granja Magdalena',
     href: 'https://granjamagdalena.cl/',
-    mark: 'Granja Magdalena',
+    captura: 'granjamagdalena',
     logo: 'granja-magdalena',
-    sector: 'Venta de productos',
+    sector: 'Venta de alimentos',
     project: 'Su tienda online',
     system: 'Catálogo, carro de compra y la venta ordenada en un solo lugar.',
     proof: 'Pasaron de mostrar sus productos a poder venderlos por internet.',
   },
   {
-    client: 'YoMeEncargo',
-    href: 'https://yomeencargo.cl/',
-    mark: 'YoMeEncargo',
-    logo: 'yomercargo',
-    sector: 'Empresa de servicios',
-    project: 'Su sitio de servicios, ordenado para que se entienda',
-    system: 'Cada servicio explicado por separado y un camino claro hasta pedirlo.',
-    proof: 'Ofrecen muchas cosas distintas. El sitio las ordena para que cada visitante encuentre la suya.',
-  },
-  {
     client: 'Granja Magdalena Pet',
     href: 'https://granjamagdalenapet.cl/',
-    mark: 'GM Pet',
+    captura: 'granjapet',
     logo: 'granjapet',
     logoTone: 'dark',
-    sector: 'Productos para mascotas',
+    sector: 'Alimento para mascotas',
     project: 'Una tienda aparte para su línea de mascotas',
     system: 'Sitio propio, separado del principal, con su propia cara.',
-    proof: 'Su línea de mascotas tiene espacio propio en vez de perderse dentro del catálogo general.',
+    proof: 'Su línea de mascotas tiene espacio propio en vez de perderse en el catálogo general.',
   },
   {
     client: 'Inasec Pets',
     href: 'https://inasecpets.cl/',
-    mark: 'Inasec Pets',
+    captura: 'inasecpets',
     logo: 'inasec-pets',
     sector: 'Tienda especializada',
     project: 'Su sitio para mostrar lo que venden y recibir consultas',
@@ -151,9 +152,9 @@ const clientProofs = [
 ]
 
 const trustSignals = [
-  { value: '5 sitios', label: 'de clientes en línea hoy: puedes abrirlos y revisarlos uno por uno' },
-  { value: '4 rubros', label: 'inmobiliario, e-commerce, servicios y retail especializado' },
-  { value: '3 programas', label: 'Unifícalo, Citaly y Leads: nuestros, funcionando y contratables por separado' },
+  { value: '5 sitios en línea', label: 'no son maquetas ni bocetos: son los sitios que están atendiendo clientes hoy' },
+  { value: '5 rubros distintos', label: 'mudanzas, propiedades, alimentos, mascotas y retail especializado' },
+  { value: '3 programas propios', label: 'Unifícalo, Citaly y Leads, funcionando y contratables por separado' },
 ]
 
 const problemCards = [
@@ -732,92 +733,77 @@ function HeroSummaryMap() {
 function TrustProofSection() {
   return (
     <section className="trust-proof" aria-labelledby="trust-proof-heading">
-      <div className="section-shell trust-proof__grid">
+      <div className="section-shell trust-proof__inner">
         <Reveal className="trust-proof__copy">
           <p className="eyebrow">Trabajos reales</p>
-          <h2 id="trust-proof-heading">
-            Negocios reales para los que ya trabajamos.
-          </h2>
+          <h2 id="trust-proof-heading">Míralo tú mismo.</h2>
           <p>
-            Cinco empresas chilenas, cinco necesidades distintas. Los cinco sitios están
-            funcionando ahora mismo: ábrelos y revisa el trabajo antes de escribirnos.
+            Cinco negocios chilenos, cinco necesidades distintas. Estos son sus sitios tal
+            como se ven hoy: ábrelos y revisa el trabajo antes de escribirnos.
           </p>
         </Reveal>
 
-        <Reveal className="trust-proof__proofs" delay={80}>
-          {clientProofs.slice(0, 3).map((proof) => (
-            <article className="trust-proof-card" key={proof.client}>
-              <div
-                className={`trust-proof-card__mark${proof.logoTone === 'dark' ? ' trust-proof-card__mark--dark' : ''}`}
+        <div className="trabajos">
+          {clientProofs.map((proof, index) => (
+            <Reveal
+              key={proof.client}
+              className={`trabajo${proof.destacado ? ' trabajo--destacado' : ''}`}
+              delay={index * 60}
+            >
+              <a
+                href={proof.href}
+                target="_blank"
+                rel="noreferrer"
+                className="trabajo__enlace"
+                data-cursor="Abrir"
+                data-analytics-event="service_case_click"
+                data-case-name={proof.client}
               >
-                {proof.logo ? (
-                  <BrandLogo name={proof.logo} alt={proof.client} className="trust-proof-card__logo" />
-                ) : (
-                  <span>{proof.mark}</span>
-                )}
-              </div>
-              <div className="trust-proof-card__body">
-                <p className="trust-proof-card__sector">{proof.sector}</p>
-                <h3>{proof.client}</h3>
-                <strong>{proof.project}</strong>
-                <div className="trust-proof-card__evidence">
-                  <div>
-                    <span>Qué le hicimos</span>
-                    <p>{proof.system}</p>
-                  </div>
-                  <div>
-                    <span>Para qué le sirve</span>
-                    <p>{proof.proof}</p>
-                  </div>
-                </div>
-                <a
-                  href={proof.href}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="trust-proof-card__link"
-                  data-cursor="Ver"
-                  data-analytics-event="service_case_click"
-                  data-case-name={proof.client}
-                >
-                  Ver el sitio de {proof.client}
-                  <ArrowUpRight />
-                </a>
-              </div>
-            </article>
-          ))}
-        </Reveal>
+                <figure className="trabajo__captura">
+                  <Image
+                    src={`/trabajos/${proof.captura}.webp`}
+                    alt={`Portada del sitio de ${proof.client}`}
+                    width={1120}
+                    height={700}
+                    sizes={proof.destacado ? '(max-width: 900px) 100vw, 720px' : '(max-width: 900px) 100vw, 610px'}
+                    quality={80}
+                    priority={proof.destacado}
+                  />
+                </figure>
 
-        <Reveal className="trust-proof__logos" delay={120}>
-          <p>También trabajamos con estas dos líneas</p>
-          <div>
-            {clientProofs.slice(3).map((proof) => (
-              <article key={proof.client}>
-                <span
-                  className={`trust-proof-card__mark${proof.logoTone === 'dark' ? ' trust-proof-card__mark--dark' : ''}`}
-                >
-                  {proof.logo ? (
-                    <BrandLogo name={proof.logo} alt={proof.client} className="trust-proof-card__logo" />
-                  ) : (
-                    <span>{proof.mark}</span>
-                  )}
-                </span>
-                <strong>{proof.client}</strong>
-                <p>{proof.proof}</p>
-                <a
-                  href={proof.href}
-                  target="_blank"
-                  rel="noreferrer"
-                  data-cursor="Ver"
-                  data-analytics-event="service_case_click"
-                  data-case-name={proof.client}
-                >
-                  Ver sitio
-                  <ArrowUpRight />
-                </a>
-              </article>
-            ))}
-          </div>
-        </Reveal>
+                <div className="trabajo__ficha">
+                  <div className="trabajo__meta">
+                    <span
+                      className={`trabajo__logo${proof.logoTone === 'dark' ? ' trabajo__logo--dark' : ''}`}
+                    >
+                      <BrandLogo name={proof.logo} alt={proof.client} loading="eager" sizes="44px" />
+                    </span>
+                    <p>{proof.sector}</p>
+                  </div>
+
+                  <h3>{proof.client}</h3>
+                  <strong>{proof.project}</strong>
+
+                  <dl className="trabajo__detalle">
+                    <div>
+                      <dt>Qué le hicimos</dt>
+                      <dd>{proof.system}</dd>
+                    </div>
+                    <div>
+                      <dt>Para qué le sirve</dt>
+                      <dd>{proof.proof}</dd>
+                    </div>
+                  </dl>
+
+                  <span className="trabajo__cta">
+                    Abrir el sitio
+                    <ArrowUpRight />
+                  </span>
+                </div>
+              </a>
+            </Reveal>
+          ))}
+        </div>
 
         <Reveal className="trust-proof__signals" delay={140}>
           {trustSignals.map((signal) => (
@@ -1138,6 +1124,60 @@ export default function HomePage() {
               <span>Servicios a empresas</span>
               <span>Negocios con hora agendada</span>
             </div>
+          </Reveal>
+        </div>
+      </section>
+
+      <section className="rampa" aria-labelledby="rampa-heading">
+        <div className="section-shell rampa__inner">
+          <Reveal className="rampa__copy">
+            <p className="eyebrow">Antes de contratar nada</p>
+            <h2 id="rampa-heading">¿Prefieres partir por algo chico?</h2>
+            <p>
+              Mándanos el link de tu sitio y te decimos qué encontramos: qué está
+              frenando las consultas, qué se ve mal en el celular y qué le falta para
+              que Google lo muestre bien. Sin costo y sin que tengas que contratar nada.
+            </p>
+            <p className="rampa__nota">
+              Es lo mismo que revisamos antes de cotizar cualquier proyecto. Si después
+              quieres trabajar con nosotros, perfecto. Si no, te quedas igual con el
+              diagnóstico.
+            </p>
+          </Reveal>
+
+          <Reveal className="rampa__accion" delay={90}>
+            <ol className="rampa__pasos">
+              <li>
+                <span>01</span>
+                <p>Nos mandas el link por WhatsApp</p>
+              </li>
+              <li>
+                <span>02</span>
+                <p>Lo revisamos en computador y en celular</p>
+              </li>
+              <li>
+                <span>03</span>
+                <p>Te contamos qué encontramos, punto por punto</p>
+              </li>
+            </ol>
+
+            <a
+              href={getWhatsappUrl(
+                'Hola IAenBlanco, quiero que revisen mi sitio y me digan qué le falta. El link es: ',
+              )}
+              target="_blank"
+              rel="noreferrer"
+              className="button button--primary"
+              data-cursor="WhatsApp"
+              data-analytics-event="rampa_revision_click"
+            >
+              Mandar mi sitio a revisar
+              <ArrowUpRight />
+            </a>
+
+            <p className="rampa__pie">
+              ¿Todavía no tienes sitio? Cuéntanos qué vendes y te decimos por dónde partir.
+            </p>
           </Reveal>
         </div>
       </section>

@@ -210,16 +210,16 @@ function ProductVisual({ index }: { index: number }) {
       engine="lead.engine"
       status="Acceso piloto"
       title="Leads"
-      detail="Prospección + scoring"
+      detail="Busca y prioriza"
       outputLabel="salida comercial"
       outputText="Oportunidad priorizada"
       nodes={[
         { title: 'Empresas', detail: 'mercado', color: '#ffcf4a', x: 128, y: 118 },
-        { title: 'ICP', detail: 'filtro', color: '#ffb13d', x: 108, y: 312 },
+        { title: 'Filtro', detail: 'a quién sí', color: '#ffb13d', x: 108, y: 312 },
         { title: 'Contacto', detail: 'salida', color: '#ff8f3d', x: 176, y: 442 },
         { title: 'Evidencia', detail: 'datos', color: '#28d9e5', x: 486, y: 118 },
         { title: 'Scoring', detail: 'prioriza', color: '#ffb13d', x: 522, y: 318 },
-        { title: 'Seguimiento', detail: 'pipeline', color: '#cf71ff', x: 438, y: 450 },
+        { title: 'Seguimiento', detail: 'en qué va', color: '#cf71ff', x: 438, y: 450 },
       ]}
     />
   )

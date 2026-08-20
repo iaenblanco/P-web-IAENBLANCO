@@ -49,6 +49,7 @@ type BrandLogoProps = {
   className?: string
   priority?: boolean
   sizes?: string
+  loading?: 'eager' | 'lazy'
 }
 
 export function BrandLogo({
@@ -57,6 +58,7 @@ export function BrandLogo({
   className,
   priority = false,
   sizes = '(max-width: 768px) 120px, 220px',
+  loading,
 }: BrandLogoProps) {
   const asset = brandLogoAssets[name as keyof typeof brandLogoAssets]
 
@@ -71,6 +73,7 @@ export function BrandLogo({
       className={className ? `brand-logo brand-logo--${name} ${className}` : `brand-logo brand-logo--${name}`}
       sizes={sizes}
       priority={priority}
+      {...(loading && !priority ? { loading } : {})}
       unoptimized
     />
   )

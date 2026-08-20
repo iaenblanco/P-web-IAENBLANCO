@@ -162,7 +162,7 @@ export default function ServicesIndexPage() {
               <h2>{managedService.title}</h2>
               <p>{managedService.description}</p>
             </div>
-            <div className="services-managed-card__flow" aria-label="ICP, evidencia, scoring y seguimiento">
+            <div className="services-managed-card__flow" aria-label="Cómo trabajamos la búsqueda de clientes">
               {managedService.signals.map((signal) => <span key={signal}>{signal}</span>)}
             </div>
             <Link
