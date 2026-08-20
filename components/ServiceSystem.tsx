@@ -91,8 +91,10 @@ export function ServiceSystem() {
             Una operación conectada necesita más que una herramienta aislada.
           </h2>
           <p>
-            Cuatro capacidades construyen la base digital. La prospección B2B queda separada como
-            una operación gestionada, para que el cliente entienda qué se construye y qué se opera.
+            Trabajamos de dos formas. Construimos a medida lo que tu operación necesita, con las
+            cuatro capacidades de abajo. Y si el problema es comercial, operamos nosotros la
+            prospección B2B mes a mes. Aparte tenemos tres productos propios que puedes contratar
+            directo, sin proyecto de por medio.
           </p>
         </div>
 

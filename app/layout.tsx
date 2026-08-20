@@ -1,7 +1,9 @@
 import type { Metadata, Viewport } from 'next'
 import { IBM_Plex_Mono, Instrument_Sans } from 'next/font/google'
 import './globals.css'
+import { ConsentBanner } from '@/components/ConsentBanner'
 import { Footer } from '@/components/Footer'
+import { GoogleTagManager } from '@/components/GoogleTagManager'
 import { Header } from '@/components/Header'
 import {
   CONTACT_EMAIL,
@@ -164,16 +166,6 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
   const gtmId = process.env.NEXT_PUBLIC_GTM_ID || 'GTM-5MNF9G4Z'
   const serviceTrackingCatalogJson = JSON.stringify(serviceTrackingCatalog).replace(/</g, '\\u003c')
   const productTrackingCatalogJson = JSON.stringify(productTrackingCatalog).replace(/</g, '\\u003c')
-  const gtmSnippet = `
-    (function(w,d,s,l,i){
-      var productionHosts = ['iaenblanco.com','www.iaenblanco.com'];
-      if (productionHosts.indexOf(w.location.hostname) === -1 || !i || i.indexOf('GTM-') !== 0) return;
-      w[l]=w[l]||[];w[l].push({'gtm.start': new Date().getTime(),event:'gtm.js'});
-      var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';
-      j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;
-      f.parentNode.insertBefore(j,f);
-    })(window,document,'script','dataLayer','${gtmId}');
-  `
   const eventTrackingSnippet = `
     (function(w,d){
       if (w.__iaenblancoTracking) return;
@@ -392,12 +384,13 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
         {process.env.NODE_ENV === 'production' ? (
           <>
             <script dangerouslySetInnerHTML={{ __html: eventTrackingSnippet }} />
-            <script dangerouslySetInnerHTML={{ __html: gtmSnippet }} />
+            <GoogleTagManager gtmId={gtmId} />
           </>
         ) : null}
         <Header />
         {children}
         <Footer />
+        <ConsentBanner />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationSchema) }}

@@ -8,8 +8,13 @@
   --paper-deep: #e9e6de;
   --ink: #070a0f;
   --night: #0c1824;
-  --graphite: #5e6874;
+  --graphite: #4a545f;
+  --text-strong: #343d46;
+  --text-body: #3c4650;
+  --text-muted: #4b5661;
+  --text-deep: #35404b;
   --signal: #40b0d0;
+  --signal-ink: #1b6a80;
   --ice: #90e0e8;
   --line: rgba(7, 10, 15, 0.14);
   --line-soft: rgba(7, 10, 15, 0.08);
@@ -141,11 +146,12 @@ button {
     contain-intrinsic-size: auto 980px;
   }
 
-  .trust-proof { contain-intrinsic-size: auto 760px; }
-  .problem-strip { contain-intrinsic-size: auto 520px; }
-  .services-system { contain-intrinsic-size: auto 900px; }
-  .operating-model { contain-intrinsic-size: auto 540px; }
-  .contact-band { contain-intrinsic-size: auto 420px; }
+  .trust-proof { contain-intrinsic-size: auto 1010px; }
+  .problem-strip { contain-intrinsic-size: auto 650px; }
+  .services-system { contain-intrinsic-size: auto 1795px; }
+  .ecosystem-lab { contain-intrinsic-size: auto 2030px; }
+  .operating-model { contain-intrinsic-size: auto 910px; }
+  .contact-band { contain-intrinsic-size: auto 380px; }
 }
 
 @keyframes page-enter {
@@ -718,7 +724,7 @@ button {
 .page-hero h1 em,
 .contact-hero h1 em {
   display: block;
-  color: var(--signal);
+  color: var(--signal-ink);
   font-style: normal;
   font-weight: 520;
 }
@@ -726,7 +732,7 @@ button {
 .home-hero__summary {
   max-width: 560px;
   margin: 34px 0 0;
-  color: #343c45;
+  color: var(--text-strong);
   font-size: clamp(18px, 1.7vw, 24px);
   letter-spacing: -0.025em;
   line-height: 1.42;
@@ -2127,7 +2133,7 @@ button {
   gap: 14px;
   align-items: start;
   margin: -18px 0 46px;
-  color: #35404b;
+  color: var(--text-deep);
 }
 
 .services-index-editorial-note {
@@ -2201,7 +2207,7 @@ button {
 
 .services-index-hero__inner > p {
   margin: 0;
-  color: #35404b;
+  color: var(--text-deep);
   font-size: clamp(18px, 1.6vw, 24px);
   line-height: 1.35;
 }
@@ -2311,7 +2317,7 @@ button {
   justify-content: space-between;
   gap: 18px;
   margin-bottom: 34px;
-  color: var(--signal);
+  color: var(--signal-ink);
   font-family: var(--font-mono);
   font-size: 11px;
   font-weight: 500;
@@ -2410,7 +2416,7 @@ button {
 
 .services-matrix > div {
   border-color: rgba(64, 176, 208, 0.42);
-  color: var(--signal);
+  color: var(--signal-ink);
   font-family: var(--font-mono);
   font-size: 11px;
   font-weight: 600;
@@ -2482,7 +2488,7 @@ button {
 }
 
 .services-web-proof-grid span {
-  color: var(--signal);
+  color: var(--signal-ink);
   font-family: var(--font-mono);
   font-size: 11px;
   font-weight: 600;
@@ -2505,7 +2511,7 @@ button {
 
 .services-web-proof-grid p {
   margin: 0;
-  color: #4c5661;
+  color: var(--text-muted);
   font-size: 14px;
   line-height: 1.4;
 }
@@ -2544,7 +2550,7 @@ button {
 .services-case-grid article > span {
   display: inline-flex;
   margin-bottom: 20px;
-  color: var(--signal);
+  color: var(--signal-ink);
   font-family: var(--font-mono);
   font-size: 11px;
   font-weight: 600;
@@ -2608,7 +2614,7 @@ button {
 .service-page-hero__copy > p {
   max-width: 720px;
   margin: 24px 0 0;
-  color: #35404b;
+  color: var(--text-deep);
   font-size: clamp(18px, 1.55vw, 24px);
   line-height: 1.4;
 }
@@ -2624,7 +2630,7 @@ button {
 .service-page-hero__signals span {
   border: 1px solid rgba(64, 176, 208, 0.34);
   background: rgba(251, 250, 247, 0.76);
-  color: var(--signal);
+  color: var(--signal-ink);
   font-family: var(--font-mono);
   font-size: 11px;
   font-weight: 600;
@@ -2785,7 +2791,7 @@ button {
 
 .service-flow__exception p {
   margin: 0;
-  color: #35404b;
+  color: var(--text-deep);
   font-size: 14px;
   line-height: 1.4;
 }
@@ -2819,7 +2825,7 @@ button {
 
 .service-problem-list span,
 .service-process-list span {
-  color: var(--signal);
+  color: var(--signal-ink);
   font-family: var(--font-mono);
   font-size: 12px;
   font-weight: 600;
@@ -2914,7 +2920,7 @@ button {
 
 .service-applied-example__copy > p:not(.eyebrow) {
   margin: 0;
-  color: #35404b;
+  color: var(--text-deep);
   font-size: clamp(16px, 1.35vw, 20px);
   line-height: 1.45;
 }
@@ -2932,7 +2938,7 @@ button {
 }
 
 .service-applied-example__grid span {
-  color: var(--signal);
+  color: var(--signal-ink);
   font-family: var(--font-mono);
   font-size: 12px;
   font-weight: 600;
@@ -2946,7 +2952,7 @@ button {
 
 .service-applied-example__grid p {
   margin: 0;
-  color: #35404b;
+  color: var(--text-deep);
   font-size: 15px;
   line-height: 1.42;
 }
@@ -3059,7 +3065,7 @@ button {
 }
 
 .service-case-card a span {
-  color: var(--signal);
+  color: var(--signal-ink);
   font-size: 14px;
 }
 
@@ -3158,7 +3164,7 @@ button {
 }
 
 .service-next-link a > span {
-  color: var(--signal);
+  color: var(--signal-ink);
   font-family: var(--font-mono);
   font-size: 13px;
 }
@@ -3750,7 +3756,7 @@ button {
 .system-map-section__copy p {
   max-width: 680px;
   margin: 16px 0 0;
-  color: #343c45;
+  color: var(--text-strong);
   font-size: clamp(18px, 1.55vw, 23px);
   letter-spacing: -0.025em;
   line-height: 1.42;
@@ -3775,7 +3781,7 @@ button {
 
 .system-map-section__steps span {
   grid-row: span 2;
-  color: var(--signal);
+  color: var(--signal-ink);
   font-family: var(--font-mono);
   font-size: 10px;
 }
@@ -3882,7 +3888,7 @@ button {
 .trust-proof__copy p:last-child {
   max-width: 470px;
   margin: 18px 0 0;
-  color: #3c4650;
+  color: var(--text-body);
   font-size: 16px;
   line-height: 1.45;
 }
@@ -3922,7 +3928,7 @@ button {
     linear-gradient(90deg, rgba(31, 170, 209, 0.08) 1px, transparent 1px),
     #fbfaf7;
   background-size: 18px 18px;
-  color: var(--signal);
+  color: var(--signal-ink);
 }
 
 .trust-proof-card__mark--dark {
@@ -3990,7 +3996,7 @@ button {
 .trust-proof-card strong {
   display: block;
   margin-top: 7px;
-  color: var(--signal);
+  color: var(--signal-ink);
   font-size: 13px;
   font-weight: 700;
   line-height: 1.25;
@@ -3998,7 +4004,7 @@ button {
 
 .trust-proof-card p {
   margin: 8px 0 0;
-  color: #4c5661;
+  color: var(--text-muted);
   font-size: 13px;
   line-height: 1.35;
 }
@@ -4028,7 +4034,7 @@ button {
 
 .trust-proof-card__evidence span {
   display: block;
-  color: var(--signal);
+  color: var(--signal-ink);
   font-family: var(--font-mono);
   font-size: 8px;
   font-weight: 800;
@@ -4038,7 +4044,7 @@ button {
 
 .trust-proof-card__evidence p {
   margin: 6px 0 0;
-  color: #333c45;
+  color: var(--text-strong);
   font-size: 13px;
   line-height: 1.3;
 }
@@ -4115,7 +4121,7 @@ button {
   grid-column: 2;
   align-self: start;
   margin: 6px 0 0;
-  color: #4c5661;
+  color: var(--text-muted);
   font-size: 13px;
   line-height: 1.35;
 }
@@ -4155,7 +4161,7 @@ button {
 }
 
 .trust-proof__signals strong {
-  color: var(--signal);
+  color: var(--signal-ink);
   font-size: clamp(20px, 1.7vw, 26px);
   font-weight: 650;
   letter-spacing: -0.04em;
@@ -4163,7 +4169,7 @@ button {
 }
 
 .trust-proof__signals span {
-  color: #3c4650;
+  color: var(--text-body);
   font-size: 15px;
   line-height: 1.35;
 }
@@ -4238,7 +4244,7 @@ button {
 }
 
 .problem-card__top span {
-  color: var(--signal);
+  color: var(--signal-ink);
   font-family: var(--font-mono);
   font-size: 10px;
 }
@@ -4251,7 +4257,7 @@ button {
   border: 1px solid rgba(31, 170, 209, 0.38);
   border-radius: 50%;
   background: rgba(31, 170, 209, 0.08);
-  color: var(--signal);
+  color: var(--signal-ink);
 }
 
 .problem-card__top .hero-logo {
@@ -4270,7 +4276,7 @@ button {
 .problem-card p {
   max-width: 330px;
   margin: 10px 0 0;
-  color: #4b5661;
+  color: var(--text-muted);
   font-size: 15px;
   line-height: 1.42;
 }
@@ -4284,7 +4290,7 @@ button {
 }
 
 .problem-card__response span {
-  color: var(--signal);
+  color: var(--signal-ink);
   font-family: var(--font-mono);
   font-size: 8px;
   font-weight: 800;
@@ -4331,7 +4337,7 @@ button {
 .featured-case__copy > p {
   max-width: 610px;
   margin: 24px 0 0;
-  color: #3d4650;
+  color: var(--text-body);
   font-size: 18px;
   line-height: 1.54;
 }
@@ -4352,7 +4358,7 @@ button {
 }
 
 .featured-case__points span {
-  color: var(--signal);
+  color: var(--signal-ink);
   font-family: var(--font-mono);
   font-size: 9px;
   font-weight: 800;
@@ -4362,7 +4368,7 @@ button {
 
 .featured-case__points p {
   margin: 0;
-  color: #3c4650;
+  color: var(--text-body);
   font-size: 15px;
   line-height: 1.44;
 }
@@ -4416,7 +4422,7 @@ button {
 }
 
 .featured-case__more span {
-  color: var(--signal);
+  color: var(--signal-ink);
   font-family: var(--font-mono);
   font-size: 8px;
   font-weight: 800;
@@ -4435,7 +4441,7 @@ button {
 
 .featured-case__more p {
   margin: 8px 0 0;
-  color: #4b5661;
+  color: var(--text-muted);
   font-size: 14px;
   line-height: 1.35;
 }
@@ -4557,7 +4563,7 @@ button {
 .case-window__hero span {
   display: block;
   margin-top: 18px;
-  color: var(--signal);
+  color: var(--signal-ink);
 }
 
 .case-window__grid {
@@ -4576,7 +4582,7 @@ button {
 }
 
 .case-window__grid span {
-  color: var(--signal);
+  color: var(--signal-ink);
   font-family: var(--font-mono);
   font-size: 8px;
 }
@@ -4670,13 +4676,13 @@ button {
 
 .ecosystem-lab__heading h2 span {
   display: block;
-  color: var(--signal);
+  color: var(--signal-ink);
 }
 
 .ecosystem-lab__heading p {
   max-width: 620px;
   margin: 22px 0 0;
-  color: #3c4650;
+  color: var(--text-body);
   font-size: 18px;
   line-height: 1.46;
 }
@@ -4844,7 +4850,7 @@ button {
   display: block;
   max-width: 520px;
   margin-top: 13px;
-  color: #3c4650;
+  color: var(--text-body);
   font-size: 15px;
   font-weight: 450;
   line-height: 1.42;
@@ -5271,7 +5277,7 @@ button {
 
 .product-flow-panel__heading p {
   margin: 0;
-  color: var(--signal);
+  color: var(--signal-ink);
   font-family: var(--font-mono);
   font-size: 9px;
   font-weight: 800;
@@ -5559,7 +5565,7 @@ button {
   min-height: 26px;
   padding: 0 9px;
   border: 1px solid color-mix(in srgb, var(--product-accent) 34%, transparent);
-  color: #35404a;
+  color: var(--text-deep);
   font-size: 11px;
   font-weight: 760;
   line-height: 1;
@@ -5866,7 +5872,7 @@ button {
   display: block;
   max-width: 540px;
   margin-top: 18px;
-  color: #3c4650;
+  color: var(--text-body);
   font-size: 18px;
   line-height: 1.42;
 }
@@ -6331,7 +6337,7 @@ button {
   margin: 16px 0 0;
   display: -webkit-box;
   overflow: hidden;
-  color: #3d4650;
+  color: var(--text-body);
   font-size: 14px;
   line-height: 1.42;
   -webkit-box-orient: vertical;
@@ -6352,7 +6358,7 @@ button {
 }
 
 .service-entry__result span {
-  color: var(--signal);
+  color: var(--signal-ink);
   font-family: var(--font-mono);
   font-size: 8px;
   font-weight: 800;
@@ -6454,7 +6460,7 @@ button {
 .operating-model__copy {
   max-width: 680px;
   margin: 20px 0 0;
-  color: #3d4650;
+  color: var(--text-body);
   font-size: 17px;
   line-height: 1.55;
 }
@@ -6696,9 +6702,9 @@ button {
 
 .site-footer__nav p {
   margin: 0 0 11px;
-  color: rgba(255, 255, 255, 0.4);
+  color: rgba(255, 255, 255, 0.62);
   font-family: var(--font-mono);
-  font-size: 8px;
+  font-size: 11px;
   letter-spacing: 0.1em;
   text-transform: uppercase;
 }
@@ -6720,9 +6726,9 @@ button {
   align-items: center;
   min-height: 78px;
   border-top: 1px solid rgba(255, 255, 255, 0.1);
-  color: rgba(255, 255, 255, 0.42);
+  color: rgba(255, 255, 255, 0.62);
   font-family: var(--font-mono);
-  font-size: 8px;
+  font-size: 11px;
   letter-spacing: 0.06em;
   text-transform: uppercase;
 }
@@ -6887,7 +6893,7 @@ button {
   display: block;
   max-width: 360px;
   margin-top: 16px;
-  color: #3c4650;
+  color: var(--text-body);
   font-size: 16px;
   font-style: normal;
   line-height: 1.38;
@@ -7012,7 +7018,7 @@ button {
 .product-panel__description {
   max-width: 590px;
   margin: 22px 0 0;
-  color: #343d46;
+  color: var(--text-strong);
   font-size: 17px;
   line-height: 1.55;
 }
@@ -7338,7 +7344,7 @@ button {
   margin: 14px 0 0;
   padding-left: 16px;
   border-left: 1px solid var(--signal);
-  color: #343d46;
+  color: var(--text-strong);
   font-size: 13px;
   line-height: 1.35;
 }
@@ -7701,7 +7707,7 @@ button {
 
 .lead-flow__item p {
   margin: 8px 0 0;
-  color: #343d46;
+  color: var(--text-strong);
   font-size: 13px;
   line-height: 1.35;
 }
@@ -7764,7 +7770,7 @@ button {
 
 .lead-contact-card p {
   margin: 10px 0 0;
-  color: #343d46;
+  color: var(--text-strong);
   font-size: 13px;
   line-height: 1.35;
 }
@@ -8064,7 +8070,7 @@ button {
   display: grid;
   width: var(--node-size, 82px);
   justify-items: center;
-  color: var(--signal);
+  color: var(--signal-ink);
   text-decoration: none;
   transform: translate(-50%, -50%);
   pointer-events: none;
@@ -8498,7 +8504,7 @@ button {
 
 .unify-node strong {
   margin-top: 10px;
-  color: #34404c;
+  color: var(--text-deep);
   font-family: var(--font-mono);
   font-size: 9.5px;
   font-weight: 650;
@@ -8746,7 +8752,7 @@ button {
 .leads-search-card p {
   max-width: 520px;
   margin: 10px 0 0;
-  color: #4b5561;
+  color: var(--text-muted);
   font-size: 13px;
   line-height: 1.42;
 }
@@ -8789,7 +8795,7 @@ button {
 
 .lead-evidence-card p {
   margin: 8px 0 0;
-  color: #4b5561;
+  color: var(--text-muted);
   font-size: 13px;
 }
 
@@ -8945,7 +8951,7 @@ button {
 
 .product-network-node strong {
   margin-top: 10px;
-  color: #34404c;
+  color: var(--text-deep);
   font-family: var(--font-mono);
   font-size: 9.5px;
   font-weight: 650;
@@ -9206,7 +9212,7 @@ button {
 .service-hero__statement {
   max-width: 740px;
   margin: 56px 0 0 auto;
-  color: #343c45;
+  color: var(--text-strong);
   font-size: clamp(20px, 2vw, 28px);
   letter-spacing: -0.025em;
   line-height: 1.42;
@@ -12415,7 +12421,7 @@ button {
 
   .summary-system-label::after {
     margin-top: 8px;
-    color: #3c4650;
+    color: var(--text-body);
     font-family: var(--font-sans);
     font-size: 14px;
     line-height: 1.28;
@@ -12968,7 +12974,7 @@ button {
 
   .summary-system-label::after {
     margin-top: 8px;
-    color: #3c4650;
+    color: var(--text-body);
     font-family: var(--font-sans);
     font-size: 14px;
     line-height: 1.28;
@@ -13393,4 +13399,506 @@ button {
   .operational-field__canvas {
     opacity: 0 !important;
   }
+}
+
+/* ==========================================================================
+   Claridad comercial: prueba enlazada, estado de productos, formulario,
+   consentimiento y ritmo de bandas.
+   ========================================================================== */
+
+/* --- Prueba real: las tarjetas de cliente ahora llevan al sitio --- */
+
+.trust-proof-card__link {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  width: max-content;
+  min-height: 44px;
+  margin-top: 16px;
+  color: var(--ink);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  border-bottom: 1px solid var(--line);
+  transition: color 200ms ease, border-color 200ms ease;
+}
+
+.trust-proof-card__link svg {
+  width: 13px;
+  height: 13px;
+  color: var(--signal);
+  transition: transform 200ms ease;
+}
+
+.trust-proof-card__link:hover {
+  color: var(--signal-ink);
+  border-color: var(--signal-ink);
+}
+
+.trust-proof-card__link:hover svg {
+  transform: translate(2px, -2px);
+}
+
+.trust-proof__logos article > a {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  width: max-content;
+  min-height: 40px;
+  margin-top: 8px;
+  color: var(--graphite);
+  font-family: var(--font-mono);
+  font-size: 10.5px;
+  font-weight: 700;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  transition: color 200ms ease;
+}
+
+.trust-proof__logos article > a svg {
+  width: 12px;
+  height: 12px;
+  color: var(--signal);
+}
+
+.trust-proof__logos article > a:hover {
+  color: var(--ink);
+}
+
+/* --- Estado y oferta real de cada producto --- */
+
+.product-unified__status,
+.product-panel__status {
+  display: grid;
+  gap: 6px;
+  margin: 20px 0 0;
+  padding-top: 16px;
+  border-top: 1px solid var(--line);
+  color: var(--ink);
+  font-size: 14.5px;
+  line-height: 1.45;
+}
+
+.product-unified__status > span,
+.product-panel__status > span {
+  justify-self: start;
+  padding: 3px 9px;
+  border: 1px solid rgba(31, 170, 209, 0.4);
+  background: rgba(31, 170, 209, 0.09);
+  color: var(--ink);
+  font-family: var(--font-mono);
+  font-size: 9.5px;
+  font-weight: 800;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+}
+
+.product-unified__offer,
+.product-panel__offer {
+  margin: 10px 0 0;
+  color: var(--graphite);
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.015em;
+  line-height: 1.55;
+}
+
+/* --- Formulario de contacto --- */
+
+.contact-context__lead {
+  max-width: 46ch;
+  margin: 26px 0 0;
+  color: var(--graphite);
+  font-size: 18px;
+  line-height: 1.55;
+}
+
+.contact-form {
+  display: grid;
+  gap: 26px;
+}
+
+.contact-form__grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 20px;
+}
+
+.contact-form__field {
+  display: grid;
+  gap: 8px;
+  align-content: start;
+}
+
+.contact-form__field--wide {
+  grid-column: 1 / -1;
+}
+
+.contact-form label {
+  color: var(--ink);
+  font-family: var(--font-mono);
+  font-size: 10.5px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.contact-form abbr {
+  color: var(--signal-ink);
+  text-decoration: none;
+}
+
+.contact-form input,
+.contact-form select,
+.contact-form textarea {
+  width: 100%;
+  min-height: 52px;
+  padding: 14px 16px;
+  border: 1px solid var(--line);
+  background: var(--paper-bright);
+  color: var(--ink);
+  font-family: var(--font-sans);
+  font-size: 16px;
+  line-height: 1.45;
+  transition: border-color 200ms ease, background-color 200ms ease;
+}
+
+.contact-form textarea {
+  min-height: 96px;
+  resize: vertical;
+}
+
+.contact-form input:hover,
+.contact-form select:hover,
+.contact-form textarea:hover {
+  border-color: rgba(7, 10, 15, 0.3);
+}
+
+.contact-form input:focus-visible,
+.contact-form select:focus-visible,
+.contact-form textarea:focus-visible {
+  border-color: var(--signal-ink);
+  outline: 2px solid var(--signal);
+  outline-offset: 2px;
+}
+
+.contact-form [aria-invalid="true"] {
+  border-color: #b0392a;
+}
+
+.contact-form__error {
+  margin: 0;
+  color: #b0392a;
+  font-size: 13.5px;
+  line-height: 1.4;
+}
+
+.contact-form__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.contact-form__actions .button {
+  cursor: pointer;
+}
+
+.contact-form__actions .button svg {
+  width: 15px;
+  height: 15px;
+}
+
+.contact-form__note {
+  margin: 0;
+  max-width: 52ch;
+  color: var(--graphite);
+  font-size: 13.5px;
+  line-height: 1.5;
+}
+
+@media (max-width: 900px) {
+  .contact-context__grid {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 44px;
+  }
+}
+
+@media (max-width: 620px) {
+  .contact-form__grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .contact-form__actions .button {
+    width: 100%;
+  }
+}
+
+/* --- Banner de consentimiento --- */
+
+.consent-banner {
+  position: fixed;
+  inset: auto 0 0 0;
+  z-index: 900;
+  padding: 16px;
+  background: var(--ink);
+  color: var(--paper);
+  animation: consent-in 320ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+@keyframes consent-in {
+  from { transform: translateY(100%); }
+  to { transform: translateY(0); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .consent-banner { animation: none; }
+}
+
+.consent-banner__inner {
+  width: min(100% - 16px, 1440px);
+  margin-inline: auto;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px 32px;
+}
+
+.consent-banner__copy {
+  display: grid;
+  gap: 6px;
+  max-width: 76ch;
+}
+
+.consent-banner__copy p:not(.eyebrow) {
+  margin: 0;
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.consent-banner__copy a {
+  color: var(--ice);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.consent-banner__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.consent-banner button {
+  min-height: 46px;
+  padding: 0 20px;
+  border: 1px solid transparent;
+  font-family: var(--font-mono);
+  font-size: 11.5px;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  cursor: pointer;
+  transition: background-color 200ms ease, color 200ms ease, border-color 200ms ease;
+}
+
+.consent-banner__accept {
+  background: var(--ice);
+  color: var(--ink);
+}
+
+.consent-banner__accept:hover {
+  background: var(--signal);
+}
+
+.consent-banner__deny {
+  background: transparent;
+  border-color: rgba(255, 255, 255, 0.32);
+  color: var(--paper);
+}
+
+.consent-banner__deny:hover {
+  border-color: var(--ice);
+  color: var(--ice);
+}
+
+@media (max-width: 620px) {
+  .consent-banner__actions { width: 100%; }
+  .consent-banner button { flex: 1 1 auto; }
+}
+
+/* --- Ritmo: dos bandas oscuras que cortan el crema --- */
+
+.problem-strip {
+  border-color: rgba(255, 255, 255, 0.1);
+  background:
+    linear-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.05) 1px, transparent 1px),
+    var(--night);
+  background-size: 80px 80px;
+  color: var(--paper);
+}
+
+.problem-strip .eyebrow {
+  color: rgba(255, 255, 255, 0.56);
+}
+
+.problem-strip .problem-strip__heading h2 {
+  color: var(--paper);
+}
+
+.problem-strip .problem-card {
+  border-color: rgba(255, 255, 255, 0.16);
+  background: rgba(255, 255, 255, 0.045);
+}
+
+.problem-strip .problem-card__top span,
+.problem-strip .problem-card__top i,
+.problem-strip .problem-card__response span {
+  color: var(--ice);
+}
+
+.problem-strip .problem-card__top i {
+  border-color: rgba(144, 224, 232, 0.34);
+  background: rgba(144, 224, 232, 0.1);
+}
+
+.problem-strip .problem-card strong,
+.problem-strip .problem-card__response p {
+  color: var(--paper);
+}
+
+.problem-strip .problem-card p {
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.problem-strip .problem-card__response {
+  border-top-color: rgba(144, 224, 232, 0.24);
+}
+
+.operating-model {
+  background: var(--ink);
+  color: var(--paper);
+}
+
+.operating-model .eyebrow {
+  color: rgba(255, 255, 255, 0.56);
+}
+
+.operating-model .operating-model__heading h2 {
+  color: var(--paper);
+}
+
+.operating-model .operating-model__copy {
+  color: rgba(255, 255, 255, 0.72);
+}
+
+.operating-model .operating-step > span {
+  color: var(--ice);
+}
+
+.operating-model .operating-step h3 {
+  color: var(--paper);
+}
+
+.operating-model .operating-step p {
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.operating-model .operating-step strong {
+  background: rgba(144, 224, 232, 0.13);
+  color: var(--paper);
+}
+
+.operating-model .operating-step + .operating-step,
+.operating-model .industry-line {
+  border-color: rgba(255, 255, 255, 0.16);
+}
+
+.operating-model .industry-line > p {
+  color: rgba(255, 255, 255, 0.62);
+}
+
+.operating-model .industry-line span {
+  background: rgba(255, 255, 255, 0.08);
+  color: var(--paper);
+}
+
+/* ==========================================================================
+   Contraste AA: los acentos claros funcionan como trazo y borde, pero como
+   texto sobre papel se quedaban entre 2,3:1 y 3,1:1. Estas variantes "ink"
+   mantienen el mismo tono y llegan a 4,5:1.
+   ========================================================================== */
+
+:root {
+  --accent-cyan-ink: #12657d;
+  --accent-green-ink: #416c3a;
+  --accent-amber-ink: #82560f;
+  --accent-lime-ink: #406b28;
+}
+
+/* Mapa del hero */
+
+.typing-line span {
+  color: var(--graphite);
+}
+
+.summary-system-label span {
+  color: var(--graphite);
+}
+
+.summary-system-label--services strong {
+  color: var(--accent-cyan-ink);
+}
+
+.summary-system-label--products strong {
+  color: var(--accent-amber-ink);
+}
+
+.summary-system-label--platforms strong {
+  color: var(--accent-lime-ink);
+}
+
+/* Prueba real y servicios */
+
+.trust-proof-card__body strong,
+.trust-proof-card__evidence span,
+.trust-proof__signals strong,
+.service-entry__result span {
+  color: var(--signal-ink);
+}
+
+/* Productos: acento por fila, versión legible para texto */
+
+.product-unified__row {
+  --product-accent-ink: var(--accent-cyan-ink);
+}
+
+.product-unified__row--citaly {
+  --product-accent-ink: var(--accent-green-ink);
+}
+
+.product-unified__row--leads {
+  --product-accent-ink: var(--accent-amber-ink);
+}
+
+.product-unified__meta > span,
+.product-unified__unit > div > span,
+.product-unified__result > span {
+  color: var(--product-accent-ink);
+}
+
+/* Banda de contacto: el gris sobre el cian se quedaba en 3,78:1 */
+
+.contact-band .eyebrow {
+  color: var(--night);
+}
+
+/* Los CTA finales van sobre tinta: el eyebrow gris quedaba oscuro sobre oscuro. */
+
+.services-index-final .eyebrow,
+.service-page-cta .eyebrow {
+  color: rgba(255, 255, 255, 0.62);
 }

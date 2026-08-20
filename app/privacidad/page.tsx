@@ -48,13 +48,26 @@ const sections = [
   {
     title: 'Medición y cookies',
     content: (
-      <p>
-        Utilizamos Google Tag Manager y Google Analytics para comprender, de forma
-        agregada, cómo se utiliza el sitio. Estas herramientas pueden emplear cookies
-        o tecnologías similares y registrar información técnica como navegador,
-        dispositivo, páginas visitadas y origen aproximado de la sesión. Puedes
-        restringir las cookies desde la configuración de tu navegador.
-      </p>
+      <>
+        <p>
+          Utilizamos Google Tag Manager, Google Analytics y herramientas de medición de
+          Meta para comprender, de forma agregada, cómo se utiliza el sitio. Estas
+          herramientas emplean cookies o tecnologías similares y registran información
+          técnica como navegador, dispositivo, páginas visitadas y origen aproximado de
+          la sesión.
+        </p>
+        <p>
+          <strong>Nada de eso se carga hasta que lo autorizas.</strong> Al entrar por
+          primera vez verás un aviso con dos opciones: aceptar la medición o continuar
+          solo con lo necesario para que el sitio funcione. Si eliges lo segundo, no se
+          descarga ningún script de terceros ni se instala ninguna cookie de medición.
+        </p>
+        <p>
+          Tu decisión queda guardada en tu propio navegador. Para cambiarla, borra los
+          datos del sitio desde la configuración de tu navegador y el aviso volverá a
+          aparecer.
+        </p>
+      </>
     ),
   },
   {

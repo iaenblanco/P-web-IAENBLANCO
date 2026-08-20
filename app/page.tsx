@@ -5,7 +5,7 @@ import { ContactBand } from '@/components/ContactBand'
 import { Reveal } from '@/components/Reveal'
 import { ServiceSystem } from '@/components/ServiceSystem'
 import { TypingLine } from '@/components/TypingLine'
-import { WHATSAPP_URL } from '@/lib/site'
+import { products, WHATSAPP_URL } from '@/lib/site'
 
 function ArrowUpRight() {
   return (
@@ -22,72 +22,6 @@ function ArrowDown() {
     </svg>
   )
 }
-
-const heroServiceNodes = [
-  { name: 'Sitios web', theme: 'web', x: '18%', y: '22%', point: [112, 122] },
-  { name: 'Software', theme: 'software', x: '18%', y: '41%', point: [112, 228] },
-  { name: 'Automatización', theme: 'automation', x: '18%', y: '60%', point: [112, 334] },
-  { name: 'IA a medida', theme: 'ai', x: '18%', y: '79%', point: [112, 440] },
-]
-
-const heroPlatformNodes = [
-  { name: 'Shopify', theme: 'shopify', x: '39%', y: '30%', point: [242, 166] },
-  { name: 'Mercado Libre', theme: 'meli', x: '61%', y: '30%', point: [378, 166] },
-  { name: 'Bsale', theme: 'bsale', x: '39%', y: '70%', point: [242, 394] },
-  { name: 'WhatsApp', theme: 'wa', x: '61%', y: '70%', point: [378, 394] },
-]
-
-const heroProductNodes = [
-  { name: 'Unifícalo', theme: 'unificalo', x: '82%', y: '25%', point: [508, 138] },
-  { name: 'Citaly', theme: 'citaly', x: '82%', y: '50%', point: [508, 280] },
-  { name: 'Leads', theme: 'leads', x: '82%', y: '75%', point: [508, 422] },
-]
-
-const heroFlowPaths = [
-  { id: 'service-web', lane: 'service', d: 'M112 122 C176 122 218 202 286 258' },
-  { id: 'service-software', lane: 'service', d: 'M112 228 C178 228 222 248 286 272' },
-  { id: 'service-automation', lane: 'service', d: 'M112 334 C178 334 222 312 286 288' },
-  { id: 'service-ai', lane: 'service', d: 'M112 440 C176 440 218 358 286 302' },
-  { id: 'platform-shopify', lane: 'platform', d: 'M242 166 C278 190 298 224 305 252' },
-  { id: 'platform-meli', lane: 'platform', d: 'M378 166 C342 190 322 224 315 252' },
-  { id: 'platform-bsale', lane: 'platform', d: 'M242 394 C278 370 298 336 305 308' },
-  { id: 'platform-wa', lane: 'platform', d: 'M378 394 C342 370 322 336 315 308' },
-  { id: 'product-unificalo', lane: 'product', d: 'M334 258 C402 202 438 138 508 138' },
-  { id: 'product-citaly', lane: 'product', d: 'M342 280 C410 280 450 280 508 280' },
-  { id: 'product-leads', lane: 'product', d: 'M334 302 C402 358 438 422 508 422' },
-]
-
-const heroServiceCards = [
-  { title: 'Sitios web', detail: 'E-commerce y vitrinas', theme: 'web' },
-  { title: 'Software', detail: 'Sistemas a medida', theme: 'software' },
-  { title: 'Automatizaciones', detail: 'Flujos operativos', theme: 'automation' },
-  { title: 'IA a medida', detail: 'Agentes y modelos', theme: 'ai' },
-  { title: 'Prospección B2B', detail: 'Servicio gestionado', theme: 'magnet' },
-]
-
-const heroProductCards = [
-  { title: 'Unifícalo', detail: 'Stock, precios, boletas y canales', theme: 'unificalo' },
-  { title: 'Citaly', detail: 'WhatsApp, audios, agenda y reservas', theme: 'citaly' },
-  { title: 'Leads', detail: 'Fuentes públicas, evidencia y pipeline', theme: 'leads' },
-]
-
-const heroConnectionCards = [
-  { title: 'WhatsApp', theme: 'wa' },
-  { title: 'Shopify', theme: 'shopify' },
-  { title: 'Bsale', theme: 'bsale' },
-  { title: 'Mercado Libre', theme: 'meli' },
-  { title: 'Stock', theme: 'stock' },
-  { title: 'Precios', theme: 'price' },
-  { title: 'DTE', theme: 'dte' },
-  { title: 'CRM / Datos', theme: 'crm' },
-]
-
-const heroProcessSteps = [
-  { title: 'Negocio', detail: 'Operaciones reales', theme: 'business' },
-  { title: 'Procesos', detail: 'Eficientes y escalables', theme: 'process' },
-  { title: 'Plataformas', detail: 'Datos conectados', theme: 'platforms' },
-  { title: 'Sistemas inteligentes', detail: 'Automatizan y venden', theme: 'ai-system' },
-]
 
 const heroSummaryServices = [
   { title: 'Sitios web', theme: 'web' },
@@ -163,6 +97,7 @@ function summaryPointStyle(x: number, y: number, w?: number) {
 const clientProofs = [
   {
     client: 'Propinvest',
+    href: 'https://propinvest.cl/',
     mark: 'Propinvest',
     logo: 'propinvest',
     sector: 'Inmobiliario',
@@ -173,6 +108,7 @@ const clientProofs = [
   },
   {
     client: 'Granja Magdalena',
+    href: 'https://granjamagdalena.cl/',
     mark: 'Granja Magdalena',
     logo: 'granja-magdalena',
     sector: 'E-commerce',
@@ -183,6 +119,7 @@ const clientProofs = [
   },
   {
     client: 'YoMeEncargo',
+    href: 'https://yomeencargo.cl/',
     mark: 'YoMeEncargo',
     logo: 'yomercargo',
     sector: 'Servicios',
@@ -193,6 +130,7 @@ const clientProofs = [
   },
   {
     client: 'Granja Magdalena Pet',
+    href: 'https://granjamagdalenapet.cl/',
     mark: 'GM Pet',
     logo: 'granjapet',
     logoTone: 'dark',
@@ -204,6 +142,7 @@ const clientProofs = [
   },
   {
     client: 'Inasec Pets',
+    href: 'https://inasecpets.cl/',
     mark: 'Inasec Pets',
     logo: 'inasec-pets',
     sector: 'Retail especializado',
@@ -215,9 +154,9 @@ const clientProofs = [
 ]
 
 const trustSignals = [
-  { value: 'Clientes reales', label: 'proyectos públicos, no solo conceptos internos' },
-  { value: 'Sistemas propios', label: 'Unifícalo, Citaly y Leads como laboratorio operativo' },
-  { value: 'Operación aplicada', label: 'web, software, automatización e IA conectados' },
+  { value: '5 sitios', label: 'de clientes en linea hoy: puedes abrirlos y revisarlos uno por uno' },
+  { value: '4 rubros', label: 'inmobiliario, e-commerce, servicios y retail especializado' },
+  { value: '3 productos', label: 'Unificalo, Citaly y Leads, funcionando y contratables por separado' },
 ]
 
 const problemCards = [
@@ -253,20 +192,13 @@ const problemCards = [
   },
 ]
 
-const systemMapSteps = [
-  { title: 'Problema', detail: 'Detectamos la fricción operativa.' },
-  { title: 'Conexión', detail: 'Unimos herramientas, datos y canales.' },
-  { title: 'Sistema', detail: 'Dejamos una operación funcionando.' },
-]
-
 const productRows = [
   {
     id: 'unificalo',
     theme: 'unificalo',
     name: 'Unifícalo',
     category: 'E-commerce multicanal',
-    status: 'Piloto abierto',
-    problem: 'Vender por varios canales puede desordenar stock, precios y documentos.',
+    problem: 'Vendiste lo mismo dos veces. El reembolso y la disculpa los pones tú.',
     promise: 'Tu stock, precios y documentos se mantienen coordinados en todos tus canales.',
     steps: [
       { label: 'Recibe', title: 'Bsale o sistema principal', detail: 'Stock, precios y documentos', theme: 'bsale' },
@@ -274,7 +206,6 @@ const productRows = [
       { label: 'Entrega', title: 'Canales coordinados', detail: 'Shopify y marketplaces', theme: 'shopify' },
     ],
     benefits: ['Menos sobreventas.', 'Precios consistentes.', 'Documentos centralizados.'],
-    cta: 'Ver Unifícalo',
     href: 'https://unificalo.cl',
   },
   {
@@ -282,8 +213,7 @@ const productRows = [
     theme: 'citaly',
     name: 'Citaly',
     category: 'Agenda + agente IA',
-    status: 'Validación comercial',
-    problem: 'Responder WhatsApp y coordinar reservas consume tiempo mientras el negocio está atendiendo.',
+    problem: 'El WhatsApp suena mientras tienes un cliente al frente. Uno de los dos espera.',
     promise: 'Tu WhatsApp responde y convierte consultas en reservas mientras tú atiendes.',
     steps: [
       { label: 'Recibe', title: 'Consultas por WhatsApp', detail: 'Texto y audios', theme: 'wa' },
@@ -291,7 +221,6 @@ const productRows = [
       { label: 'Entrega', title: 'Horario y reserva', detail: 'Agenda y confirmación', theme: 'software' },
     ],
     benefits: ['Entiende textos y audios.', 'Consulta disponibilidad real.', 'Confirma y recuerda reservas.'],
-    cta: 'Ver Citaly',
     href: 'https://citaly.cl',
   },
   {
@@ -299,8 +228,7 @@ const productRows = [
     theme: 'leads',
     name: 'Leads',
     category: 'Prospección B2B',
-    status: 'Acceso piloto',
-    problem: 'Encontrar empresas reales y decidir a quién contactar exige demasiada búsqueda manual.',
+    problem: 'Buscar empresas a mano se come la mañana y no sabes cuáles valen la pena.',
     promise: 'Encuentra empresas reales y prioriza a quién contactar antes de iniciar el seguimiento.',
     steps: [
       { label: 'Recibe', title: 'Mercado objetivo', detail: 'Rubro, zona y perfil', theme: 'business' },
@@ -308,7 +236,6 @@ const productRows = [
       { label: 'Entrega', title: 'Empresas ordenadas', detail: 'Pipeline y seguimiento', theme: 'automation' },
     ],
     benefits: ['Evidencia pública.', 'Scoring comercial.', 'Pipeline ordenado.'],
-    cta: 'Ver Leads',
     href: 'https://leads.iaenblanco.com',
   },
 ]
@@ -558,98 +485,6 @@ function HeroLogo({ theme }: { theme: string }) {
   )
 }
 
-function HeroNetwork({ animated = true }: { animated?: boolean }) {
-  return (
-    <div
-      className={`hero-network hero-network--system ${animated ? '' : 'hero-network--static'}`}
-      aria-hidden="true"
-    >
-      <div className="hero-network__stage hero-network__stage--services" />
-      <div className="hero-network__stage hero-network__stage--platforms" />
-      <div className="hero-network__stage hero-network__stage--products" />
-      <div className="hero-network__rings">
-        <span />
-        <span />
-        <span />
-      </div>
-      <svg className="hero-network__paths" viewBox="0 0 620 560" fill="none">
-        <path className="hero-network__bus hero-network__bus--services" d="M112 122V440" />
-        <path className="hero-network__bus hero-network__bus--platforms" d="M242 166H378M242 394H378" />
-        <path className="hero-network__bus hero-network__bus--products" d="M508 138V422" />
-        <path className="hero-network__halo" d="M230 280C230 236 266 200 310 200S390 236 390 280 354 360 310 360 230 324 230 280Z" />
-        {heroFlowPaths.map((path, index) => (
-          <path
-            key={path.id}
-            className={`hero-network__flow hero-network__flow--${path.lane}`}
-            d={path.d}
-            style={{ animationDelay: `${index * -0.42}s` }}
-          />
-        ))}
-        {animated && heroFlowPaths.map((path, index) => (
-          <circle
-            key={`${path.id}-pulse`}
-            className={`hero-network__pulse hero-network__pulse--${path.lane}`}
-            r="4.5"
-          >
-            <animateMotion dur="5.8s" begin={`${index * 0.35}s`} repeatCount="indefinite" path={path.d} />
-          </circle>
-        ))}
-      </svg>
-      <div className="hero-network__core">
-        <Image src="/logo-ui.webp" alt="" width={256} height={256} priority unoptimized />
-      </div>
-      <div className="hero-system-label hero-system-label--services">
-        <span>Entrada</span>
-        <strong>Servicios</strong>
-      </div>
-      <div className="hero-system-label hero-system-label--platforms">
-        <span>Conecta</span>
-        <strong>Plataformas</strong>
-      </div>
-      <div className="hero-system-label hero-system-label--core">
-        <span>Convierte</span>
-      </div>
-      <div className="hero-system-label hero-system-label--products">
-        <span>Salida</span>
-        <strong>Productos</strong>
-      </div>
-      {heroServiceNodes.map((node) => (
-        <span
-          key={node.name}
-          className={`hero-node hero-node--service hero-node--${node.theme}`}
-          style={{ left: node.x, top: node.y }}
-        >
-          <span className="hero-node__orb">
-            <HeroLogo theme={node.theme} />
-          </span>
-        </span>
-      ))}
-      {heroPlatformNodes.map((node) => (
-        <span
-          key={node.name}
-          className={`hero-node hero-node--platform hero-node--${node.theme}`}
-          style={{ left: node.x, top: node.y }}
-        >
-          <span className="hero-node__orb">
-            <HeroLogo theme={node.theme} />
-          </span>
-        </span>
-      ))}
-      {heroProductNodes.map((node) => (
-        <span
-          key={node.name}
-          className={`hero-node hero-node--product hero-node--${node.theme}`}
-          style={{ left: node.x, top: node.y }}
-        >
-          <span className="hero-node__orb">
-            <HeroLogo theme={node.theme} />
-          </span>
-        </span>
-      ))}
-    </div>
-  )
-}
-
 function HeroSummaryMap() {
   const serviceCoreX = summaryMap.core.x - summaryMap.core.r
   const productCoreX = summaryMap.core.x + summaryMap.core.r
@@ -867,126 +702,6 @@ function HeroSummaryMap() {
   )
 }
 
-function HeroConceptMap() {
-  return (
-    <div
-      className="hero-concept-map"
-      role="img"
-      aria-label="Mapa completo de IAenBlanco: servicios, núcleo, productos y conexiones operativas."
-    >
-      <svg className="hero-concept-map__wires hero-concept-map__wires--desktop" viewBox="0 0 1280 480" fill="none" preserveAspectRatio="none">
-        <path className="concept-wire concept-wire--service concept-wire--trunk" d="M388 78V278" />
-        {[78, 128, 178, 228, 278].map((y) => (
-          <path key={`service-branch-${y}`} className="concept-wire concept-wire--service" d={`M338 ${y}H388`} />
-        ))}
-        <path className="concept-wire concept-wire--service" d="M388 178H532" />
-        <path className="concept-wire concept-wire--product concept-wire--trunk" d="M892 112V252" />
-        {[112, 182, 252].map((y) => (
-          <path key={`product-branch-${y}`} className="concept-wire concept-wire--product" d={`M942 ${y}H892`} />
-        ))}
-        <path className="concept-wire concept-wire--product" d="M892 182H748" />
-        <path className="concept-wire concept-wire--connection concept-wire--spine" d="M640 282V326" />
-        <path className="concept-wire concept-wire--connection" d="M114 326H1166" />
-        {[114, 264, 414, 564, 716, 866, 1016, 1166].map((x) => (
-          <path key={`connection-branch-${x}`} className="concept-wire concept-wire--connection" d={`M${x} 326V332`} />
-        ))}
-        <g className="concept-wire-nodes">
-          {[78, 128, 178, 228, 278].map((y) => (
-            <circle key={`service-card-${y}`} className="concept-wire-node concept-wire-node--service" cx="338" cy={y} r="5" />
-          ))}
-          {[78, 128, 178, 228, 278].map((y) => (
-            <circle key={`service-trunk-${y}`} className="concept-wire-node concept-wire-node--service" cx="388" cy={y} r="4" />
-          ))}
-          <circle className="concept-wire-node concept-wire-node--service" cx="532" cy="178" r="5" />
-          {[112, 182, 252].map((y) => (
-            <circle key={`product-card-${y}`} className="concept-wire-node concept-wire-node--product" cx="942" cy={y} r="5" />
-          ))}
-          {[112, 182, 252].map((y) => (
-            <circle key={`product-trunk-${y}`} className="concept-wire-node concept-wire-node--product" cx="892" cy={y} r="4" />
-          ))}
-          <circle className="concept-wire-node concept-wire-node--product" cx="748" cy="182" r="5" />
-          <circle className="concept-wire-node concept-wire-node--connection" cx="640" cy="282" r="5" />
-          <circle className="concept-wire-node concept-wire-node--connection" cx="640" cy="326" r="5" />
-          {[114, 264, 414, 564, 716, 866, 1016, 1166].map((x) => (
-            <circle key={`connection-card-${x}`} className="concept-wire-node concept-wire-node--connection" cx={x} cy="332" r="4.5" />
-          ))}
-        </g>
-      </svg>
-
-      <div className="hero-concept-group hero-concept-group--services">
-        <div className="hero-concept-title hero-concept-title--services">
-          <strong>Servicios</strong>
-        </div>
-        {heroServiceCards.map((item) => (
-          <div key={item.title} className={`concept-card concept-card--service concept-card--${item.theme}`}>
-            <span className="concept-card__icon"><HeroLogo theme={item.theme} /></span>
-            <span>
-              <strong>{item.title}</strong>
-            </span>
-          </div>
-        ))}
-      </div>
-
-      <div className="hero-concept-core">
-        <Image src="/logo-ui.webp" alt="" width={256} height={256} priority unoptimized />
-      </div>
-
-      <div className="hero-concept-group hero-concept-group--products">
-        <div className="hero-concept-title hero-concept-title--products">
-          <strong>Productos</strong>
-        </div>
-        {heroProductCards.map((item) => (
-          <div key={item.title} className={`concept-card concept-card--product concept-card--${item.theme}`}>
-            <span className="concept-card__icon"><HeroLogo theme={item.theme} /></span>
-            <span>
-              <strong>{item.title}</strong>
-            </span>
-          </div>
-        ))}
-      </div>
-
-      <div className="hero-concept-connections">
-        <div className="hero-concept-title hero-concept-title--connections">
-          <strong>Conexiones</strong>
-        </div>
-        <div className="hero-concept-connections__grid">
-          {heroConnectionCards.map((item) => (
-            <div key={item.title} className={`connection-card connection-card--${item.theme}`}>
-              <span><HeroLogo theme={item.theme} /></span>
-              <strong>{item.title}</strong>
-            </div>
-          ))}
-        </div>
-      </div>
-
-      <div className="hero-concept-process">
-        {heroProcessSteps.map((step, index) => (
-          <div key={step.title} className="process-step">
-            <strong>{step.title}</strong>
-            {index < heroProcessSteps.length - 1 ? <i /> : null}
-          </div>
-        ))}
-      </div>
-    </div>
-  )
-}
-
-function MiniCircuit({ theme, logo }: { theme: string; logo: string }) {
-  return (
-    <div className={`mini-circuit mini-circuit--${theme}`} aria-hidden="true">
-      <svg viewBox="0 0 260 130" fill="none">
-        <path d="M28 66h58c18 0 18-34 38-34h18" />
-        <path d="M130 66h42c16 0 16 32 34 32h26" />
-        <path d="M130 66h94" />
-      </svg>
-      <span className="mini-circuit__core">{logo}</span>
-      <i className="mini-circuit__node mini-circuit__node--one" />
-      <i className="mini-circuit__node mini-circuit__node--two" />
-      <i className="mini-circuit__node mini-circuit__node--three" />
-    </div>
-  )
-}
-
 function TrustProofSection() {
   return (
     <section className="trust-proof" aria-labelledby="trust-proof-heading">
@@ -1028,6 +743,18 @@ function TrustProofSection() {
                     <p>{proof.proof}</p>
                   </div>
                 </div>
+                <a
+                  href={proof.href}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="trust-proof-card__link"
+                  data-cursor="Ver"
+                  data-analytics-event="service_case_click"
+                  data-case-name={proof.client}
+                >
+                  Ver el sitio de {proof.client}
+                  <ArrowUpRight />
+                </a>
               </div>
             </article>
           ))}
@@ -1049,6 +776,17 @@ function TrustProofSection() {
                 </span>
                 <strong>{proof.client}</strong>
                 <p>{proof.proof}</p>
+                <a
+                  href={proof.href}
+                  target="_blank"
+                  rel="noreferrer"
+                  data-cursor="Ver"
+                  data-analytics-event="service_case_click"
+                  data-case-name={proof.client}
+                >
+                  Ver sitio
+                  <ArrowUpRight />
+                </a>
               </article>
             ))}
           </div>
@@ -1063,37 +801,6 @@ function TrustProofSection() {
           ))}
         </Reveal>
       </div>
-    </section>
-  )
-}
-
-function SystemMapSection() {
-  return (
-    <section className="system-map-section" id="sistema" aria-labelledby="system-map-heading">
-      <div className="section-shell system-map-section__intro">
-        <Reveal>
-          <p className="eyebrow">Sistema IAenBlanco</p>
-        </Reveal>
-        <Reveal className="system-map-section__copy">
-          <h2 id="system-map-heading">Todo conectado en un mismo sistema.</h2>
-          <p>
-            Servicios, plataformas y productos construidos alrededor de la operación real
-            de tu negocio: menos piezas sueltas, más flujo útil.
-          </p>
-        </Reveal>
-        <Reveal className="system-map-section__steps" delay={80}>
-          {systemMapSteps.map((step, index) => (
-            <div key={step.title}>
-              <span>{String(index + 1).padStart(2, '0')}</span>
-              <strong>{step.title}</strong>
-              <p>{step.detail}</p>
-            </div>
-          ))}
-        </Reveal>
-      </div>
-      <Reveal className="section-shell system-map-section__map" delay={120}>
-        <HeroConceptMap />
-      </Reveal>
     </section>
   )
 }
@@ -1174,14 +881,18 @@ function ProductLabSection() {
             Productos que convierten operaciones reales en sistemas.
           </h2>
           <p>
-            Unifícalo, Citaly y Leads resuelven tres operaciones distintas:
-            sincronizar canales, atender y agendar, y encontrar oportunidades comerciales.
+            Unifícalo, Citaly y Leads resuelven tres operaciones distintas: sincronizar
+            canales, atender y agendar, y encontrar oportunidades comerciales. Los tres
+            están funcionando y los tres se contratan solos, sin pasar por nosotros.
           </p>
         </Reveal>
       </div>
 
       <div className="section-shell product-unified" aria-label="Productos propios y flujos operativos">
-        {productRows.map((product, index) => (
+        {productRows.map((product, index) => {
+          const commercial = products.find((item) => item.id === product.id)
+
+          return (
           <Reveal
             key={product.id}
             className={`product-unified__row product-unified__row--${product.theme}`}
@@ -1192,7 +903,7 @@ function ProductLabSection() {
                 <div className="product-unified__meta">
                   <span>{String(index + 1).padStart(2, '0')}</span>
                   <p>{product.category}</p>
-                  <strong>{product.status}</strong>
+                  <strong>{commercial?.status}</strong>
                 </div>
                 <div className="product-unified__brand">
                   <i><HeroLogo theme={product.theme} /></i>
@@ -1219,6 +930,12 @@ function ProductLabSection() {
                   {product.benefits.map((benefit) => <li key={benefit}>{benefit}</li>)}
                 </ul>
 
+                <p className="product-unified__status">
+                  <span>{commercial?.status}</span>
+                  {commercial?.statusMeaning}
+                </p>
+                <p className="product-unified__offer">{commercial?.offer}</p>
+
                 <a
                   href={product.href}
                   target="_blank"
@@ -1230,13 +947,14 @@ function ProductLabSection() {
                   data-product-name={product.name}
                   data-section="Productos propios"
                 >
-                  {product.cta}
+                  {commercial?.ctaLabel}
                   <ArrowUpRight />
                 </a>
               </div>
             </article>
           </Reveal>
-        ))}
+          )
+        })}
       </div>
     </section>
   )
@@ -1251,15 +969,15 @@ export default function HomePage() {
           <div className="home-hero__content">
             <p className="hero-kicker">
               <span />
-              Inteligencia artificial en operación
+              Sitios web · Software a medida · Automatización · IA · Prospección B2B
             </p>
             <h1 id="home-title">
               La IA deja de ser promesa.
               <em>Empieza a operar.</em>
             </h1>
             <p className="home-hero__summary">
-              Diseñamos sitios, plataformas, automatizaciones y soluciones de IA
-              conectadas con la realidad de tu negocio.
+              Construimos sitios web, software a medida, automatizaciones y agentes de
+              IA para empresas en Chile. Y los dejamos funcionando.
             </p>
             <div className="home-hero__actions">
               <a
@@ -1286,9 +1004,9 @@ export default function HomePage() {
           </div>
         </div>
         <div className="home-hero__index section-shell">
-          <span>IAenBlanco / 2026</span>
-          <span>Chile → Latinoamérica</span>
-          <span>Scroll para descubrir</span>
+          <span>5 sitios de clientes en línea</span>
+          <span>3 productos propios contratables</span>
+          <span>Santiago · Chile</span>
         </div>
       </section>
 

@@ -171,11 +171,34 @@ export const services: Service[] = [
   },
 ]
 
-export const products = [
+export type Product = {
+  id: string
+  name: string
+  status: string
+  /** Qué significa ese estado para quien compra, en su idioma. */
+  statusMeaning: string
+  /** Condiciones comerciales publicadas hoy en el sitio del producto. */
+  offer: string
+  eyebrow: string
+  promise: string
+  description: string
+  problems: string[]
+  integrations: string[]
+  href: string
+  ctaLabel: string
+  /** true cuando cualquiera puede contratarlo solo, sin hablar con nosotros. */
+  selfServe: boolean
+}
+
+export const products: Product[] = [
   {
     id: 'unificalo',
     name: 'Unifícalo',
     status: 'Piloto abierto',
+    statusMeaning: 'Ya está operando con clientes y puedes sumarte hoy.',
+    offer: 'Desde 1 UF + IVA al mes · 14 días gratis · sin tarjeta para partir',
+    ctaLabel: 'Probar 14 días gratis',
+    selfServe: true,
     eyebrow: 'E-commerce multicanal',
     promise: 'Tu stock, precios y boletas cuadran solos en todos tus canales.',
     description:
@@ -196,12 +219,15 @@ export const products = [
       'Paris',
     ],
     href: 'https://unificalo.cl',
-    available: false,
   },
   {
     id: 'citaly',
     name: 'Citaly',
-    status: 'Validación comercial',
+    status: 'Abierto en validación',
+    statusMeaning: 'Funciona y puedes crear tu cuenta; seguimos ajustando el producto con los primeros negocios.',
+    offer: 'Planes desde 0,6 UF al mes · sin permanencia · hecho en Chile',
+    ctaLabel: 'Crear cuenta en Citaly',
+    selfServe: true,
     eyebrow: 'Agenda + agente IA',
     promise: 'Tu WhatsApp responde, entiende audios y agenda horas aunque estés atendiendo.',
     description:
@@ -213,12 +239,15 @@ export const products = [
     ],
     integrations: ['WhatsApp', 'Agenda', 'Audios', 'Reservas', 'Recordatorios', 'CRM'],
     href: 'https://citaly.cl',
-    available: false,
   },
   {
     id: 'leads',
     name: 'Leads',
-    status: 'Acceso piloto',
+    status: 'Cuenta gratis',
+    statusMeaning: 'Puedes crear una cuenta gratis y revisar la demo antes de decidir nada.',
+    offer: 'Cuenta gratis · demo abierta · revisión de calidad sin cobro',
+    ctaLabel: 'Crear cuenta gratis',
+    selfServe: true,
     eyebrow: 'Prospección B2B',
     promise: 'Empresas reales, evidencia pública y seguimiento comercial antes que mensajes masivos.',
     description:
@@ -230,7 +259,6 @@ export const products = [
     ],
     integrations: ['Fuentes públicas', 'Evidencia', 'Score', 'Pipeline', 'WhatsApp', 'CRM'],
     href: 'https://leads.iaenblanco.com',
-    available: false,
   },
 ]
 

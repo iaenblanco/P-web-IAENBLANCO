@@ -1,4 +1,5 @@
 import type { Metadata } from 'next'
+import { ContactForm } from '@/components/ContactForm'
 import { Reveal } from '@/components/Reveal'
 import {
   CONTACT_EMAIL,
@@ -83,19 +84,18 @@ export default function ContactPage() {
         </div>
       </section>
 
-      <section className="contact-context">
+      <section className="contact-context" id="escribenos">
         <div className="section-shell contact-context__grid">
           <Reveal>
             <p className="eyebrow">Para partir bien</p>
             <h2>No necesitas llegar con la solución resuelta.</h2>
+            <p className="contact-context__lead">
+              Con esto nos basta para preparar la conversación. Te toma un minuto y
+              llegamos sabiendo de qué hablar.
+            </p>
           </Reveal>
-          <Reveal className="contact-context__list" delay={100}>
-            <p>Solo necesitamos entender:</p>
-            <ol>
-              <li><span>01</span> Qué está pasando hoy.</li>
-              <li><span>02</span> Qué debería funcionar mejor.</li>
-              <li><span>03</span> Qué sistemas o personas participan.</li>
-            </ol>
+          <Reveal className="contact-context__form" delay={100}>
+            <ContactForm />
           </Reveal>
         </div>
       </section>

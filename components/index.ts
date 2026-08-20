@@ -1,3 +1,4 @@
+export { ContactForm } from './ContactForm'
 export { ContactBand } from './ContactBand'
 export { CustomCursor } from './CustomCursor'
 export { Footer } from './Footer'

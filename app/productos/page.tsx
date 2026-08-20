@@ -39,23 +39,6 @@ function productWhatsAppUrl(productName: string) {
   )}`
 }
 
-const productPreviewAssets = [
-  {
-    theme: 'unificalo',
-    chip: 'sync',
-    brand: 'unificalo',
-  },
-  {
-    theme: 'citaly',
-    chip: 'agenda',
-    brand: 'citaly',
-  },
-  {
-    theme: 'leads',
-    chip: 'score',
-  },
-]
-
 function LeadsMiniLogo() {
   return (
     <svg className="product-mini-mark__leads-logo" viewBox="0 0 64 64" fill="none">
@@ -64,16 +47,6 @@ function LeadsMiniLogo() {
       <path d="M24 40 34 30 41 36 50 22" />
       <path d="M46 22h4v4" />
     </svg>
-  )
-}
-
-function ProductMiniMark({ theme, brand }: { theme: string; brand?: string }) {
-  return (
-    <div className={`product-mini-mark product-mini-mark--${theme}`} aria-hidden="true">
-      <span>
-        {brand ? <BrandLogo name={brand === 'citaly' ? 'citaly-mark' : brand} /> : <LeadsMiniLogo />}
-      </span>
-    </div>
   )
 }
 
@@ -263,8 +236,9 @@ export default function ProductsPage() {
             <em>problemas reales en sistemas.</em>
           </h1>
           <p>
-            Estamos construyendo productos propios para sincronizar ventas, gestionar agendas
-            y activar prospección B2B con una operación más clara, medible y conectada.
+            Tres productos propios para sincronizar ventas, gestionar agendas y activar
+            prospección B2B. Los tres están funcionando, los tres se contratan directo y
+            los tres parten sin compromiso.
           </p>
           <div className="page-hero__actions">
             <a href="#productos-propios" className="button button--primary">
@@ -284,42 +258,7 @@ export default function ProductsPage() {
         </div>
       </section>
 
-      <section id="productos-propios" className="product-showcase" aria-label="Productos propios de IAenBlanco">
-        <div className="section-shell product-showcase__grid">
-          {products.map((product, index) => (
-            <Reveal
-              key={product.name}
-              className={`product-showcase__card product-showcase__card--${productPreviewAssets[index].theme}`}
-              delay={index * 80}
-            >
-              <ProductMiniMark
-                theme={productPreviewAssets[index].theme}
-                brand={productPreviewAssets[index].brand}
-              />
-              <span>0{index + 1}</span>
-              <i>{productPreviewAssets[index].chip}</i>
-              <p>{product.eyebrow}</p>
-              <strong>{product.name}</strong>
-              <em>{product.promise}</em>
-              <small>{product.status}</small>
-              <a
-                href={product.href}
-                target="_blank"
-                rel="noreferrer"
-                data-cursor="Ver"
-                data-cursor-theme={productPreviewAssets[index].theme}
-                data-product-id={product.id}
-                data-product-name={product.name}
-              >
-                Ver producto
-                <ArrowUpRight />
-              </a>
-            </Reveal>
-          ))}
-        </div>
-      </section>
-
-      <section className="products-section" aria-label="Productos de IAenBlanco">
+      <section id="productos-propios" className="products-section" aria-label="Productos de IAenBlanco">
         <div className="section-shell products-list">
           {products.map((product, index) => (
             <Reveal
@@ -347,6 +286,11 @@ export default function ProductsPage() {
                     <span key={integration}>{integration}</span>
                   ))}
                 </div>
+                <p className="product-panel__status">
+                  <span>{product.status}</span>
+                  {product.statusMeaning}
+                </p>
+                <p className="product-panel__offer">{product.offer}</p>
                 <div className="product-panel__actions">
                   <a
                     href={product.href}
@@ -358,7 +302,7 @@ export default function ProductsPage() {
                     data-product-id={product.id}
                     data-product-name={product.name}
                   >
-                    Ver producto
+                    {product.ctaLabel}
                     <ArrowUpRight />
                   </a>
                   <a
