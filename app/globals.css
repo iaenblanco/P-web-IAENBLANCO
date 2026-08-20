@@ -13910,3 +13910,806 @@ button {
   min-height: 44px;
   align-items: center;
 }
+
+/* ==========================================================================
+   RECALIBRACION DE LA RETICULA
+   Composicion unica de las cuatro auditorias (reticula y ritmo vertical,
+   porte de bloques, recortes y desbordes de texto).
+   Se apendiza al final de globals.css: son las mismas clases que ya existen
+   arriba, asi que ganan por orden de cascada, sin !important y sin tocar
+   ningun color. Orden: tokens -> reticula y ritmo -> grillas -> recortes ->
+   desbordes de texto (de lo general a lo especifico).
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   1. TOKENS: la escala base 8 y las tres decisiones que se derivan de ella.
+   Antes habia ocho gaps distintos en uso (8, 10, 12, 24, 26, 38.4, 48 y
+   51.2 px) y siete ritmos verticales sin multiplo comun.
+   -------------------------------------------------------------------------- */
+
+:root {
+  --espacio-1: 8px;
+  --espacio-2: 16px;
+  --espacio-3: 24px;
+  --espacio-4: 32px;
+  --espacio-5: 48px;
+  --espacio-6: 64px;
+  --espacio-7: 96px;
+  --espacio-8: 128px;
+
+  /* gap por defecto entre columnas hermanas */
+  --gap: var(--espacio-3);
+  /* gap entre bloques mayores (titular contra contenido, imagen contra fichas) */
+  --gap-ancho: var(--espacio-5);
+  /* gap entre filas internas de UNA tarjeta: sigue en la escala, escalon 1 */
+  --gap-fino: var(--espacio-1);
+
+  /* MISMO padding vertical para TODA seccion */
+  --seccion-y: clamp(72px, 6.5vw, 112px);
+
+  /* Reticula unica. En escritorio --shell-calle ES --espacio-8, o sea
+     --shell = min(100% - var(--espacio-8), 1240px), tal cual se decidio. */
+  --shell-calle: var(--espacio-8);
+  --shell: min(100% - var(--shell-calle), 1240px);
+}
+
+/* La calle lateral baja por la misma escala en pantallas chicas: 128 px de
+   margen en un celular se comerian dos tercios del ancho util. Los dos
+   ultimos escalones son los que ya usaban las media queries (32 y 24 px),
+   asi que el movil conserva exactamente el ancho de hoy. */
+
+@media (max-width: 1180px) {
+  :root {
+    --shell-calle: var(--espacio-5);
+  }
+}
+
+@media (max-width: 900px) {
+  :root {
+    --shell-calle: var(--espacio-4);
+  }
+}
+
+@media (max-width: 620px) {
+  :root {
+    --shell-calle: var(--espacio-3);
+  }
+}
+
+/* --------------------------------------------------------------------------
+   2. RETICULA UNICA.
+   .section-shell era min(100% - 64px, 1440px) con tres anchos mas repartidos
+   en media queries, y .site-footer__inner repetia la formula a mano en seis
+   lugares. Ahora las dos leen el mismo token.
+   -------------------------------------------------------------------------- */
+
+.section-shell,
+.site-footer__inner {
+  width: var(--shell);
+  margin-inline: auto;
+}
+
+/* --------------------------------------------------------------------------
+   3. RITMO VERTICAL UNICO.
+   Antes: hero 64/54, trust-proof 72/72 (puesto por su hijo), problem-strip
+   74/62, services-system 84/78, ecosystem-lab 78/88, operating-model 92/100;
+   y en las paginas internas 108/108, 86/76, 56/104, 230/130, 0/150, 150/150,
+   96/72 y tres clamp distintos. Todo pasa a --seccion-y.
+   Se usan las longhand fisicas (no el shorthand) para ganarle sin ambiguedad
+   a los padding-top/padding-bottom que estas mismas clases traen en las
+   media queries de mas arriba.
+   -------------------------------------------------------------------------- */
+
+.home-hero__inner,
+.trust-proof,
+.problem-strip,
+.services-system,
+.ecosystem-lab,
+.operating-model,
+.page-hero,
+.products-section,
+.contact-hero,
+.contact-options,
+.contact-context,
+.services-index-hero__inner,
+.services-index-section,
+.services-index-final,
+.service-page-hero__inner,
+.service-page-section,
+.service-page-cta {
+  padding-top: var(--seccion-y);
+  padding-bottom: var(--seccion-y);
+}
+
+/* El aire de .trust-proof lo ponia su hijo (.trust-proof__grid: 72/72 en base
+   y 52, 36, 30 y 28 px segun el breakpoint). Ahora el aire es de la seccion y
+   el hijo vuelve a ser solo reticula. */
+
+.trust-proof__grid {
+  padding-top: 0;
+  padding-bottom: 0;
+}
+
+/* Bandas de cierre: mismo sistema, 60 % del ritmo. Nunca un valor suelto. */
+
+.contact-band,
+.social-strip,
+.service-page-mid-cta,
+.service-next-link {
+  padding-top: calc(var(--seccion-y) * 0.6);
+  padding-bottom: calc(var(--seccion-y) * 0.6);
+}
+
+/* La franja social sacaba su alto de un min-height de 120 px que ahora
+   pelearia contra el padding: el alto lo da el ritmo. */
+
+.social-strip .section-shell {
+  min-height: 0;
+}
+
+/* Unica excepcion deliberada que ya existia y hay que conservar: el bloque
+   "gestionado" continua la seccion anterior, no abre una nueva. */
+
+.services-index-section--managed {
+  padding-top: 0;
+}
+
+/* El hero de contacto tiene min-height: 780px. Al bajar su padding de 230/130
+   al ritmo comun quedaria un hueco muerto abajo; centrando el contenido, el
+   sobrante se reparte y el hero se sigue leyendo como hero. */
+
+.contact-hero {
+  display: grid;
+  align-content: center;
+}
+
+/* Separacion interna del intro de servicios: 44 px sueltos -> escalon 5. */
+
+.services-system__intro {
+  padding-bottom: var(--espacio-5);
+}
+
+/* --------------------------------------------------------------------------
+   4. GAPS. Tres valores, no ocho.
+   4a. Entre bloques mayores: antes 51.2 px (los tres clamp de 4vw del hero,
+   problem-strip y ecosystem), 80, 60, 48, 44, 28 px y el 10vw del contacto.
+   -------------------------------------------------------------------------- */
+
+.home-hero__inner,
+.trust-proof__grid,
+.problem-strip__inner,
+.ecosystem-lab__intro,
+.services-system__intro,
+.operating-model__heading,
+.industry-line,
+.contact-band__inner,
+.contact-band__inner > div,
+.contact-context__grid,
+.page-hero .section-shell,
+.services-index-hero__inner,
+.services-index-final__inner,
+.service-page-hero__inner,
+.service-page-cta__inner {
+  gap: var(--gap-ancho);
+}
+
+/* 4b. Entre columnas hermanas y rejillas de tarjetas: antes 26 px (acciones
+   del hero), 24 px (cta de servicios), 38.4 px (el clamp de 3vw) y los 12 px
+   de las dos rejillas de tarjetas. */
+
+.home-hero__actions,
+.problem-strip__grid,
+.services-system__list,
+.services-system__cta,
+.service-entry--commercial__grid {
+  gap: var(--gap);
+}
+
+/* 4c. Filas internas de una misma tarjeta: no son columnas hermanas de la
+   reticula, se quedan en el escalon 1 (antes 8 y 10 px sueltos). */
+
+.product-unified__flow,
+.service-entry__result,
+.service-entry__pipeline {
+  gap: var(--gap-fino);
+}
+
+/* --------------------------------------------------------------------------
+   5. GRILLAS: columnas hermanas que deben medir igual y bloques que estaban
+   mal proporcionados.
+   -------------------------------------------------------------------------- */
+
+/* 5a. "Como trabajamos": repeat(3, 1fr) es repeat(3, minmax(auto, 1fr)), y el
+   min-content de .operating-step strong { width: max-content } ensanchaba la
+   columna del medio (396.06 / 408.86 / 396.08 px medidos). Con minmax(0, 1fr)
+   las tres miden exactamente lo mismo.
+   Va dentro de la media query porque bajo 900 px el bloque es de una sola
+   columna y una regla suelta al final del archivo se lo comeria. */
+
+@media (min-width: 901px) {
+  .operating-model__steps {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+.operating-step {
+  min-width: 0;
+}
+
+/* 5b. Franja del problema. El encabezado se comia 356 px y dejaba la rejilla
+   en 793 px repartidos en SEIS columnas de 122 px, con el texto partido en
+   una o dos palabras por linea. Ademas las seis tarjetas van envueltas en
+   <Reveal> (div.reveal), asi que el item de la rejilla es el wrapper y no la
+   tarjeta: por eso los `grid-column: span 3|2` nunca llegaron a aplicarse y
+   por eso quedaban escalonadas (436/534/482/436/561/494 px).
+   Ahora: encabezado arriba a ancho completo y 3 columnas por 2 filas. */
+
+@media (min-width: 1181px) {
+  .problem-strip__inner {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+.problem-strip__heading {
+  max-width: 46rem;
+}
+
+@media (min-width: 901px) and (max-width: 1100px) {
+  .problem-strip__grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (min-width: 1101px) {
+  .problem-strip__grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+.problem-strip__grid > .reveal {
+  display: grid;
+  min-width: 0;
+}
+
+.problem-strip__grid > .reveal > .problem-card {
+  height: 100%;
+}
+
+@media (min-width: 901px) {
+  .problem-strip__grid .problem-card,
+  .problem-strip__grid .problem-card:nth-child(-n + 2),
+  .problem-strip__grid .problem-card:nth-child(n + 3) {
+    grid-column: auto;
+    min-height: 240px;
+    padding: var(--espacio-3);
+  }
+}
+
+/* 5c. Intro de servicios: era 257.8 / 589.3 / 257.8 px. El eyebrow "Que
+   hacemos" ocupaba una columna entera de 258 px y el parrafo explicativo
+   quedaba encajonado en otros 258 px. El eyebrow pasa a una fila propia a
+   ancho completo y el reparto queda 7fr / 5fr. */
+
+@media (min-width: 1181px) {
+  .services-system__intro {
+    grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
+    row-gap: var(--espacio-2);
+  }
+
+  .services-system__intro > .eyebrow {
+    grid-column: 1 / -1;
+  }
+
+  .services-system__intro h2 {
+    grid-column: 1;
+    max-width: none;
+  }
+
+  .services-system__intro > p:last-child {
+    grid-column: 2;
+    align-self: end;
+    max-width: 46ch;
+  }
+}
+
+/* 5d. Los cinco servicios en cuatro columnas de 275 px dejaban el h3 en
+   cuatro lineas y la tarjeta en 605 px. En dos columnas el h3 cabe en dos
+   lineas y la descripcion ya no necesita recorte. */
+
+@media (min-width: 901px) {
+  .services-system__list {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+.services-system__list .service-entry--commercial {
+  grid-column: 1 / -1;
+}
+
+/* La primera tarjeta lleva is-active, y con ella un translateY(-2px): ese es
+   el desalineo de 2 px entre hermanas (tops 2907/2909/2909/2909). El destaque
+   se mantiene por borde y sombra; el movimiento queda solo en hover. */
+
+.service-entry.is-active {
+  transform: none;
+}
+
+.service-entry:hover {
+  transform: translateY(-2px);
+}
+
+/* 5e. Las tres fichas de cliente repartian su interior segun su propio
+   contenido (117/228, 62/253 y 117/228 px): el logo del medio se veia a la
+   mitad que los otros dos. Con minmax(0, ...) las tres quedan identicas. */
+
+@media (min-width: 621px) {
+  .trust-proof-card {
+    grid-template-columns: minmax(0, 0.68fr) minmax(0, 1.32fr);
+  }
+}
+
+/* El cuerpo de la ficha es a su vez una rejilla, y tanto el como sus hijos
+   heredan min-width: auto (o sea min-content): con las columnas ya parejas se
+   negaban a entrar en las suyas y la ficha del medio se salia 39 px por la
+   derecha, pintando el texto sobre el borde de la tarjeta.
+   Sin estas tres lineas, igualar las columnas EMPEORA esa ficha.
+   Medido: las tres quedan en 110.03 / 213.63 px, 412 px de alto y 0 de
+   desborde. */
+
+.trust-proof-card__body {
+  min-width: 0;
+  grid-template-columns: minmax(0, 1fr);
+}
+
+.trust-proof-card__body > * {
+  min-width: 0;
+}
+
+@media (min-width: 1241px) {
+  .trust-proof__grid {
+    grid-template-columns: minmax(0, 5fr) minmax(0, 8fr);
+  }
+}
+
+/* 5f. Los minimos en px (250/280) torcian el reparto de las tres filas de
+   producto en cuanto la reticula se estrechaba. */
+
+@media (min-width: 1181px) {
+  .product-unified__row article {
+    grid-template-columns: minmax(0, 29fr) minmax(0, 40fr) minmax(0, 31fr);
+  }
+}
+
+/* 5g. El diagrama de cada servicio abria 5, 6 o 7 columnas dentro de un panel
+   de 463-545 px: pasos de 51 a 63 px con el texto cortado por el
+   overflow: hidden del panel. Con tres columnas los pasos quedan en 128 px. */
+
+@media (min-width: 1181px) {
+  .service-flow__track,
+  .service-flow--soluciones-ia-medida .service-flow__track,
+  .service-flow--prospeccion-b2b-gestionada .service-flow__track {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: var(--espacio-2);
+  }
+}
+
+/* 5h. El titular de cada servicio llega a 62 caracteres y vivia en la columna
+   estrecha. Se le da la columna mayor. */
+
+@media (min-width: 1101px) {
+  .service-page-hero__inner {
+    grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr);
+  }
+}
+
+/* 5i. Titulares: como maximo 3 lineas a 1280 px. El line-height de 0.89
+   (0.93 en movil) apretaba tanto las lineas que las mayusculas acentuadas
+   rozaban los descendentes de la linea de arriba. */
+
+.home-hero h1,
+.page-hero h1,
+.contact-hero h1,
+.services-index-hero h1,
+.service-page-hero h1 {
+  line-height: 1.08;
+  overflow-wrap: break-word;
+}
+
+@media (min-width: 901px) {
+  .page-hero h1 {
+    font-size: clamp(44px, 5.6vw, 78px);
+  }
+
+  .services-index-hero h1 {
+    font-size: clamp(40px, 4.5vw, 68px);
+  }
+
+  .service-page-hero h1 {
+    font-size: clamp(38px, 4.3vw, 62px);
+  }
+}
+
+/* 5j. Hero de inicio: la proporcion, declarada y pareja.
+   Estaba en 517.4 / 632.4 px (minmax(0, 0.45fr) minmax(0, 0.55fr)), un reparto
+   que no se lee como decision. El corte en 1201 px respeta el bloque existente
+   de 901-1200 px, donde el hero ya se apila en una sola columna y conserva
+   alli su titular grande (clamp(62px, 7vw, 84px), linea 9826).
+   El titular baja de 74.2 px en 5 lineas a 58.9 px en 3 lineas.
+   Medido tras el cambio: con el mapa del hero a 544.5 px el diagrama sigue sin
+   recortar nada (.summary-flow deja 2.5 px de aire contra el marco, la placa de
+   plataformas 22.6 px contra la fila de iconos) y no aparece scroll horizontal. */
+
+@media (min-width: 1201px) {
+  .home-hero__inner {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  }
+
+  .home-hero h1 {
+    font-size: clamp(38px, 4.6vw, 64px);
+  }
+}
+
+/* 5k. Regla dura: las tarjetas de una misma fila, a la misma altura. */
+
+.problem-strip__grid,
+.services-index-cards,
+.services-index-problems,
+.service-build-grid,
+.service-use-grid,
+.service-deliverables,
+.services-system__list,
+.trust-proof__proofs,
+.operating-model__steps,
+.service-flow__track {
+  align-items: stretch;
+}
+
+.services-index-cards > article,
+.services-index-problems > *,
+.service-build-grid > article,
+.service-use-grid > article,
+.service-deliverables > div,
+.services-system__list > .service-entry,
+.trust-proof__proofs > .trust-proof-card,
+.service-flow__track > .service-flow__step {
+  height: 100%;
+  min-width: 0;
+}
+
+/* --------------------------------------------------------------------------
+   6. RECORTES: contenido que quedaba cortado.
+   Regla dura: ningun contenedor con texto puede llevar overflow: hidden
+   combinado con alto fijo o aspect-ratio.
+   -------------------------------------------------------------------------- */
+
+/* 6a. El CTA "Ver los servicios" estaba 100 % invisible: vive en
+   bottom: -34px (por diseno, colgando bajo el marco) y .hero-summary-map lo
+   borraba con overflow: hidden. Esos son los 34 px que faltaban
+   (scrollHeight 524 contra clientHeight 490), no el diagrama.
+   Bajo 901 px el mapa ya se apila y sus hijos son position: relative, asi que
+   no hay nada que destapar. */
+
+@media (min-width: 901px) {
+  .hero-summary-map {
+    overflow: visible;
+  }
+
+  /* Reserva el cuelgue de 34 px mas el alto del enlace, para que .home-hero
+     (que tambien lleva overflow: hidden) no lo recorte de nuevo. */
+  .home-hero__visual {
+    padding-bottom: 56px;
+  }
+}
+
+/* 6b. Las etiquetas del diagrama tenian alto exacto (height: var(--summary-h))
+   con texto que envuelve: se salian 38 px y 7 px por abajo. El alto del dato
+   pasa a ser un minimo, no una jaula.
+   La placa de plataformas ademas se dimensiona por su contenido y queda
+   anclada por su borde inferior a la linea de conexion (336 + 48 = 384 =
+   platforms.lineY, o sea 100 - 384/560 = 31.4286 %), centrada en el eje del
+   nucleo (274 + 172/2 = 360 = core.x = 50 % del mapa). Asi crece hacia arriba,
+   contra el hueco vacio, y nunca hacia abajo, donde estan las plataformas.
+   Se resuelve por CSS y no ensanchando la caja en page.tsx porque la reticula
+   nueva estrecha el mapa: un ancho fijo en unidades del diagrama volveria a
+   quedarse corto. */
+
+@media (min-width: 901px) {
+  .summary-system-label {
+    height: auto;
+    min-height: var(--summary-h, 0px);
+  }
+
+  .summary-system-label--platforms {
+    top: auto;
+    bottom: var(--summary-b, 31.4286%);
+    left: 50%;
+    width: max-content;
+    min-width: var(--summary-w);
+    max-width: 62%;
+    transform: translateX(-50%);
+  }
+}
+
+/* 6c. Las pildoras de servicio tenian alto cerrado (58 px y 62 px) y los
+   titulos de dos lineas ("Programas a medida") se salian 2-3 px por abajo.
+   El circulo lo dimensiona su columna, no el alto, asi que soltar el alto no
+   lo achica. Cada variante conserva su propio minimo. */
+
+@media (min-width: 901px) {
+  .summary-orb {
+    height: auto;
+    min-height: min(58px, 88%);
+  }
+
+  .summary-orb--product {
+    height: auto;
+    min-height: min(62px, 74%);
+  }
+}
+
+/* 6d. Regla dura: prohibido -webkit-line-clamp sobre texto de venta.
+   Perdia 40 px (2 lineas) en tres tarjetas y 60 px (3 lineas) en la cuarta,
+   con puntos suspensivos. Las alturas se igualan solas porque la rejilla
+   estira y .service-entry__signals { margin-top: auto } empuja chips y enlace
+   al fondo.
+   Acotado a 621 px hacia arriba: bajo 620 px la descripcion esta oculta a
+   proposito (display: none, linea 12507) y soltarla aqui la haria reaparecer. */
+
+@media (min-width: 621px) {
+  .services-system__list .service-entry__description {
+    display: block;
+    overflow: visible;
+    -webkit-line-clamp: none;
+    line-clamp: none;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   7. DESBORDES DE TEXTO: el texto nunca se pinta sobre el borde de su caja.
+   Queja del cliente: "no se deben superponer los textos sobre las lineas que
+   generan la estructura, un ejemplo es el texto CREAR CUENTA EN CITALY".
+   -------------------------------------------------------------------------- */
+
+/* 7a. Sistema de controles: manda el contenido, no un numero. La causa era
+   white-space: nowrap sin ancho garantizado: cuando el texto no cabe no baja
+   de linea, se desborda, y como no hay overflow: hidden se dibuja encima del
+   borde. */
+
+.button,
+.product-unified__cta,
+.consent-banner button {
+  white-space: normal;
+  overflow-wrap: break-word;
+  text-align: center;
+  text-wrap: balance;
+}
+
+/* Aire vertical para el caso en que si envuelva: con padding-block 0 dos
+   lineas tocarian el borde de arriba y el de abajo. Se usa el longhand a
+   proposito: el shorthand `padding` pisaria el padding-inline de
+   .button--text y el de .product-panel__actions .button--text. */
+
+.button {
+  padding-block: 14px;
+}
+
+.consent-banner button {
+  padding-block: 12px;
+}
+
+/* El boton exacto que reporto el cliente: 190 px impuestos para 191 px de
+   contenido, con nowrap y padding 0 18px. Ahora lo dimensiona su texto, con
+   190 px de piso (no de techo) y su columna como techo. Bajo 768 px se
+   conserva el width: 100% que ya existe; con el wrap de arriba ese caso
+   tambien queda a salvo. El min-height de 46 px sigue mandando el alto
+   mientras el texto quepa en una linea. */
+
+.product-unified__cta {
+  padding-block: 10px;
+  padding-inline: var(--espacio-3);
+}
+
+@media (min-width: 768px) {
+  .product-unified__cta {
+    width: max-content;
+    min-width: min(190px, 100%);
+    max-width: 100%;
+  }
+}
+
+/* Enlaces-control con width: max-content: si la etiqueta crece mas que la
+   tarjeta, el subrayado y el texto se salen de la tarjeta entera. */
+
+.service-entry__link,
+.trust-proof-card__link,
+.services-web-proof-grid__link {
+  max-width: 100%;
+  overflow-wrap: break-word;
+}
+
+.service-entry__link svg,
+.trust-proof-card__link svg,
+.services-web-proof-grid__link svg {
+  flex: 0 0 auto;
+}
+
+/* 7b. Textos del diagrama del hero. */
+
+@media (min-width: 901px) {
+  .summary-orb strong {
+    min-width: 0;
+    overflow-wrap: break-word;
+  }
+
+  /* Al destaparse el recorte del mapa, este enlace vuelve a verse: techo de
+     ancho para que no exceda el marco. */
+  .hero-summary-map__explore {
+    max-width: 84%;
+  }
+}
+
+@media (min-width: 1201px) {
+  /* Sobre 1200 px seguia activo el white-space: nowrap de la linea 1207:
+     "Tus planillas" mide unos 109 px dentro de una caja de 84 px, o sea 25 px
+     fuera. Entre 901 y 1200 px ya envolvia (linea 9859). Las plataformas
+     estan a 104 unidades de distancia entre centros y la caja mide 96:
+     ensancharla las haria chocar, asi que la salida correcta es la segunda
+     linea. */
+  .summary-platform {
+    gap: 6px;
+  }
+
+  .summary-platform strong {
+    font-size: 12px;
+    line-height: 1.08;
+    white-space: normal;
+    overflow-wrap: break-word;
+  }
+}
+
+/* 7c. Tarjetas del problema: el titular a 23 px y el parrafo llegaban justos
+   al borde derecho (2-4 px fuera). Se les da permiso explicito de cortar y
+   guionar antes de pisar el borde, y el max-width del parrafo deja de ser un
+   numero mayor que su propia caja. (hyphens: auto depende de <html lang="es">,
+   que si esta declarado en app/layout.tsx.) */
+
+.problem-card strong,
+.problem-card p,
+.problem-card__response p {
+  min-width: 0;
+  max-width: 100%;
+  overflow-wrap: break-word;
+  hyphens: auto;
+  text-wrap: pretty;
+}
+
+/* 7d. Pasos del diagrama de servicio. Con la rejilla ya en tres columnas el
+   paso mide 128.3 px, o sea 98.3 px de caja util, y dos titulos de una sola
+   palabra no entraban a 17 px: "seguimiento" pide 102 px y "Oportunidad"
+   105 px, asi que se pintaban sobre el borde del paso. Se guionan en vez de
+   desbordarse; los otros cinco pasos no se enteran.
+   Medido despues: cero texto fuera de caja en la ficha de servicio. */
+
+.service-flow__step strong,
+.service-flow__step p {
+  min-width: 0;
+  overflow-wrap: break-word;
+  hyphens: auto;
+}
+
+/* --------------------------------------------------------------------------
+   8. AJUSTE FINO DE LOS TAMANOS ESTIMADOS (content-visibility).
+   contain-intrinsic-size es el alto que el navegador supone mientras la
+   seccion esta fuera de pantalla. Dos de esos valores quedaron desfasados por
+   los cambios de arriba: .problem-strip crecio al pasar de seis columnas
+   angostas a 3 x 2 (650 -> 1013 px reales a 1280) y .contact-band encogio al
+   entrar en el ritmo comun (380 -> 224 px reales).
+   Con el valor viejo la barra de scroll pega un salto en la primera pasada.
+   Se mantiene la palabra clave auto, o sea que tras el primer render el
+   navegador sigue usando el alto real y esto solo afecta a esa primera vez.
+   -------------------------------------------------------------------------- */
+
+@supports (content-visibility: auto) {
+  .problem-strip {
+    contain-intrinsic-size: auto 1010px;
+  }
+
+  .contact-band {
+    contain-intrinsic-size: auto 230px;
+  }
+}
+
+/* ==========================================================================
+   Ajuste final: el flujo de tres pasos de cada producto.
+   A 1280 px el carril del flujo medía 396 px y, con flechas de 34 px y
+   17 px de relleno, a cada paso le quedaban 65 px útiles para textos que
+   miden 87 px ("Actualiza", "Tienda online y marketplaces"). El texto se
+   pintaba 6,5 px por fuera del borde de su caja.
+   Se recupera ancho estrechando las flechas y el relleno, y se agrega
+   partición de palabra como red de seguridad.
+   ========================================================================== */
+
+@media (min-width: 901px) and (max-width: 1400px) {
+  .product-unified__flow {
+    grid-template-columns: minmax(0, 1fr) 22px minmax(0, 1fr) 22px minmax(0, 1fr);
+    gap: var(--espacio-1);
+  }
+
+  .product-unified__unit {
+    padding: var(--espacio-2) 12px;
+  }
+}
+
+.product-unified__unit,
+.product-unified__unit > div {
+  min-width: 0;
+}
+
+.product-unified__unit span,
+.product-unified__unit strong,
+.product-unified__unit p {
+  overflow-wrap: anywhere;
+  hyphens: auto;
+}
+
+/* ==========================================================================
+   Aire contra las líneas de la estructura.
+   Dos cajas dejaban el texto tocando su propio borde: el marco del encabezado
+   (el texto de navegación se salía 1 px por abajo) y la tira "Nos cuentas →
+   Lo construimos → Queda funcionando" del diagrama del hero, que tenía entre
+   1 y 2,7 px de aire contra su marco.
+   ========================================================================== */
+
+.site-header__inner .nav-link {
+  height: auto;
+  padding-block: 6px;
+}
+
+.summary-flow {
+  /* Anclada por abajo con holgura propia: colgaba del borde inferior del mapa
+     y su texto quedaba a menos de 1 px del marco exterior. */
+  top: auto;
+  bottom: max(12px, var(--summary-b, 0%));
+  height: auto;
+  min-height: var(--summary-h);
+  padding: 6px 14px;
+  grid-template-columns: minmax(0, 1fr) 30px minmax(0, 1fr) 30px minmax(0, 1.2fr);
+}
+
+/* ==========================================================================
+   Últimos dos ajustes en celular.
+   1. Los enlaces "Ver cómo lo hacemos" de las tarjetas de /servicios medían
+      21 px de alto: son la navegación principal de esa página y hay que poder
+      tocarlos con el pulgar.
+   2. Las píldoras de señales ("Con qué decirles") no tenían aire lateral: a
+      375 px el texto envuelve y queda a 1,2 px de su propio borde.
+   ========================================================================== */
+
+.services-index-cards a,
+.services-managed-card > a,
+.service-case-card a,
+.service-next-link a {
+  min-height: 44px;
+}
+
+.services-managed-card__flow span,
+.service-mode-grid span,
+.service-page-hero__signals span,
+.service-entry__signals span {
+  padding: 6px 12px;
+  overflow-wrap: anywhere;
+}
+
+/* Cierre: los enlaces a redes de /contacto medían 17 px de alto en celular,
+   y el botón "Enviar por correo" dejaba su texto a 1 px del subrayado. */
+
+.social-strip a {
+  min-height: 44px;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.button--text {
+  padding-block: 4px;
+}

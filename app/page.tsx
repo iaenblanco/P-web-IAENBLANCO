@@ -84,6 +84,7 @@ function summaryBoxStyle(box: { x: number; y: number; w?: number; h?: number }) 
     '--summary-y': summaryPercent(box.y, 'y'),
     ...(box.w ? { '--summary-w': summaryPercent(box.w, 'x') } : {}),
     ...(box.h ? { '--summary-h': summaryPercent(box.h, 'y') } : {}),
+    ...(box.h ? { '--summary-b': `${100 - ((box.y + box.h) / summaryMap.height) * 100}%` } : {}),
   } as CSSProperties
 }
 
