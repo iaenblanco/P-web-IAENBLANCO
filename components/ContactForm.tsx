@@ -13,12 +13,14 @@ function ArrowUpRight() {
   )
 }
 
+// Los mismos nombres que usa el resto del sitio: quien llego leyendo
+// "Tareas que se hacen solas" tiene que reconocer su opcion aca.
 const temas = [
-  'Un sitio web o Shopify',
-  'Software o plataforma a medida',
-  'Automatizar un proceso',
-  'Aplicar IA a algo concreto',
-  'Prospección B2B',
+  'Sitio web y tienda online',
+  'Un programa a tu medida',
+  'Tareas que se hacen solas',
+  'Un asistente con IA',
+  'Que nos busquen clientes',
   'Todavía no lo tengo claro',
 ]
 

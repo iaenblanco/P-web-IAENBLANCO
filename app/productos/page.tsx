@@ -236,9 +236,10 @@ export default function ProductsPage() {
             <em>que puedes contratar hoy.</em>
           </h1>
           <p>
-            Tres productos propios para sincronizar ventas, gestionar agendas y activar
-            prospección B2B. Los tres están funcionando, los tres se contratan directo y
-            los tres parten sin compromiso.
+            Uno para que tus ventas y tu inventario cuadren solos, uno para que tu WhatsApp
+            agende horas mientras atiendes, y uno para encontrar empresas a las que
+            venderles. Los tres están funcionando, los tres se contratan directo y los tres
+            parten sin compromiso.
           </p>
           <div className="page-hero__actions">
             <a href="#productos-propios" className="button button--primary">
