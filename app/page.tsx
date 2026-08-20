@@ -120,7 +120,7 @@ const clientProofs = [
     velocidad: 'menos de 1 s',
     peso: '572 KB',
     system: 'Sitio con fichas de propiedades, textos editables y formulario de contacto.',
-    proof: 'Suben una propiedad nueva y queda publicada, sin tener que pedirnos ayuda.',
+    proof: 'Lo que se ve al abrirlo es el catálogo. Lo que no se ve: el panel donde ellos mismos suben una propiedad y queda publicada, sin pedirnos ayuda.',
   },
   {
     client: 'Granja Magdalena',
@@ -164,7 +164,7 @@ const clientProofs = [
 const trustSignals = [
   { value: 'Menos de 2 segundos', label: 'es lo que demora en aparecer el contenido en los cinco sitios' },
   { value: 'Los cinco en celular', label: 'se ven completos sin desplazar de lado, y los cinco van por conexión segura' },
-  { value: '5 rubros distintos', label: 'mudanzas, propiedades, alimentos, mascotas y retail especializado' },
+  { value: 'Tres rubros', label: 'mudanzas y carga, corretaje de propiedades, y venta de alimentos para personas y para mascotas' },
 ]
 
 const problemCards = [
@@ -744,8 +744,9 @@ function TrustProofSection() {
           <p className="eyebrow">Trabajos reales</p>
           <h2 id="trust-proof-heading">Míralo tú mismo.</h2>
           <p>
-            Cinco negocios chilenos, cinco necesidades distintas. Estos son sus sitios tal
-            como se ven hoy: ábrelos y revisa el trabajo antes de escribirnos.
+            Cuatro negocios chilenos y cinco sitios: a Granja Magdalena le hicimos dos, uno
+            para su tienda y otro aparte para su línea de mascotas. Están tal como se ven
+            hoy: ábrelos y revisa el trabajo antes de escribirnos.
           </p>
         </Reveal>
 
@@ -861,8 +862,8 @@ function TrustProofSection() {
             <p>
               Cuatro pasadas en días distintos, con Chrome, en computador y en celular.
               «Se ve en» es cuánto demora en aparecer el contenido, y lo que ponemos es el
-              peor resultado de las cuatro, no el mejor: en la práctica suele ser más
-              rápido. Ninguno de los cinco obliga a desplazar de lado en el teléfono, los
+              peor de los cuatro resultados, redondeado hacia arriba: en la práctica
+              siempre es más rápido. Ninguno de los cinco obliga a desplazar de lado en el teléfono, los
               cinco usan conexión segura y los cinco tienen su descripción lista para
               Google. Puedes comprobarlo tú: abre cualquiera y mídelo.
             </p>
@@ -1008,8 +1009,9 @@ function ProductLabSection() {
           </h2>
           <p>
             Además de trabajos a medida, hicimos tres programas propios para problemas que
-            vimos repetirse. Los tres funcionan hoy, los tres parten sin compromiso y los
-            contratas directo, sin hablar con nosotros.
+            vimos repetirse. Dos los contratas directo, sin hablar con nosotros: Unifícalo
+            desde 1 UF + IVA al mes y Citaly desde 0,6 UF al mes. El tercero, Leads, parte
+            con una cuenta gratis y una demo abierta.
           </p>
         </Reveal>
       </div>
@@ -1136,11 +1138,6 @@ export default function HomePage() {
             </a>
           </div>
         </div>
-        <div className="home-hero__index section-shell">
-          <span>5 sitios de clientes en línea</span>
-          <span>3 programas propios funcionando</span>
-          <span>Santiago · Chile</span>
-        </div>
       </section>
 
       <TrustProofSection />
@@ -1200,8 +1197,10 @@ export default function HomePage() {
               <h3>¿Cuánto cuesta?</h3>
               <p>
                 Depende de lo que necesites, y por eso no ponemos un precio en la web
-                que después no calce. Lo que sí te garantizamos: el número te lo damos
-                antes de empezar, por escrito, y no cambia a mitad de camino.
+                que después no calce. Lo que sí te garantizamos: el precio de lo acordado
+                te lo damos por escrito antes de empezar y ese número no se mueve. Si a
+                mitad de camino quieres sumar algo que no estaba, te lo cotizamos aparte
+                y decides tú antes de que lo hagamos.
               </p>
             </div>
             <div>
@@ -1227,7 +1226,6 @@ export default function HomePage() {
               <span>Venta de productos</span>
               <span>Propiedades</span>
               <span>Servicios a empresas</span>
-              <span>Negocios con hora agendada</span>
             </div>
           </Reveal>
         </div>
@@ -1280,9 +1278,20 @@ export default function HomePage() {
               <ArrowUpRight />
             </a>
 
-            <p className="rampa__pie">
-              ¿Todavía no tienes sitio? Cuéntanos qué vendes y te decimos por dónde partir.
-            </p>
+            <a
+              href={getWhatsappUrl(
+                'Hola IAenBlanco, todavía no tengo sitio web. Vendo: ',
+              )}
+              target="_blank"
+              rel="noreferrer"
+              className="rampa__pie"
+              data-cursor="WhatsApp"
+              data-analytics-event="rampa_sin_sitio_click"
+            >
+              <strong>¿Todavía no tienes sitio?</strong>
+              <span>Cuéntanos qué vendes y te decimos por dónde partir. Igual de gratis.</span>
+              <ArrowUpRight />
+            </a>
           </Reveal>
         </div>
       </section>

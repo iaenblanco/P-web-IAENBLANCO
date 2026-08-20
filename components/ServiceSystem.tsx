@@ -113,7 +113,7 @@ export function ServiceSystem() {
                   {serviceResults[service.slug]}
                 </p>
                 <p className="service-entry__plazo">
-                  <span>Cuánto demora</span>
+                  <span>Cuánto suele demorar</span>
                   {service.plazo}
                 </p>
                 <div className="service-entry__signals">
@@ -149,7 +149,7 @@ export function ServiceSystem() {
                       {serviceResults[commercialService.slug]}
                     </p>
                     <p className="service-entry__plazo">
-                      <span>Cuánto demora</span>
+                      <span>Cuánto suele demorar</span>
                       {commercialService.plazo}
                     </p>
                   </div>

@@ -208,7 +208,7 @@ function ProductVisual({ index }: { index: number }) {
     <ProductNetworkVisual
       theme="leads"
       engine="lead.engine"
-      status="Acceso piloto"
+      status="Cuenta gratis"
       title="Leads"
       detail="Busca y prioriza"
       outputLabel="salida comercial"
@@ -238,8 +238,8 @@ export default function ProductsPage() {
           <p>
             Uno para que tus ventas y tu inventario cuadren solos, uno para que tu WhatsApp
             agende horas mientras atiendes, y uno para encontrar empresas a las que
-            venderles. Los tres están funcionando, los tres se contratan directo y los tres
-            parten sin compromiso.
+            venderles. Los tres están funcionando y los tres parten sin compromiso. Dos los
+            contratas directo; el tercero, Leads, parte con una cuenta gratis.
           </p>
           <div className="page-hero__actions">
             <a href="#productos-propios" className="button button--primary">

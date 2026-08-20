@@ -1,4 +1,4 @@
-// La batería completa: once criterios, todas las rutas, todos los anchos.
+// La batería completa: doce criterios, todas las rutas, todos los anchos.
 // Cada uno es comprobable: o el número es cero, o sale la falla con su
 // selector, su texto y cuánto se pasa. Nada es opinión.
 //
@@ -6,7 +6,7 @@
 //
 // Ejemplo, contra el sitio ya construido y servido en local:
 //   npm run build
-//   npx serve out -l 3210
+//   node herramientas/servir.mjs out 3210      (o npx serve out -l 3210)
 //   node herramientas/verificar.mjs .tmp/ver http://localhost:3210 //     1920,1440,1280,1024,768,390,360 /,/servicios/,/productos/,/contacto/
 //
 // Se juzga solo lo que está a la vista: la página se recorre pantalla por
@@ -50,7 +50,7 @@ class S {
 
 const REVISAR = String.raw`
 (() => {
-  const F = { contraste: [], fuera: [], sobreLinea: [], encima: [], toque: [], scrollH: [], imagenes: [], chico: [], partida: [], icono: [], cortado: [] };
+  const F = { contraste: [], fuera: [], sobreLinea: [], encima: [], toque: [], scrollH: [], imagenes: [], chico: [], partida: [], icono: [], cortado: [], pegados: [] };
   const nom = (e) => e.tagName.toLowerCase() + (typeof e.className === 'string' && e.className.trim() ? '.' + e.className.trim().split(/\s+/).filter(c => c !== 'is-visible' && c !== 'reveal').slice(0, 3).join('.') : '');
   const ruta = (e) => [e.parentElement, e].filter(Boolean).map(nom).join(' > ');
   const movil = innerWidth < 800;
@@ -101,6 +101,11 @@ const REVISAR = String.raw`
   //  - el contenido de un <details> cerrado: el navegador lo apila en el resumen
   const aLaVista = (e) => {
     const r = e.getBoundingClientRect();
+    // Un elemento con display:none devuelve {0,0,0,0}, y sin este primer
+    // filtro el rectangulo vacio pasaba por "esta arriba del todo, a la
+    // vista". Asi se colaban dos logos ocultos como imagenes sin cargar:
+    // el lazy-load nunca los pide porque no tienen caja.
+    if (r.width < 1 || r.height < 1) return false;
     return r.bottom > -40 && r.top < innerHeight + 40;
   };
   const excluido = (e) => {
@@ -311,6 +316,28 @@ const REVISAR = String.raw`
     if (d > 2) F.cortado.push({ sel: ruta(e), d: Math.round(d), t: (e.textContent || '').trim().slice(0, 30) });
   });
 
+  // 12. dos textos de una misma fila sin aire entre ellos
+  //     No llegan a pisarse, asi que el criterio 'encima' no los ve, pero se
+  //     leen como una sola palabra: "01Para que te encuentren y te contacten".
+  //     Solo cuenta dentro de una fila de maquetacion (flex o grid), nunca
+  //     entre trozos de una misma frase.
+  for (let i = 0; i < cajas.length; i++) {
+    for (let j = i + 1; j < cajas.length; j++) {
+      const a = cajas[i], b = cajas[j];
+      if (a.e.parentElement !== b.e.parentElement) continue;
+      const padre = a.e.parentElement;
+      if (!padre) continue;
+      const dp = getComputedStyle(padre).display;
+      if (dp !== 'flex' && dp !== 'grid' && dp !== 'inline-flex' && dp !== 'inline-grid') continue;
+      const iy = Math.min(a.t.bottom, b.t.bottom) - Math.max(a.t.top, b.t.top);
+      if (iy < 3) continue;
+      const hueco = a.t.left < b.t.left ? b.t.left - a.t.right : a.t.left - b.t.right;
+      if (hueco >= -0.5 && hueco < 5) {
+        F.pegados.push({ sel: ruta(a.e), hueco: Math.round(hueco), a: (a.e.textContent || '').trim().slice(0, 18), b: (b.e.textContent || '').trim().slice(0, 18) });
+      }
+    }
+  }
+
   return F;
 })()
 `
@@ -322,7 +349,7 @@ const { targetId } = await s.e('Target.createTarget', { url: 'about:blank' })
 const { sessionId } = await s.e('Target.attachToTarget', { targetId, flatten: true })
 await s.e('Page.enable', {}, sessionId); await s.e('Runtime.enable', {}, sessionId)
 
-const CRIT = ['contraste', 'fuera', 'sobreLinea', 'encima', 'toque', 'scrollH', 'imagenes', 'chico', 'partida', 'icono', 'cortado']
+const CRIT = ['contraste', 'fuera', 'sobreLinea', 'encima', 'toque', 'scrollH', 'imagenes', 'chico', 'partida', 'icono', 'cortado', 'pegados']
 const total = Object.fromEntries(CRIT.map(c => [c, 0]))
 const detalle = []
 

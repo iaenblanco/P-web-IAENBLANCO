@@ -24,10 +24,12 @@ const sections = [
     title: 'Información que podemos recibir',
     content: (
       <p>
-        Este sitio no utiliza formularios de contacto ni crea cuentas de usuario.
-        Podemos recibir los datos que decidas compartir voluntariamente al escribirnos
-        por correo electrónico o WhatsApp, como tu nombre, datos de contacto,
-        organización y antecedentes de un proyecto.
+        En la página de contacto hay un formulario, pero este sitio no guarda ni envía
+        nada por su cuenta: al apretar el botón se abre tu WhatsApp o tu correo con el
+        mensaje ya escrito, y tú decides si lo mandas. Tampoco creamos cuentas de
+        usuario. Podemos recibir los datos que decidas compartir voluntariamente al
+        escribirnos por correo electrónico o WhatsApp, como tu nombre, datos de
+        contacto, organización y antecedentes de un proyecto.
       </p>
     ),
   },

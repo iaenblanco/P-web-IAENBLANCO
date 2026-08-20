@@ -174,7 +174,7 @@ export const services: Service[] = [
       'Equipos comerciales que necesitan abrir mercado nuevo',
       'Quien está cansado de listas compradas que no responden',
     ],
-    plazo: 'Servicio mensual; la primera entrega a las 2 semanas',
+    plazo: 'Servicio mensual; la primera entrega, a unas 2 semanas de acordar el perfil',
     signals: ['Empresas reales', 'Verificadas una a una', 'Ordenadas por prioridad', 'Con qué decirles'],
     seoTitle: 'Buscamos clientes nuevos para tu empresa',
     seoDescription:

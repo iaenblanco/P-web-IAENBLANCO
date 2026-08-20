@@ -3699,20 +3699,7 @@ button {
   bottom: 4%;
 }
 
-.home-hero__index {
-  position: absolute;
-  right: 0;
-  bottom: 22px;
-  left: 0;
-  z-index: 2;
-  display: none;
-  justify-content: space-between;
-  color: var(--graphite);
-  font-family: var(--font-mono);
-  font-size: 10px;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-}
+
 
 .system-map-section {
   position: relative;
@@ -10683,10 +10670,6 @@ button {
     display: none;
   }
 
-  .home-hero__index span:nth-child(2) {
-    display: none;
-  }
-
   .client-rail__names {
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -15497,7 +15480,7 @@ button {
    La etiqueta mono en versalitas de 10px se lee bien en un monitor de 27" y
    no se lee en un telefono. Medido a 390px: 41 textos por debajo de 13px, y
    entre ellos el precio, el "Abrir el sitio" de cada trabajo y el enlace a
-   WhatsApp. En pantalla chica el piso sube: 13px para etiquetas, 14px para
+   WhatsApp. En pantalla chica el piso sube: 13px para etiquetas y 15px para
    todo lo que el visitante debe leer o tocar para comprarnos.
    --------------------------------------------------------------------------- */
 
@@ -15921,4 +15904,97 @@ button {
 .service-page-hero__copy > p.service-page-hero__plazo,
 .service-entry > p.service-entry__plazo {
   max-width: 100%;
+}
+
+/* La respuesta a "¿cuánto cuesta?" vivía en la pantalla 23 de 25 de la portada
+   y no estaba en la ficha del servicio, que es donde alguien se lo pregunta.
+   Va pegada al plazo, con el mismo peso visual que una nota al pie: no es la
+   promesa principal, pero tiene que estar a la vista. */
+
+.service-page-hero__precio {
+  max-width: 62ch;
+  margin: var(--espacio-2) 0 0;
+  padding-left: var(--espacio-2);
+  border-left: 2px solid var(--signal);
+  color: var(--text-body);
+  font-size: 15px;
+  line-height: 1.55;
+}
+
+@media (max-width: 900px) {
+  .service-page-hero__precio {
+    max-width: 100%;
+    font-size: 14.5px;
+  }
+}
+
+/* La segunda puerta de la rampa, para quien todavía no tiene sitio. Antes era
+   texto gris de 14 px que no se podía tocar; ahora es un enlace con su propia
+   caja, subordinado al botón principal pero alcanzable con el pulgar. */
+
+.rampa__pie {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 4px var(--espacio-2);
+  align-items: center;
+  margin: var(--espacio-3) 0 0;
+  padding: var(--espacio-2) var(--espacio-3);
+  border: 1px solid var(--line);
+  background: var(--paper-bright);
+  color: var(--text-body);
+  text-decoration: none;
+  transition: border-color 180ms ease, background-color 180ms ease;
+}
+
+.rampa__pie strong {
+  grid-column: 1;
+  color: var(--ink);
+  font-size: 15px;
+  font-weight: 600;
+  line-height: 1.3;
+}
+
+.rampa__pie span {
+  grid-column: 1;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.rampa__pie svg {
+  grid-column: 2;
+  grid-row: 1 / span 2;
+  width: 16px;
+  height: 16px;
+  color: var(--signal-ink);
+}
+
+.rampa__pie:hover {
+  border-color: var(--signal);
+  background: var(--paper);
+}
+
+@media (max-width: 900px) {
+  .rampa__pie {
+    min-height: 64px;
+  }
+
+  .rampa__pie span {
+    font-size: 14.5px;
+  }
+}
+
+/* En el teléfono el encabezado de cada servicio quedaba sin un solo píxel entre
+   el número y la etiqueta: "01Para que te encuentren y te contacten" se leía
+   como una sola palabra. Es un flex con space-between y sin gap; a 1440 sobra
+   espacio y no se nota, a 390 se tocan. */
+
+.service-entry__heading {
+  gap: var(--espacio-2);
+}
+
+@media (max-width: 900px) {
+  .service-entry__heading {
+    flex-wrap: wrap;
+    gap: 4px var(--espacio-2);
+  }
 }

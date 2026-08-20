@@ -324,8 +324,13 @@ export function ServicePageTemplate({
               {service.signals.map((signal) => <span key={signal}>{signal}</span>)}
             </div>
             <p className="service-page-hero__plazo">
-              <span>Cuánto demora</span>
+              <span>Cuánto suele demorar</span>
               {service.plazo}
+            </p>
+            <p className="service-page-hero__precio">
+              El precio depende de lo que necesites. Te lo damos por escrito antes de
+              empezar y ese número no se mueve: si después quieres sumar algo que no
+              estaba, se cotiza aparte y decides tú.
             </p>
             <div className="service-page-hero__actions">
               <a

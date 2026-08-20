@@ -136,7 +136,7 @@ export const websiteProofCases: WebsiteProofCase[] = [
     logo: 'propinvest',
     sector: 'Corredora de propiedades',
     title: 'Su catálogo de propiedades, que ellos mismos actualizan',
-    text: 'Suben una propiedad nueva y queda publicada, sin tener que pedirnos ayuda.',
+    text: 'Lo que se ve al abrirlo es el catálogo. Lo que no se ve: el panel donde ellos mismos suben una propiedad y queda publicada.',
     href: 'https://propinvest.cl/',
     captura: 'propinvest',
     velocidad: 'menos de 1 s',
@@ -483,9 +483,9 @@ export const servicePageContent: ServicePageContentMap = {
     ],
     caseStudy: {
       client: 'Granja Magdalena',
-      label: 'Dónde se aplica',
-      title: 'Un canal comercial con procesos que pueden conectarse.',
-      text: 'El sitio público muestra el contexto comercial donde este tipo de automatizaciones aporta valor: catálogo, consultas, pedidos y seguimiento. Los flujos internos no se exponen públicamente por confidencialidad.',
+      label: 'Un ejemplo del tipo de negocio',
+      title: 'Dónde este trabajo rinde: un negocio que vende, despacha y responde todos los días.',
+      text: 'Su tienda es de las que hicimos nosotros. La usamos acá como ejemplo del tipo de operación donde estas automatizaciones rinden —catálogo, pedidos, boletas y seguimiento—, no como un trabajo de automatización que le hayamos hecho.',
       href: 'https://granjamagdalena.cl/',
       actionLabel: 'Abrir el sitio',
     },
@@ -515,7 +515,7 @@ export const servicePageContent: ServicePageContentMap = {
       {
         question: '¿Y si falla y nadie se da cuenta?',
         answer:
-          'Por eso siempre incluimos avisos. Si algo se cae o queda a medias, te llega el aviso. Nada falla en silencio.',
+          'Por eso siempre incluimos avisos: si algo se cae o queda a medias, te llega un aviso en vez de quedar escondido. Y te dejamos una pantalla donde puedes revisar el estado cuando quieras.',
       },
       {
         question: '¿Qué se puede conectar?',
