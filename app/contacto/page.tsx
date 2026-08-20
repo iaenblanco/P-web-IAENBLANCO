@@ -37,8 +37,9 @@ export default function ContactPage() {
             <em>poner en operación.</em>
           </h1>
           <p>
-            Puede ser una web, una plataforma que todavía no existe, un proceso
-            que necesita conectarse o una idea de IA difícil de encasillar.
+            Puede ser un sitio web, una tienda online, un programa que todavía no
+            existe, o algo que hoy haces a mano y quieres que se haga solo. No hace
+            falta que sepas cómo se llama.
           </p>
         </div>
       </section>
