@@ -201,6 +201,32 @@ export type Product = {
   ctaLabel: string
   /** true cuando cualquiera puede contratarlo solo, sin hablar con nosotros. */
   selfServe: boolean
+  /** Para quien es, en cuatro o cinco palabras. Va en la micro-etiqueta. */
+  paraQuien: string
+  /** La promesa en una linea, escrita a la medida de la caja del titular. */
+  promesaCorta: string
+  /**
+   * El diptico: la misma tabla del negocio mostrada como esta hoy y como
+   * queda con el programa. Los valores son ILUSTRATIVOS y la pagina lo dice
+   * con todas sus letras; no son resultados medidos de ningun cliente.
+   */
+  diptico: Diptico
+}
+
+export type DipticoFila = {
+  etiqueta: string
+  detalle: string
+  hoy: string
+  despues: string
+  /** Marca en rojo el valor de hoy. Como maximo dos por producto. */
+  alarma?: boolean
+}
+
+export type Diptico = {
+  despuesLabel: string
+  filas: DipticoFila[]
+  remateHoy: string
+  remateDespues: string
 }
 
 export const products: Product[] = [
@@ -210,7 +236,7 @@ export const products: Product[] = [
     status: 'Próximamente',
     statusMeaning: 'Lo estamos terminando con los primeros negocios. Te avisamos apenas abra.',
     offer: 'Sin compromiso · lo vemos por WhatsApp',
-    ctaLabel: 'Avísame cuando esté',
+    ctaLabel: 'Hablemos de Unifícalo',
     selfServe: false,
     eyebrow: 'Para quien vende en varios lados',
     promise: 'Tu inventario, tus precios y tus boletas cuadran solos en todos lados.',
@@ -231,8 +257,21 @@ export const products: Product[] = [
       'WooCommerce',
       'Paris',
     ],
-    href: 'https://wa.me/56977684800?text=Hola%20IAenBlanco%2C%20quiero%20que%20me%20avisen%20cuando%20Unif%C3%ADcalo%20est%C3%A9%20disponible.',
+    href: 'https://wa.me/56977684800?text=Hola%2C%20vendo%20en%20varios%20lados%20y%20quiero%20saber%20c%C3%B3mo%20funciona%20Unif%C3%ADcalo.',
     sitio: 'https://unificalo.cl',
+    paraQuien: 'Si vendes en varios lados',
+    promesaCorta: 'Vendes en cuatro partes y el stock es uno solo.',
+    diptico: {
+      despuesLabel: 'Con Unifícalo',
+      filas: [
+        { etiqueta: 'Tu local', detalle: 'Bsale', hoy: '4', despues: '4' },
+        { etiqueta: 'Tu tienda online', detalle: 'Shopify', hoy: '12', despues: '4', alarma: true },
+        { etiqueta: 'Mercado Libre', detalle: 'Publicación activa', hoy: '12', despues: '4', alarma: true },
+        { etiqueta: 'Uber Eats', detalle: 'Carta del día', hoy: '0', despues: '4' },
+      ],
+      remateHoy: 'Vendiste dos veces lo mismo. El reembolso lo pones tú.',
+      remateDespues: 'Una venta en cualquier parte y las otras tres se enteran.',
+    },
   },
   {
     id: 'citaly',
@@ -240,7 +279,7 @@ export const products: Product[] = [
     status: 'Próximamente',
     statusMeaning: 'Está en pruebas con negocios reales. Te avisamos apenas abra.',
     offer: 'Sin compromiso · lo vemos por WhatsApp',
-    ctaLabel: 'Avísame cuando esté',
+    ctaLabel: 'Hablemos de Citaly',
     selfServe: false,
     eyebrow: 'Para negocios que atienden con hora',
     promise: 'Tu WhatsApp responde, entiende audios y agenda horas aunque estés atendiendo.',
@@ -252,8 +291,21 @@ export const products: Product[] = [
       'Manda recordatorios y guarda tus clientes, tu equipo y tus cobros en un lugar.',
     ],
     integrations: ['WhatsApp', 'Agenda', 'Audios', 'Reservas', 'Recordatorios', 'CRM'],
-    href: 'https://wa.me/56977684800?text=Hola%20IAenBlanco%2C%20quiero%20que%20me%20avisen%20cuando%20Citaly%20est%C3%A9%20disponible.',
+    href: 'https://wa.me/56977684800?text=Hola%2C%20atiendo%20con%20hora%20y%20quiero%20saber%20c%C3%B3mo%20funciona%20Citaly.',
     sitio: 'https://citaly.cl',
+    paraQuien: 'Si atiendes con hora',
+    promesaCorta: 'Contesta el WhatsApp mientras tú estás atendiendo.',
+    diptico: {
+      despuesLabel: 'Con Citaly',
+      filas: [
+        { etiqueta: '21:40', detalle: 'Audio de 14 segundos', hoy: 'Sin abrir', despues: 'Entendido' },
+        { etiqueta: '21:41', detalle: '«¿Tienen mañana?»', hoy: 'Sin responder', despues: 'Le ofrece tres horas', alarma: true },
+        { etiqueta: '08:12', detalle: 'El cliente no volvió', hoy: 'Se fue a otra parte', despues: 'Hora tomada, 11:30', alarma: true },
+        { etiqueta: '08:30', detalle: 'Abres el teléfono', hoy: 'Mensajes sin leer', despues: 'Nada pendiente' },
+      ],
+      remateHoy: 'El cliente no espera. Se va donde le contesten.',
+      remateDespues: 'Contestó a las 21:41, cuando tú ya habías cerrado.',
+    },
   },
   {
     id: 'leads',
@@ -261,7 +313,7 @@ export const products: Product[] = [
     status: 'Próximamente',
     statusMeaning: 'Lo estamos afinando con los primeros clientes. Te avisamos apenas abra.',
     offer: 'Sin compromiso · lo vemos por WhatsApp',
-    ctaLabel: 'Avísame cuando esté',
+    ctaLabel: 'Hablemos de Leads',
     selfServe: false,
     eyebrow: 'Para quien le vende a empresas',
     promise: 'Empresas reales y verificadas, en vez de mandar mensajes al voleo.',
@@ -273,8 +325,21 @@ export const products: Product[] = [
       'Llevas el seguimiento de cada empresa hasta la reunión o la venta.',
     ],
     integrations: ['Fuentes públicas', 'Evidencia', 'Score', 'Pipeline', 'WhatsApp', 'CRM'],
-    href: 'https://wa.me/56977684800?text=Hola%20IAenBlanco%2C%20quiero%20que%20me%20avisen%20cuando%20Leads%20est%C3%A9%20disponible.',
+    href: 'https://wa.me/56977684800?text=Hola%2C%20le%20vendo%20a%20empresas%20y%20quiero%20saber%20c%C3%B3mo%20funciona%20Leads.',
     sitio: 'https://leads.iaenblanco.com',
+    paraQuien: 'Si le vendes a empresas',
+    promesaCorta: 'Empresas que existen de verdad, ordenadas por cuál llamar primero.',
+    diptico: {
+      despuesLabel: 'Con Leads',
+      filas: [
+        { etiqueta: 'Rubro y comuna', detalle: 'Lo que buscaste', hoy: 'Una lista larga', despues: 'Solo las que calzan' },
+        { etiqueta: 'Teléfono', detalle: 'Para llamar hoy', hoy: 'Hay que buscarlo', despues: 'Viene en la ficha', alarma: true },
+        { etiqueta: '¿Sigue operando?', detalle: 'Antes de gastar la llamada', hoy: 'No lo sabes', despues: 'Revisado', alarma: true },
+        { etiqueta: 'A cuál llamas primero', detalle: 'El orden del día', hoy: 'Al azar', despues: '1 · 2 · 3 · 4' },
+      ],
+      remateHoy: 'Se te va la mañana buscando a mano.',
+      remateDespues: 'Partes por las que te calzan, no por las que salieron primero.',
+    },
   },
 ]
 

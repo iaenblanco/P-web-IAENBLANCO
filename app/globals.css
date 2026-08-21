@@ -17371,3 +17371,814 @@ button {
     gap: 5px;
   }
 }
+
+/* ==================================================================
+   EL DIPTICO: la seccion de productos, rehecha (pedido 5, 21-ago-2026)
+   ------------------------------------------------------------------
+   Lo que habia: un panel de dos columnas de altura libre -texto crema a
+   la izquierda, un "motor" oscuro con un orbe, seis tarjetas flotando y
+   lineas punteadas a la derecha-. Fallaba en seis cosas medidas:
+     a) las dos columnas nunca median lo mismo y el panel se veia roto;
+     b) las seis tarjetas tenian anchos distintos y cinco acentos de
+        color sin significado, un arcoiris;
+     c) el muro de ocho chips de integraciones se desbordaba 3-2-3;
+     d) dos botones competian al final y no ganaba ninguno;
+     e) en celular cada producto ocupaba unos 1.800 px;
+     f) el texto explicaba el mecanismo antes que el beneficio.
+   Lo que hay ahora: el mismo objeto mostrado dos veces, roto y cuadrado.
+   La ilustracion es el dato. La simetria no se cuida: las dos mitades
+   declaran la MISMA rejilla de filas, asi que no se pueden desalinear.
+   Los numeros son ilustrativos y el diptico lo dice: "Ejemplo".
+   ================================================================== */
+
+.ad-lista {
+  display: grid;
+  gap: 40px;
+}
+
+.ad {
+  --acento: var(--signal);
+  --alarma: #a03a26;
+  --noche: #0c1824;
+  --despeje: 36px;
+}
+
+.ad--unificalo { --acento: #d99019; }
+.ad--citaly { --acento: #66a93f; }
+.ad--leads { --acento: #40b0d0; }
+
+.ad > article {
+  display: grid;
+  grid-template-rows: auto auto auto;
+  border: 1px solid var(--line);
+  background: var(--paper-bright);
+}
+
+/* --- Cabecera: la unica zona que comparten las dos mitades ---------- */
+
+.ad__cabecera {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 24px;
+  align-items: start;
+  min-height: 160px;
+  padding: 34px 44px 30px;
+}
+
+.ad__etiqueta {
+  margin: 0;
+  color: var(--graphite);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.ad__cabecera h2 {
+  margin: 16px 0 0;
+  font-size: clamp(38px, 4.4vw, 60px);
+  font-weight: 500;
+  letter-spacing: -0.05em;
+  line-height: 0.95;
+}
+
+.ad__promesa {
+  max-width: 32ch;
+  margin: 14px 0 0;
+  color: var(--text-strong);
+  font-size: clamp(18px, 1.9vw, 26px);
+  letter-spacing: -0.03em;
+  line-height: 1.15;
+}
+
+.ad__marca {
+  display: grid;
+  justify-items: end;
+  gap: 12px;
+}
+
+.ad__marca-caja {
+  display: grid;
+  place-items: center;
+  width: 52px;
+  height: 52px;
+  border: 1px solid var(--line);
+  background: var(--paper);
+}
+
+.ad__marca-img,
+.ad__marca-svg {
+  width: 30px;
+  height: 30px;
+  object-fit: contain;
+}
+
+.ad__marca-svg {
+  color: var(--acento);
+}
+
+.ad__estado {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  color: var(--graphite);
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.ad__estado i {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--acento);
+}
+
+/* --- El diptico ---------------------------------------------------- */
+
+.ad__diptico {
+  position: relative;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  border-top: 1px solid var(--line);
+}
+
+/* Los numeros de las filas son un ejemplo, no un resultado medido de
+   ningun cliente. Se dice donde se ve, no en letra chica al final. */
+.ad__mitad--despues .ad__ejemplo {
+  position: absolute;
+  right: 12px;
+  bottom: 8px;
+  z-index: 2;
+  margin: 0;
+  color: rgba(255, 255, 255, 0.5);
+  font-family: var(--font-mono);
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.ad__mitad {
+  display: grid;
+  grid-template-rows: 40px repeat(4, 80px) 34px;
+  align-content: start;
+  padding: 28px 44px 30px;
+  min-width: 0;
+}
+
+.ad__mitad--hoy {
+  padding-right: var(--despeje);
+  background: var(--paper-deep, #e9e6de);
+}
+
+.ad__mitad--despues {
+  padding-left: var(--despeje);
+  border-left: 2px solid var(--acento);
+  background: var(--noche);
+  color: var(--paper-bright);
+}
+
+.ad__mitad-titulo {
+  margin: 0;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.ad__mitad--hoy .ad__mitad-titulo { color: var(--graphite); }
+.ad__mitad--despues .ad__mitad-titulo { color: rgba(255, 255, 255, 0.66); }
+
+.ad__filas {
+  display: contents;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.ad__filas > li {
+  display: grid;
+  grid-template-columns: 20px minmax(0, 1fr) auto;
+  column-gap: 14px;
+  align-items: center;
+  height: 80px;
+  min-width: 0;
+}
+
+/* El filete que separa las filas. En el lado de hoy es punteado y se
+   arrastra despacio; en el resuelto es continuo y esta quieto. El
+   desorden se mueve, el orden no: ese contraste es el argumento. */
+.ad__mitad--hoy .ad__filas > li {
+  border-bottom: 1px dashed rgba(7, 10, 15, 0.2);
+}
+
+.ad__mitad--despues .ad__filas > li {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.ad__glifo {
+  display: grid;
+  place-items: center;
+  width: 20px;
+  height: 20px;
+}
+
+.ad__mitad--hoy .ad__glifo::before {
+  content: "";
+  width: 9px;
+  height: 9px;
+  border: 1px solid rgba(7, 10, 15, 0.3);
+}
+
+.ad__tic {
+  width: 16px;
+  height: 16px;
+  color: var(--acento);
+}
+
+.ad__texto {
+  display: grid;
+  gap: 3px;
+  min-width: 0;
+}
+
+.ad__texto strong {
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  line-height: 1.15;
+  overflow-wrap: normal;
+  word-break: keep-all;
+  hyphens: none;
+}
+
+.ad__texto em {
+  overflow: hidden;
+  color: var(--graphite);
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-style: normal;
+  letter-spacing: 0.02em;
+  line-height: 1.25;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.ad__mitad--despues .ad__texto em {
+  color: rgba(255, 255, 255, 0.56);
+}
+
+/* Que los cuatro valores queden alineados al pixel es, literalmente, el
+   argumento de venta: por eso van todos en monoespaciada tabular. */
+.ad__valor {
+  font-family: var(--font-mono);
+  font-size: 15px;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.01em;
+  text-align: right;
+  white-space: nowrap;
+}
+
+.ad__mitad--hoy .ad__valor { color: var(--text-strong); }
+.ad__mitad--despues .ad__valor { color: var(--paper-bright); }
+
+.ad__mitad--hoy .ad__valor--alarma {
+  color: var(--alarma);
+  animation: ad-desajuste 2.6s ease-in-out infinite alternate;
+}
+
+.ad__remate {
+  align-self: center;
+  margin: 0;
+  font-size: 13px;
+  line-height: 1.3;
+}
+
+.ad__mitad--hoy .ad__remate { color: var(--alarma); }
+.ad__mitad--despues .ad__remate { color: rgba(255, 255, 255, 0.74); }
+
+/* --- La costura: el nodo que une las dos mitades -------------------- */
+
+.ad__costura {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  z-index: 3;
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  border: 1px solid var(--ink);
+  border-radius: 50%;
+  background: var(--paper-bright);
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+}
+
+.ad__costura svg {
+  width: 20px;
+  height: 20px;
+  color: var(--acento);
+  animation: ad-flecha 3.2s ease-in-out infinite;
+}
+
+.ad__costura::after {
+  content: "";
+  position: absolute;
+  inset: -1px;
+  border: 1px solid var(--acento);
+  border-radius: 50%;
+  animation: ad-anillo 3.2s ease-out infinite;
+}
+
+/* --- Pie: un solo boton -------------------------------------------- */
+
+.ad__pie {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 24px;
+  align-items: center;
+  min-height: 96px;
+  padding: 22px 44px;
+  border-top: 1px solid var(--line);
+}
+
+.ad__pie-texto p {
+  max-width: 62ch;
+  margin: 0;
+  color: var(--text-body);
+  font-size: 13px;
+  line-height: 1.45;
+}
+
+.ad__tambien {
+  margin-top: 5px !important;
+  color: var(--graphite) !important;
+  font-family: var(--font-mono);
+  font-size: 12px !important;
+  text-wrap: balance;
+}
+
+.ad__pie-accion {
+  display: grid;
+  justify-items: end;
+  gap: 8px;
+}
+
+.ad__boton {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  min-height: 56px;
+  padding: 0 26px;
+  border: 1px solid var(--ink);
+  background: var(--ink);
+  color: var(--paper-bright);
+  font-size: 15px;
+  font-weight: 500;
+  letter-spacing: -0.01em;
+  text-decoration: none;
+  white-space: nowrap;
+  transition: background-color 160ms ease, color 160ms ease;
+}
+
+.ad__boton svg {
+  width: 18px;
+  height: 18px;
+}
+
+.ad__boton:hover,
+.ad__boton:focus-visible {
+  background: transparent;
+  color: var(--ink);
+}
+
+.ad__oferta {
+  margin: 0;
+  color: var(--graphite);
+  font-family: var(--font-mono);
+  font-size: 12px;
+  letter-spacing: 0.02em;
+}
+
+/* --- Movimiento ---------------------------------------------------- */
+
+@keyframes ad-desajuste {
+  from { opacity: 1; }
+  to { opacity: 0.5; }
+}
+
+@keyframes ad-anillo {
+  0% { opacity: 0.45; transform: scale(1); }
+  70%, 100% { opacity: 0; transform: scale(1.55); }
+}
+
+@keyframes ad-flecha {
+  0%, 100% { transform: translateX(0); }
+  50% { transform: translateX(3px); }
+}
+
+@keyframes ad-barrido {
+  from { transform: translateX(-260px); }
+  to { transform: translateX(calc(100% + 260px)); }
+}
+
+/* El barrido de luz recorre solo la mitad resuelta. Va en un
+   pseudo-elemento contenido con clip-path y no con overflow: hidden,
+   porque overflow deja una costura de 1 px en pantallas con DPR
+   fraccionario justo donde va el filete de acento. */
+.ad__mitad--despues {
+  position: relative;
+  overflow: clip;
+}
+
+.ad__mitad--despues::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  width: 240px;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.06), transparent);
+  animation: ad-barrido 7s linear infinite;
+  pointer-events: none;
+}
+
+.ad--citaly .ad__mitad--despues::before { animation-delay: -2.4s; }
+.ad--leads .ad__mitad--despues::before { animation-delay: -4.8s; }
+
+/* --- Tablet -------------------------------------------------------- */
+
+@media (max-width: 1180px) {
+  .ad {
+    --despeje: 24px;
+  }
+
+  .ad__cabecera {
+    min-height: 0;
+    padding: 30px 32px 26px;
+  }
+
+  .ad__mitad {
+    grid-template-rows: 36px repeat(4, 72px) 32px;
+    padding: 24px 32px 26px;
+  }
+
+  .ad__pie {
+    padding: 20px 32px;
+  }
+}
+
+/* --- Celular: el diptico se apila ---------------------------------- */
+
+@media (max-width: 899px) {
+  .ad-lista {
+    gap: 28px;
+  }
+
+  .ad__cabecera {
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: 16px;
+    padding: 24px 20px 22px;
+  }
+
+  .ad__cabecera h2 {
+    margin-top: 12px;
+    font-size: 38px;
+    letter-spacing: -0.04em;
+  }
+
+  .ad__promesa {
+    max-width: 24ch;
+    margin-top: 10px;
+    font-size: 18px;
+  }
+
+  .ad__marca-caja {
+    width: 44px;
+    height: 44px;
+  }
+
+  .ad__marca-img,
+  .ad__marca-svg {
+    width: 26px;
+    height: 26px;
+  }
+
+  .ad__estado {
+    font-size: 13px;
+    letter-spacing: 0.06em;
+  }
+
+  /* Una columna: hoy arriba, resuelto abajo. La flecha de la costura
+     gira 90 grados y sigue apuntando de lo roto a lo cuadrado. */
+  .ad__diptico {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .ad__mitad {
+    grid-template-rows: 34px repeat(3, 62px) auto;
+    padding: 18px 20px 20px;
+  }
+
+  .ad__remate {
+    padding-top: 12px;
+  }
+
+  .ad__mitad--hoy,
+  .ad__mitad--despues {
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+
+  .ad__mitad--despues {
+    border-left: 0;
+    border-top: 2px solid var(--acento);
+  }
+
+  /* Tres filas bastan para leer el patron; la cuarta era relleno y es
+     el ahorro de alto mas grande de la seccion. */
+  .ad__filas > li:nth-child(4) {
+    display: none;
+  }
+
+  .ad__filas > li {
+    height: 62px;
+  }
+
+  .ad__mitad-titulo {
+    font-size: 13px;
+  }
+
+  .ad__etiqueta {
+    font-size: 13px;
+    letter-spacing: 0.07em;
+  }
+
+  .ad__texto strong {
+    font-size: 14px;
+    line-height: 1.15;
+  }
+
+  /* El detalle se va: con valores de texto largo ("Le ofrece tres horas")
+     no cabia junto al valor en la misma fila y se montaban. La etiqueta y
+     el valor son el argumento; el detalle era acompanamiento. */
+  .ad__texto em {
+    display: none;
+  }
+
+  .ad__valor {
+    font-size: 14px;
+  }
+
+  .ad__costura svg {
+    transform: rotate(90deg);
+    animation-name: ad-flecha-abajo;
+  }
+
+  .ad__ejemplo {
+    right: 10px;
+    bottom: 6px;
+  }
+
+  /* En 62 px de alto por fila el barrido no compra nada y cuesta bateria. */
+  .ad__mitad--despues::before {
+    animation: none;
+    display: none;
+  }
+
+  .ad__pie {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 16px;
+    padding: 20px;
+  }
+
+  .ad__pie-accion {
+    justify-items: stretch;
+    gap: 10px;
+  }
+
+  .ad__boton {
+    justify-content: space-between;
+    min-height: 52px;
+  }
+}
+
+@keyframes ad-flecha-abajo {
+  0%, 100% { transform: rotate(90deg) translateX(0); }
+  50% { transform: rotate(90deg) translateX(3px); }
+}
+
+@media (max-width: 380px) {
+  .ad__cabecera h2 {
+    font-size: 32px;
+  }
+
+  .ad__promesa {
+    font-size: 16px;
+  }
+
+  .ad__mitad {
+    grid-template-rows: 34px repeat(3, 56px) auto;
+  }
+
+  .ad__filas > li {
+    height: 56px;
+  }
+
+  .ad__valor {
+    font-size: 13px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ad__valor--alarma,
+  .ad__costura svg,
+  .ad__costura::after,
+  .ad__mitad--despues::before {
+    animation: none;
+  }
+
+  .ad__valor--alarma {
+    opacity: 1;
+  }
+}
+
+/* ------------------------------------------------------------------
+   LA REPISA: los tres productos en el home
+   El home traia la pagina de productos entera -tres fichas con su
+   diagrama de flujo, sus vinetas y sus dos botones- y ocupaba 3.596 px
+   en celular repitiendo lo que ya esta en /productos. Ahora son tres
+   fichas iguales para elegir de un vistazo; el detalle vive en su
+   pagina, que es donde hay espacio para contarlo.
+   ------------------------------------------------------------------ */
+
+.repisa {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 20px;
+  margin-top: clamp(36px, 4vw, 56px);
+}
+
+.repisa__ficha > a {
+  display: grid;
+  grid-template-rows: auto auto auto minmax(0, 1fr) auto;
+  gap: 0;
+  height: 100%;
+  min-height: 300px;
+  padding: 26px 26px 22px;
+  border: 1px solid var(--line);
+  background: var(--paper-bright);
+  color: var(--ink);
+  text-decoration: none;
+  transition: border-color 180ms ease, transform 260ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.repisa__ficha > a:hover,
+.repisa__ficha > a:focus-visible {
+  border-color: var(--acento-ficha);
+  transform: translateY(-3px);
+}
+
+.repisa__ficha--unificalo { --acento-ficha: #d99019; }
+.repisa__ficha--citaly { --acento-ficha: #66a93f; }
+.repisa__ficha--leads { --acento-ficha: #40b0d0; }
+
+.repisa__cabecera {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 14px;
+}
+
+.repisa__orden {
+  color: var(--graphite);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+}
+
+.repisa__marca {
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  border: 1px solid var(--line-soft);
+  background: var(--paper);
+}
+
+.repisa__marca .hero-logo {
+  width: 24px;
+  height: 24px;
+}
+
+.repisa__para {
+  margin-top: 26px;
+  color: var(--graphite);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+}
+
+.repisa__nombre {
+  margin-top: 8px;
+  font-size: clamp(28px, 2.6vw, 36px);
+  font-weight: 500;
+  letter-spacing: -0.045em;
+  line-height: 1;
+}
+
+.repisa__promesa {
+  margin-top: 12px;
+  color: var(--text-body);
+  font-size: 16px;
+  line-height: 1.4;
+  text-wrap: pretty;
+}
+
+.repisa__pie {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  margin-top: 22px;
+  padding-top: 16px;
+  border-top: 1px solid var(--line-soft);
+}
+
+.repisa__estado {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  color: var(--graphite);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.repisa__estado i {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--acento-ficha);
+}
+
+.repisa__mas {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  color: var(--signal-ink);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  white-space: nowrap;
+}
+
+.repisa__mas svg {
+  width: 14px;
+  height: 14px;
+}
+
+@media (max-width: 980px) {
+  .repisa {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 14px;
+  }
+
+  .repisa__ficha > a {
+    min-height: 0;
+    padding: 22px 20px 18px;
+  }
+
+  .repisa__para,
+  .repisa__orden,
+  .repisa__estado,
+  .repisa__mas {
+    font-size: 13px;
+  }
+
+  .repisa__para {
+    margin-top: 18px;
+  }
+
+  .repisa__promesa {
+    font-size: 15px;
+  }
+
+  .repisa__pie {
+    margin-top: 18px;
+  }
+}

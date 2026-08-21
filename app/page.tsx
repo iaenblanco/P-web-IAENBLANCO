@@ -1,5 +1,5 @@
 import Image from 'next/image'
-import { Fragment, type CSSProperties } from 'react'
+import type { CSSProperties } from 'react'
 import { BrandLogo } from '@/components/BrandLogo'
 import { ContactBand } from '@/components/ContactBand'
 import { Reveal } from '@/components/Reveal'
@@ -915,39 +915,6 @@ function ProblemSection() {
   )
 }
 
-function ProductFlowUnit({
-  label,
-  title,
-  detail,
-  theme,
-}: {
-  label: string
-  title: string
-  detail: string
-  theme: string
-}) {
-  return (
-    <div className="product-unified__unit">
-      <span className="product-unified__unit-icon"><HeroLogo theme={theme} /></span>
-      <div>
-        <span>{label}</span>
-        <strong>{title}</strong>
-        <p>{detail}</p>
-      </div>
-    </div>
-  )
-}
-
-function FlowArrow() {
-  return (
-    <span className="product-unified__arrow" aria-hidden="true">
-      <svg viewBox="0 0 34 12" fill="none">
-        <path d="M1 6h30m-5-5 6 5-6 5" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round" />
-      </svg>
-    </span>
-  )
-}
-
 function ProductLabSection() {
   return (
     <section className="ecosystem-lab" aria-labelledby="ecosystem-heading">
@@ -960,77 +927,33 @@ function ProductLabSection() {
         </Reveal>
       </div>
 
-      <div className="section-shell product-unified" aria-label="Productos propios y flujos operativos">
-        {productRows.map((product, index) => {
-          const commercial = products.find((item) => item.id === product.id)
-
-          return (
-          <Reveal
-            key={product.id}
-            className={`product-unified__row product-unified__row--${product.theme}`}
-            delay={index * 90}
-          >
-            <article style={{ '--product-index': index } as CSSProperties}>
-              <div className="product-unified__identity">
-                <div className="product-unified__meta">
-                  <span>{String(index + 1).padStart(2, '0')}</span>
-                  <p>{product.category}</p>
-                  <strong>{commercial?.status}</strong>
-                </div>
-                <div className="product-unified__brand">
-                  <i><HeroLogo theme={product.theme} /></i>
-                  <div>
-                    <h3>{product.name}</h3>
-                  </div>
-                  <p>{product.problem}</p>
-                </div>
-              </div>
-
-              <div className="product-unified__flow" aria-label={`${product.name}: entrada, proceso y salida`}>
-                {product.steps.map((step, stepIndex) => (
-                  <Fragment key={step.label}>
-                    <ProductFlowUnit {...step} />
-                    {stepIndex < product.steps.length - 1 ? <FlowArrow /> : null}
-                  </Fragment>
-                ))}
-              </div>
-
-              <div className="product-unified__result">
-                <span>Resultado</span>
-                <p className="product-unified__promise">{product.promise}</p>
-                <ul className="product-unified__benefits" aria-label={`Beneficios de ${product.name}`}>
-                  {product.benefits.map((benefit) => <li key={benefit}>{benefit}</li>)}
-                </ul>
-
-                <p className="product-unified__status">
-                  <span>{commercial?.status}</span>
-                  {commercial?.statusMeaning}
-                </p>
-                <p className="product-unified__offer">{commercial?.offer}</p>
-
-                <a
-                  href={commercial?.href ?? product.href}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="product-unified__cta"
-                  data-cursor="WhatsApp"
-                  data-cursor-theme={product.theme}
-                  data-product-id={product.id}
-                  data-product-name={product.name}
-                  data-section="Productos propios"
-                >
-                  {commercial?.ctaLabel}
-                  <ArrowUpRight />
-                </a>
-              </div>
-            </article>
+      {/* La repisa: tres fichas iguales para elegir de un vistazo. El detalle
+          de cada una -el diptico de como esta hoy y como queda con el
+          programa- vive en /productos. Antes el home repetia esa pagina
+          entera, con sus diagramas de flujo, y se hacia larguisimo. */}
+      <div className="section-shell repisa">
+        {products.map((product, index) => (
+          <Reveal key={product.id} className={`repisa__ficha repisa__ficha--${product.id}`} delay={index * 90}>
+            <Link href={`/productos#${product.id}`} prefetch={false} data-cursor="Ver">
+              <span className="repisa__cabecera">
+                <span className="repisa__orden">{String(index + 1).padStart(2, '0')}</span>
+                <span className="repisa__marca"><HeroLogo theme={product.id} /></span>
+              </span>
+              <span className="repisa__para">{product.paraQuien}</span>
+              <strong className="repisa__nombre">{product.name}</strong>
+              <span className="repisa__promesa">{product.promesaCorta}</span>
+              <span className="repisa__pie">
+                <span className="repisa__estado"><i aria-hidden="true" />{product.status}</span>
+                <span className="repisa__mas">Ver cómo queda<ArrowUpRight /></span>
+              </span>
+            </Link>
           </Reveal>
-          )
-        })}
+        ))}
       </div>
     </section>
   )
 }
+
 
 export default function HomePage() {
   return (
