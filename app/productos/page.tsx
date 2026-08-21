@@ -230,7 +230,7 @@ export default function ProductsPage() {
     <main id="contenido">
       <section className="page-hero page-hero--products" data-cursor-theme="signal">
         <div className="section-shell">
-          <p className="hero-kicker"><span /> Nuestros productos</p>
+          <p className="hero-kicker"><span className="hero-kicker__punto" aria-hidden="true" /> Nuestros productos</p>
           <h1>
             Tres programas nuestros{' '}
             <em>muy pronto.</em>

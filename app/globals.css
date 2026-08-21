@@ -122,7 +122,8 @@ button {
   color: var(--ink);
 }
 
-.hero-kicker > span {
+.hero-kicker__punto {
+  flex: 0 0 auto;
   width: 7px;
   height: 7px;
   border-radius: 50%;
@@ -14601,14 +14602,10 @@ button {
      la seccion pasó de 1010 px a 2206 px reales a 1280 y a 3242 px a 375, y
      con el valor viejo la barra de scroll pegaba un salto de mil pixeles en
      la primera pasada. */
+  /* Medido con la seccion a la vista: 1078 px a 1280 y 1056 px a 390.
+     Al sacar las seis frases de problema la seccion volvio a ser corta. */
   .problem-strip {
-    contain-intrinsic-size: auto 2200px;
-  }
-
-  @media (max-width: 900px) {
-    .problem-strip {
-      contain-intrinsic-size: auto 3240px;
-    }
+    contain-intrinsic-size: auto 1080px;
   }
 
   .contact-band {
@@ -16665,12 +16662,13 @@ button {
    ========================================================================== */
 
 .problem-strip__proceso.operating-model {
-  /* El aire de arriba lo reparten dos cosas: el gap de .problem-strip__inner
-     (48px) y este margen. Se descuenta el gap para que la raya quede con el
-     mismo aire arriba que abajo, en vez de 2:1. */
-  margin-top: calc(clamp(48px, 6vw, 76px) - var(--gap-ancho));
-  padding: clamp(48px, 6vw, 76px) 0 0;
-  border-top: 1px solid rgba(255, 255, 255, 0.14);
+  /* Ya no va precedido de nada: se sacaron las seis frases de problema por
+     pedido de Nico (21-ago-2026, "me parece irrelevante, definitivo"), asi
+     que el modelo de trabajo es ahora el unico contenido de la banda y no
+     necesita ni filete ni margen de separacion. */
+  margin-top: 0;
+  padding: 0;
+  border-top: 0;
   background: none;
 }
 
@@ -17211,9 +17209,11 @@ button {
   max-width: 46rem;
 }
 
+/* Ahora es el titular de su seccion, no un segundo tiempo: va a la misma
+   escala que "Miralo tu mismo" y "Tres programas propios". */
 .problem-strip__proceso .operating-model__heading h2 {
   max-width: none;
-  font-size: clamp(30px, 3.4vw, 50px);
+  font-size: clamp(34px, 4.2vw, 62px);
 }
 
 .problem-strip__proceso .operating-model__copy {
@@ -17226,4 +17226,148 @@ button {
 
 .product-visual__status i {
   background: #c8811a;
+}
+
+/* ------------------------------------------------------------------
+   Menu del celular: acordeon cerrado
+   Antes "Servicios" no era plegable -era un titulo con sus cinco
+   enlaces siempre desplegados-, asi que el menu se abria mostrando
+   seis renglones de submenu antes de dejar ver Productos y Contacto.
+   Ahora los cuatro renglones se ven de una y cada uno con submenu se
+   abre al tocarlo. Va con <details>, sin JavaScript, y por eso
+   funciona igual con el teclado y con lector de pantalla.
+   ------------------------------------------------------------------ */
+
+@media (max-width: 900px) {
+  .mobile-navigation__grupo {
+    border-bottom: 1px solid var(--line);
+  }
+
+  .mobile-navigation__grupo > summary {
+    display: grid;
+    grid-template-columns: 42px minmax(0, 1fr) 26px;
+    align-items: center;
+    padding: 22px 0;
+    font-size: clamp(30px, 3.4vw, 46px);
+    font-weight: 500;
+    letter-spacing: -0.05em;
+    list-style: none;
+    cursor: pointer;
+  }
+
+  .mobile-navigation__grupo > summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .mobile-navigation__grupo > summary > span {
+    align-self: start;
+    padding-top: 8px;
+    color: var(--graphite);
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0;
+  }
+
+  .mobile-navigation__chevron {
+    width: 22px;
+    height: 22px;
+    justify-self: end;
+    color: var(--graphite);
+    transition: transform 220ms cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .mobile-navigation__grupo[open] .mobile-navigation__chevron {
+    transform: rotate(180deg);
+  }
+
+  .mobile-navigation__sub {
+    padding-bottom: 18px;
+  }
+
+  .mobile-navigation__sub > a {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    min-height: 44px;
+    margin-left: 42px;
+    padding: 11px 0;
+    border-top: 1px solid var(--line-soft);
+    color: var(--graphite);
+    font-size: 14px;
+  }
+
+  .mobile-navigation__sub svg {
+    width: 18px;
+  }
+}
+
+/* ------------------------------------------------------------------
+   La linea de arriba del hero (arreglo 2 de la tanda del 21-ago)
+   Era una sola frase con puntos medios. En el telefono caia en tres
+   lineas: la primera terminaba con un punto medio colgando, la segunda
+   con "CON" y la tercera era "IA" sola. Y el punto cian, centrado
+   contra el bloque entero, quedaba flotando al lado de la segunda
+   linea. Es lo primero que se lee, asi que tiene que estar cuadrado.
+   En escritorio se ve igual que siempre -una linea con separadores-;
+   en celular se cuadra en 2x2, con el punto alineado a la primera fila.
+   ------------------------------------------------------------------ */
+
+.hero-kicker--lista {
+  align-items: flex-start;
+  gap: 12px;
+}
+
+.hero-kicker__lista {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0 10px;
+  min-width: 0;
+}
+
+.hero-kicker__lista > span + span::before {
+  content: "·";
+  margin-right: 10px;
+  color: var(--graphite);
+}
+
+.hero-kicker--lista .hero-kicker__punto {
+  margin-top: 5px;
+}
+
+@media (max-width: 900px) {
+  /* A 15 px "PROGRAMAS A MEDIDA" no cabe en media columna y se partia en
+     dos. Baja a 13 px, que ademas es la medida de todas las demas
+     etiquetas monoespaciadas del sitio en celular; el piso medido son
+     12 px, asi que sigue por encima. */
+  .hero-kicker--lista {
+    font-size: 13px;
+  }
+
+  .hero-kicker__lista {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 7px 14px;
+    width: 100%;
+    letter-spacing: 0.045em;
+  }
+
+  .hero-kicker__lista > span + span::before {
+    content: none;
+  }
+
+  .hero-kicker--lista .hero-kicker__punto {
+    margin-top: 4px;
+  }
+}
+
+/* Bajo 380 px las dos columnas dejan de caber sin apretar la letra por
+   debajo del piso de 12 px: se apilan en una sola, que sigue estando
+   cuadrada y sin palabras cortadas. */
+
+@media (max-width: 380px) {
+  .hero-kicker__lista {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 5px;
+  }
 }

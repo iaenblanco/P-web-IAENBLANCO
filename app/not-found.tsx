@@ -4,7 +4,7 @@ export default function NotFound() {
   return (
     <main id="contenido" className="not-found">
       <div className="section-shell">
-        <p className="hero-kicker"><span /> Error 404</p>
+        <p className="hero-kicker"><span className="hero-kicker__punto" aria-hidden="true" /> Error 404</p>
         <h1>Esta ruta ya no forma parte del sistema.</h1>
         <p>Vuelve al inicio para explorar las capacidades actuales de IAenBlanco.</p>
         <Link href="/" prefetch={false} className="button button--primary">

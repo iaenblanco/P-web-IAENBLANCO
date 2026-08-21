@@ -31,7 +31,7 @@ export default function ContactPage() {
       <section className="contact-hero">
         <div className="contact-hero__grid" aria-hidden="true" />
         <div className="section-shell contact-hero__inner">
-          <p className="hero-kicker"><span /> Canal directo</p>
+          <p className="hero-kicker"><span className="hero-kicker__punto" aria-hidden="true" /> Canal directo</p>
           <h1>
             Cuéntanos qué quieres
             <em>poner en operación.</em>

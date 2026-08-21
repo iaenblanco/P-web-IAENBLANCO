@@ -166,56 +166,6 @@ const trustSignals = [
   { value: 'Tres rubros', label: 'mudanzas y carga, corretaje de propiedades, y venta de alimentos para personas y para mascotas' },
 ]
 
-const problemCards = [
-  {
-    title: 'No tengo sitio web, o el que tengo da vergüenza',
-    detail: 'La gente te busca en Google y no encuentra nada serio.',
-    response: 'Te hacemos el sitio o la tienda online.',
-    icon: 'web',
-    href: '/servicios/desarrollo-web-ia/',
-    slug: 'desarrollo-web-ia',
-  },
-  {
-    title: 'Llevo el negocio en planillas de Excel',
-    detail: 'Cada uno tiene su versión y nadie sabe cuál es la buena.',
-    response: 'Te hacemos un programa con tus reglas.',
-    icon: 'software',
-    href: '/servicios/plataformas-software-medida/',
-    slug: 'plataformas-software-medida',
-  },
-  {
-    title: 'Paso el día copiando datos de un lado a otro',
-    detail: 'Lo mismo, todas las mañanas, y a veces se escapa un error.',
-    response: 'Hacemos que esas tareas se hagan solas.',
-    icon: 'automation',
-    href: '/servicios/automatizaciones/',
-    slug: 'automatizaciones',
-  },
-  {
-    title: 'Contesto las mismas preguntas todo el día',
-    detail: 'Y cuando no alcanzas a responder, el cliente se va a otro lado.',
-    response: 'Te armamos un asistente que responde por ti.',
-    icon: 'ai',
-    href: '/servicios/soluciones-ia-medida/',
-    slug: 'soluciones-ia-medida',
-  },
-  {
-    title: 'Necesito clientes nuevos y no sé por dónde partir',
-    detail: 'Las listas compradas no contestan y salir a buscar toma semanas.',
-    response: 'Te buscamos empresas reales a las que venderle.',
-    icon: 'magnet',
-    href: '/servicios/prospeccion-b2b-gestionada/',
-    slug: 'prospeccion-b2b-gestionada',
-  },
-  {
-    title: 'Sé que algo se puede mejorar, pero no sé qué',
-    detail: 'Sabes dónde duele, no cómo se arregla. Eso es normal.',
-    response: 'Conversemos y lo ordenamos juntos.',
-    icon: 'business',
-    href: 'whatsapp',
-    slug: 'diagnostico',
-  },
-]
 
 const productRows = [
   {
@@ -867,75 +817,9 @@ function TrustProofSection() {
 }
 
 function ProblemSection() {
-  const diagnostico = getWhatsappUrl(
-    'Hola IAenBlanco, sé que algo se puede mejorar en mi negocio pero no tengo claro qué. ¿Conversamos?',
-  )
-
   return (
-    <section className="problem-strip" id="empezar" aria-labelledby="problem-strip-heading">
+    <section className="problem-strip" id="empezar" aria-labelledby="model-heading">
       <div className="section-shell problem-strip__inner">
-        <Reveal className="problem-strip__heading">
-          <p className="eyebrow">Empieza por acá</p>
-          <h2 id="problem-strip-heading">
-            Así llega la mayoría. Y así trabajamos nosotros.
-          </h2>
-          <p className="problem-strip__lead">
-            Elige la frase que más se parece a lo que te pasa. No necesitas saber cómo se
-            llama la solución: para eso está la primera conversación.
-          </p>
-          <Link href="/servicios" prefetch={false} className="problem-strip__todos">
-            O mira los cinco servicios, uno por uno
-          </Link>
-        </Reveal>
-        <div className="problem-strip__grid">
-          {problemCards.map((problem, index) => {
-            const esWhatsapp = problem.href === 'whatsapp'
-            const contenido = (
-              <>
-                <div className="problem-card__top">
-                  <span>{String(index + 1).padStart(2, '0')}</span>
-                  <i aria-hidden="true"><HeroLogo theme={problem.icon} /></i>
-                </div>
-                <strong>{problem.title}</strong>
-                <p>{problem.detail}</p>
-                <div className="problem-card__response">
-                  <span>Lo que hacemos</span>
-                  <p>{problem.response}</p>
-                </div>
-              </>
-            )
-
-            return (
-              <Reveal key={problem.title} delay={index * 60}>
-                {esWhatsapp ? (
-                  <a
-                    href={diagnostico}
-                    target="_blank"
-                    rel="noreferrer"
-                    className="problem-card problem-card--diagnostic"
-                    data-cursor="WhatsApp"
-                    data-analytics-event="service_whatsapp_click"
-                    data-service-id={problem.slug}
-                  >
-                    {contenido}
-                  </a>
-                ) : (
-                  <Link
-                    href={problem.href}
-                    prefetch={false}
-                    className="problem-card"
-                    data-cursor="Ver"
-                    data-analytics-event="service_cta_click"
-                    data-service-id={problem.slug}
-                  >
-                    {contenido}
-                  </Link>
-                )}
-              </Reveal>
-            )
-          })}
-        </div>
-
         <div className="problem-strip__proceso operating-model">
 
           <Reveal className="operating-model__heading">
@@ -1155,9 +1039,18 @@ export default function HomePage() {
         <div className="home-hero__grid" aria-hidden="true" />
         <div className="section-shell home-hero__inner">
           <div className="home-hero__content">
-            <p className="hero-kicker">
-              <span />
-              Sitios web · Tiendas online · Programas a medida · Asistentes con IA
+            {/* Cuatro piezas separadas y no una frase con puntos medios: en el
+                telefono la frase caia en tres lineas con un punto medio colgando
+                al final de la primera y "IA" solo en la tercera. Asi se cuadra
+                en 2x2 sin huerfanos. */}
+            <p className="hero-kicker hero-kicker--lista">
+              <span className="hero-kicker__punto" aria-hidden="true" />
+              <span className="hero-kicker__lista">
+                <span>Sitios web</span>
+                <span>Tiendas online</span>
+                <span>Programas a medida</span>
+                <span>Asistentes con IA</span>
+              </span>
             </p>
             <h1 id="home-title">
               Te hacemos la parte tecnológica.

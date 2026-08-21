@@ -12,6 +12,14 @@ function ArrowUpRight({ className = '' }: { className?: string }) {
   )
 }
 
+function ChevronDown() {
+  return (
+    <svg className="mobile-navigation__chevron" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+      <path d="m5 8 5 5 5-5" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
+  )
+}
+
 function MenuIcon() {
   return (
     <span className="menu-icon" aria-hidden="true">
@@ -132,16 +140,6 @@ export function Header() {
                   </Link>
                 ))}
               </div>
-              <Link
-                href="/servicios"
-                prefetch={false}
-                className="products-menu__all"
-                role="menuitem"
-                onClick={forceCloseDesktopMenu}
-              >
-                Ver página de servicios
-                <ArrowUpRight className="services-menu__arrow" />
-              </Link>
             </div>
           </div>
 
@@ -202,16 +200,6 @@ export function Header() {
                   </Link>
                 ))}
               </div>
-              <Link
-                href="/productos"
-                prefetch={false}
-                className="products-menu__all"
-                role="menuitem"
-                onClick={forceCloseDesktopMenu}
-              >
-                Ver página de productos
-                <ArrowUpRight className="services-menu__arrow" />
-              </Link>
             </div>
           </div>
           <Link
@@ -252,22 +240,40 @@ export function Header() {
               <Link href="/" prefetch={false} className="mobile-navigation__primary">
                 <span>01</span> Inicio
               </Link>
-              <div className="mobile-navigation__services">
-                <p><span>02</span> Servicios</p>
-                <Link href="/servicios" prefetch={false}>
-                  Ver todos los servicios
-                  <ArrowUpRight />
-                </Link>
-                {services.map((service) => (
-                  <Link key={service.slug} href={`/servicios/${service.slug}`} prefetch={false}>
-                    {service.shortTitle}
-                    <ArrowUpRight />
-                  </Link>
-                ))}
-              </div>
-              <Link href="/productos" prefetch={false} className="mobile-navigation__primary">
-                <span>03</span> Productos
-              </Link>
+              {/* Servicios y Productos son plegables y arrancan cerrados: antes
+                  Servicios se abria solo y el menu partia con seis renglones de
+                  submenu antes de dejar ver Productos y Contacto. */}
+              <details className="mobile-navigation__grupo">
+                <summary>
+                  <span>02</span>
+                  Servicios
+                  <ChevronDown />
+                </summary>
+                <div className="mobile-navigation__sub">
+                  {services.map((service) => (
+                    <Link key={service.slug} href={`/servicios/${service.slug}`} prefetch={false}>
+                      {service.shortTitle}
+                      <ArrowUpRight />
+                    </Link>
+                  ))}
+                </div>
+              </details>
+
+              <details className="mobile-navigation__grupo">
+                <summary>
+                  <span>03</span>
+                  Productos
+                  <ChevronDown />
+                </summary>
+                <div className="mobile-navigation__sub">
+                  {products.map((product) => (
+                    <Link key={product.id} href={`/productos#${product.id}`} prefetch={false}>
+                      {product.name}
+                      <ArrowUpRight />
+                    </Link>
+                  ))}
+                </div>
+              </details>
               <Link href="/contacto" prefetch={false} className="mobile-navigation__primary">
                 <span>04</span> Contacto
               </Link>
