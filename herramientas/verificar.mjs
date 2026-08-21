@@ -4,10 +4,14 @@
 //
 //   node herramientas/verificar.mjs <carpeta-temporal> <base> <anchos> <rutas>
 //
-// Ejemplo, contra el sitio ya construido y servido en local:
+// Contra el sitio ya construido y servido en local:
 //   npm run build
-//   node herramientas/servir.mjs out 3210      (o npx serve out -l 3210)
+//   node herramientas/servir.mjs out 3210
 //   node herramientas/verificar.mjs .tmp/ver http://localhost:3210 //     1920,1440,1280,1024,768,390,360 /,/servicios/,/productos/,/contacto/
+//
+// Borra la carpeta temporal al terminar: cada pasada deja un perfil de Chrome
+// de ~200 MB, y en Windows las rutas son tan largas que Remove-Item no puede
+// con ellas (hay que forzarlas con robocopy contra una carpeta vacia).
 //
 // Se juzga solo lo que está a la vista: la página se recorre pantalla por
 // pantalla y en cada una se mide lo que hay dentro del viewport. Fuera de él,
