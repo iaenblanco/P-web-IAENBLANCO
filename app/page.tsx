@@ -97,19 +97,6 @@ function summaryPointStyle(x: number, y: number, w?: number) {
 
 const clientProofs = [
   {
-    client: 'YoMeEncargo',
-    href: 'https://yomeencargo.cl/',
-    captura: 'yomeencargo',
-    logo: 'yomercargo',
-    sector: 'Fletes y mudanzas',
-    project: 'Su sitio de servicios, ordenado para que se entienda',
-    velocidad: 'menos de 1,5 s',
-    peso: '770 KB',
-    system: 'Cada servicio explicado por separado y un camino claro hasta pedir la cotización.',
-    proof: 'Ofrecen muchas cosas distintas. El sitio las ordena para que cada visitante encuentre la suya.',
-    destacado: true,
-  },
-  {
     client: 'Propinvest',
     href: 'https://propinvest.cl/',
     captura: 'propinvest',
@@ -120,6 +107,19 @@ const clientProofs = [
     peso: '572 KB',
     system: 'Sitio con fichas de propiedades, textos editables y formulario de contacto.',
     proof: 'Lo que se ve al abrirlo es el catálogo. Lo que no se ve: el panel donde ellos mismos suben una propiedad y queda publicada, sin pedirnos ayuda.',
+    destacado: true,
+  },
+  {
+    client: 'YoMeEncargo',
+    href: 'https://yomeencargo.cl/',
+    captura: 'yomeencargo',
+    logo: 'yomercargo',
+    sector: 'Fletes y mudanzas',
+    project: 'Su sitio de servicios, ordenado para que se entienda',
+    velocidad: 'menos de 1,5 s',
+    peso: '770 KB',
+    system: 'Cada servicio explicado por separado y un camino claro hasta pedir la cotización.',
+    proof: 'Ofrecen muchas cosas distintas. El sitio las ordena para que cada visitante encuentre la suya.',
   },
   {
     client: 'Granja Magdalena',
