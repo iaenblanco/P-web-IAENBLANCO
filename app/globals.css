@@ -15870,8 +15870,12 @@ button {
 
 @media (max-width: 345px) {
   .unify-node {
-    width: 88px;
-    padding: 8px 6px;
+    width: 92px;
+    padding: 8px 5px;
+  }
+
+  .unify-node strong {
+    letter-spacing: -0.005em;
   }
 }
 
@@ -16032,12 +16036,18 @@ button {
 .site-footer__nav a,
 .site-footer__nav p {
   min-width: 0;
-  overflow-wrap: anywhere;
+  overflow-wrap: normal;
+  word-break: normal;
 }
+
+/* La columna de contacto tiene que caber el correo entero: 146 px a 12 px en
+   monoespaciada. Se le da mas parte del reparto y se aprieta la separacion
+   entre columnas, que iba en 30 px. */
 
 @media (min-width: 901px) {
   .site-footer__nav {
-    grid-template-columns: minmax(0, 0.86fr) minmax(0, 1.05fr) minmax(0, 1.09fr);
+    grid-template-columns: minmax(0, 0.85fr) minmax(0, 1fr) minmax(0, 1.25fr);
+    gap: 20px;
   }
 }
 
@@ -16052,10 +16062,10 @@ button {
 
 @media (max-width: 380px) {
   .services-managed-card__flow span {
-    padding-right: 8px;
-    padding-left: 8px;
-    font-size: 11.5px;
-    letter-spacing: 0.02em;
+    padding-right: 6px;
+    padding-left: 6px;
+    font-size: 12px;
+    letter-spacing: 0;
   }
 }
 
@@ -16137,5 +16147,59 @@ button {
     min-height: 48px;
     padding: 0 6px;
     letter-spacing: 0.01em;
+  }
+}
+
+/* Entre 901 y 1000 px el panel del producto es angosto y el nodo derecho del
+   diagrama volvia a montarse sobre el circulo central. */
+
+@supports (width: 1cqi) {
+  @media (min-width: 901px) {
+    .product-network-orbit {
+      container-type: inline-size;
+    }
+
+    .product-network-node {
+      width: max(88px, 21.9cqi);
+      padding: max(8px, 2.33cqi);
+    }
+
+    .product-network-node span {
+      font-size: max(11.5px, 2.99cqi);
+    }
+
+    .product-network-node strong {
+      font-size: max(9px, 1.66cqi);
+    }
+
+    .product-network-hub {
+      width: max(96px, 26.9cqi);
+      height: max(96px, 26.9cqi);
+    }
+
+    .product-network-hub span {
+      width: max(52px, 13.6cqi);
+      height: max(52px, 13.6cqi);
+    }
+
+    .product-network-hub span .brand-logo,
+    .product-network-hub .product-mini-mark__leads-logo {
+      width: max(44px, 11.6cqi);
+      height: max(44px, 11.6cqi);
+    }
+
+    .product-network-hub strong {
+      font-size: max(12px, 2.99cqi);
+    }
+  }
+}
+
+/* A 320 px "agenda.engine" y "Validación comercial" se tocaban en la fila de
+   estado del diagrama. */
+
+@media (max-width: 380px) {
+  .product-visual__status {
+    gap: 10px;
+    flex-wrap: wrap;
   }
 }

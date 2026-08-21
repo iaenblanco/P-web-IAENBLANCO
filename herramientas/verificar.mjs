@@ -7,22 +7,18 @@
 // Contra el sitio ya construido y servido en local:
 //   npm run build
 //   node herramientas/servir.mjs out 3210
-//   node herramientas/verificar.mjs .tmp/ver http://localhost:3210 //     1920,1440,1280,1024,768,390,360 /,/servicios/,/productos/,/contacto/
+//   node herramientas/verificar.mjs .tmp/ver http://localhost:3210 \
+//     1920,1440,1280,1024,768,390,360 /,/servicios/,/productos/,/contacto/
 //
 // Borra la carpeta temporal al terminar: cada pasada deja un perfil de Chrome
 // de ~200 MB, y en Windows las rutas son tan largas que Remove-Item no puede
-// con ellas (hay que forzarlas con robocopy contra una carpeta vacia).
+// con ellas (hay que vaciarlas antes con robocopy contra una carpeta vacia).
 //
-// Se juzga solo lo que está a la vista: la página se recorre pantalla por
-// pantalla y en cada una se mide lo que hay dentro del viewport. Fuera de él,
-// las animaciones y content-visibility dan medidas que no corresponden a lo
-// que se ve. Quedan fuera a propósito el enlace "Saltar al contenido" (vive
-// fuera de pantalla), la capa de consentimiento (flota por diseño) y el
-// contenido de un <details> cerrado (el navegador lo apila en el resumen).
-//
-// Si el servidor se cae a mitad de camino, Chrome pinta su propia pantalla de
-// error y medirla devuelve basura con pinta de hallazgo. El script lo detecta,
-// lo dice y termina con codigo 2.
+// Se juzga solo lo que está a la vista, pantalla por pantalla. Quedan fuera a
+// propósito el enlace "Saltar al contenido" (vive fuera de pantalla), la capa
+// de consentimiento (flota por diseño) y el contenido de un <details> cerrado.
+// Si el servidor se cae, Chrome pinta su pantalla de error y medirla devuelve
+// basura con pinta de hallazgo: el script lo detecta y termina con codigo 2.
 import { spawn } from 'node:child_process'
 import { setTimeout as espera } from 'node:timers/promises'
 
@@ -177,8 +173,20 @@ const REVISAR = String.raw`
   // La caja de una linea de texto incluye el interlineado, que es aire.
   // Se descuenta para quedarse con la mancha real de las letras: si no, un
   // circulo que termina 3 px sobre la linea parecia estar encima del texto.
+  // La mancha de tinta se mide sobre el texto SIN los espacios de los bordes:
+  // un espacio final dentro del elemento hacia que su caja llegara hasta el
+  // vecino y el criterio 'pegados' lo leyera como hueco cero, cuando en
+  // pantalla el espacio esta y se ve.
   const tinta = (e) => {
-    const rg = document.createRange(); rg.selectNodeContents(e);
+    const rg = document.createRange();
+    const n0 = e.firstChild, n1 = e.lastChild;
+    if (n0 && n0.nodeType === 3 && n1 && n1.nodeType === 3) {
+      const d0 = n0.data, d1 = n1.data;
+      const i0 = d0.length - d0.replace(/^[\s ]+/, '').length;
+      const i1 = d1.replace(/[\s ]+$/, '').length;
+      if (i0 < d0.length && i1 > 0) { rg.setStart(n0, i0); rg.setEnd(n1, i1) }
+      else rg.selectNodeContents(e);
+    } else rg.selectNodeContents(e);
     const fs = parseFloat(getComputedStyle(e).fontSize) || 16;
     const rs = [...rg.getClientRects()].filter((r) => r.width > 0 && r.height > 0).map((r) => {
       const aire = Math.max(0, (r.height - fs) / 2);
@@ -186,7 +194,7 @@ const REVISAR = String.raw`
     });
     rg.detach && rg.detach();
     if (!rs.length) return null;
-    return { left: Math.min(...rs.map(r => r.left)), right: Math.max(...rs.map(r => r.right)), top: Math.min(...rs.map(r => r.top)), bottom: Math.max(...rs.map(r => r.bottom)) };
+    return { left: Math.min(...rs.map(r => r.left)), right: Math.max(...rs.map(r => r.right)), top: Math.min(...rs.map(r => r.top)), bottom: Math.max(...rs.map(r => r.bottom)), lineas: rs.length };
   };
 
   hojas.forEach((e) => {
@@ -333,6 +341,7 @@ const REVISAR = String.raw`
       if (!padre) continue;
       const dp = getComputedStyle(padre).display;
       if (dp !== 'flex' && dp !== 'grid' && dp !== 'inline-flex' && dp !== 'inline-grid') continue;
+      if (a.t.lineas !== 1 || b.t.lineas !== 1) continue;
       const iy = Math.min(a.t.bottom, b.t.bottom) - Math.max(a.t.top, b.t.top);
       if (iy < 3) continue;
       const hueco = a.t.left < b.t.left ? b.t.left - a.t.right : a.t.left - b.t.right;
