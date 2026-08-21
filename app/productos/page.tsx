@@ -264,6 +264,7 @@ export default function ProductsPage() {
           {products.map((product, index) => (
             <Reveal
               key={product.name}
+              id={product.id}
               className={`product-panel product-panel--${index + 1}`}
               delay={index * 100}
             >

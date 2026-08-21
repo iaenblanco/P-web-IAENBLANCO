@@ -754,7 +754,7 @@ export const servicePageContent: ServicePageContentMap = {
       {
         question: '¿En qué se diferencia del programa Leads?',
         answer:
-          'Leads es un programa que usas tú mismo. Este servicio lo operamos nosotros: definimos el perfil contigo, revisamos empresa por empresa y te acompañamos en el seguimiento.',
+          'Leads va a ser un programa que uses tú mismo, y todavía no abre. Este servicio lo operamos nosotros desde ya: definimos el perfil contigo, revisamos empresa por empresa y te acompañamos en el seguimiento.',
       },
       {
         question: '¿De dónde salen esas empresas?',

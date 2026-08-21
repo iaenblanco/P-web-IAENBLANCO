@@ -537,7 +537,11 @@ function HeroSummaryMap() {
   const lastPlatformCenter = summaryMap.platforms.centers[summaryMap.platforms.centers.length - 1]
 
   return (
-    <div className="hero-summary-map" aria-label="IAenBlanco conecta servicios, plataformas y productos">
+    <div
+      className="hero-summary-map"
+      role="img"
+      aria-label="Diagrama: IAenBlanco te hace sitios web, programas, automatizaciones y asistentes con IA; se conectan con WhatsApp, Shopify, Bsale y tus planillas; y muy pronto se suman nuestros propios programas Unifícalo, Citaly y Leads."
+    >
       <svg className="hero-summary-map__wires" viewBox="0 0 720 560" fill="none" preserveAspectRatio="none" aria-hidden="true">
         <circle className="summary-ring" cx={summaryMap.core.x} cy={summaryMap.core.y} r="105" />
         <circle className="summary-ring summary-ring--outer" cx={summaryMap.core.x} cy={summaryMap.core.y} r="132" />
@@ -1121,11 +1125,11 @@ function ProductLabSection() {
                 <p className="product-unified__offer">{commercial?.offer}</p>
 
                 <a
-                  href={product.href}
+                  href={commercial?.href ?? product.href}
                   target="_blank"
                   rel="noreferrer"
                   className="product-unified__cta"
-                  data-cursor="Ver"
+                  data-cursor="WhatsApp"
                   data-cursor-theme={product.theme}
                   data-product-id={product.id}
                   data-product-name={product.name}
@@ -1176,7 +1180,7 @@ export default function HomePage() {
                 Cuéntanos tu idea
                 <ArrowUpRight />
               </a>
-              <a href="#servicios" className="button button--text">
+              <a href="#empezar" className="button button--text">
                 Ver qué hacemos
                 <ArrowDown />
               </a>

@@ -181,14 +181,13 @@ export function Header() {
             >
               <div className="services-menu__label">
                 <span>Productos propios</span>
-                <span>03 sistemas</span>
+                <span>Muy pronto</span>
               </div>
               <div className="services-menu__grid products-menu__grid">
                 {products.map((product, index) => (
-                  <a
-                    href={product.href}
-                    target="_blank"
-                    rel="noreferrer"
+                  <Link
+                    href={`/productos#${product.id}`}
+                    prefetch={false}
                     className="services-menu__item products-menu__item"
                     key={product.name}
                     role="menuitem"
@@ -200,7 +199,7 @@ export function Header() {
                       <small>{product.eyebrow}</small>
                     </span>
                     <ArrowUpRight className="services-menu__arrow" />
-                  </a>
+                  </Link>
                 ))}
               </div>
               <Link
