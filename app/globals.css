@@ -16093,3 +16093,49 @@ button {
     font-size: clamp(19px, 13cqi, 32px);
   }
 }
+
+/* --------------------------------------------------------------------------
+   El aviso de medición, para quien desconfía.
+
+   La compradora de prueba —que ya perdió plata con un proveedor— no tocó
+   ninguno de los dos botones porque no entendía de qué le hablaban, y el
+   aviso la acompañó las 25 pantallas del recorrido. Parte del problema es de
+   forma: "Aceptar medición" iba en cian sólido y "Solo lo necesario" era un
+   fantasma con borde, así que el único botón que parecía botón era el que
+   acepta. Los dos son opciones legítimas y ahora pesan lo mismo: quien no
+   quiere que la midan puede decirlo y seguir leyendo.
+   -------------------------------------------------------------------------- */
+
+.consent-banner__deny {
+  border-color: rgba(251, 250, 247, 0.55);
+  background: rgba(251, 250, 247, 0.10);
+  color: var(--paper);
+}
+
+.consent-banner__deny:hover {
+  border-color: var(--paper);
+  background: rgba(251, 250, 247, 0.18);
+  color: var(--paper);
+}
+
+@media (max-width: 620px) {
+  .consent-banner {
+    padding: 12px 14px 14px;
+  }
+
+  .consent-banner__inner {
+    gap: 12px;
+  }
+
+  .consent-banner__actions {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+  }
+
+  .consent-banner button {
+    min-height: 48px;
+    padding: 0 6px;
+    letter-spacing: 0.01em;
+  }
+}
