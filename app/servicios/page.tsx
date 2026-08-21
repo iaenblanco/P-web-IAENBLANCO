@@ -78,8 +78,14 @@ export default function ServicesIndexPage() {
       <section className="services-index-section">
         <div className="section-shell">
           <div className="services-index-heading">
-            <p className="eyebrow">Empieza por acá</p>
-            <h2>Elige la frase que más se parece a lo que te pasa.</h2>
+            <div>
+              <p className="eyebrow">Empieza por acá</p>
+              <h2>Elige la frase que más se parece a lo que te pasa.</h2>
+            </div>
+            <p className="services-index-heading__lead">
+              Cada una lleva al servicio que resuelve eso. Si ninguna te calza del todo,
+              la última es para ti: nos cuentas y lo ordenamos juntos.
+            </p>
           </div>
           <div className="services-index-problems">
             {serviceProblemEntries.map((entry) => {
@@ -135,8 +141,14 @@ export default function ServicesIndexPage() {
       <section className="services-index-section">
         <div className="section-shell">
           <div className="services-index-heading">
-            <p className="eyebrow">Lo que construimos</p>
-            <h2>Cuatro cosas que hacemos para ti, y que después quedan tuyas.</h2>
+            <div>
+              <p className="eyebrow">Lo que construimos</p>
+              <h2>Cuatro cosas que hacemos para ti, y que después quedan tuyas.</h2>
+            </div>
+            <p className="services-index-heading__lead">
+              Tuyas de verdad: el dominio, las cuentas y los datos quedan a tu nombre. Si
+              mañana quieres que lo siga otro, se lo entregas y listo.
+            </p>
           </div>
           <div className="services-index-cards">
             {coreServices.map((service) => (
@@ -191,8 +203,14 @@ export default function ServicesIndexPage() {
       <section className="services-index-section services-index-section--web-proof">
         <div className="section-shell">
           <div className="services-index-heading">
-            <p className="eyebrow">Trabajos reales</p>
-            <h2>Negocios chilenos para los que ya trabajamos. Ábrelos y revisa.</h2>
+            <div>
+              <p className="eyebrow">Trabajos reales</p>
+              <h2>Negocios chilenos para los que ya trabajamos. Ábrelos y revisa.</h2>
+            </div>
+            <p className="services-index-heading__lead">
+              No son maquetas. Son los sitios que están atendiendo clientes hoy: ábrelos,
+              míralos en tu celular y decide antes de escribirnos.
+            </p>
           </div>
           <div className="services-web-proof-grid">
             {websiteProofCases.map((item) => (

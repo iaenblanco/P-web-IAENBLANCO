@@ -16470,3 +16470,117 @@ button {
 .operating-model .operating-step + .operating-step {
   border-left-color: rgba(255, 255, 255, 0.14);
 }
+
+/* ==========================================================================
+   /servicios: los cuatro servicios en 2 x 2, no en cuatro columnas flacas.
+
+   A 1440 px cuatro columnas dejaban 230 px por tarjeta: el nombre del
+   servicio se partia en dos lineas («Sitio web y / tienda online»), el
+   antetitulo se apretaba contra el numero y la descripcion salia en columna
+   estrecha. Un servicio no se lee en 230 px.
+
+   En 2 x 2 cada tarjeta pasa a 480 px: el nombre entra en una linea, la
+   descripcion se lee de corrido, y la reticula sigue siendo simetrica. La
+   quinta —la que operamos nosotros— ya tenia su propio panel aparte, asi que
+   la simetria del 2 x 2 no se rompe.
+   ========================================================================== */
+
+@media (min-width: 901px) {
+  .services-index-cards {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--gap);
+  }
+
+  .services-index-cards article {
+    min-height: 0;
+    padding: var(--espacio-4);
+  }
+
+  .services-index-cards article > div {
+    margin-bottom: var(--espacio-4);
+  }
+
+  .services-index-cards h3 {
+    max-width: 20ch;
+  }
+
+  .services-index-cards article > p {
+    max-width: 52ch;
+  }
+}
+
+/* El numero deja de competir con el antetitulo: pasa a ser una marca de
+   esquina, del tamaño que le corresponde a un ordinal. */
+
+.services-index-cards article > div span {
+  font-variant-numeric: tabular-nums;
+  opacity: 0.6;
+}
+
+/* El encabezado de sección de /servicios pasa a dos columnas: el titular a la
+   izquierda y una bajada corta a la derecha, que es donde antes había 480 px
+   de nada. La bajada no decora: contesta lo que el titular deja abierto. */
+
+@media (min-width: 901px) {
+  .services-index-heading {
+    grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr);
+    gap: var(--gap-ancho);
+    align-items: end;
+    max-width: none;
+    margin-bottom: var(--espacio-5);
+  }
+
+  .services-index-heading > div {
+    display: grid;
+    gap: 14px;
+    min-width: 0;
+  }
+
+  .services-index-heading > div {
+    container-type: inline-size;
+  }
+
+  .services-index-heading > div h2 {
+    max-width: none;
+  }
+}
+
+@supports (width: 1cqi) {
+  @media (min-width: 901px) {
+    .services-index-heading > div h2 {
+      font-size: clamp(30px, 8.6cqi, 56px);
+    }
+  }
+
+  .services-index-heading__lead {
+    max-width: 46ch;
+    margin: 0 0 6px;
+    color: var(--text-body);
+    font-size: 17px;
+    line-height: 1.6;
+  }
+}
+
+@media (max-width: 900px) {
+  .services-index-heading > div {
+    display: grid;
+    gap: 12px;
+  }
+
+  .services-index-heading__lead {
+    max-width: 60ch;
+    margin: var(--espacio-2) 0 0;
+    color: var(--text-body);
+    font-size: 16px;
+    line-height: 1.6;
+  }
+}
+
+/* El panel ámbar: el titular a 60 px en una columna de 529 salía en cuatro
+   líneas y desbalanceaba el bloque. Se mide contra su columna, como el resto. */
+
+@supports (width: 1cqi) {
+  .services-managed-card > div > h2 {
+    font-size: clamp(28px, 9.5cqi, 50px);
+  }
+}
