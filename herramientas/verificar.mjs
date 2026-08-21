@@ -4,21 +4,20 @@
 //
 //   node herramientas/verificar.mjs <carpeta-temporal> <base> <anchos> <rutas>
 //
-// Contra el sitio ya construido y servido en local:
+// Sirve tanto contra el build local como contra el dominio en vivo:
 //   npm run build
 //   node herramientas/servir.mjs out 3210
-//   node herramientas/verificar.mjs .tmp/ver http://localhost:3210 \
-//     1920,1440,1280,1024,768,390,360 /,/servicios/,/productos/,/contacto/
+//   node herramientas/verificar.mjs .tmp/ver http://localhost:3210 1920,390 /
+//   node herramientas/verificar.mjs .tmp/ver https://iaenblanco.com 1920,390 /
 //
 // Borra la carpeta temporal al terminar: cada pasada deja un perfil de Chrome
 // de ~200 MB, y en Windows las rutas son tan largas que Remove-Item no puede
 // con ellas (hay que vaciarlas antes con robocopy contra una carpeta vacia).
 //
 // Se juzga solo lo que está a la vista, pantalla por pantalla. Quedan fuera a
-// propósito el enlace "Saltar al contenido" (vive fuera de pantalla), la capa
-// de consentimiento (flota por diseño) y el contenido de un <details> cerrado.
-// Si el servidor se cae, Chrome pinta su pantalla de error y medirla devuelve
-// basura con pinta de hallazgo: el script lo detecta y termina con codigo 2.
+// propósito el enlace "Saltar al contenido", la capa de consentimiento y el
+// contenido de un <details> cerrado. Si el servidor se cae, Chrome pinta su
+// pantalla de error: el script lo detecta y termina con codigo 2.
 import { spawn } from 'node:child_process'
 import { setTimeout as espera } from 'node:timers/promises'
 
@@ -398,6 +397,20 @@ const REVISAR = String.raw`
 })()
 `
 
+const IMAGENES = String.raw`
+(() => {
+  const malas = [];
+  document.querySelectorAll('img').forEach((im) => {
+    const r = im.getBoundingClientRect();
+    if (r.width < 1 || r.height < 1) return;
+    if (r.bottom < -40 || r.top > innerHeight + 40) return;
+    if (im.getAttribute('alt') === null) { malas.push({ src: (im.currentSrc || im.src || '').slice(-52), alt: 'SIN ATRIBUTO ALT' }); return }
+    if (!im.complete || im.naturalWidth === 0) malas.push({ src: (im.currentSrc || im.src || '').slice(-52), alt: 'no cargo' });
+  });
+  return malas;
+})()
+`
+
 const ws = new WebSocket(await esperar())
 await new Promise(ok => ws.addEventListener('open', ok))
 const s = new S(ws)
@@ -435,6 +448,12 @@ for (const W of ANCHOS) {
     for (let y = 0; y < alto; y += paso) {
       await s.e('Runtime.evaluate', { expression: `(async()=>{scrollTo(0,${y});await new Promise(r=>setTimeout(r,260));return 1})()`, awaitPromise: true }, sessionId)
       const parcial = (await s.e('Runtime.evaluate', { expression: REVISAR, returnByValue: true }, sessionId)).result.value
+      // Las imagenes perezosas que aun estaban en camino se vuelven a mirar
+      // despues de una espera de verdad. Solo cuenta la que sigue sin cargar.
+      if (parcial.imagenes.length) {
+        await s.e('Runtime.evaluate', { expression: '(async()=>{await new Promise(r=>setTimeout(r,1500));return 1})()', awaitPromise: true }, sessionId)
+        parcial.imagenes = (await s.e('Runtime.evaluate', { expression: IMAGENES, returnByValue: true }, sessionId)).result.value
+      }
       CRIT.forEach(c => parcial[c].forEach(x => visto[c].set(JSON.stringify(x), x)))
     }
     const F = Object.fromEntries(CRIT.map(c => [c, [...visto[c].values()]]))
