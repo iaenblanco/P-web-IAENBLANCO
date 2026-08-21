@@ -15796,15 +15796,15 @@ button {
        tienen que encoger a la par del mapa o el nombre queda debajo de la
        barra. Sin piso en px: aqui el limite lo pone el espacio disponible. */
     .summary-platform strong {
-      font-size: 2.01cqi;
+      font-size: max(11.5px, 2.01cqi);
     }
 
     .summary-platform span {
-      width: 6.2cqi;
+      width: min(5.4cqi, 40px);
     }
 
     .summary-platform {
-      gap: 1.34cqi;
+      gap: min(1.2cqi, 8px);
     }
 
     .summary-system-label strong,
@@ -15849,19 +15849,40 @@ button {
 /* Las etiquetas del diagrama de Unificalo tambien contra su propia caja:
    a 768 px "marketplace" y "comerciales" se partian a la mitad. */
 
-@media (max-width: 900px) {
+/* Ojo con el rango: bajo 620 px la orbita mide poco mas de 300 px y un nodo de
+   120 se sale del marco. Ahi vale 96, que es lo que cabe. */
+
+@media (min-width: 621px) and (max-width: 900px) {
   .unify-node {
     width: 120px;
     padding: 10px 8px;
   }
+}
 
+@media (max-width: 620px) {
+  .unify-node {
+    width: 96px;
+    padding: 9px 7px;
+  }
+}
+
+/* A 320 px el nodo de la izquierda todavia asomaba 1 px fuera del marco. */
+
+@media (max-width: 345px) {
+  .unify-node {
+    width: 88px;
+    padding: 8px 6px;
+  }
+}
+
+@media (max-width: 900px) {
   .unify-node span {
     font-size: 13px;
   }
 
   .unify-node strong {
     font-size: 12px;
-    letter-spacing: 0.01em;
+    letter-spacing: 0.005em;
   }
 }
 
@@ -15996,5 +16017,79 @@ button {
   .service-entry__heading {
     flex-wrap: wrap;
     gap: 4px var(--espacio-2);
+  }
+}
+
+/* --------------------------------------------------------------------------
+   Siete regresiones que metí yo en esta rama, encontradas midiendo anchos
+   intermedios que la primera revisión no probó.
+   -------------------------------------------------------------------------- */
+
+/* 2. El correo del pie mide 146 px en tipografía monoespaciada de 12 px, y al
+      recalibrar la retícula las columnas del pie bajaron de 164 a 131 px: se
+      salía del margen derecho en TODO el escritorio y en las cinco rutas. */
+
+.site-footer__nav a,
+.site-footer__nav p {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+@media (min-width: 901px) {
+  .site-footer__nav {
+    grid-template-columns: minmax(0, 0.86fr) minmax(0, 1.05fr) minmax(0, 1.09fr);
+  }
+}
+
+/* 3. "Verificadas una a una" mide 97 px y la pastilla dejaba 90 px útiles:
+      con overflow-wrap anywhere la palabra se partía como "VERIFICADA / S". */
+
+.services-managed-card__flow span {
+  overflow-wrap: normal;
+  word-break: normal;
+  hyphens: manual;
+}
+
+@media (max-width: 380px) {
+  .services-managed-card__flow span {
+    padding-right: 8px;
+    padding-left: 8px;
+    font-size: 11.5px;
+    letter-spacing: 0.02em;
+  }
+}
+
+/* 4. "WhatsApp" a 64 px mide 286 px dentro de una tarjeta de 250: antes la
+      columna se ensanchaba y la página se corría de lado; ahora la columna no
+      crece, así que la "p" se perdía contra el filo de la pantalla. El titular
+      se mide contra su propia tarjeta. */
+
+.contact-option {
+  container-type: inline-size;
+}
+
+@supports (width: 1cqi) {
+  .contact-option h2 {
+    font-size: clamp(30px, 24cqi, 64px);
+  }
+}
+
+/* 6. "YoMeEncargo" mide 207 px en una tarjeta de 200 desde que la retícula
+      pasó a cinco columnas iguales: era el único título que tocaba la línea
+      divisoria. */
+
+.services-web-proof-grid article h3,
+.client-rail__names span {
+  min-width: 0;
+  overflow-wrap: normal;
+}
+
+@supports (width: 1cqi) {
+  .services-web-proof-grid article {
+    container-type: inline-size;
+  }
+
+  .services-web-proof-grid article h3 {
+    font-size: clamp(19px, 13cqi, 32px);
   }
 }

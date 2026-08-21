@@ -774,7 +774,7 @@ function TrustProofSection() {
                       srcset, asi que la eleccion va escrita a mano. */}
                   <picture>
                     <source
-                      media="(max-width: 620px)"
+                      media="(max-width: 540px)"
                       srcSet={`/trabajos/${proof.captura}-sm.webp`}
                       width={760}
                       height={475}
@@ -793,17 +793,17 @@ function TrustProofSection() {
                   <span className="trabajo__movil">
                     <picture>
                       <source
-                        media="(max-width: 620px)"
+                        media="(max-width: 540px)"
                         srcSet={`/trabajos/${proof.captura}-movil-sm.webp`}
                         width={220}
-                        height={465}
+                        height={440}
                       />
                       {/* eslint-disable-next-line @next/next/no-img-element */}
                       <img
                         src={`/trabajos/${proof.captura}-movil.webp`}
                         alt={`El mismo sitio de ${proof.client} visto en celular`}
                         width={420}
-                        height={887}
+                        height={840}
                         loading="lazy"
                         decoding="async"
                       />
