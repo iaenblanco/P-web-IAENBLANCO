@@ -110,6 +110,11 @@ const REVISAR = String.raw`
   };
   const excluido = (e) => {
     if (e.closest('.skip-link, .consent-banner')) return true;
+    // Con content-visibility:auto el navegador NO vuelve a maquetar el subarbol
+    // mientras esta fuera de pantalla: conserva la maquetacion anterior. Si se
+    // mide ahi, salen cortes de palabra de una maquetacion vieja y mas
+    // estrecha, que en pantalla no existen. checkVisibility lo dice exacto.
+    if (e.checkVisibility && !e.checkVisibility({ contentVisibilityAuto: true, opacityProperty: true, visibilityProperty: true })) return true;
     if (!aLaVista(e)) return true;
     const d = e.closest('details');
     if (d && !d.open && e !== d && !d.querySelector('summary')?.contains(e)) return true;
@@ -272,10 +277,35 @@ const REVISAR = String.raw`
     });
   }
 
-  // 9. palabras partidas a la mitad (palabra por palabra, no solo los
-  //    textos de una sola palabra)
+  // 9. palabras cortadas a la mitad SIN guion.
+  //    Partir con guion ("pla-nillas") es tipografia correcta en castellano y
+  //    la hace el navegador con hyphens:auto. Lo que hay que cazar es el corte
+  //    a lo bruto ("Automatiza / r"), que es el que se ve mal. Se distinguen
+  //    midiendo: el corte con guion suma el ancho del guion; el otro no.
+  const _anchoCache = new Map();
+  const anchoNatural = (e, pal) => {
+    const cs = getComputedStyle(e);
+    const k = cs.font + '|' + cs.letterSpacing + '|' + pal;
+    if (_anchoCache.has(k)) return _anchoCache.get(k);
+    const clon = document.createElement('span');
+    clon.textContent = pal;
+    clon.style.cssText = 'position:absolute;left:-9999px;top:0;visibility:hidden;white-space:pre;font:' + cs.font + ';letter-spacing:' + cs.letterSpacing;
+    document.body.appendChild(clon);
+    const w = clon.getBoundingClientRect().width;
+    clon.remove();
+    _anchoCache.set(k, w);
+    return w;
+  };
+
   document.querySelectorAll('*').forEach((e) => {
     if (e.closest('svg') || excluido(e)) return;
+    // El corte de linea hay que medirlo con la caja ya asentada. En el borde
+    // del viewport, con content-visibility y las animaciones de entrada, el
+    // navegador reparte la palabra en varios rectangulos que en pantalla no
+    // existen: comprobado que "planillas" da un solo rectangulo de 100 px en
+    // cuanto la tarjeta esta entera a la vista.
+    const rr = e.getBoundingClientRect();
+    if (rr.top < 0 || rr.bottom > innerHeight) return;
     if (!e.childNodes.length || ![...e.childNodes].every((n) => n.nodeType === 3)) return;
     const nodo = e.firstChild;
     if (!nodo || nodo.nodeType !== 3) return;
@@ -290,7 +320,20 @@ const REVISAR = String.raw`
       rg.setStart(nodo, m.index); rg.setEnd(nodo, m.index + pal.length);
       const rs = [...rg.getClientRects()].filter((r) => r.width > 0 && r.height > 0);
       rg.detach && rg.detach();
-      if (rs.length > 1) F.partida.push({ sel: ruta(e), pal });
+      // Una palabra esta partida solo si sus pedazos caen en LINEAS distintas.
+      // getClientRects tambien devuelve varios rectangulos cuando el navegador
+      // corta el texto en tramos por dentro (cambio de fuente, direccion,
+      // maquetacion recien rehecha), y esos van todos en la misma linea: eso
+      // no es una palabra partida. Comprobado a ojo en /: "planillas",
+      // "preguntas" y "encuentra" salian marcadas y se ven enteras.
+      const lineas = new Set(rs.map((r) => Math.round(r.top)));
+      if (lineas.size > 1) {
+        const suma = rs.reduce((a, r) => a + r.width, 0);
+        const natural = anchoNatural(e, pal);
+        // Si lo pintado mide mas que la palabra suelta, hay un guion de por
+        // medio y el corte es correcto. Si mide lo mismo, la cortaron a secas.
+        if (suma - natural < 2) F.partida.push({ sel: ruta(e), pal });
+      }
     }
   });
 
@@ -381,6 +424,11 @@ for (const W of ANCHOS) {
       process.exitCode = 2
       continue
     }
+    // Hay que esperar a que las tipografias esten cargadas. Con display:swap
+    // el navegador pinta primero la de reserva, que es mas ancha, y midiendo
+    // ahi aparecen cortes de palabra que desaparecen en cuanto llega la letra
+    // de verdad. Era la causa de 36 "palabras partidas" que no existian.
+    await s.e('Runtime.evaluate', { expression: '(async()=>{await document.fonts.ready;await new Promise(r=>setTimeout(r,250));return document.fonts.status})()', awaitPromise: true, returnByValue: true }, sessionId)
     const alto = (await s.e('Runtime.evaluate', { expression: 'document.body.scrollHeight', returnByValue: true }, sessionId)).result.value
     const paso = W < 800 ? 700 : 820
     const visto = Object.fromEntries(CRIT.map(c => [c, new Map()]))

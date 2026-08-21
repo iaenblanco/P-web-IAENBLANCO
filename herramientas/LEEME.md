@@ -16,7 +16,7 @@ falla con su selector, su texto y cuánto se pasa.
 | `scrollH` | Si la página obliga a desplazar de lado. |
 | `imagenes` | Imágenes a la vista que no cargaron, o sin atributo `alt`. |
 | `chico` | En el teléfono, texto por debajo de 12 px. |
-| `partida` | Palabras cortadas a la mitad al final de una línea. |
+| `partida` | Palabras cortadas a la mitad **sin guion**. Partir con guion («pla-nillas») es correcto en castellano y no cuenta; se distinguen midiendo, porque el guion suma ancho. |
 | `cortado` | Texto que el borde de la pantalla recorta sin que aparezca barra de scroll. |
 | `icono` | Un icono anclado pintado encima del texto. |
 | `pegados` | Dos textos de una misma fila sin aire entre ellos («01Para que te encuentren»). |
