@@ -3,7 +3,6 @@ import { Fragment, type CSSProperties } from 'react'
 import { BrandLogo } from '@/components/BrandLogo'
 import { ContactBand } from '@/components/ContactBand'
 import { Reveal } from '@/components/Reveal'
-import { ServiceSystem } from '@/components/ServiceSystem'
 import { TypingLine } from '@/components/TypingLine'
 import Link from 'next/link'
 import { getWhatsappUrl, products, WHATSAPP_URL } from '@/lib/site'
@@ -835,17 +834,6 @@ function TrustProofSection() {
                     </div>
                   </dl>
 
-                  <dl className="trabajo__medida">
-                    <div>
-                      <dt>Se ve en</dt>
-                      <dd>{proof.velocidad}</dd>
-                    </div>
-                    <div>
-                      <dt>En celular</dt>
-                      <dd>Sin desplazar de lado</dd>
-                    </div>
-                  </dl>
-
                   <span className="trabajo__cta">
                     Abrir el sitio
                     <ArrowUpRight />
@@ -856,37 +844,6 @@ function TrustProofSection() {
           ))}
         </div>
 
-        <Reveal className="trust-proof__notas" delay={130}>
-          <div>
-            <h3>Cómo medimos esos números</h3>
-            <p>
-              Cuatro pasadas en días distintos, con Chrome, en computador y en celular.
-              «Se ve en» es cuánto demora en aparecer el contenido, y lo que ponemos es el
-              peor de los cuatro resultados, redondeado hacia arriba: en la práctica
-              siempre es más rápido. Ninguno de los cinco obliga a desplazar de lado en el teléfono, los
-              cinco usan conexión segura y los cinco tienen su descripción lista para
-              Google. Puedes comprobarlo tú: abre cualquiera y mídelo.
-            </p>
-          </div>
-          <div>
-            <h3>¿Y este sitio?</h3>
-            <p>
-              También es nuestro, y le aplicamos lo mismo que a los de arriba: cada texto
-              con contraste revisado uno por uno, ninguna imagen sin descripción, y en el
-              celular no tienes que desplazar de lado ni estirar para leer. Si te gusta
-              cómo se comporta mientras lo recorres, así trabajamos.
-            </p>
-          </div>
-        </Reveal>
-
-        <Reveal className="trust-proof__signals" delay={140}>
-          {trustSignals.map((signal) => (
-            <div key={signal.value}>
-              <strong>{signal.value}</strong>
-              <span>{signal.label}</span>
-            </div>
-          ))}
-        </Reveal>
       </div>
     </section>
   )
@@ -909,6 +866,10 @@ function ProblemSection() {
             Elige la tuya y te llevamos directo a lo que hacemos para eso. No necesitas
             saber cómo se llama la solución.
           </p>
+          <Link href="/servicios" prefetch={false} className="problem-strip__todos">
+            O mira los cinco servicios, uno por uno
+            <ArrowUpRight />
+          </Link>
         </Reveal>
         <div className="problem-strip__grid">
           {problemCards.map((problem, index) => {
@@ -1144,8 +1105,6 @@ export default function HomePage() {
 
       <ProblemSection />
 
-      <ServiceSystem />
-
       <ProductLabSection />
 
       <section className="operating-model" aria-labelledby="model-heading">
@@ -1163,37 +1122,46 @@ export default function HomePage() {
           </Reveal>
 
           <div className="operating-model__steps">
+            <span className="operating-model__carril" aria-hidden="true" />
             {[
               {
                 number: '01',
                 title: 'Conversamos',
                 text: 'Nos cuentas cómo trabajas hoy y qué te está costando. Sin compromiso y sin costo.',
-                deliverable: 'Te decimos qué haríamos y cuánto abarca',
+                deliverable: 'Qué haríamos y cuánto abarca, por escrito',
+                cuando: 'La primera semana',
               },
               {
                 number: '02',
                 title: 'Lo construimos',
                 text: 'Hacemos lo acordado y te vamos mostrando avances, para que no haya sorpresas al final.',
                 deliverable: 'Tu sitio, tu programa o tu asistente, funcionando',
+                cuando: 'Avances desde el primer viernes',
               },
               {
                 number: '03',
                 title: 'Lo dejamos andando',
                 text: 'Lo publicamos, te enseñamos a usarlo y quedamos disponibles para los ajustes que salgan.',
-                deliverable: 'Puesta en marcha y soporte después',
+                deliverable: 'Puesta en marcha, y nosotros ahí después',
+                cuando: 'El día que sale a la calle',
               },
             ].map((step, index) => (
               <Reveal key={step.number} className="operating-step" delay={index * 90}>
-                <span>{step.number}</span>
+                <span className="operating-step__placa" aria-hidden="true">{step.number}</span>
+                <p className="operating-step__cuando">{step.cuando}</p>
                 <h3>{step.title}</h3>
-                <p>{step.text}</p>
-                <strong>{step.deliverable}</strong>
+                <p className="operating-step__texto">{step.text}</p>
+                <strong className="operating-step__entrega">
+                  <span>Te queda</span>
+                  {step.deliverable}
+                </strong>
               </Reveal>
             ))}
           </div>
 
           <Reveal className="objeciones" delay={60}>
-            <div>
+            <p className="objeciones__titulo">Lo que se pregunta todo el mundo antes de escribir</p>
+            <div className="objeciones__precio">
               <h3>¿Cuánto cuesta?</h3>
               <p>
                 Depende de lo que necesites, y por eso no ponemos un precio en la web

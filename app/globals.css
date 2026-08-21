@@ -15500,6 +15500,7 @@ button {
   .site-footer__bottom p,
   .site-footer__bottom div,
   .skip-link,
+  .operating-step__cuando,
   .services-web-proof-grid article > span,
   .services-web-proof-grid__medida span,
   .service-page-hero__plazo span,
@@ -16202,4 +16203,270 @@ button {
     gap: 10px;
     flex-wrap: wrap;
   }
+}
+
+/* ==========================================================================
+   «Cómo trabajamos», reconstruida.
+
+   Estaba en tres columnas de texto separadas por una línea vertical: sin caja,
+   sin simetría y sin jerarquía interna, así que se leía como tres párrafos
+   sueltos y no como una secuencia. Ahora es lo que dice ser.
+
+   - Tres cajas iguales, del mismo alto, sobre un carril horizontal que las
+     enhebra: el carril es lo que convierte tres bloques en un proceso.
+   - El número deja de flotar y se convierte en una placa anclada al borde
+     superior, que además marca dónde pasa el carril.
+   - Lo que te queda al terminar cada paso va abajo, pegado al borde inferior,
+     con la misma altura en las tres: es la línea que el comprador busca.
+   - Y cada paso dice CUÁNDO. Un proceso sin tiempos no tranquiliza a nadie.
+   ========================================================================== */
+
+.operating-model__steps {
+  position: relative;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--gap);
+  margin-top: var(--espacio-6);
+  padding-top: var(--espacio-4);
+  border: 0;
+}
+
+/* el carril: pasa por el centro de las placas y muere en la última */
+.operating-model__carril {
+  position: absolute;
+  top: calc(var(--espacio-4) + 21px);
+  right: 6%;
+  left: 6%;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    var(--signal) 0,
+    rgba(64, 176, 208, 0.5) 50%,
+    rgba(64, 176, 208, 0.16) 100%
+  );
+}
+
+.operating-step {
+  display: grid;
+  grid-template-rows: auto auto 1fr auto;
+  gap: var(--espacio-2);
+  min-height: 0;
+  padding: var(--espacio-6) var(--espacio-4) var(--espacio-4);
+  border: 1px solid var(--line);
+  background: var(--paper-bright);
+}
+
+.operating-step + .operating-step {
+  padding-left: var(--espacio-4);
+  border-left: 1px solid var(--line);
+}
+
+.operating-step__placa {
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: grid;
+  place-items: center;
+  width: 42px;
+  height: 42px;
+  border-right: 1px solid var(--signal);
+  border-bottom: 1px solid var(--signal);
+  background: var(--ink);
+  color: var(--paper);
+  font-family: var(--font-mono);
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+}
+
+.operating-step {
+  position: relative;
+}
+
+.operating-step__cuando {
+  margin: 0;
+  color: var(--signal-ink);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.operating-step h3 {
+  margin: 0;
+  color: var(--ink);
+  font-size: clamp(24px, 2.1vw, 30px);
+  font-weight: 600;
+  letter-spacing: -0.03em;
+  line-height: 1.1;
+}
+
+.operating-step__texto {
+  margin: 0;
+  max-width: 34ch;
+  color: var(--text-body);
+  font-size: 15.5px;
+  line-height: 1.6;
+}
+
+.operating-step strong.operating-step__entrega {
+  display: grid;
+  text-transform: none;
+  gap: 5px;
+  align-self: end;
+  margin: var(--espacio-2) 0 0;
+  padding: var(--espacio-2) var(--espacio-3);
+  width: auto;
+  max-width: none;
+  border: 0;
+  border-top: 1px solid var(--line);
+  background: none;
+  color: var(--ink);
+  font-family: var(--font-sans);
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  line-height: 1.35;
+  padding-right: 0;
+  padding-left: 0;
+}
+
+.operating-step strong.operating-step__entrega span {
+  color: var(--graphite);
+  font-family: var(--font-mono);
+  font-size: 10.5px;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+@media (max-width: 900px) {
+  .operating-model__steps {
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--espacio-5);
+    padding-top: var(--espacio-3);
+  }
+
+  .operating-model__carril {
+    top: var(--espacio-3);
+    right: auto;
+    bottom: 40px;
+    left: 19px;
+    width: 1px;
+    height: auto;
+    background: linear-gradient(180deg, var(--signal) 0, rgba(64, 176, 208, 0.16) 100%);
+  }
+
+  .operating-step {
+    padding-top: var(--espacio-5);
+  }
+
+  .operating-step + .operating-step {
+    padding-left: var(--espacio-4);
+    border-left: 1px solid var(--line);
+  }
+
+  .operating-step__placa {
+    left: 0;
+    width: 38px;
+    height: 38px;
+    font-size: 12px;
+  }
+
+  .operating-step strong.operating-step__entrega {
+    font-size: 15px;
+  }
+
+  .operating-step p.operating-step__cuando {
+    font-size: 12.5px;
+    letter-spacing: 0.1em;
+  }
+
+  .operating-step strong.operating-step__entrega span {
+    font-size: 12px;
+    letter-spacing: 0.1em;
+  }
+}
+
+/* --- las tres preguntas, ahora con caja --- */
+
+.objeciones {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--gap);
+  align-items: stretch;
+  margin-top: var(--espacio-6);
+  padding-top: var(--espacio-5);
+}
+
+.objeciones__titulo {
+  grid-column: 1 / -1;
+  margin: 0 0 var(--espacio-1);
+  color: rgba(255, 255, 255, 0.56);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+
+.objeciones > div {
+  gap: var(--espacio-2);
+  align-content: start;
+  height: 100%;
+  padding: var(--espacio-3) var(--espacio-3) var(--espacio-4);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  background: rgba(255, 255, 255, 0.03);
+}
+
+/* La primera es la pregunta que frena a todos, y la respuesta es lo que nos
+   diferencia. Se le da el acento; las tres siguen midiendo lo mismo. */
+.objeciones__precio {
+  border-color: rgba(144, 224, 232, 0.42) !important;
+  background: linear-gradient(180deg, rgba(144, 224, 232, 0.10), rgba(144, 224, 232, 0.02)) !important;
+}
+
+.objeciones p {
+  max-width: 40ch;
+}
+
+@media (max-width: 900px) {
+  .objeciones {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+/* La banda es oscura y los tres pasos van en claro encima. Es deliberado: de
+   toda la sección, lo que el comprador tiene que mirar es el proceso, y tres
+   tarjetas de papel sobre tinta no se pueden ignorar. Las tres preguntas de
+   abajo se quedan en oscuro, un escalón por detrás. */
+
+.operating-model .operating-step {
+  border-color: rgba(255, 255, 255, 0.14);
+  background: var(--paper-bright);
+}
+
+.operating-model .operating-step h3 {
+  color: var(--ink);
+}
+
+.operating-model .operating-step p.operating-step__texto {
+  color: var(--text-body);
+}
+
+.operating-model .operating-step p.operating-step__cuando {
+  color: var(--signal-ink);
+}
+
+.operating-model .operating-step strong.operating-step__entrega {
+  border-top-color: var(--line);
+  background: none;
+  color: var(--ink);
+}
+
+.operating-model .operating-step strong.operating-step__entrega span {
+  color: var(--graphite);
+}
+
+.operating-model .operating-step + .operating-step {
+  border-left-color: rgba(255, 255, 255, 0.14);
 }
