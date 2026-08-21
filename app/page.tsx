@@ -653,74 +653,82 @@ function HeroSummaryMap() {
         <Image src="/logo-ui.webp" alt="" width={220} height={220} priority unoptimized />
       </div>
 
-      <div
-        className="summary-system-label summary-system-label--services"
-        style={summaryBoxStyle(summaryMap.services.label)}
-      >
-        <span>Te hacemos</span>
-        <strong>A tu medida</strong>
-      </div>
-      <div
-        className="summary-system-label summary-system-label--products"
-        style={summaryBoxStyle(summaryMap.products.label)}
-      >
-        <span>O los nuestros</span>
-        <strong>Ya listos</strong>
-      </div>
-      <div
-        className="summary-system-label summary-system-label--platforms"
-        style={summaryBoxStyle(summaryMap.platforms.label)}
-      >
-        <span>Se conecta con</span>
-        <strong>Lo que ya usas</strong>
+      <div className="summary-group summary-group--services">
+        <div
+          className="summary-system-label summary-system-label--services"
+          style={summaryBoxStyle(summaryMap.services.label)}
+        >
+          <span>Te hacemos</span>
+          <strong>A tu medida</strong>
+        </div>
+
+        <div
+          className="summary-node-cluster summary-node-cluster--services"
+          style={summaryBoxStyle(summaryMap.services.cluster)}
+        >
+          {serviceRows.map((item, index) => (
+            <div
+              key={item.title}
+              className={`summary-orb summary-orb--service summary-orb--${item.theme}`}
+              style={{ '--node-index': index } as CSSProperties}
+            >
+              <span><HeroLogo theme={item.theme} /></span>
+              <strong>{item.title}</strong>
+            </div>
+          ))}
+        </div>
       </div>
 
-      <div
-        className="summary-node-cluster summary-node-cluster--services"
-        style={summaryBoxStyle(summaryMap.services.cluster)}
-      >
-        {serviceRows.map((item, index) => (
-          <div
-            key={item.title}
-            className={`summary-orb summary-orb--service summary-orb--${item.theme}`}
-            style={{ '--node-index': index } as CSSProperties}
-          >
-            <span><HeroLogo theme={item.theme} /></span>
-            <strong>{item.title}</strong>
-          </div>
-        ))}
+      <div className="summary-group summary-group--platforms">
+        <div
+          className="summary-system-label summary-system-label--platforms"
+          style={summaryBoxStyle(summaryMap.platforms.label)}
+        >
+          <span>Se conecta con</span>
+          <strong>Lo que ya usas</strong>
+        </div>
+
+        <div className="summary-platform-cluster">
+          {platformRows.map((item, index) => (
+            <div
+              key={item.title}
+              className={`summary-platform summary-platform--${item.theme}`}
+              style={{
+                ...summaryPointStyle(item.x, summaryMap.platforms.itemTopY, summaryMap.platforms.itemW),
+                '--node-index': index,
+              } as CSSProperties}
+            >
+              <span><HeroLogo theme={item.theme} /></span>
+              <strong>{item.title}</strong>
+            </div>
+          ))}
+        </div>
       </div>
 
-      <div
-        className="summary-node-cluster summary-node-cluster--products"
-        style={summaryBoxStyle(summaryMap.products.cluster)}
-      >
-        {productRows.map((item, index) => (
-          <div
-            key={item.title}
-            className={`summary-orb summary-orb--product summary-orb--${item.theme}`}
-            style={{ '--node-index': index } as CSSProperties}
-          >
-            <span><HeroLogo theme={item.theme} /></span>
-            <strong>{item.title}</strong>
-          </div>
-        ))}
-      </div>
+      <div className="summary-group summary-group--products">
+        <div
+          className="summary-system-label summary-system-label--products"
+          style={summaryBoxStyle(summaryMap.products.label)}
+        >
+          <span>Muy pronto</span>
+          <strong>Los nuestros</strong>
+        </div>
 
-      <div className="summary-platform-cluster">
-        {platformRows.map((item, index) => (
-          <div
-            key={item.title}
-            className={`summary-platform summary-platform--${item.theme}`}
-            style={{
-              ...summaryPointStyle(item.x, summaryMap.platforms.itemTopY, summaryMap.platforms.itemW),
-              '--node-index': index,
-            } as CSSProperties}
-          >
-            <span><HeroLogo theme={item.theme} /></span>
-            <strong>{item.title}</strong>
-          </div>
-        ))}
+        <div
+          className="summary-node-cluster summary-node-cluster--products"
+          style={summaryBoxStyle(summaryMap.products.cluster)}
+        >
+          {productRows.map((item, index) => (
+            <div
+              key={item.title}
+              className={`summary-orb summary-orb--product summary-orb--${item.theme}`}
+              style={{ '--node-index': index } as CSSProperties}
+            >
+              <span><HeroLogo theme={item.theme} /></span>
+              <strong>{item.title}</strong>
+            </div>
+          ))}
+        </div>
       </div>
 
       <div className="summary-flow" style={summaryBoxStyle(summaryMap.flow)}>
@@ -818,6 +826,11 @@ function TrustProofSection() {
                       <BrandLogo name={proof.logo} alt={proof.client} loading="eager" sizes="44px" />
                     </span>
                     <p>{proof.sector}</p>
+                    <span className="trabajo__orden" aria-hidden="true">
+                      {String(index + 1).padStart(2, '0')}
+                      <i />
+                      {String(clientProofs.length).padStart(2, '0')}
+                    </span>
                   </div>
 
                   <h3>{proof.client}</h3>
@@ -860,15 +873,14 @@ function ProblemSection() {
         <Reveal className="problem-strip__heading">
           <p className="eyebrow">Empieza por acá</p>
           <h2 id="problem-strip-heading">
-            ¿Cuál de estas frases se parece más a lo que te pasa?
+            Así llega la mayoría. Y así trabajamos nosotros.
           </h2>
           <p className="problem-strip__lead">
-            Elige la tuya y te llevamos directo a lo que hacemos para eso. No necesitas
-            saber cómo se llama la solución.
+            Elige la frase que más se parece a lo que te pasa. No necesitas saber cómo se
+            llama la solución: para eso está la primera conversación.
           </p>
           <Link href="/servicios" prefetch={false} className="problem-strip__todos">
             O mira los cinco servicios, uno por uno
-            <ArrowUpRight />
           </Link>
         </Reveal>
         <div className="problem-strip__grid">
@@ -919,6 +931,97 @@ function ProblemSection() {
             )
           })}
         </div>
+
+        <div className="problem-strip__proceso operating-model">
+
+          <Reveal className="operating-model__heading">
+            <p className="eyebrow">Y desde acá, cómo trabajamos</p>
+            <div>
+              <h2 id="model-heading">Tres pasos, y en ninguno te dejamos solo.</h2>
+              <p className="operating-model__copy">
+                No partimos vendiéndote algo. Partimos entendiendo qué te está costando
+                hoy. Recién ahí sabemos qué hay que construir, y te lo decimos antes de
+                empezar.
+              </p>
+            </div>
+          </Reveal>
+
+          <div className="operating-model__steps">
+            <span className="operating-model__carril" aria-hidden="true" />
+            {[
+              {
+                number: '01',
+                title: 'Conversamos',
+                text: 'Nos cuentas cómo trabajas hoy y qué te está costando. Sin compromiso y sin costo.',
+                deliverable: 'Qué haríamos y cuánto abarca, por escrito',
+                cuando: 'La primera semana',
+              },
+              {
+                number: '02',
+                title: 'Lo construimos',
+                text: 'Hacemos lo acordado y te vamos mostrando avances, para que no haya sorpresas al final.',
+                deliverable: 'Tu sitio, tu programa o tu asistente, funcionando',
+                cuando: 'Avances desde el primer viernes',
+              },
+              {
+                number: '03',
+                title: 'Lo dejamos andando',
+                text: 'Lo publicamos, te enseñamos a usarlo y quedamos disponibles para los ajustes que salgan.',
+                deliverable: 'Puesta en marcha, y nosotros ahí después',
+                cuando: 'El día que sale a la calle',
+              },
+            ].map((step, index) => (
+              <Reveal key={step.number} className="operating-step" delay={index * 90}>
+                <span className="operating-step__placa" aria-hidden="true">{step.number}</span>
+                <p className="operating-step__cuando">{step.cuando}</p>
+                <h3>{step.title}</h3>
+                <p className="operating-step__texto">{step.text}</p>
+                <strong className="operating-step__entrega">
+                  <span>Te queda</span>
+                  {step.deliverable}
+                </strong>
+              </Reveal>
+            ))}
+          </div>
+
+          <Reveal className="objeciones" delay={60}>
+            <p className="objeciones__titulo">Lo que se pregunta todo el mundo antes de escribir</p>
+            <div className="objeciones__precio">
+              <h3>¿Cuánto cuesta?</h3>
+              <p>
+                Depende de lo que necesites, y por eso no ponemos un precio en la web
+                que después no calce. Lo que sí te garantizamos: el precio de lo acordado
+                te lo damos por escrito antes de empezar y ese número no se mueve. Si a
+                mitad de camino quieres sumar algo que no estaba, te lo cotizamos aparte
+                y decides tú antes de que lo hagamos.
+              </p>
+            </div>
+            <div>
+              <h3>¿Y si a mitad de camino no me gusta?</h3>
+              <p>
+                No trabajamos meses a puerta cerrada. Te vamos mostrando avances desde
+                la primera semana, así que cualquier cosa que no te cuadre la corregimos
+                cuando todavía es barato corregirla.
+              </p>
+            </div>
+            <div>
+              <h3>¿Después quedo amarrado con ustedes?</h3>
+              <p>
+                No. Lo que construimos queda tuyo: tu dominio, tus cuentas, tus datos.
+                Si más adelante quieres que lo siga otro, se lo entregas y listo.
+              </p>
+            </div>
+          </Reveal>
+
+          <Reveal className="industry-line">
+            <p>Ya trabajamos con negocios de</p>
+            <div>
+              <span>Venta de productos</span>
+              <span>Propiedades</span>
+              <span>Servicios a empresas</span>
+            </div>
+          </Reveal>
+        </div>
       </div>
     </section>
   )
@@ -962,18 +1065,10 @@ function ProductLabSection() {
     <section className="ecosystem-lab" aria-labelledby="ecosystem-heading">
       <div className="section-shell ecosystem-lab__intro">
         <Reveal>
-          <p className="eyebrow">Programas listos para usar</p>
+          <p className="eyebrow">Nuestros productos</p>
         </Reveal>
         <Reveal className="ecosystem-lab__heading">
-          <h2 id="ecosystem-heading">
-            Tres programas nuestros que puedes contratar hoy.
-          </h2>
-          <p>
-            Además de trabajos a medida, hicimos tres programas propios para problemas que
-            vimos repetirse. Dos los contratas directo, sin hablar con nosotros: Unifícalo
-            desde 1 UF + IVA al mes y Citaly desde 0,6 UF al mes. El tercero, Leads, parte
-            con una cuenta gratis y una demo abierta.
-          </p>
+          <h2 id="ecosystem-heading">Tres programas propios, muy pronto.</h2>
         </Reveal>
       </div>
 
@@ -1092,11 +1187,14 @@ export default function HomePage() {
           <div className="home-hero__visual">
             <HeroSummaryMap />
             {/* Va despues del mapa, no flotando fuera de su marco: es el pie
-                del diagrama y asi se comporta en la maquetacion. */}
-            <a href="#servicios" className="hero-summary-map__explore" data-cursor="Servicios">
-              Ver los servicios
-              <ArrowDown />
-            </a>
+                del diagrama y asi se comporta en la maquetacion.
+                Antes apuntaba a #servicios igual que el boton "Ver que
+                hacemos" de la columna de al lado: dos enlaces con la misma
+                flecha y el mismo destino. Este lleva a la pagina completa. */}
+            <Link href="/servicios" prefetch={false} className="hero-summary-map__explore" data-cursor="Servicios">
+              Ver los cinco servicios
+              <ArrowUpRight />
+            </Link>
           </div>
         </div>
       </section>
@@ -1106,98 +1204,6 @@ export default function HomePage() {
       <ProblemSection />
 
       <ProductLabSection />
-
-      <section className="operating-model" aria-labelledby="model-heading">
-        <div className="section-shell">
-          <Reveal className="operating-model__heading">
-            <p className="eyebrow">Cómo trabajamos</p>
-            <div>
-              <h2 id="model-heading">Tres pasos, y en ninguno te dejamos solo.</h2>
-              <p className="operating-model__copy">
-                No partimos vendiéndote algo. Partimos entendiendo qué te está costando
-                hoy. Recién ahí sabemos qué hay que construir, y te lo decimos antes de
-                empezar.
-              </p>
-            </div>
-          </Reveal>
-
-          <div className="operating-model__steps">
-            <span className="operating-model__carril" aria-hidden="true" />
-            {[
-              {
-                number: '01',
-                title: 'Conversamos',
-                text: 'Nos cuentas cómo trabajas hoy y qué te está costando. Sin compromiso y sin costo.',
-                deliverable: 'Qué haríamos y cuánto abarca, por escrito',
-                cuando: 'La primera semana',
-              },
-              {
-                number: '02',
-                title: 'Lo construimos',
-                text: 'Hacemos lo acordado y te vamos mostrando avances, para que no haya sorpresas al final.',
-                deliverable: 'Tu sitio, tu programa o tu asistente, funcionando',
-                cuando: 'Avances desde el primer viernes',
-              },
-              {
-                number: '03',
-                title: 'Lo dejamos andando',
-                text: 'Lo publicamos, te enseñamos a usarlo y quedamos disponibles para los ajustes que salgan.',
-                deliverable: 'Puesta en marcha, y nosotros ahí después',
-                cuando: 'El día que sale a la calle',
-              },
-            ].map((step, index) => (
-              <Reveal key={step.number} className="operating-step" delay={index * 90}>
-                <span className="operating-step__placa" aria-hidden="true">{step.number}</span>
-                <p className="operating-step__cuando">{step.cuando}</p>
-                <h3>{step.title}</h3>
-                <p className="operating-step__texto">{step.text}</p>
-                <strong className="operating-step__entrega">
-                  <span>Te queda</span>
-                  {step.deliverable}
-                </strong>
-              </Reveal>
-            ))}
-          </div>
-
-          <Reveal className="objeciones" delay={60}>
-            <p className="objeciones__titulo">Lo que se pregunta todo el mundo antes de escribir</p>
-            <div className="objeciones__precio">
-              <h3>¿Cuánto cuesta?</h3>
-              <p>
-                Depende de lo que necesites, y por eso no ponemos un precio en la web
-                que después no calce. Lo que sí te garantizamos: el precio de lo acordado
-                te lo damos por escrito antes de empezar y ese número no se mueve. Si a
-                mitad de camino quieres sumar algo que no estaba, te lo cotizamos aparte
-                y decides tú antes de que lo hagamos.
-              </p>
-            </div>
-            <div>
-              <h3>¿Y si a mitad de camino no me gusta?</h3>
-              <p>
-                No trabajamos meses a puerta cerrada. Te vamos mostrando avances desde
-                la primera semana, así que cualquier cosa que no te cuadre la corregimos
-                cuando todavía es barato corregirla.
-              </p>
-            </div>
-            <div>
-              <h3>¿Después quedo amarrado con ustedes?</h3>
-              <p>
-                No. Lo que construimos queda tuyo: tu dominio, tus cuentas, tus datos.
-                Si más adelante quieres que lo siga otro, se lo entregas y listo.
-              </p>
-            </div>
-          </Reveal>
-
-          <Reveal className="industry-line">
-            <p>Ya trabajamos con negocios de</p>
-            <div>
-              <span>Venta de productos</span>
-              <span>Propiedades</span>
-              <span>Servicios a empresas</span>
-            </div>
-          </Reveal>
-        </div>
-      </section>
 
       <section className="rampa" aria-labelledby="rampa-heading">
         <div className="section-shell rampa__inner">

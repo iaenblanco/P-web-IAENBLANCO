@@ -196,6 +196,8 @@ export type Product = {
   problems: string[]
   integrations: string[]
   href: string
+  /** El sitio del producto. Existe, aunque todavia no se venda desde ahi. */
+  sitio: string
   ctaLabel: string
   /** true cuando cualquiera puede contratarlo solo, sin hablar con nosotros. */
   selfServe: boolean
@@ -205,11 +207,11 @@ export const products: Product[] = [
   {
     id: 'unificalo',
     name: 'Unifícalo',
-    status: 'Piloto abierto',
-    statusMeaning: 'Ya está operando con clientes y puedes sumarte hoy.',
-    offer: 'Desde 1 UF + IVA al mes · 14 días gratis · sin tarjeta para partir',
-    ctaLabel: 'Probar 14 días gratis',
-    selfServe: true,
+    status: 'Próximamente',
+    statusMeaning: 'Lo estamos terminando con los primeros negocios. Te avisamos apenas abra.',
+    offer: 'Sin compromiso · lo vemos por WhatsApp',
+    ctaLabel: 'Avísame cuando esté',
+    selfServe: false,
     eyebrow: 'Para quien vende en varios lados',
     promise: 'Tu inventario, tus precios y tus boletas cuadran solos en todos lados.',
     description:
@@ -229,16 +231,17 @@ export const products: Product[] = [
       'WooCommerce',
       'Paris',
     ],
-    href: 'https://unificalo.cl',
+    href: 'https://wa.me/56977684800?text=Hola%20IAenBlanco%2C%20quiero%20que%20me%20avisen%20cuando%20Unif%C3%ADcalo%20est%C3%A9%20disponible.',
+    sitio: 'https://unificalo.cl',
   },
   {
     id: 'citaly',
     name: 'Citaly',
-    status: 'Abierto en validación',
-    statusMeaning: 'Funciona y puedes crear tu cuenta; seguimos ajustando el producto con los primeros negocios.',
-    offer: 'Planes desde 0,6 UF al mes · sin permanencia · hecho en Chile',
-    ctaLabel: 'Crear cuenta en Citaly',
-    selfServe: true,
+    status: 'Próximamente',
+    statusMeaning: 'Está en pruebas con negocios reales. Te avisamos apenas abra.',
+    offer: 'Sin compromiso · lo vemos por WhatsApp',
+    ctaLabel: 'Avísame cuando esté',
+    selfServe: false,
     eyebrow: 'Para negocios que atienden con hora',
     promise: 'Tu WhatsApp responde, entiende audios y agenda horas aunque estés atendiendo.',
     description:
@@ -249,16 +252,17 @@ export const products: Product[] = [
       'Manda recordatorios y guarda tus clientes, tu equipo y tus cobros en un lugar.',
     ],
     integrations: ['WhatsApp', 'Agenda', 'Audios', 'Reservas', 'Recordatorios', 'CRM'],
-    href: 'https://citaly.cl',
+    href: 'https://wa.me/56977684800?text=Hola%20IAenBlanco%2C%20quiero%20que%20me%20avisen%20cuando%20Citaly%20est%C3%A9%20disponible.',
+    sitio: 'https://citaly.cl',
   },
   {
     id: 'leads',
     name: 'Leads',
-    status: 'Cuenta gratis',
-    statusMeaning: 'Puedes crear una cuenta gratis y revisar la demo antes de decidir nada.',
-    offer: 'Cuenta gratis · demo abierta · revisión de calidad sin cobro',
-    ctaLabel: 'Crear cuenta gratis',
-    selfServe: true,
+    status: 'Próximamente',
+    statusMeaning: 'Lo estamos afinando con los primeros clientes. Te avisamos apenas abra.',
+    offer: 'Sin compromiso · lo vemos por WhatsApp',
+    ctaLabel: 'Avísame cuando esté',
+    selfServe: false,
     eyebrow: 'Para quien le vende a empresas',
     promise: 'Empresas reales y verificadas, en vez de mandar mensajes al voleo.',
     description:
@@ -269,7 +273,8 @@ export const products: Product[] = [
       'Llevas el seguimiento de cada empresa hasta la reunión o la venta.',
     ],
     integrations: ['Fuentes públicas', 'Evidencia', 'Score', 'Pipeline', 'WhatsApp', 'CRM'],
-    href: 'https://leads.iaenblanco.com',
+    href: 'https://wa.me/56977684800?text=Hola%20IAenBlanco%2C%20quiero%20que%20me%20avisen%20cuando%20Leads%20est%C3%A9%20disponible.',
+    sitio: 'https://leads.iaenblanco.com',
   },
 ]
 

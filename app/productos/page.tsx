@@ -141,7 +141,7 @@ function ProductVisual({ index }: { index: number }) {
       <div className="product-visual product-visual--network product-visual--unificalo" aria-hidden="true" data-cursor-theme="unificalo">
         <div className="product-visual__status">
           <span>sync.engine</span>
-          <strong><i /> Piloto abierto</strong>
+          <strong><i /> En construcción</strong>
         </div>
         <div className="unify-orbit">
           <svg viewBox="0 0 640 560" fill="none">
@@ -186,7 +186,7 @@ function ProductVisual({ index }: { index: number }) {
       <ProductNetworkVisual
         theme="citaly"
         engine="agenda.engine"
-        status="Validación comercial"
+        status="En construcción"
         brand="citaly-mark"
         title="Citaly"
         detail="WhatsApp + agenda + IA"
@@ -208,7 +208,7 @@ function ProductVisual({ index }: { index: number }) {
     <ProductNetworkVisual
       theme="leads"
       engine="lead.engine"
-      status="Cuenta gratis"
+      status="En construcción"
       title="Leads"
       detail="Busca y prioriza"
       outputLabel="salida comercial"
@@ -230,16 +230,16 @@ export default function ProductsPage() {
     <main id="contenido">
       <section className="page-hero page-hero--products" data-cursor-theme="signal">
         <div className="section-shell">
-          <p className="hero-kicker"><span /> Programas listos para usar</p>
+          <p className="hero-kicker"><span /> Nuestros productos</p>
           <h1>
             Tres programas nuestros{' '}
-            <em>que puedes contratar hoy.</em>
+            <em>muy pronto.</em>
           </h1>
           <p>
             Uno para que tus ventas y tu inventario cuadren solos, uno para que tu WhatsApp
             agende horas mientras atiendes, y uno para encontrar empresas a las que
-            venderles. Los tres están funcionando y los tres parten sin compromiso. Dos los
-            contratas directo; el tercero, Leads, parte con una cuenta gratis.
+            venderles. Los estamos terminando con los primeros negocios: dinos cuál te
+            sirve y te avisamos apenas abra.
           </p>
           <div className="page-hero__actions">
             <a href="#productos-propios" className="button button--primary">
