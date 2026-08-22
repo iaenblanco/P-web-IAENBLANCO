@@ -19763,3 +19763,157 @@ button {
     transform: none;
   }
 }
+
+/* ==================================================================
+   EL CIRCUITO DEL MAPA MOVIL, SEGUNDA VERSION (21-ago-2026)
+   ------------------------------------------------------------------
+   Nico: "en especial los movimientos, colores, circuitos y flujos de
+   energia, que sea fino y elegante el movimiento y los colores como
+   se muevan". La primera version tenia tres animaciones sueltas que
+   latian cada una por su lado: un pulso en cada cable casi al mismo
+   tiempo y un barrido de luz diagonal generico sobre las fichas.
+   Ahora es UNA corriente que recorre el sistema en orden, con un solo
+   reloj de 12 s: baja el cable hasta "A tu medida" (0 s), el nodo
+   recibe, un riel de luz corre por el borde del modulo y sus fichas
+   se energizan una por una -borde e icono-; a los 4 s el turno de
+   "Lo que ya usas"; a los 8 s el de "Los nuestros". El nucleo respira
+   y su halo va cambiando entre los tres colores del sistema, despacio.
+   ================================================================== */
+
+@media (max-width: 900px) {
+  .summary-group--services { --fase: 0s; }
+  .summary-group--platforms { --fase: 4s; }
+  .summary-group--products { --fase: 8s; }
+
+  /* El cable: mismo dibujo, pero ahora un solo pulso por vuelta y en
+     el turno de su modulo. */
+  .summary-group::before {
+    animation: circuito2-pulso 12s cubic-bezier(0.45, 0, 0.55, 1) infinite;
+    animation-delay: var(--fase);
+  }
+
+  .summary-group--platforms::before,
+  .summary-group--products::before {
+    animation-delay: var(--fase);
+  }
+
+  /* El nodo recibe la corriente justo cuando el cable la entrega. */
+  .summary-group .summary-system-label::before {
+    animation: circuito2-nodo 12s ease-out infinite;
+    animation-delay: var(--fase);
+  }
+
+  .summary-group--platforms .summary-system-label::before,
+  .summary-group--products .summary-system-label::before {
+    animation-delay: var(--fase);
+  }
+
+  /* El riel: una luz fina que corre por el borde superior del modulo,
+     como la pista de un circuito impreso. Vive en el ::after del
+     grupo, que quedo libre cuando salio la escuadra de esquina. */
+  .summary-group::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: -1px;
+    width: auto;
+    height: 1px;
+    border: 0;
+    background: linear-gradient(
+      90deg,
+      transparent 0%,
+      color-mix(in srgb, var(--grupo) 85%, #fff) 50%,
+      transparent 100%
+    ) no-repeat;
+    background-size: 90px 1px;
+    background-position-x: -90px;
+    opacity: 0;
+    animation: circuito2-riel 12s cubic-bezier(0.45, 0, 0.55, 1) infinite;
+    animation-delay: var(--fase);
+    pointer-events: none;
+  }
+
+  /* Las fichas ya no reciben un barrido diagonal: se energizan una por
+     una cuando la corriente llega a su modulo. El borde sube de tono
+     y el anillo del icono emite un ping suave. */
+  .summary-group .summary-orb::before,
+  .summary-group .summary-platform::before {
+    content: none;
+  }
+
+  .summary-group .summary-orb,
+  .summary-group .summary-platform {
+    animation: circuito2-ficha 12s cubic-bezier(0.45, 0, 0.55, 1) infinite;
+    animation-delay: calc(var(--fase) + 0.5s + var(--node-index, 0) * 0.3s);
+  }
+
+  .summary-group .summary-orb > span,
+  .summary-group .summary-platform > span {
+    animation: circuito2-icono 12s ease-out infinite;
+    animation-delay: calc(var(--fase) + 0.5s + var(--node-index, 0) * 0.3s);
+  }
+
+  /* El halo del nucleo respira y su color recorre los tres acentos del
+     sistema: celeste, verde, ambar. Los colores, moviendose despacio. */
+  .hero-summary-map__core::after {
+    animation:
+      circuito-halo 7.5s cubic-bezier(0.45, 0, 0.55, 1) infinite,
+      circuito2-halo-color 24s linear infinite;
+  }
+}
+
+/* La corriente entra (0-6%), el riel corre (4-16%) y las fichas se
+   encienden (5-26%): todo cabe en el primer tercio de la vuelta, que
+   es el turno del modulo; los otros dos tercios son de sus hermanos. */
+
+/* El pulso del cable: un solo viaje por vuelta, rapido y limpio, y el
+   resto del ciclo en silencio. */
+@keyframes circuito2-pulso {
+  0%, 0.8% { background-position: 50% 0, 50% -6px; opacity: 0; }
+  2% { opacity: 0.9; }
+  5% { background-position: 50% 0, 50% 21px; opacity: 0.9; }
+  7%, 100% { background-position: 50% 0, 50% 21px; opacity: 0; }
+}
+
+@keyframes circuito2-nodo {
+  0%, 4% { box-shadow: 0 0 0 0 color-mix(in srgb, var(--grupo) 45%, transparent); }
+  8% { box-shadow: 0 0 0 7px color-mix(in srgb, var(--grupo) 0%, transparent); }
+  100% { box-shadow: 0 0 0 0 color-mix(in srgb, var(--grupo) 0%, transparent); }
+}
+
+@keyframes circuito2-riel {
+  0%, 4% { opacity: 0; background-position-x: -90px; }
+  7% { opacity: 1; }
+  15% { opacity: 1; background-position-x: calc(100% + 90px); }
+  18%, 100% { opacity: 0; background-position-x: calc(100% + 90px); }
+}
+
+@keyframes circuito2-ficha {
+  0%, 5% { border-color: color-mix(in srgb, var(--grupo) 28%, transparent); }
+  10%, 24% { border-color: color-mix(in srgb, var(--grupo) 72%, transparent); }
+  32%, 100% { border-color: color-mix(in srgb, var(--grupo) 28%, transparent); }
+}
+
+@keyframes circuito2-icono {
+  0%, 6% { box-shadow: 0 0 0 0 color-mix(in srgb, var(--grupo) 38%, transparent); }
+  13% { box-shadow: 0 0 0 6px color-mix(in srgb, var(--grupo) 0%, transparent); }
+  100% { box-shadow: 0 0 0 0 color-mix(in srgb, var(--grupo) 0%, transparent); }
+}
+
+@keyframes circuito2-halo-color {
+  0%, 100% { border-color: color-mix(in srgb, var(--summary-service) 42%, transparent); }
+  33% { border-color: color-mix(in srgb, var(--summary-connection) 42%, transparent); }
+  66% { border-color: color-mix(in srgb, var(--summary-product) 42%, transparent); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .summary-group::after,
+  .summary-group .summary-orb,
+  .summary-group .summary-platform,
+  .summary-group .summary-orb > span,
+  .summary-group .summary-platform > span,
+  .hero-summary-map__core::after {
+    animation: none;
+  }
+}
