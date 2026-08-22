@@ -3,6 +3,7 @@ import type { CSSProperties } from 'react'
 import { BrandLogo } from '@/components/BrandLogo'
 import { ContactBand } from '@/components/ContactBand'
 import { Reveal } from '@/components/Reveal'
+import { RevelaAlEntrar } from '@/components/RevelaAlEntrar'
 import { TypingLine } from '@/components/TypingLine'
 import Link from 'next/link'
 import { getWhatsappUrl, products, WHATSAPP_URL } from '@/lib/site'
@@ -1005,7 +1006,9 @@ export default function HomePage() {
           </div>
 
           <div className="home-hero__visual">
-            <HeroSummaryMap />
+            <RevelaAlEntrar className="revela--mapa">
+              <HeroSummaryMap />
+            </RevelaAlEntrar>
             {/* Va despues del mapa, no flotando fuera de su marco: es el pie
                 del diagrama y asi se comporta en la maquetacion.
                 Antes apuntaba a #servicios igual que el boton "Ver que

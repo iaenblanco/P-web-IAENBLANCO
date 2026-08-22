@@ -17403,9 +17403,9 @@ button {
   --despeje: 36px;
 }
 
-.ad--unificalo { --acento: #d99019; }
-.ad--citaly { --acento: #66a93f; }
-.ad--leads { --acento: #40b0d0; }
+.ad--unificalo { --acento: #d99019; --acento-tinta: var(--accent-amber-ink); }
+.ad--citaly { --acento: #66a93f; --acento-tinta: var(--accent-lime-ink); }
+.ad--leads { --acento: #40b0d0; --acento-tinta: var(--accent-cyan-ink); }
 
 .ad > article {
   display: grid;
@@ -18180,5 +18180,705 @@ button {
 
   .repisa__pie {
     margin-top: 18px;
+  }
+}
+
+/* ==================================================================
+   EL MAPA DEL HERO: mas lento, mas fluido, y que se arme al bajar
+   ------------------------------------------------------------------
+   Nico: "debe ser mucho mas lento, colorido (no tan excesivo), y
+   fluida la transicion, es demasiado tosco y rapido, y no debe ser
+   que llegaste a toda la imagen, debe ser que vas bajando y al
+   momento que comienzas a ver la animacion, siga lento y fluido, y
+   que se note".
+   Tres cambios:
+   1. Todos los ciclos se alargan entre 1,9 y 2,3 veces y cambian de
+      curva: linear y ease-in-out sacuden, cubic-bezier suave no.
+   2. El mapa se arma solo cuando entra en pantalla, pieza por pieza,
+      con animation-timeline: view(). Es scroll-driven de CSS, corre
+      en el compositor y no necesita ni una linea de JavaScript. Donde
+      no exista, el navegador ignora el bloque y el mapa se ve armado
+      como hasta ahora: nunca queda a medio dibujar.
+   3. Mas color: la luz que recorre las fichas lleva el acento del
+      grupo y el nucleo respira con un halo del color de la marca, en
+      vez del gris de antes.
+   ================================================================== */
+
+/* --- 1. Mas lento y mas fluido ------------------------------------ */
+
+.summary-transfer {
+  animation-duration: 8.5s;
+  animation-timing-function: cubic-bezier(0.45, 0, 0.55, 1);
+}
+
+.summary-transfer--slow {
+  animation-duration: 13s;
+}
+
+@media (max-width: 900px) {
+  .summary-group::before {
+    animation-duration: 6.2s;
+    animation-timing-function: cubic-bezier(0.5, 0, 0.5, 1);
+  }
+
+  .summary-group--platforms::before { animation-delay: 0.9s; }
+  .summary-group--products::before { animation-delay: 1.8s; }
+
+  .summary-group .summary-system-label::before {
+    animation-duration: 6.2s;
+  }
+
+  .summary-group--platforms .summary-system-label::before { animation-delay: 0.9s; }
+  .summary-group--products .summary-system-label::before { animation-delay: 1.8s; }
+
+  .summary-group .summary-orb::before,
+  .summary-group .summary-platform::before {
+    background: linear-gradient(
+      100deg,
+      transparent 30%,
+      color-mix(in srgb, var(--grupo) 26%, transparent) 50%,
+      transparent 70%
+    );
+    animation-duration: 11s;
+    animation-timing-function: cubic-bezier(0.4, 0, 0.35, 1);
+    animation-delay: calc(var(--node-index, 0) * 0.9s);
+  }
+
+  .summary-group--platforms .summary-platform::before {
+    animation-delay: calc(var(--node-index, 0) * 0.9s + 1.4s);
+  }
+
+  .summary-group--products .summary-orb::before {
+    animation-delay: calc(var(--node-index, 0) * 0.9s + 2.8s);
+  }
+
+  .hero-summary-map__core::before {
+    animation-duration: 60s;
+  }
+
+  .hero-summary-map__core::after {
+    border-color: color-mix(in srgb, var(--summary-service) 42%, transparent);
+    animation-duration: 7.5s;
+    animation-timing-function: cubic-bezier(0.45, 0, 0.55, 1);
+  }
+}
+
+/* El barrido recorre mas despacio y se toma un respiro entre pasadas,
+   para que el ojo lo siga en vez de sentir un parpadeo. */
+@keyframes circuito-barrido {
+  0% { background-position: 200% 0; }
+  55% { background-position: -60% 0; }
+  100% { background-position: -60% 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-summary-map__core,
+  .summary-group,
+  .summary-group .summary-orb,
+  .summary-group .summary-platform,
+  .summary-system-label,
+  .summary-node-cluster,
+  .summary-platform-cluster,
+  .summary-flow,
+  .hero-summary-map__wires {
+    animation: none;
+    opacity: 1;
+    transform: none;
+    filter: none;
+  }
+}
+
+/* ------------------------------------------------------------------
+   El mapa se arma al entrar en pantalla
+   Sin JavaScript no hay ninguna clase y el mapa se ve completo: la
+   clase que esconde las piezas la pone el propio componente recien
+   cuando ya corrio y va a poder mostrarlas. Se anima opacidad y
+   desplazamiento -las dos cosas que corren en el compositor-, nada
+   de blur ni de filtros, que cuestan memoria.
+   ------------------------------------------------------------------ */
+
+.revela {
+  display: contents;
+}
+
+.revela--mapa.revela--armado .hero-summary-map__core,
+.revela--mapa.revela--armado .summary-group,
+.revela--mapa.revela--armado .summary-system-label,
+.revela--mapa.revela--armado .summary-node-cluster,
+.revela--mapa.revela--armado .summary-platform-cluster,
+.revela--mapa.revela--armado .summary-flow,
+.revela--mapa.revela--armado .hero-summary-map__wires {
+  opacity: 0;
+  transition: none;
+}
+
+.revela--mapa.revela--armado.es-visible .hero-summary-map__core,
+.revela--mapa.revela--armado.es-visible .summary-group,
+.revela--mapa.revela--armado.es-visible .summary-system-label,
+.revela--mapa.revela--armado.es-visible .summary-node-cluster,
+.revela--mapa.revela--armado.es-visible .summary-platform-cluster,
+.revela--mapa.revela--armado.es-visible .summary-flow,
+.revela--mapa.revela--armado.es-visible .hero-summary-map__wires {
+  opacity: 1;
+  transition:
+    opacity 1200ms cubic-bezier(0.22, 1, 0.36, 1),
+    transform 1500ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* El orden en que se arma: primero el nucleo, despues los cables y
+   recien ahi cada grupo. Los retardos son largos a proposito: el
+   recorrido completo dura unos 2,4 s, para que se note. */
+.revela--mapa.revela--armado.es-visible .hero-summary-map__core { transition-delay: 0ms; }
+.revela--mapa.revela--armado.es-visible .hero-summary-map__wires { transition-delay: 260ms; }
+.revela--mapa.revela--armado.es-visible .summary-system-label--services,
+.revela--mapa.revela--armado.es-visible .summary-node-cluster--services,
+.revela--mapa.revela--armado.es-visible .summary-group--services { transition-delay: 480ms; }
+.revela--mapa.revela--armado.es-visible .summary-system-label--platforms,
+.revela--mapa.revela--armado.es-visible .summary-platform-cluster,
+.revela--mapa.revela--armado.es-visible .summary-group--platforms { transition-delay: 820ms; }
+.revela--mapa.revela--armado.es-visible .summary-system-label--products,
+.revela--mapa.revela--armado.es-visible .summary-node-cluster--products,
+.revela--mapa.revela--armado.es-visible .summary-group--products { transition-delay: 1160ms; }
+.revela--mapa.revela--armado.es-visible .summary-flow { transition-delay: 1500ms; }
+
+/* En celular los modulos ademas suben. En escritorio no se toca
+   transform: las piezas del mapa estan posicionadas con translate y
+   pisarlo las descuadraria. */
+@media (max-width: 900px) {
+  .revela--mapa.revela--armado .hero-summary-map__core,
+  .revela--mapa.revela--armado .summary-group {
+    transform: translateY(18px);
+  }
+
+  .revela--mapa.revela--armado.es-visible .hero-summary-map__core,
+  .revela--mapa.revela--armado.es-visible .summary-group {
+    transform: translateY(0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .revela--mapa.revela--armado .hero-summary-map__core,
+  .revela--mapa.revela--armado .summary-group,
+  .revela--mapa.revela--armado .summary-system-label,
+  .revela--mapa.revela--armado .summary-node-cluster,
+  .revela--mapa.revela--armado .summary-platform-cluster,
+  .revela--mapa.revela--armado .summary-flow,
+  .revela--mapa.revela--armado .hero-summary-map__wires {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+}
+
+/* ==================================================================
+   LAS TRES ESCENAS DE PRODUCTOS
+   ------------------------------------------------------------------
+   Nico: "debe ser simple y visual, quizas un mapa conceptual con
+   animaciones, flujos, algo que simplifique lo que hace, y que sea
+   bonito... representaciones animadas de bajo presupuesto, pero que
+   sean claras y esteticamente apreciables... que no gasten mucha
+   memoria y que no entorpezcan el flujo".
+   Cada producto tiene una escena corta que se repite cada 11 s y que
+   se entiende sin leer una palabra. Solo se anima opacidad y
+   transform: las dos cosas que el navegador resuelve en el
+   compositor, sin recalcular maquetacion ni repintar. Cero imagenes,
+   cero video, cero JavaScript de animacion.
+   Ademas la escena arranca detenida y solo corre cuando entra en
+   pantalla, asi que fuera de la vista no consume nada.
+   ================================================================== */
+
+.esc {
+  position: relative;
+  display: grid;
+  height: 212px;
+  padding: 22px 28px;
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+  background:
+    linear-gradient(180deg, color-mix(in srgb, var(--acento) 5%, transparent), transparent 70%),
+    var(--paper);
+  overflow: hidden;
+}
+
+/* Detenida hasta que entra en pantalla. Sin el envoltorio -o sea sin
+   JavaScript- corre igual: la regla que la detiene la pone el propio
+   componente cuando ya esta montado. */
+.revela--escena.revela--armado .esc * {
+  animation-play-state: paused;
+}
+
+.revela--escena.revela--armado.es-visible .esc * {
+  animation-play-state: running;
+}
+
+/* --- 01 · Unificalo: una venta, cuatro canales -------------------- */
+
+.esc--sync {
+  grid-template-rows: 30px 104px;
+  align-content: center;
+  gap: 22px;
+}
+
+.esc__aviso {
+  justify-self: start;
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  padding: 6px 12px;
+  border: 1px solid color-mix(in srgb, var(--acento) 45%, transparent);
+  background: var(--paper-bright);
+  color: var(--ink);
+  font-family: var(--font-mono);
+  font-size: 12px;
+  letter-spacing: 0.02em;
+  white-space: nowrap;
+  animation: esc-aviso 11s cubic-bezier(0.22, 1, 0.36, 1) infinite;
+}
+
+.esc__punto {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--acento);
+}
+
+.esc__canales {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 10px;
+  align-items: stretch;
+}
+
+.esc__canal {
+  display: grid;
+  align-content: space-between;
+  gap: 10px;
+  padding: 13px 14px;
+  border: 1px solid var(--line);
+  background: var(--paper-bright);
+  animation: esc-canal 11s cubic-bezier(0.22, 1, 0.36, 1) infinite;
+  animation-delay: calc(var(--i) * 0.22s);
+}
+
+.esc__canal-nombre {
+  color: var(--graphite);
+  font-family: var(--font-mono);
+  font-size: 12px;
+  letter-spacing: 0.04em;
+  line-height: 1.2;
+  overflow-wrap: normal;
+  word-break: keep-all;
+}
+
+/* Las dos cifras viven una encima de otra y se turnan. Se anima solo
+   opacidad y desplazamiento: nada de cambiar el texto. */
+.esc__cifra {
+  position: relative;
+  display: block;
+  height: 30px;
+  font-family: var(--font-mono);
+  font-size: 26px;
+  font-variant-numeric: tabular-nums;
+  font-weight: 600;
+  line-height: 30px;
+}
+
+.esc__cifra-antes,
+.esc__cifra-despues {
+  position: absolute;
+  left: 0;
+  top: 0;
+  animation: 11s cubic-bezier(0.22, 1, 0.36, 1) infinite;
+  animation-delay: calc(var(--i) * 0.22s + 0.3s);
+}
+
+.esc__cifra-antes {
+  color: var(--graphite);
+  animation-name: esc-cifra-sale;
+}
+
+.esc__cifra-despues {
+  color: var(--acento-tinta, var(--acento));
+  animation-name: esc-cifra-entra;
+}
+
+/* El riel es el cable por donde viaja el aviso hasta los cuatro. */
+.esc__riel {
+  position: absolute;
+  left: 28px;
+  right: 28px;
+  top: 63px;
+  height: 1px;
+  background: linear-gradient(90deg, var(--acento), color-mix(in srgb, var(--acento) 20%, transparent));
+  transform-origin: left center;
+  animation: esc-riel 11s cubic-bezier(0.3, 0, 0.2, 1) infinite;
+}
+
+@keyframes esc-aviso {
+  0%, 4% { opacity: 0; transform: translateY(-10px); }
+  12%, 62% { opacity: 1; transform: translateY(0); }
+  72%, 100% { opacity: 0; transform: translateY(-10px); }
+}
+
+@keyframes esc-riel {
+  0%, 12% { opacity: 0; transform: scaleX(0); }
+  26% { opacity: 1; transform: scaleX(1); }
+  62% { opacity: 1; transform: scaleX(1); }
+  74%, 100% { opacity: 0; transform: scaleX(1); }
+}
+
+@keyframes esc-canal {
+  0%, 24% { border-color: var(--line); }
+  34%, 62% { border-color: color-mix(in srgb, var(--acento) 55%, transparent); }
+  76%, 100% { border-color: var(--line); }
+}
+
+@keyframes esc-cifra-sale {
+  0%, 26% { opacity: 1; transform: translateY(0); }
+  34%, 66% { opacity: 0; transform: translateY(-14px); }
+  78%, 100% { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes esc-cifra-entra {
+  0%, 26% { opacity: 0; transform: translateY(14px); }
+  34%, 66% { opacity: 1; transform: translateY(0); }
+  78%, 100% { opacity: 0; transform: translateY(14px); }
+}
+
+/* --- 02 · Citaly: llega un mensaje, sale una hora ----------------- */
+
+/* Filas fijas y la respuesta comparte celda con el "escribiendo": si el
+   indicador ocupara fila propia reservaria su alto aunque este invisible
+   y la escena se pasaria de largo. */
+.esc--chat {
+  grid-template-columns: minmax(0, 1fr);
+  grid-template-rows: 14px 46px 46px 42px;
+  align-content: center;
+  justify-items: start;
+  gap: 10px;
+}
+
+.esc--chat .esc__burbuja--bot,
+.esc--chat .esc__escribiendo {
+  grid-row: 3;
+  grid-column: 1;
+  align-self: center;
+}
+
+.esc__hora {
+  animation: esc-cliente 11s cubic-bezier(0.22, 1, 0.36, 1) infinite;
+  color: var(--graphite);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.09em;
+}
+
+.esc__burbuja {
+  display: flex;
+  align-items: center;
+  max-width: min(340px, 78%);
+  padding: 0 15px;
+  height: 46px;
+  font-size: 15px;
+  line-height: 1.3;
+  animation: 11s cubic-bezier(0.22, 1, 0.36, 1) infinite;
+}
+
+.esc__burbuja--cliente {
+  border: 1px solid var(--line);
+  background: var(--paper-bright);
+  color: var(--ink);
+  animation-name: esc-cliente;
+}
+
+.esc__burbuja--bot {
+  justify-self: end;
+  border: 1px solid color-mix(in srgb, var(--acento) 45%, transparent);
+  background: color-mix(in srgb, var(--acento) 12%, var(--paper-bright));
+  color: var(--ink);
+  animation-name: esc-bot;
+}
+
+.esc__escribiendo {
+  display: inline-flex;
+  justify-self: end;
+  align-items: center;
+  gap: 5px;
+  border: 1px solid var(--line);
+  background: var(--paper-bright);
+  animation: esc-escribiendo 11s linear infinite;
+}
+
+.esc__escribiendo {
+  height: 42px;
+  padding: 0 14px;
+}
+
+.esc__escribiendo i {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--graphite);
+  animation: esc-puntito 1.6s ease-in-out infinite;
+}
+
+.esc__escribiendo i:nth-child(2) { animation-delay: 0.22s; }
+.esc__escribiendo i:nth-child(3) { animation-delay: 0.44s; }
+
+.esc__agenda {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  height: 42px;
+  padding: 0 14px;
+  border: 1px solid color-mix(in srgb, var(--acento) 55%, transparent);
+  background: var(--paper-bright);
+  color: var(--ink);
+  font-family: var(--font-mono);
+  font-size: 13px;
+  letter-spacing: 0.02em;
+  white-space: nowrap;
+  animation: esc-agenda 11s cubic-bezier(0.22, 1, 0.36, 1) infinite;
+}
+
+.esc__agenda-tic {
+  width: 11px;
+  height: 6px;
+  border-left: 2px solid var(--acento);
+  border-bottom: 2px solid var(--acento);
+  transform: rotate(-45deg) translate(1px, -2px);
+}
+
+@keyframes esc-cliente {
+  0%, 6% { opacity: 0; transform: translateY(12px); }
+  14%, 68% { opacity: 1; transform: translateY(0); }
+  78%, 100% { opacity: 0; transform: translateY(12px); }
+}
+
+@keyframes esc-bot {
+  0%, 30% { opacity: 0; transform: translateY(12px); }
+  40%, 68% { opacity: 1; transform: translateY(0); }
+  78%, 100% { opacity: 0; transform: translateY(12px); }
+}
+
+@keyframes esc-escribiendo {
+  0%, 15% { opacity: 0; }
+  19%, 27% { opacity: 1; }
+  31%, 100% { opacity: 0; }
+}
+
+@keyframes esc-puntito {
+  0%, 100% { opacity: 0.3; transform: translateY(0); }
+  50% { opacity: 1; transform: translateY(-3px); }
+}
+
+@keyframes esc-agenda {
+  0%, 46% { opacity: 0; transform: translateY(10px); }
+  56%, 68% { opacity: 1; transform: translateY(0); }
+  78%, 100% { opacity: 0; transform: translateY(10px); }
+}
+
+/* --- 03 · Leads: de una lista larga a la que sirve ---------------- */
+
+.esc--filtro {
+  grid-template-rows: 30px 104px;
+  align-content: center;
+  gap: 22px;
+}
+
+.esc__lupa {
+  justify-self: start;
+  padding: 6px 12px;
+  border: 1px solid color-mix(in srgb, var(--acento) 45%, transparent);
+  background: var(--paper-bright);
+  color: var(--ink);
+  font-family: var(--font-mono);
+  font-size: 12px;
+  letter-spacing: 0.04em;
+  animation: esc-aviso 11s cubic-bezier(0.22, 1, 0.36, 1) infinite;
+}
+
+.esc__lista {
+  display: grid;
+  grid-auto-rows: 1fr;
+  gap: 3px;
+  align-content: center;
+}
+
+.esc__linea {
+  display: grid;
+  grid-template-columns: 18px minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 12px;
+  animation: esc-linea-cae 11s cubic-bezier(0.22, 1, 0.36, 1) infinite;
+  animation-delay: calc(var(--i) * 0.06s);
+}
+
+.esc__linea--queda {
+  animation-name: esc-linea-queda;
+}
+
+.esc__linea-barra {
+  width: var(--ancho, 70%);
+  height: 8px;
+  background: color-mix(in srgb, var(--ink) 13%, transparent);
+}
+
+.esc__linea--queda .esc__linea-barra {
+  width: 100%;
+  background: color-mix(in srgb, var(--acento) 55%, transparent);
+}
+
+.esc__linea-orden,
+.esc__linea-tel {
+  color: var(--acento-tinta, var(--acento));
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  opacity: 0;
+}
+
+.esc__linea-tel {
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.esc__linea--queda .esc__linea-orden,
+.esc__linea--queda .esc__linea-tel {
+  animation: esc-orden 11s cubic-bezier(0.22, 1, 0.36, 1) infinite;
+  animation-delay: calc(var(--i) * 0.06s);
+}
+
+.esc__barrido {
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 2px;
+  top: 74px;
+  background: linear-gradient(90deg, transparent, var(--acento), transparent);
+  animation: esc-barrido 11s cubic-bezier(0.4, 0, 0.3, 1) infinite;
+}
+
+@keyframes esc-barrido {
+  0%, 14% { opacity: 0; transform: translateY(0); }
+  20% { opacity: 0.9; transform: translateY(0); }
+  38% { opacity: 0.9; transform: translateY(104px); }
+  46%, 100% { opacity: 0; transform: translateY(104px); }
+}
+
+@keyframes esc-linea-cae {
+  0%, 24% { opacity: 1; transform: translateX(0); }
+  40%, 68% { opacity: 0.14; transform: translateX(-8px); }
+  80%, 100% { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes esc-linea-queda {
+  0%, 24% { opacity: 1; transform: translateX(0); }
+  40%, 68% { opacity: 1; transform: translateX(6px); }
+  80%, 100% { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes esc-orden {
+  0%, 34% { opacity: 0; }
+  46%, 68% { opacity: 1; }
+  78%, 100% { opacity: 0; }
+}
+
+/* --- Desfase entre productos y pie de escena ---------------------- */
+
+.ad__pie-escena {
+  margin: 0;
+  padding: 20px 28px 0;
+  color: var(--text-strong);
+  font-size: clamp(16px, 1.6vw, 19px);
+  letter-spacing: -0.015em;
+  line-height: 1.35;
+  text-wrap: pretty;
+}
+
+/* --- Celular ------------------------------------------------------ */
+
+@media (max-width: 899px) {
+  .esc {
+    height: 236px;
+    padding: 18px 20px;
+  }
+
+  .esc--sync,
+  .esc--filtro {
+    grid-template-rows: 30px 128px;
+    gap: 18px;
+  }
+
+  .esc--sync .esc__canales {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 8px;
+  }
+
+  .esc__canal {
+    gap: 8px;
+    padding: 11px;
+  }
+
+  .esc__cifra {
+    height: 26px;
+    font-size: 22px;
+    line-height: 26px;
+  }
+
+  .esc__riel {
+    left: 20px;
+    right: 20px;
+    top: 56px;
+  }
+
+  .esc__aviso,
+  .esc__lupa,
+  .esc__hora {
+    font-size: 13px;
+  }
+
+  .esc__burbuja {
+    max-width: 88%;
+    font-size: 14px;
+  }
+
+  .esc__agenda {
+    font-size: 13px;
+  }
+
+  .esc__linea {
+    grid-template-columns: 16px minmax(0, 1fr) auto;
+    gap: 10px;
+  }
+
+  .esc__barrido {
+    top: 66px;
+  }
+
+  .ad__pie-escena {
+    padding: 16px 20px 0;
+    font-size: 16px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .esc * {
+    animation: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+  }
+
+  /* Sin movimiento, la escena muestra el estado resuelto: la cifra
+     nueva, la hora tomada y las lineas que quedan. */
+  .esc__cifra-antes,
+  .esc__escribiendo {
+    display: none;
+  }
+
+  .esc__linea:not(.esc__linea--queda) {
+    opacity: 0.16 !important;
   }
 }

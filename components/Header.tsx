@@ -1,6 +1,7 @@
 'use client'
 
 import Link from 'next/link'
+import { usePathname } from 'next/navigation'
 import { useEffect, useRef, useState } from 'react'
 import { products, services, WHATSAPP_URL } from '@/lib/site'
 
@@ -32,6 +33,26 @@ function MenuIcon() {
 export function Header() {
   const [openMenu, setOpenMenu] = useState<'services' | 'products' | null>(null)
   const closeTimer = useRef<ReturnType<typeof setTimeout> | null>(null)
+  const pathname = usePathname()
+
+  /*
+   * Estando ya en el inicio, tocar el logo o "Inicio" no hacia nada: Next ve
+   * la misma ruta y no navega, asi que uno quedaba donde mismo, a mitad de
+   * pagina, con la sensacion de que el boton esta pegado. Si ya estamos en
+   * "/", el enlace sube al principio en vez de navegar.
+   */
+  function volverAlInicio(event: { preventDefault: () => void }) {
+    forceCloseDesktopMenu()
+    cerrarMenuMovil()
+    if (pathname !== '/') return
+    event.preventDefault()
+    window.scrollTo({ top: 0, behavior: 'smooth' })
+  }
+
+  function cerrarMenuMovil() {
+    const caja = document.querySelector('.mobile-nav-shell')
+    if (caja instanceof HTMLDetailsElement) caja.open = false
+  }
 
   function clearCloseTimer() {
     if (closeTimer.current) {
@@ -62,7 +83,13 @@ export function Header() {
   return (
     <header className="site-header">
       <div className="site-header__inner">
-        <Link href="/" prefetch={false} className="brand-mark" aria-label="IAenBlanco, ir al inicio">
+        <Link
+          href="/"
+          prefetch={false}
+          className="brand-mark"
+          aria-label="IAenBlanco, ir al inicio"
+          onClick={volverAlInicio}
+        >
           <span className="brand-mark__plate">
             {/* eslint-disable-next-line @next/next/no-img-element -- The header logo is the local LCP element; a plain eager image avoids extra runtime work. */}
             <img
@@ -79,7 +106,7 @@ export function Header() {
         </Link>
 
         <nav className="desktop-nav" aria-label="Navegación principal">
-          <Link className="nav-link" href="/" prefetch={false}>
+          <Link className="nav-link" href="/" prefetch={false} onClick={volverAlInicio}>
             Inicio
           </Link>
 
@@ -237,7 +264,12 @@ export function Header() {
 
           <div id="mobile-navigation" className="mobile-navigation">
             <nav aria-label="Navegación móvil" className="mobile-navigation__inner">
-              <Link href="/" prefetch={false} className="mobile-navigation__primary">
+              <Link
+                href="/"
+                prefetch={false}
+                className="mobile-navigation__primary"
+                onClick={volverAlInicio}
+              >
                 <span>01</span> Inicio
               </Link>
               {/* Servicios y Productos son plegables y arrancan cerrados: antes
@@ -251,7 +283,12 @@ export function Header() {
                 </summary>
                 <div className="mobile-navigation__sub">
                   {services.map((service) => (
-                    <Link key={service.slug} href={`/servicios/${service.slug}`} prefetch={false}>
+                    <Link
+                      key={service.slug}
+                      href={`/servicios/${service.slug}`}
+                      prefetch={false}
+                      onClick={cerrarMenuMovil}
+                    >
                       {service.shortTitle}
                       <ArrowUpRight />
                     </Link>
@@ -267,14 +304,24 @@ export function Header() {
                 </summary>
                 <div className="mobile-navigation__sub">
                   {products.map((product) => (
-                    <Link key={product.id} href={`/productos#${product.id}`} prefetch={false}>
+                    <Link
+                      key={product.id}
+                      href={`/productos#${product.id}`}
+                      prefetch={false}
+                      onClick={cerrarMenuMovil}
+                    >
                       {product.name}
                       <ArrowUpRight />
                     </Link>
                   ))}
                 </div>
               </details>
-              <Link href="/contacto" prefetch={false} className="mobile-navigation__primary">
+              <Link
+                href="/contacto"
+                prefetch={false}
+                className="mobile-navigation__primary"
+                onClick={cerrarMenuMovil}
+              >
                 <span>04</span> Contacto
               </Link>
               <a

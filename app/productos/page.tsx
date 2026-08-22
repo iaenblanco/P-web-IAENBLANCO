@@ -1,7 +1,9 @@
 import type { Metadata } from 'next'
 import { BrandLogo } from '@/components/BrandLogo'
 import { ContactBand } from '@/components/ContactBand'
+import { EscenaProducto } from '@/components/EscenaProducto'
 import { Reveal } from '@/components/Reveal'
+import { RevelaAlEntrar } from '@/components/RevelaAlEntrar'
 import { products, SITE_URL } from '@/lib/site'
 
 export const metadata: Metadata = {
@@ -91,50 +93,11 @@ export default function ProductsPage() {
                   </div>
                 </header>
 
-                <div className="ad__diptico">
-                  <div className="ad__mitad ad__mitad--hoy">
-                    <p className="ad__mitad-titulo">Hoy</p>
-                    <ul className="ad__filas">
-                      {product.diptico.filas.map((fila, i) => (
-                        <li key={fila.etiqueta} style={{ ['--fila' as string]: i }}>
-                          <span className="ad__glifo" aria-hidden="true" />
-                          <span className="ad__texto">
-                            <strong>{fila.etiqueta}</strong>
-                            <em>{fila.detalle}</em>
-                          </span>
-                          <span className={`ad__valor${fila.alarma ? ' ad__valor--alarma' : ''}`}>
-                            {fila.hoy}
-                          </span>
-                        </li>
-                      ))}
-                    </ul>
-                    <p className="ad__remate ad__remate--hoy">{product.diptico.remateHoy}</p>
-                  </div>
+                <RevelaAlEntrar className="revela--escena">
+                  <EscenaProducto id={product.id} />
+                </RevelaAlEntrar>
 
-                  <span className="ad__costura" aria-hidden="true">
-                    <svg viewBox="0 0 24 24" fill="none">
-                      <path d="M4 12h15m-5-5 5 5-5 5" stroke="currentColor" strokeWidth="1.6" strokeLinecap="square" />
-                    </svg>
-                  </span>
-
-                  <div className="ad__mitad ad__mitad--despues">
-                    <p className="ad__mitad-titulo">{product.diptico.despuesLabel}</p>
-                    <ul className="ad__filas">
-                      {product.diptico.filas.map((fila, i) => (
-                        <li key={fila.etiqueta} style={{ ['--fila' as string]: i }}>
-                          <span className="ad__glifo" aria-hidden="true"><Tic /></span>
-                          <span className="ad__texto">
-                            <strong>{fila.etiqueta}</strong>
-                            <em>{fila.detalle}</em>
-                          </span>
-                          <span className="ad__valor">{fila.despues}</span>
-                        </li>
-                      ))}
-                    </ul>
-                    <p className="ad__remate">{product.diptico.remateDespues}</p>
-                    <p className="ad__ejemplo">Ejemplo</p>
-                  </div>
-                </div>
+                <p className="ad__pie-escena">{product.diptico.remateDespues}</p>
 
                 <footer className="ad__pie">
                   <div className="ad__pie-texto">
