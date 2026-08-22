@@ -3,6 +3,7 @@ import type { CSSProperties } from 'react'
 import { BrandLogo } from '@/components/BrandLogo'
 import { ContactBand } from '@/components/ContactBand'
 import { Reveal } from '@/components/Reveal'
+import { Trabajos } from '@/components/Trabajos'
 import { RevelaAlEntrar } from '@/components/RevelaAlEntrar'
 import { TypingLine } from '@/components/TypingLine'
 import Link from 'next/link'
@@ -96,70 +97,6 @@ function summaryPointStyle(x: number, y: number, w?: number) {
   } as CSSProperties
 }
 
-const clientProofs = [
-  {
-    client: 'Propinvest',
-    href: 'https://propinvest.cl/',
-    captura: 'propinvest',
-    logo: 'propinvest',
-    sector: 'Corredora de propiedades',
-    project: 'Su catálogo de propiedades, que ellos mismos actualizan',
-    velocidad: 'menos de 1 s',
-    peso: '572 KB',
-    system: 'Sitio con fichas de propiedades, textos editables y formulario de contacto.',
-    proof: 'Lo que se ve al abrirlo es el catálogo. Lo que no se ve: el panel donde ellos mismos suben una propiedad y queda publicada, sin pedirnos ayuda.',
-    destacado: true,
-  },
-  {
-    client: 'YoMeEncargo',
-    href: 'https://yomeencargo.cl/',
-    captura: 'yomeencargo',
-    logo: 'yomercargo',
-    sector: 'Fletes y mudanzas',
-    project: 'Su sitio de servicios, ordenado para que se entienda',
-    velocidad: 'menos de 1,5 s',
-    peso: '770 KB',
-    system: 'Cada servicio explicado por separado y un camino claro hasta pedir la cotización.',
-    proof: 'Ofrecen muchas cosas distintas. El sitio las ordena para que cada visitante encuentre la suya.',
-  },
-  {
-    client: 'Granja Magdalena',
-    href: 'https://granjamagdalena.cl/',
-    captura: 'granjamagdalena',
-    logo: 'granja-magdalena',
-    sector: 'Venta de alimentos',
-    project: 'Su tienda online',
-    velocidad: 'menos de 1,5 s',
-    peso: '4,6 MB',
-    system: 'Catálogo, carro de compra y la venta ordenada en un solo lugar.',
-    proof: 'Pasaron de mostrar sus productos a poder venderlos por internet.',
-  },
-  {
-    client: 'Granja Magdalena Pet',
-    href: 'https://granjamagdalenapet.cl/',
-    captura: 'granjapet',
-    logo: 'granjapet',
-    logoTone: 'dark',
-    sector: 'Alimento para mascotas',
-    project: 'Una tienda aparte para su línea de mascotas',
-    velocidad: 'menos de 2 s',
-    peso: '2,1 MB',
-    system: 'Sitio propio, separado del principal, con su propia cara.',
-    proof: 'Su línea de mascotas tiene espacio propio en vez de perderse en el catálogo general.',
-  },
-  {
-    client: 'Inasec Pets',
-    href: 'https://inasecpets.cl/',
-    captura: 'inasecpets',
-    logo: 'inasec-pets',
-    sector: 'Tienda especializada',
-    project: 'Su sitio para mostrar lo que venden y recibir consultas',
-    velocidad: 'menos de 2 s',
-    peso: '3,2 MB',
-    system: 'Oferta explicada de forma simple y una vía directa de contacto.',
-    proof: 'Quien los encuentra entiende qué venden y sabe cómo escribirles.',
-  },
-]
 
 const trustSignals = [
   { value: 'Menos de 2 segundos', label: 'es lo que demora en aparecer el contenido en los cinco sitios' },
@@ -712,106 +649,7 @@ function TrustProofSection() {
           </p>
         </Reveal>
 
-        <div className="trabajos">
-          {clientProofs.map((proof, index) => (
-            <Reveal
-              key={proof.client}
-              className={`trabajo${proof.destacado ? ' trabajo--destacado' : ''}`}
-              delay={index * 60}
-            >
-              <a
-                href={proof.href}
-                target="_blank"
-                rel="noreferrer"
-                className="trabajo__enlace"
-                data-cursor="Abrir"
-                data-analytics-event="service_case_click"
-                data-case-name={proof.client}
-              >
-                <figure className="trabajo__captura">
-                  {/* Bajo 620 px la tarjeta ocupa una sola columna y mide entre
-                      350 y 590 px: la captura de 1120 px pesaba tres veces lo
-                      necesario. Se sirve una de 760 px, que sigue dando el doble
-                      de resolucion en un telefono. El export estatico no genera
-                      srcset, asi que la eleccion va escrita a mano. */}
-                  <picture>
-                    <source
-                      media="(max-width: 540px)"
-                      srcSet={`/trabajos/${proof.captura}-sm.webp`}
-                      width={760}
-                      height={475}
-                    />
-                    {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img
-                      src={`/trabajos/${proof.captura}.webp`}
-                      alt={`Portada del sitio de ${proof.client} en computador`}
-                      width={1120}
-                      height={700}
-                      loading={proof.destacado ? 'eager' : 'lazy'}
-                      decoding="async"
-                      {...(proof.destacado ? { fetchPriority: 'high' as const } : {})}
-                    />
-                  </picture>
-                  <span className="trabajo__movil">
-                    <picture>
-                      <source
-                        media="(max-width: 540px)"
-                        srcSet={`/trabajos/${proof.captura}-movil-sm.webp`}
-                        width={220}
-                        height={440}
-                      />
-                      {/* eslint-disable-next-line @next/next/no-img-element */}
-                      <img
-                        src={`/trabajos/${proof.captura}-movil.webp`}
-                        alt={`El mismo sitio de ${proof.client} visto en celular`}
-                        width={420}
-                        height={840}
-                        loading="lazy"
-                        decoding="async"
-                      />
-                    </picture>
-                  </span>
-                </figure>
-
-                <div className="trabajo__ficha">
-                  <div className="trabajo__meta">
-                    <span
-                      className={`trabajo__logo${proof.logoTone === 'dark' ? ' trabajo__logo--dark' : ''}`}
-                    >
-                      <BrandLogo name={proof.logo} alt={proof.client} loading="eager" sizes="44px" />
-                    </span>
-                    <p>{proof.sector}</p>
-                    <span className="trabajo__orden" aria-hidden="true">
-                      {String(index + 1).padStart(2, '0')}
-                      <i />
-                      {String(clientProofs.length).padStart(2, '0')}
-                    </span>
-                  </div>
-
-                  <h3>{proof.client}</h3>
-                  <strong>{proof.project}</strong>
-
-                  <dl className="trabajo__detalle">
-                    <div>
-                      <dt>Qué le hicimos</dt>
-                      <dd>{proof.system}</dd>
-                    </div>
-                    <div>
-                      <dt>Para qué le sirve</dt>
-                      <dd>{proof.proof}</dd>
-                    </div>
-                  </dl>
-
-                  <span className="trabajo__cta">
-                    Abrir el sitio
-                    <ArrowUpRight />
-                  </span>
-                </div>
-              </a>
-            </Reveal>
-          ))}
-        </div>
-
+        <Trabajos />
       </div>
     </section>
   )

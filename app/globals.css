@@ -19127,6 +19127,7 @@ button {
   justify-self: start;
   display: block;
   height: 28px;
+  overflow: hidden;
   min-width: 168px;
   font-family: var(--font-mono);
   font-size: 13px;
@@ -19197,17 +19198,18 @@ button {
   animation-delay: calc(var(--i) * 0.5s);
 }
 
-/* Los dos se cruzan en el mismo tramo: nunca hay un momento sin ninguno. */
+/* Se turnan deslizandose: cuando uno sale hacia arriba el otro entra desde
+   abajo, asi que nunca se leen los dos encima en el mismo lugar. */
 @keyframes esc-contador-sale {
-  0%, 44% { opacity: 1; }
-  54%, 88% { opacity: 0; }
-  96%, 100% { opacity: 1; }
+  0%, 44% { opacity: 1; transform: translateY(0); }
+  54%, 88% { opacity: 0; transform: translateY(-16px); }
+  96%, 100% { opacity: 1; transform: translateY(0); }
 }
 
 @keyframes esc-contador-entra {
-  0%, 44% { opacity: 0; }
-  54%, 88% { opacity: 1; }
-  96%, 100% { opacity: 0; }
+  0%, 44% { opacity: 0; transform: translateY(16px); }
+  54%, 88% { opacity: 1; transform: translateY(0); }
+  96%, 100% { opacity: 0; transform: translateY(16px); }
 }
 
 @keyframes esc-mensaje {

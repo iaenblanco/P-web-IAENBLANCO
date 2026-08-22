@@ -2,10 +2,10 @@ import type { Metadata } from 'next'
 import Image from 'next/image'
 import Link from 'next/link'
 import { BrandLogo } from '@/components/BrandLogo'
+import { Trabajos } from '@/components/Trabajos'
 import { services, SITE_URL, getWhatsappUrl } from '@/lib/site'
 import {
   serviceProblemEntries,
-  websiteProofCases,
 } from '@/lib/services-content'
 
 export const metadata: Metadata = {
@@ -72,6 +72,22 @@ export default function ServicesIndexPage() {
             se hacen solas y asistentes con inteligencia artificial. Y si lo que necesitas son
             clientes nuevos, eso lo operamos nosotros mes a mes.
           </p>
+        </div>
+      </section>
+
+      <section className="services-index-section services-index-section--web-proof">
+        <div className="section-shell">
+          <div className="services-index-heading">
+            <div>
+              <p className="eyebrow">Trabajos reales</p>
+              <h2>Negocios chilenos para los que ya hicimos esto.</h2>
+            </div>
+            <p className="services-index-heading__lead">
+              No son maquetas. Son los sitios que están atendiendo clientes hoy: ábrelos,
+              míralos en tu celular y decide antes de escribirnos.
+            </p>
+          </div>
+          <Trabajos />
         </div>
       </section>
 
@@ -200,60 +216,6 @@ export default function ServicesIndexPage() {
         </section>
       ) : null}
 
-      <section className="services-index-section services-index-section--web-proof">
-        <div className="section-shell">
-          <div className="services-index-heading">
-            <div>
-              <p className="eyebrow">Trabajos reales</p>
-              <h2>Negocios chilenos para los que ya trabajamos. Ábrelos y revisa.</h2>
-            </div>
-            <p className="services-index-heading__lead">
-              No son maquetas. Son los sitios que están atendiendo clientes hoy: ábrelos,
-              míralos en tu celular y decide antes de escribirnos.
-            </p>
-          </div>
-          <div className="services-web-proof-grid">
-            {websiteProofCases.map((item) => (
-              <article key={item.client}>
-                <figure className="services-web-proof-grid__captura">
-                  <Image
-                    src={`/trabajos/${item.captura}.webp`}
-                    alt={`Portada del sitio de ${item.client}`}
-                    width={1120}
-                    height={700}
-                    sizes="(max-width: 900px) 100vw, 380px"
-                    quality={78}
-                  />
-                </figure>
-                <div className="services-web-proof-grid__logo">
-                  <BrandLogo name={item.logo} alt={item.client} loading="eager" sizes="40px" />
-                </div>
-                <span>{item.sector}</span>
-                <h3>{item.client}</h3>
-                <strong>{item.title}</strong>
-                <p>{item.text}</p>
-                <p className="services-web-proof-grid__medida">
-                  <span>Se ve en</span>
-                  {item.velocidad}
-                </p>
-                <a
-                  href={item.href}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="services-web-proof-grid__link"
-                  data-analytics-event="service_case_click"
-                  data-service-id="desarrollo-web-ia"
-                  data-service-name="Sitios web y Shopify"
-                  data-case-name={item.client}
-                >
-                  Abrir el sitio
-                  <ArrowUpRight />
-                </a>
-              </article>
-            ))}
-          </div>
-        </div>
-      </section>
 
       <section className="services-index-final">
         <div className="section-shell services-index-final__inner">

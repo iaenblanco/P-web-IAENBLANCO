@@ -29,18 +29,6 @@ export type ServiceCase = {
   logo?: string
 }
 
-export type WebsiteProofCase = {
-  client: string
-  logo: string
-  sector: string
-  title: string
-  text: string
-  href: string
-  /** Nombre del archivo en /public/trabajos, sin extensión. */
-  captura: string
-  /** Cuánto demora en verse el contenido. Medido, no estimado. */
-  velocidad: string
-}
 
 export type ServiceFaq = {
   question: string
@@ -130,58 +118,6 @@ export const serviceProblemEntries: ServiceProblemEntry[] = [
   },
 ]
 
-export const websiteProofCases: WebsiteProofCase[] = [
-  {
-    client: 'Propinvest',
-    logo: 'propinvest',
-    sector: 'Corredora de propiedades',
-    title: 'Su catálogo de propiedades, que ellos mismos actualizan',
-    text: 'Lo que se ve al abrirlo es el catálogo. Lo que no se ve: el panel donde ellos mismos suben una propiedad y queda publicada.',
-    href: 'https://propinvest.cl/',
-    captura: 'propinvest',
-    velocidad: 'menos de 1 s',
-  },
-  {
-    client: 'Granja Magdalena',
-    logo: 'granja-magdalena',
-    sector: 'Venta de productos',
-    title: 'Su tienda online',
-    text: 'Pasaron de mostrar sus productos a poder venderlos por internet.',
-    href: 'https://granjamagdalena.cl/',
-    captura: 'granjamagdalena',
-    velocidad: 'menos de 1,5 s',
-  },
-  {
-    client: 'YoMeEncargo',
-    logo: 'yomercargo',
-    sector: 'Empresa de servicios',
-    title: 'Su sitio de servicios, ordenado para que se entienda',
-    text: 'Ofrecen muchas cosas distintas. El sitio las ordena para que cada visitante encuentre la suya.',
-    href: 'https://yomeencargo.cl/',
-    captura: 'yomeencargo',
-    velocidad: 'menos de 1,5 s',
-  },
-  {
-    client: 'Granja Magdalena Pet',
-    logo: 'granjapet',
-    sector: 'Productos para mascotas',
-    title: 'Una tienda aparte para su línea de mascotas',
-    text: 'Su línea de mascotas tiene espacio propio en vez de perderse dentro del catálogo general.',
-    href: 'https://granjamagdalenapet.cl/',
-    captura: 'granjapet',
-    velocidad: 'menos de 2 s',
-  },
-  {
-    client: 'Inasec Pets',
-    logo: 'inasec-pets',
-    sector: 'Tienda especializada',
-    title: 'Su sitio para mostrar lo que venden y recibir consultas',
-    text: 'Quien los encuentra entiende qué venden y sabe cómo escribirles.',
-    href: 'https://inasecpets.cl/',
-    captura: 'inasecpets',
-    velocidad: 'menos de 2 s',
-  },
-]
 
 export const servicePageContent: ServicePageContentMap = {
   'desarrollo-web-ia': {

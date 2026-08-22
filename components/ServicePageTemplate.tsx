@@ -5,7 +5,8 @@ import { getWhatsappUrl } from '@/lib/site'
 import Image from 'next/image'
 import { EscenaServicio, textoEscena } from '@/components/EscenaServicio'
 import { RevelaAlEntrar } from '@/components/RevelaAlEntrar'
-import { websiteProofCases, type ServicePageContent } from '@/lib/services-content'
+import { Trabajos } from '@/components/Trabajos'
+import { type ServicePageContent } from '@/lib/services-content'
 
 type ServicePageTemplateProps = {
   service: Service
@@ -173,46 +174,7 @@ function WebsiteProofGrid() {
           <p className="eyebrow">Trabajos reales</p>
           <h2>Negocios chilenos para los que ya hicimos esto.</h2>
         </div>
-        <div className="services-web-proof-grid services-web-proof-grid--service-page">
-          {websiteProofCases.map((item) => (
-            <article key={item.client}>
-              <figure className="services-web-proof-grid__captura">
-                <Image
-                  src={`/trabajos/${item.captura}.webp`}
-                  alt={`Portada del sitio de ${item.client}`}
-                  width={1120}
-                  height={700}
-                  sizes="(max-width: 900px) 100vw, 380px"
-                  quality={78}
-                />
-              </figure>
-              <div className="services-web-proof-grid__logo">
-                <BrandLogo name={item.logo} alt={item.client} loading="eager" sizes="40px" />
-              </div>
-              <span>{item.sector}</span>
-              <h3>{item.client}</h3>
-              <strong>{item.title}</strong>
-              <p>{item.text}</p>
-              <p className="services-web-proof-grid__medida">
-                <span>Se ve en</span>
-                {item.velocidad}
-              </p>
-              <a
-                href={item.href}
-                target="_blank"
-                rel="noreferrer"
-                className="services-web-proof-grid__link"
-                data-analytics-event="service_case_click"
-                data-service-id="desarrollo-web-ia"
-                data-service-name="Sitios web y Shopify"
-                data-case-name={item.client}
-              >
-                Ver sitio
-                <ArrowUpRight />
-              </a>
-            </article>
-          ))}
-        </div>
+        <Trabajos />
       </div>
     </section>
   )
@@ -287,6 +249,25 @@ export function ServicePageTemplate({
           primero que alguien quiere ver antes de creernos nada. */}
       {showWebsiteProofs ? <WebsiteProofGrid /> : <EscenaServicioSeccion slug={content.slug} />}
 
+      <section className="service-page-mid-cta">
+        <div className="section-shell service-page-mid-cta__inner">
+          <p>¿Se parece a lo que te pasa? Escríbenos y lo revisamos antes de proponerte nada.</p>
+          <a
+            href={whatsappUrl}
+            target="_blank"
+            rel="noreferrer"
+            className="button button--text"
+            data-analytics-event="service_whatsapp_click"
+            data-service-id={service.slug}
+            data-service-name={service.shortTitle}
+          >
+            {content.primaryCta}
+            <ArrowUpRight />
+          </a>
+        </div>
+      </section>
+
+
       <section className="service-page-section">
         <div className="section-shell">
           <div className="service-page-section__heading service-page-section__heading--wide">
@@ -295,6 +276,25 @@ export function ServicePageTemplate({
           </div>
           <div className="service-build-grid">
             {content.builds.map((item) => (
+              <article key={item.title}>
+                <h3>{item.title}</h3>
+                <p>{item.text}</p>
+              </article>
+            ))}
+          </div>
+        </div>
+      </section>
+
+
+
+      <section className="service-page-section">
+        <div className="section-shell">
+          <div className="service-page-section__heading service-page-section__heading--wide">
+            <p className="eyebrow">Ejemplos</p>
+            <h2>{sectionCopy.useCases}</h2>
+          </div>
+          <div className="service-use-grid">
+            {content.useCases.map((item) => (
               <article key={item.title}>
                 <h3>{item.title}</h3>
                 <p>{item.text}</p>
@@ -316,41 +316,6 @@ export function ServicePageTemplate({
                 <span />
                 <p>{deliverable}</p>
               </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      <section className="service-page-mid-cta">
-        <div className="section-shell service-page-mid-cta__inner">
-          <p>¿Se parece a lo que te pasa? Escríbenos y lo revisamos antes de proponerte nada.</p>
-          <a
-            href={whatsappUrl}
-            target="_blank"
-            rel="noreferrer"
-            className="button button--text"
-            data-analytics-event="service_whatsapp_click"
-            data-service-id={service.slug}
-            data-service-name={service.shortTitle}
-          >
-            {content.primaryCta}
-            <ArrowUpRight />
-          </a>
-        </div>
-      </section>
-
-      <section className="service-page-section">
-        <div className="section-shell">
-          <div className="service-page-section__heading service-page-section__heading--wide">
-            <p className="eyebrow">Ejemplos</p>
-            <h2>{sectionCopy.useCases}</h2>
-          </div>
-          <div className="service-use-grid">
-            {content.useCases.map((item) => (
-              <article key={item.title}>
-                <h3>{item.title}</h3>
-                <p>{item.text}</p>
-              </article>
             ))}
           </div>
         </div>
