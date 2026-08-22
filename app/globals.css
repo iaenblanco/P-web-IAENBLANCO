@@ -1285,16 +1285,6 @@ button {
   color: var(--signal);
 }
 
-@keyframes summary-group-enter {
-  from {
-    opacity: 0;
-    filter: blur(4px);
-  }
-  to {
-    opacity: 1;
-    filter: blur(0);
-  }
-}
 
 @keyframes summary-node-enter {
   from {
@@ -1744,23 +1734,8 @@ button {
   transform: rotate(45deg);
 }
 
-@keyframes concept-wire-flow {
-  to { stroke-dashoffset: -136; }
-}
 
-@keyframes concept-node-pulse {
-  50% {
-    filter: drop-shadow(0 0 8px color-mix(in srgb, currentColor 36%, transparent));
-  }
-}
 
-@keyframes concept-core-presence {
-  50% {
-    box-shadow:
-      0 0 0 16px rgba(64, 176, 208, 0.1),
-      0 18px 64px rgba(7, 10, 15, 0.24);
-  }
-}
 
 @media (max-width: 900px) {
   .hero-concept-map {
@@ -3554,17 +3529,7 @@ button {
   background: #ffb13d;
 }
 
-@keyframes hero-lab-float {
-  50% {
-    transform: translate3d(0, -12px, 0) rotate(1deg);
-  }
-}
 
-@keyframes product-chip-drift {
-  50% {
-    transform: translate3d(0, -10px, 0);
-  }
-}
 
 .operational-field {
   position: absolute;
@@ -3680,15 +3645,6 @@ button {
   animation: status-pulse 1.8s ease-in-out infinite;
 }
 
-@keyframes status-pulse {
-  50% {
-    box-shadow: 0 0 0 6px rgba(64, 176, 208, 0);
-  }
-  0%,
-  100% {
-    box-shadow: 0 0 0 0 rgba(64, 176, 208, 0.32);
-  }
-}
 
 .hero-readout--top {
   top: 4%;
@@ -4734,11 +4690,6 @@ button {
   animation-delay: -3.4s;
 }
 
-@keyframes lab-sticker-bob {
-  50% {
-    transform: translate3d(0, -12px, 0) rotate(-1deg);
-  }
-}
 
 .ecosystem-lab__cards {
   display: grid;
@@ -6255,11 +6206,6 @@ button {
   fill: rgba(64, 176, 208, 0.13);
 }
 
-@keyframes system-bubble {
-  50% {
-    transform: translate3d(-18px, -10px, 0) scale(1.12);
-  }
-}
 
 .system-diagram__readout {
   display: grid;
@@ -7185,18 +7131,7 @@ button {
   animation-delay: -3s;
 }
 
-@keyframes product-light-pass {
-  45%,
-  100% {
-    transform: translateX(48%);
-  }
-}
 
-@keyframes product-sticker-float {
-  50% {
-    transform: translate3d(0, -12px, 0) rotate(5deg);
-  }
-}
 
 .product-visual--unificalo {
   background:
@@ -7223,20 +7158,6 @@ button {
   animation: unify-scan 4.5s ease-in-out infinite;
 }
 
-@keyframes unify-scan {
-  0%,
-  100% {
-    transform: translateX(-230px);
-    opacity: 0;
-  }
-  15%,
-  80% {
-    opacity: 1;
-  }
-  50% {
-    transform: translateX(230px);
-  }
-}
 
 .unify-core {
   position: absolute;
@@ -7399,9 +7320,6 @@ button {
   animation: route-flow 9s linear infinite;
 }
 
-@keyframes route-flow {
-  to { stroke-dashoffset: -140; }
-}
 
 .sync-map__core,
 .sync-map__node {
@@ -7592,9 +7510,6 @@ button {
 .audio-wave i:nth-child(2n) { animation-delay: -0.5s; }
 .audio-wave i:nth-child(3n) { animation-delay: -1s; }
 
-@keyframes audio-wave {
-  to { transform: scaleY(0.55); opacity: 0.55; }
-}
 
 .product-visual--leads {
   background:
@@ -8236,34 +8151,14 @@ button {
   box-shadow: 0 0 0 5px rgba(99, 193, 50, 0.13);
 }
 
-@keyframes hero-scan {
-  50% {
-    opacity: 0.86;
-    transform: translateX(1.2%);
-  }
-}
 
-@keyframes hero-ring {
-  to { transform: rotate(360deg); }
-}
 
 @keyframes hero-flow-dash {
   to { stroke-dashoffset: -120; }
 }
 
-@keyframes hero-core {
-  50% {
-    transform: translate(-50%, -50%) scale(1.025);
-  }
-}
 
-@keyframes hero-node-breathe {
-  50% { transform: translate(-50%, calc(-50% - 5px)); }
-}
 
-@keyframes hero-node-ring {
-  to { transform: rotate(360deg); }
-}
 
 .mini-circuit,
 .product-mini-mark {
@@ -18411,380 +18306,9 @@ button {
   animation-play-state: running;
 }
 
-/* --- 01 · Unificalo: una venta, cuatro canales -------------------- */
 
-.esc--sync {
-  grid-template-rows: 30px 104px;
-  align-content: center;
-  gap: 22px;
-}
 
-.esc__aviso {
-  justify-self: start;
-  display: inline-flex;
-  align-items: center;
-  gap: 9px;
-  padding: 6px 12px;
-  border: 1px solid color-mix(in srgb, var(--acento) 45%, transparent);
-  background: var(--paper-bright);
-  color: var(--ink);
-  font-family: var(--font-mono);
-  font-size: 12px;
-  letter-spacing: 0.02em;
-  white-space: nowrap;
-  animation: esc-aviso 11s cubic-bezier(0.22, 1, 0.36, 1) infinite;
-}
 
-.esc__punto {
-  width: 7px;
-  height: 7px;
-  border-radius: 50%;
-  background: var(--acento);
-}
-
-.esc__canales {
-  display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: 10px;
-  align-items: stretch;
-}
-
-.esc__canal {
-  display: grid;
-  align-content: space-between;
-  gap: 10px;
-  padding: 13px 14px;
-  border: 1px solid var(--line);
-  background: var(--paper-bright);
-  animation: esc-canal 11s cubic-bezier(0.22, 1, 0.36, 1) infinite;
-  animation-delay: calc(var(--i) * 0.22s);
-}
-
-.esc__canal-nombre {
-  color: var(--graphite);
-  font-family: var(--font-mono);
-  font-size: 12px;
-  letter-spacing: 0.04em;
-  line-height: 1.2;
-  overflow-wrap: normal;
-  word-break: keep-all;
-}
-
-/* Las dos cifras viven una encima de otra y se turnan. Se anima solo
-   opacidad y desplazamiento: nada de cambiar el texto. */
-.esc__cifra {
-  position: relative;
-  display: block;
-  height: 30px;
-  font-family: var(--font-mono);
-  font-size: 26px;
-  font-variant-numeric: tabular-nums;
-  font-weight: 600;
-  line-height: 30px;
-}
-
-.esc__cifra-antes,
-.esc__cifra-despues {
-  position: absolute;
-  left: 0;
-  top: 0;
-  animation: 11s cubic-bezier(0.22, 1, 0.36, 1) infinite;
-  animation-delay: calc(var(--i) * 0.22s + 0.3s);
-}
-
-.esc__cifra-antes {
-  color: var(--graphite);
-  animation-name: esc-cifra-sale;
-}
-
-.esc__cifra-despues {
-  color: var(--acento-tinta, var(--acento));
-  animation-name: esc-cifra-entra;
-}
-
-/* El riel es el cable por donde viaja el aviso hasta los cuatro. */
-.esc__riel {
-  position: absolute;
-  left: 28px;
-  right: 28px;
-  top: 63px;
-  height: 1px;
-  background: linear-gradient(90deg, var(--acento), color-mix(in srgb, var(--acento) 20%, transparent));
-  transform-origin: left center;
-  animation: esc-riel 11s cubic-bezier(0.3, 0, 0.2, 1) infinite;
-}
-
-@keyframes esc-aviso {
-  0%, 4% { opacity: 0; transform: translateY(-10px); }
-  12%, 62% { opacity: 1; transform: translateY(0); }
-  72%, 100% { opacity: 0; transform: translateY(-10px); }
-}
-
-@keyframes esc-riel {
-  0%, 12% { opacity: 0; transform: scaleX(0); }
-  26% { opacity: 1; transform: scaleX(1); }
-  62% { opacity: 1; transform: scaleX(1); }
-  74%, 100% { opacity: 0; transform: scaleX(1); }
-}
-
-@keyframes esc-canal {
-  0%, 24% { border-color: var(--line); }
-  34%, 62% { border-color: color-mix(in srgb, var(--acento) 55%, transparent); }
-  76%, 100% { border-color: var(--line); }
-}
-
-@keyframes esc-cifra-sale {
-  0%, 26% { opacity: 1; transform: translateY(0); }
-  34%, 66% { opacity: 0; transform: translateY(-14px); }
-  78%, 100% { opacity: 1; transform: translateY(0); }
-}
-
-@keyframes esc-cifra-entra {
-  0%, 26% { opacity: 0; transform: translateY(14px); }
-  34%, 66% { opacity: 1; transform: translateY(0); }
-  78%, 100% { opacity: 0; transform: translateY(14px); }
-}
-
-/* --- 02 · Citaly: llega un mensaje, sale una hora ----------------- */
-
-/* Filas fijas y la respuesta comparte celda con el "escribiendo": si el
-   indicador ocupara fila propia reservaria su alto aunque este invisible
-   y la escena se pasaria de largo. */
-.esc--chat {
-  grid-template-columns: minmax(0, 1fr);
-  grid-template-rows: 14px 46px 46px 42px;
-  align-content: center;
-  justify-items: start;
-  gap: 10px;
-}
-
-.esc--chat .esc__burbuja--bot,
-.esc--chat .esc__escribiendo {
-  grid-row: 3;
-  grid-column: 1;
-  align-self: center;
-}
-
-.esc__hora {
-  animation: esc-cliente 11s cubic-bezier(0.22, 1, 0.36, 1) infinite;
-  color: var(--graphite);
-  font-family: var(--font-mono);
-  font-size: 11px;
-  letter-spacing: 0.09em;
-}
-
-.esc__burbuja {
-  display: flex;
-  align-items: center;
-  max-width: min(340px, 78%);
-  padding: 0 15px;
-  height: 46px;
-  font-size: 15px;
-  line-height: 1.3;
-  animation: 11s cubic-bezier(0.22, 1, 0.36, 1) infinite;
-}
-
-.esc__burbuja--cliente {
-  border: 1px solid var(--line);
-  background: var(--paper-bright);
-  color: var(--ink);
-  animation-name: esc-cliente;
-}
-
-.esc__burbuja--bot {
-  justify-self: end;
-  border: 1px solid color-mix(in srgb, var(--acento) 45%, transparent);
-  background: color-mix(in srgb, var(--acento) 12%, var(--paper-bright));
-  color: var(--ink);
-  animation-name: esc-bot;
-}
-
-.esc__escribiendo {
-  display: inline-flex;
-  justify-self: end;
-  align-items: center;
-  gap: 5px;
-  border: 1px solid var(--line);
-  background: var(--paper-bright);
-  animation: esc-escribiendo 11s linear infinite;
-}
-
-.esc__escribiendo {
-  height: 42px;
-  padding: 0 14px;
-}
-
-.esc__escribiendo i {
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
-  background: var(--graphite);
-  animation: esc-puntito 1.6s ease-in-out infinite;
-}
-
-.esc__escribiendo i:nth-child(2) { animation-delay: 0.22s; }
-.esc__escribiendo i:nth-child(3) { animation-delay: 0.44s; }
-
-.esc__agenda {
-  display: inline-flex;
-  align-items: center;
-  gap: 10px;
-  height: 42px;
-  padding: 0 14px;
-  border: 1px solid color-mix(in srgb, var(--acento) 55%, transparent);
-  background: var(--paper-bright);
-  color: var(--ink);
-  font-family: var(--font-mono);
-  font-size: 13px;
-  letter-spacing: 0.02em;
-  white-space: nowrap;
-  animation: esc-agenda 11s cubic-bezier(0.22, 1, 0.36, 1) infinite;
-}
-
-.esc__agenda-tic {
-  width: 11px;
-  height: 6px;
-  border-left: 2px solid var(--acento);
-  border-bottom: 2px solid var(--acento);
-  transform: rotate(-45deg) translate(1px, -2px);
-}
-
-@keyframes esc-cliente {
-  0%, 6% { opacity: 0; transform: translateY(12px); }
-  14%, 68% { opacity: 1; transform: translateY(0); }
-  78%, 100% { opacity: 0; transform: translateY(12px); }
-}
-
-@keyframes esc-bot {
-  0%, 30% { opacity: 0; transform: translateY(12px); }
-  40%, 68% { opacity: 1; transform: translateY(0); }
-  78%, 100% { opacity: 0; transform: translateY(12px); }
-}
-
-@keyframes esc-escribiendo {
-  0%, 15% { opacity: 0; }
-  19%, 27% { opacity: 1; }
-  31%, 100% { opacity: 0; }
-}
-
-@keyframes esc-puntito {
-  0%, 100% { opacity: 0.3; transform: translateY(0); }
-  50% { opacity: 1; transform: translateY(-3px); }
-}
-
-@keyframes esc-agenda {
-  0%, 46% { opacity: 0; transform: translateY(10px); }
-  56%, 68% { opacity: 1; transform: translateY(0); }
-  78%, 100% { opacity: 0; transform: translateY(10px); }
-}
-
-/* --- 03 · Leads: de una lista larga a la que sirve ---------------- */
-
-.esc--filtro {
-  grid-template-rows: 30px 104px;
-  align-content: center;
-  gap: 22px;
-}
-
-.esc__lupa {
-  justify-self: start;
-  padding: 6px 12px;
-  border: 1px solid color-mix(in srgb, var(--acento) 45%, transparent);
-  background: var(--paper-bright);
-  color: var(--ink);
-  font-family: var(--font-mono);
-  font-size: 12px;
-  letter-spacing: 0.04em;
-  animation: esc-aviso 11s cubic-bezier(0.22, 1, 0.36, 1) infinite;
-}
-
-.esc__lista {
-  display: grid;
-  grid-auto-rows: 1fr;
-  gap: 3px;
-  align-content: center;
-}
-
-.esc__linea {
-  display: grid;
-  grid-template-columns: 18px minmax(0, 1fr) auto;
-  align-items: center;
-  gap: 12px;
-  animation: esc-linea-cae 11s cubic-bezier(0.22, 1, 0.36, 1) infinite;
-  animation-delay: calc(var(--i) * 0.06s);
-}
-
-.esc__linea--queda {
-  animation-name: esc-linea-queda;
-}
-
-.esc__linea-barra {
-  width: var(--ancho, 70%);
-  height: 8px;
-  background: color-mix(in srgb, var(--ink) 13%, transparent);
-}
-
-.esc__linea--queda .esc__linea-barra {
-  width: 100%;
-  background: color-mix(in srgb, var(--acento) 55%, transparent);
-}
-
-.esc__linea-orden,
-.esc__linea-tel {
-  color: var(--acento-tinta, var(--acento));
-  font-family: var(--font-mono);
-  font-size: 12px;
-  font-weight: 700;
-  letter-spacing: 0.03em;
-  opacity: 0;
-}
-
-.esc__linea-tel {
-  font-weight: 500;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-}
-
-.esc__linea--queda .esc__linea-orden,
-.esc__linea--queda .esc__linea-tel {
-  animation: esc-orden 11s cubic-bezier(0.22, 1, 0.36, 1) infinite;
-  animation-delay: calc(var(--i) * 0.06s);
-}
-
-.esc__barrido {
-  position: absolute;
-  left: 0;
-  right: 0;
-  height: 2px;
-  top: 74px;
-  background: linear-gradient(90deg, transparent, var(--acento), transparent);
-  animation: esc-barrido 11s cubic-bezier(0.4, 0, 0.3, 1) infinite;
-}
-
-@keyframes esc-barrido {
-  0%, 14% { opacity: 0; transform: translateY(0); }
-  20% { opacity: 0.9; transform: translateY(0); }
-  38% { opacity: 0.9; transform: translateY(104px); }
-  46%, 100% { opacity: 0; transform: translateY(104px); }
-}
-
-@keyframes esc-linea-cae {
-  0%, 24% { opacity: 1; transform: translateX(0); }
-  40%, 68% { opacity: 0.14; transform: translateX(-8px); }
-  80%, 100% { opacity: 1; transform: translateX(0); }
-}
-
-@keyframes esc-linea-queda {
-  0%, 24% { opacity: 1; transform: translateX(0); }
-  40%, 68% { opacity: 1; transform: translateX(6px); }
-  80%, 100% { opacity: 1; transform: translateX(0); }
-}
-
-@keyframes esc-orden {
-  0%, 34% { opacity: 0; }
-  46%, 68% { opacity: 1; }
-  78%, 100% { opacity: 0; }
-}
 
 /* --- Desfase entre productos y pie de escena ---------------------- */
 
@@ -18806,58 +18330,6 @@ button {
     padding: 18px 20px;
   }
 
-  .esc--sync,
-  .esc--filtro {
-    grid-template-rows: 30px 128px;
-    gap: 18px;
-  }
-
-  .esc--sync .esc__canales {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 8px;
-  }
-
-  .esc__canal {
-    gap: 8px;
-    padding: 11px;
-  }
-
-  .esc__cifra {
-    height: 26px;
-    font-size: 22px;
-    line-height: 26px;
-  }
-
-  .esc__riel {
-    left: 20px;
-    right: 20px;
-    top: 56px;
-  }
-
-  .esc__aviso,
-  .esc__lupa,
-  .esc__hora {
-    font-size: 13px;
-  }
-
-  .esc__burbuja {
-    max-width: 88%;
-    font-size: 14px;
-  }
-
-  .esc__agenda {
-    font-size: 13px;
-  }
-
-  .esc__linea {
-    grid-template-columns: 16px minmax(0, 1fr) auto;
-    gap: 10px;
-  }
-
-  .esc__barrido {
-    top: 66px;
-  }
-
   .ad__pie-escena {
     padding: 16px 20px 0;
     font-size: 16px;
@@ -18869,17 +18341,6 @@ button {
     animation: none !important;
     opacity: 1 !important;
     transform: none !important;
-  }
-
-  /* Sin movimiento, la escena muestra el estado resuelto: la cifra
-     nueva, la hora tomada y las lineas que quedan. */
-  .esc__cifra-antes,
-  .esc__escribiendo {
-    display: none;
-  }
-
-  .esc__linea:not(.esc__linea--queda) {
-    opacity: 0.16 !important;
   }
 }
 
@@ -19602,5 +19063,703 @@ button {
     scale: 1;
     transform: none;
     transition: none;
+  }
+}
+
+/* ==================================================================
+   LAS TRES ESCENAS DE PRODUCTOS, SEGUNDA VERSION (21-ago-2026)
+   ------------------------------------------------------------------
+   Guiadas por el sitio real de cada producto. Unificalo: el canal
+   maestro del que bajan pistas de circuito a los canales. Citaly: el
+   audio con su forma de onda y la agenda donde la hora queda tomada.
+   Leads: el mapa de puntos que se encienden y terminan en una lista
+   ordenada. Misma disciplina de siempre: ciclo de 11 s, solo
+   opacidad/transform/scale y algun borde, detenidas hasta entrar en
+   pantalla, y el estado resuelto como imagen fija si no hay movimiento.
+   ================================================================== */
+
+.esc--u2,
+.esc--c2,
+.esc--l2 {
+  height: 264px;
+  padding: 20px 28px;
+}
+
+/* --- 01 · UNIFICALO: el canal maestro ----------------------------- */
+
+.esc--u2 {
+  grid-template-rows: auto minmax(0, 1fr);
+  gap: 0;
+  align-content: center;
+}
+
+/* El maestro es oscuro, como el hero de unificalo.cl, con el acento
+   ambar de la casa. */
+.u2__maestro {
+  position: relative;
+  z-index: 1;
+  justify-self: center;
+  display: grid;
+  grid-template-columns: auto auto;
+  align-items: center;
+  gap: 3px 18px;
+  padding: 12px 18px;
+  background: var(--noche, #0c1824);
+  border: 1px solid color-mix(in srgb, var(--acento) 50%, transparent);
+  color: var(--paper-bright);
+}
+
+.u2__maestro-etiqueta {
+  grid-column: 1;
+  color: color-mix(in srgb, var(--acento) 85%, #fff);
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.11em;
+  text-transform: uppercase;
+}
+
+.u2__maestro-nombre {
+  grid-column: 1;
+  font-size: 17px;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  white-space: nowrap;
+}
+
+.u2__venta {
+  grid-column: 2;
+  grid-row: 1 / 3;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 11px;
+  border: 1px solid color-mix(in srgb, var(--acento) 55%, transparent);
+  background: color-mix(in srgb, var(--acento) 14%, transparent);
+  font-family: var(--font-mono);
+  font-size: 12px;
+  letter-spacing: 0.02em;
+  white-space: nowrap;
+  animation: u2-venta 11s cubic-bezier(0.22, 1, 0.36, 1) infinite;
+}
+
+.u2__venta-punto {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--acento);
+}
+
+.u2__canales {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 14px;
+  align-content: end;
+}
+
+.u2__columna {
+  display: grid;
+  grid-template-rows: 34px minmax(0, 1fr);
+  justify-items: center;
+  min-width: 0;
+}
+
+/* La pista de circuito. La corriente es un punto que baja por ella. */
+.u2__traza {
+  position: relative;
+  width: 1px;
+  height: 34px;
+  background: repeating-linear-gradient(
+    180deg,
+    color-mix(in srgb, var(--acento) 45%, transparent) 0 5px,
+    transparent 5px 10px
+  );
+}
+
+.u2__traza i {
+  position: absolute;
+  left: 50%;
+  top: 0;
+  width: 7px;
+  height: 7px;
+  margin-left: -3.5px;
+  border-radius: 50%;
+  background: var(--acento);
+  box-shadow: 0 0 0 4px color-mix(in srgb, var(--acento) 18%, transparent);
+  opacity: 0;
+  animation: u2-corriente 11s cubic-bezier(0.5, 0, 0.5, 1) infinite;
+  animation-delay: calc(var(--i) * 0.4s);
+}
+
+.u2__canal {
+  display: grid;
+  gap: 3px;
+  width: 100%;
+  padding: 11px 12px;
+  border: 1px solid var(--line);
+  background: var(--paper-bright);
+  animation: u2-canal 11s cubic-bezier(0.22, 1, 0.36, 1) infinite;
+  animation-delay: calc(var(--i) * 0.4s);
+}
+
+.u2__canal-nombre {
+  font-size: 13.5px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  line-height: 1.15;
+  overflow-wrap: normal;
+  word-break: keep-all;
+}
+
+.u2__canal-detalle {
+  overflow: hidden;
+  color: var(--graphite);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.02em;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.u2__cifra {
+  position: relative;
+  height: 26px;
+  overflow: hidden;
+  margin-top: 3px;
+  font-family: var(--font-mono);
+  font-size: 22px;
+  font-variant-numeric: tabular-nums;
+  font-weight: 600;
+  line-height: 26px;
+}
+
+.u2__cifra-antes,
+.u2__cifra-despues {
+  position: absolute;
+  left: 0;
+  top: 0;
+  animation: 11s cubic-bezier(0.22, 1, 0.36, 1) infinite;
+  animation-delay: calc(var(--i) * 0.4s);
+}
+
+.u2__cifra-antes {
+  color: var(--graphite);
+  animation-name: u2-cifra-sale;
+}
+
+.u2__cifra-despues {
+  color: var(--acento-tinta, var(--acento));
+  animation-name: u2-cifra-entra;
+}
+
+/* La venta aparece, la corriente baja, el canal se enciende y la cifra
+   cambia: todo con el mismo reloj de 11 s. */
+@keyframes u2-venta {
+  0%, 4% { opacity: 0; transform: translateY(-8px); }
+  10%, 74% { opacity: 1; transform: translateY(0); }
+  84%, 100% { opacity: 0; transform: translateY(-8px); }
+}
+
+@keyframes u2-corriente {
+  0%, 12% { opacity: 0; transform: translateY(-4px); }
+  15% { opacity: 1; transform: translateY(0); }
+  24% { opacity: 1; transform: translateY(30px); }
+  27%, 100% { opacity: 0; transform: translateY(30px); }
+}
+
+@keyframes u2-canal {
+  0%, 23% { border-color: var(--line); }
+  28%, 72% { border-color: color-mix(in srgb, var(--acento) 60%, transparent); }
+  82%, 100% { border-color: var(--line); }
+}
+
+@keyframes u2-cifra-sale {
+  0%, 24% { opacity: 1; transform: translateY(0); }
+  29%, 72% { opacity: 0; transform: translateY(-8px); }
+  82%, 100% { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes u2-cifra-entra {
+  0%, 24% { opacity: 0; transform: translateY(8px); }
+  29%, 72% { opacity: 1; transform: translateY(0); }
+  82%, 100% { opacity: 0; transform: translateY(8px); }
+}
+
+/* --- 02 · CITALY: el audio y la agenda ---------------------------- */
+
+.esc--c2 {
+  grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr);
+  gap: 22px;
+  align-content: center;
+  align-items: center;
+}
+
+.c2__chat {
+  display: grid;
+  justify-items: start;
+  gap: 9px;
+}
+
+.c2__hora {
+  color: var(--graphite);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.09em;
+  animation: c2-temprano 11s cubic-bezier(0.22, 1, 0.36, 1) infinite;
+}
+
+/* La burbuja de audio, como en citaly.cl: play, forma de onda y duracion. */
+.c2__audio {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 14px;
+  border: 1px solid var(--line);
+  background: var(--paper-bright);
+  animation: c2-temprano 11s cubic-bezier(0.22, 1, 0.36, 1) infinite;
+}
+
+.c2__audio-play {
+  width: 0;
+  height: 0;
+  border-left: 9px solid var(--acento-tinta, var(--acento));
+  border-top: 6px solid transparent;
+  border-bottom: 6px solid transparent;
+}
+
+.c2__onda {
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+  height: 18px;
+}
+
+.c2__onda i {
+  width: 2px;
+  height: var(--h, 10px);
+  background: color-mix(in srgb, var(--acento) 75%, var(--ink));
+  transform-origin: center;
+  animation: c2-onda 1.1s ease-in-out infinite alternate;
+  animation-delay: calc(var(--i) * 70ms);
+}
+
+.c2__audio-dur {
+  color: var(--graphite);
+  font-family: var(--font-mono);
+  font-size: 11px;
+}
+
+.c2__estado {
+  color: var(--graphite);
+  font-family: var(--font-mono);
+  font-size: 12px;
+  letter-spacing: 0.02em;
+  animation: c2-estado 11s cubic-bezier(0.22, 1, 0.36, 1) infinite;
+}
+
+.c2__respuesta {
+  justify-self: end;
+  max-width: 92%;
+  padding: 10px 14px;
+  border: 1px solid color-mix(in srgb, var(--acento) 45%, transparent);
+  background: color-mix(in srgb, var(--acento) 11%, var(--paper-bright));
+  font-size: 14px;
+  line-height: 1.3;
+  animation: c2-respuesta 11s cubic-bezier(0.22, 1, 0.36, 1) infinite;
+}
+
+/* La agenda, como la de citaly.cl: horas a la izquierda, casillas a la
+   derecha, y la de las 11:30 queda tomada. */
+.c2__agenda {
+  display: grid;
+  gap: 7px;
+  padding: 13px 14px;
+  border: 1px solid var(--line);
+  background: var(--paper-bright);
+  animation: c2-agenda 11s cubic-bezier(0.22, 1, 0.36, 1) infinite;
+}
+
+.c2__agenda-titulo {
+  color: var(--graphite);
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.11em;
+  text-transform: uppercase;
+}
+
+.c2__slot {
+  display: grid;
+  grid-template-columns: 40px minmax(0, 1fr);
+  align-items: center;
+  gap: 10px;
+}
+
+.c2__slot-hora {
+  color: var(--graphite);
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-variant-numeric: tabular-nums;
+}
+
+.c2__slot-caja {
+  position: relative;
+  height: 28px;
+  border: 1px dashed color-mix(in srgb, var(--ink) 22%, transparent);
+}
+
+.c2__slot-libre,
+.c2__slot-tomada {
+  position: absolute;
+  inset: 0;
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 0 9px;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.04em;
+}
+
+.c2__slot-libre {
+  color: var(--graphite);
+}
+
+.c2__slot-tomada {
+  border: 1px solid color-mix(in srgb, var(--acento) 60%, transparent);
+  margin: -1px;
+  background: color-mix(in srgb, var(--acento) 14%, var(--paper-bright));
+  color: var(--ink);
+  font-weight: 700;
+  opacity: 0;
+}
+
+.c2__slot-tomada i {
+  width: 9px;
+  height: 5px;
+  border-left: 2px solid var(--acento-tinta, var(--acento));
+  border-bottom: 2px solid var(--acento-tinta, var(--acento));
+  transform: rotate(-45deg) translate(0, -1px);
+}
+
+.c2__slot-caja--toma .c2__slot-libre {
+  animation: c2-libre 11s cubic-bezier(0.22, 1, 0.36, 1) infinite;
+}
+
+.c2__slot-caja--toma .c2__slot-tomada {
+  animation: c2-tomada 11s cubic-bezier(0.22, 1, 0.36, 1) infinite;
+}
+
+/* El guion: llega el audio (6%), lo escucha (14-30%), responde (36%),
+   y la agenda toma la hora (56%). Al final todo vuelve. */
+@keyframes c2-temprano {
+  0%, 5% { opacity: 0; transform: translateY(10px); }
+  12%, 82% { opacity: 1; transform: translateY(0); }
+  92%, 100% { opacity: 0; transform: translateY(10px); }
+}
+
+@keyframes c2-onda {
+  from { transform: scaleY(0.35); }
+  to { transform: scaleY(1); }
+}
+
+@keyframes c2-estado {
+  0%, 13% { opacity: 0; }
+  17%, 28% { opacity: 1; }
+  33%, 100% { opacity: 0; }
+}
+
+@keyframes c2-respuesta {
+  0%, 33% { opacity: 0; transform: translateY(10px); }
+  40%, 82% { opacity: 1; transform: translateY(0); }
+  92%, 100% { opacity: 0; transform: translateY(10px); }
+}
+
+@keyframes c2-agenda {
+  0%, 52% { border-color: var(--line); }
+  58%, 82% { border-color: color-mix(in srgb, var(--acento) 55%, transparent); }
+  92%, 100% { border-color: var(--line); }
+}
+
+@keyframes c2-libre {
+  0%, 52% { opacity: 1; }
+  57%, 88% { opacity: 0; }
+  96%, 100% { opacity: 1; }
+}
+
+@keyframes c2-tomada {
+  0%, 52% { opacity: 0; transform: translateY(6px); }
+  58%, 88% { opacity: 1; transform: translateY(0); }
+  96%, 100% { opacity: 0; transform: translateY(6px); }
+}
+
+/* --- 03 · LEADS: del mapa de puntos a la lista -------------------- */
+
+.esc--l2 {
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.15fr);
+  gap: 22px;
+  align-content: center;
+  align-items: center;
+}
+
+.l2__mapa {
+  display: grid;
+  gap: 10px;
+  align-self: stretch;
+  grid-template-rows: auto minmax(0, 1fr);
+}
+
+.l2__busqueda {
+  justify-self: start;
+  padding: 6px 12px;
+  border: 1px solid color-mix(in srgb, var(--acento) 45%, transparent);
+  background: var(--paper-bright);
+  color: var(--ink);
+  font-family: var(--font-mono);
+  font-size: 12px;
+  letter-spacing: 0.04em;
+  animation: l2-busqueda 11s cubic-bezier(0.22, 1, 0.36, 1) infinite;
+}
+
+/* El campo de puntos, como el mapa encendido de leads.iaenblanco.com:
+   las empresas estan ahi, y las que calzan se encienden. */
+.l2__campo {
+  position: relative;
+  display: block;
+  border: 1px dashed color-mix(in srgb, var(--ink) 14%, transparent);
+  background:
+    linear-gradient(color-mix(in srgb, var(--ink) 4%, transparent) 1px, transparent 1px) 0 0 / 100% 26px,
+    var(--paper-bright);
+}
+
+.l2__punto {
+  position: absolute;
+  left: var(--x);
+  top: var(--y);
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: color-mix(in srgb, var(--ink) 22%, transparent);
+}
+
+.l2__punto--calza {
+  background: var(--acento);
+  animation: l2-punto 11s cubic-bezier(0.22, 1, 0.36, 1) infinite;
+  animation-delay: calc(var(--o) * 0.55s);
+}
+
+.l2__lista {
+  display: grid;
+  gap: 9px;
+}
+
+.l2__fila {
+  display: grid;
+  grid-template-columns: 18px minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 11px;
+}
+
+.l2__orden {
+  color: var(--acento-tinta, var(--acento));
+  font-family: var(--font-mono);
+  font-size: 13px;
+  font-weight: 700;
+  opacity: 0;
+  animation: l2-aparece 11s cubic-bezier(0.22, 1, 0.36, 1) infinite;
+  animation-delay: calc(var(--o) * 0.55s);
+}
+
+.l2__barra {
+  width: var(--ancho, 100%);
+  height: 9px;
+  background: color-mix(in srgb, var(--ink) 9%, transparent);
+  overflow: hidden;
+}
+
+.l2__barra i {
+  display: block;
+  height: 100%;
+  background: color-mix(in srgb, var(--acento) 55%, transparent);
+  transform: scaleX(0);
+  transform-origin: left center;
+  animation: l2-barra 11s cubic-bezier(0.22, 1, 0.36, 1) infinite;
+  animation-delay: calc(var(--o) * 0.55s);
+}
+
+.l2__evidencia {
+  color: var(--graphite);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.03em;
+  white-space: nowrap;
+  opacity: 0;
+  animation: l2-aparece 11s cubic-bezier(0.22, 1, 0.36, 1) infinite;
+  animation-delay: calc(var(--o) * 0.55s + 0.2s);
+}
+
+.l2__cierre {
+  margin-top: 3px;
+  color: var(--acento-tinta, var(--acento));
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  animation: l2-cierre 11s cubic-bezier(0.22, 1, 0.36, 1) infinite;
+}
+
+@keyframes l2-busqueda {
+  0%, 3% { opacity: 0; transform: translateY(-8px); }
+  9%, 82% { opacity: 1; transform: translateY(0); }
+  92%, 100% { opacity: 0; transform: translateY(-8px); }
+}
+
+@keyframes l2-punto {
+  0%, 12% { transform: scale(1); box-shadow: 0 0 0 0 transparent; }
+  17% { transform: scale(1.9); box-shadow: 0 0 0 5px color-mix(in srgb, var(--acento) 25%, transparent); }
+  22%, 78% { transform: scale(1.35); box-shadow: 0 0 0 3px color-mix(in srgb, var(--acento) 16%, transparent); }
+  88%, 100% { transform: scale(1); box-shadow: 0 0 0 0 transparent; }
+}
+
+@keyframes l2-aparece {
+  0%, 16% { opacity: 0; }
+  22%, 80% { opacity: 1; }
+  90%, 100% { opacity: 0; }
+}
+
+@keyframes l2-barra {
+  0%, 15% { transform: scaleX(0); }
+  24%, 80% { transform: scaleX(1); }
+  90%, 100% { transform: scaleX(0); }
+}
+
+@keyframes l2-cierre {
+  0%, 42% { opacity: 0; transform: translateY(6px); }
+  50%, 84% { opacity: 1; transform: translateY(0); }
+  94%, 100% { opacity: 0; transform: translateY(6px); }
+}
+
+/* --- Celular ------------------------------------------------------ */
+
+@media (max-width: 899px) {
+  .esc--u2 {
+    grid-template-rows: auto auto;
+    height: auto;
+    min-height: 0;
+    gap: 12px;
+    padding: 16px 18px;
+  }
+
+  .u2__maestro {
+    grid-template-columns: minmax(0, 1fr);
+    justify-items: start;
+    width: 100%;
+    gap: 3px;
+    padding: 11px 14px;
+  }
+
+  .u2__venta {
+    grid-column: 1;
+    grid-row: auto;
+    margin-top: 5px;
+    font-size: 11px;
+  }
+
+  .u2__canales {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 8px;
+  }
+
+  /* En dos filas la pista ya no dibuja el arbol: se apaga y queda el
+     encendido de cada canal, que cuenta lo mismo. */
+  .u2__columna {
+    grid-template-rows: minmax(0, 1fr);
+  }
+
+  .u2__traza {
+    display: none;
+  }
+
+  .u2__canal {
+    padding: 9px 11px;
+  }
+
+  .u2__cifra {
+    height: 22px;
+    font-size: 19px;
+    line-height: 22px;
+  }
+
+  .esc--c2 {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: auto auto;
+    height: 356px;
+    gap: 14px;
+    padding: 16px 18px;
+  }
+
+  .c2__respuesta {
+    font-size: 13px;
+  }
+
+  .c2__estado,
+  .c2__hora,
+  .c2__audio-dur {
+    font-size: 12px;
+  }
+
+  .esc--l2 {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: minmax(0, 1fr) auto;
+    height: 336px;
+    gap: 14px;
+    padding: 16px 18px;
+  }
+
+  .l2__busqueda,
+  .l2__evidencia,
+  .l2__cierre {
+    font-size: 12px;
+  }
+
+  .u2__maestro-etiqueta,
+  .u2__venta,
+  .u2__canal-detalle,
+  .c2__agenda-titulo,
+  .c2__slot-libre,
+  .c2__slot-tomada,
+  .c2__audio-dur {
+    font-size: 12px;
+  }
+}
+
+@media (max-width: 380px) {
+  .u2__canal-detalle { display: none; }
+}
+
+/* --- Sin movimiento: el estado resuelto como imagen fija ---------- */
+
+@media (prefers-reduced-motion: reduce) {
+  .esc--u2 *,
+  .esc--c2 *,
+  .esc--l2 * {
+    animation: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+  }
+
+  .u2__cifra-antes,
+  .c2__slot-caja--toma .c2__slot-libre,
+  .c2__estado {
+    display: none;
+  }
+
+  .l2__barra i {
+    transform: scaleX(1) !important;
+  }
+
+  .c2__audio-play {
+    /* el triangulo del play vive de sus bordes: sin transform queda igual */
+    transform: none;
   }
 }
