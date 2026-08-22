@@ -19467,3 +19467,140 @@ button {
     align-items: center;
   }
 }
+
+/* ------------------------------------------------------------------
+   La pagina de sitios web abre con los trabajos (21-ago-2026)
+   Nico saco el hero ("para que te encuentren y contacten"), "Que
+   recibes", los tres casos tipicos y "Siguiente servicio". La pagina
+   queda: trabajos, asi trabajamos, escribenos, preguntas, cierre.
+   ------------------------------------------------------------------ */
+
+.service-page-section--apertura {
+  padding-top: clamp(64px, 8vw, 116px);
+}
+
+/* El titulo principal de la pagina vive ahora en la seccion de
+   trabajos: misma ropa que los demas titulares de seccion. */
+.service-page-section--apertura h1 {
+  margin: 0;
+  font-size: clamp(38px, 4.8vw, 72px);
+  font-weight: 500;
+  letter-spacing: -0.055em;
+  line-height: 0.96;
+}
+
+.service-apertura__lead {
+  max-width: 52ch;
+  margin: 18px 0 0;
+  color: var(--text-body);
+  font-size: clamp(16px, 1.6vw, 19px);
+  line-height: 1.5;
+}
+
+/* Los cuatro pasos, numerados. */
+.service-paso__numero {
+  display: block;
+  color: var(--signal-ink);
+  font-family: var(--font-mono);
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.09em;
+}
+
+.service-build-grid--pasos article h3 {
+  margin-top: 12px;
+}
+
+/* ------------------------------------------------------------------
+   El mapa del hero: introduccion mas suave (21-ago-2026)
+   En PC aparecia tosco -las piezas saltaban de 0 a 1 sin recorrido- y
+   en celular las animaciones de color partian con el reloj de la
+   pagina, asi que al llegar al mapa el ciclo iba por la mitad y se
+   veia pegado.
+   1) Los colores parten cuando el mapa entra en pantalla: todas las
+      animaciones del mapa nacen en pausa y arrancan con es-visible,
+      desde el cuadro cero. Sin JavaScript no hay clase y corren solas.
+   2) Los fundidos se alargan y las piezas ademas crecen desde 96,5%
+      con la propiedad scale, que no pisa el transform con que estan
+      posicionadas.
+   ------------------------------------------------------------------ */
+
+.revela--mapa.revela--armado .hero-summary-map *,
+.revela--mapa.revela--armado .hero-summary-map *::before,
+.revela--mapa.revela--armado .hero-summary-map *::after,
+.revela--mapa.revela--armado .hero-summary-map::before,
+.revela--mapa.revela--armado .hero-summary-map::after {
+  animation-play-state: paused;
+}
+
+.revela--mapa.revela--armado.es-visible .hero-summary-map *,
+.revela--mapa.revela--armado.es-visible .hero-summary-map *::before,
+.revela--mapa.revela--armado.es-visible .hero-summary-map *::after,
+.revela--mapa.revela--armado.es-visible .hero-summary-map::before,
+.revela--mapa.revela--armado.es-visible .hero-summary-map::after {
+  animation-play-state: running;
+}
+
+/* Fundidos mas largos y con la misma curva suave de la casa. Van SOLO en
+   el estado visible: si tocan el estado escondido, el navegador tambien
+   anima el desaparecer y se ve el mapa irse antes de volver (ya nos paso).
+   Solo longhands: el shorthand pisaria los transition-delay del escalonado. */
+.revela--mapa.revela--armado.es-visible .hero-summary-map__core,
+.revela--mapa.revela--armado.es-visible .summary-group,
+.revela--mapa.revela--armado.es-visible .summary-system-label,
+.revela--mapa.revela--armado.es-visible .summary-node-cluster,
+.revela--mapa.revela--armado.es-visible .summary-platform-cluster,
+.revela--mapa.revela--armado.es-visible .summary-flow,
+.revela--mapa.revela--armado.es-visible .hero-summary-map__wires {
+  transition-duration: 1700ms, 2000ms;
+  transition-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@supports (scale: 1) {
+  .revela--mapa.revela--armado .hero-summary-map__core,
+  .revela--mapa.revela--armado .summary-group,
+  .revela--mapa.revela--armado .summary-system-label,
+  .revela--mapa.revela--armado .summary-node-cluster,
+  .revela--mapa.revela--armado .summary-platform-cluster,
+  .revela--mapa.revela--armado .summary-flow {
+    scale: 0.965;
+  }
+
+  .revela--mapa.revela--armado.es-visible .hero-summary-map__core,
+  .revela--mapa.revela--armado.es-visible .summary-group,
+  .revela--mapa.revela--armado.es-visible .summary-system-label,
+  .revela--mapa.revela--armado.es-visible .summary-node-cluster,
+  .revela--mapa.revela--armado.es-visible .summary-platform-cluster,
+  .revela--mapa.revela--armado.es-visible .summary-flow {
+    scale: 1;
+    transition-property: opacity, transform, scale;
+    transition-duration: 1700ms, 2000ms, 2000ms;
+  }
+}
+
+/* En escritorio el marco entero ademas sube 16 px, despacio: la entrada
+   deja de ser un parpadeo y pasa a ser un gesto. */
+@media (min-width: 901px) {
+  .revela--mapa.revela--armado .hero-summary-map {
+    transform: translateY(16px);
+  }
+
+  .revela--mapa.revela--armado.es-visible .hero-summary-map {
+    transform: translateY(0);
+    transition: transform 2000ms cubic-bezier(0.16, 1, 0.3, 1);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .revela--mapa.revela--armado .hero-summary-map,
+  .revela--mapa.revela--armado .hero-summary-map__core,
+  .revela--mapa.revela--armado .summary-group,
+  .revela--mapa.revela--armado .summary-system-label,
+  .revela--mapa.revela--armado .summary-node-cluster,
+  .revela--mapa.revela--armado .summary-platform-cluster,
+  .revela--mapa.revela--armado .summary-flow {
+    scale: 1;
+    transform: none;
+    transition: none;
+  }
+}

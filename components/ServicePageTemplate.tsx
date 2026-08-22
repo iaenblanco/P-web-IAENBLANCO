@@ -168,13 +168,62 @@ function ResponsibilityGrid({
 
 function WebsiteProofGrid() {
   return (
-    <section className="service-page-section service-page-section--website-proof">
+    <section className="service-page-section service-page-section--website-proof service-page-section--apertura">
       <div className="section-shell">
         <div className="service-page-section__heading service-page-section__heading--wide">
           <p className="eyebrow">Trabajos reales</p>
-          <h2>Negocios chilenos para los que ya hicimos esto.</h2>
+          {/* Es la primera seccion de la pagina y lleva su titulo principal:
+              Nico pidio abrir directo con los trabajos, sin hero. */}
+          <h1>Negocios chilenos para los que ya hicimos esto.</h1>
+          <p className="service-apertura__lead">
+            No son maquetas. Son los sitios que están atendiendo clientes hoy: ábrelos,
+            míralos en tu celular y decide antes de escribirnos.
+          </p>
         </div>
         <Trabajos />
+      </div>
+    </section>
+  )
+}
+
+/* Los cuatro pasos que pidio Nico para la pagina de sitios web, con sus
+   palabras: reunion, diseño coherente, sugerencias y muestras, cierre. */
+const pasosWeb = [
+  {
+    titulo: 'Reunión contigo',
+    texto: 'Nos cuentas qué necesitas y ordenamos juntos lo que nos dices.',
+  },
+  {
+    titulo: 'Diseño coherente',
+    texto: 'Con tu marca y con tus clientes: el sitio se tiene que ver como tu negocio.',
+  },
+  {
+    titulo: 'Sugerencias y muestras',
+    texto: 'Te vamos mostrando avances y propuestas, y decides sobre cosas que se ven.',
+  },
+  {
+    titulo: 'Estructura final y cierre',
+    texto: 'Cerramos la estructura, publicamos y te enseñamos a usarlo.',
+  },
+]
+
+function AsiTrabajamos() {
+  return (
+    <section className="service-page-section">
+      <div className="section-shell">
+        <div className="service-page-section__heading service-page-section__heading--wide">
+          <p className="eyebrow">Cómo lo hacemos</p>
+          <h2>Así trabajamos.</h2>
+        </div>
+        <div className="service-build-grid service-build-grid--pasos">
+          {pasosWeb.map((paso, index) => (
+            <article key={paso.titulo}>
+              <span className="service-paso__numero">{String(index + 1).padStart(2, '0')}</span>
+              <h3>{paso.titulo}</h3>
+              <p>{paso.texto}</p>
+            </article>
+          ))}
+        </div>
       </div>
     </section>
   )
@@ -193,133 +242,171 @@ export function ServicePageTemplate({
 
   return (
     <main id="contenido" className="service-page">
-      <section className="service-page-hero">
-        <div className="section-shell service-page-hero__inner">
-          <div className="service-page-hero__copy">
-            <div className="service-page-hero__meta">
-              <span>{service.index} / 05</span>
-              <span>{service.eyebrow}</span>
-            </div>
-            <h1>{service.title}</h1>
-            <p>{content.heroLead}</p>
-            <div className="service-page-hero__signals">
-              {service.signals.map((signal) => <span key={signal}>{signal}</span>)}
-            </div>
-            <p className="service-page-hero__plazo">
-              <span>Cuánto suele demorar</span>
-              {service.plazo}
-            </p>
-            <p className="service-page-hero__precio">
-              El precio depende de lo que necesites. Te lo damos por escrito antes de
-              empezar y ese número no se mueve: si después quieres sumar algo que no
-              estaba, se cotiza aparte y decides tú.
-            </p>
-            <div className="service-page-hero__actions">
-              <a
-                href={whatsappUrl}
-                target="_blank"
-                rel="noreferrer"
-                className="button button--primary"
-                data-analytics-event="service_whatsapp_click"
-                data-service-id={service.slug}
-                data-service-name={service.shortTitle}
-              >
-                {content.primaryCta}
-                <ArrowUpRight />
-              </a>
-              <a
-                href="#entregables"
-                className="button button--text"
-                data-analytics-event="service_cta_click"
-                data-service-id={service.slug}
-                data-service-name={service.shortTitle}
-              >
-                Ver qué recibes
-                <ArrowRight />
-              </a>
-            </div>
-          </div>
-          <div className="service-page-hero__visual">
-            <FunctionalDiagram content={content} />
-          </div>
-        </div>
-      </section>
+      {/* La pagina de sitios web abre directo con los trabajos, sin hero:
+          lo pidio Nico el 21-ago-2026. Las otras cuatro conservan el suyo. */}
+      {showWebsiteProofs ? null : (
+            <section className="service-page-hero">
+              <div className="section-shell service-page-hero__inner">
+                <div className="service-page-hero__copy">
+                  <div className="service-page-hero__meta">
+                    <span>{service.index} / 05</span>
+                    <span>{service.eyebrow}</span>
+                  </div>
+                  <h1>{service.title}</h1>
+                  <p>{content.heroLead}</p>
+                  <div className="service-page-hero__signals">
+                    {service.signals.map((signal) => <span key={signal}>{signal}</span>)}
+                  </div>
+                  <p className="service-page-hero__plazo">
+                    <span>Cuánto suele demorar</span>
+                    {service.plazo}
+                  </p>
+                  <p className="service-page-hero__precio">
+                    El precio depende de lo que necesites. Te lo damos por escrito antes de
+                    empezar y ese número no se mueve: si después quieres sumar algo que no
+                    estaba, se cotiza aparte y decides tú.
+                  </p>
+                  <div className="service-page-hero__actions">
+                    <a
+                      href={whatsappUrl}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="button button--primary"
+                      data-analytics-event="service_whatsapp_click"
+                      data-service-id={service.slug}
+                      data-service-name={service.shortTitle}
+                    >
+                      {content.primaryCta}
+                      <ArrowUpRight />
+                    </a>
+                    <a
+                      href="#entregables"
+                      className="button button--text"
+                      data-analytics-event="service_cta_click"
+                      data-service-id={service.slug}
+                      data-service-name={service.shortTitle}
+                    >
+                      Ver qué recibes
+                      <ArrowRight />
+                    </a>
+                  </div>
+                </div>
+                <div className="service-page-hero__visual">
+                  <FunctionalDiagram content={content} />
+                </div>
+              </div>
+            </section>
+      )}
 
       {/* La prueba va segunda, no enterrada: es lo que mas convence y es lo
           primero que alguien quiere ver antes de creernos nada. */}
       {showWebsiteProofs ? <WebsiteProofGrid /> : <EscenaServicioSeccion slug={content.slug} />}
 
-      <section className="service-page-mid-cta">
-        <div className="section-shell service-page-mid-cta__inner">
-          <p>¿Se parece a lo que te pasa? Escríbenos y lo revisamos antes de proponerte nada.</p>
-          <a
-            href={whatsappUrl}
-            target="_blank"
-            rel="noreferrer"
-            className="button button--text"
-            data-analytics-event="service_whatsapp_click"
-            data-service-id={service.slug}
-            data-service-name={service.shortTitle}
-          >
-            {content.primaryCta}
-            <ArrowUpRight />
-          </a>
-        </div>
-      </section>
-
-
-      <section className="service-page-section">
-        <div className="section-shell">
-          <div className="service-page-section__heading service-page-section__heading--wide">
-            <p className="eyebrow">Cómo lo hacemos</p>
-            <h2>{sectionCopy.builds}</h2>
-          </div>
-          <div className="service-build-grid">
-            {content.builds.map((item) => (
-              <article key={item.title}>
-                <h3>{item.title}</h3>
-                <p>{item.text}</p>
-              </article>
-            ))}
-          </div>
-        </div>
-      </section>
-
-
-
-      <section className="service-page-section">
-        <div className="section-shell">
-          <div className="service-page-section__heading service-page-section__heading--wide">
-            <p className="eyebrow">Ejemplos</p>
-            <h2>{sectionCopy.useCases}</h2>
-          </div>
-          <div className="service-use-grid">
-            {content.useCases.map((item) => (
-              <article key={item.title}>
-                <h3>{item.title}</h3>
-                <p>{item.text}</p>
-              </article>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      <section className="service-page-section service-page-section--deliverables" id="entregables">
-        <div className="section-shell service-page-two-col">
-          <div className="service-page-section__heading">
-            <p className="eyebrow">Qué recibes</p>
-            <h2>{sectionCopy.deliverables}</h2>
-          </div>
-          <div className="service-deliverables">
-            {content.deliverables.map((deliverable) => (
-              <div key={deliverable}>
-                <span />
-                <p>{deliverable}</p>
+      {showWebsiteProofs ? null : (
+            <section className="service-page-mid-cta">
+              <div className="section-shell service-page-mid-cta__inner">
+                <p>¿Se parece a lo que te pasa? Escríbenos y lo revisamos antes de proponerte nada.</p>
+                <a
+                  href={whatsappUrl}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="button button--text"
+                  data-analytics-event="service_whatsapp_click"
+                  data-service-id={service.slug}
+                  data-service-name={service.shortTitle}
+                >
+                  {content.primaryCta}
+                  <ArrowUpRight />
+                </a>
               </div>
-            ))}
-          </div>
-        </div>
-      </section>
+            </section>
+      )}
+
+
+      {/* En la web, los cuatro pasos de Nico; en las otras, el bloque generico. */}
+      {showWebsiteProofs ? (
+        <AsiTrabajamos />
+      ) : (
+            <section className="service-page-section">
+              <div className="section-shell">
+                <div className="service-page-section__heading service-page-section__heading--wide">
+                  <p className="eyebrow">Cómo lo hacemos</p>
+                  <h2>{sectionCopy.builds}</h2>
+                </div>
+                <div className="service-build-grid">
+                  {content.builds.map((item) => (
+                    <article key={item.title}>
+                      <h3>{item.title}</h3>
+                      <p>{item.text}</p>
+                    </article>
+                  ))}
+                </div>
+              </div>
+            </section>
+      )}
+
+      {/* En la web el "escribenos" va despues de los pasos: trabajos,
+          como trabajamos y recien ahi la invitacion. */}
+      {showWebsiteProofs ? (
+            <section className="service-page-mid-cta">
+              <div className="section-shell service-page-mid-cta__inner">
+                <p>¿Se parece a lo que te pasa? Escríbenos y lo revisamos antes de proponerte nada.</p>
+                <a
+                  href={whatsappUrl}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="button button--text"
+                  data-analytics-event="service_whatsapp_click"
+                  data-service-id={service.slug}
+                  data-service-name={service.shortTitle}
+                >
+                  {content.primaryCta}
+                  <ArrowUpRight />
+                </a>
+              </div>
+            </section>
+      ) : null}
+
+
+
+      {showWebsiteProofs ? null : (
+            <section className="service-page-section">
+              <div className="section-shell">
+                <div className="service-page-section__heading service-page-section__heading--wide">
+                  <p className="eyebrow">Ejemplos</p>
+                  <h2>{sectionCopy.useCases}</h2>
+                </div>
+                <div className="service-use-grid">
+                  {content.useCases.map((item) => (
+                    <article key={item.title}>
+                      <h3>{item.title}</h3>
+                      <p>{item.text}</p>
+                    </article>
+                  ))}
+                </div>
+              </div>
+            </section>
+      )}
+
+      {/* "Que recibes" salio de la pagina web por pedido de Nico. */}
+      {showWebsiteProofs ? null : (
+            <section className="service-page-section service-page-section--deliverables" id="entregables">
+              <div className="section-shell service-page-two-col">
+                <div className="service-page-section__heading">
+                  <p className="eyebrow">Qué recibes</p>
+                  <h2>{sectionCopy.deliverables}</h2>
+                </div>
+                <div className="service-deliverables">
+                  {content.deliverables.map((deliverable) => (
+                    <div key={deliverable}>
+                      <span />
+                      <p>{deliverable}</p>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </section>
+      )}
 
       {caseStudy ? (
         <section className="service-page-section service-page-section--case">
@@ -395,26 +482,28 @@ export function ServicePageTemplate({
         </div>
       </section>
 
-      <section className="service-next-link">
-        <div className="section-shell">
-          <p>Siguiente servicio</p>
-          <Link
-            href={`/servicios/${nextService.slug}`}
-            prefetch={false}
-            data-analytics-event="service_next_click"
-            data-service-id={nextService.slug}
-            data-service-name={nextService.shortTitle}
-            data-source-service-id={service.slug}
-            data-source-service-name={service.shortTitle}
-            data-target-service-id={nextService.slug}
-            data-target-service-name={nextService.shortTitle}
-          >
-            <span>{nextService.index}</span>
-            {nextService.title}
-            <ArrowRight />
-          </Link>
-        </div>
-      </section>
+      {showWebsiteProofs ? null : (
+            <section className="service-next-link">
+              <div className="section-shell">
+                <p>Siguiente servicio</p>
+                <Link
+                  href={`/servicios/${nextService.slug}`}
+                  prefetch={false}
+                  data-analytics-event="service_next_click"
+                  data-service-id={nextService.slug}
+                  data-service-name={nextService.shortTitle}
+                  data-source-service-id={service.slug}
+                  data-source-service-name={service.shortTitle}
+                  data-target-service-id={nextService.slug}
+                  data-target-service-name={nextService.shortTitle}
+                >
+                  <span>{nextService.index}</span>
+                  {nextService.title}
+                  <ArrowRight />
+                </Link>
+              </div>
+            </section>
+      )}
     </main>
   )
 }
