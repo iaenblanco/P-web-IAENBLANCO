@@ -1,6 +1,5 @@
 import type { Metadata } from 'next'
 import { BrandLogo } from '@/components/BrandLogo'
-import { ContactBand } from '@/components/ContactBand'
 import { EscenaProducto } from '@/components/EscenaProducto'
 import { Reveal } from '@/components/Reveal'
 import { RevelaAlEntrar } from '@/components/RevelaAlEntrar'
@@ -9,7 +8,7 @@ import { products, SITE_URL } from '@/lib/site'
 export const metadata: Metadata = {
   title: 'Productos',
   description:
-    'Unifícalo, Citaly y Leads: tres programas propios de IAenBlanco. Cómo está tu negocio hoy y cómo queda con cada uno.',
+    'Unifícalo, Citaly y Leads: tres programas propios de IAenBlanco, muy pronto. Mira lo que hace cada uno y conversemos.',
   alternates: {
     canonical: `${SITE_URL}/productos/`,
   },
@@ -52,20 +51,13 @@ export default function ProductsPage() {
         <div className="section-shell">
           <p className="hero-kicker"><span className="hero-kicker__punto" aria-hidden="true" /> Nuestros productos</p>
           <h1>
-            Así está hoy.{' '}
-            <em>Así queda después.</em>
+            Tres programas nuestros,{' '}
+            <em>muy pronto.</em>
           </h1>
           <p>
-            Tres programas nuestros, uno para cada desorden que vimos repetirse. Los
-            estamos terminando con los primeros negocios: mira cuál se parece a lo tuyo
-            y conversemos.
+            Uno para cada desorden que vimos repetirse. Los estamos terminando con
+            los primeros negocios: mira cuál se parece a lo tuyo y conversemos.
           </p>
-          <div className="page-hero__actions">
-            <a href="#productos-propios" className="button button--primary">
-              Ver los tres
-              <ArrowUpRight />
-            </a>
-          </div>
         </div>
       </section>
 
@@ -107,6 +99,18 @@ export default function ProductsPage() {
                         Se conecta con {product.integrations.join(', ')}.
                       </p>
                     ) : null}
+                    {/* El sitio del producto existe y se puede mirar: esconderlo
+                        era guardarse una prueba. Enlace discreto, no boton: el
+                        camino principal sigue siendo conversar. */}
+                    <a
+                      href={product.sitio}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="ad__sitio"
+                      data-product-id={product.id}
+                    >
+                      {product.sitio.replace('https://', '')}
+                    </a>
                   </div>
                   <div className="ad__pie-accion">
                     <a
@@ -129,11 +133,6 @@ export default function ProductsPage() {
           ))}
         </div>
       </section>
-
-      <ContactBand
-        eyebrow="Productos propios"
-        title="¿No sabes cuál te sirve? Escríbenos y lo vemos."
-      />
     </main>
   )
 }

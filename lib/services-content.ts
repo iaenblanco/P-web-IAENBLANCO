@@ -539,10 +539,10 @@ export const servicePageContent: ServicePageContentMap = {
     caseStudy: {
       client: 'Citaly',
       label: 'Un programa nuestro',
-      title: 'Agenda y atención por WhatsApp con IA.',
-      text: 'Citaly sirve como evidencia interna de una lógica aplicada: entender consultas, revisar disponibilidad y apoyar reservas sin perder control operativo.',
+      title: 'El mismo tipo de asistente, lo estamos terminando como programa.',
+      text: 'Citaly contesta el WhatsApp, entiende audios y agenda horas mirando la agenda real. Está por abrir, y es la mejor muestra de que esto lo sabemos construir: tu asistente sería a tu medida, con tus reglas.',
       href: 'https://citaly.cl/',
-      actionLabel: 'Ver producto',
+      actionLabel: 'Ver el sitio',
     },
     process: [
       { title: 'Elegir proceso', text: 'Buscamos una tarea donde la IA pueda aportar utilidad real.' },
@@ -659,10 +659,10 @@ export const servicePageContent: ServicePageContentMap = {
     caseStudy: {
       client: 'Leads',
       label: 'Un programa nuestro',
-      title: 'Empresas reales, ordenadas por prioridad.',
-      text: 'Leads es tecnología propia de IAenBlanco para ordenar búsqueda, evidencia, score y seguimiento. El servicio gestionado agrega criterio comercial, configuración y operación sobre esa base.',
+      title: 'La búsqueda y el orden vienen de Leads, un programa nuestro.',
+      text: 'Leads busca empresas reales y las ordena por cuál llamar primero. Está por abrir como programa; en este servicio lo operamos nosotros y le sumamos el criterio comercial y el seguimiento.',
       href: 'https://leads.iaenblanco.com/',
-      actionLabel: 'Ver producto',
+      actionLabel: 'Ver el sitio',
     },
     process: [
       { title: 'Definir a quién', text: 'Acordamos qué tipo de empresa, en qué rubro y en qué zona.' },

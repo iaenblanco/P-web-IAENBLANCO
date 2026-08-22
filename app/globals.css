@@ -19386,3 +19386,84 @@ button {
     display: none;
   }
 }
+
+/* ------------------------------------------------------------------
+   Revision de /productos (21-ago-2026, los siete hallazgos)
+   ------------------------------------------------------------------
+   2) El hero heredaba la rejilla 0.7fr/2.3fr de los demas heros: el
+      kicker ocupaba una columna de 278 px y todo lo demas arrancaba en
+      x=426, dejando media pantalla de crema vacia a la izquierda. En
+      una pagina que abre con un titular corto no hay segunda columna
+      que justifique el carril: fluye en bloque y el titular arranca
+      donde arranca todo el sitio.
+   ------------------------------------------------------------------ */
+
+.page-hero--products .section-shell {
+  display: block;
+}
+
+.page-hero--products h1 {
+  margin-top: 26px;
+}
+
+/* ------------------------------------------------------------------
+   3) La jerarquia estaba al reves: "Unificalo" a 60 px y la promesa a
+      26 px. Para quien no conoce la marca, el nombre no significa nada
+      y la promesa si. El nombre baja a identificador y la promesa pasa
+      a ser el titular visual de la ficha.
+   ------------------------------------------------------------------ */
+
+.ad__cabecera h2 {
+  font-size: clamp(24px, 2.2vw, 32px);
+  letter-spacing: -0.03em;
+}
+
+.ad__promesa {
+  max-width: 26ch;
+  color: var(--ink);
+  font-size: clamp(26px, 2.8vw, 42px);
+  font-weight: 500;
+  letter-spacing: -0.04em;
+  line-height: 1.08;
+}
+
+@media (max-width: 899px) {
+  .ad__cabecera h2 {
+    font-size: 22px;
+  }
+
+  .ad__promesa {
+    max-width: 22ch;
+    font-size: 25px;
+  }
+}
+
+/* 5) El sitio del producto, como enlace discreto en el pie. */
+
+.ad__sitio {
+  display: inline-block;
+  margin-top: 6px;
+  color: var(--graphite);
+  font-family: var(--font-mono);
+  font-size: 12px;
+  letter-spacing: 0.02em;
+  text-decoration: underline;
+  text-decoration-color: var(--line);
+  text-underline-offset: 3px;
+  transition: color 160ms ease, text-decoration-color 160ms ease;
+}
+
+.ad__sitio:hover,
+.ad__sitio:focus-visible {
+  color: var(--ink);
+  text-decoration-color: var(--ink);
+}
+
+@media (max-width: 899px) {
+  .ad__sitio {
+    font-size: 13px;
+    min-height: 44px;
+    display: inline-flex;
+    align-items: center;
+  }
+}
