@@ -1,10 +1,12 @@
 import Link from 'next/link'
+import { type CSSProperties } from 'react'
 import { BrandLogo } from '@/components/BrandLogo'
 import type { Service } from '@/lib/site'
 import { getWhatsappUrl } from '@/lib/site'
 import Image from 'next/image'
 import { EscenaServicio, textoEscena } from '@/components/EscenaServicio'
 import { RevelaAlEntrar } from '@/components/RevelaAlEntrar'
+import { RevelaEnCascada } from '@/components/RevelaEnCascada'
 import { Trabajos } from '@/components/Trabajos'
 import { type ServicePageContent } from '@/lib/services-content'
 
@@ -72,6 +74,16 @@ const responsibilitiesBySlug: Partial<Record<ServicePageContent['slug'], { title
   },
 }
 
+/*
+ * El puesto de cada pieza dentro de su grupo. La hoja lo convierte en 70 ms
+ * de desfase (--i). Se corta en el sexto a proposito: la lista de entregables
+ * llega a diez y sin tope la ultima fila entraria casi un segundo tarde, que
+ * ya no se lee como una cascada sino como una pagina que va lenta.
+ */
+function desfase(i: number): CSSProperties {
+  return { ['--i' as string]: Math.min(i, 5) } as CSSProperties
+}
+
 function EscenaServicioSeccion({ slug }: { slug: ServicePageContent['slug'] }) {
   const copy = textoEscena(slug)
   if (!copy) return null
@@ -79,7 +91,7 @@ function EscenaServicioSeccion({ slug }: { slug: ServicePageContent['slug'] }) {
   return (
     <section className="service-page-section service-page-section--escena">
       <div className="section-shell">
-        <div className="service-page-section__heading service-page-section__heading--wide">
+        <div className="service-page-section__heading service-page-section__heading--wide" data-revela="">
           <p className="eyebrow">{copy.eyebrow}</p>
           <h2>{copy.titulo}</h2>
         </div>
@@ -108,9 +120,16 @@ function ArrowRight() {
   )
 }
 
+/* El fondo del diagrama lleva un barrido que no termina nunca. "data-bucle"
+   es lo que RevelaEnCascada mira para pararlo cuando el diagrama sale de la
+   pantalla: antes seguia corriendo hasta el pie de la pagina. */
 function FunctionalDiagram({ content }: { content: ServicePageContent }) {
   return (
-    <div className={`service-flow service-flow--${content.slug}`} aria-label={content.diagram.label}>
+    <div
+      className={`service-flow service-flow--${content.slug}`}
+      aria-label={content.diagram.label}
+      data-bucle=""
+    >
       <div className="service-flow__header">
         <span>{content.diagram.label}</span>
         <strong>{String(content.diagram.steps.length).padStart(2, '0')} etapas</strong>
@@ -145,11 +164,13 @@ function ResponsibilityGrid({
   return (
     <section className="service-page-section service-page-section--responsibilities">
       <div className="section-shell">
-        <div className="service-page-section__heading service-page-section__heading--wide">
+        <div className="service-page-section__heading service-page-section__heading--wide" data-revela="">
           <p className="eyebrow">Quién hace qué</p>
           <h2>{title}</h2>
         </div>
-        <div className="service-responsibility-grid">
+        {/* La tabla entra entera y no fila por fila: son cuatro filas pegadas
+            entre si por el borde, y sueltas se ven como un acordeon. */}
+        <div className="service-responsibility-grid" data-revela="">
           <div>
             <span>IAenBlanco</span>
             <span>Cliente</span>
@@ -242,6 +263,11 @@ export function ServicePageTemplate({
   const responsibilities = responsibilitiesBySlug[content.slug]
   const showWebsiteProofs = content.slug === 'desarrollo-web-ia'
   const caseStudy = showWebsiteProofs ? undefined : content.caseStudy
+  /* La pagina de sitios web se queda como esta: ya tiene su propio movimiento
+     con la grilla de trabajos, y Nico pidio el resto "a excepcion de esa".
+     Las dos secciones que comparten las cinco paginas -las preguntas y el
+     cierre- se marcan solo cuando corresponde. */
+  const anima = !showWebsiteProofs
 
   return (
     <main id="contenido" className="service-page">
@@ -307,7 +333,7 @@ export function ServicePageTemplate({
 
       {showWebsiteProofs ? null : (
             <section className="service-page-mid-cta">
-              <div className="section-shell service-page-mid-cta__inner">
+              <div className="section-shell service-page-mid-cta__inner" data-revela="">
                 <p>¿Se parece a lo que te pasa? Escríbenos y lo revisamos antes de proponerte nada.</p>
                 <a
                   href={whatsappUrl}
@@ -332,13 +358,13 @@ export function ServicePageTemplate({
       ) : (
             <section className="service-page-section">
               <div className="section-shell">
-                <div className="service-page-section__heading service-page-section__heading--wide">
+                <div className="service-page-section__heading service-page-section__heading--wide" data-revela="">
                   <p className="eyebrow">Cómo lo hacemos</p>
                   <h2>{sectionCopy.builds}</h2>
                 </div>
                 <div className="service-build-grid">
-                  {content.builds.map((item) => (
-                    <article key={item.title}>
+                  {content.builds.map((item, index) => (
+                    <article key={item.title} data-revela="" style={desfase(index)}>
                       <h3>{item.title}</h3>
                       <p>{item.text}</p>
                     </article>
@@ -375,13 +401,13 @@ export function ServicePageTemplate({
       {showWebsiteProofs ? null : (
             <section className="service-page-section">
               <div className="section-shell">
-                <div className="service-page-section__heading service-page-section__heading--wide">
+                <div className="service-page-section__heading service-page-section__heading--wide" data-revela="">
                   <p className="eyebrow">Ejemplos</p>
                   <h2>{sectionCopy.useCases}</h2>
                 </div>
                 <div className="service-use-grid">
-                  {content.useCases.map((item) => (
-                    <article key={item.title}>
+                  {content.useCases.map((item, index) => (
+                    <article key={item.title} data-revela="" style={desfase(index)}>
                       <h3>{item.title}</h3>
                       <p>{item.text}</p>
                     </article>
@@ -395,13 +421,13 @@ export function ServicePageTemplate({
       {showWebsiteProofs ? null : (
             <section className="service-page-section service-page-section--deliverables" id="entregables">
               <div className="section-shell service-page-two-col">
-                <div className="service-page-section__heading">
+                <div className="service-page-section__heading" data-revela="">
                   <p className="eyebrow">Qué recibes</p>
                   <h2>{sectionCopy.deliverables}</h2>
                 </div>
                 <div className="service-deliverables">
-                  {content.deliverables.map((deliverable) => (
-                    <div key={deliverable}>
+                  {content.deliverables.map((deliverable, index) => (
+                    <div key={deliverable} data-revela="" style={desfase(index)}>
                       <span />
                       <p>{deliverable}</p>
                     </div>
@@ -413,7 +439,7 @@ export function ServicePageTemplate({
 
       {caseStudy ? (
         <section className="service-page-section service-page-section--case">
-          <div className="section-shell service-case-card">
+          <div className="section-shell service-case-card" data-revela="">
             <div>
               <p className="eyebrow">{caseStudy.label}</p>
               <h2>{caseStudy.title}</h2>
@@ -440,17 +466,19 @@ export function ServicePageTemplate({
 
       <section className="service-page-section service-page-section--faq">
         <div className="section-shell service-page-two-col">
-          <div className="service-page-section__heading">
+          <div className="service-page-section__heading" data-revela={anima ? '' : undefined}>
             <p className="eyebrow">Preguntas frecuentes</p>
             <h2>Lo que nos preguntan siempre.</h2>
           </div>
           <div className="service-faq-list">
-            {content.faqs.map((faq) => (
+            {content.faqs.map((faq, index) => (
               <details
                 key={faq.question}
                 data-service-faq
                 data-service-id={service.slug}
                 data-service-name={service.shortTitle}
+                data-revela={anima ? '' : undefined}
+                style={anima ? desfase(index) : undefined}
               >
                 <summary>{faq.question}</summary>
                 <p>{faq.answer}</p>
@@ -461,7 +489,7 @@ export function ServicePageTemplate({
       </section>
 
       <section className="service-page-cta">
-        <div className="section-shell service-page-cta__inner">
+        <div className="section-shell service-page-cta__inner" data-revela={anima ? '' : undefined}>
           <div>
             <p className="eyebrow">El siguiente paso</p>
             <h2>Cuéntanos tu caso antes de que te propongamos algo.</h2>
@@ -492,6 +520,7 @@ export function ServicePageTemplate({
                 <Link
                   href={`/servicios/${nextService.slug}`}
                   prefetch={false}
+                  data-revela=""
                   data-analytics-event="service_next_click"
                   data-service-id={nextService.slug}
                   data-service-name={nextService.shortTitle}
@@ -507,6 +536,11 @@ export function ServicePageTemplate({
               </div>
             </section>
       )}
+
+      {/* Un solo observador para toda la pagina: arma las piezas cuando se
+          baja y apaga el barrido del diagrama cuando deja de verse. No pinta
+          nada, asi que va al final y no estorba. */}
+      {anima ? <RevelaEnCascada /> : null}
     </main>
   )
 }

@@ -2153,6 +2153,7 @@ button {
 .service-next-link svg {
   width: 18px;
   height: 18px;
+  transition: transform 260ms ease;
 }
 
 .services-index-section--managed {
@@ -2444,6 +2445,10 @@ button {
   padding: 16px 14px 18px;
   border: 1px solid color-mix(in srgb, var(--service-flow-accent) 42%, rgba(7, 10, 15, 0.14));
   background: rgba(251, 250, 247, 0.92);
+  transition:
+    border-color 260ms ease,
+    box-shadow 260ms ease,
+    transform 260ms ease;
 }
 
 .service-flow__step > span {
@@ -2574,6 +2579,10 @@ button {
 .service-use-grid article {
   min-height: 240px;
   padding: 24px;
+  transition:
+    border-color 260ms ease,
+    box-shadow 260ms ease,
+    transform 260ms ease;
 }
 
 .service-deliverables {
@@ -2590,6 +2599,9 @@ button {
   padding: 16px;
   border: 1px solid color-mix(in srgb, var(--signal) 28%, transparent);
   background: rgba(235, 249, 250, 0.42);
+  transition:
+    border-color 260ms ease,
+    background-color 260ms ease;
 }
 
 .service-deliverables span {
@@ -2598,6 +2610,7 @@ button {
   margin-top: 7px;
   border-radius: 50%;
   background: var(--signal);
+  transition: box-shadow 260ms ease;
 }
 
 .service-deliverables p {
@@ -2723,6 +2736,7 @@ button {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   border-width: 0 0 1px;
+  transition: background-color 260ms ease;
 }
 
 .service-responsibility-grid > div:last-child {
@@ -2783,6 +2797,10 @@ button {
   font-size: 12px;
   font-weight: 640;
   text-transform: uppercase;
+  transition:
+    border-color 260ms ease,
+    box-shadow 260ms ease,
+    transform 260ms ease;
 }
 
 .service-case-card a span {
@@ -2830,6 +2848,7 @@ button {
   font-size: clamp(16px, 1.4vw, 21px);
   font-weight: 700;
   line-height: 1.25;
+  transition: background-color 200ms ease;
 }
 
 .service-faq-list summary::-webkit-details-marker {
@@ -2841,10 +2860,11 @@ button {
   float: right;
   color: var(--signal);
   font-family: var(--font-mono);
+  transition: transform 300ms cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 .service-faq-list details[open] summary::after {
-  content: "-";
+  transform: rotate(45deg);
 }
 
 .service-faq-list details p {
@@ -2882,6 +2902,10 @@ button {
   font-size: clamp(22px, 3.4vw, 46px);
   font-weight: 700;
   line-height: 1;
+  transition:
+    border-color 260ms ease,
+    box-shadow 260ms ease,
+    transform 260ms ease;
 }
 
 .service-next-link a > span {
@@ -2897,6 +2921,138 @@ button {
   100% {
     transform: translateX(78%);
   }
+}
+
+/* --- Como se mueven las cuatro paginas de servicio ---------------------
+   La de sitios web queda fuera a proposito: ya tiene el suyo con la grilla
+   de trabajos. Las otras cuatro siguen la misma linea que el resto del
+   sitio, con estos tres numeros y no otros:
+
+     entrada         620 ms, cubic-bezier(0.22, 1, 0.36, 1), 16 px de subida
+     desfase         70 ms por pieza, en --i
+     cursor encima   260 ms ease, 3 px de alzada
+
+   Solo se anima opacity y transform, que el navegador resuelve en el
+   compositor sin volver a maquetar ni repintar. Ninguna sombra se anima
+   sola: se anima la caja y la sombra viaja con ella. Y no hay un solo
+   will-change, que promociona una capa por elemento y es justamente lo que
+   hace que una pagina con treinta tarjetas se coma la memoria del telefono.
+
+   El escondite lo pone JavaScript y no esta hoja: sin JavaScript no hay una
+   sola pieza oculta. Lo hace RevelaEnCascada, con UN observador para toda
+   la pagina. Lo que ya se ve al cargar no se arma nunca, asi que el hero no
+   parpadea ni retrasa el primer pintado.
+   ------------------------------------------------------------------- */
+
+/* La entrada es una animacion y no una transicion, y no es un capricho: las
+   tarjetas ya traen su propio "transition" para el hover, y esa lista -que no
+   nombra opacity- le gana por especificidad a esta regla. Con transiciones la
+   tarjeta aparecia de golpe y solo el titulo se desvanecia; el desfase no se
+   veia justo donde estaba puesto. Una animacion no compite con "transition",
+   asi que cada cosa conserva lo suyo: la entrada sus 620 ms y el hover los
+   suyos.
+
+   El relleno es "backwards" y no "both" a proposito. Con "both" el fotograma
+   final quedaria pegado para siempre y el "transform: none" del cierre
+   anularia el translateY(-3px) del hover: las tarjetas dejarian de levantarse
+   al pasar el cursor. Con "backwards" solo se sostiene el fotograma inicial
+   durante la espera del desfase, y al terminar el elemento vuelve a lo que
+   declara la hoja. */
+
+.revela-armado {
+  opacity: 0;
+}
+
+.revela-armado.es-visible {
+  opacity: 1;
+  animation: revela-entrada 620ms cubic-bezier(0.22, 1, 0.36, 1)
+    calc(var(--i, 0) * 70ms) backwards;
+}
+
+@keyframes revela-entrada {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* El barrido del diagrama corria para siempre, tambien cuando el diagrama
+   quedaba tres pantallas mas arriba. Ahora se detiene mientras no se ve: es
+   la misma cuenta que ya se hacia con las escenas de los productos. */
+.service-flow.fuera-de-vista::before {
+  animation-play-state: paused;
+}
+
+/* --- Cursor encima --------------------------------------------------- */
+
+.service-build-grid article:hover,
+.service-use-grid article:hover {
+  border-color: color-mix(in srgb, var(--signal-ink) 46%, transparent);
+  box-shadow: 0 16px 36px rgba(7, 10, 15, 0.08);
+  transform: translateY(-3px);
+}
+
+/* La etapa toma el color de SU servicio -cian, ambar o verde- y no el
+   general: el diagrama ya viene tenido por --service-flow-accent. */
+.service-flow__step:hover {
+  border-color: color-mix(in srgb, var(--service-flow-accent) 76%, transparent);
+  box-shadow: 0 14px 30px rgba(7, 10, 15, 0.07);
+  transform: translateY(-3px);
+}
+
+.service-deliverables div:hover {
+  border-color: color-mix(in srgb, var(--signal) 56%, transparent);
+  background: rgba(235, 249, 250, 0.72);
+}
+
+.service-deliverables div:hover span {
+  box-shadow: 0 0 0 5px color-mix(in srgb, var(--signal) 18%, transparent);
+}
+
+.service-faq-list summary:hover {
+  background: rgba(235, 249, 250, 0.5);
+}
+
+/* La respuesta no puede abrirse con una transicion de altura -details no
+   la tiene-, asi que entra con lo unico que si se puede animar. */
+.service-faq-list details[open] p {
+  animation: faq-respuesta 320ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+@keyframes faq-respuesta {
+  from {
+    opacity: 0;
+    transform: translateY(-6px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.service-case-card a:hover,
+.service-next-link a:hover {
+  border-color: color-mix(in srgb, var(--signal-ink) 52%, transparent);
+  box-shadow: 0 18px 40px rgba(7, 10, 15, 0.09);
+  transform: translateY(-3px);
+}
+
+.service-case-card a:hover svg {
+  transform: translate(3px, -3px);
+}
+
+.service-next-link a:hover svg {
+  transform: translateX(5px);
+}
+
+/* El "+ div" deja fuera la primera fila, que es el encabezado de la tabla
+   y no una fila que se pueda leer de a una. */
+.service-responsibility-grid > div + div:hover {
+  background: rgba(235, 249, 250, 0.5);
 }
 
 @media (max-width: 1180px) {
@@ -3131,6 +3287,30 @@ button {
   .concept-card__icon,
   .connection-card span {
     animation: none;
+  }
+
+  .service-flow::before,
+  .service-faq-list details[open] p {
+    animation: none;
+  }
+
+  .revela-armado,
+  .revela-armado.es-visible {
+    opacity: 1;
+    transform: none;
+    transition: none;
+    animation: none;
+  }
+
+  .service-build-grid article:hover,
+  .service-use-grid article:hover,
+  .service-flow__step:hover,
+  .service-case-card a:hover,
+  .service-next-link a:hover,
+  .service-case-card a:hover svg,
+  .service-next-link a:hover svg,
+  .service-faq-list details[open] summary::after {
+    transform: none;
   }
 }
 
