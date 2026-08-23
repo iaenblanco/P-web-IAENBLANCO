@@ -1,107 +1,54 @@
-import Link from 'next/link'
 import { type CSSProperties } from 'react'
-import { BrandLogo } from '@/components/BrandLogo'
 import type { Service } from '@/lib/site'
 import { getWhatsappUrl } from '@/lib/site'
-import Image from 'next/image'
 import { EscenaServicio, textoEscena } from '@/components/EscenaServicio'
 import { RevelaAlEntrar } from '@/components/RevelaAlEntrar'
 import { RevelaEnCascada } from '@/components/RevelaEnCascada'
 import { Trabajos } from '@/components/Trabajos'
 import { type ServicePageContent } from '@/lib/services-content'
 
+/*
+ * Las cinco paginas de servicio tienen la MISMA forma.
+ *
+ * Antes eran dos paginas distintas: la de sitios web con cinco secciones y
+ * las otras cuatro con once -hero, escena, escribenos, como lo hacemos, tres
+ * casos tipicos, que recibes, un trabajo nuestro, quien hace que, preguntas,
+ * cierre y siguiente servicio-. Nico las miro en fila y pidio que todas se
+ * parecieran a la de sitios web: "asi de simple y concreto debe ser cada
+ * seccion, no tanto texto, veo muchos cuadrados".
+ *
+ * Quedan cinco tiempos, en este orden:
+ *
+ *   1. Apertura   el titulo y la prueba. En sitios web, los cinco negocios
+ *                 chilenos; en las otras cuatro, la escena del servicio
+ *                 andando, que ahora es grande y abre la pagina.
+ *   2. Pasos      cuatro, numerados, con una linea que se dibuja al entrar.
+ *   3. Escribenos una sola frase.
+ *   4. Caso       un trabajo nuestro (sitios web ya abrio con cinco).
+ *   5. Preguntas y cierre.
+ *
+ * Lo que se fue: el hero con sus cuatro chips y su parrafo de precio -el
+ * precio ya estaba respondido en las preguntas-, el diagrama de etapas, los
+ * tres casos tipicos, la lista de entregables, la tabla de quien hace que y
+ * el enlace al siguiente servicio. Eran veinticuatro cajas por pagina; ahora
+ * son once.
+ */
+
 type ServicePageTemplateProps = {
   service: Service
   content: ServicePageContent
-  nextService: Service
 }
 
-type SectionCopy = {
-  problems: string
-  builds: string
-  deliverables: string
-  useCases: string
-  process: string
-}
-
-const sectionCopyBySlug: Record<ServicePageContent['slug'], SectionCopy> = {
-  'desarrollo-web-ia': {
-    problems: 'Si te pasa alguna de estas, tu sitio no está trabajando.',
-    builds: 'Esto es lo que hacemos, paso a paso.',
-    deliverables: 'Esto es lo que recibes al final.',
-    useCases: 'Tres casos típicos.',
-    process: 'Cómo llegamos de una idea vaga a un sitio publicado.',
-  },
-  'plataformas-software-medida': {
-    problems: 'Si te pasa alguna de estas, el Excel ya no da.',
-    builds: 'Esto es lo que hacemos, paso a paso.',
-    deliverables: 'Esto es lo que recibes al final.',
-    useCases: 'Tres casos típicos.',
-    process: 'Cómo llegamos de un proceso desordenado a un programa que funciona.',
-  },
-  automatizaciones: {
-    problems: 'Si te pasa alguna de estas, hay horas que estás perdiendo.',
-    builds: 'Esto es lo que hacemos, paso a paso.',
-    deliverables: 'Esto es lo que recibes al final.',
-    useCases: 'Tres casos típicos.',
-    process: 'Cómo llegamos de una tarea repetida a algo que corre solo.',
-  },
-  'soluciones-ia-medida': {
-    problems: 'Si te pasa alguna de estas, un asistente te sirve.',
-    builds: 'Esto es lo que hacemos, paso a paso.',
-    deliverables: 'Esto es lo que recibes al final.',
-    useCases: 'Tres casos típicos.',
-    process: 'Cómo llegamos de una idea a un asistente probado con casos reales.',
-  },
-  'prospeccion-b2b-gestionada': {
-    problems: 'Si te pasa alguna de estas, te sirve que lo hagamos nosotros.',
-    builds: 'Esto es lo que hacemos, mes a mes.',
-    deliverables: 'Esto es lo que recibes cada mes.',
-    useCases: 'Tres casos típicos.',
-    process: 'Cómo llegamos de "quiero vender más" a una lista con nombre y apellido.',
-  },
-}
-
-const responsibilitiesBySlug: Partial<Record<ServicePageContent['slug'], { title: string; rows: { ia: string; client: string }[] }>> = {
-  'prospeccion-b2b-gestionada': {
-    title: 'Qué opera IAenBlanco y qué valida el cliente.',
-    rows: [
-      { ia: 'Define y busca mercado objetivo.', client: 'Valida oferta, rubro y tipo de cliente ideal.' },
-      { ia: 'Organiza evidencia y señales comerciales.', client: 'Aprueba criterios de fit y descarte.' },
-      { ia: 'Prioriza oportunidades y ordena seguimiento.', client: 'Atiende conversaciones y confirma interés real.' },
-      { ia: 'Deja registrado en qué va cada empresa.', client: 'Gestiona la propuesta, la negociación y el cierre.' },
-    ],
-  },
-}
+type Paso = { titulo: string; texto: string }
 
 /*
  * El puesto de cada pieza dentro de su grupo. La hoja lo convierte en 70 ms
- * de desfase (--i). Se corta en el sexto a proposito: la lista de entregables
- * llega a diez y sin tope la ultima fila entraria casi un segundo tarde, que
- * ya no se lee como una cascada sino como una pagina que va lenta.
+ * de desfase (--i). Se corta en el sexto a proposito: la lista de preguntas
+ * llega a siete y sin tope la ultima entraria casi un segundo tarde, que ya
+ * no se lee como una cascada sino como una pagina que va lenta.
  */
 function desfase(i: number): CSSProperties {
   return { ['--i' as string]: Math.min(i, 5) } as CSSProperties
-}
-
-function EscenaServicioSeccion({ slug }: { slug: ServicePageContent['slug'] }) {
-  const copy = textoEscena(slug)
-  if (!copy) return null
-
-  return (
-    <section className="service-page-section service-page-section--escena">
-      <div className="section-shell">
-        <div className="service-page-section__heading service-page-section__heading--wide" data-revela="">
-          <p className="eyebrow">{copy.eyebrow}</p>
-          <h2>{copy.titulo}</h2>
-        </div>
-        <RevelaAlEntrar className="revela--escena">
-          <EscenaServicio slug={slug} />
-        </RevelaAlEntrar>
-        <p className="service-escena__pie">{copy.pie}</p>
-      </div>
-    </section>
-  )
 }
 
 function ArrowUpRight() {
@@ -112,82 +59,14 @@ function ArrowUpRight() {
   )
 }
 
-function ArrowRight() {
-  return (
-    <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
-      <path d="M4 12h15M14 6l6 6-6 6" stroke="currentColor" strokeWidth="1.5" />
-    </svg>
-  )
-}
+/* --- 1. La apertura ------------------------------------------------------
+   Dos versiones de la misma idea: arriba el titulo del servicio y debajo la
+   prueba mas fuerte que tenemos. En sitios web esa prueba son cinco sitios
+   que se pueden abrir; en las otras cuatro, la escena del servicio andando.
+   Antes la escena vivia a media pagina y media 240 px de alto: era la pieza
+   mejor hecha de la pagina y estaba escondida. */
 
-/* El fondo del diagrama lleva un barrido que no termina nunca. "data-bucle"
-   es lo que RevelaEnCascada mira para pararlo cuando el diagrama sale de la
-   pantalla: antes seguia corriendo hasta el pie de la pagina. */
-function FunctionalDiagram({ content }: { content: ServicePageContent }) {
-  return (
-    <div
-      className={`service-flow service-flow--${content.slug}`}
-      aria-label={content.diagram.label}
-      data-bucle=""
-    >
-      <div className="service-flow__header">
-        <span>{content.diagram.label}</span>
-        <strong>{String(content.diagram.steps.length).padStart(2, '0')} etapas</strong>
-      </div>
-      <div className="service-flow__track">
-        {content.diagram.steps.map((step, index) => (
-          <div className="service-flow__step" key={`${content.slug}-${step.title}`}>
-            <span>{String(index + 1).padStart(2, '0')}</span>
-            <strong>{step.title}</strong>
-            <p>{step.detail}</p>
-            {index < content.diagram.steps.length - 1 ? <i aria-hidden="true" /> : null}
-          </div>
-        ))}
-      </div>
-      {content.diagram.exception ? (
-        <div className="service-flow__exception">
-          <span>{content.diagram.exception.title}</span>
-          <p>{content.diagram.exception.detail}</p>
-        </div>
-      ) : null}
-    </div>
-  )
-}
-
-function ResponsibilityGrid({
-  title,
-  rows,
-}: {
-  title: string
-  rows: { ia: string; client: string }[]
-}) {
-  return (
-    <section className="service-page-section service-page-section--responsibilities">
-      <div className="section-shell">
-        <div className="service-page-section__heading service-page-section__heading--wide" data-revela="">
-          <p className="eyebrow">Quién hace qué</p>
-          <h2>{title}</h2>
-        </div>
-        {/* La tabla entra entera y no fila por fila: son cuatro filas pegadas
-            entre si por el borde, y sueltas se ven como un acordeon. */}
-        <div className="service-responsibility-grid" data-revela="">
-          <div>
-            <span>IAenBlanco</span>
-            <span>Cliente</span>
-          </div>
-          {rows.map((row) => (
-            <div key={`${row.ia}-${row.client}`}>
-              <p>{row.ia}</p>
-              <p>{row.client}</p>
-            </div>
-          ))}
-        </div>
-      </div>
-    </section>
-  )
-}
-
-function WebsiteProofGrid({ titulo }: { titulo: string }) {
+function AperturaWeb({ titulo }: { titulo: string }) {
   return (
     <section className="service-page-section service-page-section--website-proof service-page-section--apertura">
       <div className="section-shell">
@@ -210,9 +89,35 @@ function WebsiteProofGrid({ titulo }: { titulo: string }) {
   )
 }
 
-/* Los cuatro pasos que pidio Nico para la pagina de sitios web, con sus
-   palabras: reunion, diseño coherente, sugerencias y muestras, cierre. */
-const pasosWeb = [
+function AperturaEscena({ service, content }: { service: Service; content: ServicePageContent }) {
+  const escena = textoEscena(content.slug)
+
+  return (
+    <section className="service-page-section service-page-section--apertura service-page-section--escena">
+      <div className="section-shell">
+        <div className="service-page-section__heading service-page-section__heading--wide">
+          <p className="eyebrow">{service.eyebrow}</p>
+          <h1>{service.title}</h1>
+          <p className="service-apertura__plazo">{service.plazo}</p>
+        </div>
+        <RevelaAlEntrar className="revela--escena">
+          <EscenaServicio slug={content.slug} />
+        </RevelaAlEntrar>
+        {/* La escena es aria-hidden: lo que muestra va escrito aca, y de paso
+            es la unica linea de texto corrido que lleva la apertura. */}
+        {escena ? <p className="service-escena__pie">{escena.pie}</p> : null}
+      </div>
+    </section>
+  )
+}
+
+/* --- 2. Los cuatro pasos -------------------------------------------------
+   Un solo bloque para las cinco paginas. El "data-revela" va en la tira y no
+   en cada tarjeta: asi la tira entra como un grupo -una linea de acento que
+   se dibuja sobre cada paso, y las tarjetas detras, una cada 90 ms- en vez
+   de cuatro piezas sueltas que aparecen cuando a cada una le toca. */
+
+const pasosWeb: Paso[] = [
   {
     titulo: 'Reunión contigo',
     texto: 'Nos cuentas qué necesitas y ordenamos juntos lo que nos dices.',
@@ -231,17 +136,17 @@ const pasosWeb = [
   },
 ]
 
-function AsiTrabajamos() {
+function AsiTrabajamos({ pasos }: { pasos: Paso[] }) {
   return (
     <section className="service-page-section">
       <div className="section-shell">
-        <div className="service-page-section__heading service-page-section__heading--wide">
+        <div className="service-page-section__heading service-page-section__heading--wide" data-revela="">
           <p className="eyebrow">Cómo lo hacemos</p>
           <h2>Así trabajamos.</h2>
         </div>
-        <div className="service-build-grid service-build-grid--pasos">
-          {pasosWeb.map((paso, index) => (
-            <article key={paso.titulo}>
+        <div className="service-build-grid service-build-grid--pasos" data-revela="">
+          {pasos.map((paso, index) => (
+            <article key={paso.titulo} style={desfase(index)}>
               <span className="service-paso__numero">{String(index + 1).padStart(2, '0')}</span>
               <h3>{paso.titulo}</h3>
               <p>{paso.texto}</p>
@@ -253,189 +158,49 @@ function AsiTrabajamos() {
   )
 }
 
-export function ServicePageTemplate({
-  service,
-  content,
-  nextService,
-}: ServicePageTemplateProps) {
+/* --- 3. Escribenos ------------------------------------------------------- */
+
+function Escribenos({ service, content }: { service: Service; content: ServicePageContent }) {
+  return (
+    <section className="service-page-mid-cta">
+      <div className="section-shell service-page-mid-cta__inner" data-revela="">
+        <p>¿Se parece a lo que te pasa? Escríbenos y lo revisamos antes de proponerte nada.</p>
+        <a
+          href={getWhatsappUrl(content.whatsappMessage)}
+          target="_blank"
+          rel="noreferrer"
+          className="button button--text"
+          data-analytics-event="service_whatsapp_click"
+          data-service-id={service.slug}
+          data-service-name={service.shortTitle}
+        >
+          {content.primaryCta}
+          <ArrowUpRight />
+        </a>
+      </div>
+    </section>
+  )
+}
+
+export function ServicePageTemplate({ service, content }: ServicePageTemplateProps) {
   const whatsappUrl = getWhatsappUrl(content.whatsappMessage)
-  const sectionCopy = sectionCopyBySlug[content.slug]
-  const responsibilities = responsibilitiesBySlug[content.slug]
-  const showWebsiteProofs = content.slug === 'desarrollo-web-ia'
-  const caseStudy = showWebsiteProofs ? undefined : content.caseStudy
-  /* La pagina de sitios web se queda como esta: ya tiene su propio movimiento
-     con la grilla de trabajos, y Nico pidio el resto "a excepcion de esa".
-     Las dos secciones que comparten las cinco paginas -las preguntas y el
-     cierre- se marcan solo cuando corresponde. */
-  const anima = !showWebsiteProofs
+  const esWeb = content.slug === 'desarrollo-web-ia'
+  const caseStudy = esWeb ? undefined : content.caseStudy
+  const pasos = esWeb
+    ? pasosWeb
+    : content.builds.map((build) => ({ titulo: build.title, texto: build.text }))
 
   return (
     <main id="contenido" className="service-page">
-      {/* La pagina de sitios web abre directo con los trabajos, sin hero:
-          lo pidio Nico el 21-ago-2026. Las otras cuatro conservan el suyo. */}
-      {showWebsiteProofs ? null : (
-            <section className="service-page-hero">
-              <div className="section-shell service-page-hero__inner">
-                <div className="service-page-hero__copy">
-                  <div className="service-page-hero__meta">
-                    <span>{service.index} / 05</span>
-                    <span>{service.eyebrow}</span>
-                  </div>
-                  <h1>{service.title}</h1>
-                  <p>{content.heroLead}</p>
-                  <div className="service-page-hero__signals">
-                    {service.signals.map((signal) => <span key={signal}>{signal}</span>)}
-                  </div>
-                  <p className="service-page-hero__plazo">
-                    <span>Cuánto suele demorar</span>
-                    {service.plazo}
-                  </p>
-                  <p className="service-page-hero__precio">
-                    El precio depende de lo que necesites. Te lo damos por escrito antes de
-                    empezar y ese número no se mueve: si después quieres sumar algo que no
-                    estaba, se cotiza aparte y decides tú.
-                  </p>
-                  <div className="service-page-hero__actions">
-                    <a
-                      href={whatsappUrl}
-                      target="_blank"
-                      rel="noreferrer"
-                      className="button button--primary"
-                      data-analytics-event="service_whatsapp_click"
-                      data-service-id={service.slug}
-                      data-service-name={service.shortTitle}
-                    >
-                      {content.primaryCta}
-                      <ArrowUpRight />
-                    </a>
-                    <a
-                      href="#entregables"
-                      className="button button--text"
-                      data-analytics-event="service_cta_click"
-                      data-service-id={service.slug}
-                      data-service-name={service.shortTitle}
-                    >
-                      Ver qué recibes
-                      <ArrowRight />
-                    </a>
-                  </div>
-                </div>
-                <div className="service-page-hero__visual">
-                  <FunctionalDiagram content={content} />
-                </div>
-              </div>
-            </section>
-      )}
-
-      {/* La prueba va segunda, no enterrada: es lo que mas convence y es lo
-          primero que alguien quiere ver antes de creernos nada. */}
-      {showWebsiteProofs ? <WebsiteProofGrid titulo={service.title} /> : <EscenaServicioSeccion slug={content.slug} />}
-
-      {showWebsiteProofs ? null : (
-            <section className="service-page-mid-cta">
-              <div className="section-shell service-page-mid-cta__inner" data-revela="">
-                <p>¿Se parece a lo que te pasa? Escríbenos y lo revisamos antes de proponerte nada.</p>
-                <a
-                  href={whatsappUrl}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="button button--text"
-                  data-analytics-event="service_whatsapp_click"
-                  data-service-id={service.slug}
-                  data-service-name={service.shortTitle}
-                >
-                  {content.primaryCta}
-                  <ArrowUpRight />
-                </a>
-              </div>
-            </section>
-      )}
-
-
-      {/* En la web, los cuatro pasos de Nico; en las otras, el bloque generico. */}
-      {showWebsiteProofs ? (
-        <AsiTrabajamos />
+      {esWeb ? (
+        <AperturaWeb titulo={service.title} />
       ) : (
-            <section className="service-page-section">
-              <div className="section-shell">
-                <div className="service-page-section__heading service-page-section__heading--wide" data-revela="">
-                  <p className="eyebrow">Cómo lo hacemos</p>
-                  <h2>{sectionCopy.builds}</h2>
-                </div>
-                <div className="service-build-grid">
-                  {content.builds.map((item, index) => (
-                    <article key={item.title} data-revela="" style={desfase(index)}>
-                      <h3>{item.title}</h3>
-                      <p>{item.text}</p>
-                    </article>
-                  ))}
-                </div>
-              </div>
-            </section>
+        <AperturaEscena service={service} content={content} />
       )}
 
-      {/* En la web el "escribenos" va despues de los pasos: trabajos,
-          como trabajamos y recien ahi la invitacion. */}
-      {showWebsiteProofs ? (
-            <section className="service-page-mid-cta">
-              <div className="section-shell service-page-mid-cta__inner">
-                <p>¿Se parece a lo que te pasa? Escríbenos y lo revisamos antes de proponerte nada.</p>
-                <a
-                  href={whatsappUrl}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="button button--text"
-                  data-analytics-event="service_whatsapp_click"
-                  data-service-id={service.slug}
-                  data-service-name={service.shortTitle}
-                >
-                  {content.primaryCta}
-                  <ArrowUpRight />
-                </a>
-              </div>
-            </section>
-      ) : null}
+      <AsiTrabajamos pasos={pasos} />
 
-
-
-      {showWebsiteProofs ? null : (
-            <section className="service-page-section">
-              <div className="section-shell">
-                <div className="service-page-section__heading service-page-section__heading--wide" data-revela="">
-                  <p className="eyebrow">Ejemplos</p>
-                  <h2>{sectionCopy.useCases}</h2>
-                </div>
-                <div className="service-use-grid">
-                  {content.useCases.map((item, index) => (
-                    <article key={item.title} data-revela="" style={desfase(index)}>
-                      <h3>{item.title}</h3>
-                      <p>{item.text}</p>
-                    </article>
-                  ))}
-                </div>
-              </div>
-            </section>
-      )}
-
-      {/* "Que recibes" salio de la pagina web por pedido de Nico. */}
-      {showWebsiteProofs ? null : (
-            <section className="service-page-section service-page-section--deliverables" id="entregables">
-              <div className="section-shell service-page-two-col">
-                <div className="service-page-section__heading" data-revela="">
-                  <p className="eyebrow">Qué recibes</p>
-                  <h2>{sectionCopy.deliverables}</h2>
-                </div>
-                <div className="service-deliverables">
-                  {content.deliverables.map((deliverable, index) => (
-                    <div key={deliverable} data-revela="" style={desfase(index)}>
-                      <span />
-                      <p>{deliverable}</p>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </section>
-      )}
+      <Escribenos service={service} content={content} />
 
       {caseStudy ? (
         <section className="service-page-section service-page-section--case">
@@ -462,11 +227,9 @@ export function ServicePageTemplate({
         </section>
       ) : null}
 
-      {responsibilities ? <ResponsibilityGrid title={responsibilities.title} rows={responsibilities.rows} /> : null}
-
       <section className="service-page-section service-page-section--faq">
         <div className="section-shell service-page-two-col">
-          <div className="service-page-section__heading" data-revela={anima ? '' : undefined}>
+          <div className="service-page-section__heading" data-revela="">
             <p className="eyebrow">Preguntas frecuentes</p>
             <h2>Lo que nos preguntan siempre.</h2>
           </div>
@@ -477,8 +240,8 @@ export function ServicePageTemplate({
                 data-service-faq
                 data-service-id={service.slug}
                 data-service-name={service.shortTitle}
-                data-revela={anima ? '' : undefined}
-                style={anima ? desfase(index) : undefined}
+                data-revela=""
+                style={desfase(index)}
               >
                 <summary>{faq.question}</summary>
                 <p>{faq.answer}</p>
@@ -489,7 +252,7 @@ export function ServicePageTemplate({
       </section>
 
       <section className="service-page-cta">
-        <div className="section-shell service-page-cta__inner" data-revela={anima ? '' : undefined}>
+        <div className="section-shell service-page-cta__inner" data-revela="">
           <div>
             <p className="eyebrow">El siguiente paso</p>
             <h2>Cuéntanos tu caso antes de que te propongamos algo.</h2>
@@ -513,34 +276,10 @@ export function ServicePageTemplate({
         </div>
       </section>
 
-      {showWebsiteProofs ? null : (
-            <section className="service-next-link">
-              <div className="section-shell">
-                <p>Siguiente servicio</p>
-                <Link
-                  href={`/servicios/${nextService.slug}`}
-                  prefetch={false}
-                  data-revela=""
-                  data-analytics-event="service_next_click"
-                  data-service-id={nextService.slug}
-                  data-service-name={nextService.shortTitle}
-                  data-source-service-id={service.slug}
-                  data-source-service-name={service.shortTitle}
-                  data-target-service-id={nextService.slug}
-                  data-target-service-name={nextService.shortTitle}
-                >
-                  <span>{nextService.index}</span>
-                  {nextService.title}
-                  <ArrowRight />
-                </Link>
-              </div>
-            </section>
-      )}
-
       {/* Un solo observador para toda la pagina: arma las piezas cuando se
-          baja y apaga el barrido del diagrama cuando deja de verse. No pinta
+          baja y apaga el bucle de la escena cuando deja de verse. No pinta
           nada, asi que va al final y no estorba. */}
-      {anima ? <RevelaEnCascada /> : null}
+      <RevelaEnCascada />
     </main>
   )
 }

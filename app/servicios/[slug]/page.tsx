@@ -54,9 +54,6 @@ export default async function ServicePage({ params }: ServicePageProps) {
 
   if (!service || !content) notFound()
 
-  const nextService = getService(content.nextSlug)
-  if (!nextService) notFound()
-
   const serviceSchema = {
     '@context': 'https://schema.org',
     '@type': 'Service',
@@ -86,7 +83,7 @@ export default async function ServicePage({ params }: ServicePageProps) {
 
   return (
     <>
-      <ServicePageTemplate service={service} content={content} nextService={nextService} />
+      <ServicePageTemplate service={service} content={content} />
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(serviceSchema) }}

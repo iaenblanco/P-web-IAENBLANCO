@@ -14,11 +14,6 @@ export type ServiceProblemEntry = {
   serviceSlug?: ServiceSlug
 }
 
-export type ServiceDiagramStep = {
-  title: string
-  detail: string
-}
-
 export type ServiceCase = {
   client: string
   label: string
@@ -37,26 +32,10 @@ export type ServiceFaq = {
 
 type BaseServicePageContent = {
   slug: ServiceSlug
-  result: string
-  heroLead: string
   primaryCta: string
   whatsappMessage: string
-  problems: string[]
   builds: { title: string; text: string }[]
-  deliverables: string[]
-  diagram: {
-    label: string
-    steps: ServiceDiagramStep[]
-    exception?: {
-      title: string
-      detail: string
-    }
-  }
-  useCases: { title: string; text: string }[]
-  process: { title: string; text: string }[]
-  engagementModes: string[]
   faqs: ServiceFaq[]
-  nextSlug: ServiceSlug
 }
 
 export type WebsiteServicePageContent = BaseServicePageContent & {
@@ -122,19 +101,9 @@ export const serviceProblemEntries: ServiceProblemEntry[] = [
 export const servicePageContent: ServicePageContentMap = {
   'desarrollo-web-ia': {
     slug: 'desarrollo-web-ia',
-    result: 'Un sitio que se entiende rápido, se ve serio y hace que te escriban.',
-    heroLead:
-      'Ordenamos qué dice tu página web, en qué orden y cómo se ve. La idea es simple: que quien entre entienda al tiro qué haces, sienta que puede confiar y sepa cómo escribirte. Que deje de ser un folleto y empiece a traerte consultas.',
     primaryCta: 'Quiero revisar mi sitio',
     whatsappMessage:
       'Hola IAenBlanco, quiero revisar un proyecto de sitio web o Shopify que convierta mejor.',
-    problems: [
-      'Tu sitio se ve bien, pero no explica en diez segundos por qué elegirte a ti.',
-      'La gente lee y no sabe qué hacer después: no encuentra el botón ni el número.',
-      'Tu trabajo es bueno, pero el sitio lo hace ver más chico de lo que es.',
-      'Hay mucho texto y ningún camino claro hacia el WhatsApp o el carro de compra.',
-      'En el celular se ve apretado, o se demora tanto que la gente se va.',
-    ],
     builds: [
       {
         title: 'Ordenar qué dice y en qué orden',
@@ -152,50 +121,6 @@ export const servicePageContent: ServicePageContentMap = {
         title: 'Que te puedan contactar fácil',
         text: 'Botón de WhatsApp, formulario o carro de compra, puestos donde la persona los va a buscar.',
       },
-    ],
-    deliverables: [
-      'El plan de qué dice cada página, aprobado por ti.',
-      'El diseño de todas las secciones, para computador y celular.',
-      'El sitio programado, rápido y fácil de leer.',
-      'Tu WhatsApp, tu formulario o tu carro de compra, funcionando.',
-      'Lo necesario para que Google pueda encontrarte y mostrarte bien.',
-      'La publicación hecha y los ajustes que salgan después.',
-    ],
-    diagram: {
-      label: 'Cómo funciona',
-      steps: [
-        { title: 'Mensaje', detail: 'Qué vendes y por qué confiar.' },
-        { title: 'Experiencia', detail: 'Recorrido claro y visual.' },
-        { title: 'Conversión', detail: 'CTA en el momento correcto.' },
-        { title: 'WhatsApp / compra', detail: 'Contacto o acción concreta.' },
-        { title: 'Seguimiento', detail: 'Medición y mejora.' },
-      ],
-    },
-    useCases: [
-      {
-        title: 'Empresa de servicios',
-        text: 'Explicar una oferta compleja y transformarla en solicitudes por WhatsApp o formulario.',
-      },
-      {
-        title: 'E-commerce o catálogo',
-        text: 'Mostrar productos, ordenar categorías y preparar una experiencia de compra o contacto.',
-      },
-      {
-        title: 'Nuevo producto',
-        text: 'Crear una landing enfocada en comunicar valor, validar interés y abrir conversaciones.',
-      },
-    ],
-    process: [
-      { title: 'Entender qué vendes', text: 'Vemos a quién le vendes, qué ofreces y cómo decide comprar tu cliente.' },
-      { title: 'Ordenar qué se dice', text: 'Definimos las páginas, qué va en cada una y dónde ponemos los botones.' },
-      { title: 'Diseñarlo y programarlo', text: 'Lo diseñamos y lo programamos, cuidando que cargue rápido y se entienda.' },
-      { title: 'Publicarlo y ver cómo va', text: 'Lo dejamos en línea, miramos cómo se comporta y ajustamos lo que haga falta.' },
-    ],
-    engagementModes: [
-      'Una sola página, para una promoción o un servicio.',
-      'El sitio completo de tu empresa.',
-      'Una tienda online para vender por internet.',
-      'Un plan mensual para ir mejorándolo.',
     ],
     faqs: [
       {
@@ -234,22 +159,12 @@ export const servicePageContent: ServicePageContentMap = {
           'Quedamos disponibles para los ajustes que salgan. Y si quieres, seguimos mes a mes agregando contenido y mejorando lo que no esté funcionando.',
       },
     ],
-    nextSlug: 'plataformas-software-medida',
   },
   'plataformas-software-medida': {
     slug: 'plataformas-software-medida',
-    result: 'Un programa propio donde tu equipo trabaja con la misma información.',
-    heroLead:
-      'Llega un punto en que el Excel ya no da: se duplican archivos, alguien pisa el dato de otro y nadie sabe cuál es la versión buena. Te hacemos un programa con tus reglas, donde cada persona entra con su cuenta y ve solo lo que le toca.',
     primaryCta: 'Quiero salir del Excel',
     whatsappMessage:
       'Hola IAenBlanco, quiero revisar una plataforma o software a medida para ordenar mi operación.',
-    problems: [
-      'Hay tres versiones de la misma planilla y nadie sabe cuál es la buena.',
-      'Se repite trabajo porque cada uno tiene su archivo aparte.',
-      'Necesitas que cada persona vea solo lo suyo, y el Excel no sabe hacer eso.',
-      'Para saber cómo va el mes hay que pedirle el reporte a alguien.',
-    ],
     builds: [
       {
         title: 'Cómo trabajas hoy',
@@ -268,38 +183,6 @@ export const servicePageContent: ServicePageContentMap = {
         text: 'Hacemos primero lo que más te urge, y dejamos todo listo para agregar más después.',
       },
     ],
-    deliverables: [
-      'Un documento con cómo trabajas hoy, escrito y validado contigo.',
-      'Quién puede ver y hacer qué, definido contigo.',
-      'Las pantallas del programa, listas para usar.',
-      'Toda tu información guardada y ordenada, con tus reglas aplicadas.',
-      'Poder cargar, editar, buscar y revisar sin depender de nadie.',
-      'Un instructivo simple y acompañamiento las primeras semanas.',
-    ],
-    diagram: {
-      label: 'Cómo funciona por dentro',
-      steps: [
-        { title: 'Usuarios', detail: 'Equipo y roles.' },
-        { title: 'Permisos', detail: 'Qué puede hacer cada perfil.' },
-        { title: 'Reglas', detail: 'Validaciones y estados.' },
-        { title: 'La información', detail: 'Guardada y ordenada.' },
-        { title: 'Panel', detail: 'Operación visible.' },
-      ],
-    },
-    useCases: [
-      {
-        title: 'Panel interno',
-        text: 'Gestionar solicitudes, estados, responsables y archivos desde un solo lugar.',
-      },
-      {
-        title: 'Catálogo administrable',
-        text: 'Permitir que el equipo actualice contenido, fichas o disponibilidad sin pedir cambios manuales.',
-      },
-      {
-        title: 'Operación con aprobaciones',
-        text: 'Ordenar flujos donde una acción depende de permisos, revisión o cumplimiento de reglas.',
-      },
-    ],
     caseStudy: {
       client: 'Propinvest',
       label: 'Un trabajo nuestro',
@@ -308,18 +191,6 @@ export const servicePageContent: ServicePageContentMap = {
       href: 'https://propinvest.cl/',
       actionLabel: 'Abrir el sitio',
     },
-    process: [
-      { title: 'Entender cómo trabajas', text: 'Vemos quién hace qué, con qué información y dónde se traba todo.' },
-      { title: 'Acordar hasta dónde llega', text: 'Elegimos qué entra en la primera versión, para no gastar de más ni demorarnos de más.' },
-      { title: 'Construirlo', text: 'Programamos las pantallas, las reglas y los permisos de cada persona.' },
-      { title: 'Usarlo y mejorarlo', text: 'Te acompañamos mientras lo usan de verdad, y agregamos lo que vaya faltando.' },
-    ],
-    engagementModes: [
-      'Una primera versión que ya puedes usar.',
-      'El programa completo para todo tu equipo.',
-      'Una pantalla conectada a los programas que ya usas.',
-      'Un plan mensual de soporte y mejoras.',
-    ],
     faqs: [
       {
         question: '¿No me conviene mejor comprar un programa ya hecho?',
@@ -352,22 +223,12 @@ export const servicePageContent: ServicePageContentMap = {
           'De cuánta gente lo use, cuántas reglas tenga y con qué programas se conecte. Por eso lo hacemos por etapas: así ves resultados antes.',
       },
     ],
-    nextSlug: 'automatizaciones',
   },
   automatizaciones: {
     slug: 'automatizaciones',
-    result: 'Horas que dejas de perder copiando datos, y menos errores.',
-    heroLead:
-      'Si alguien de tu equipo hace la misma tarea todas las mañanas, esa tarea se puede hacer sola. Conectamos los programas que ya usas para que la información viaje sin que nadie la copie, y para que te avise cuando algo se sale de lo normal.',
     primaryCta: 'Quiero automatizar una tarea',
     whatsappMessage:
       'Hola IAenBlanco, quiero revisar un flujo manual que podría automatizarse.',
-    problems: [
-      'Alguien pasa los mismos datos de un programa a otro, todos los días.',
-      'Se cuelan errores porque nadie alcanza a revisar antes de guardar.',
-      'Algo queda pendiente y te enteras cuando ya es tarde.',
-      'Armar el reporte del mes toma horas y siempre llega atrasado.',
-    ],
     builds: [
       {
         title: 'Dibujar la tarea',
@@ -386,42 +247,6 @@ export const servicePageContent: ServicePageContentMap = {
         text: 'Entras y ves en qué va todo, qué está pendiente y qué ya se hizo.',
       },
     ],
-    deliverables: [
-      'Un dibujo de cómo se hace hoy y cómo va a quedar.',
-      'Qué se revisa automáticamente y qué pasa cuando algo no calza.',
-      'Tus programas y planillas conectados entre sí.',
-      'Avisos automáticos cuando algo falla o queda pendiente.',
-      'Una pantalla simple para ver cómo va todo.',
-      'Un instructivo para que tu equipo lo entienda y lo pueda mantener.',
-    ],
-    diagram: {
-      label: 'Cómo funciona',
-      steps: [
-        { title: 'Sistema A', detail: 'Entrada de datos.' },
-        { title: 'Validación', detail: 'Campos y condiciones.' },
-        { title: 'Reglas', detail: 'Decisión automática.' },
-        { title: 'Sistema B', detail: 'Actualización.' },
-        { title: 'Aviso', detail: 'Te enteras al tiro.' },
-      ],
-      exception: {
-        title: 'Excepción',
-        detail: 'Si algo no calza, se deriva a revisión humana antes de avanzar.',
-      },
-    },
-    useCases: [
-      {
-        title: 'Ventas y operaciones',
-        text: 'Mover una solicitud desde formulario o WhatsApp hacia seguimiento interno.',
-      },
-      {
-        title: 'Documentos y estados',
-        text: 'Actualizar registros, generar documentos o avisar cuando falta información.',
-      },
-      {
-        title: 'Reportes recurrentes',
-        text: 'Consolidar datos y preparar una vista de control sin trabajo manual diario.',
-      },
-    ],
     caseStudy: {
       client: 'Granja Magdalena',
       label: 'Un ejemplo del tipo de negocio',
@@ -430,18 +255,6 @@ export const servicePageContent: ServicePageContentMap = {
       href: 'https://granjamagdalena.cl/',
       actionLabel: 'Abrir el sitio',
     },
-    process: [
-      { title: 'Detectar repetición', text: 'Elegimos un flujo manual con volumen, error o impacto operativo.' },
-      { title: 'Definir reglas', text: 'Acordamos qué se automatiza, qué se valida y qué debe revisar una persona.' },
-      { title: 'Conectar y probar', text: 'Implementamos la integración y probamos casos reales antes de operar.' },
-      { title: 'Monitorear', text: 'Dejamos alertas y visibilidad para detectar fallas o mejoras.' },
-    ],
-    engagementModes: [
-      'Una tarea específica, resuelta.',
-      'Varias tareas de un mismo proceso, en un paquete.',
-      'Una pantalla donde ves el estado de todo.',
-      'Mantención mensual y mejoras.',
-    ],
     faqs: [
       {
         question: '¿Todo se debe automatizar?',
@@ -474,22 +287,12 @@ export const servicePageContent: ServicePageContentMap = {
           'De qué tan clara esté la tarea y de cuántos casos raros haya que cubrir. Una automatización simple puede estar en días.',
       },
     ],
-    nextSlug: 'soluciones-ia-medida',
   },
   'soluciones-ia-medida': {
     slug: 'soluciones-ia-medida',
-    result: 'Un asistente que responde de verdad, con la información de tu negocio.',
-    heroLead:
-      'La inteligencia artificial sirve cuando sabe de tu negocio. Si no sabe, inventa — y eso frente a un cliente sale caro. Le damos tu información real, definimos qué puede y qué no puede contestar, y cuando el caso es delicado te lo pasa a ti.',
     primaryCta: 'Quiero ver si me sirve',
     whatsappMessage:
       'Hola IAenBlanco, quiero evaluar una solución de IA aplicada a mi operación.',
-    problems: [
-      'Te dijeron que uses IA pero nadie te explicó para qué te serviría a ti.',
-      'Contestas las mismas cinco preguntas todo el día.',
-      'Tienes información repartida en muchas partes y cuesta sacarle provecho.',
-      'Quieres que algo se haga solo, pero sin perder el control de lo importante.',
-    ],
     builds: [
       {
         title: 'Para qué lo vas a usar',
@@ -508,39 +311,6 @@ export const servicePageContent: ServicePageContentMap = {
         text: 'Lo probamos contigo hasta que responda bien, con tu tono y sin decir cosas que no debe.',
       },
     ],
-    deliverables: [
-      'Qué va a hacer el asistente y qué no, por escrito.',
-      'La información de tu negocio que el asistente va a usar.',
-      'El asistente funcionando, donde lo necesitas.',
-      'Conectado a WhatsApp, a tu sitio o a tu programa, según el caso.',
-      'Pruebas con casos de verdad, no con ejemplos inventados.',
-      'Cuándo te pasa el caso a ti, definido y probado.',
-    ],
-    diagram: {
-      label: 'Cómo funciona',
-      steps: [
-        { title: 'Solicitud', detail: 'Pregunta o tarea.' },
-        { title: 'Contexto', detail: 'Datos relevantes.' },
-        { title: 'Agente / modelo', detail: 'Razonamiento guiado.' },
-        { title: 'Herramientas', detail: 'Acciones conectadas.' },
-        { title: 'Validación', detail: 'Reglas y límites.' },
-        { title: 'Respuesta / acción', detail: 'Salida útil.' },
-      ],
-    },
-    useCases: [
-      {
-        title: 'Atención por WhatsApp',
-        text: 'Responder preguntas frecuentes, entender solicitudes y derivar cuando corresponde.',
-      },
-      {
-        title: 'Análisis de información',
-        text: 'Revisar textos, solicitudes, audios o datos para extraer criterios útiles.',
-      },
-      {
-        title: 'Asistente interno',
-        text: 'Ayudar al equipo a consultar información operativa y ejecutar pasos controlados.',
-      },
-    ],
     caseStudy: {
       client: 'Citaly',
       label: 'Un programa nuestro',
@@ -549,18 +319,6 @@ export const servicePageContent: ServicePageContentMap = {
       href: 'https://citaly.cl/',
       actionLabel: 'Ver el sitio',
     },
-    process: [
-      { title: 'Elegir proceso', text: 'Buscamos una tarea donde la IA pueda aportar utilidad real.' },
-      { title: 'Preparar contexto', text: 'Ordenamos información, reglas, tono y límites.' },
-      { title: 'Construir agente', text: 'Creamos la experiencia y conectamos herramientas necesarias.' },
-      { title: 'Probar y ajustar', text: 'Validamos respuestas, errores, derivaciones y casos límite.' },
-    ],
-    engagementModes: [
-      'Una prueba chica para ver si te sirve.',
-      'Un asistente conectado a tu WhatsApp o a tu sitio.',
-      'Un asistente para uso interno del equipo.',
-      'Mejoras y entrenamiento a medida que lo usan.',
-    ],
     faqs: [
       {
         question: '¿Esto reemplaza a mi gente?',
@@ -593,22 +351,12 @@ export const servicePageContent: ServicePageContentMap = {
           'Sí, y es lo que recomendamos. Partimos con algo chico, lo pruebas con casos reales de tu negocio, y si funciona lo ampliamos.',
       },
     ],
-    nextSlug: 'prospeccion-b2b-gestionada',
   },
   'prospeccion-b2b-gestionada': {
     slug: 'prospeccion-b2b-gestionada',
-    result: 'Una lista de empresas ordenada por prioridad, con el contacto y qué decirles.',
-    heroLead:
-      'Esto no es una base de datos comprada. Definimos juntos a qué empresas les quieres vender, las buscamos una por una, revisamos que existan de verdad y que tengan cómo contactarlas, y te las pasamos ordenadas: primero las que más te calzan, cada una con un mensaje sugerido.',
     primaryCta: 'Quiero clientes nuevos',
     whatsappMessage:
       'Hola IAenBlanco, quiero que me ayuden a encontrar clientes nuevos para mi empresa.',
-    problems: [
-      'No saben a qué empresa llamar primero, así que llaman a cualquiera.',
-      'Buscar empresas a mano se come la mañana entera.',
-      'Se contacta a ciegas, sin saber si esa empresa siquiera calza.',
-      'El seguimiento queda en cuadernos y notas sueltas, y se pierden ventas.',
-    ],
     builds: [
       {
         title: 'A quién le queremos vender',
@@ -627,40 +375,6 @@ export const servicePageContent: ServicePageContentMap = {
         text: 'Dejamos anotado en qué va cada empresa, qué se conversó y cuál es el siguiente paso.',
       },
     ],
-    deliverables: [
-      'El perfil de empresa que buscamos, acordado contigo.',
-      'La lista de empresas, ordenada por cuáles te calzan más.',
-      'De cada empresa: qué encontramos, dónde y cómo contactarla.',
-      'Con qué criterio ordenamos cuáles van primero.',
-      'Un registro de a quién se contactó y en qué quedó.',
-      'Qué decirle a cada una para partir la conversación.',
-    ],
-    diagram: {
-      label: 'Cómo funciona',
-      steps: [
-        { title: 'El perfil', detail: 'A quién buscamos.' },
-        { title: 'Búsqueda', detail: 'Empresas reales.' },
-        { title: 'Evidencia', detail: 'Señales públicas.' },
-        { title: 'El orden', detail: 'Cuáles primero.' },
-        { title: 'Contacto', detail: 'Acción comercial.' },
-        { title: 'El seguimiento', detail: 'En qué quedó cada una.' },
-        { title: 'Oportunidad', detail: 'Próximo paso.' },
-      ],
-    },
-    useCases: [
-      {
-        title: 'Abrir una nueva zona',
-        text: 'Encontrar empresas por ubicación, rubro y señales comerciales visibles.',
-      },
-      {
-        title: 'Priorizar cartera',
-        text: 'Separar empresas con mejor fit de registros que no justifican contacto inmediato.',
-      },
-      {
-        title: 'Ordenar seguimiento',
-        text: 'Mantener contexto, estado y próximo paso para no depender de memoria o planillas sueltas.',
-      },
-    ],
     caseStudy: {
       client: 'Leads',
       label: 'Un programa nuestro',
@@ -669,18 +383,6 @@ export const servicePageContent: ServicePageContentMap = {
       href: 'https://leads.iaenblanco.com/',
       actionLabel: 'Ver el sitio',
     },
-    process: [
-      { title: 'Definir a quién', text: 'Acordamos qué tipo de empresa, en qué rubro y en qué zona.' },
-      { title: 'Levantar empresas', text: 'Buscamos registros reales y evidencia pública relevante.' },
-      { title: 'Priorizar', text: 'Ordenamos por fit, señales y calidad de información.' },
-      { title: 'Operar seguimiento', text: 'Estructuramos contacto, estados y próximos pasos comerciales.' },
-    ],
-    engagementModes: [
-      'Un diagnóstico de a quién te conviene venderle.',
-      'El servicio mensual completo, operado por nosotros.',
-      'Solo la lista, ordenada, para que la trabaje tu equipo.',
-      'Te acompañamos en el seguimiento de cada contacto.',
-    ],
     faqs: [
       {
         question: '¿Esto es lo mismo que comprar una base de datos?',
@@ -718,7 +420,6 @@ export const servicePageContent: ServicePageContentMap = {
           'Saber qué vendes, a qué tipo de empresa, en qué zona, cuánto cobras más o menos y a cuántas empresas alcanza a contactar tu equipo al mes.',
       },
     ],
-    nextSlug: 'desarrollo-web-ia',
   },
 }
 
