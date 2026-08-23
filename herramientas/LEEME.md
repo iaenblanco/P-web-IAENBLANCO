@@ -50,3 +50,55 @@ de conexión en vez de morirse con ellos.
 ```bash
 node herramientas/servir.mjs out 3210
 ```
+
+## `guardia-css.mjs`
+
+La regla de la casa —«nada se corrige agregando una regla al final»— hecha
+comprobable. `globals.css` llegó a 20.119 líneas y 46 `!important` de a un
+parche por vez, y ningún parche se veía mal por sí solo. Este script no juzga
+estilo: cuenta las cinco marcas que deja esa costumbre y las compara con una
+línea base.
+
+| Marca | Qué es |
+|---|---|
+| mismo selector, dos reglas | El mismo selector abre dos reglas en el mismo contexto. Es la huella exacta de arreglar agregando en vez de editar. |
+| dos @keyframes, un nombre | Gana el último y el otro es una trampa: quien edite el de arriba no ve ningún cambio. |
+| @keyframes que no usa nadie | Definido y huérfano. |
+| var() sin definir | Se pide una variable que nadie declara, ni el CSS ni el JSX. Así quedó `.unify-channel i` pidiendo un `--signal-deep` inexistente. |
+| reglas debajo del corte | Hay CSS debajo de la marca del final de `globals.css`. |
+
+Aparte, los `!important`: el número no puede subir.
+
+### Cómo se corre
+
+```bash
+node herramientas/guardia-css.mjs
+```
+
+Sale 0 si no hay ninguna marca nueva y 1 si la hay, con la línea y el
+selector. No necesita que el sitio esté construido ni levantado: lee el
+fuente. No entra en `npm run build` a propósito —una falla acá no tiene por
+qué tumbar un despliegue en Cloudflare—, y no instala nada: cualquier
+dependencia nueva la instalaría Cloudflare en cada build.
+
+### La línea base
+
+`guardia-css.json` es la lista de las deudas que el archivo YA tiene: hoy 458
+selectores repetidos, 6 `var()` sin definir y 23 `!important`. No es una lista
+de cosas correctas, es lo que todavía está mal y hoy no se arregla. El script
+solo falla cuando algo empeora, y avisa cuando algo mejora para que la línea
+base se vuelva a fijar:
+
+```bash
+node herramientas/guardia-css.mjs --fijar
+```
+
+Así el número solo puede bajar. Fijarla después de empeorar sería hacer
+trampa, y es la única manera de hacerla.
+
+### Qué no mide
+
+Nada sobre cómo se ve el sitio: para eso está `verificar.mjs`. Y la cuenta de
+`@keyframes` huérfanos es conservadora a propósito —si el nombre coincide con
+una clase, no lo marca—, porque una falsa alarma vuelve inservible a la
+guardia.

@@ -7,7 +7,8 @@
     "build": "next build",
     "export": "next build && next export",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "guardia": "node herramientas/guardia-css.mjs"
   },
   "dependencies": {
     "next": "^15.5.20",

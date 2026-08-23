@@ -16793,3 +16793,10 @@ button {
     transition: none;
   }
 }
+
+/* --- GUARDIA-CSS: aca se termina la hoja -------------------------------
+   Debajo de esta linea no va nada. Si algo no se ve como corresponde, la
+   correccion va dentro de la regla que ya existe, no en una regla nueva
+   pegada al final: asi es como este archivo llego a 20.119 lineas y 46
+   !important. Lo comprueba: node herramientas/guardia-css.mjs
+   ---------------------------------------------------------------------- */
