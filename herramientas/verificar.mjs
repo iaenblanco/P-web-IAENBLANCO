@@ -10,6 +10,9 @@
 //   node herramientas/verificar.mjs .tmp/ver http://localhost:3210 1920,390 /
 //   node herramientas/verificar.mjs .tmp/ver https://iaenblanco.com 1920,390 /
 //
+// La carpeta temporal se resuelve a ruta absoluta: Chrome 151 ya no acepta
+// un --user-data-dir relativo y se niega a arrancar sin decir por que.
+//
 // Borra la carpeta temporal al terminar: cada pasada deja un perfil de Chrome
 // de ~200 MB, y en Windows las rutas son tan largas que Remove-Item no puede
 // con ellas (hay que vaciarlas antes con robocopy contra una carpeta vacia).
@@ -20,10 +23,11 @@
 // pantalla de error: el script lo detecta y termina con codigo 2.
 import { spawn } from 'node:child_process'
 import { setTimeout as espera } from 'node:timers/promises'
+import { resolve } from 'node:path'
 
 const CHROME = 'C:/Program Files/Google/Chrome/Application/chrome.exe'
 const PUERTO = 9371
-const SALIDA = process.argv[2]
+const SALIDA = resolve(process.argv[2] || '.tmp/ver')
 const BASE = process.argv[3] || 'http://localhost:3210'
 const ANCHOS = (process.argv[4] || '1440,390').split(',').map(Number)
 const RUTAS = (process.argv[5] || '/,/servicios/,/productos/,/contacto/,/servicios/desarrollo-web-ia/,/privacidad/,/terminos/').split(',')

@@ -4,6 +4,7 @@ import { BrandLogo } from '@/components/BrandLogo'
 import { ContactBand } from '@/components/ContactBand'
 import { Reveal } from '@/components/Reveal'
 import { Trabajos } from '@/components/Trabajos'
+import { CorrienteScroll } from '@/components/CorrienteScroll'
 import { RevelaAlEntrar } from '@/components/RevelaAlEntrar'
 import { TypingLine } from '@/components/TypingLine'
 import Link from 'next/link'
@@ -486,49 +487,83 @@ function HeroSummaryMap() {
           />
         ))}
 
+        {/* La corriente. Cada cable lleva UN paquete que lo recorre entero
+            (pathLength="1" normaliza el largo, asi el paquete tarda lo mismo
+            en un cable corto que en uno largo). El orden lo pone --i dentro
+            del turno de su grupo; --rev es para los cables que hay que
+            recorrer al reves para que la corriente salga del nucleo. */}
         <g className="summary-transfer-layer">
           <path
-            className="summary-transfer summary-transfer--services summary-transfer--slow"
-            d={`M${summaryMap.services.trunkX} ${summaryMap.services.rows[0]}V${lastServiceRow}`}
+            className="summary-transfer summary-transfer--services summary-transfer--rev"
+            pathLength="1"
+            style={{ ['--i' as string]: 0 }}
+            d={`M${summaryMap.services.trunkX} ${summaryMap.services.connectionY}H${serviceCoreX}`}
           />
           <path
             className="summary-transfer summary-transfer--services"
-            d={`M${summaryMap.services.trunkX} ${summaryMap.services.connectionY}H${serviceCoreX}`}
+            pathLength="1"
+            style={{ ['--i' as string]: 1 }}
+            d={`M${summaryMap.services.trunkX} ${summaryMap.services.rows[0]}V${lastServiceRow}`}
           />
-          {summaryMap.services.rows.map((y) => (
+          {summaryMap.services.rows.map((y, i) => (
             <path
               key={`service-transfer-${y}`}
-              className="summary-transfer summary-transfer--services"
+              className="summary-transfer summary-transfer--services summary-transfer--rev"
+              pathLength="1"
+              style={{ ['--i' as string]: 2 + i }}
               d={`M${summaryMap.services.branchStartX} ${y}H${summaryMap.services.trunkX}`}
             />
           ))}
-          <path
-            className="summary-transfer summary-transfer--products summary-transfer--slow"
-            d={`M${summaryMap.products.trunkX} ${summaryMap.products.rows[0]}V${lastProductRow}`}
-          />
-          <path
-            className="summary-transfer summary-transfer--products"
-            d={`M${productCoreX} ${summaryMap.core.y}H${summaryMap.products.trunkX}`}
-          />
-          {summaryMap.products.rows.map((y) => (
-            <path
-              key={`product-transfer-${y}`}
-              className="summary-transfer summary-transfer--products"
-              d={`M${summaryMap.products.trunkX} ${y}H${summaryMap.products.branchEndX}`}
-            />
-          ))}
+
           <path
             className="summary-transfer summary-transfer--connections"
+            pathLength="1"
+            style={{ ['--i' as string]: 0 }}
             d={`M${summaryMap.core.x} ${coreBottomY}V${summaryMap.platforms.label.y}`}
           />
           <path
-            className="summary-transfer summary-transfer--connections summary-transfer--slow"
+            className="summary-transfer summary-transfer--connections summary-transfer--rev"
+            pathLength="1"
+            style={{ ['--i' as string]: 1 }}
             d={`M${summaryMap.platforms.centers[0]} ${summaryMap.platforms.lineY}H${summaryMap.platforms.label.x}`}
           />
           <path
-            className="summary-transfer summary-transfer--connections summary-transfer--slow"
+            className="summary-transfer summary-transfer--connections"
+            pathLength="1"
+            style={{ ['--i' as string]: 1 }}
             d={`M${summaryMap.platforms.label.x + summaryMap.platforms.label.w} ${summaryMap.platforms.lineY}H${lastPlatformCenter}`}
           />
+          {summaryMap.platforms.centers.map((x, i) => (
+            <path
+              key={`platform-transfer-${x}`}
+              className="summary-transfer summary-transfer--connections"
+              pathLength="1"
+              style={{ ['--i' as string]: 2 + i }}
+              d={`M${x} ${summaryMap.platforms.lineY}V${summaryMap.platforms.itemTopY}`}
+            />
+          ))}
+
+          <path
+            className="summary-transfer summary-transfer--products"
+            pathLength="1"
+            style={{ ['--i' as string]: 0 }}
+            d={`M${productCoreX} ${summaryMap.core.y}H${summaryMap.products.trunkX}`}
+          />
+          <path
+            className="summary-transfer summary-transfer--products"
+            pathLength="1"
+            style={{ ['--i' as string]: 1 }}
+            d={`M${summaryMap.products.trunkX} ${summaryMap.products.rows[0]}V${lastProductRow}`}
+          />
+          {summaryMap.products.rows.map((y, i) => (
+            <path
+              key={`product-transfer-${y}`}
+              className="summary-transfer summary-transfer--products"
+              pathLength="1"
+              style={{ ['--i' as string]: 2 + i }}
+              d={`M${summaryMap.products.trunkX} ${y}H${summaryMap.products.branchEndX}`}
+            />
+          ))}
         </g>
 
         <g className="summary-wire__nodes">
@@ -844,6 +879,7 @@ export default function HomePage() {
           </div>
 
           <div className="home-hero__visual">
+            <CorrienteScroll />
             <RevelaAlEntrar className="revela--mapa">
               <HeroSummaryMap />
             </RevelaAlEntrar>

@@ -19917,3 +19917,203 @@ button {
     animation: none;
   }
 }
+
+/* ==================================================================
+   LAS CINCO CORRECCIONES DE ANIMACION (23-ago-2026)
+   ------------------------------------------------------------------
+   De la evaluacion: el sitio promediaba 52/100 contra la vara del
+   "wow" porque TODO era bucle ambiental. Cero respuesta al visitante,
+   cero relato, cero fisica. Y el mapa en computador era lo peor de
+   todo (30/100): 25 lineas punteadas deslizandose a la vez, sin
+   jerarquia. Esto atiende las cinco recomendaciones:
+
+   1. La corriente sigue el dedo  -> --avance, que publica el scroll.
+   2. El mapa se dibuja solo      -> mapa-traza, una sola vez al entrar.
+   3. Arreglar el computador      -> se apagan las lineas que se
+                                     deslizaban y queda UN paquete por
+                                     cable, por turnos.
+   4. Las escenas responden       -> hover pausa y levanta la escena.
+   5. Fisica en vez de fundidos   -> curvas con sobrepaso al llegar.
+   ================================================================== */
+
+:root {
+  /* Cuantas vueltas de circuito lleva empujadas el scroll. La publica
+     CorrienteScroll; sin JavaScript se queda en 0 y todo corre solo. */
+  --avance: 0;
+}
+
+/* --- 3. El computador: silencio de fondo -------------------------- */
+/* Los cables dejan de deslizarse. Eran doce animaciones repintando el
+   trazo sin contar nada: ahora son infraestructura quieta y el unico
+   movimiento del mapa es la corriente, que si tiene algo que decir. */
+.summary-wire--branch,
+.summary-wire--core,
+.summary-wire--flow {
+  animation: none;
+}
+
+/* --- 1 + 2 + 3. La corriente ------------------------------------- */
+/* pathLength normaliza cada cable a largo 1, asi que el paquete tarda
+   lo mismo en el tronco largo que en la derivacion corta: se lee como
+   una sola corriente y no como cinco relojes distintos.
+   El patron mide 2,06 (0,06 de luz + 2 de vacio), mas largo que el
+   cable, para que nunca aparezca un segundo paquete por el otro lado. */
+.summary-transfer {
+  --d0: 0.06;
+  --d1: -1;
+  --t0: 0;
+  stroke-width: 3.4;
+  stroke-linecap: round;
+  stroke-dasharray: 0.06 2;
+  opacity: 0;
+  animation:
+    corriente-viaja 9s linear infinite,
+    mapa-traza 1200ms cubic-bezier(0.22, 1, 0.36, 1) 1,
+    mapa-traza-luz 1200ms linear 1;
+  animation-delay:
+    calc(var(--fase, 0s) + var(--i, 0) * 0.13s - var(--avance, 0) * 1s),
+    calc(var(--fase, 0s) * 0.05 + var(--i, 0) * 0.1s),
+    calc(var(--fase, 0s) * 0.05 + var(--i, 0) * 0.1s);
+}
+
+/* Cables que hay que recorrer al reves para que la corriente SALGA del
+   nucleo y no entre en el. */
+.summary-transfer--rev {
+  --d0: -1;
+  --d1: 0.06;
+  --t0: -1;
+}
+
+/* Los turnos. Cada grupo tiene 3 s de los 9 del ciclo: primero lo que
+   hacemos, despues con que se conecta, al final lo nuestro. */
+.summary-transfer--services { --fase: 0s; }
+.summary-transfer--connections { --fase: 3s; }
+.summary-transfer--products { --fase: 6s; }
+
+/* El viaje: 26% de la vuelta (2,3 s) encendido y el resto en silencio,
+   esperando su turno. */
+@keyframes corriente-viaja {
+  0% { stroke-dashoffset: var(--d0); opacity: 0; }
+  2% { opacity: 0.92; }
+  23% { opacity: 0.92; }
+  26% { stroke-dashoffset: var(--d1); opacity: 0; }
+  100% { stroke-dashoffset: var(--d1); opacity: 0; }
+}
+
+/* 2. El trazado de la primera vez. El guion crece de 0 a 1 (o sea de
+   nada al cable entero) desde el nucleo hacia afuera. Va en dos
+   animaciones separadas -dibujo y luz- para que el dibujo tenga UN
+   solo tramo y la curva se sienta entera; si el fundido lo partiera en
+   pedazos, la linea avanzaria a tirones. Sin fill: cuando termina, la
+   corriente de siempre retoma el mando. */
+@keyframes mapa-traza {
+  from { stroke-dasharray: 0 2; stroke-dashoffset: var(--t0); }
+  to { stroke-dasharray: 1 2; stroke-dashoffset: 0; }
+}
+
+@keyframes mapa-traza-luz {
+  0% { opacity: 0; }
+  8% { opacity: 0.95; }
+  78% { opacity: 0.95; }
+  100% { opacity: 0; }
+}
+
+/* El nucleo respira tambien en computador: sin esto el mapa quedaba
+   muerto entre paquete y paquete. Solo opacidad y escala, o sea
+   compositor puro, sin repintar nada. */
+@media (min-width: 901px) {
+  .hero-summary-map__core::after {
+    animation: nucleo-late 5.2s cubic-bezier(0.45, 0, 0.55, 1) infinite;
+  }
+}
+
+@keyframes nucleo-late {
+  0%, 100% { opacity: 0.55; scale: 1; }
+  50% { opacity: 0.18; scale: 1.055; }
+}
+
+/* --- 1. En celular la corriente tambien sigue el dedo ------------- */
+/* Mismos retardos de siempre, con el termino del scroll restado. */
+@media (max-width: 900px) {
+  .summary-group::before,
+  .summary-group .summary-system-label::before,
+  .summary-group::after {
+    animation-delay: calc(var(--fase, 0s) - var(--avance, 0) * 1s);
+  }
+
+  .summary-group .summary-orb,
+  .summary-group .summary-platform,
+  .summary-group .summary-orb > span,
+  .summary-group .summary-platform > span {
+    animation-delay: calc(var(--fase, 0s) + 0.5s + var(--node-index, 0) * 0.3s - var(--avance, 0) * 1s);
+  }
+}
+
+/* --- 4. Las escenas de producto responden al mouse ---------------- */
+/* Pasas el cursor y la escena se detiene para que puedas leerla. Se le
+   agrega un anillo del color del producto: sin esa senal, una escena
+   detenida se lee como una escena trabada. En pantalla tactil no hay
+   hover, asi que ahi no cambia nada. */
+@media (hover: hover) and (pointer: fine) {
+  .ad .esc {
+    transition:
+      scale 420ms cubic-bezier(0.2, 1.22, 0.32, 1),
+      box-shadow 420ms cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .ad:hover .esc,
+  .ad:focus-within .esc {
+    scale: 1.014;
+    box-shadow:
+      0 0 0 1px color-mix(in srgb, var(--acento) 42%, transparent),
+      0 18px 42px rgba(7, 10, 15, 0.10);
+  }
+
+  .ad:hover .revela--escena.revela--armado.es-visible .esc *,
+  .ad:focus-within .revela--escena.revela--armado.es-visible .esc * {
+    animation-play-state: paused;
+  }
+}
+
+/* --- 5. Fisica en vez de fundidos -------------------------------- */
+/* Las piezas del mapa llegaban frenando en seco a su sitio. Ahora se
+   pasan un poco y se asientan. El sobrepaso va SOLO en transform y en
+   scale: en opacidad no sirve -pasarse de 1 no se ve- y solo dejaria
+   la pieza esperando. El orden de la lista es opacity, transform,
+   scale, igual que el transition-property de mas arriba. */
+@supports (scale: 1) {
+  .revela--mapa.revela--armado.es-visible .hero-summary-map__core,
+  .revela--mapa.revela--armado.es-visible .summary-group,
+  .revela--mapa.revela--armado.es-visible .summary-system-label,
+  .revela--mapa.revela--armado.es-visible .summary-node-cluster,
+  .revela--mapa.revela--armado.es-visible .summary-platform-cluster,
+  .revela--mapa.revela--armado.es-visible .summary-flow {
+    transition-timing-function:
+      cubic-bezier(0.16, 1, 0.3, 1),
+      cubic-bezier(0.18, 1.26, 0.36, 1),
+      cubic-bezier(0.18, 1.16, 0.36, 1);
+  }
+}
+
+@media (min-width: 901px) {
+  .revela--mapa.revela--armado.es-visible .hero-summary-map {
+    transition: transform 1600ms cubic-bezier(0.18, 1.2, 0.36, 1);
+  }
+}
+
+/* --- Quien pidio menos movimiento ------------------------------- */
+@media (prefers-reduced-motion: reduce) {
+  .summary-transfer,
+  .hero-summary-map__core::after {
+    animation: none;
+  }
+
+  .summary-transfer {
+    stroke-dasharray: 0.06 2;
+    opacity: 0.5;
+  }
+
+  .ad .esc {
+    transition: none;
+  }
+}
