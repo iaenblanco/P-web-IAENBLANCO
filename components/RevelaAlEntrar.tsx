@@ -16,16 +16,26 @@ const efectoAntesDePintar = typeof window === 'undefined' ? useEffect : useLayou
  * - La clase que esconde las piezas ("revela--armado") se agrega recien en el
  *   efecto, o sea solo cuando el JavaScript ya corrio y va a poder mostrarlas.
  * - Si el navegador no trae IntersectionObserver, se muestra de inmediato.
- * - Y hay una red de seguridad: pase lo que pase, a los dos segundos se
+ * - Y hay una red de seguridad: pase lo que pase, a los 1,2 segundos se
  *   muestra igual.
  *
+ * La entrada y los bucles son dos cosas distintas y van en dos clases
+ * distintas. "es-visible" es de ida: se pone una vez y no se saca, para que
+ * el bloque no vuelva a armarse cada vez que se pasa por encima. Las
+ * animaciones que se repiten para siempre si tienen que parar cuando el
+ * bloque se va de la pantalla, y de eso se ocupa "revela--fuera".
+ *
  * El envoltorio es display:contents, asi que no agrega ninguna caja a la
- * maquetacion; solo existe para colgar las clases.
+ * maquetacion; solo existe para colgar las clases. Por eso mismo el que se
+ * observa no es el envoltorio sino sus hijos: un elemento sin caja mide 0x0
+ * y el navegador no lo da por visible nunca.
  */
 export function RevelaAlEntrar({ children, className = '' }: { children: ReactNode; className?: string }) {
   const caja = useRef<HTMLDivElement>(null)
   const [armado, setArmado] = useState(false)
   const [visible, setVisible] = useState(false)
+  // Arranca en true a proposito: mientras no se sepa nada, no se detiene nada.
+  const [enPantalla, setEnPantalla] = useState(true)
 
   efectoAntesDePintar(() => {
     const el = caja.current
@@ -38,16 +48,29 @@ export function RevelaAlEntrar({ children, className = '' }: { children: ReactNo
 
     setArmado(true)
 
+    // Se observan los hijos y no el envoltorio: el envoltorio es
+    // display:contents, o sea que no genera caja, el navegador lo mide 0x0 y
+    // nunca lo da por visible. Observandolo a el, el observador no servia
+    // para nada y lo unico que mostraba el bloque era la red de seguridad.
+    const aLaVista = new Set<Element>()
+
     const observador = new IntersectionObserver(
       (entradas) => {
-        if (entradas.some((entrada) => entrada.isIntersecting)) {
-          setVisible(true)
-          observador.disconnect()
+        for (const entrada of entradas) {
+          if (entrada.isIntersecting) aLaVista.add(entrada.target)
+          else aLaVista.delete(entrada.target)
         }
+        const dentro = aLaVista.size > 0
+        // La entrada es de ida y no se desarma.
+        if (dentro) setVisible(true)
+        // Los bucles si van y vienen: por eso el observador queda conectado.
+        setEnPantalla(dentro)
       },
-      { rootMargin: '0px 0px -10% 0px', threshold: 0.12 },
+      // Sin umbral: alcanza con que asome. Un bloque mas alto que la pantalla
+      // -el mapa en celular- nunca llega a estar visible en un 12%.
+      { rootMargin: '0px 0px -10% 0px' },
     )
-    observador.observe(el)
+    for (const hijo of Array.from(el.children)) observador.observe(hijo)
 
     const red = window.setTimeout(() => setVisible(true), 1200)
 
@@ -57,7 +80,13 @@ export function RevelaAlEntrar({ children, className = '' }: { children: ReactNo
     }
   }, [])
 
-  const clases = ['revela', className, armado ? 'revela--armado' : '', visible ? 'es-visible' : '']
+  const clases = [
+    'revela',
+    className,
+    armado ? 'revela--armado' : '',
+    visible ? 'es-visible' : '',
+    enPantalla ? '' : 'revela--fuera',
+  ]
     .filter(Boolean)
     .join(' ')
 

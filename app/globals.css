@@ -14943,14 +14943,21 @@ button {
   overflow: hidden;
 }
 
-/* Detenida hasta que entra en pantalla. Sin el envoltorio -o sea sin
-   JavaScript- corre igual: la regla que la detiene la pone el propio
-   componente cuando ya esta montado. */
+/* Detenida hasta que entra en pantalla, y detenida otra vez cuando se va.
+   Sin el envoltorio -o sea sin JavaScript- corre igual: la regla que la
+   detiene la pone el propio componente cuando ya esta montado.
+
+   Son dos condiciones distintas a proposito. "es-visible" es de ida: marca
+   que el bloque ya se armo, y no se saca nunca, porque si se sacara el
+   bloque volveria a aparecer de cero cada vez que se pasa por encima.
+   "revela--fuera" si va y viene, y es la que apaga los bucles mientras la
+   escena no esta en pantalla: son 56 animaciones infinitas en /productos/
+   que antes seguian corriendo despues de pasar de largo. */
 .revela--escena.revela--armado .esc * {
   animation-play-state: paused;
 }
 
-.revela--escena.revela--armado.es-visible .esc * {
+.revela--escena.revela--armado.es-visible:not(.revela--fuera) .esc * {
   animation-play-state: running;
 }
 
@@ -15638,6 +15645,10 @@ button {
    1) Los colores parten cuando el mapa entra en pantalla: todas las
       animaciones del mapa nacen en pausa y arrancan con es-visible,
       desde el cuadro cero. Sin JavaScript no hay clase y corren solas.
+      Y vuelven a pausarse cuando el mapa se va de la pantalla, con
+      revela--fuera: son 19 bucles que antes seguian corriendo con el
+      hero a seis mil pixeles de distancia. La entrada no se rearma;
+      solo se detiene el motor.
    2) Los fundidos se alargan y las piezas ademas crecen desde 96,5%
       con la propiedad scale, que no pisa el transform con que estan
       posicionadas.
@@ -15651,11 +15662,11 @@ button {
   animation-play-state: paused;
 }
 
-.revela--mapa.revela--armado.es-visible .hero-summary-map *,
-.revela--mapa.revela--armado.es-visible .hero-summary-map *::before,
-.revela--mapa.revela--armado.es-visible .hero-summary-map *::after,
-.revela--mapa.revela--armado.es-visible .hero-summary-map::before,
-.revela--mapa.revela--armado.es-visible .hero-summary-map::after {
+.revela--mapa.revela--armado.es-visible:not(.revela--fuera) .hero-summary-map *,
+.revela--mapa.revela--armado.es-visible:not(.revela--fuera) .hero-summary-map *::before,
+.revela--mapa.revela--armado.es-visible:not(.revela--fuera) .hero-summary-map *::after,
+.revela--mapa.revela--armado.es-visible:not(.revela--fuera) .hero-summary-map::before,
+.revela--mapa.revela--armado.es-visible:not(.revela--fuera) .hero-summary-map::after {
   animation-play-state: running;
 }
 
