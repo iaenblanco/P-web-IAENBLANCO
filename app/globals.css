@@ -18988,6 +18988,19 @@ button {
   line-height: 0.96;
 }
 
+/* El h1 es el titulo del servicio; el titular de los trabajos quedo como
+   h2 y necesita ropa propia, mas chica, o compite con el. Hacen falta dos
+   clases de especificidad para ganarle a .service-page-section__heading h2
+   y a su variante dentro del @supports (width: 1cqi), que lo dejarian del
+   mismo tamano que el h1. */
+.service-page-section--apertura .service-apertura__subtitulo {
+  margin: 22px 0 0;
+  font-size: clamp(22px, 2.4vw, 32px);
+  font-weight: 500;
+  letter-spacing: -0.03em;
+  line-height: 1.14;
+}
+
 .service-apertura__lead {
   max-width: 52ch;
   margin: 18px 0 0;

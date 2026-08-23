@@ -166,15 +166,18 @@ function ResponsibilityGrid({
   )
 }
 
-function WebsiteProofGrid() {
+function WebsiteProofGrid({ titulo }: { titulo: string }) {
   return (
     <section className="service-page-section service-page-section--website-proof service-page-section--apertura">
       <div className="section-shell">
         <div className="service-page-section__heading service-page-section__heading--wide">
           <p className="eyebrow">Trabajos reales</p>
           {/* Es la primera seccion de la pagina y lleva su titulo principal:
-              Nico pidio abrir directo con los trabajos, sin hero. */}
-          <h1>Negocios chilenos para los que ya hicimos esto.</h1>
+              Nico pidio abrir directo con los trabajos, sin hero. Como no hay
+              hero, el titulo del servicio no aparecia en ningun encabezado de
+              la pagina: ahora es el h1, y el titular de los trabajos baja a h2. */}
+          <h1>{titulo}</h1>
+          <h2 className="service-apertura__subtitulo">Negocios chilenos para los que ya hicimos esto.</h2>
           <p className="service-apertura__lead">
             No son maquetas. Son los sitios que están atendiendo clientes hoy: ábrelos,
             míralos en tu celular y decide antes de escribirnos.
@@ -300,7 +303,7 @@ export function ServicePageTemplate({
 
       {/* La prueba va segunda, no enterrada: es lo que mas convence y es lo
           primero que alguien quiere ver antes de creernos nada. */}
-      {showWebsiteProofs ? <WebsiteProofGrid /> : <EscenaServicioSeccion slug={content.slug} />}
+      {showWebsiteProofs ? <WebsiteProofGrid titulo={service.title} /> : <EscenaServicioSeccion slug={content.slug} />}
 
       {showWebsiteProofs ? null : (
             <section className="service-page-mid-cta">
