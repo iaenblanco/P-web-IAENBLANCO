@@ -72,7 +72,7 @@ button {
 }
 
 :focus-visible {
-  outline: 2px solid var(--signal);
+  outline: 2px solid var(--signal-ink);
   outline-offset: 4px;
 }
 
@@ -10302,12 +10302,13 @@ button {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
+  /* Una sola columna: son TRES hijos (copyright, enlaces legales y
+     direccion). Con dos columnas la direccion caia sola en una segunda fila
+     desalineada, y por eso estaba escondida con display:none. Escondida no
+     es una solucion: la direccion es dato legal y el pie es donde se busca. */
   .site-footer__bottom {
-    grid-template-columns: minmax(0, 1fr) auto;
-  }
-
-  .site-footer__bottom p:last-child {
-    display: none;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 12px;
   }
 
   .product-showcase__grid {
@@ -13464,7 +13465,7 @@ button {
 .contact-form select:focus-visible,
 .contact-form textarea:focus-visible {
   border-color: var(--signal-ink);
-  outline: 2px solid var(--signal);
+  outline: 2px solid var(--signal-ink);
   outline-offset: 2px;
 }
 
@@ -15371,7 +15372,7 @@ button {
    promesa "se ve bien en el celular" se demuestra cinco veces. */
 
 .trabajo:not(.trabajo--destacado) .trabajo__movil {
-  width: clamp(72px, 17%, 106px);
+  width: clamp(84px, 26%, 106px);
   right: clamp(12px, 4%, 24px);
 }
 
@@ -18178,8 +18179,25 @@ button {
   .hero-summary-map__wires {
     animation: none;
     opacity: 1;
-    transform: none;
     filter: none;
+  }
+
+  /* Ni el nucleo ni las piezas que se centran con translateX(-50%) entran
+     aca. Esos transform son posicion, no movimiento: el nucleo se centra con
+     translate(-50%, -50%) sobre su top/left, y .summary-system-label y cada
+     .summary-platform con translateX(-50%) sobre su left: 50%. Esta regla
+     -misma especificidad, mas abajo en el archivo- se los pisaba y las piezas
+     se corrian media caja a la derecha (el nucleo, ademas, hacia abajo). No
+     se redeclara nada en su lugar, basta con no anularlos; en celular ya
+     manda el transform: none de la regla agrupada del @media (max-width:
+     900px), que ademas les pone position: relative y left: auto. */
+  .summary-group,
+  .summary-group .summary-orb,
+  .summary-node-cluster,
+  .summary-platform-cluster,
+  .summary-flow,
+  .hero-summary-map__wires {
+    transform: none;
   }
 }
 
@@ -18252,9 +18270,7 @@ button {
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .revela--mapa.revela--armado .hero-summary-map__core,
   .revela--mapa.revela--armado .summary-group,
-  .revela--mapa.revela--armado .summary-system-label,
   .revela--mapa.revela--armado .summary-node-cluster,
   .revela--mapa.revela--armado .summary-platform-cluster,
   .revela--mapa.revela--armado .summary-flow,
@@ -18262,6 +18278,28 @@ button {
     opacity: 1;
     transform: none;
     transition: none;
+  }
+
+  /* El nucleo y la etiqueta de sistema van aparte: necesitan la opacidad
+     y el corte de transicion, pero no el transform, que en escritorio los
+     descentra. El nucleo se centra con translate(-50%, -50%) y
+     .summary-system-label--platforms con translateX(-50%); ninguno de los
+     dos trae transform de revelado que haya que cancelar. */
+  .revela--mapa.revela--armado .hero-summary-map__core,
+  .revela--mapa.revela--armado .summary-system-label {
+    opacity: 1;
+    transition: none;
+  }
+}
+
+/* En celular el nucleo SI quiere transform: none, y hay que devolverselo
+   aca: la regla del @media (max-width: 900px) de mas arriba le pone
+   translateY(18px) mientras no tiene .es-visible, y esa clase la agrega el
+   IntersectionObserver un cuadro despues. Sin esto se veria 18 px mas abajo
+   hasta que aparece. */
+@media (prefers-reduced-motion: reduce) and (max-width: 900px) {
+  .revela--mapa.revela--armado .hero-summary-map__core {
+    transform: none;
   }
 }
 
@@ -19054,14 +19092,22 @@ button {
 
 @media (prefers-reduced-motion: reduce) {
   .revela--mapa.revela--armado .hero-summary-map,
-  .revela--mapa.revela--armado .hero-summary-map__core,
   .revela--mapa.revela--armado .summary-group,
-  .revela--mapa.revela--armado .summary-system-label,
   .revela--mapa.revela--armado .summary-node-cluster,
   .revela--mapa.revela--armado .summary-platform-cluster,
   .revela--mapa.revela--armado .summary-flow {
     scale: 1;
     transform: none;
+    transition: none;
+  }
+
+  /* El marco .hero-summary-map SI conserva el transform: none, porque trae
+     un translateY(16px) de la regla de aca arriba. Los que salen de la
+     lista son el nucleo -.hero-summary-map__core, que es otra cosa- y la
+     etiqueta de sistema, que se centra con translateX(-50%). */
+  .revela--mapa.revela--armado .hero-summary-map__core,
+  .revela--mapa.revela--armado .summary-system-label {
+    scale: 1;
     transition: none;
   }
 }

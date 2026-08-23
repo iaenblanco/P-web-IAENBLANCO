@@ -1,0 +1,12 @@
+# Cloudflare Pages sirve todo con max-age=0, must-revalidate. Los archivos de
+# /_next/static/ llevan el hash del contenido en el nombre (chunks, CSS y las
+# fuentes de next/font): si cambia el contenido cambia la ruta, asi que
+# cachearlos un ano no puede servir nada viejo.
+/_next/static/*
+  Cache-Control: public, max-age=31536000, immutable
+
+# A proposito NO se toca nada mas. El HTML no lleva hash en el nombre: si se
+# cachea, el visitante sigue viendo la pagina vieja despues de un deploy.
+# /brand-assets/, /trabajos/ y /product-assets/ tampoco entran, porque los
+# nombres son fijos y reemplazar una imagen no cambia la ruta.
+# El default de Cloudflare Pages ya es el correcto para todo eso.

@@ -3,6 +3,8 @@ import Link from 'next/link'
 import {
   COMPANY_ADDRESS,
   COMPANY_LEGAL_NAME,
+  COMPANY_PHONE,
+  COMPANY_TAX_ID,
   CONTACT_EMAIL,
   services,
   socialLinks,
@@ -67,7 +69,7 @@ export function Footer() {
               <p>Contacto</p>
               <a href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a>
               <a href={WHATSAPP_URL} target="_blank" rel="noreferrer">
-                WhatsApp
+                WhatsApp {COMPANY_PHONE}
               </a>
               <a href={socialLinks.linkedin} target="_blank" rel="noreferrer">
                 LinkedIn
@@ -80,7 +82,7 @@ export function Footer() {
         </div>
 
         <div className="site-footer__bottom">
-          <p>© {new Date().getFullYear()} {COMPANY_LEGAL_NAME}</p>
+          <p>© {new Date().getFullYear()} {COMPANY_LEGAL_NAME} · {COMPANY_TAX_ID}</p>
           <div>
             <Link href="/privacidad" prefetch={false}>Privacidad</Link>
             <Link href="/terminos" prefetch={false}>Términos</Link>

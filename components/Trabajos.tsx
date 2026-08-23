@@ -88,7 +88,7 @@ export function Trabajos() {
                 <span
                   className={`trabajo__logo${proof.logoTone === 'dark' ? ' trabajo__logo--dark' : ''}`}
                 >
-                  <BrandLogo name={proof.logo} alt={proof.client} loading="eager" sizes="44px" />
+                  <BrandLogo name={proof.logo} alt={proof.client} loading={proof.destacado ? 'eager' : 'lazy'} sizes="44px" />
                 </span>
                 <p>{proof.sector}</p>
                 <span className="trabajo__orden" aria-hidden="true">

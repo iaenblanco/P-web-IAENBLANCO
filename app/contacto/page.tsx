@@ -8,12 +8,32 @@ import {
   WHATSAPP_URL,
 } from '@/lib/site'
 
+/* La misma bajada sirve para la metadata y para la tarjeta social. Una sola
+   fuente, para que no quede una de las dos vieja. */
+const DESCRIPCION =
+  'Conversa con IAenBlanco sobre un sitio web, plataforma, automatización o solución de inteligencia artificial a medida.'
+
 export const metadata: Metadata = {
   title: 'Contacto',
-  description:
-    'Conversa con IAenBlanco sobre un sitio web, plataforma, automatización o solución de inteligencia artificial a medida.',
+  description: DESCRIPCION,
   alternates: {
     canonical: `${SITE_URL}/contacto/`,
+  },
+  openGraph: {
+    title: 'Contacto | IAenBlanco',
+    description: DESCRIPCION,
+    url: `${SITE_URL}/contacto/`,
+    siteName: 'IAenBlanco',
+    type: 'website',
+    locale: 'es_CL',
+    images: [
+      {
+        url: '/og.png',
+        width: 1200,
+        height: 630,
+        alt: 'IAenBlanco: sitios web, tiendas online y programas a la medida de tu negocio.',
+      },
+    ],
   },
 }
 

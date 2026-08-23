@@ -75,11 +75,11 @@ export const metadata: Metadata = {
       },
     ],
   },
+  /* Sin title ni description propios: los tenia congelados con la copia de la
+     portada y salian iguales en todas las rutas, contradiciendo al og:title de
+     cada pagina. Sin ellos, Next los deriva por ruta. */
   twitter: {
     card: 'summary_large_image',
-    title: 'IAenBlanco | Sitios web, programas a medida e IA para tu negocio',
-    description:
-      'Hacemos sitios web, tiendas online, programas a la medida de tu negocio y asistentes con inteligencia artificial. En Chile.',
     images: ['/og.png'],
   },
   robots: {

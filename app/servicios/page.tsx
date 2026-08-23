@@ -22,6 +22,7 @@ export const metadata: Metadata = {
     url: `${SITE_URL}/servicios/`,
     siteName: 'IAenBlanco',
     type: 'website',
+    locale: 'es_CL',
     images: [
       {
         url: '/og.png',

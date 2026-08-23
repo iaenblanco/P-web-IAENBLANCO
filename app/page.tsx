@@ -26,6 +26,14 @@ function ArrowDown() {
   )
 }
 
+function ArrowRight() {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+      <path d="M4 12h15M14 6l6 6-6 6" stroke="currentColor" strokeWidth="1.5" />
+    </svg>
+  )
+}
+
 const heroSummaryServices = [
   { title: 'Sitios web', theme: 'web' },
   { title: 'Programas', theme: 'software' },
@@ -685,6 +693,15 @@ function TrustProofSection() {
         </Reveal>
 
         <Trabajos />
+
+        {/* La seccion cerraba sin ningun enlace propio: quien mira los cinco
+            sitios y queda convencido se quedaba sin adonde seguir. */}
+        <Reveal className="trust-proof__accion" delay={90}>
+          <Link href="/servicios/desarrollo-web-ia" className="button button--text">
+            Cómo hacemos un sitio así
+            <ArrowRight />
+          </Link>
+        </Reveal>
       </div>
     </section>
   )
@@ -902,7 +919,7 @@ export default function HomePage() {
 
       <ProductLabSection />
 
-      <section className="rampa" aria-labelledby="rampa-heading">
+      <section className="rampa" id="rampa" aria-labelledby="rampa-heading">
         <div className="section-shell rampa__inner">
           <Reveal className="rampa__copy">
             <p className="eyebrow">Antes de contratar nada</p>

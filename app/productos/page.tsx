@@ -5,12 +5,32 @@ import { Reveal } from '@/components/Reveal'
 import { RevelaAlEntrar } from '@/components/RevelaAlEntrar'
 import { products, SITE_URL } from '@/lib/site'
 
+/* La misma bajada sirve para la metadata y para la tarjeta social. Una sola
+   fuente, para que no quede una de las dos vieja. */
+const DESCRIPCION =
+  'Unifícalo, Citaly y Leads: tres programas propios de IAenBlanco, muy pronto. Mira lo que hace cada uno y conversemos.'
+
 export const metadata: Metadata = {
   title: 'Productos',
-  description:
-    'Unifícalo, Citaly y Leads: tres programas propios de IAenBlanco, muy pronto. Mira lo que hace cada uno y conversemos.',
+  description: DESCRIPCION,
   alternates: {
     canonical: `${SITE_URL}/productos/`,
+  },
+  openGraph: {
+    title: 'Productos | IAenBlanco',
+    description: DESCRIPCION,
+    url: `${SITE_URL}/productos/`,
+    siteName: 'IAenBlanco',
+    type: 'website',
+    locale: 'es_CL',
+    images: [
+      {
+        url: '/og.png',
+        width: 1200,
+        height: 630,
+        alt: 'IAenBlanco: sitios web, tiendas online y programas a la medida de tu negocio.',
+      },
+    ],
   },
 }
 
