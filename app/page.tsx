@@ -906,7 +906,7 @@ export default function HomePage() {
                 hacemos" de la columna de al lado: dos enlaces con la misma
                 flecha y el mismo destino. Este lleva a la pagina completa. */}
             <Link href="/servicios" prefetch={false} className="hero-summary-map__explore" data-cursor="Servicios">
-              Ver los cinco servicios
+              Ver todos los servicios
               <ArrowUpRight />
             </Link>
           </div>

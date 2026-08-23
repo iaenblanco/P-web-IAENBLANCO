@@ -124,7 +124,7 @@ export const servicePageContent: ServicePageContentMap = {
     slug: 'desarrollo-web-ia',
     result: 'Un sitio que se entiende rápido, se ve serio y hace que te escriban.',
     heroLead:
-      'Ordenamos qué dice tu sitio, en qué orden y cómo se ve. La idea es simple: que quien entre entienda al tiro qué haces, sienta que puede confiar y sepa cómo escribirte. Que deje de ser un folleto y empiece a traerte consultas.',
+      'Ordenamos qué dice tu página web, en qué orden y cómo se ve. La idea es simple: que quien entre entienda al tiro qué haces, sienta que puede confiar y sepa cómo escribirte. Que deje de ser un folleto y empiece a traerte consultas.',
     primaryCta: 'Quiero revisar mi sitio',
     whatsappMessage:
       'Hola IAenBlanco, quiero revisar un proyecto de sitio web o Shopify que convierta mejor.',
@@ -198,6 +198,11 @@ export const servicePageContent: ServicePageContentMap = {
       'Un plan mensual para ir mejorándolo.',
     ],
     faqs: [
+      {
+        question: '¿Es lo mismo una página web que un sitio web?',
+        answer:
+          'En el día a día se usan como sinónimos, y nosotros hacemos las dos cosas. Si hay que hilar fino: una página web es una sola pantalla, como una página de venta; un sitio web es el conjunto de varias, con inicio, servicios y contacto. Cuéntanos qué necesitas mostrar y te decimos cuál te conviene.',
+      },
       {
         question: '¿Sirve si todavía no tengo todo el contenido listo?',
         answer:

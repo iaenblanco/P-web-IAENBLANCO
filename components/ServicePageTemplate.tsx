@@ -179,8 +179,8 @@ function WebsiteProofGrid({ titulo }: { titulo: string }) {
           <h1>{titulo}</h1>
           <h2 className="service-apertura__subtitulo">Negocios chilenos para los que ya hicimos esto.</h2>
           <p className="service-apertura__lead">
-            No son maquetas. Son los sitios que están atendiendo clientes hoy: ábrelos,
-            míralos en tu celular y decide antes de escribirnos.
+            No son maquetas. Son páginas web y tiendas online que están atendiendo
+            clientes hoy: ábrelas, míralas en tu celular y decide antes de escribirnos.
           </p>
         </div>
         <Trabajos />

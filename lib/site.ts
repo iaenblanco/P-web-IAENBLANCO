@@ -49,7 +49,7 @@ export const services: Service[] = [
     slug: 'desarrollo-web-ia',
     index: '01',
     shortTitle: 'Sitio web y tienda online',
-    title: 'Un sitio web que explique lo que haces y haga que te escriban',
+    title: 'Una página web que explique lo que haces y haga que te escriban',
     eyebrow: 'Para que te encuentren y te contacten',
     statement: 'Tu sitio tiene que contestar tres cosas en diez segundos: qué haces, por qué confiar en ti y cómo hablar contigo.',
     description:
@@ -71,7 +71,7 @@ export const services: Service[] = [
     signals: ['Sitio web', 'Tienda online', 'Se ve bien en el celular', 'Botón de WhatsApp'],
     seoTitle: 'Sitios web y tiendas online para empresas',
     seoDescription:
-      'Diseñamos y programamos sitios web, páginas de venta y tiendas online que explican tu oferta, se ven bien en el celular y hacen que te contacten.',
+      'Diseñamos y programamos páginas web, sitios web y tiendas online que explican tu oferta, se ven bien en el celular y hacen que te contacten.',
   },
   {
     slug: 'plataformas-software-medida',

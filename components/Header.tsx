@@ -80,6 +80,54 @@ export function Header() {
     if (closeTimer.current) clearTimeout(closeTimer.current)
   }, [])
 
+  /*
+   * El menu del telefono es un <details> nativo: se abre y se cierra con su
+   * propio boton y nada mas. No cierra con Escape ni al tocar fuera, que es lo
+   * que cualquiera espera de un panel que ocupa toda la pantalla. Los dos
+   * listeners van al document: el panel tapa la ventana entera y el teclado no
+   * tiene el foco adentro, asi que no hay donde colgarlos mas cerca.
+   */
+  useEffect(() => {
+    function alPresionarTecla(event: KeyboardEvent) {
+      if (event.key !== 'Escape') return
+      const caja = document.querySelector('.mobile-nav-shell')
+      if (!(caja instanceof HTMLDetailsElement) || !caja.open) return
+      // Si hay un subgrupo abierto (Servicios, Productos), Escape cierra ese
+      // primero: llevarse el menu entero se come un paso que nadie pidio.
+      const grupos = caja.querySelectorAll('details.mobile-navigation__grupo[open]')
+      const ultimo = grupos[grupos.length - 1]
+      if (ultimo instanceof HTMLDetailsElement) {
+        ultimo.open = false
+        return
+      }
+      cerrarMenuMovil()
+    }
+
+    function alTocarAfuera(event: PointerEvent) {
+      const caja = document.querySelector('.mobile-nav-shell')
+      if (!(caja instanceof HTMLDetailsElement) || !caja.open) return
+      const destino = event.target
+      if (!(destino instanceof Node)) return
+      // El <summary> queda excluido a proposito: si cerramos en el pointerdown,
+      // el toggle nativo lo vuelve a abrir en el click que viene enseguida.
+      if (caja.querySelector('.mobile-toggle')?.contains(destino)) return
+      // Todo lo navegable vive dentro de __inner; lo de afuera es el respaldo
+      // del panel (la franja de arriba) o la cabecera, que se pinta por encima.
+      if (caja.querySelector('.mobile-navigation__inner')?.contains(destino)) return
+      cerrarMenuMovil()
+    }
+
+    document.addEventListener('keydown', alPresionarTecla)
+    document.addEventListener('pointerdown', alTocarAfuera)
+    return () => {
+      document.removeEventListener('keydown', alPresionarTecla)
+      document.removeEventListener('pointerdown', alTocarAfuera)
+    }
+    // cerrarMenuMovil solo consulta el DOM, no depende de estado: la referencia
+    // del primer render sirve igual y evita re-registrar los listeners.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
+
   return (
     <header className="site-header">
       <div className="site-header__inner">

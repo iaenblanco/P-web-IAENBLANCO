@@ -112,6 +112,21 @@ export function Trabajos() {
                 </div>
               </dl>
 
+              {/* La medida va DENTRO del <a>, no despues: .trabajo__medida solo
+                  trae padding-top y border-top, asi que fuera de .trabajo__ficha
+                  quedaria sin el borde ni el padding lateral de la tarjeta. El
+                  costo es que el lector de pantalla la lee como parte del enlace. */}
+              <dl className="trabajo__medida">
+                <div>
+                  <dt>Velocidad</dt>
+                  <dd>{proof.velocidad}</dd>
+                </div>
+                <div>
+                  <dt>Peso</dt>
+                  <dd>{proof.peso}</dd>
+                </div>
+              </dl>
+
               <span className="trabajo__cta">
                 Abrir el sitio
                 <ArrowUpRight />
