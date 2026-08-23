@@ -3302,6 +3302,14 @@ button {
     animation: none;
   }
 
+  /* La raya de cada paso se dibuja escalando, asi que apagar la
+     animacion la dejaria en cero: hay que devolverle el ancho. */
+  .service-build-grid--pasos.revela-armado article::before,
+  .service-build-grid--pasos.revela-armado.es-visible article {
+    transform: none;
+    animation: none;
+  }
+
   .service-build-grid article:hover,
   .service-use-grid article:hover,
   .service-flow__step:hover,
@@ -15173,6 +15181,15 @@ button {
     opacity: 1 !important;
     transform: none !important;
   }
+
+  /* La escena de servicio entra con un barrido, y el barrido se hace
+     recortando. Apagar la animacion no alcanza: hay que devolverle el
+     recorte entero o la escena se queda fuera de cuadro para siempre.
+     Cuatro clases le ganan a la regla de arriba sin un !important mas. */
+  .service-page-section--escena .revela--escena.revela--armado .esc {
+    animation: none;
+    clip-path: none;
+  }
 }
 
 /* ==================================================================
@@ -15186,10 +15203,14 @@ button {
    y detenida hasta que entra en pantalla.
    ================================================================== */
 
+/* Crece poco a proposito. Las cuatro escenas centran su dibujo (align-items:
+   center) y el dibujo mide lo que mide: estirar la caja a 340 px no agranda
+   nada, solo reparte aire arriba y abajo. La presencia se la da el barrido
+   de entrada y el sitio que ocupa -abre la pagina-, no el alto. */
 .esc--servicio {
   --acento: var(--signal);
   --acento-tinta: var(--signal-ink);
-  height: 240px;
+  height: clamp(248px, 20vw, 288px);
 }
 
 .service-escena__pie {
@@ -15802,6 +15823,54 @@ button {
   line-height: 1.5;
 }
 
+/* El plazo era una linea perdida dentro del parrafo de precio del hero.
+   Sin hero queda solo, debajo del titulo, con una raya de acento a la
+   izquierda: es el unico dato duro de la apertura y se lee de un vistazo. */
+.service-apertura__plazo {
+  display: flex;
+  align-items: baseline;
+  gap: 14px;
+  margin: 20px 0 0;
+  color: var(--text-strong);
+  font-family: var(--font-mono);
+  font-size: 13px;
+  letter-spacing: 0.02em;
+}
+
+.service-apertura__plazo::before {
+  content: '';
+  flex: none;
+  align-self: center;
+  width: 36px;
+  height: 1px;
+  background: var(--signal);
+}
+
+/* La escena entra barriendo de izquierda a derecha, como si se dibujara
+   sola, y recien entonces arrancan sus bucles -el observador los suelta
+   con la misma clase-. Va sobre .esc y no sobre el envoltorio porque el
+   envoltorio es display: contents y no tiene caja que recortar.
+
+   El estado recortado lo pone .revela--armado, que solo existe si el
+   componente se monto: sin JavaScript la escena se ve entera y quieta. */
+.service-page-section--escena .revela--escena.revela--armado .esc {
+  clip-path: inset(0 100% 0 0);
+}
+
+.service-page-section--escena .revela--escena.revela--armado.es-visible .esc {
+  animation: escena-barrido 860ms cubic-bezier(0.76, 0, 0.24, 1) forwards;
+}
+
+@keyframes escena-barrido {
+  from {
+    clip-path: inset(0 100% 0 0);
+  }
+
+  to {
+    clip-path: inset(0 0 0 0);
+  }
+}
+
 /* Los cuatro pasos, numerados. */
 .service-paso__numero {
   display: block;
@@ -15810,10 +15879,76 @@ button {
   font-size: 13px;
   font-weight: 700;
   letter-spacing: 0.09em;
+  transition: color 260ms ease;
 }
 
 .service-build-grid--pasos article h3 {
   margin-top: 12px;
+}
+
+/* La tira de pasos entra como una sola cosa y no como cuatro cajas que
+   aparecen cada una cuando le toca: primero se dibuja la raya que corona
+   cada paso, de izquierda a derecha, y detras entra la tarjeta, 90 ms
+   despues de la anterior. Es la unica secuencia larga de la pagina y esta
+   puesta donde se explica como trabajamos, que es lo que queremos que se
+   mire con calma. */
+/* Las tarjetas de "que recibes" pedian 240 px de alto porque llevaban
+   listas; un paso son dos lineas de titulo y tres de texto, y esos 240
+   dejaban un tercio de la tarjeta vacio. El grid las sigue igualando
+   entre si, asi que el minimo solo marca el piso. */
+.service-build-grid--pasos article {
+  position: relative;
+  min-height: 196px;
+}
+
+/* Dibujada por omision: sin JavaScript nadie la anima y no puede quedarse
+   en cero. El degradado la apaga hacia la derecha para que la raya no
+   compita con el titulo del paso. */
+.service-build-grid--pasos article::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  transform-origin: left center;
+  background: linear-gradient(90deg, rgba(64, 176, 208, 0.95), rgba(64, 176, 208, 0.1));
+}
+
+.service-build-grid--pasos.revela-armado article::before {
+  transform: scaleX(0);
+}
+
+.service-build-grid--pasos.revela-armado.es-visible article::before {
+  animation: paso-linea 620ms cubic-bezier(0.22, 1, 0.36, 1) calc(var(--i, 0) * 90ms + 140ms) forwards;
+}
+
+@keyframes paso-linea {
+  from {
+    transform: scaleX(0);
+  }
+
+  to {
+    transform: scaleX(1);
+  }
+}
+
+/* La tira no se funde entera -eso hace .revela-armado.es-visible por su
+   cuenta-: se funde tarjeta por tarjeta. Tres clases para ganarle. */
+.service-build-grid--pasos.revela-armado.es-visible {
+  opacity: 1;
+  animation: none;
+}
+
+.service-build-grid--pasos.revela-armado.es-visible article {
+  animation: revela-entrada 620ms cubic-bezier(0.22, 1, 0.36, 1) calc(var(--i, 0) * 90ms) backwards;
+}
+
+/* El numero es la unica pieza de color de la tarjeta: con el cursor
+   encima sube de tono -la transicion vive arriba, con el resto de su
+   ropa-, y la tarjeta ya se levanta por su cuenta. */
+.service-build-grid--pasos article:hover .service-paso__numero {
+  color: var(--signal);
 }
 
 /* ------------------------------------------------------------------
