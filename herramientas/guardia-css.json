@@ -1,6 +1,6 @@
 {
   "lee": "Las deudas que app/globals.css ya tiene. Esta lista solo puede achicarse. La reescribe: node herramientas/guardia-css.mjs --fijar",
-  "lineas": 17861,
+  "lineas": 17879,
   "important": 23,
   "duplicados": {
     "*": 2,
@@ -460,7 +460,6 @@
   "keyframesDobles": {},
   "keyframesSolos": {},
   "sinDefinir": {
-    "--alarma-servicio": 1,
     "--concept-connection": 1,
     "--concept-product": 1,
     "--concept-service": 1,

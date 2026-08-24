@@ -231,6 +231,10 @@ video {
   --signal: #40b0d0;
   --signal-ink: #1b6a80;
   --ice: #90e0e8;
+  /* El unico color del sistema que no es acento: el estado ANTERIOR, el que
+     la escena viene a resolver. Vivia como respaldo dentro de un var() sin
+     declarar, o sea que el token existia solo en el lugar donde se usaba. */
+  --alarma-servicio: #a03a26;
   --line: rgba(7, 10, 15, 0.14);
   --line-soft: rgba(7, 10, 15, 0.08);
   --header-height: 92px;
@@ -15650,8 +15654,8 @@ button {
 }
 
 .esc__contador-antes {
-  color: var(--alarma-servicio, #a03a26);
-  border-color: color-mix(in srgb, #a03a26 40%, transparent);
+  color: var(--alarma-servicio);
+  border-color: color-mix(in srgb, var(--alarma-servicio) 40%, transparent);
   animation-name: esc-contador-sale;
 }
 
@@ -15673,8 +15677,14 @@ button {
   align-items: center;
   gap: 12px;
   padding: 8px 12px;
-  border: 1px solid var(--line);
-  background: var(--paper-bright);
+  /* El estado RESUELTO vive aca, no en el 100% del keyframe. Con
+     prefers-reduced-motion la casa apaga las animaciones con !important, asi
+     que lo que quedaba a la vista era el 0% -el gris de partida- y la escena
+     terminaba diciendo lo contrario de lo que viene a decir. El keyframe
+     sigue arrancando en var(--line) y llega a esto mismo: con animacion no
+     cambia nada, sin animacion cambia todo. */
+  border: 1px solid color-mix(in srgb, var(--acento) 40%, transparent);
+  background: color-mix(in srgb, var(--acento) 7%, var(--paper-bright));
   animation: esc-mensaje var(--esc-pasada) cubic-bezier(0.22, 1, 0.36, 1) 1 both;
   animation-delay: calc(var(--i) * 90ms);
 }
@@ -15689,11 +15699,16 @@ button {
 
 .esc__mensaje-tic {
   width: 12px;
-  height: 7px;
-  border-left: 2px solid var(--acento);
-  border-bottom: 2px solid var(--acento);
+  height: 10px;
+  /* El tic se dibujaba con dos bordes y un rotate(-45deg). Como
+     prefers-reduced-motion apaga todo transform con !important, el check
+     quedaba aplanado en una L en las tres escenas que lo usan -bandeja,
+     indice e hilo-, justo en el modo donde SOLO existe la foto fija.
+     Con clip-path la forma no depende de una transformacion, asi que
+     sobrevive a que la apaguen. */
+  background: var(--acento);
+  clip-path: polygon(14% 44%, 0% 58%, 36% 100%, 100% 16%, 86% 0%, 36% 70%);
   opacity: 0;
-  transform: rotate(-45deg);
   animation: esc-mensaje-tic var(--esc-pasada) cubic-bezier(0.22, 1, 0.36, 1) 1 both;
   animation-delay: calc(var(--i) * 90ms);
 }
@@ -16938,7 +16953,9 @@ button {
   gap: 3px;
   width: 100%;
   padding: 11px 12px;
-  border: 1px solid var(--line);
+  /* Igual que .esc__mensaje: el borde encendido es la regla base y el
+     keyframe solo cuenta como se llega. Ver el comentario de alla. */
+  border: 1px solid color-mix(in srgb, var(--acento) 60%, transparent);
   background: var(--paper-bright);
   animation: u2-canal var(--esc-pasada) cubic-bezier(0.22, 1, 0.36, 1) 1 both;
   animation-delay: calc(var(--i) * 90ms);
@@ -17115,7 +17132,8 @@ button {
   display: grid;
   gap: 7px;
   padding: 13px 14px;
-  border: 1px solid var(--line);
+  /* Idem. La agenda tomada es el estado final, no el premio por esperar. */
+  border: 1px solid color-mix(in srgb, var(--acento) 55%, transparent);
   background: var(--paper-bright);
   animation: c2-agenda var(--esc-pasada) cubic-bezier(0.22, 1, 0.36, 1) 1 both;
 }
