@@ -40,22 +40,24 @@ export function EscenaIndice() {
    0 para el que sale, 3 para el que vuelve. No hay animacion nueva, solo
    dos numeros distintos.
 
-   Lo que dicen los globos no lo inventamos: el de arriba es el parrafo que
-   esta al lado -algo que hoy haces a mano y quieres que se haga solo- y el
-   de abajo es textual el h2 de mas abajo en esta misma pagina. */
+   Los globos decian, textuales, el parrafo de al lado y el h2 de mas abajo:
+   21 palabras que tardan seis segundos en leerse, en una escena que tiene
+   dos, y que ademas repetian lo que ya esta escrito a un dedo de distancia.
+   Ahora son nueve palabras y lo que cuenta la escena es la FORMA: uno
+   escribe, le llega el tic, del otro lado contestan. Eso es la pagina. */
 export function EscenaHilo() {
   return (
     <div className="esc esc--servicio esc--hilo" aria-hidden="true">
       <span className="esc__mensaje esc__mensaje--sale" style={{ ['--i' as string]: 0 }}>
-        <span className="esc__mensaje-texto">Hoy esto lo hago a mano y quiero que se haga solo</span>
+        <span className="esc__mensaje-texto">Esto lo hago a mano</span>
         <span className="esc__mensaje-tic" />
       </span>
 
       <span className="esc__mensaje esc__mensaje--vuelve" style={{ ['--i' as string]: 3 }}>
-        <span className="esc__mensaje-texto">No necesitas llegar con la solución resuelta</span>
+        <span className="esc__mensaje-texto">Cuéntame</span>
       </span>
 
-      <span className="esc__nota">WhatsApp, email o el formulario</span>
+      <span className="esc__nota">WhatsApp · email · formulario</span>
     </div>
   )
 }

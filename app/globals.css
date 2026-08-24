@@ -15719,8 +15719,13 @@ button {
      terminaba diciendo lo contrario de lo que viene a decir. El keyframe
      sigue arrancando en var(--line) y llega a esto mismo: con animacion no
      cambia nada, sin animacion cambia todo. */
-  border: 1px solid color-mix(in srgb, var(--acento) 40%, transparent);
-  background: color-mix(in srgb, var(--acento) 7%, var(--paper-bright));
+  /* Los dos numeros salen a variable para que el globo que SALE pueda
+     pintarse mas fuerte que el que vuelve sin escribir un keyframe nuevo:
+     un var() dentro de un @keyframes se resuelve contra el elemento. */
+  --burbuja: 40%;
+  --burbuja-fondo: 7%;
+  border: 1px solid color-mix(in srgb, var(--acento) var(--burbuja), transparent);
+  background: color-mix(in srgb, var(--acento) var(--burbuja-fondo), var(--paper-bright));
   animation: esc-mensaje var(--esc-pasada) cubic-bezier(0.22, 1, 0.36, 1) 1 both;
   animation-delay: calc(var(--i) * 90ms);
 }
@@ -15764,8 +15769,8 @@ button {
 @keyframes esc-mensaje {
   0%, 20% { border-color: var(--line); background: var(--paper-bright); }
   45%, 100% {
-    border-color: color-mix(in srgb, var(--acento) 40%, transparent);
-    background: color-mix(in srgb, var(--acento) 7%, var(--paper-bright));
+    border-color: color-mix(in srgb, var(--acento) var(--burbuja), transparent);
+    background: color-mix(in srgb, var(--acento) var(--burbuja-fondo), var(--paper-bright));
   }
 }
 
@@ -15919,7 +15924,13 @@ button {
   white-space: normal;
 }
 
+/* En un hilo de verdad los dos lados no se ven iguales. Con los dos del
+   mismo color esto se leia como dos cajas de texto puestas una sobre otra,
+   y lo que tiene que leerse en dos segundos es que hay una conversacion:
+   uno escribe, del otro lado contestan. */
 .esc__mensaje--sale {
+  --burbuja: 72%;
+  --burbuja-fondo: 20%;
   justify-self: end;
 }
 
@@ -16338,17 +16349,22 @@ button {
     font-size: 13px;
   }
 
-  /* 82% y no 66%: en una columna de 310 px el 66% deja un globo de 205 y la
-     frase se va a tres renglones. */
-  .esc--hilo .esc__mensaje {
-    max-width: 86%;
-    padding: 15px 18px;
+  /* Los globos pasaron de 21 palabras a 6 y entran en un renglon, asi que
+     pueden ser mas grandes: con 15px y 15 de relleno la escena llenaba tres
+     cuartos de la caja y le sobraba aire arriba y abajo. Con 20 de relleno
+     y 20 de separacion la figura mide 190 de los 194 utiles que deja la
+     caja del telefono, que es el techo geometrico de este cajon. */
+  .esc--hilo {
+    gap: 20px;
   }
 
-  /* 14 y no 13: el globo es lo unico que se lee en esta escena y sobraban
-     18px de aire arriba y otros 18 abajo. */
+  .esc--hilo .esc__mensaje {
+    max-width: 86%;
+    padding: 20px 22px;
+  }
+
   .esc--hilo .esc__mensaje-texto {
-    font-size: 15px;
+    font-size: 18px;
   }
 
   /* El abanico dibujado para ESTA caja y no encogido de la de escritorio.
