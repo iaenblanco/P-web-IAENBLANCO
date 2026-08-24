@@ -1,9 +1,10 @@
 import type { Metadata } from 'next'
 import { BrandLogo } from '@/components/BrandLogo'
+import { EscenaAbanico } from '@/components/EscenaBanda'
 import { EscenaProducto } from '@/components/EscenaProducto'
 import { Reveal } from '@/components/Reveal'
 import { RevelaAlEntrar } from '@/components/RevelaAlEntrar'
-import { products, SITE_URL } from '@/lib/site'
+import { products, SITE_URL, WHATSAPP_URL } from '@/lib/site'
 
 /* La misma bajada sirve para la metadata y para la tarjeta social. Una sola
    fuente, para que no quede una de las dos vieja. */
@@ -68,16 +69,40 @@ export default function ProductsPage() {
   return (
     <main id="contenido">
       <section className="page-hero page-hero--products" data-cursor-theme="signal">
-        <div className="section-shell">
-          <p className="hero-kicker"><span className="hero-kicker__punto" aria-hidden="true" /> Nuestros productos</p>
-          <h1>
-            Tres programas nuestros,{' '}
-            <em>muy pronto.</em>
-          </h1>
-          <p>
-            Uno para cada desorden que vimos repetirse. Los estamos terminando con
-            los primeros negocios: mira cuál se parece a lo tuyo y conversemos.
-          </p>
+        <div className="section-shell banda-apertura">
+          <div className="banda-apertura__texto">
+            <p className="hero-kicker"><span className="hero-kicker__punto" aria-hidden="true" /> Nuestros productos</p>
+            <h1>
+              Tres programas nuestros,{' '}
+              <em>muy pronto.</em>
+            </h1>
+            <p>
+              Uno para cada desorden que vimos repetirse. Los estamos terminando con
+              los primeros negocios: mira cuál se parece a lo tuyo y conversemos.
+            </p>
+            {/* El primer boton de la pagina. Sin data-analytics-event a proposito:
+                el despachador de layout.tsx ya reconoce los enlaces a wa.me y,
+                fuera de /servicios/, los cuenta como cta_whatsapp_click. */}
+            <div className="banda-apertura__accion">
+              <a
+                href={WHATSAPP_URL}
+                target="_blank"
+                rel="noreferrer"
+                className="button button--text"
+                data-cursor="Escribir"
+              >
+                Cuéntanos cuál se parece a lo tuyo
+                <ArrowUpRight />
+              </a>
+            </div>
+          </div>
+          {/* La escena es aria-hidden y los tres nombres que muestra estan
+              escritos completos en las fichas de mas abajo. */}
+          <div className="banda-apertura__visual">
+            <RevelaAlEntrar className="revela--escena">
+              <EscenaAbanico />
+            </RevelaAlEntrar>
+          </div>
         </div>
       </section>
 
@@ -105,9 +130,14 @@ export default function ProductsPage() {
                   </div>
                 </header>
 
-                <RevelaAlEntrar className="revela--escena">
-                  <EscenaProducto id={product.id} />
-                </RevelaAlEntrar>
+                {/* Contenedor con nombre propio para la escena de la ficha:
+                    el Paso 6 muda el bloque de celular de .esc a @container
+                    escena, y sin esto estas tres se quedarian sin el. */}
+                <div className="ad__escena">
+                  <RevelaAlEntrar className="revela--escena">
+                    <EscenaProducto id={product.id} />
+                  </RevelaAlEntrar>
+                </div>
 
                 <p className="ad__pie-escena">{product.diptico.remateDespues}</p>
 

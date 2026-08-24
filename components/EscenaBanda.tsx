@@ -1,4 +1,4 @@
-import { services } from '@/lib/site'
+import { products, services } from '@/lib/site'
 
 /*
  * Las dos escenas que no cuelgan de un slug de servicio: la del indice de
@@ -56,6 +56,39 @@ export function EscenaHilo() {
       </span>
 
       <span className="esc__nota">WhatsApp, email o el formulario</span>
+    </div>
+  )
+}
+
+/* /productos/: las tres tarjetas en abanico, cada una con el acento que su
+   producto ya tiene declarado. Las clases .ad--unificalo / .ad--citaly /
+   .ad--leads son una linea cada una y lo unico que hacen es fijar --acento y
+   --acento-tinta: reusarlas evita escribir los tres colores otra vez y evita
+   que manana queden distintos de los de las fichas de mas abajo, que es la
+   pagina entera a la que esta escena le sirve de indice.
+
+   Se turnan levantandose. El reparto lo hace el margen y no un transform,
+   para que el bloque de movimiento reducido -que apaga todo transform de la
+   escena- deje las tres cartas donde estan en vez de apilarlas en el mismo
+   punto. Al transform le queda solo el giro de reposo, que la animacion
+   vuelve a componer entero en cada cuadro: un transform no se suma al
+   anterior, lo reemplaza. */
+export function EscenaAbanico() {
+  return (
+    <div className="esc esc--servicio esc--abanico" aria-hidden="true">
+      <div className="esc__abanico">
+        {products.map((producto, i) => (
+          <span
+            className={`esc__carta ad--${producto.id}`}
+            style={{ ['--i' as string]: i }}
+            key={producto.id}
+          >
+            <span className="esc__carta-nombre">{producto.name}</span>
+            <span className="esc__carta-linea" />
+            <span className="esc__carta-linea esc__carta-linea--corta" />
+          </span>
+        ))}
+      </div>
     </div>
   )
 }
