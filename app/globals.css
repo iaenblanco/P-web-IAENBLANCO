@@ -15181,15 +15181,6 @@ button {
     opacity: 1 !important;
     transform: none !important;
   }
-
-  /* La escena de servicio entra con un barrido, y el barrido se hace
-     recortando. Apagar la animacion no alcanza: hay que devolverle el
-     recorte entero o la escena se queda fuera de cuadro para siempre.
-     Cuatro clases le ganan a la regla de arriba sin un !important mas. */
-  .service-page-section--escena .revela--escena.revela--armado .esc {
-    animation: none;
-    clip-path: none;
-  }
 }
 
 /* ==================================================================
@@ -15852,13 +15843,20 @@ button {
    envoltorio es display: contents y no tiene caja que recortar.
 
    El estado recortado lo pone .revela--armado, que solo existe si el
-   componente se monto: sin JavaScript la escena se ve entera y quieta. */
-.service-page-section--escena .revela--escena.revela--armado .esc {
-  clip-path: inset(0 100% 0 0);
-}
+   componente se monto: sin JavaScript la escena se ve entera y quieta.
 
-.service-page-section--escena .revela--escena.revela--armado.es-visible .esc {
-  animation: escena-barrido 860ms cubic-bezier(0.76, 0, 0.24, 1) forwards;
+   Va dentro de no-preference y no de una regla que lo apague despues:
+   quien pide menos movimiento no llega nunca a estar recortado, en vez
+   de llegar recortado y depender de que alguien le gane. El reset
+   generico de arriba puede podarse sin dejar la escena invisible. */
+@media (prefers-reduced-motion: no-preference) {
+  .service-page-section--escena .revela--escena.revela--armado .esc {
+    clip-path: inset(0 100% 0 0);
+  }
+
+  .service-page-section--escena .revela--escena.revela--armado.es-visible .esc {
+    animation: escena-barrido 860ms cubic-bezier(0.76, 0, 0.24, 1) forwards;
+  }
 }
 
 @keyframes escena-barrido {
