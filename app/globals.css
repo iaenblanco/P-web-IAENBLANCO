@@ -15593,6 +15593,124 @@ button {
   86%, 100% { opacity: 0; transform: translateX(6px); }
 }
 
+/* --- Que el dibujo crezca con la caja ----------------------------- */
+
+/* Las cuatro escenas ya eran fluidas a lo ancho -repeat(6, 1fr),
+   repeat(3, 1fr), minmax(0, 1fr)-, pero todo lo vertical es px fijo.
+   Estirar la caja sin tocar esos numeros no agranda el dibujo: solo
+   reparte aire. Aca crecen los dos a la vez, y solo cuando la columna
+   de la escena de verdad se ensancho: a 1440 mide 548px, a 1025 mide
+   340 y ahi no hay nada que ganar.
+
+   Crecen las medidas verticales, no las horizontales. Los gaps de
+   .esc--planilla (34px), .esc__estaciones (16px) y .esc__mensaje (12px)
+   separan columnas, no filas: subirlos angosta el dibujo justo donde
+   la columna ya es mas angosta que antes.
+
+   Tampoco se toca .esc--tuberia: su gap (20px) y su segunda fila (34px)
+   son lo que calibra el -25px/-30px del cable y la carga, que cuelgan de
+   un top: 50%. La estacion puede engordar -esta centrada en su fila- pero
+   el gap no.
+
+   El @media es una cerca, no un breakpoint: debajo de 900px manda el
+   bloque de celular, y sin la cerca esta consulta se le montaria encima
+   -la columna llega a 400px mucho antes de que la banda sea de dos
+   columnas-. El Paso 6 muda ese bloque a @container y la cerca sobra. */
+@media (min-width: 900px) {
+  @container escena (min-width: 400px) {
+    .esc--servicio {
+      height: clamp(288px, 72cqi, 360px);
+    }
+
+    /* La planilla crece mas que las otras tres -un 55% y no un 35%- porque
+       es la unica de dos columnas: su dibujo es tan alto como la mas alta de
+       las dos, y con el 35% quedaban 71px de aire arriba y abajo, mas que
+       antes de agrandar la caja. Medido, no estimado. */
+    .esc__celdas {
+      gap: 7px;
+    }
+
+    .esc__celda {
+      height: 34px;
+    }
+
+    .esc__pantalla {
+      gap: 16px;
+      padding: 24px;
+    }
+
+    .esc__campo-caja {
+      height: 34px;
+    }
+
+    /* Las tres escenas de dos filas ya pedian align-content: center, pero
+       con una fila en 1fr no habia nada que centrar: la fila se comia el
+       sobrante y la fila auxiliar -el "listo", el contador, la nota- quedaba
+       clavada contra el borde. Con la fila en auto el dibujo se centra
+       entero y el aire se reparte arriba y abajo.
+
+       El cable y la carga de la tuberia no se enteran: cuelgan de un
+       top: 50% con margen negativo, y el centro de la primera fila cae en
+       H/2 - (gap + fila2)/2 tanto con 1fr como con auto. Mismo -27px, que
+       es lo que aproximan el -25 y el -30. Por eso el gap y los 34px no se
+       tocan aca. */
+    .esc--tuberia {
+      grid-template-rows: minmax(0, auto) 34px;
+      /* La unica que no crece de alto: su dibujo es ancho y corto -tres
+         estaciones en fila- y a 360px quedaban 98px de aire arriba y abajo,
+         mas que a 288. Repite la medida de antes a proposito, para que el
+         .esc--servicio de este mismo bloque no la alcance. Lo que le falta
+         no es caja, es ponerse de pie, y eso es el Paso 6. */
+      height: clamp(248px, 20vw, 288px);
+    }
+
+    .esc__estacion {
+      gap: 8px;
+      padding: 30px 20px;
+    }
+
+    /* La primera fila de la bandeja es exactamente el contador: si sube
+       uno sin el otro, el contador queda recortado por su overflow. */
+    .esc--bandeja {
+      grid-template-rows: 38px minmax(0, auto);
+      gap: 22px;
+    }
+
+    .esc__contador {
+      height: 38px;
+    }
+
+    .esc__contador-despues {
+      height: 38px;
+    }
+
+    .esc__mensajes {
+      gap: 8px;
+    }
+
+    .esc__mensaje {
+      padding: 11px 16px;
+    }
+
+    .esc--seguimiento {
+      grid-template-rows: minmax(0, auto) 30px;
+      gap: 24px;
+    }
+
+    .esc__fichas {
+      gap: 11px;
+    }
+
+    .esc__ficha {
+      padding: 12px 16px;
+    }
+
+    .esc__ficha-barra {
+      height: 11px;
+    }
+  }
+}
+
 /* --- Celular ------------------------------------------------------ */
 
 @media (max-width: 899px) {
@@ -15870,6 +15988,11 @@ button {
 .banda-apertura__visual {
   min-width: 0;
   margin-top: clamp(6px, 0.8vw, 14px);
+  /* Con NOMBRE a proposito. En /productos las escenas viven dentro de .ad,
+     que ya es contenedor: una consulta sin nombre resolveria contra el
+     ancestro mas cercano -otro ancho, otra escena- y no habria error que
+     lo delatara. Con nombre, o encuentra este o no aplica. */
+  container: escena / inline-size;
 }
 
 .banda-apertura__accion {
