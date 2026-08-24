@@ -16074,7 +16074,9 @@ button {
   width: clamp(7px, 2.2cqi, 11px);
   height: clamp(7px, 2.2cqi, 11px);
   border-radius: 50%;
-  background: color-mix(in srgb, var(--ink) 18%, transparent);
+  /* El mismo valor que .l2__punto: esta baldosa es la miniatura de ese
+     mapa, asi que los puntos apagados salen de la gama, no del gris. */
+  background: color-mix(in srgb, var(--acento) 34%, transparent);
 }
 
 .mu--puntos i:nth-child(1) { top: 12%; left: 10%; }
@@ -16216,13 +16218,28 @@ button {
   white-space: nowrap;
 }
 
-.esc__carta-linea {
-  height: 5px;
-  background: var(--line);
+/* Las dos filas de abajo eran barras grises: una de 5px y otra al 46% de
+   ancho, o sea la forma exacta de un esqueleto de carga, en la escena que
+   abre /productos/. Ahora son el eyebrow y el estado que el producto ya
+   trae declarados en lib/site.ts, que es lo mismo que dicen las fichas de
+   mas abajo: la carta pasa de simbolo de ficha a ficha. */
+/* Centrado en su fila: la carta del telefono es alta y angosta, y con el
+   texto pegado arriba quedaban 130px de blanco entre el pitch y el pie. */
+.esc__carta-pitch {
+  align-self: center;
+  overflow: hidden;
+  color: var(--text-body);
+  font-size: 12px;
+  line-height: 1.35;
 }
 
-.esc__carta-linea--corta {
-  width: 46%;
+.esc__carta-pie {
+  overflow: hidden;
+  color: var(--acento-tinta, var(--acento));
+  font-family: var(--font-mono);
+  font-size: 10px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 /* 10,8 s son tres turnos de 3,6: cada carta sube, se queda arriba poco mas
@@ -16434,8 +16451,12 @@ button {
     font-size: 15px;
   }
 
-  .esc__carta-linea {
-    height: 6px;
+  .esc__carta-pitch {
+    font-size: 13px;
+  }
+
+  .esc__carta-pie {
+    font-size: 11px;
   }
 }
 
@@ -16578,21 +16599,11 @@ button {
     font-size: 13px;
   }
 
-  /* La carta de pie necesita un cuerpo. Con las tres filas -nombre, 1fr,
-     pie- estiradas al alto entero, la linea larga de 5px se quedaba
-     pegada al nombre y dejaba 120px de blanco en el medio: la caja se veia
-     llena por el borde y vacia por dentro. Aca esa linea ocupa su fila y
-     pasa a ser el bloque de la foto, que es lo que llena una ficha de
-     producto en un telefono. La corta se queda de pie de ficha. */
-  .esc--abanico .esc__carta-linea {
-    height: 100%;
-    background: var(--line-soft);
-  }
-
-  .esc--abanico .esc__carta-linea--corta {
-    height: 6px;
-    background: var(--line);
-  }
+  /* La carta de pie necesita un cuerpo, y hasta ahora se lo daba estirando
+     la barra gris al alto entero de la fila 1fr: en los 375 donde se
+     aprueba la escena, cada carta era franja de color, nombre y un
+     rectangulo gris vacio mas grande que todo lo demas. El cuerpo ahora
+     lo pone el texto, que llena la misma fila y ademas dice algo. */
 }
 
 /* El pie no es dibujo sino texto de la pagina, y vive fuera del
@@ -17185,16 +17196,14 @@ button {
   min-width: 0;
 }
 
-/* La pista de circuito. La corriente es un punto que baja por ella. */
+/* La pista de circuito. La corriente es un punto que baja por ella.
+   Era un punteado: mismo color, pero un guion de 1px es el gesto de "aca
+   iria una linea", no una linea. Solida se lee igual de circuito. */
 .u2__traza {
   position: relative;
   width: 1px;
   height: 34px;
-  background: repeating-linear-gradient(
-    180deg,
-    color-mix(in srgb, var(--acento) 45%, transparent) 0 5px,
-    transparent 5px 10px
-  );
+  background: color-mix(in srgb, var(--acento) 45%, transparent);
 }
 
 .u2__traza i {
@@ -17459,10 +17468,14 @@ button {
   font-variant-numeric: tabular-nums;
 }
 
+/* La hora libre es un estado, no un hueco: antes era una casilla de borde
+   punteado gris con la palabra "libre" casi apagada adentro, o sea el
+   dibujo de una casilla vacia. Ahora tiene marco y fondo propios. */
 .c2__slot-caja {
   position: relative;
   height: 28px;
-  border: 1px dashed color-mix(in srgb, var(--ink) 22%, transparent);
+  border: 1px solid color-mix(in srgb, var(--acento) 25%, transparent);
+  background: color-mix(in srgb, var(--acento) 5%, transparent);
 }
 
 .c2__slot-libre,
@@ -17479,7 +17492,7 @@ button {
 }
 
 .c2__slot-libre {
-  color: var(--graphite);
+  color: var(--text-body);
 }
 
 .c2__slot-tomada {
@@ -17578,9 +17591,13 @@ button {
 .l2__campo {
   position: relative;
   display: block;
-  border: 1px dashed color-mix(in srgb, var(--ink) 14%, transparent);
+  /* Era marco punteado sobre papel cuadriculado de hairlines al 4% de
+     tinta: el recurso de wireframe mas puro que hay. Ahora es el mismo
+     lavado de acento que usa el chasis de las escenas, y el marco es
+     solido: el mapa deja de parecer un boceto del mapa. */
+  border: 1px solid color-mix(in srgb, var(--acento) 30%, transparent);
   background:
-    linear-gradient(color-mix(in srgb, var(--ink) 4%, transparent) 1px, transparent 1px) 0 0 / 100% 26px,
+    linear-gradient(180deg, color-mix(in srgb, var(--acento) 6%, transparent), transparent 60%),
     var(--paper-bright);
 }
 
@@ -17591,7 +17608,7 @@ button {
   width: 6px;
   height: 6px;
   border-radius: 50%;
-  background: color-mix(in srgb, var(--ink) 22%, transparent);
+  background: color-mix(in srgb, var(--acento) 34%, transparent);
 }
 
 .l2__punto--calza {
@@ -17607,7 +17624,7 @@ button {
 
 .l2__fila {
   display: grid;
-  grid-template-columns: 18px minmax(0, 1fr) auto;
+  grid-template-columns: 18px minmax(0, 1fr);
   align-items: center;
   gap: 11px;
 }
@@ -17622,27 +17639,24 @@ button {
   animation-delay: calc(var(--o) * 100ms);
 }
 
-.l2__barra {
-  width: var(--ancho, 100%);
-  height: 9px;
-  background: color-mix(in srgb, var(--ink) 9%, transparent);
-  overflow: hidden;
+/* Lo que Leads sabe de cada empresa, escrito. Antes eran cuatro barras
+   grises de largo decreciente con un rotulo al lado: la forma canonica
+   del esqueleto de carga, viva en la escena que abre /productos/. Ahora
+   el largo lo dibuja el propio dato -la ficha mas completa es la fila
+   mas larga- y por eso se entiende que va primero. */
+.l2__datos {
+  display: flex;
+  gap: 6px;
+  min-width: 0;
 }
 
-.l2__barra i {
-  display: block;
-  height: 100%;
-  background: color-mix(in srgb, var(--acento) 55%, transparent);
-  transform: scaleX(0);
-  transform-origin: left center;
-  animation: l2-barra var(--esc-pasada) cubic-bezier(0.22, 1, 0.36, 1) 1 both;
-  animation-delay: calc(var(--o) * 100ms);
-}
-
-.l2__evidencia {
-  color: var(--graphite);
+.l2__dato {
+  padding: 2px 7px;
+  border: 1px solid color-mix(in srgb, var(--acento) 35%, transparent);
+  background: color-mix(in srgb, var(--acento) 10%, var(--paper-bright));
+  color: var(--acento-tinta, var(--acento));
   font-family: var(--font-mono);
-  font-size: 11px;
+  font-size: 12px;
   letter-spacing: 0.03em;
   white-space: nowrap;
   opacity: 0;
@@ -17674,11 +17688,6 @@ button {
 @keyframes l2-aparece {
   0%, 30% { opacity: 0; }
   50%, 100% { opacity: 1; }
-}
-
-@keyframes l2-barra {
-  0%, 28% { transform: scaleX(0); }
-  52%, 100% { transform: scaleX(1); }
 }
 
 @keyframes l2-cierre {
@@ -17768,7 +17777,6 @@ button {
   }
 
   .l2__busqueda,
-  .l2__evidencia,
   .l2__cierre {
     font-size: 12px;
   }
@@ -17806,10 +17814,6 @@ button {
   .c2__slot-caja--toma .c2__slot-libre,
   .c2__estado {
     display: none;
-  }
-
-  .l2__barra i {
-    transform: scaleX(1) !important;
   }
 
   .c2__audio-play {

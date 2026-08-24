@@ -125,6 +125,16 @@ const PUNTOS = [
 ]
 const ENCENDIDOS = [2, 5, 10, 12]
 
+/* Lo que Leads trae de cada empresa. La fila mas larga es la ficha mas
+   completa, y por eso va primero: el orden se explica solo, sin barra
+   que lo dibuje. Son campos, no clientes: no hay ningun caso inventado. */
+const FICHAS = [
+  ['Teléfono', 'Email', 'Web'],
+  ['Teléfono', 'Email'],
+  ['Teléfono', 'Web'],
+  ['Email'],
+]
+
 function EscenaLeads() {
   return (
     <div className="esc esc--l2" aria-hidden="true">
@@ -149,15 +159,14 @@ function EscenaLeads() {
       </div>
 
       <div className="l2__lista">
-        {['Con teléfono', 'Con teléfono', 'Con email', 'Con teléfono'].map((evidencia, i) => (
-          <span
-            className="l2__fila"
-            style={{ ['--o' as string]: i, ['--ancho' as string]: `${94 - i * 9}%` }}
-            key={i}
-          >
+        {FICHAS.map((ficha, i) => (
+          <span className="l2__fila" style={{ ['--o' as string]: i }} key={i}>
             <span className="l2__orden">{i + 1}</span>
-            <span className="l2__barra"><i /></span>
-            <span className="l2__evidencia">{evidencia}</span>
+            <span className="l2__datos">
+              {ficha.map((dato) => (
+                <span className="l2__dato" key={dato}>{dato}</span>
+              ))}
+            </span>
           </span>
         ))}
         <span className="l2__cierre">Ordenadas por cuál llamar primero</span>

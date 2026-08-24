@@ -121,8 +121,8 @@ export function EscenaAbanico() {
             key={producto.id}
           >
             <span className="esc__carta-nombre">{producto.name}</span>
-            <span className="esc__carta-linea" />
-            <span className="esc__carta-linea esc__carta-linea--corta" />
+            <span className="esc__carta-pitch">{producto.eyebrow}</span>
+            <span className="esc__carta-pie">{producto.status}</span>
           </span>
         ))}
       </div>
