@@ -85,6 +85,41 @@ const ESTADO = String.raw`
     const env = esc.closest('.revela') || esc.parentElement;
     // getAnimations({subtree:true}) trae tambien las del propio elemento
     // -el barrido de entrada- y las de todos sus hijos de una sola vez.
+    // Cuanto de la caja usa el dibujo y cuanto es aire. Se mide en el estado
+    // final -el que el visitante mira los ocho segundos que le quedan-.
+    //
+    // Solo cuentan las cajas que PINTAN algo. Un envoltorio que no pinta nada
+    // miente: .esc__carga de la tuberia es una pista de 140 px de alto con un
+    // punto de 10 px adentro, y como la pasada la baja entera, su caja
+    // terminaba 41 px debajo del borde y el informe cantaba un desborde que
+    // nadie ve. Pinta el punto, no la pista.
+    const pinta = (nodo, cs) => {
+      if (cs.visibility === 'hidden' || Number(cs.opacity) === 0) return false;
+      const fondo = cs.backgroundColor;
+      if (fondo && fondo !== 'transparent' && !/,\s*0\)$/.test(fondo)) return true;
+      if (cs.backgroundImage && cs.backgroundImage !== 'none') return true;
+      for (const lado of ['Top', 'Right', 'Bottom', 'Left']) {
+        if (parseFloat(cs['border' + lado + 'Width']) > 0 && cs['border' + lado + 'Style'] !== 'none') return true;
+      }
+      if (cs.boxShadow && cs.boxShadow !== 'none') return true;
+      for (const t of nodo.childNodes) if (t.nodeType === 3 && t.textContent.trim()) return true;
+      // Una hoja sin hijos pinta por definicion -un punto, un tic, una barra-,
+      // aunque lo dibuje un ::before que aca no se puede consultar.
+      return nodo.children.length === 0;
+    };
+    let _t = Infinity, _b = -Infinity, _l = Infinity, _d = -Infinity;
+    esc.querySelectorAll('*').forEach(nodo => {
+      const q = nodo.getBoundingClientRect();
+      if (!q.width || !q.height) return;
+      if (!pinta(nodo, getComputedStyle(nodo))) return;
+      _t = Math.min(_t, q.top); _b = Math.max(_b, q.bottom);
+      _l = Math.min(_l, q.left); _d = Math.max(_d, q.right);
+    });
+    const aire = _b === -Infinity ? null : {
+      arriba: Math.round(_t - r.top), abajo: Math.round(r.bottom - _b),
+      izq: Math.round(_l - r.left), der: Math.round(r.right - _d),
+      lleno: Math.round(((Math.min(_b, r.bottom) - Math.max(_t, r.top)) / r.height) * 100),
+    };
     const anim = esc.getAnimations({ subtree: true });
     const corriendo = anim.filter(a => a.playState === 'running');
     const infinitas = anim.filter(a => {
@@ -104,6 +139,7 @@ const ESTADO = String.raw`
       nombresCorriendo: [...new Set(corriendo.map(a => a.animationName))].slice(0, 6),
       avance: Math.round(avance),
       estados: anim.reduce((a, x) => (a[x.playState] = (a[x.playState] || 0) + 1, a), {}),
+      aire,
       recorte: getComputedStyle(esc).clipPath,
       visor: innerHeight,
       desplazamiento: Math.round(scrollY),
@@ -130,6 +166,17 @@ for (const [ruta, nombre] of RUTAS) {
   await s.e('Page.navigate', { url: BASE + ruta }, sessionId)
   await espera(1400)
   await ev('(async()=>{await document.fonts.ready;return 1})()', true)
+  // El cartel de cookies es fixed, negro y de 173px: en un visor de 560 se
+  // sienta encima del ultimo tercio de la escena. La foto salia con una
+  // banda negra abajo y parecia que el dibujo se cortaba -de ahi la nota
+  // de la Tanda A sobre Unificalo, Citaly y Leads, que era falsa-. Es un
+  // perfil nuevo en cada corrida, asi que el cartel aparece siempre.
+  await ev(`(() => {
+    const e = document.createElement('style');
+    e.textContent = '.consent-banner{display:none !important}';
+    document.head.appendChild(e);
+    return 1;
+  })()`)
   const cargo = await ev('(() => ({ error: document.body.className.includes("neterror"), header: !!document.querySelector(".site-header") }))()')
   if (cargo.error || !cargo.header) { console.log(`!! ${ruta} NO CARGO`); process.exitCode = 2; continue }
 
@@ -158,6 +205,11 @@ for (const [ruta, nombre] of RUTAS) {
     // para esta corrida: lo que se mide es la escena, no el scroll.
     await ev(`(async()=>{
       document.documentElement.style.scrollBehavior = 'auto';
+      // La recarga se lleva el estilo que tapaba el cartel de cookies: va de
+      // nuevo, o la pelicula sale con la banda negra sobre el ultimo tercio.
+      const capa = document.createElement('style');
+      capa.textContent = '.consent-banner{display:none !important}';
+      document.head.appendChild(capa);
       const e = document.querySelectorAll('.esc')[${objetivo.n}];
       e.scrollIntoView({ block: 'center' });
       await new Promise(r => setTimeout(r, 120));
@@ -193,7 +245,7 @@ for (const [ruta, nombre] of RUTAS) {
       animaciones: fin.animaciones, corriendo: fin.corriendo, infinitas: fin.infinitas,
       nombres: fin.nombresCorriendo.join(', '), recorte: fin.recorte,
       estados: JSON.stringify(fin.estados), envoltorio: fin.envoltorio.replace('revela revela--escena', '~'),
-      top: fin.top, desplazamiento: fin.desplazamiento })
+      top: fin.top, desplazamiento: fin.desplazamiento, aire: fin.aire })
     if (fin.infinitas > 0) fallas.push(`QUIETA · ${ruta} · .esc--${fin.clase}: ${fin.infinitas} animaciones declaradas infinite`)
     if (fin.corriendo > 0) fallas.push(`QUIETA · ${ruta} · .esc--${fin.clase}: a los 3 s siguen corriendo ${fin.corriendo} (${fin.nombresCorriendo.join(', ')})`)
     // "inset(0px 0% 0px 0px)" es la caja entera igual que "inset(0px 0px 0px 0px)":
@@ -207,6 +259,8 @@ console.log(`\n=== ${filas.length} escenas, 375 x ${ALTO} ===`)
 for (const f of filas) {
   console.log(`  ${(f.ruta + ' · ' + f.clase).padEnd(52)} ${String(f.ancho).padStart(4)}x${f.alto}  anim ${String(f.animaciones).padStart(3)}  infinite ${String(f.infinitas).padStart(3)}  ${f.estados}`)
   console.log(`  ${''.padEnd(52)} y=${f.top} scroll=${f.desplazamiento} env="${f.envoltorio}"${f.nombres ? ' <- ' + f.nombres : ''}`)
+  const a = f.aire
+  if (a) console.log(`  ${''.padEnd(52)} aire arriba=${String(a.arriba).padStart(3)} abajo=${String(a.abajo).padStart(3)} izq=${String(a.izq).padStart(3)} der=${String(a.der).padStart(3)}  lleno ${a.lleno}%`)
 }
 console.log(`\n=== ${fallas.length} fallas ===`)
 for (const f of fallas) console.log('  ' + f)

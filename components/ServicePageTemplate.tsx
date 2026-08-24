@@ -103,7 +103,7 @@ function AperturaWeb({ service, content }: { service: Service; content: ServiceP
               lo pintaba, y con los precios en cero es el unico dato duro que
               trae la apertura. */}
           <p className="service-apertura__plazo">{service.plazo}</p>
-          {/* Sin palabra de direccion a proposito: de 1024 para abajo la banda
+          {/* Sin palabra de direccion a proposito: de 899 para abajo la banda
               se apila y la captura queda DEBAJO de este parrafo, asi que "a la
               derecha" era falso en celular y en tablet. */}
           <p className="service-escena__pie">

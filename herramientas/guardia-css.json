@@ -1,6 +1,6 @@
 {
   "lee": "Las deudas que app/globals.css ya tiene. Esta lista solo puede achicarse. La reescribe: node herramientas/guardia-css.mjs --fijar",
-  "lineas": 17575,
+  "lineas": 17861,
   "important": 23,
   "duplicados": {
     "*": 2,
@@ -281,6 +281,8 @@
     ".unify-node span": 2,
     ".unify-node strong": 2,
     ":root": 4,
+    "@container escena (width < 400px) >> .c2__audio-dur": 2,
+    "@container escena (width < 400px) >> .u2__venta": 2,
     "@media (max-width: 1180px) >> .problem-strip__grid": 2,
     "@media (max-width: 1180px) >> .problem-strip__inner": 2,
     "@media (max-width: 1180px) >> .services-system__layout": 2,
@@ -344,8 +346,6 @@
     "@media (max-width: 899px) >> .ad__cabecera h2": 2,
     "@media (max-width: 899px) >> .ad__mitad--despues": 2,
     "@media (max-width: 899px) >> .ad__promesa": 2,
-    "@media (max-width: 899px) >> .c2__audio-dur": 2,
-    "@media (max-width: 899px) >> .u2__venta": 2,
     "@media (max-width: 900px) >> .brand-mark__plate": 2,
     "@media (max-width: 900px) >> .contact-band__link": 2,
     "@media (max-width: 900px) >> .contact-context__grid": 2,

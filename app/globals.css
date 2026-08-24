@@ -3101,7 +3101,7 @@ button {
   }
 
   /* El gap y el min-height se fueron con la reja: los apilaba .banda-apertura
-     desde su @media de 1024, y el gap comun sale de --gap-ancho. */
+     desde su @media de 899, y el gap comun sale de --gap-ancho. */
   .services-index-hero__inner {
     padding: 72px 0 54px;
   }
@@ -5466,7 +5466,7 @@ button {
 }
 
 /* Sin font-size: el de la banda (0,2,1) le gana. Queda el tope de ancho,
-   que si trabaja cuando la banda se apila -1024 para abajo- y el titular
+   que si trabaja cuando la banda se apila -899 para abajo- y el titular
    pasa a disponer del ancho entero. */
 .page-hero--products h1 {
   max-width: 820px;
@@ -15171,12 +15171,20 @@ button {
 
 /* --- Celular ------------------------------------------------------ */
 
-@media (max-width: 899px) {
+/* La escena sigue a SU COLUMNA y no a la ventana: cual de los dos dibujos
+   se usa lo decide el ancho de la caja. Es el Paso 6 del plan de la banda.
+   Importa entre 899 y 400 de ventana, que es donde la banda ya se apilo y
+   la escena queda mas ancha que nunca -852 en una ventana de 899- con las
+   reglas pensadas para una caja angosta. */
+@container escena (width < 400px) {
   .esc {
     height: 236px;
     padding: 18px 20px;
   }
+}
 
+/* El pie de la ficha es texto de la pagina, fuera del contenedor. */
+@media (max-width: 899px) {
   .ad__pie-escena {
     padding: 16px 20px 0;
     font-size: 16px;
@@ -15368,7 +15376,7 @@ button {
   height: 13px;
 }
 
-/* Cuando la banda se apila -de 1024 para abajo- la columna pasa a valer
+/* Cuando la banda se apila -de 899 para abajo- la columna pasa a valer
    casi la pagina entera, y ahi el marco de alto fijo deja la captura en
    una franja: a 899 el hueco es de 867x150, casi 6:1, y se ve el 28% del
    sitio. Un dibujo se estira sin perder nada; una foto no. Apilada, el
@@ -15380,7 +15388,10 @@ button {
    el alto en dos bloques distintos -uno para 900 arriba y otro para 899
    abajo- y los dos caen mas adelante en el archivo. */
 
-@media (max-width: 1024px) {
+/* Cuando la banda se apila la captura ocupa el ancho entero, asi que se
+   deja mandar a la proporcion. Va con el corte del chasis, no con el de
+   la escena: son la misma decision. */
+@media (max-width: 899px) {
   .banda-apertura__visual .esc--captura {
     height: auto;
   }
@@ -15877,8 +15888,8 @@ button {
    contra la carta -que es lo que uno quiere- pero lo borra el bloque de
    movimiento reducido, que apaga todo transform de la escena y dejaria
    las tres cartas apiladas en el mismo punto. Y un left porcentual mide
-   contra el contenedor: entre 900 y 1024 la banda se apila, el contenedor
-   pasa a 880 px y el reparto se iria de la caja. Con --paso en px la
+   contra el contenedor: hasta 899 la banda se apila, el contenedor
+   llega a 852 px y el reparto se iria de la caja. Con --paso en px la
    figura es la misma a cualquier ancho, y sin transform sigue repartida.
 
    --paso es el 90% de --ancho, no la mitad. La primera version montaba las
@@ -15973,153 +15984,151 @@ button {
    un top: 50%. La estacion puede engordar -esta centrada en su fila- pero
    el gap no.
 
-   El @media es una cerca, no un breakpoint: debajo de 900px manda el
-   bloque de celular, y sin la cerca esta consulta se le montaria encima
-   -la columna llega a 400px mucho antes de que la banda sea de dos
-   columnas-. El Paso 6 muda ese bloque a @container y la cerca sobra. */
-@media (min-width: 900px) {
-  @container escena (min-width: 400px) {
-    .esc--servicio {
-      height: clamp(288px, 72cqi, 360px);
-    }
+   Ya no hay cerca de @media alrededor: el bloque compacto tambien es
+   @container, asi que las dos consultas se reparten el mismo eje -el
+   ancho de la columna- y no se pisan. Debajo de 400 manda el compacto;
+   de 400 para arriba, esto. */
+@container escena (min-width: 400px) {
+  .esc--servicio {
+    height: clamp(288px, 72cqi, 360px);
+  }
 
-    /* La planilla crece mas que las otras tres -un 55% y no un 35%- porque
-       es la unica de dos columnas: su dibujo es tan alto como la mas alta de
-       las dos, y con el 35% quedaban 71px de aire arriba y abajo, mas que
-       antes de agrandar la caja. Medido, no estimado. */
-    .esc__celdas {
-      gap: 7px;
-    }
+  /* La planilla crece mas que las otras tres -un 55% y no un 35%- porque
+     es la unica de dos columnas: su dibujo es tan alto como la mas alta de
+     las dos, y con el 35% quedaban 71px de aire arriba y abajo, mas que
+     antes de agrandar la caja. Medido, no estimado. */
+  .esc__celdas {
+    gap: 7px;
+  }
 
-    .esc__celda {
-      height: 34px;
-    }
+  .esc__celda {
+    height: 34px;
+  }
 
-    .esc__pantalla {
-      gap: 16px;
-      padding: 24px;
-    }
+  .esc__pantalla {
+    gap: 16px;
+    padding: 24px;
+  }
 
-    .esc__campo-caja {
-      height: 34px;
-    }
+  .esc__campo-caja {
+    height: 34px;
+  }
 
-    /* Las tres escenas de dos filas ya pedian align-content: center, pero
-       con una fila en 1fr no habia nada que centrar: la fila se comia el
-       sobrante y la fila auxiliar -el "listo", el contador, la nota- quedaba
-       clavada contra el borde. Con la fila en auto el dibujo se centra
-       entero y el aire se reparte arriba y abajo.
+  /* Las tres escenas de dos filas ya pedian align-content: center, pero
+     con una fila en 1fr no habia nada que centrar: la fila se comia el
+     sobrante y la fila auxiliar -el "listo", el contador, la nota- quedaba
+     clavada contra el borde. Con la fila en auto el dibujo se centra
+     entero y el aire se reparte arriba y abajo.
 
-       El cable y la carga de la tuberia no se enteran: cuelgan de un
-       top: 50% con margen negativo, y el centro de la primera fila cae en
-       H/2 - (gap + fila2)/2 tanto con 1fr como con auto. Mismo -27px, que
-       es lo que aproximan el -25 y el -30. Por eso el gap y los 34px no se
-       tocan aca. */
-    .esc--tuberia {
-      grid-template-rows: minmax(0, auto) 34px;
-      /* La unica que no crece de alto: su dibujo es ancho y corto -tres
-         estaciones en fila- y a 360px quedaban 98px de aire arriba y abajo,
-         mas que a 288. Repite la medida de antes a proposito, para que el
-         .esc--servicio de este mismo bloque no la alcance. Lo que le falta
-         no es caja, es ponerse de pie, y eso es el Paso 6. */
-      height: clamp(248px, 20vw, 288px);
-    }
+     El cable y la carga de la tuberia no se enteran: cuelgan de un
+     top: 50% con margen negativo, y el centro de la primera fila cae en
+     H/2 - (gap + fila2)/2 tanto con 1fr como con auto. Mismo -27px, que
+     es lo que aproximan el -25 y el -30. Por eso el gap y los 34px no se
+     tocan aca. */
+  .esc--tuberia {
+    grid-template-rows: minmax(0, auto) 34px;
+    /* La unica que no crece de alto: su dibujo es ancho y corto -tres
+       estaciones en fila- y a 360px quedaban 98px de aire arriba y abajo,
+       mas que a 288. Repite la medida de antes a proposito, para que el
+       .esc--servicio de este mismo bloque no la alcance. Lo que le falta
+       no es caja, es ponerse de pie, y eso es el Paso 6. */
+    height: clamp(248px, 20vw, 288px);
+  }
 
-    .esc__estacion {
-      gap: 8px;
-      padding: 30px 20px;
-    }
+  .esc__estacion {
+    gap: 8px;
+    padding: 30px 20px;
+  }
 
-    /* La primera fila de la bandeja es exactamente el contador: si sube
-       uno sin el otro, el contador queda recortado por su overflow. */
-    .esc--bandeja {
-      grid-template-rows: 38px minmax(0, auto);
-      gap: 22px;
-    }
+  /* La primera fila de la bandeja es exactamente el contador: si sube
+     uno sin el otro, el contador queda recortado por su overflow. */
+  .esc--bandeja {
+    grid-template-rows: 38px minmax(0, auto);
+    gap: 22px;
+  }
 
-    .esc__contador {
-      height: 38px;
-    }
+  .esc__contador {
+    height: 38px;
+  }
 
-    .esc__contador-despues {
-      height: 38px;
-    }
+  .esc__contador-despues {
+    height: 38px;
+  }
 
-    .esc__mensajes {
-      gap: 8px;
-    }
+  .esc__mensajes {
+    gap: 8px;
+  }
 
-    .esc__mensaje {
-      padding: 11px 16px;
-    }
+  .esc__mensaje {
+    padding: 11px 16px;
+  }
 
-    /* Hay que nombrar el indice y no poner un .esc__ficha suelto: sus
-       reglas de tamano de mas arriba valen (0,2,0) y le ganarian, o sea que
-       las cinco filas se quedarian en el apretado que necesitan solo cuando
-       la caja esta en su minimo. */
-    .esc--indice .esc__fichas {
-      gap: 11px;
-    }
+  /* Hay que nombrar el indice y no poner un .esc__ficha suelto: sus
+     reglas de tamano de mas arriba valen (0,2,0) y le ganarian, o sea que
+     las cinco filas se quedarian en el apretado que necesitan solo cuando
+     la caja esta en su minimo. */
+  .esc--indice .esc__fichas {
+    gap: 11px;
+  }
 
-    .esc--indice .esc__ficha {
-      padding: 12px 16px;
-    }
+  .esc--indice .esc__ficha {
+    padding: 12px 16px;
+  }
 
-    .esc__ficha-nombre {
-      font-size: 16px;
-    }
+  .esc__ficha-nombre {
+    font-size: 16px;
+  }
 
-    /* El hilo no llega a los 360: son dos globos y una linea, y estirarlos a
-       lo alto solo agrega aire. Los 300 los alcanza a llenar. */
-    .esc--hilo {
-      height: clamp(288px, 60cqi, 300px);
-    }
+  /* El hilo no llega a los 360: son dos globos y una linea, y estirarlos a
+     lo alto solo agrega aire. Los 300 los alcanza a llenar. */
+  .esc--hilo {
+    height: clamp(288px, 60cqi, 300px);
+  }
 
-    .esc--hilo .esc__mensaje {
-      padding: 16px 20px;
-    }
+  .esc--hilo .esc__mensaje {
+    padding: 16px 20px;
+  }
 
-    .esc--hilo .esc__mensaje-texto {
-      font-size: 16px;
-    }
+  .esc--hilo .esc__mensaje-texto {
+    font-size: 16px;
+  }
 
-    /* La carta crece con la caja pero con tope: en el tramo de 900 a 1024
-       la banda se apila y el contenedor llega a 880 px, donde una carta
-       proporcional mediria 280 y se leeria como banner. Los topes la dejan
-       en 158 y el abanico queda centrado con aire, que es lo correcto.
+  /* La carta crece con la caja pero con tope: hasta 899 la banda se
+     apila y el contenedor llega a 852 px, donde una carta
+     proporcional mediria 230 y se leeria como banner. Los topes la dejan
+     en 158 y el abanico queda centrado con aire, que es lo correcto.
 
-       El piso de --ancho es lo que sostiene el borde de abajo: a 1025 la
-       columna vale 427 y 27cqi darian 115, con lo que las tres cartas mas
-       el giro medirian 345 en una caja de 371. Con 118 quedan 13 px de
-       margen por lado, que es lo mas justo de todo el rango. */
-    .esc--abanico {
-      height: clamp(248px, 52cqi, 288px);
-    }
+     El piso de --ancho es lo que sostiene el borde de abajo: a 1025 la
+     columna vale 427 y 27cqi darian 115, con lo que las tres cartas mas
+     el giro medirian 345 en una caja de 371. Con 118 quedan 13 px de
+     margen por lado, que es lo mas justo de todo el rango. */
+  .esc--abanico {
+    height: clamp(248px, 52cqi, 288px);
+  }
 
-    .esc__abanico {
-      height: clamp(112px, 30cqi, 164px);
-    }
+  .esc__abanico {
+    height: clamp(112px, 30cqi, 164px);
+  }
 
-    .esc__carta {
-      --ancho: clamp(118px, 27cqi, 158px);
-      --paso: clamp(104px, 25cqi, 142px);
-      gap: 12px;
-      padding: 13px 15px;
-    }
+  .esc__carta {
+    --ancho: clamp(118px, 27cqi, 158px);
+    --paso: clamp(104px, 25cqi, 142px);
+    gap: 12px;
+    padding: 13px 15px;
+  }
 
-    .esc__carta-nombre {
-      font-size: 15px;
-    }
+  .esc__carta-nombre {
+    font-size: 15px;
+  }
 
-    .esc__carta-linea {
-      height: 6px;
-    }
+  .esc__carta-linea {
+    height: 6px;
   }
 }
 
 /* --- Celular ------------------------------------------------------ */
 
-@media (max-width: 899px) {
+@container escena (width < 400px) {
   .esc--servicio {
     height: 232px;
   }
@@ -16235,12 +16244,15 @@ button {
     font-size: 13px;
   }
 
+  /* Gap y relleno suben juntos: las cinco fichas dejaban 14px de aire
+     muerto arriba y otros 14 abajo -llenaban el 86% de la caja util- y
+     los 28 caben justos en los cuatro huecos y los cinco rellenos. */
   .esc--indice .esc__fichas {
-    gap: 5px;
+    gap: 7px;
   }
 
   .esc--indice .esc__ficha {
-    padding: 6px 10px;
+    padding: 8px 11px;
   }
 
   .esc__ficha-nombre {
@@ -16250,14 +16262,72 @@ button {
   /* 82% y no 66%: en una columna de 310 px el 66% deja un globo de 205 y la
      frase se va a tres renglones. */
   .esc--hilo .esc__mensaje {
-    max-width: 82%;
-    padding: 10px 13px;
+    max-width: 86%;
+    padding: 15px 18px;
   }
 
+  /* 14 y no 13: el globo es lo unico que se lee en esta escena y sobraban
+     18px de aire arriba y otros 18 abajo. */
   .esc--hilo .esc__mensaje-texto {
+    font-size: 15px;
+  }
+
+  /* El abanico dibujado para ESTA caja y no encogido de la de escritorio.
+     En 351x232 la figura de escritorio -tres cartas de 96px de alto en el
+     medio- dejaba 48px de aire muerto arriba y otros 48 abajo: llenaba el
+     52% de la caja util, de lejos lo peor de las once escenas. Aca la
+     carta es vertical y ocupa el alto entero, que es como se ve una ficha
+     de producto en un telefono.
+
+     El alto sale de la fila y no de un clamp: la caja es de alto fijo, asi
+     que una sola fila de 1fr deja que el abanico valga exactamente lo que
+     sobra despues del relleno, sin repetir el 232 en otro lugar. Hace
+     falta un alto definido: las tres cartas son absolutas y sin el la caja
+     del abanico mediria cero. */
+  .esc--abanico {
+    grid-template-rows: 1fr;
+    align-content: stretch;
+  }
+
+  .esc__abanico {
+    height: auto;
+  }
+
+  /* 29cqi y 25cqi, medidos contra el borde y no contra el gusto: las tres
+     cartas mas el giro de 3 grados miden 277 en una columna de 351, que
+     con el relleno de 20 deja 7px del lado de afuera. Mas anchas se comen
+     ese margen y el recorte de .esc se las lleva sin avisar. */
+  .esc__carta {
+    --ancho: clamp(96px, 29cqi, 150px);
+    --paso: clamp(86px, 25cqi, 134px);
+    gap: 10px;
+    padding: 11px 12px;
+  }
+
+  .esc__carta-nombre {
     font-size: 13px;
   }
 
+  /* La carta de pie necesita un cuerpo. Con las tres filas -nombre, 1fr,
+     pie- estiradas al alto entero, la linea larga de 5px se quedaba
+     pegada al nombre y dejaba 120px de blanco en el medio: la caja se veia
+     llena por el borde y vacia por dentro. Aca esa linea ocupa su fila y
+     pasa a ser el bloque de la foto, que es lo que llena una ficha de
+     producto en un telefono. La corta se queda de pie de ficha. */
+  .esc--abanico .esc__carta-linea {
+    height: 100%;
+    background: var(--line-soft);
+  }
+
+  .esc--abanico .esc__carta-linea--corta {
+    height: 6px;
+    background: var(--line);
+  }
+}
+
+/* El pie no es dibujo sino texto de la pagina, y vive fuera del
+   contenedor: se sigue midiendo contra la ventana. */
+@media (max-width: 899px) {
   .service-escena__pie {
     font-size: 15px;
   }
@@ -16456,11 +16526,10 @@ button {
   container: escena / inline-size;
 }
 
-/* El envoltorio de las tres escenas de ficha. Hoy no cambia nada, porque
-   ninguna consulta con nombre las alcanzaba. Es lo que deja mudarlas: el
-   dia que el bloque de celular pase de @media a @container escena, sin
-   esto las tres se quedarian sin sus simplificaciones y nadie lo veria
-   fallar. */
+/* El envoltorio de las tres escenas de ficha. Sin esto, el bloque de
+   celular de /productos -que desde hoy es @container escena- no las
+   alcanzaria y las tres se quedarian sin sus simplificaciones, sin que
+   nada fallara a la vista. */
 .ad__escena {
   container: escena / inline-size;
 }
@@ -16497,7 +16566,16 @@ button {
   text-wrap: balance;
 }
 
-@media (max-width: 1024px) {
+/* El corte que apila la banda. Estuvo en 1024 hasta hoy, y ahi hacia dos
+   danos: entre 900 y 1024 la escena quedaba apilada -y por lo tanto de
+   900 y pico de ancho- pero con las reglas de escritorio, y a la vez el
+   dibujo compacto lo elegia la ventana en 899. Ahora la escena la manda
+   su columna (@container) y el chasis solo decide cuando hay dos.
+   No se puede borrar: la grilla no envuelve, y sin este corte la segunda
+   columna sigue exigiendo sus 340px a 390 de ventana y sale scroll
+   horizontal. 899 es el piso medido: con calle de 48 y hueco de 48, las
+   dos columnas entran recien desde ~885px. */
+@media (max-width: 899px) {
   .banda-apertura {
     grid-template-columns: minmax(0, 1fr);
   }
@@ -17294,7 +17372,7 @@ button {
 
 /* --- Celular ------------------------------------------------------ */
 
-@media (max-width: 899px) {
+@container escena (width < 400px) {
   .esc--u2 {
     grid-template-rows: auto auto;
     height: auto;
@@ -17386,7 +17464,10 @@ button {
   }
 }
 
-@media (max-width: 380px) {
+/* El unico numero que quedo pegado al telefono, y a proposito medido:
+   la columna mide 349 en una ventana de 375 y 364 en una de 390, asi
+   que 356 parte por el mismo lugar que partia el corte de 380. */
+@container escena (width < 356px) {
   .u2__canal-detalle { display: none; }
 }
 
