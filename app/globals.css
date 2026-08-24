@@ -15212,6 +15212,176 @@ button {
   text-wrap: pretty;
 }
 
+/* --- 00 · Sitios web: no hay dibujo, hay una captura de verdad -----
+   Es la unica de las cinco que tiene un cliente que ensenar, asi que en
+   el lugar de la escena va la portada de propinvest.cl. Entra en el mismo
+   marco -mismo alto, mismo borde, misma columna- para que las cinco
+   aperturas midan igual.
+
+   Tres cosas de aca abajo no se pueden cambiar sin romper algo medido, y
+   el porque completo esta arriba de AperturaWeb en ServicePageTemplate.tsx:
+   la captura es el elemento LCP de la ruta, no puede quedar detras del
+   JavaScript de RevelaAlEntrar, no puede llevar un bucle infinito -no
+   tendria quien lo pausara fuera de pantalla- y lo unico que se le anima
+   es transform.
+
+   El fill es "backwards" y no "both" a proposito. Con both, el valor final
+   de la animacion se queda pegado como transform del elemento y le gana en
+   cascada al :hover, que no volveria a moverse nunca. Con backwards solo
+   pinta el estado inicial antes de arrancar y despues suelta la propiedad.
+
+   La animacion vive en el <img>, que es descendiente de .esc: asi la apaga
+   el bloque de prefers-reduced-motion de mas arriba, que dice ".esc *". En
+   el propio .esc--captura no la alcanzaria. */
+
+.esc--captura {
+  grid-template-rows: auto minmax(0, 1fr) auto;
+  padding: 0;
+  color: var(--ink);
+  text-decoration: none;
+  transition:
+    border-color 260ms ease,
+    box-shadow 260ms ease;
+}
+
+.esc--captura:hover {
+  border-color: color-mix(in srgb, var(--signal-ink) 50%, transparent);
+  box-shadow: 0 22px 48px rgba(7, 10, 15, 0.1);
+}
+
+.esc--captura:focus-visible {
+  outline: 2px solid var(--signal-ink);
+  outline-offset: 3px;
+}
+
+/* <picture> solo elige el archivo; para la maquetacion no existe. */
+
+.esc--captura picture {
+  display: contents;
+}
+
+.esc--captura img {
+  width: 100%;
+  height: 100%;
+  min-height: 0;
+  object-fit: cover;
+  object-position: top center;
+  animation: esc-captura 720ms cubic-bezier(0.22, 1, 0.36, 1) backwards;
+  transition: transform 620ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.esc--captura:hover img {
+  transform: scale(1.028);
+}
+
+@keyframes esc-captura {
+  from {
+    transform: translateY(10px) scale(1.035);
+  }
+
+  to {
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* La barra de arriba es lo que convierte una imagen recortada en "una
+   pantalla", que es como Nico pidio ver la prueba. Tres puntos y el
+   dominio: nada que haya que traducir. */
+
+.esc__captura-barra {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  padding: 9px 14px;
+  border-bottom: 1px solid var(--line);
+  background: var(--paper-bright);
+  color: var(--text-body);
+  font-family: var(--font-mono);
+  font-size: 12px;
+  letter-spacing: 0.02em;
+}
+
+.esc__captura-barra i {
+  flex: none;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--line);
+}
+
+.esc__captura-barra span {
+  margin-left: 7px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* El pie va en fila propia y no encima de la imagen: sobre una captura
+   cualquiera no hay forma de garantizar el contraste, y es justo lo que
+   mide la bateria. */
+
+.esc__captura-pie {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 4px 14px;
+  padding: 12px 16px;
+  border-top: 1px solid var(--line);
+  background: var(--paper-bright);
+  font-size: 14px;
+  line-height: 1.3;
+}
+
+.esc__captura-pie strong {
+  color: var(--ink);
+  font-weight: 500;
+  letter-spacing: -0.015em;
+}
+
+.esc__captura-dato {
+  color: var(--text-body);
+  font-family: var(--font-mono);
+  font-size: 12px;
+  letter-spacing: 0.02em;
+}
+
+.esc__captura-abrir {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-left: auto;
+  color: var(--signal-ink);
+}
+
+.esc__captura-abrir svg {
+  flex: none;
+  width: 13px;
+  height: 13px;
+}
+
+/* Cuando la banda se apila -de 1024 para abajo- la columna pasa a valer
+   casi la pagina entera, y ahi el marco de alto fijo deja la captura en
+   una franja: a 899 el hueco es de 867x150, casi 6:1, y se ve el 28% del
+   sitio. Un dibujo se estira sin perder nada; una foto no. Apilada, el
+   alto lo pone la proporcion de la imagen -la misma 16/10 que llevan las
+   tarjetas de mas abajo- y el marco crece con ella: la captura queda
+   entera, sin un recorte.
+
+   Las dos clases del selector son para ganarle a .esc--servicio, que fija
+   el alto en dos bloques distintos -uno para 900 arriba y otro para 899
+   abajo- y los dos caen mas adelante en el archivo. */
+
+@media (max-width: 1024px) {
+  .banda-apertura__visual .esc--captura {
+    height: auto;
+  }
+
+  .esc--captura img {
+    height: auto;
+    aspect-ratio: 16 / 10;
+  }
+}
+
 /* --- 01 · Programa a medida: la planilla se vuelve pantalla -------- */
 
 .esc--planilla {
@@ -16153,33 +16323,18 @@ button {
    Nico saco el hero ("para que te encuentren y contacten"), "Que
    recibes", los tres casos tipicos y "Siguiente servicio". La pagina
    queda: trabajos, asi trabajamos, escribenos, preguntas, cierre.
+
+   -Y desde hoy la apertura es una banda como las otras cuatro: el h1 a
+   la izquierda y la captura del trabajo destacado a la derecha. Los
+   otros cuatro trabajos bajaron a seccion propia. Con eso se fueron dos
+   reglas de aca: el h1 pasa a vestirlo .banda-apertura, y el titular de
+   los trabajos volvio a ser el h2 de su seccion -ya no tiene que
+   competir en tamano con el h1 al lado, asi que
+   .service-apertura__subtitulo se fue del proyecto entero-.
    ------------------------------------------------------------------ */
 
 .service-page-section--apertura {
   padding-top: clamp(64px, 8vw, 116px);
-}
-
-/* El titulo principal de la pagina vive ahora en la seccion de
-   trabajos: misma ropa que los demas titulares de seccion. */
-.service-page-section--apertura h1 {
-  margin: 0;
-  font-size: clamp(38px, 4.8vw, 72px);
-  font-weight: 500;
-  letter-spacing: -0.055em;
-  line-height: 0.96;
-}
-
-/* El h1 es el titulo del servicio; el titular de los trabajos quedo como
-   h2 y necesita ropa propia, mas chica, o compite con el. Hacen falta dos
-   clases de especificidad para ganarle a .service-page-section__heading h2
-   y a su variante dentro del @supports (width: 1cqi), que lo dejarian del
-   mismo tamano que el h1. */
-.service-page-section--apertura .service-apertura__subtitulo {
-  margin: 22px 0 0;
-  font-size: clamp(22px, 2.4vw, 32px);
-  font-weight: 500;
-  letter-spacing: -0.03em;
-  line-height: 1.14;
 }
 
 .service-apertura__lead {
@@ -16277,10 +16432,15 @@ button {
   margin: 20px 0 0;
 }
 
-/* Las dos clases del selector son a proposito: (0,2,1) le gana a
-   .service-page-section--apertura h1 -que sigue vistiendo la apertura de
-   sitios web, la unica que no es una banda- sin un !important, que subiria
-   la marca de la guardia de 23 a 24.
+/* Las dos clases del selector eran para ganarle a
+   .service-page-section--apertura h1 -la apertura de sitios web, la unica
+   que no era una banda- sin un !important, que habria subido la marca de la
+   guardia de 23 a 24. Esa regla se fue hoy, con la quinta banda, y hoy no
+   hay nadie mas apuntando a este h1 que las dos reglas genericas de
+   tipografia del principio: sobra especificidad. Se deja como esta porque
+   bajarla no arregla nada y cambiar el selector le cambia la clave a la
+   guardia, que es lo unico que avisaria si manana vuelve a aparecer un
+   competidor.
 
    Y baja de 72 a 54 px. En una columna de 644, un h1 de 68 con -0.055em da
    unos 20 caracteres por linea: "Te armamos la lista de empresas a las que

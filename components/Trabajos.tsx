@@ -19,11 +19,23 @@ function ArrowUpRight() {
  * formas -y en servicios las cinco tarjetas caian 3 + 2, con un hueco en la
  * segunda fila-. Aca la destacada ocupa la fila entera y las otras cuatro
  * van de a dos: cinco tarjetas, ninguna fila coja.
+ *
+ * "omitirDestacado" lo usa la pagina de sitios web, que desde hoy muestra la
+ * destacada arriba, en la columna derecha de su banda de apertura, y aca deja
+ * solo las otras cuatro -que caen 2 + 2, sin fila coja tampoco-. El indice se
+ * saca ANTES de filtrar a proposito: el orden que se pinta ("02 / 05") es la
+ * posicion en la lista completa, asi que las cuatro de abajo siguen desde el
+ * 02 y el 01 es el de arriba. Si se numeraran despues de filtrar, la pagina
+ * diria "01 / 05" dos veces.
  */
-export function Trabajos() {
+export function Trabajos({ omitirDestacado = false }: { omitirDestacado?: boolean } = {}) {
+  const lista = trabajos
+    .map((proof, index) => ({ proof, index }))
+    .filter(({ proof }) => !(omitirDestacado && proof.destacado))
+
   return (
     <div className="trabajos">
-      {trabajos.map((proof, index) => (
+      {lista.map(({ proof, index }) => (
         <Reveal
           key={proof.client}
           className={`trabajo${proof.destacado ? ' trabajo--destacado' : ''}`}

@@ -5,6 +5,7 @@ import { EscenaServicio, textoEscena } from '@/components/EscenaServicio'
 import { RevelaAlEntrar } from '@/components/RevelaAlEntrar'
 import { RevelaEnCascada } from '@/components/RevelaEnCascada'
 import { Trabajos } from '@/components/Trabajos'
+import { trabajos } from '@/lib/trabajos'
 import { type ServicePageContent } from '@/lib/services-content'
 
 /*
@@ -60,33 +61,144 @@ function ArrowUpRight() {
 }
 
 /* --- 1. La apertura ------------------------------------------------------
-   Dos versiones de la misma idea: arriba el titulo del servicio y debajo la
-   prueba mas fuerte que tenemos. En sitios web esa prueba son cinco sitios
-   que se pueden abrir; en las otras cuatro, la escena del servicio andando.
+   Una sola forma para las cinco paginas: el titulo a la izquierda y la prueba
+   a la derecha, que es como lo pidio Nico. Lo unico que cambia entre ellas es
+   QUE hay a la derecha. Las cuatro que todavia no tienen un cliente que
+   ensenar dibujan un momento del servicio andando; sitios web tiene la
+   portada de un sitio de verdad, y una captura real le gana a cualquier
+   dibujo.
 
-   La escena ya no es hermana del titular sino su columna derecha: titulo a
-   la izquierda, dibujo a la derecha, que es la forma que pidio Nico. Como
-   hermana quedaba una tira de 1240x288 -4,3:1- que se leia como banner, y
-   dejaba 340 px de aire muerto a la derecha del h1. */
+   Antes la prueba era HERMANA del titular y la apertura quedaba en dos pisos:
+   un h1 topado a 900 px con unos 340 px de aire muerto al lado, y debajo una
+   tira de 1240x288 -4,3:1- que se lee como banner y no como ilustracion. */
 
-function AperturaWeb({ titulo }: { titulo: string }) {
+/* REGLA DURA, y es la razon de que esta sea la unica apertura sin
+   RevelaAlEntrar: el <img> de la captura es el elemento LCP de esta ruta.
+   RevelaAlEntrar recorta lo que envuelve con clip-path y solo lo suelta
+   cuando su observador -o sea JavaScript, ya descargado y corriendo- dice
+   que entro en pantalla. Meter la captura ahi adentro deja la mayor pintura
+   de la pagina esperando un bundle. Queda fuera, con loading=eager.
+
+   De ahi se sigue lo otro: tampoco puede llevar un bucle infinito. Las otras
+   cuatro escenas se detienen fuera de pantalla porque ese mismo envoltorio
+   les pone animation-play-state; esta no tendria quien se lo ponga, y una
+   animacion eterna sobre una imagen de 1120 px es exactamente lo que hubo
+   que sacar de /productos/. Se mueve una sola vez, al entrar, y se queda
+   quieta. Y lo unico que se anima es transform del <img>: nunca opacity ni
+   clip-path, que retrasan el pintado del elemento que mide el LCP. */
+function AperturaWeb({ service, content }: { service: Service; content: ServicePageContent }) {
+  const destacado = trabajos.find((trabajo) => trabajo.destacado) ?? trabajos[0]
+  const dominio = destacado.href.replace(/^https?:\/\//, '').replace(/\/$/, '')
+
   return (
-    <section className="service-page-section service-page-section--website-proof service-page-section--apertura">
+    <section
+      id="apertura"
+      className="service-page-section service-page-section--apertura"
+    >
+      <div className="section-shell banda-apertura">
+        <div className="banda-apertura__texto">
+          <p className="eyebrow">{service.eyebrow}</p>
+          <h1>{service.title}</h1>
+          {/* El plazo. Hasta hoy esta era la unica de las cinco paginas que no
+              lo pintaba, y con los precios en cero es el unico dato duro que
+              trae la apertura. */}
+          <p className="service-apertura__plazo">{service.plazo}</p>
+          {/* Sin palabra de direccion a proposito: de 1024 para abajo la banda
+              se apila y la captura queda DEBAJO de este parrafo, asi que "a la
+              derecha" era falso en celular y en tablet. */}
+          <p className="service-escena__pie">
+            Es la portada de {dominio} tal como está hoy, no una maqueta. Más
+            abajo hay cuatro negocios chilenos más, todos con su sitio andando.
+          </p>
+          <div className="banda-apertura__accion">
+            <a
+              href={getWhatsappUrl(content.whatsappMessage)}
+              target="_blank"
+              rel="noreferrer"
+              className="button button--text"
+              data-analytics-event="service_whatsapp_click"
+              data-service-id={service.slug}
+              data-service-name={service.shortTitle}
+            >
+              {content.primaryCta}
+              <ArrowUpRight />
+            </a>
+          </div>
+        </div>
+
+        <div className="banda-apertura__visual">
+          <a
+            href={destacado.href}
+            target="_blank"
+            rel="noreferrer"
+            className="esc esc--servicio esc--captura"
+            data-cursor="Abrir"
+            data-analytics-event="service_case_click"
+            data-case-name={destacado.client}
+          >
+            <span className="esc__captura-barra" aria-hidden="true">
+              <i />
+              <i />
+              <i />
+              <span>{dominio}</span>
+            </span>
+            {/* El mismo par de archivos que usan las tarjetas de abajo: bajo
+                540 px la caja mide menos de 400 y la captura de 1120 pesaba
+                tres veces lo necesario. El export estatico no genera srcset,
+                asi que la eleccion va escrita a mano. */}
+            <picture>
+              <source
+                media="(max-width: 540px)"
+                srcSet={`/trabajos/${destacado.captura}-sm.webp`}
+                width={760}
+                height={475}
+              />
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src={`/trabajos/${destacado.captura}.webp`}
+                alt={`Portada del sitio de ${destacado.client} en computador`}
+                width={1120}
+                height={700}
+                loading="eager"
+                decoding="async"
+                fetchPriority="high"
+              />
+            </picture>
+            <span className="esc__captura-pie">
+              <strong>{destacado.client}</strong>
+              <span className="esc__captura-dato">
+                Carga en {destacado.velocidad} · {destacado.peso}
+              </span>
+              <span className="esc__captura-abrir">
+                Abrir el sitio
+                <ArrowUpRight />
+              </span>
+            </span>
+          </a>
+        </div>
+      </div>
+    </section>
+  )
+}
+
+/* Los otros cuatro trabajos, en seccion propia. El titular que antes estaba
+   pegado al h1 -"Negocios chilenos para los que ya hicimos esto"- baja aca y
+   vuelve a ser el titulo de su seccion, con la ropa que llevan todos los
+   demas: ya no tiene que competir en tamano con el h1, asi que
+   .service-apertura__subtitulo se fue del proyecto. */
+function TrabajosWeb() {
+  return (
+    <section className="service-page-section service-page-section--website-proof">
       <div className="section-shell">
         <div className="service-page-section__heading service-page-section__heading--wide">
           <p className="eyebrow">Trabajos reales</p>
-          {/* Es la primera seccion de la pagina y lleva su titulo principal:
-              Nico pidio abrir directo con los trabajos, sin hero. Como no hay
-              hero, el titulo del servicio no aparecia en ningun encabezado de
-              la pagina: ahora es el h1, y el titular de los trabajos baja a h2. */}
-          <h1>{titulo}</h1>
-          <h2 className="service-apertura__subtitulo">Negocios chilenos para los que ya hicimos esto.</h2>
+          <h2>Negocios chilenos para los que ya hicimos esto.</h2>
           <p className="service-apertura__lead">
             No son maquetas. Son páginas web y tiendas online que están atendiendo
             clientes hoy: ábrelas, míralas en tu celular y decide antes de escribirnos.
           </p>
         </div>
-        <Trabajos />
+        <Trabajos omitirDestacado />
       </div>
     </section>
   )
@@ -215,7 +327,10 @@ export function ServicePageTemplate({ service, content }: ServicePageTemplatePro
   return (
     <main id="contenido" className="service-page">
       {esWeb ? (
-        <AperturaWeb titulo={service.title} />
+        <>
+          <AperturaWeb service={service} content={content} />
+          <TrabajosWeb />
+        </>
       ) : (
         <AperturaEscena service={service} content={content} />
       )}
