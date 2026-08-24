@@ -15108,8 +15108,8 @@ button {
    bonito... representaciones animadas de bajo presupuesto, pero que
    sean claras y esteticamente apreciables... que no gasten mucha
    memoria y que no entorpezcan el flujo".
-   Cada producto tiene una escena corta que se repite cada 11 s y que
-   se entiende sin leer una palabra. Solo se anima opacidad y
+   Cada producto tiene una escena corta -una sola pasada de 1,6 s, sin
+   repeticion- que se entiende sin leer una palabra. Solo se anima opacidad y
    transform: las dos cosas que el navegador resuelve en el
    compositor, sin recalcular maquetacion ni repintar. Cero imagenes,
    cero video, cero JavaScript de animacion.
@@ -15118,6 +15118,10 @@ button {
    ================================================================== */
 
 .esc {
+  /* Una pasada, y una sola. El presupuesto es duro: el mensaje entregado a
+     los 2 s y quieto a los 3. Los 400 ms que sobran hasta los 2.000 son los
+     que se reparten entre los desfases, por eso ninguno pasa de 400. */
+  --esc-pasada: 1600ms;
   position: relative;
   display: grid;
   height: 212px;
@@ -15131,16 +15135,21 @@ button {
 }
 
 /* Detenida hasta que entra en pantalla, y detenida otra vez cuando se va.
-   Sin el envoltorio -o sea sin JavaScript- corre igual: la regla que la
-   detiene la pone el propio componente cuando ya esta montado.
+
+   La condicion para detener es ".con-js", que pone un script en linea antes
+   del primer pintado, y NO ".revela--armado", que llega recien con React.
+   La diferencia es medible: con --armado la escena arrancaba al cargar y se
+   detenia 1.100 ms despues, cuando hidrataba. Una pasada dura 1.600 ms, o
+   sea que una escena tres pantallas mas abajo se gastaba dos tercios de su
+   funcion antes de que nadie la viera. Sin JavaScript no hay .con-js, no
+   hay quien las despierte, y corren solas: igual que hasta ahora.
 
    Son dos condiciones distintas a proposito. "es-visible" es de ida: marca
    que el bloque ya se armo, y no se saca nunca, porque si se sacara el
    bloque volveria a aparecer de cero cada vez que se pasa por encima.
-   "revela--fuera" si va y viene, y es la que apaga los bucles mientras la
-   escena no esta en pantalla: son 56 animaciones infinitas en /productos/
-   que antes seguian corriendo despues de pasar de largo. */
-.revela--escena.revela--armado .esc * {
+   "revela--fuera" si va y viene, y es la que la detiene otra vez si se sale
+   de pantalla a mitad de pasada. */
+.con-js .revela--escena .esc * {
   animation-play-state: paused;
 }
 
@@ -15189,8 +15198,8 @@ button {
    chilenos con su captura y su enlace. Las otras cuatro no tienen
    todavia un trabajo de cliente que ensenar, asi que en ese mismo
    lugar muestran un momento del servicio andando. Mismo chasis que
-   las escenas de productos: 11 s de ciclo, solo opacidad y transform,
-   y detenida hasta que entra en pantalla.
+   las escenas de productos: una pasada de 1,6 s que termina quieta,
+   solo opacidad y transform, y detenida hasta que entra en pantalla.
    ================================================================== */
 
 /* Crece poco a proposito. Las cuatro escenas centran su dibujo (align-items:
@@ -15394,15 +15403,15 @@ button {
   display: grid;
   grid-template-columns: repeat(6, minmax(0, 1fr));
   gap: 4px;
-  animation: esc-planilla-sale 11s cubic-bezier(0.22, 1, 0.36, 1) infinite;
+  animation: esc-planilla-sale var(--esc-pasada) cubic-bezier(0.22, 1, 0.36, 1) 1 both;
 }
 
 .esc__celda {
   height: 22px;
   border: 1px solid rgba(7, 10, 15, 0.14);
   background: color-mix(in srgb, var(--ink) 5%, transparent);
-  animation: esc-celda 11s cubic-bezier(0.22, 1, 0.36, 1) infinite;
-  animation-delay: calc(var(--i) * 0.03s);
+  animation: esc-celda var(--esc-pasada) cubic-bezier(0.22, 1, 0.36, 1) 1 both;
+  animation-delay: calc(var(--i) * 8ms);
 }
 
 .esc__pantalla {
@@ -15411,7 +15420,7 @@ button {
   padding: 14px;
   border: 1px solid color-mix(in srgb, var(--acento) 45%, transparent);
   background: var(--paper-bright);
-  animation: esc-pantalla 11s cubic-bezier(0.22, 1, 0.36, 1) infinite;
+  animation: esc-pantalla var(--esc-pasada) cubic-bezier(0.22, 1, 0.36, 1) 1 both;
 }
 
 .esc__pantalla-barra {
@@ -15425,8 +15434,8 @@ button {
   grid-template-columns: 62px minmax(0, 1fr);
   align-items: center;
   gap: 10px;
-  animation: esc-campo 11s cubic-bezier(0.22, 1, 0.36, 1) infinite;
-  animation-delay: calc(var(--i) * 0.16s);
+  animation: esc-campo var(--esc-pasada) cubic-bezier(0.22, 1, 0.36, 1) 1 both;
+  animation-delay: calc(var(--i) * 70ms);
 }
 
 .esc__campo-nombre {
@@ -15454,27 +15463,23 @@ button {
 }
 
 @keyframes esc-planilla-sale {
-  0%, 26% { opacity: 1; }
-  40%, 70% { opacity: 0.2; }
-  84%, 100% { opacity: 1; }
+  0%, 25% { opacity: 1; }
+  60%, 100% { opacity: 0.2; }
 }
 
 @keyframes esc-celda {
-  0%, 24% { transform: translateX(0); }
-  40%, 70% { transform: translateX(-5px); }
-  84%, 100% { transform: translateX(0); }
+  0%, 25% { transform: translateX(0); }
+  60%, 100% { transform: translateX(-5px); }
 }
 
 @keyframes esc-pantalla {
-  0%, 26% { opacity: 0; transform: translateY(12px); }
-  40%, 70% { opacity: 1; transform: translateY(0); }
-  84%, 100% { opacity: 0; transform: translateY(12px); }
+  0%, 28% { opacity: 0; transform: translateY(12px); }
+  65%, 100% { opacity: 1; transform: translateY(0); }
 }
 
 @keyframes esc-campo {
-  0%, 32% { opacity: 0; }
-  44%, 70% { opacity: 1; }
-  84%, 100% { opacity: 0; }
+  0%, 55% { opacity: 0; }
+  90%, 100% { opacity: 1; }
 }
 
 /* --- 02 · Automatizaciones: el pedido recorre las estaciones ------- */
@@ -15498,8 +15503,10 @@ button {
   padding: 20px 16px;
   border: 1px solid var(--line);
   background: var(--paper-bright);
-  animation: esc-estacion 11s cubic-bezier(0.22, 1, 0.36, 1) infinite;
-  animation-delay: calc(var(--i) * 2.4s);
+  animation: esc-estacion 500ms cubic-bezier(0.22, 1, 0.36, 1) 1 both;
+  /* Cada estacion prende cuando la carga llega, no por su cuenta: la carga
+     pasa por la 1 al 14% de la pasada, por la 2 al 50% y por la 3 al 82%. */
+  animation-delay: calc(var(--i) * 550ms + 150ms);
 }
 
 .esc__estacion-nombre {
@@ -15538,7 +15545,7 @@ button {
   height: 10px;
   margin-top: -30px;
   pointer-events: none;
-  animation: esc-carga 11s cubic-bezier(0.5, 0, 0.5, 1) infinite;
+  animation: esc-carga var(--esc-pasada) cubic-bezier(0.5, 0, 0.5, 1) 1 both;
 }
 
 .esc__carga i {
@@ -15562,23 +15569,21 @@ button {
   font-family: var(--font-mono);
   font-size: 12px;
   letter-spacing: 0.03em;
-  animation: esc-listo 11s cubic-bezier(0.22, 1, 0.36, 1) infinite;
+  animation: esc-listo var(--esc-pasada) cubic-bezier(0.22, 1, 0.36, 1) 1 both;
 }
 
 @keyframes esc-estacion {
-  0%, 8% { border-color: var(--line); }
-  14%, 24% { border-color: color-mix(in srgb, var(--acento) 65%, transparent); }
-  32%, 100% { border-color: var(--line); }
+  0% { border-color: var(--line); }
+  35%, 100% { border-color: color-mix(in srgb, var(--acento) 65%, transparent); }
 }
 
 /* Las tres estaciones ocupan un tercio cada una: el punto se para en el
    centro de cada una, o sea a 1/6, 3/6 y 5/6 del recorrido. */
 @keyframes esc-carga {
-  0%, 4% { opacity: 0; transform: translateX(calc(16.6% - 5px)); }
-  10%, 22% { opacity: 1; transform: translateX(calc(16.6% - 5px)); }
-  32%, 44% { opacity: 1; transform: translateX(calc(50% - 5px)); }
-  54%, 66% { opacity: 1; transform: translateX(calc(83.3% - 5px)); }
-  74%, 100% { opacity: 0; transform: translateX(calc(83.3% - 5px)); }
+  0%, 5% { opacity: 0; transform: translateX(calc(16.6% - 5px)); }
+  14%, 34% { opacity: 1; transform: translateX(calc(16.6% - 5px)); }
+  50%, 66% { opacity: 1; transform: translateX(calc(50% - 5px)); }
+  82%, 100% { opacity: 1; transform: translateX(calc(83.3% - 5px)); }
 }
 
 /* El mismo recorrido cuando las estaciones se apilan. Las paradas no caen
@@ -15587,17 +15592,15 @@ button {
    la pila de 142px que deja la escena en celular, cada estacion mide 42,7 y
    los centros quedan en 15%, 50% y 85%. */
 @keyframes esc-carga-pie {
-  0%, 4% { opacity: 0; transform: translateY(calc(15% - 5px)); }
-  10%, 22% { opacity: 1; transform: translateY(calc(15% - 5px)); }
-  32%, 44% { opacity: 1; transform: translateY(calc(50% - 5px)); }
-  54%, 66% { opacity: 1; transform: translateY(calc(85% - 5px)); }
-  74%, 100% { opacity: 0; transform: translateY(calc(85% - 5px)); }
+  0%, 5% { opacity: 0; transform: translateY(calc(15% - 5px)); }
+  14%, 34% { opacity: 1; transform: translateY(calc(15% - 5px)); }
+  50%, 66% { opacity: 1; transform: translateY(calc(50% - 5px)); }
+  82%, 100% { opacity: 1; transform: translateY(calc(85% - 5px)); }
 }
 
 @keyframes esc-listo {
-  0%, 52% { opacity: 0; transform: translateY(8px); }
-  62%, 90% { opacity: 1; transform: translateY(0); }
-  97%, 100% { opacity: 0; transform: translateY(8px); }
+  0%, 60% { opacity: 0; transform: translateY(8px); }
+  88%, 100% { opacity: 1; transform: translateY(0); }
 }
 
 /* --- 03 · Asistente con IA: la bandeja se vacia -------------------- */
@@ -15632,7 +15635,7 @@ button {
   border: 1px solid var(--line);
   background: var(--paper-bright);
   white-space: nowrap;
-  animation: 11s cubic-bezier(0.22, 1, 0.36, 1) infinite;
+  animation: var(--esc-pasada) cubic-bezier(0.22, 1, 0.36, 1) 1 both;
 }
 
 .esc__contador-antes {
@@ -15661,8 +15664,8 @@ button {
   padding: 8px 12px;
   border: 1px solid var(--line);
   background: var(--paper-bright);
-  animation: esc-mensaje 11s cubic-bezier(0.22, 1, 0.36, 1) infinite;
-  animation-delay: calc(var(--i) * 0.5s);
+  animation: esc-mensaje var(--esc-pasada) cubic-bezier(0.22, 1, 0.36, 1) 1 both;
+  animation-delay: calc(var(--i) * 90ms);
 }
 
 .esc__mensaje-texto {
@@ -15680,34 +15683,33 @@ button {
   border-bottom: 2px solid var(--acento);
   opacity: 0;
   transform: rotate(-45deg);
-  animation: esc-mensaje-tic 11s cubic-bezier(0.22, 1, 0.36, 1) infinite;
-  animation-delay: calc(var(--i) * 0.5s);
+  animation: esc-mensaje-tic var(--esc-pasada) cubic-bezier(0.22, 1, 0.36, 1) 1 both;
+  animation-delay: calc(var(--i) * 90ms);
 }
 
 /* Se turnan deslizandose: cuando uno sale hacia arriba el otro entra desde
    abajo, asi que nunca se leen los dos encima en el mismo lugar. */
 @keyframes esc-contador-sale {
-  0%, 44% { opacity: 1; transform: translateY(0); }
-  54%, 88% { opacity: 0; transform: translateY(-16px); }
-  96%, 100% { opacity: 1; transform: translateY(0); }
+  0%, 68% { opacity: 1; transform: translateY(0); }
+  88%, 100% { opacity: 0; transform: translateY(-16px); }
 }
 
 @keyframes esc-contador-entra {
-  0%, 44% { opacity: 0; transform: translateY(16px); }
-  54%, 88% { opacity: 1; transform: translateY(0); }
-  96%, 100% { opacity: 0; transform: translateY(16px); }
+  0%, 68% { opacity: 0; transform: translateY(16px); }
+  88%, 100% { opacity: 1; transform: translateY(0); }
 }
 
 @keyframes esc-mensaje {
-  0%, 14% { border-color: var(--line); background: var(--paper-bright); }
-  24%, 78% { border-color: color-mix(in srgb, var(--acento) 40%, transparent); background: color-mix(in srgb, var(--acento) 7%, var(--paper-bright)); }
-  88%, 100% { border-color: var(--line); background: var(--paper-bright); }
+  0%, 20% { border-color: var(--line); background: var(--paper-bright); }
+  45%, 100% {
+    border-color: color-mix(in srgb, var(--acento) 40%, transparent);
+    background: color-mix(in srgb, var(--acento) 7%, var(--paper-bright));
+  }
 }
 
 @keyframes esc-mensaje-tic {
-  0%, 16% { opacity: 0; }
-  26%, 78% { opacity: 1; }
-  88%, 100% { opacity: 0; }
+  0%, 25% { opacity: 0; }
+  50%, 100% { opacity: 1; }
 }
 
 /* --- 04 · Prospeccion: el campo de empresas y a cual llamar -------
@@ -15745,8 +15747,8 @@ button {
   font-weight: 700;
   line-height: 1;
   opacity: 0;
-  animation: l2-aparece 11s cubic-bezier(0.22, 1, 0.36, 1) infinite;
-  animation-delay: calc(var(--o) * 0.55s);
+  animation: l2-aparece var(--esc-pasada) cubic-bezier(0.22, 1, 0.36, 1) 1 both;
+  animation-delay: calc(var(--o) * 100ms);
 }
 
 /* --- Las fichas, que ahora usa solo el indice de servicios --------- */
@@ -15765,8 +15767,8 @@ button {
   padding: 9px 12px;
   border: 1px solid var(--line);
   background: var(--paper-bright);
-  animation: esc-ficha 11s cubic-bezier(0.22, 1, 0.36, 1) infinite;
-  animation-delay: calc(var(--i) * 0.7s);
+  animation: esc-ficha var(--esc-pasada) cubic-bezier(0.22, 1, 0.36, 1) 1 both;
+  animation-delay: calc(var(--i) * 90ms);
 }
 
 .esc__nota {
@@ -15775,13 +15777,12 @@ button {
   font-family: var(--font-mono);
   font-size: 12px;
   letter-spacing: 0.03em;
-  animation: esc-listo 11s cubic-bezier(0.22, 1, 0.36, 1) infinite;
+  animation: esc-listo var(--esc-pasada) cubic-bezier(0.22, 1, 0.36, 1) 1 both;
 }
 
 @keyframes esc-ficha {
-  0%, 10% { border-color: var(--line); }
-  20%, 76% { border-color: color-mix(in srgb, var(--acento) 42%, transparent); }
-  86%, 100% { border-color: var(--line); }
+  0%, 20% { border-color: var(--line); }
+  45%, 100% { border-color: color-mix(in srgb, var(--acento) 42%, transparent); }
 }
 
 /* --- 05 · El indice de servicios: los cinco, uno por uno ---------- */
@@ -15825,7 +15826,7 @@ button {
    segundo; aca la fila que lo lleva se enciende cada 0,7. Sin esto el borde
    y el tic de una misma fila irian cada uno por su lado. */
 .esc--indice .esc__mensaje-tic {
-  animation-delay: calc(var(--i) * 0.7s);
+  animation-delay: calc(var(--i) * 90ms);
 }
 
 /* --- 06 · Contacto: el hilo --------------------------------------- */
@@ -15919,8 +15920,8 @@ button {
   background: var(--paper-bright);
   transform: var(--giro);
   transform-origin: bottom center;
-  animation: esc-carta 10.8s ease-in-out infinite;
-  animation-delay: calc(var(--i) * 3.6s);
+  animation: esc-carta var(--esc-pasada) ease-in-out 1 both;
+  animation-delay: calc(var(--i) * 160ms);
 }
 
 .esc__carta-nombre {
@@ -15948,23 +15949,9 @@ button {
    una propiedad discreta y sin el valor de partida el salto al frente cae
    a mitad de la subida en lugar de al empezarla. */
 @keyframes esc-carta {
-  0%,
-  8% {
-    z-index: 1;
-    transform: var(--giro);
-  }
-
-  18%,
-  30% {
-    z-index: 2;
-    transform: translateY(-12px) var(--giro);
-  }
-
-  40%,
-  100% {
-    z-index: 1;
-    transform: var(--giro);
-  }
+  0%, 12% { z-index: 1; transform: var(--giro); }
+  45%, 62% { z-index: 2; transform: translateY(-12px) var(--giro); }
+  88%, 100% { z-index: 1; transform: var(--giro); }
 }
 
 /* --- Que el dibujo crezca con la caja ----------------------------- */
@@ -16277,9 +16264,8 @@ button {
 }
 
 @keyframes esc-planilla-sale-movil {
-  0%, 24% { opacity: 1; }
-  36%, 74% { opacity: 0; }
-  86%, 100% { opacity: 1; }
+  0%, 25% { opacity: 1; }
+  60%, 100% { opacity: 0; }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -16751,7 +16737,7 @@ button {
    maestro del que bajan pistas de circuito a los canales. Citaly: el
    audio con su forma de onda y la agenda donde la hora queda tomada.
    Leads: el mapa de puntos que se encienden y terminan en una lista
-   ordenada. Misma disciplina de siempre: ciclo de 11 s, solo
+   ordenada. Misma disciplina de siempre: una sola pasada, solo
    opacidad/transform/scale y algun borde, detenidas hasta entrar en
    pantalla, y el estado resuelto como imagen fija si no hay movimiento.
    ================================================================== */
@@ -16818,7 +16804,7 @@ button {
   font-size: 12px;
   letter-spacing: 0.02em;
   white-space: nowrap;
-  animation: u2-venta 11s cubic-bezier(0.22, 1, 0.36, 1) infinite;
+  animation: u2-venta var(--esc-pasada) cubic-bezier(0.22, 1, 0.36, 1) 1 both;
 }
 
 .u2__venta-punto {
@@ -16865,8 +16851,8 @@ button {
   background: var(--acento);
   box-shadow: 0 0 0 4px color-mix(in srgb, var(--acento) 18%, transparent);
   opacity: 0;
-  animation: u2-corriente 11s cubic-bezier(0.5, 0, 0.5, 1) infinite;
-  animation-delay: calc(var(--i) * 0.4s);
+  animation: u2-corriente var(--esc-pasada) cubic-bezier(0.5, 0, 0.5, 1) 1 both;
+  animation-delay: calc(var(--i) * 90ms);
 }
 
 .u2__canal {
@@ -16876,8 +16862,8 @@ button {
   padding: 11px 12px;
   border: 1px solid var(--line);
   background: var(--paper-bright);
-  animation: u2-canal 11s cubic-bezier(0.22, 1, 0.36, 1) infinite;
-  animation-delay: calc(var(--i) * 0.4s);
+  animation: u2-canal var(--esc-pasada) cubic-bezier(0.22, 1, 0.36, 1) 1 both;
+  animation-delay: calc(var(--i) * 90ms);
 }
 
 .u2__canal-nombre {
@@ -16916,8 +16902,8 @@ button {
   position: absolute;
   left: 0;
   top: 0;
-  animation: 11s cubic-bezier(0.22, 1, 0.36, 1) infinite;
-  animation-delay: calc(var(--i) * 0.4s);
+  animation: var(--esc-pasada) cubic-bezier(0.22, 1, 0.36, 1) 1 both;
+  animation-delay: calc(var(--i) * 90ms);
 }
 
 .u2__cifra-antes {
@@ -16931,36 +16917,32 @@ button {
 }
 
 /* La venta aparece, la corriente baja, el canal se enciende y la cifra
-   cambia: todo con el mismo reloj de 11 s. */
+   cambia: todo dentro de la misma pasada de 1,6 s. */
 @keyframes u2-venta {
-  0%, 4% { opacity: 0; transform: translateY(-8px); }
-  10%, 74% { opacity: 1; transform: translateY(0); }
-  84%, 100% { opacity: 0; transform: translateY(-8px); }
+  0%, 6% { opacity: 0; transform: translateY(-8px); }
+  22%, 100% { opacity: 1; transform: translateY(0); }
 }
 
 @keyframes u2-corriente {
-  0%, 12% { opacity: 0; transform: translateY(-4px); }
-  15% { opacity: 1; transform: translateY(0); }
-  24% { opacity: 1; transform: translateY(30px); }
-  27%, 100% { opacity: 0; transform: translateY(30px); }
+  0%, 20% { opacity: 0; transform: translateY(-4px); }
+  32% { opacity: 1; transform: translateY(0); }
+  60% { opacity: 1; transform: translateY(30px); }
+  72%, 100% { opacity: 0; transform: translateY(30px); }
 }
 
 @keyframes u2-canal {
-  0%, 23% { border-color: var(--line); }
-  28%, 72% { border-color: color-mix(in srgb, var(--acento) 60%, transparent); }
-  82%, 100% { border-color: var(--line); }
+  0%, 52% { border-color: var(--line); }
+  72%, 100% { border-color: color-mix(in srgb, var(--acento) 60%, transparent); }
 }
 
 @keyframes u2-cifra-sale {
-  0%, 24% { opacity: 1; transform: translateY(0); }
-  29%, 72% { opacity: 0; transform: translateY(-8px); }
-  82%, 100% { opacity: 1; transform: translateY(0); }
+  0%, 55% { opacity: 1; transform: translateY(0); }
+  75%, 100% { opacity: 0; transform: translateY(-8px); }
 }
 
 @keyframes u2-cifra-entra {
-  0%, 24% { opacity: 0; transform: translateY(8px); }
-  29%, 72% { opacity: 1; transform: translateY(0); }
-  82%, 100% { opacity: 0; transform: translateY(8px); }
+  0%, 55% { opacity: 0; transform: translateY(8px); }
+  75%, 100% { opacity: 1; transform: translateY(0); }
 }
 
 /* --- 02 · CITALY: el audio y la agenda ---------------------------- */
@@ -16983,7 +16965,7 @@ button {
   font-family: var(--font-mono);
   font-size: 11px;
   letter-spacing: 0.09em;
-  animation: c2-temprano 11s cubic-bezier(0.22, 1, 0.36, 1) infinite;
+  animation: c2-temprano var(--esc-pasada) cubic-bezier(0.22, 1, 0.36, 1) 1 both;
 }
 
 /* La burbuja de audio, como en citaly.cl: play, forma de onda y duracion. */
@@ -16994,7 +16976,7 @@ button {
   padding: 10px 14px;
   border: 1px solid var(--line);
   background: var(--paper-bright);
-  animation: c2-temprano 11s cubic-bezier(0.22, 1, 0.36, 1) infinite;
+  animation: c2-temprano var(--esc-pasada) cubic-bezier(0.22, 1, 0.36, 1) 1 both;
 }
 
 .c2__audio-play {
@@ -17017,8 +16999,11 @@ button {
   height: var(--h, 10px);
   background: color-mix(in srgb, var(--acento) 75%, var(--ink));
   transform-origin: center;
-  animation: c2-onda 1.1s ease-in-out infinite alternate;
-  animation-delay: calc(var(--i) * 70ms);
+  /* Una sola crecida y se queda: la altura de cada barra la pone --h, asi
+     que terminar en scaleY(1) es terminar en la onda dibujada. Latiendo
+     para siempre, el cuadro final caia en cualquier altura. */
+  animation: c2-onda 600ms ease-out 1 both;
+  animation-delay: calc(var(--i) * 40ms);
 }
 
 .c2__audio-dur {
@@ -17032,7 +17017,7 @@ button {
   font-family: var(--font-mono);
   font-size: 12px;
   letter-spacing: 0.02em;
-  animation: c2-estado 11s cubic-bezier(0.22, 1, 0.36, 1) infinite;
+  animation: c2-estado var(--esc-pasada) cubic-bezier(0.22, 1, 0.36, 1) 1 both;
 }
 
 .c2__respuesta {
@@ -17043,7 +17028,7 @@ button {
   background: color-mix(in srgb, var(--acento) 11%, var(--paper-bright));
   font-size: 14px;
   line-height: 1.3;
-  animation: c2-respuesta 11s cubic-bezier(0.22, 1, 0.36, 1) infinite;
+  animation: c2-respuesta var(--esc-pasada) cubic-bezier(0.22, 1, 0.36, 1) 1 both;
 }
 
 /* La agenda, como la de citaly.cl: horas a la izquierda, casillas a la
@@ -17054,7 +17039,7 @@ button {
   padding: 13px 14px;
   border: 1px solid var(--line);
   background: var(--paper-bright);
-  animation: c2-agenda 11s cubic-bezier(0.22, 1, 0.36, 1) infinite;
+  animation: c2-agenda var(--esc-pasada) cubic-bezier(0.22, 1, 0.36, 1) 1 both;
 }
 
 .c2__agenda-titulo {
@@ -17121,19 +17106,18 @@ button {
 }
 
 .c2__slot-caja--toma .c2__slot-libre {
-  animation: c2-libre 11s cubic-bezier(0.22, 1, 0.36, 1) infinite;
+  animation: c2-libre var(--esc-pasada) cubic-bezier(0.22, 1, 0.36, 1) 1 both;
 }
 
 .c2__slot-caja--toma .c2__slot-tomada {
-  animation: c2-tomada 11s cubic-bezier(0.22, 1, 0.36, 1) infinite;
+  animation: c2-tomada var(--esc-pasada) cubic-bezier(0.22, 1, 0.36, 1) 1 both;
 }
 
 /* El guion: llega el audio (6%), lo escucha (14-30%), responde (36%),
    y la agenda toma la hora (56%). Al final todo vuelve. */
 @keyframes c2-temprano {
-  0%, 5% { opacity: 0; transform: translateY(10px); }
-  12%, 82% { opacity: 1; transform: translateY(0); }
-  92%, 100% { opacity: 0; transform: translateY(10px); }
+  0%, 6% { opacity: 0; transform: translateY(10px); }
+  20%, 100% { opacity: 1; transform: translateY(0); }
 }
 
 @keyframes c2-onda {
@@ -17142,33 +17126,29 @@ button {
 }
 
 @keyframes c2-estado {
-  0%, 13% { opacity: 0; }
-  17%, 28% { opacity: 1; }
-  33%, 100% { opacity: 0; }
+  0%, 20% { opacity: 0; }
+  32%, 58% { opacity: 1; }
+  72%, 100% { opacity: 0; }
 }
 
 @keyframes c2-respuesta {
-  0%, 33% { opacity: 0; transform: translateY(10px); }
-  40%, 82% { opacity: 1; transform: translateY(0); }
-  92%, 100% { opacity: 0; transform: translateY(10px); }
+  0%, 40% { opacity: 0; transform: translateY(10px); }
+  58%, 100% { opacity: 1; transform: translateY(0); }
 }
 
 @keyframes c2-agenda {
-  0%, 52% { border-color: var(--line); }
-  58%, 82% { border-color: color-mix(in srgb, var(--acento) 55%, transparent); }
-  92%, 100% { border-color: var(--line); }
+  0%, 62% { border-color: var(--line); }
+  82%, 100% { border-color: color-mix(in srgb, var(--acento) 55%, transparent); }
 }
 
 @keyframes c2-libre {
-  0%, 52% { opacity: 1; }
-  57%, 88% { opacity: 0; }
-  96%, 100% { opacity: 1; }
+  0%, 62% { opacity: 1; }
+  82%, 100% { opacity: 0; }
 }
 
 @keyframes c2-tomada {
-  0%, 52% { opacity: 0; transform: translateY(6px); }
-  58%, 88% { opacity: 1; transform: translateY(0); }
-  96%, 100% { opacity: 0; transform: translateY(6px); }
+  0%, 62% { opacity: 0; transform: translateY(6px); }
+  82%, 100% { opacity: 1; transform: translateY(0); }
 }
 
 /* --- 03 · LEADS: del mapa de puntos a la lista -------------------- */
@@ -17196,7 +17176,7 @@ button {
   font-family: var(--font-mono);
   font-size: 12px;
   letter-spacing: 0.04em;
-  animation: l2-busqueda 11s cubic-bezier(0.22, 1, 0.36, 1) infinite;
+  animation: l2-busqueda var(--esc-pasada) cubic-bezier(0.22, 1, 0.36, 1) 1 both;
 }
 
 /* El campo de puntos, como el mapa encendido de leads.iaenblanco.com:
@@ -17222,8 +17202,8 @@ button {
 
 .l2__punto--calza {
   background: var(--acento);
-  animation: l2-punto 11s cubic-bezier(0.22, 1, 0.36, 1) infinite;
-  animation-delay: calc(var(--o) * 0.55s);
+  animation: l2-punto var(--esc-pasada) cubic-bezier(0.22, 1, 0.36, 1) 1 both;
+  animation-delay: calc(var(--o) * 100ms);
 }
 
 .l2__lista {
@@ -17244,8 +17224,8 @@ button {
   font-size: 13px;
   font-weight: 700;
   opacity: 0;
-  animation: l2-aparece 11s cubic-bezier(0.22, 1, 0.36, 1) infinite;
-  animation-delay: calc(var(--o) * 0.55s);
+  animation: l2-aparece var(--esc-pasada) cubic-bezier(0.22, 1, 0.36, 1) 1 both;
+  animation-delay: calc(var(--o) * 100ms);
 }
 
 .l2__barra {
@@ -17261,8 +17241,8 @@ button {
   background: color-mix(in srgb, var(--acento) 55%, transparent);
   transform: scaleX(0);
   transform-origin: left center;
-  animation: l2-barra 11s cubic-bezier(0.22, 1, 0.36, 1) infinite;
-  animation-delay: calc(var(--o) * 0.55s);
+  animation: l2-barra var(--esc-pasada) cubic-bezier(0.22, 1, 0.36, 1) 1 both;
+  animation-delay: calc(var(--o) * 100ms);
 }
 
 .l2__evidencia {
@@ -17272,8 +17252,8 @@ button {
   letter-spacing: 0.03em;
   white-space: nowrap;
   opacity: 0;
-  animation: l2-aparece 11s cubic-bezier(0.22, 1, 0.36, 1) infinite;
-  animation-delay: calc(var(--o) * 0.55s + 0.2s);
+  animation: l2-aparece var(--esc-pasada) cubic-bezier(0.22, 1, 0.36, 1) 1 both;
+  animation-delay: calc(var(--o) * 100ms + 60ms);
 }
 
 .l2__cierre {
@@ -17283,38 +17263,33 @@ button {
   font-size: 12px;
   font-weight: 600;
   letter-spacing: 0.03em;
-  animation: l2-cierre 11s cubic-bezier(0.22, 1, 0.36, 1) infinite;
+  animation: l2-cierre var(--esc-pasada) cubic-bezier(0.22, 1, 0.36, 1) 1 both;
 }
 
 @keyframes l2-busqueda {
-  0%, 3% { opacity: 0; transform: translateY(-8px); }
-  9%, 82% { opacity: 1; transform: translateY(0); }
-  92%, 100% { opacity: 0; transform: translateY(-8px); }
+  0%, 5% { opacity: 0; transform: translateY(-8px); }
+  20%, 100% { opacity: 1; transform: translateY(0); }
 }
 
 @keyframes l2-punto {
-  0%, 12% { transform: scale(1); box-shadow: 0 0 0 0 transparent; }
-  17% { transform: scale(1.9); box-shadow: 0 0 0 5px color-mix(in srgb, var(--acento) 25%, transparent); }
-  22%, 78% { transform: scale(1.35); box-shadow: 0 0 0 3px color-mix(in srgb, var(--acento) 16%, transparent); }
-  88%, 100% { transform: scale(1); box-shadow: 0 0 0 0 transparent; }
+  0%, 25% { transform: scale(1); box-shadow: 0 0 0 0 transparent; }
+  38% { transform: scale(1.9); box-shadow: 0 0 0 5px color-mix(in srgb, var(--acento) 25%, transparent); }
+  55%, 100% { transform: scale(1.35); box-shadow: 0 0 0 3px color-mix(in srgb, var(--acento) 16%, transparent); }
 }
 
 @keyframes l2-aparece {
-  0%, 16% { opacity: 0; }
-  22%, 80% { opacity: 1; }
-  90%, 100% { opacity: 0; }
+  0%, 30% { opacity: 0; }
+  50%, 100% { opacity: 1; }
 }
 
 @keyframes l2-barra {
-  0%, 15% { transform: scaleX(0); }
-  24%, 80% { transform: scaleX(1); }
-  90%, 100% { transform: scaleX(0); }
+  0%, 28% { transform: scaleX(0); }
+  52%, 100% { transform: scaleX(1); }
 }
 
 @keyframes l2-cierre {
-  0%, 42% { opacity: 0; transform: translateY(6px); }
-  50%, 84% { opacity: 1; transform: translateY(0); }
-  94%, 100% { opacity: 0; transform: translateY(6px); }
+  0%, 78% { opacity: 0; transform: translateY(6px); }
+  95%, 100% { opacity: 1; transform: translateY(0); }
 }
 
 /* --- Celular ------------------------------------------------------ */

@@ -10,7 +10,7 @@
  * solo, la bandeja que se vacia, el mapa de empresas que se enciende.
  *
  * Mismo criterio que las escenas de productos: solo CSS, solo opacidad y
- * transform, ciclo de 11 s, detenida hasta que entra en pantalla. Y lo que
+ * transform, una pasada de 1,6 s, detenida hasta que entra en pantalla. Y lo que
  * dice la escena esta escrito ademas en el pie, para quien no la ve.
  */
 

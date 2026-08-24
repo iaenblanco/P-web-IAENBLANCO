@@ -16,8 +16,10 @@ const efectoAntesDePintar = typeof window === 'undefined' ? useEffect : useLayou
  * - La clase que esconde las piezas ("revela--armado") se agrega recien en el
  *   efecto, o sea solo cuando el JavaScript ya corrio y va a poder mostrarlas.
  * - Si el navegador no trae IntersectionObserver, se muestra de inmediato.
- * - Y hay una red de seguridad: pase lo que pase, a los 1,2 segundos se
- *   muestra igual.
+ * - Y hay una red de seguridad: si a los 1,2 segundos el observador no
+ *   contesto nada, se muestra igual. Si contesto -aunque haya contestado
+ *   que el bloque no esta a la vista- esta vivo y la red se retira: es el
+ *   mismo trato que hace RevelaEnCascada.
  *
  * La entrada y los bucles son dos cosas distintas y van en dos clases
  * distintas. "es-visible" es de ida: se pone una vez y no se saca, para que
@@ -53,9 +55,15 @@ export function RevelaAlEntrar({ children, className = '' }: { children: ReactNo
     // nunca lo da por visible. Observandolo a el, el observador no servia
     // para nada y lo unico que mostraba el bloque era la red de seguridad.
     const aLaVista = new Set<Element>()
+    // Si el observador contesto -aunque sea para decir "no esta a la vista"-
+    // esta vivo, y la red de seguridad sobra. Sin esta marca la red mostraba
+    // el bloque a los 1,2 s pasara lo que pasara, incluso con la escena tres
+    // pantallas mas abajo: la entrada se daba sin nadie mirando.
+    let respondio = false
 
     const observador = new IntersectionObserver(
       (entradas) => {
+        respondio = true
         for (const entrada of entradas) {
           if (entrada.isIntersecting) aLaVista.add(entrada.target)
           else aLaVista.delete(entrada.target)
@@ -72,7 +80,10 @@ export function RevelaAlEntrar({ children, className = '' }: { children: ReactNo
     )
     for (const hijo of Array.from(el.children)) observador.observe(hijo)
 
-    const red = window.setTimeout(() => setVisible(true), 1200)
+    const red = window.setTimeout(() => {
+      if (respondio) return
+      setVisible(true)
+    }, 1200)
 
     return () => {
       observador.disconnect()

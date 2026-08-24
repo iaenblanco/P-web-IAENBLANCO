@@ -13,7 +13,7 @@
  *   encienden y forman la lista, ordenada por cual llamar primero.
  *
  * Mismas reglas de siempre: solo CSS, solo opacidad/transform/scale,
- * ciclo de 11 s, detenida hasta entrar en pantalla, y lo que dice la
+ * una pasada de 1,6 s, detenida hasta entrar en pantalla, y lo que dice la
  * escena esta escrito ademas en el pie para quien no la ve.
  */
 

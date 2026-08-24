@@ -5,7 +5,7 @@ import { products, services } from '@/lib/site'
  * servicios y la de contacto.
  *
  * Mismo criterio que las cuatro de EscenaServicio: solo CSS, solo opacidad y
- * transform, ciclo de 11 s, quieta hasta que entra en pantalla, aria-hidden y
+ * transform, una pasada de 1,6 s, quieta hasta que entra en pantalla, aria-hidden y
  * sin un keyframe nuevo. Las dos reusan piezas ya escritas -.esc__ficha y
  * .esc__mensaje con sus animaciones- y solo agregan reglas de caja.
  */
