@@ -15581,6 +15581,19 @@ button {
   74%, 100% { opacity: 0; transform: translateX(calc(83.3% - 5px)); }
 }
 
+/* El mismo recorrido cuando las estaciones se apilan. Las paradas no caen
+   en 1/6, 3/6 y 5/6 como al costado: alli las tres columnas se reparten un
+   ancho sin huecos, y aca hay dos gaps de 7px que corren los centros. Con
+   la pila de 142px que deja la escena en celular, cada estacion mide 42,7 y
+   los centros quedan en 15%, 50% y 85%. */
+@keyframes esc-carga-pie {
+  0%, 4% { opacity: 0; transform: translateY(calc(15% - 5px)); }
+  10%, 22% { opacity: 1; transform: translateY(calc(15% - 5px)); }
+  32%, 44% { opacity: 1; transform: translateY(calc(50% - 5px)); }
+  54%, 66% { opacity: 1; transform: translateY(calc(85% - 5px)); }
+  74%, 100% { opacity: 0; transform: translateY(calc(85% - 5px)); }
+}
+
 @keyframes esc-listo {
   0%, 52% { opacity: 0; transform: translateY(8px); }
   62%, 90% { opacity: 1; transform: translateY(0); }
@@ -16154,21 +16167,70 @@ button {
     align-self: center;
   }
 
+  /* La tuberia, de pie. Apiladas las estaciones, el cable horizontal no
+     tiene por donde ir, y hasta hoy se escondia: en celular la escena que
+     vende "el pedido recorre las tres estaciones" quedaba en tres cajas
+     quietas a las que solo les late el borde. No hay que contar otra cosa,
+     hay que contarla en el otro sentido. */
   .esc__estaciones {
     grid-template-columns: minmax(0, 1fr);
     gap: 7px;
+    /* El hueco por donde baja el cable. Es el mismo ancho que el padding
+       lateral de la escena, asi el cable cae justo sobre el borde interno
+       y no inventa un margen nuevo. */
+    padding-left: 20px;
   }
 
+  /* 8px y no 10: con 10 las tres estaciones suman 147,5 y la fila mide
+     140, asi que se desbordaban 7,5px sobre el aire de abajo. No se veia
+     -el hueco es de 20px- pero corria los centros a 15,9 / 52,7 / 89,5%,
+     y la carga se para en 15 / 50 / 85. Con 8 la pila entra, las filas se
+     estiran parejas y cada parada cae justo sobre su estacion. */
   .esc__estacion {
     grid-template-columns: 88px minmax(0, 1fr);
     align-items: center;
     gap: 12px;
-    padding: 10px 12px;
+    padding: 8px 12px;
   }
 
-  .esc__cable,
+  /* grid-area los mete en la primera fila. Un absoluto cuya caja la pone el
+     propio contenedor de grilla -y aca la pone: .esc es position: relative-
+     se coloca en la celda que se le pida, y esa celda pasa a ser su caja.
+     O sea: el cable mide exactamente lo que mide la pila de estaciones, y
+     el 15/50/85% de la carga se cuenta sobre esa altura. Sin numeros a
+     mano, que es lo que obliga al -25px/-30px de la version de costado.
+
+     Las cuatro lineas van escritas. Con "1 / 1" el fin queda en auto, y
+     para un absoluto auto no es "una celda": es el borde del padding del
+     contenedor. Medido, el cable salia de 212px en una fila de 140. */
+  .esc__cable {
+    grid-area: 1 / 1 / 2 / 2;
+    top: 0;
+    right: auto;
+    bottom: 0;
+    left: 0;
+    width: 1px;
+    height: auto;
+    margin-top: 0;
+    background: repeating-linear-gradient(
+      180deg,
+      color-mix(in srgb, var(--acento) 45%, transparent) 0 7px,
+      transparent 7px 14px
+    );
+  }
+
+  /* La carga mide 10px y el cable 1: para que baje centrada sobre el, medio
+     punto a la izquierda del borde interno. */
   .esc__carga {
-    display: none;
+    grid-area: 1 / 1 / 2 / 2;
+    top: 0;
+    right: auto;
+    bottom: 0;
+    left: -5px;
+    width: 10px;
+    height: auto;
+    margin-top: 0;
+    animation-name: esc-carga-pie;
   }
 
   .esc__mensaje-texto {
