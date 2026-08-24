@@ -1,5 +1,7 @@
 import type { Metadata } from 'next'
 import { ContactForm } from '@/components/ContactForm'
+import { EscenaHilo } from '@/components/EscenaBanda'
+import { RevelaAlEntrar } from '@/components/RevelaAlEntrar'
 import { Reveal } from '@/components/Reveal'
 import {
   CONTACT_EMAIL,
@@ -50,17 +52,26 @@ export default function ContactPage() {
     <main id="contenido">
       <section className="contact-hero">
         <div className="contact-hero__grid" aria-hidden="true" />
-        <div className="section-shell contact-hero__inner">
-          <p className="hero-kicker"><span className="hero-kicker__punto" aria-hidden="true" /> Canal directo</p>
-          <h1>
-            Cuéntanos qué quieres
-            <em>poner en operación.</em>
-          </h1>
-          <p>
-            Puede ser un sitio web, una tienda online, un programa que todavía no
-            existe, o algo que hoy haces a mano y quieres que se haga solo. No hace
-            falta que sepas cómo se llama.
-          </p>
+        <div className="section-shell contact-hero__inner banda-apertura">
+          <div className="banda-apertura__texto">
+            <p className="hero-kicker"><span className="hero-kicker__punto" aria-hidden="true" /> Canal directo</p>
+            <h1>
+              Cuéntanos qué quieres
+              <em>poner en operación.</em>
+            </h1>
+            <p>
+              Puede ser un sitio web, una tienda online, un programa que todavía no
+              existe, o algo que hoy haces a mano y quieres que se haga solo. No hace
+              falta que sepas cómo se llama.
+            </p>
+          </div>
+          {/* Es la pagina mas muda del sitio y es donde la persona decide escribir.
+              La escena no dice nada que el parrafo de al lado no diga ya. */}
+          <div className="banda-apertura__visual">
+            <RevelaAlEntrar className="revela--escena">
+              <EscenaHilo />
+            </RevelaAlEntrar>
+          </div>
         </div>
       </section>
 

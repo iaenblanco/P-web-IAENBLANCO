@@ -1982,14 +1982,15 @@ button {
     linear-gradient(180deg, rgba(251, 250, 247, 0.82), rgba(244, 242, 236, 0.94));
 }
 
+/* Desde que es .banda-apertura, la reja la pone la banda: estas cuatro
+   -columnas, gap, alineacion y min-height- ya no llegaban a aplicar. El
+   min-height era ademas una muleta de cuando la derecha estaba vacia: con
+   align-items: start heredado de la banda habria dejado 200 px de aire
+   muerto debajo. El alto lo da ahora el contenido y el padding comun. */
 .services-index-hero__inner {
   position: relative;
   z-index: 1;
   display: grid;
-  grid-template-columns: minmax(0, 0.95fr) minmax(320px, 0.65fr);
-  gap: 80px;
-  align-items: end;
-  min-height: 460px;
   padding: 96px 0 72px;
 }
 
@@ -2002,7 +2003,10 @@ button {
   letter-spacing: 0;
 }
 
-.services-index-hero__inner > p {
+/* El parrafo de 47 palabras dejo de ser hijo directo -ahora vive dentro de
+   .banda-apertura__texto, junto al h1-, y ahi comparte madre con .eyebrow,
+   que tambien es un p. De ahi el :not. */
+.services-index-hero__inner .banda-apertura__texto > p:not(.eyebrow) {
   margin: 0;
   color: var(--text-deep);
   font-size: clamp(18px, 1.6vw, 24px);
@@ -3096,9 +3100,9 @@ button {
     flex-direction: column;
   }
 
+  /* El gap y el min-height se fueron con la reja: los apilaba .banda-apertura
+     desde su @media de 1024, y el gap comun sale de --gap-ancho. */
   .services-index-hero__inner {
-    gap: 28px;
-    min-height: auto;
     padding: 72px 0 54px;
   }
 
@@ -6892,9 +6896,13 @@ button {
 
 /* Contact page */
 
+/* Se fue el min-height: 780px. Era la altura que sostenia un hero de una
+   sola columna con el titular arriba y nada al lado; con la escena a la
+   derecha el contenido llega solo, y 780 solo agregaba aire. El display:
+   grid + align-content: center de mas abajo sigue ahi y sigue sirviendo:
+   reparte lo que sobre si algun dia sobra. */
 .contact-hero {
   position: relative;
-  min-height: 780px;
   padding: calc(var(--header-height) + 138px) 0 130px;
   overflow: hidden;
   background: var(--paper);
@@ -6909,9 +6917,13 @@ button {
   max-width: 1180px;
 }
 
-.contact-hero__inner > p:last-child {
+/* El margin-left: auto lo mandaba a la derecha, debajo del titular, que es
+   donde antes habia sitio. Ahora la derecha es la escena y el parrafo vive
+   dentro de .banda-apertura__texto, apilado bajo el h1: la separacion la da
+   el gap de 14 px de la banda. */
+.contact-hero__inner .banda-apertura__texto > p:last-child {
   max-width: 670px;
-  margin: 48px 0 0 auto;
+  margin: 0;
   color: var(--graphite);
   font-size: 20px;
   line-height: 1.55;
@@ -8561,9 +8573,16 @@ button {
     padding: 72px 0 54px;
   }
 
-  .page-hero > .section-shell > p:not(.hero-kicker),
-  .contact-hero__inner > p:last-child {
+  .page-hero > .section-shell > p:not(.hero-kicker) {
     margin: 32px 0 0;
+    font-size: 16px;
+  }
+
+  /* Sale del grupo de arriba: los 32 px de margen eran la separacion contra
+     un h1 que era su hermano directo. Dentro de .banda-apertura__texto la
+     separacion la da el gap de 14 px de la banda, y sumarle 32 dejaba al
+     parrafo mas lejos del titular que el titular del antetitulo. */
+  .contact-hero__inner .banda-apertura__texto > p:last-child {
     font-size: 16px;
   }
 
@@ -15593,6 +15612,87 @@ button {
   86%, 100% { opacity: 0; transform: translateX(6px); }
 }
 
+/* --- 05 · El indice de servicios: los cinco, uno por uno ---------- */
+
+/* Reusa .esc__fichas y .esc__ficha de la escena de prospeccion: la misma
+   fila que alli es una empresa trabajada aca es un servicio, y el turno lo
+   reparte el mismo --i. Cero keyframes nuevos.
+
+   Los cinco encienden con el mismo acento y no uno cada uno: la paleta
+   declara tres acentos y los tres estan tomados por los tres productos
+   -unificalo, citaly, leads-. Pintar servicios con ellos afirmaria un
+   parentesco que no existe. */
+.esc--indice {
+  align-content: center;
+}
+
+/* Las filas son cinco y no cuatro, asi que van mas apretadas que en
+   prospeccion: 5 x 33 + 4 x 6 = 189 px contra los 204 de caja util que deja
+   .esc--servicio en su minimo. Con los 9 px de padding de prospeccion se
+   iban a 217 y la quinta fila se perdia bajo el overflow: hidden, que es
+   justo lo que la bateria no puede ver. */
+.esc--indice .esc__fichas {
+  gap: 6px;
+}
+
+.esc--indice .esc__ficha {
+  padding: 7px 12px;
+}
+
+.esc__ficha-nombre {
+  overflow: hidden;
+  font-size: 14px;
+  line-height: 1.2;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* El tic viene de la escena de bandeja, donde el turno se cuenta de a medio
+   segundo; aca la fila que lo lleva se enciende cada 0,7. Sin esto el borde
+   y el tic de una misma fila irian cada uno por su lado. */
+.esc--indice .esc__mensaje-tic {
+  animation-delay: calc(var(--i) * 0.7s);
+}
+
+/* --- 06 · Contacto: el hilo --------------------------------------- */
+
+/* Dos globos y una linea. El de arriba es de quien escribe -sale, y le llega
+   el tic-; el de abajo es la respuesta. Los dos son .esc__mensaje de la
+   escena de bandeja: lo unico propio es de que lado se apoya cada uno y que
+   el texto pueda cortar en dos lineas. */
+.esc--hilo {
+  align-content: center;
+  gap: 14px;
+}
+
+/* 66% y no 100%: con el globo a lo ancho de la caja las dos frases entran en
+   una linea y deja de leerse como conversacion. */
+.esc--hilo .esc__mensaje {
+  max-width: 66%;
+  padding: 12px 16px;
+}
+
+/* .esc__mensaje-texto viene de la bandeja, donde cada mensaje es un renglon
+   y sobra con recortarlo. Aca son frases y tienen que caber enteras. */
+.esc--hilo .esc__mensaje-texto {
+  overflow: visible;
+  font-size: 15px;
+  line-height: 1.3;
+  text-overflow: clip;
+  white-space: normal;
+}
+
+.esc__mensaje--sale {
+  justify-self: end;
+}
+
+/* Sin tic: la segunda columna de .esc__mensaje quedaria como un hueco de
+   20 px a la derecha del texto. */
+.esc__mensaje--vuelve {
+  grid-template-columns: minmax(0, 1fr);
+  justify-self: start;
+}
+
 /* --- Que el dibujo crezca con la caja ----------------------------- */
 
 /* Las cuatro escenas ya eran fluidas a lo ancho -repeat(6, 1fr),
@@ -15708,6 +15808,36 @@ button {
     .esc__ficha-barra {
       height: 11px;
     }
+
+    /* El indice tambien crece, pero hay que decirlo con su propio selector:
+       .esc--indice .esc__ficha vale (0,2,0) y le gana a la regla de arriba,
+       asi que sin esto las cinco filas se quedarian en el apretado que
+       necesitan solo cuando la caja esta en su minimo. */
+    .esc--indice .esc__fichas {
+      gap: 11px;
+    }
+
+    .esc--indice .esc__ficha {
+      padding: 12px 16px;
+    }
+
+    .esc__ficha-nombre {
+      font-size: 16px;
+    }
+
+    /* El hilo no llega a los 360: son dos globos y una linea, y estirarlos a
+       lo alto solo agrega aire. Los 300 los alcanza a llenar. */
+    .esc--hilo {
+      height: clamp(288px, 60cqi, 300px);
+    }
+
+    .esc--hilo .esc__mensaje {
+      padding: 16px 20px;
+    }
+
+    .esc--hilo .esc__mensaje-texto {
+      font-size: 16px;
+    }
   }
 }
 
@@ -15778,6 +15908,29 @@ button {
   .esc__listo,
   .esc__nota,
   .esc__ficha-estado {
+    font-size: 13px;
+  }
+
+  .esc--indice .esc__fichas {
+    gap: 5px;
+  }
+
+  .esc--indice .esc__ficha {
+    padding: 6px 10px;
+  }
+
+  .esc__ficha-nombre {
+    font-size: 13px;
+  }
+
+  /* 82% y no 66%: en una columna de 310 px el 66% deja un globo de 205 y la
+     frase se va a tres renglones. */
+  .esc--hilo .esc__mensaje {
+    max-width: 82%;
+    padding: 10px 13px;
+  }
+
+  .esc--hilo .esc__mensaje-texto {
     font-size: 13px;
   }
 
@@ -16045,11 +16198,16 @@ button {
    de llegar recortado y depender de que alguien le gane. El reset
    generico de arriba puede podarse sin dejar la escena invisible. */
 @media (prefers-reduced-motion: no-preference) {
-  .service-page-section--escena .revela--escena.revela--armado .esc {
+  /* Sin .service-page-section--escena: la clase existia solo para este par
+     de reglas y solo la ponia la plantilla de servicios, asi que la banda
+     del indice y la de contacto -que no pasan por la plantilla- entraban
+     sin barrido. Baja de (0,3,1) a (0,2,1) y no pisa nada: nadie mas le
+     pone clip-path ni esa animacion a un .esc. */
+  .revela--escena.revela--armado .esc {
     clip-path: inset(0 100% 0 0);
   }
 
-  .service-page-section--escena .revela--escena.revela--armado.es-visible .esc {
+  .revela--escena.revela--armado.es-visible .esc {
     animation: escena-barrido 860ms cubic-bezier(0.76, 0, 0.24, 1) forwards;
   }
 }

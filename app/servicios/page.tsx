@@ -2,6 +2,8 @@ import type { Metadata } from 'next'
 import Image from 'next/image'
 import Link from 'next/link'
 import { BrandLogo } from '@/components/BrandLogo'
+import { EscenaIndice } from '@/components/EscenaBanda'
+import { RevelaAlEntrar } from '@/components/RevelaAlEntrar'
 import { Trabajos } from '@/components/Trabajos'
 import { services, SITE_URL, getWhatsappUrl } from '@/lib/site'
 import {
@@ -63,16 +65,23 @@ export default function ServicesIndexPage() {
   return (
     <main id="contenido" className="services-index">
       <section className="services-index-hero">
-        <div className="section-shell services-index-hero__inner">
-          <div>
+        <div className="section-shell services-index-hero__inner banda-apertura">
+          <div className="banda-apertura__texto">
             <p className="eyebrow">Servicios IAenBlanco</p>
             <h1>Todo lo que hacemos, explicado sin tecnicismos.</h1>
+            <p>
+              Hacemos sitios web y tiendas online, programas a la medida de tu negocio, tareas que
+              se hacen solas y asistentes con inteligencia artificial. Y si lo que necesitas son
+              clientes nuevos, eso lo operamos nosotros mes a mes.
+            </p>
           </div>
-          <p>
-            Hacemos sitios web y tiendas online, programas a la medida de tu negocio, tareas que
-            se hacen solas y asistentes con inteligencia artificial. Y si lo que necesitas son
-            clientes nuevos, eso lo operamos nosotros mes a mes.
-          </p>
+          {/* La escena es aria-hidden y lo que muestra -los cinco servicios- esta
+              escrito en el parrafo de al lado y en las tarjetas de mas abajo. */}
+          <div className="banda-apertura__visual">
+            <RevelaAlEntrar className="revela--escena">
+              <EscenaIndice />
+            </RevelaAlEntrar>
+          </div>
         </div>
       </section>
 

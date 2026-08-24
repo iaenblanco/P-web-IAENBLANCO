@@ -98,7 +98,7 @@ function AperturaEscena({ service, content }: { service: Service; content: Servi
   return (
     <section
       id="apertura"
-      className="service-page-section service-page-section--apertura service-page-section--escena"
+      className="service-page-section service-page-section--apertura"
     >
       <div className="section-shell banda-apertura">
         <div className="banda-apertura__texto">
