@@ -15697,13 +15697,46 @@ button {
   88%, 100% { opacity: 0; }
 }
 
-/* --- 04 · Prospeccion: la lista trabajada ------------------------- */
+/* --- 04 · Prospeccion: el campo de empresas y a cual llamar -------
+   Antes eran cuatro barras grises al 14% de tinta que se encendian por
+   turno. Quietas se leen como el esqueleto de carga de una tabla, que es
+   justo lo que no queremos decir en la pagina que vende busqueda de
+   empresas.
 
-.esc--seguimiento {
-  grid-template-rows: minmax(0, 1fr) 30px;
-  align-content: center;
-  gap: 18px;
+   No hay una sola regla de dibujo aca abajo: el mapa entero -.l2__busqueda,
+   .l2__campo, .l2__punto, .l2__punto--calza y el keyframe l2-punto- es el
+   de la ficha de Leads en /productos/, tal cual, con el mismo patron de
+   --x/--y/--o. El parecido es a proposito y no es un descuido: este
+   servicio ES Leads operado por nosotros. Lo unico propio es el numero de
+   llamada, que es lo que se compra cuando lo operamos nosotros. */
+
+.esc--prospeccion {
+  grid-template-rows: auto minmax(0, 1fr) auto;
+  gap: 12px;
 }
+
+/* El numero va AL LADO del punto y no adentro: .l2__punto mide 6 px y su
+   animacion lo escala a 1,9, asi que un hijo se escalaria con el. Toma el
+   mismo --x/--y corrido 11 px, y el mismo --o, para que aparezca en el
+   turno en que se enciende su punto. La opacidad la devuelve el bloque de
+   prefers-reduced-motion de mas arriba, que pone opacity: 1 !important
+   sobre ".esc *": sin eso, quien pide menos movimiento no veria un numero. */
+
+.esc__orden {
+  position: absolute;
+  left: calc(var(--x) + 11px);
+  top: calc(var(--y) - 3px);
+  color: var(--acento-tinta, var(--acento));
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 1;
+  opacity: 0;
+  animation: l2-aparece 11s cubic-bezier(0.22, 1, 0.36, 1) infinite;
+  animation-delay: calc(var(--o) * 0.55s);
+}
+
+/* --- Las fichas, que ahora usa solo el indice de servicios --------- */
 
 .esc__fichas {
   display: grid;
@@ -15723,24 +15756,6 @@ button {
   animation-delay: calc(var(--i) * 0.7s);
 }
 
-.esc__ficha-barra {
-  height: 8px;
-  width: calc(52% + var(--i) * 9%);
-  background: color-mix(in srgb, var(--ink) 14%, transparent);
-}
-
-.esc__ficha-estado {
-  color: var(--acento-tinta);
-  font-family: var(--font-mono);
-  font-size: 12px;
-  font-weight: 600;
-  letter-spacing: 0.04em;
-  opacity: 0;
-  white-space: nowrap;
-  animation: esc-ficha-estado 11s cubic-bezier(0.22, 1, 0.36, 1) infinite;
-  animation-delay: calc(var(--i) * 0.7s);
-}
-
 .esc__nota {
   align-self: center;
   color: var(--graphite);
@@ -15756,17 +15771,13 @@ button {
   86%, 100% { border-color: var(--line); }
 }
 
-@keyframes esc-ficha-estado {
-  0%, 12% { opacity: 0; transform: translateX(6px); }
-  22%, 76% { opacity: 1; transform: translateX(0); }
-  86%, 100% { opacity: 0; transform: translateX(6px); }
-}
-
 /* --- 05 · El indice de servicios: los cinco, uno por uno ---------- */
 
-/* Reusa .esc__fichas y .esc__ficha de la escena de prospeccion: la misma
-   fila que alli es una empresa trabajada aca es un servicio, y el turno lo
-   reparte el mismo --i. Cero keyframes nuevos.
+/* .esc__fichas y .esc__ficha venian de la escena de prospeccion, que hoy es
+   un mapa de puntos: el indice quedo como su unico usuario. Se dejan con el
+   nombre generico porque describen la pieza -una fila con nombre- y no la
+   pagina, y porque renombrarlas le cambia la clave a la guardia sin arreglar
+   nada. El turno lo reparte --i. Cero keyframes nuevos.
 
    Los cinco encienden con el mismo acento y no uno cada uno: la paleta
    declara tres acentos y los tres estan tomados por los tres productos
@@ -16042,27 +16053,10 @@ button {
       padding: 11px 16px;
     }
 
-    .esc--seguimiento {
-      grid-template-rows: minmax(0, auto) 30px;
-      gap: 24px;
-    }
-
-    .esc__fichas {
-      gap: 11px;
-    }
-
-    .esc__ficha {
-      padding: 12px 16px;
-    }
-
-    .esc__ficha-barra {
-      height: 11px;
-    }
-
-    /* El indice tambien crece, pero hay que decirlo con su propio selector:
-       .esc--indice .esc__ficha vale (0,2,0) y le gana a la regla de arriba,
-       asi que sin esto las cinco filas se quedarian en el apretado que
-       necesitan solo cuando la caja esta en su minimo. */
+    /* Hay que nombrar el indice y no poner un .esc__ficha suelto: sus
+       reglas de tamano de mas arriba valen (0,2,0) y le ganarian, o sea que
+       las cinco filas se quedarian en el apretado que necesitan solo cuando
+       la caja esta en su minimo. */
     .esc--indice .esc__fichas {
       gap: 11px;
     }
@@ -16188,8 +16182,7 @@ button {
   .esc__campo-nombre,
   .esc__boton,
   .esc__listo,
-  .esc__nota,
-  .esc__ficha-estado {
+  .esc__nota {
     font-size: 13px;
   }
 

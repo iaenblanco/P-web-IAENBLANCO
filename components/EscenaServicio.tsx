@@ -7,7 +7,7 @@
  * tienen todavia un trabajo de cliente que ensenar, y en vez de dejar el
  * hueco -o peor, de inventar un caso- muestran un momento del servicio
  * andando: la planilla que se vuelve pantalla, el pedido que se registra
- * solo, la bandeja que se vacia, la lista que se trabaja.
+ * solo, la bandeja que se vacia, el mapa de empresas que se enciende.
  *
  * Mismo criterio que las escenas de productos: solo CSS, solo opacidad y
  * transform, ciclo de 11 s, detenida hasta que entra en pantalla. Y lo que
@@ -107,20 +107,70 @@ function EscenaBandeja() {
   )
 }
 
-/* 04 · Prospeccion — la lista que se trabaja empresa por empresa. */
-function EscenaSeguimiento() {
-  const ESTADOS = ['Revisada', 'Contactada', 'Respondió', 'Revisada']
+/* 04 · Prospeccion — el campo de empresas y a cuales llamar.
+ *
+ * Antes eran cuatro barras grises al 14% de tinta que se encendian por
+ * turno. Quietas se leen como el esqueleto de carga de una tabla, que es
+ * exactamente lo que NO queremos decir en la pagina que vende busqueda de
+ * empresas.
+ *
+ * Reusa entero el mapa de .esc--l2, la ficha de Leads en /productos/:
+ * .l2__busqueda, .l2__campo, .l2__punto y el keyframe l2-punto, con el
+ * mismo patron de --x/--y/--o. El parecido es a proposito: este servicio
+ * ES Leads operado por nosotros, asi que tiene que dibujarse igual. Lo
+ * unico propio de aca es el numero de llamada, que es lo que se compra
+ * cuando lo gestionamos nosotros en vez de que el cliente lo opere.
+ */
+
+/* Catorce empresas repartidas a mano y no en grilla: en grilla se lee como
+ * un tablero y aca la idea es un mapa. Ninguna pasa de 88% en x ni de 82%
+ * en y porque el punto se posiciona por su esquina y mide 6 px, y las que
+ * se encienden ademas llevan su numero 11 px a la derecha, asi que esas
+ * cuatro se quedan bajo el 76%.
+ */
+const PROSPECCION_PUNTOS = [
+  { x: 12, y: 16 }, { x: 31, y: 8 }, { x: 52, y: 20 }, { x: 71, y: 11 },
+  { x: 88, y: 26 }, { x: 7, y: 42 }, { x: 27, y: 36 }, { x: 45, y: 48 },
+  { x: 64, y: 38 }, { x: 85, y: 51 }, { x: 16, y: 64 }, { x: 37, y: 74 },
+  { x: 57, y: 62 }, { x: 78, y: 78 },
+]
+
+/* En orden de llamada, no de posicion: el indice es la empresa y el lugar
+ * en esta lista es el turno. Ese turno es el que reparte --o entre el punto
+ * y su numero, asi que los dos encienden juntos. */
+const PROSPECCION_LLAMAR = [6, 3, 12, 10]
+
+function EscenaProspeccion() {
   return (
-    <div className="esc esc--servicio esc--seguimiento" aria-hidden="true">
-      <div className="esc__fichas">
-        {ESTADOS.map((estado, i) => (
-          <span className="esc__ficha" style={{ ['--i' as string]: i }} key={i}>
-            <span className="esc__ficha-barra" />
-            <span className="esc__ficha-estado">{estado}</span>
-          </span>
+    <div className="esc esc--servicio esc--prospeccion" aria-hidden="true">
+      <span className="l2__busqueda">Rubro · comuna</span>
+      <span className="l2__campo">
+        {PROSPECCION_PUNTOS.map((p, i) => (
+          <i
+            key={i}
+            className={PROSPECCION_LLAMAR.includes(i) ? 'l2__punto l2__punto--calza' : 'l2__punto'}
+            style={{
+              ['--x' as string]: `${p.x}%`,
+              ['--y' as string]: `${p.y}%`,
+              ['--o' as string]: Math.max(PROSPECCION_LLAMAR.indexOf(i), 0),
+            }}
+          />
         ))}
-      </div>
-      <span className="esc__nota">Y a cuál volver la próxima semana</span>
+        {PROSPECCION_LLAMAR.map((indice, orden) => (
+          <b
+            key={orden}
+            className="esc__orden"
+            style={{
+              ['--x' as string]: `${PROSPECCION_PUNTOS[indice].x}%`,
+              ['--y' as string]: `${PROSPECCION_PUNTOS[indice].y}%`,
+              ['--o' as string]: orden,
+            }}
+          >
+            {orden + 1}
+          </b>
+        ))}
+      </span>
+      <span className="esc__nota">Y a cuál llamar primero</span>
     </div>
   )
 }
@@ -133,7 +183,7 @@ function EscenaPorSlug({ slug }: { slug: Slug }) {
   if (slug === 'plataformas-software-medida') return <EscenaPlanilla />
   if (slug === 'automatizaciones') return <EscenaTuberia />
   if (slug === 'soluciones-ia-medida') return <EscenaBandeja />
-  if (slug === 'prospeccion-b2b-gestionada') return <EscenaSeguimiento />
+  if (slug === 'prospeccion-b2b-gestionada') return <EscenaProspeccion />
   return null
 }
 
