@@ -15820,24 +15820,6 @@ button {
 
 /* --- Las fichas, que ahora usa solo el indice de servicios --------- */
 
-.esc__fichas {
-  display: grid;
-  gap: 8px;
-  align-content: center;
-}
-
-.esc__ficha {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) auto;
-  align-items: center;
-  gap: 14px;
-  padding: 9px 12px;
-  border: 1px solid var(--line);
-  background: var(--paper-bright);
-  animation: esc-ficha var(--esc-pasada) cubic-bezier(0.22, 1, 0.36, 1) 1 both;
-  animation-delay: calc(var(--i) * 90ms);
-}
-
 .esc__nota {
   align-self: center;
   color: var(--graphite);
@@ -15847,53 +15829,211 @@ button {
   animation: esc-listo var(--esc-pasada) cubic-bezier(0.22, 1, 0.36, 1) 1 both;
 }
 
-@keyframes esc-ficha {
-  0%, 20% { border-color: var(--line); }
-  45%, 100% { border-color: color-mix(in srgb, var(--acento) 42%, transparent); }
-}
+/* --- 05 · El indice de servicios: el muestrario ------------------ */
 
-/* --- 05 · El indice de servicios: los cinco, uno por uno ---------- */
+/* Cinco marcas, una por servicio, y cada marca es la miniatura de la escena
+   que abre esa pagina. La grilla es de seis columnas: las tres de arriba
+   toman dos cada una y las dos de abajo toman tres. Asi llena el ancho
+   entero sin celda vacia y sin inventar una sexta marca -los servicios son
+   cinco, y prometer un sexto seria afirmar algo que la pagina no dice-.
 
-/* .esc__fichas y .esc__ficha venian de la escena de prospeccion, que hoy es
-   un mapa de puntos: el indice quedo como su unico usuario. Se dejan con el
-   nombre generico porque describen la pieza -una fila con nombre- y no la
-   pagina, y porque renombrarlas le cambia la clave a la guardia sin arreglar
-   nada. El turno lo reparte --i. Cero keyframes nuevos.
-
-   Los cinco encienden con el mismo acento y no uno cada uno: la paleta
-   declara tres acentos y los tres estan tomados por los tres productos
-   -unificalo, citaly, leads-. Pintar servicios con ellos afirmaria un
-   parentesco que no existe. */
+   Los tiles son .mu y no .esc__algo porque son de esta escena y de ninguna
+   otra, igual que .u2__ o .l2__ en las de producto. La familia anterior
+   -.esc__fichas, .esc__ficha, @keyframes esc-ficha- se fue entera: el
+   indice era su unico usuario. */
 .esc--indice {
-  align-content: center;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  grid-template-rows: repeat(2, minmax(0, 1fr));
+  gap: 10px;
 }
 
-/* Las filas son cinco y no cuatro, asi que van mas apretadas que en
-   prospeccion: 5 x 33 + 4 x 6 = 189 px contra los 204 de caja util que deja
-   .esc--servicio en su minimo. Con los 9 px de padding de prospeccion se
-   iban a 217 y la quinta fila se perdia bajo el overflow: hidden, que es
-   justo lo que la bateria no puede ver. */
-.esc--indice .esc__fichas {
+.mu {
+  display: grid;
+  grid-column: span 2;
+  grid-template-rows: minmax(0, 1fr) auto;
   gap: 6px;
+  padding: 8px 9px;
+  border: 1px solid var(--line);
+  background: var(--paper-bright);
+  animation: esc-pantalla var(--esc-pasada) cubic-bezier(0.22, 1, 0.36, 1) 1 both;
+  animation-delay: calc(var(--i) * 90ms);
 }
 
-.esc--indice .esc__ficha {
-  padding: 7px 12px;
+.mu:nth-child(n + 4) {
+  grid-column: span 3;
 }
 
-.esc__ficha-nombre {
+.mu__marca {
+  position: relative;
+  display: block;
+}
+
+/* Diez de mono en versalitas y no la tipografia de texto: la palabra es la
+   etiqueta del dibujo, no el dibujo. El color lo pone la marca. */
+.mu__palabra {
   overflow: hidden;
-  font-size: 14px;
-  line-height: 1.2;
+  color: var(--graphite);
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  line-height: 1.1;
   text-overflow: ellipsis;
+  text-transform: uppercase;
   white-space: nowrap;
 }
 
-/* El tic viene de la escena de bandeja, donde el turno se cuenta de a medio
-   segundo; aca la fila que lo lleva se enciende cada 0,7. Sin esto el borde
-   y el tic de una misma fila irian cada uno por su lado. */
-.esc--indice .esc__mensaje-tic {
+/* La luz llega despues del marco: primero aparecen los cinco tiles -cada uno
+   con su retardo- y recien ahi enciende la pieza de color de cada uno. Dos
+   tiempos con cero keyframes nuevos: esc-pantalla y esc-campo, los dos ya
+   escritos para la planilla. La linea de esc-campo va repetida dentro de
+   cada pieza y no agrupada arriba porque la guardia cuenta cada selector una
+   vez en todo el archivo, y agrupar dejaria seis duplicados. */
+/* Web: una ventana con su barra de titulo y la pagina adentro. */
+.mu--ventana .mu__marca {
+  display: grid;
+  grid-template-rows: 10px minmax(0, 1fr);
+  border: 1px solid color-mix(in srgb, var(--acento) 34%, transparent);
+}
+
+.mu--ventana i:nth-child(1) {
+  border-bottom: 1px solid color-mix(in srgb, var(--acento) 30%, transparent);
+  background: color-mix(in srgb, var(--acento) 24%, var(--paper-bright));
+}
+
+.mu--ventana i:nth-child(2) {
+  animation: esc-campo var(--esc-pasada) cubic-bezier(0.22, 1, 0.36, 1) 1 both;
   animation-delay: calc(var(--i) * 90ms);
+  margin: 4px;
+  background: color-mix(in srgb, var(--acento) 16%, var(--paper-bright));
+}
+
+/* Programa a medida: tres bloques de tamanos distintos que encajan. Es lo
+   contrario de la ventana -que es una sola pieza- y por eso se distingue de
+   lejos, que es lo unico que hay que lograr en dos segundos. */
+.mu--bloques .mu__marca {
+  display: grid;
+  grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
+  grid-template-rows: repeat(2, minmax(0, 1fr));
+  gap: 4px;
+}
+
+.mu--bloques i:nth-child(1) {
+  animation: esc-campo var(--esc-pasada) cubic-bezier(0.22, 1, 0.36, 1) 1 both;
+  animation-delay: calc(var(--i) * 90ms);
+  grid-row: span 2;
+  border: 1px solid color-mix(in srgb, var(--acento) 40%, transparent);
+  background: color-mix(in srgb, var(--acento) 22%, var(--paper-bright));
+}
+
+/* Rellenos y no contornos vacios: dos cuadrados solo dibujados con linea se
+   leen como el hueco donde todavia no hay nada, que es justo el vocabulario
+   de wireframe que esta tanda vino a sacar. */
+.mu--bloques i:nth-child(2),
+.mu--bloques i:nth-child(3) {
+  border: 1px solid color-mix(in srgb, var(--ink) 15%, transparent);
+  background: color-mix(in srgb, var(--ink) 6%, transparent);
+}
+
+/* Tareas que se hacen solas: tres estaciones colgadas de una linea, que es
+   la figura de /servicios/automatizaciones/ reducida a su esqueleto. */
+.mu--pasos .mu__marca {
+  display: grid;
+  grid-template-columns: repeat(3, 13px);
+  align-content: center;
+  justify-content: space-between;
+  height: 100%;
+}
+
+.mu--pasos .mu__marca::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  right: 6px;
+  left: 6px;
+  height: 1px;
+  background: color-mix(in srgb, var(--acento) 38%, transparent);
+}
+
+.mu--pasos i {
+  animation: esc-campo var(--esc-pasada) cubic-bezier(0.22, 1, 0.36, 1) 1 both;
+  animation-delay: calc(var(--i) * 90ms);
+  position: relative;
+  height: 13px;
+  border: 1px solid color-mix(in srgb, var(--acento) 45%, transparent);
+  background: color-mix(in srgb, var(--acento) 20%, var(--paper-bright));
+}
+
+/* Asistente: dos globos, uno de cada lado. El de la derecha es la respuesta
+   y es el que lleva el color, igual que en la escena de contacto. */
+.mu--globos .mu__marca {
+  display: grid;
+  align-content: center;
+  gap: 6px;
+}
+
+.mu--globos i {
+  width: 54%;
+  height: 21px;
+}
+
+.mu--globos i:nth-child(1) {
+  justify-self: start;
+  border: 1px solid var(--line);
+  background:
+    radial-gradient(circle 2px at 13px 50%, color-mix(in srgb, var(--ink) 34%, transparent) 99%, transparent),
+    radial-gradient(circle 2px at 21px 50%, color-mix(in srgb, var(--ink) 34%, transparent) 99%, transparent),
+    radial-gradient(circle 2px at 29px 50%, color-mix(in srgb, var(--ink) 34%, transparent) 99%, transparent),
+    var(--paper);
+}
+
+.mu--globos i:nth-child(2) {
+  animation: esc-campo var(--esc-pasada) cubic-bezier(0.22, 1, 0.36, 1) 1 both;
+  animation-delay: calc(var(--i) * 90ms);
+  justify-self: end;
+  border: 1px solid color-mix(in srgb, var(--acento) 55%, transparent);
+  background: color-mix(in srgb, var(--acento) 20%, var(--paper-bright));
+}
+
+/* Clientes: el campo de puntos de prospeccion. Cinco puntos, dos encendidos,
+   posiciones a mano para que no parezcan una grilla. */
+/* En cqi y no en px: los puntos son la unica marca que no tiene caja propia
+   -flotan sobre el tile- y con medida fija se veian bien en el telefono y
+   raquiticos en la caja ancha, que mide el doble. Escalan con el contenedor
+   y no hacen falta reglas nuevas en el bloque de escritorio. */
+.mu--puntos i {
+  position: absolute;
+  width: clamp(7px, 2.2cqi, 11px);
+  height: clamp(7px, 2.2cqi, 11px);
+  border-radius: 50%;
+  background: color-mix(in srgb, var(--ink) 18%, transparent);
+}
+
+.mu--puntos i:nth-child(1) { top: 12%; left: 10%; }
+.mu--puntos i:nth-child(3) { top: 62%; left: 24%; }
+.mu--puntos i:nth-child(4) { top: 78%; left: 66%; }
+
+/* Los dos encendidos llevan posicion y color juntos, por lo mismo que la
+   luz: partirlos en una regla de sitio y otra de color duplica el selector. */
+.mu--puntos i:nth-child(2) {
+  animation: esc-campo var(--esc-pasada) cubic-bezier(0.22, 1, 0.36, 1) 1 both;
+  animation-delay: calc(var(--i) * 90ms);
+  top: 6%;
+  left: 46%;
+  width: clamp(10px, 3.2cqi, 16px);
+  height: clamp(10px, 3.2cqi, 16px);
+  background: var(--acento);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--acento) 18%, transparent);
+}
+
+.mu--puntos i:nth-child(5) {
+  animation: esc-campo var(--esc-pasada) cubic-bezier(0.22, 1, 0.36, 1) 1 both;
+  animation-delay: calc(var(--i) * 90ms);
+  top: 34%;
+  left: 80%;
+  width: clamp(10px, 3.2cqi, 16px);
+  height: clamp(10px, 3.2cqi, 16px);
+  background: var(--acento);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--acento) 18%, transparent);
 }
 
 /* --- 06 · Contacto: el hilo --------------------------------------- */
@@ -16144,20 +16284,37 @@ button {
     padding: 11px 16px;
   }
 
-  /* Hay que nombrar el indice y no poner un .esc__ficha suelto: sus
-     reglas de tamano de mas arriba valen (0,2,0) y le ganarian, o sea que
-     las cinco filas se quedarian en el apretado que necesitan solo cuando
-     la caja esta en su minimo. */
-  .esc--indice .esc__fichas {
-    gap: 11px;
+  /* La caja ancha da alto de sobra: los tiles pueden respirar y la palabra
+     sube a 11, que es donde el mono deja de verse apretado. */
+  .esc--indice {
+    gap: 14px;
   }
 
-  .esc--indice .esc__ficha {
-    padding: 12px 16px;
+  .mu {
+    gap: 8px;
+    padding: 12px 13px;
   }
 
-  .esc__ficha-nombre {
-    font-size: 16px;
+  .mu__palabra {
+    font-size: 11px;
+  }
+
+  .mu--ventana .mu__marca {
+    grid-template-rows: 14px minmax(0, 1fr);
+  }
+
+  .mu--pasos .mu__marca {
+    grid-template-columns: repeat(3, 22px);
+  }
+
+  .mu--pasos i {
+    height: 22px;
+  }
+
+  /* Mas alto que en el telefono y no menos: la caja ancha da 150 px por
+     tile contra los 84 del movil, y un globo de 20 ahi adentro se pierde. */
+  .mu--globos i {
+    height: 26px;
   }
 
   /* El hilo no llega a los 360: son dos globos y una linea, y estirarlos a
@@ -16331,21 +16488,6 @@ button {
   .esc__boton,
   .esc__listo,
   .esc__nota {
-    font-size: 13px;
-  }
-
-  /* Gap y relleno suben juntos: las cinco fichas dejaban 14px de aire
-     muerto arriba y otros 14 abajo -llenaban el 86% de la caja util- y
-     los 28 caben justos en los cuatro huecos y los cinco rellenos. */
-  .esc--indice .esc__fichas {
-    gap: 7px;
-  }
-
-  .esc--indice .esc__ficha {
-    padding: 8px 11px;
-  }
-
-  .esc__ficha-nombre {
     font-size: 13px;
   }
 

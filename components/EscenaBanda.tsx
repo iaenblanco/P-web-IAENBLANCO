@@ -6,31 +6,66 @@ import { products, services } from '@/lib/site'
  *
  * Mismo criterio que las cuatro de EscenaServicio: solo CSS, solo opacidad y
  * transform, una pasada de 1,6 s, quieta hasta que entra en pantalla, aria-hidden y
- * sin un keyframe nuevo. Las dos reusan piezas ya escritas -.esc__ficha y
- * .esc__mensaje con sus animaciones- y solo agregan reglas de caja.
+ * sin un keyframe nuevo. La de contacto reusa piezas ya escritas -.esc__mensaje
+ * con sus animaciones- y solo agrega reglas de caja; la del indice dibuja sus
+ * cinco marcas, pero tambien con keyframes que ya existian.
  */
 
-/* El indice: las cinco filas son los cinco servicios, y se encienden por
-   turno. Los nombres salen de `services`, la misma lista que arma las
-   tarjetas de mas abajo: si manana cambia uno, cambia aca tambien. Escribirlos
-   a mano era la forma segura de que la escena quedara diciendo un nombre que
-   la pagina ya no usa.
+/* El indice: un muestrario, no un menu.
+ *
+ * Antes eran cinco filas iguales, cada una con el nombre entero de su
+ * servicio: el mismo texto que esta en el parrafo de al lado y en las cinco
+ * tarjetas de mas abajo, repetido en cinco cajas identicas. Repetir el menu
+ * de la pagina no es una escena, y ademas eran veinte palabras para una
+ * figura que dispone de dos segundos.
+ *
+ * Ahora cada servicio es una marca distinta, y cada marca es una miniatura
+ * de la escena que abre esa pagina: la ventana de plataformas, los bloques
+ * a medida, las tres estaciones de automatizaciones, los globos del
+ * asistente, los puntos del mapa de prospeccion. Detenida, lo que se lee no
+ * es una lista sino la variedad -cinco cosas que no se parecen entre si-,
+ * que es exactamente lo que dice el titulo de la pagina. Cinco palabras en
+ * total, una por marca.
+ *
+ * El orden y la cantidad los sigue mandando `services`, igual que antes: si
+ * manana entra un sexto servicio, la escena lo muestra sola. Lo que si va
+ * escrito aca es la palabra corta y las piezas del dibujo, porque `Service`
+ * no tiene un campo de una palabra ni sabe dibujar. El mapa es por slug: si
+ * un slug cambia, ese servicio se queda sin tile y se nota al mirar.
+ *
+ * Las cinco marcas encienden con el mismo acento y no una cada una, por lo
+ * mismo de siempre: los tres acentos de la paleta estan tomados por los tres
+ * productos y pintar servicios con ellos afirmaria un parentesco que no
+ * existe. */
+const MARCAS: Record<string, { clave: string; palabra: string; piezas: number }> = {
+  'desarrollo-web-ia': { clave: 'ventana', palabra: 'Web', piezas: 2 },
+  'plataformas-software-medida': { clave: 'bloques', palabra: 'Programa', piezas: 3 },
+  automatizaciones: { clave: 'pasos', palabra: 'Tareas', piezas: 3 },
+  'soluciones-ia-medida': { clave: 'globos', palabra: 'Asistente', piezas: 2 },
+  'prospeccion-b2b-gestionada': { clave: 'puntos', palabra: 'Clientes', piezas: 5 },
+}
 
-   Los cinco encienden con el mismo acento y no uno cada uno: la paleta declara
-   tres acentos y los tres estan tomados por los tres productos -unificalo,
-   citaly, leads-. Pintar servicios con ellos afirmaria un parentesco que no
-   existe. */
 export function EscenaIndice() {
   return (
     <div className="esc esc--servicio esc--indice" aria-hidden="true">
-      <div className="esc__fichas">
-        {services.map((servicio, i) => (
-          <span className="esc__ficha" style={{ ['--i' as string]: i }} key={servicio.slug}>
-            <span className="esc__ficha-nombre">{servicio.shortTitle}</span>
-            <span className="esc__mensaje-tic" />
+      {services.map((servicio, i) => {
+        const marca = MARCAS[servicio.slug]
+        if (!marca) return null
+        return (
+          <span
+            className={`mu mu--${marca.clave}`}
+            style={{ ['--i' as string]: i }}
+            key={servicio.slug}
+          >
+            <span className="mu__marca">
+              {Array.from({ length: marca.piezas }, (_, pieza) => (
+                <i key={pieza} />
+              ))}
+            </span>
+            <span className="mu__palabra">{marca.palabra}</span>
           </span>
-        ))}
-      </div>
+        )
+      })}
     </div>
   )
 }
