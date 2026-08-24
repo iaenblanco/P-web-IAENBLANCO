@@ -36,6 +36,13 @@ function EscenaUnificalo() {
         </span>
       </div>
 
+      {/* La franja de la que cuelgan los cuatro canales, y la palabra que
+          dice de que son los numeros: detenida, un «3» solo no dice nada. */}
+      <div className="u2__union">
+        <span className="u2__union-rotulo">Stock</span>
+        <i className="u2__union-franja" />
+      </div>
+
       <div className="u2__canales">
         {CANALES.map((canal, i) => (
           <span className="u2__columna" style={{ ['--i' as string]: i }} key={canal.nombre}>

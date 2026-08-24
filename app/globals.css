@@ -15408,25 +15408,51 @@ button {
 
 /* --- 01 · Programa a medida: la planilla se vuelve pantalla -------- */
 
+/* La hoja pide mas ancho que la pantalla: son tres columnas de texto
+   contra tres campos, y con 1fr/1fr las celdas quedaban en 60px y le
+   comian las letras a "La Reina". */
 .esc--planilla {
-  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr);
   align-items: center;
-  gap: 34px;
+  gap: 26px;
 }
 
 .esc__celdas {
   display: grid;
-  grid-template-columns: repeat(6, minmax(0, 1fr));
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 4px;
+  /* Donde termina la pasada, en la regla base: sin animacion la hoja
+     tiene que quedar de fantasma igual, no en opaco. */
+  opacity: 0.28;
   animation: esc-planilla-sale var(--esc-pasada) cubic-bezier(0.22, 1, 0.36, 1) 1 both;
 }
 
+/* Con las celdas vacias esto era un esqueleto de carga, no una planilla:
+   dieciocho rectangulos grises iguales. Lo que la vuelve una hoja de
+   calculo es que tenga datos adentro y una cabecera que se distinga. */
 .esc__celda {
+  overflow: hidden;
   height: 22px;
-  border: 1px solid rgba(7, 10, 15, 0.14);
-  background: color-mix(in srgb, var(--ink) 5%, transparent);
+  padding: 0 7px;
+  border: 1px solid var(--line);
+  background: var(--paper-bright);
+  color: var(--graphite);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  line-height: 20px;
+  white-space: nowrap;
+  text-overflow: ellipsis;
   animation: esc-celda var(--esc-pasada) cubic-bezier(0.22, 1, 0.36, 1) 1 both;
   animation-delay: calc(var(--i) * 8ms);
+}
+
+.esc__celda--cabecera {
+  background: color-mix(in srgb, var(--ink) 8%, transparent);
+  color: var(--ink);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
 }
 
 .esc__pantalla {
@@ -15439,7 +15465,7 @@ button {
 }
 
 .esc__pantalla-barra {
-  height: 5px;
+  height: 3px;
   width: 46px;
   background: var(--acento);
 }
@@ -15460,10 +15486,20 @@ button {
   letter-spacing: 0.03em;
 }
 
+/* Aca vivia lo mas mudo del sitio: tres rotulos y tres cajas vacias. La
+   escena promete "la planilla convertida en pantalla" y la pantalla no
+   tenia nada escrito. El dato adentro es la escena. */
 .esc__campo-caja {
+  overflow: hidden;
   height: 22px;
+  padding: 0 8px;
   border: 1px solid var(--line);
   background: var(--paper);
+  color: var(--ink);
+  font-size: 12.5px;
+  line-height: 20px;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 }
 
 .esc__boton {
@@ -15479,7 +15515,7 @@ button {
 
 @keyframes esc-planilla-sale {
   0%, 25% { opacity: 1; }
-  60%, 100% { opacity: 0.2; }
+  60%, 100% { opacity: 0.28; }
 }
 
 @keyframes esc-celda {
@@ -16018,15 +16054,34 @@ button {
 
   .esc__celda {
     height: 34px;
+    font-size: 12px;
+    line-height: 32px;
+  }
+
+  /* La cabecera no sigue a la celda: en versalitas y con 0.09em de espacio,
+     "CLIENTE" a 12px mide 71 en una celda de 72 y se cortaba la E. */
+  .esc__celda--cabecera {
+    font-size: 10px;
   }
 
   .esc__pantalla {
-    gap: 16px;
-    padding: 24px;
+    gap: 12px;
+    padding: 22px;
+  }
+
+  /* De 400 para arriba la columna de la pantalla mide unos 180px: con el
+     rotulo al lado le quedaban 60 al valor y "Comercial Nunoa" no cabia.
+     Arriba, el valor se lleva el ancho entero. En el telefono no hace
+     falta -la caja mide 311- y apilar sumaria 45px que no sobran. */
+  .esc__campo {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 4px;
   }
 
   .esc__campo-caja {
-    height: 34px;
+    height: 30px;
+    font-size: 14px;
+    line-height: 28px;
   }
 
   /* Las tres escenas de dos filas ya pedian align-content: center, pero
@@ -16148,30 +16203,39 @@ button {
     height: 232px;
   }
 
+  /* La fila en 1fr y no en auto: con auto media lo que mide la pantalla
+     y el start/end de las dos mitades se repartia dentro de esos 164px,
+     dejando 25 de aire arriba y abajo que no hacian falta. */
   .esc--planilla {
     grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: minmax(0, 1fr);
     gap: 0;
   }
 
-  /* En una columna las dos mitades se pisarian: van en la misma celda y
-     se turnan, que es justo lo que cuenta la escena. */
+  /* En una columna las dos mitades no caben una sobre otra -son 286px en
+     una caja de 196- asi que se pisan a proposito: la hoja arriba, la
+     pantalla encima y abajo. Lo que asoma de la hoja es su cabecera, y
+     eso basta para que se lea de que sale la pantalla. */
   .esc--planilla .esc__celdas {
     grid-area: 1 / 1;
+    align-self: start;
   }
 
   .esc--planilla .esc__pantalla {
     grid-area: 1 / 1;
-    background: var(--paper);
+    align-self: end;
+    justify-self: end;
+    width: 88%;
+    gap: 8px;
   }
 
   .esc__celdas {
-    grid-template-columns: repeat(4, minmax(0, 1fr));
-    align-self: center;
     animation-name: esc-planilla-sale-movil;
   }
 
   .esc__celda {
     height: 26px;
+    line-height: 24px;
   }
 
   .esc__pantalla {
@@ -16348,20 +16412,29 @@ button {
   }
 }
 
+/* Termina en fantasma y no en cero: apagada del todo, detenida solo
+   quedaba un formulario, y la mitad de "la planilla convertida en
+   pantalla" no se veia nunca. */
 @keyframes esc-planilla-sale-movil {
   0%, 25% { opacity: 1; }
-  60%, 100% { opacity: 0; }
+  60%, 100% { opacity: 0.28; }
 }
 
 @media (prefers-reduced-motion: reduce) {
   .esc--servicio * {
     animation: none !important;
-    opacity: 1 !important;
     transform: none !important;
   }
 
-  /* Sin movimiento se muestra el estado resuelto. */
-  .esc--planilla .esc__celdas,
+  /* La opacidad va aparte para dejar afuera la hoja de la planilla. Sin
+     movimiento la hoja no se esconde: es la mitad de la escena, y en
+     escritorio la grilla es de dos columnas -sin ella la pantalla quedaba
+     a un lado y un hueco al otro-. Se queda de fantasma, que es donde
+     termina la pasada, y ese 0.28 lo pone su propia regla base. */
+  .esc--servicio *:not(.esc__celdas) {
+    opacity: 1 !important;
+  }
+
   .esc--bandeja .esc__contador-antes {
     display: none;
   }
@@ -16845,7 +16918,7 @@ button {
 /* --- 01 · UNIFICALO: el canal maestro ----------------------------- */
 
 .esc--u2 {
-  grid-template-rows: auto minmax(0, 1fr);
+  grid-template-rows: auto auto minmax(0, 1fr);
   gap: 0;
   align-content: center;
 }
@@ -17011,7 +17084,36 @@ button {
   animation-name: u2-cifra-entra;
 }
 
-/* La venta aparece, la corriente baja, el canal se enciende y la cifra
+/* La franja de la que cuelgan los cuatro canales, con la palabra que
+   dice de que son los numeros. Detenida, un «3» solo no dice nada: los
+   siete segundos que sobran se miran sobre el estado final, no sobre el
+   movimiento que lo explico. Y en el telefono la pista (.u2__traza) se
+   apaga, asi que sin esto nada une el maestro con los cuatro canales. */
+.u2__union {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  align-items: center;
+  gap: 10px;
+  margin: 12px 0 10px;
+}
+
+.u2__union-rotulo {
+  color: var(--acento-tinta, var(--acento));
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.11em;
+  text-transform: uppercase;
+}
+
+.u2__union-franja {
+  height: 3px;
+  background: var(--acento);
+  transform-origin: left center;
+  animation: u2-union var(--esc-pasada) cubic-bezier(0.22, 1, 0.36, 1) 1 both;
+}
+
+/* La venta aparece, la franja se tiende, el canal se enciende y la cifra
    cambia: todo dentro de la misma pasada de 1,6 s. */
 @keyframes u2-venta {
   0%, 6% { opacity: 0; transform: translateY(-8px); }
@@ -17038,6 +17140,11 @@ button {
 @keyframes u2-cifra-entra {
   0%, 55% { opacity: 0; transform: translateY(8px); }
   75%, 100% { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes u2-union {
+  0%, 18% { transform: scaleX(0); }
+  46%, 100% { transform: scaleX(1); }
 }
 
 /* --- 02 · CITALY: el audio y la agenda ---------------------------- */
@@ -17392,7 +17499,7 @@ button {
 
 @container escena (width < 400px) {
   .esc--u2 {
-    grid-template-rows: auto auto;
+    grid-template-rows: auto auto auto;
     height: auto;
     min-height: 0;
     gap: 12px;
@@ -17412,6 +17519,10 @@ button {
     grid-row: auto;
     margin-top: 5px;
     font-size: 11px;
+  }
+
+  .u2__union {
+    margin: 0;
   }
 
   .u2__canales {

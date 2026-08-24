@@ -39,22 +39,46 @@ const TITULOS: Record<string, { eyebrow: string; titulo: string; pie: string }> 
   },
 }
 
-/* 01 · Programa a medida — una planilla que se ordena en pantalla. */
+/* 01 · Programa a medida — una planilla que se ordena en pantalla.
+   La hoja y la pantalla dicen lo mismo con los mismos datos: es la misma
+   informacion, mirada de las dos maneras. Vacias -como estaban- las dos
+   mitades eran un esqueleto de carga, y detenida la escena no decia nada. */
+const HOJA = [
+  ['Cliente', 'Plan', 'Fecha'],
+  ['Ñuñoa', 'Mensual', '12 sep'],
+  ['Maipú', 'Puntual', '12 sep'],
+  ['Macul', 'Mensual', '13 sep'],
+]
+
+const CAMPOS = [
+  { campo: 'Cliente', valor: 'Comercial Ñuñoa' },
+  { campo: 'Plan', valor: 'Mensual' },
+  { campo: 'Fecha', valor: '12 sep' },
+]
+
 function EscenaPlanilla() {
   return (
     <div className="esc esc--servicio esc--planilla" aria-hidden="true">
       <div className="esc__celdas">
-        {Array.from({ length: 18 }, (_, i) => (
-          <span className="esc__celda" style={{ ['--i' as string]: i }} key={i} />
-        ))}
+        {HOJA.flatMap((fila, f) =>
+          fila.map((texto, c) => (
+            <span
+              className={f === 0 ? 'esc__celda esc__celda--cabecera' : 'esc__celda'}
+              style={{ ['--i' as string]: f * 3 + c }}
+              key={`${f}-${c}`}
+            >
+              {texto}
+            </span>
+          )),
+        )}
       </div>
 
       <div className="esc__pantalla">
         <span className="esc__pantalla-barra" />
-        {['Cliente', 'Servicio', 'Fecha'].map((campo, i) => (
-          <span className="esc__campo" style={{ ['--i' as string]: i }} key={campo}>
-            <span className="esc__campo-nombre">{campo}</span>
-            <span className="esc__campo-caja" />
+        {CAMPOS.map((f, i) => (
+          <span className="esc__campo" style={{ ['--i' as string]: i }} key={f.campo}>
+            <span className="esc__campo-nombre">{f.campo}</span>
+            <span className="esc__campo-caja">{f.valor}</span>
           </span>
         ))}
         <span className="esc__boton">Guardar</span>
