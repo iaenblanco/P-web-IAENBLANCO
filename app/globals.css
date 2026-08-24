@@ -15535,74 +15535,149 @@ button {
 
 /* --- 02 · Automatizaciones: el pedido recorre las estaciones ------- */
 
+/* --- 02 · Automatizaciones: dos programas y el dato que cruza ---- */
+
+/* La columna del medio no es un gap: es una columna de verdad, de 34px, y
+   ahi viven el cable y la carga. Puestos con grid-area, su caja pasa a ser
+   esa columna, asi que el recorrido del punto mide exactamente el hueco
+   entre los dos programas -sin margenes negativos calculados a mano, que es
+   de lo que vivia la version anterior-. */
 .esc--tuberia {
-  grid-template-rows: minmax(0, 1fr) 34px;
+  grid-template-columns: minmax(0, 1fr) 34px minmax(0, 1fr);
+  grid-template-rows: minmax(0, 1fr) auto;
   align-content: center;
-  gap: 20px;
+  row-gap: 12px;
 }
 
-.esc__estaciones {
+/* Cada programa es una ventana con su barra de titulo, la misma figura que
+   la marca «Web» del indice de servicios. Las filas se estiran a lo que
+   sobre: asi la escena llena la caja del telefono sin dejar el fondo de la
+   tarjeta vacio. */
+.tu__app {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 16px;
-  align-items: center;
-}
-
-.esc__estacion {
-  display: grid;
+  grid-row: 1;
+  grid-template-rows: auto repeat(3, minmax(0, 1fr));
   gap: 6px;
-  padding: 20px 16px;
+  padding: 0 10px 9px;
   border: 1px solid var(--line);
   background: var(--paper-bright);
-  animation: esc-estacion 500ms cubic-bezier(0.22, 1, 0.36, 1) 1 both;
-  /* Cada estacion prende cuando la carga llega, no por su cuenta: la carga
-     pasa por la 1 al 14% de la pasada, por la 2 al 50% y por la 3 al 82%. */
-  animation-delay: calc(var(--i) * 550ms + 150ms);
+  animation: esc-pantalla var(--esc-pasada) cubic-bezier(0.22, 1, 0.36, 1) 1 both;
 }
 
-.esc__estacion-nombre {
-  font-size: 15px;
-  font-weight: 600;
-  letter-spacing: -0.01em;
+.tu__app--origen {
+  grid-column: 1;
 }
 
-.esc__estacion-detalle {
-  color: var(--graphite);
+.tu__app--destino {
+  grid-column: 3;
+  animation-delay: 130ms;
+}
+
+.tu__app-nombre {
+  overflow: hidden;
+  margin: 0 -10px 2px;
+  padding: 6px 10px;
+  border-bottom: 1px solid var(--line);
+  background: color-mix(in srgb, var(--acento) 9%, transparent);
+  color: var(--acento-tinta);
   font-family: var(--font-mono);
-  font-size: 12px;
-  letter-spacing: 0.03em;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-overflow: ellipsis;
+  text-transform: uppercase;
+  white-space: nowrap;
 }
 
-.esc__cable {
+.tu__fila {
+  display: grid;
+  overflow: hidden;
+  align-items: center;
+  padding: 0 8px;
+  border: 1px solid var(--line);
+  background: var(--paper);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* Las que cruzan no aparecen: llegan, y llegan de la izquierda, que es de
+   donde viene el cable. Una detras de otra, no las dos juntas. */
+.tu__fila--llega {
+  animation: tu-llega var(--esc-pasada) cubic-bezier(0.22, 1, 0.36, 1) 1 both;
+  animation-delay: calc(var(--i) * 140ms);
+}
+
+/* La mitad que vende. En rojo de sistema -el mismo --alarma-servicio del
+   contador de la bandeja- porque es el estado que hay que ver, no el que la
+   escena viene a resolver: aca la resolucion es justamente que se vea. */
+.tu__falla {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  overflow: hidden;
+  align-items: center;
+  gap: 6px;
+  padding: 0 8px;
+  border: 1px solid color-mix(in srgb, var(--alarma-servicio) 45%, transparent);
+  background: color-mix(in srgb, var(--alarma-servicio) 7%, var(--paper-bright));
+  color: var(--alarma-servicio);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  animation: esc-campo var(--esc-pasada) cubic-bezier(0.22, 1, 0.36, 1) 1 both;
+}
+
+.tu__falla-fila {
+  overflow: hidden;
+  text-decoration: line-through;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.tu__falla-marca {
+  display: grid;
+  place-items: center;
+  width: 15px;
+  height: 15px;
+  border-radius: 50%;
+  background: var(--alarma-servicio);
+  color: var(--paper-bright);
+  font-size: 10px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.tu__cable {
   position: absolute;
-  left: 28px;
-  right: 28px;
+  grid-area: 1 / 2 / 2 / 3;
   top: 50%;
+  right: 0;
+  left: 0;
   height: 1px;
-  margin-top: -25px;
   background: repeating-linear-gradient(
     90deg,
-    color-mix(in srgb, var(--acento) 45%, transparent) 0 7px,
-    transparent 7px 14px
+    color-mix(in srgb, var(--acento) 45%, transparent) 0 6px,
+    transparent 6px 12px
   );
 }
 
-/* La carga que viaja de una estacion a la siguiente. */
-.esc__carga {
+.tu__carga {
   position: absolute;
-  left: 28px;
-  right: 28px;
+  grid-area: 1 / 2 / 2 / 3;
   top: 50%;
+  right: 0;
+  left: 0;
   height: 10px;
-  margin-top: -30px;
+  margin-top: -5px;
   pointer-events: none;
-  animation: esc-carga var(--esc-pasada) cubic-bezier(0.5, 0, 0.5, 1) 1 both;
+  animation: tu-carga var(--esc-pasada) cubic-bezier(0.5, 0, 0.5, 1) 1 both;
 }
 
-.esc__carga i {
+.tu__carga i {
   position: absolute;
-  left: 0;
   top: 0;
+  left: 0;
   width: 10px;
   height: 10px;
   border-radius: 50%;
@@ -15610,43 +15685,37 @@ button {
   box-shadow: 0 0 0 5px color-mix(in srgb, var(--acento) 18%, transparent);
 }
 
-.esc__listo {
-  justify-self: start;
+/* No dice «listo» como antes: lo que la escena tiene para vender no es que
+   termine, es que cuando algo no calza no siga de largo. */
+.tu__aviso {
+  grid-row: 2;
+  grid-column: 1 / -1;
+  /* Centrado: las dos ventanas son iguales y el aviso habla de las dos.
+     Pegado a la izquierda dejaba un cuarto de la caja vacio a la derecha. */
+  justify-self: center;
   align-self: center;
-  padding: 7px 13px;
-  border: 1px solid color-mix(in srgb, var(--acento) 50%, transparent);
+  padding: 6px 12px;
+  border: 1px solid color-mix(in srgb, var(--alarma-servicio) 40%, transparent);
   background: var(--paper-bright);
-  color: var(--acento-tinta);
+  color: var(--alarma-servicio);
   font-family: var(--font-mono);
   font-size: 12px;
   letter-spacing: 0.03em;
   animation: esc-listo var(--esc-pasada) cubic-bezier(0.22, 1, 0.36, 1) 1 both;
 }
 
-@keyframes esc-estacion {
-  0% { border-color: var(--line); }
-  35%, 100% { border-color: color-mix(in srgb, var(--acento) 65%, transparent); }
+/* El punto queda quieto donde llego y no se apaga: los siete segundos que
+   siguen se miran sobre la foto fija, y un canal vacio no dice que algo
+   haya pasado por ahi. */
+@keyframes tu-carga {
+  0%, 12% { opacity: 0; transform: translateX(-6px); }
+  22% { opacity: 1; transform: translateX(-6px); }
+  56%, 100% { opacity: 1; transform: translateX(calc(100% - 4px)); }
 }
 
-/* Las tres estaciones ocupan un tercio cada una: el punto se para en el
-   centro de cada una, o sea a 1/6, 3/6 y 5/6 del recorrido. */
-@keyframes esc-carga {
-  0%, 5% { opacity: 0; transform: translateX(calc(16.6% - 5px)); }
-  14%, 34% { opacity: 1; transform: translateX(calc(16.6% - 5px)); }
-  50%, 66% { opacity: 1; transform: translateX(calc(50% - 5px)); }
-  82%, 100% { opacity: 1; transform: translateX(calc(83.3% - 5px)); }
-}
-
-/* El mismo recorrido cuando las estaciones se apilan. Las paradas no caen
-   en 1/6, 3/6 y 5/6 como al costado: alli las tres columnas se reparten un
-   ancho sin huecos, y aca hay dos gaps de 7px que corren los centros. Con
-   la pila de 142px que deja la escena en celular, cada estacion mide 42,7 y
-   los centros quedan en 15%, 50% y 85%. */
-@keyframes esc-carga-pie {
-  0%, 5% { opacity: 0; transform: translateY(calc(15% - 5px)); }
-  14%, 34% { opacity: 1; transform: translateY(calc(15% - 5px)); }
-  50%, 66% { opacity: 1; transform: translateY(calc(50% - 5px)); }
-  82%, 100% { opacity: 1; transform: translateY(calc(85% - 5px)); }
+@keyframes tu-llega {
+  0%, 34% { opacity: 0; transform: translateX(-10px); }
+  62%, 100% { opacity: 1; transform: translateX(0); }
 }
 
 @keyframes esc-listo {
@@ -16177,14 +16246,14 @@ button {
    340 y ahi no hay nada que ganar.
 
    Crecen las medidas verticales, no las horizontales. Los gaps de
-   .esc--planilla (34px), .esc__estaciones (16px) y .esc__mensaje (12px)
-   separan columnas, no filas: subirlos angosta el dibujo justo donde
-   la columna ya es mas angosta que antes.
+   .esc--planilla (34px) y .esc__mensaje (12px) separan columnas, no
+   filas: subirlos angosta el dibujo justo donde la columna ya es mas
+   angosta que antes.
 
-   Tampoco se toca .esc--tuberia: su gap (20px) y su segunda fila (34px)
-   son lo que calibra el -25px/-30px del cable y la carga, que cuelgan de
-   un top: 50%. La estacion puede engordar -esta centrada en su fila- pero
-   el gap no.
+   De .esc--tuberia si se toca la columna del medio: el cable y la carga
+   cuelgan de ella via grid-area, asi que su ancho ES el recorrido del
+   dato. Los 34px que en el telefono son el 11% de la caja, aca serian el
+   7%: un salto demasiado corto para leerse como un cruce.
 
    Ya no hay cerca de @media alrededor: el bloque compacto tambien es
    @container, asi que las dos consultas se reparten el mismo eje -el
@@ -16235,30 +16304,36 @@ button {
     line-height: 28px;
   }
 
-  /* Las tres escenas de dos filas ya pedian align-content: center, pero
-     con una fila en 1fr no habia nada que centrar: la fila se comia el
-     sobrante y la fila auxiliar -el "listo", el contador, la nota- quedaba
-     clavada contra el borde. Con la fila en auto el dibujo se centra
-     entero y el aire se reparte arriba y abajo.
+  /* Sigue siendo la unica que no crece hasta los 360 del resto, pero por
+     otro motivo que antes: ya no es un dibujo ancho y corto -son dos
+     ventanas de pie- sino que sus filas son 1fr, y en una caja de 360 los
+     tres renglones de cada programa quedarian de 70px cada uno, que ya no
+     se lee como una lista sino como tres bloques sueltos. Con este tope
+     miden unos 50, que es un renglon de lista comodo.
 
-     El cable y la carga de la tuberia no se enteran: cuelgan de un
-     top: 50% con margen negativo, y el centro de la primera fila cae en
-     H/2 - (gap + fila2)/2 tanto con 1fr como con auto. Mismo -27px, que
-     es lo que aproximan el -25 y el -30. Por eso el gap y los 34px no se
-     tocan aca. */
+     El hueco de abajo no se toca: el cable y la carga cuelgan de la propia
+     columna 2 via grid-area, asi que se enteran solos de cualquier alto y
+     de cualquier ancho. */
   .esc--tuberia {
-    grid-template-rows: minmax(0, auto) 34px;
-    /* La unica que no crece de alto: su dibujo es ancho y corto -tres
-       estaciones en fila- y a 360px quedaban 98px de aire arriba y abajo,
-       mas que a 288. Repite la medida de antes a proposito, para que el
-       .esc--servicio de este mismo bloque no la alcance. Lo que le falta
-       no es caja, es ponerse de pie, y eso es el Paso 6. */
-    height: clamp(248px, 20vw, 288px);
+    grid-template-columns: minmax(0, 1fr) 52px minmax(0, 1fr);
+    height: clamp(268px, 22vw, 312px);
   }
 
-  .esc__estacion {
+  .tu__app {
     gap: 8px;
-    padding: 30px 20px;
+    padding: 0 14px 12px;
+  }
+
+  .tu__app-nombre {
+    margin: 0 -14px 4px;
+    padding: 8px 14px;
+    font-size: 11px;
+  }
+
+  .tu__fila,
+  .tu__falla {
+    padding: 0 11px;
+    font-size: 13px;
   }
 
   /* La primera fila de la bandeja es exactamente el contador: si sube
@@ -16410,70 +16485,30 @@ button {
     align-self: center;
   }
 
-  /* La tuberia, de pie. Apiladas las estaciones, el cable horizontal no
-     tiene por donde ir, y hasta hoy se escondia: en celular la escena que
-     vende "el pedido recorre las tres estaciones" quedaba en tres cajas
-     quietas a las que solo les late el borde. No hay que contar otra cosa,
-     hay que contarla en el otro sentido. */
-  .esc__estaciones {
-    grid-template-columns: minmax(0, 1fr);
-    gap: 7px;
-    /* El hueco por donde baja el cable. Es el mismo ancho que el padding
-       lateral de la escena, asi el cable cae justo sobre el borde interno
-       y no inventa un margen nuevo. */
-    padding-left: 20px;
+  /* La tuberia ya no necesita ponerse de pie en el telefono: las dos
+     ventanas son verticales de entrada y el canal cruza entre ellas en los
+     dos anchos. Lo unico que cambia es la escala. Lo que se fue de aca: la
+     pila de estaciones, el cable vertical, el @keyframes esc-carga-pie y
+     los margenes negativos que calibraban el recorrido a mano. */
+  .tu__app {
+    gap: 5px;
+    padding: 0 8px 8px;
   }
 
-  /* 8px y no 10: con 10 las tres estaciones suman 147,5 y la fila mide
-     140, asi que se desbordaban 7,5px sobre el aire de abajo. No se veia
-     -el hueco es de 20px- pero corria los centros a 15,9 / 52,7 / 89,5%,
-     y la carga se para en 15 / 50 / 85. Con 8 la pila entra, las filas se
-     estiran parejas y cada parada cae justo sobre su estacion. */
-  .esc__estacion {
-    grid-template-columns: 88px minmax(0, 1fr);
-    align-items: center;
-    gap: 12px;
-    padding: 8px 12px;
+  .tu__app-nombre {
+    margin: 0 -8px 2px;
+    padding: 5px 8px;
+    font-size: 9px;
   }
 
-  /* grid-area los mete en la primera fila. Un absoluto cuya caja la pone el
-     propio contenedor de grilla -y aca la pone: .esc es position: relative-
-     se coloca en la celda que se le pida, y esa celda pasa a ser su caja.
-     O sea: el cable mide exactamente lo que mide la pila de estaciones, y
-     el 15/50/85% de la carga se cuenta sobre esa altura. Sin numeros a
-     mano, que es lo que obliga al -25px/-30px de la version de costado.
-
-     Las cuatro lineas van escritas. Con "1 / 1" el fin queda en auto, y
-     para un absoluto auto no es "una celda": es el borde del padding del
-     contenedor. Medido, el cable salia de 212px en una fila de 140. */
-  .esc__cable {
-    grid-area: 1 / 1 / 2 / 2;
-    top: 0;
-    right: auto;
-    bottom: 0;
-    left: 0;
-    width: 1px;
-    height: auto;
-    margin-top: 0;
-    background: repeating-linear-gradient(
-      180deg,
-      color-mix(in srgb, var(--acento) 45%, transparent) 0 7px,
-      transparent 7px 14px
-    );
+  .tu__fila,
+  .tu__falla {
+    padding: 0 7px;
+    font-size: 11px;
   }
 
-  /* La carga mide 10px y el cable 1: para que baje centrada sobre el, medio
-     punto a la izquierda del borde interno. */
-  .esc__carga {
-    grid-area: 1 / 1 / 2 / 2;
-    top: 0;
-    right: auto;
-    bottom: 0;
-    left: -5px;
-    width: 10px;
-    height: auto;
-    margin-top: 0;
-    animation-name: esc-carga-pie;
+  .tu__aviso {
+    font-size: 12px;
   }
 
   .esc__mensaje-texto {
@@ -16483,10 +16518,8 @@ button {
   .esc__contador,
   .esc__contador-antes,
   .esc__contador-despues,
-  .esc__estacion-detalle,
   .esc__campo-nombre,
   .esc__boton,
-  .esc__listo,
   .esc__nota {
     font-size: 13px;
   }

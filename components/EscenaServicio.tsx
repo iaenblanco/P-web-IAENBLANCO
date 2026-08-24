@@ -87,25 +87,56 @@ function EscenaPlanilla() {
   )
 }
 
-/* 02 · Automatizaciones — un pedido que recorre las tres estaciones. */
+/* 02 · Automatizaciones — dos programas y el dato que cruza solo.
+ *
+ * La version anterior eran tres tarjetas en fila -Entra / Se revisa / Queda-
+ * con un punto que las recorria: una lista de pasos escrita, no un dibujo.
+ * Y le faltaba entera la mitad que vende. La pagina promete que la
+ * informacion viaja sola «avisandote cuando algo se sale de lo normal», y
+ * eso -que si algo no calza te avisa en vez de seguir- no estaba dibujado en
+ * ninguna parte.
+ *
+ * Ahora hay dos superficies con nombre y algo que cruza entre ellas: las
+ * mismas filas aparecen del otro lado sin que nadie las copie. La tercera no
+ * cruza, y en su lugar queda la marca de que no cuadra. Ocho palabras en
+ * total, dos de ellas los nombres de los dos programas.
+ */
+const CRUZAN = ['#1042', '#1043']
+
 function EscenaTuberia() {
   return (
     <div className="esc esc--servicio esc--tuberia" aria-hidden="true">
-      <div className="esc__estaciones">
-        {[
-          { t: 'Entra', d: 'Un pedido' },
-          { t: 'Se revisa', d: 'Que cuadre' },
-          { t: 'Queda', d: 'Registrado' },
-        ].map((e, i) => (
-          <span className="esc__estacion" style={{ ['--i' as string]: i }} key={e.t}>
-            <span className="esc__estacion-nombre">{e.t}</span>
-            <span className="esc__estacion-detalle">{e.d}</span>
+      <div className="tu__app tu__app--origen">
+        <span className="tu__app-nombre">Pedidos</span>
+        {[...CRUZAN, '#1044'].map((n) => (
+          <span className="tu__fila" key={n}>
+            {n}
           </span>
         ))}
       </div>
-      <span className="esc__cable" />
-      <span className="esc__carga"><i /></span>
-      <span className="esc__listo">Listo, sin que nadie lo copie</span>
+
+      {/* El canal y lo que va por el. El absoluto lo coloca la grilla: su
+          caja es la columna del medio, asi que el recorrido mide lo que mide
+          el hueco entre los dos programas y no hay numeros a mano. */}
+      <span className="tu__cable" />
+      <span className="tu__carga">
+        <i />
+      </span>
+
+      <div className="tu__app tu__app--destino">
+        <span className="tu__app-nombre">Contabilidad</span>
+        {CRUZAN.map((n, i) => (
+          <span className="tu__fila tu__fila--llega" style={{ ['--i' as string]: i }} key={n}>
+            {n}
+          </span>
+        ))}
+        <span className="tu__falla">
+          <span className="tu__falla-fila">#1044</span>
+          <i className="tu__falla-marca">!</i>
+        </span>
+      </div>
+
+      <span className="tu__aviso">Te avisa en vez de seguir</span>
     </div>
   )
 }
