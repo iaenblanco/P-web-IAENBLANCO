@@ -15607,22 +15607,19 @@ button {
 
   /* En una columna las dos mitades se pisarian: van en la misma celda y
      se turnan, que es justo lo que cuenta la escena. */
-  .esc--planilla .esc__celdas,
-  .esc--planilla .esc__pantalla {
+  .esc--planilla .esc__celdas {
     grid-area: 1 / 1;
   }
 
-  .esc__celdas {
-    animation-name: esc-planilla-sale-movil;
-  }
-
   .esc--planilla .esc__pantalla {
+    grid-area: 1 / 1;
     background: var(--paper);
   }
 
   .esc__celdas {
     grid-template-columns: repeat(4, minmax(0, 1fr));
     align-self: center;
+    animation-name: esc-planilla-sale-movil;
   }
 
   .esc__celda {
@@ -15835,6 +15832,81 @@ button {
   width: 36px;
   height: 1px;
   background: var(--signal);
+}
+
+/* --- La banda de apertura: titular a la izquierda, dibujo a la derecha ---
+   La forma que pidio Nico. Hasta ahora el dibujo era HERMANO del titular y
+   la apertura quedaba en dos pisos: un h1 topado a 900 px con unos 340 px de
+   aire muerto al lado, y debajo una tira de 1240x288 -4,3:1- que se lee como
+   banner y no como ilustracion.
+
+   El gap sale del token y no de un numero escrito aca: es la misma medida
+   entre bloques mayores que fijo la tanda B. No se suma .banda-apertura a la
+   lista de --gap-ancho porque esa lista vive en el mismo contexto que esta
+   regla y serian dos reglas para el mismo selector: una marca nueva para la
+   guardia, que es exactamente la costumbre que la guardia existe para frenar.
+
+   align-items: start y no center: el h1 es el elemento que mide el LCP en
+   cuatro de las cinco paginas, y con center su caja depende del alto de la
+   columna vecina y de cuando llega la woff2. Cero min-height y cero svh por
+   lo mismo. */
+.banda-apertura {
+  display: grid;
+  grid-template-columns: minmax(0, 1.08fr) minmax(340px, 0.92fr);
+  align-items: start;
+  gap: var(--gap-ancho);
+}
+
+/* Conserva la reja de .service-page-section__heading -14 px- que dejo de
+   vestirlo: .eyebrow trae margin 0 y sin reja se pegaba al h1. Los 14 se
+   suman a los 20 de cada pieza, que es la separacion que ya tenia. */
+.banda-apertura__texto {
+  display: grid;
+  gap: 14px;
+  align-content: start;
+  min-width: 0;
+}
+
+.banda-apertura__visual {
+  min-width: 0;
+  margin-top: clamp(6px, 0.8vw, 14px);
+}
+
+.banda-apertura__accion {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 18px;
+  align-items: center;
+  margin: 20px 0 0;
+}
+
+/* Las dos clases del selector son a proposito: (0,2,1) le gana a
+   .service-page-section--apertura h1 -que sigue vistiendo la apertura de
+   sitios web, la unica que no es una banda- sin un !important, que subiria
+   la marca de la guardia de 23 a 24.
+
+   Y baja de 72 a 54 px. En una columna de 644, un h1 de 68 con -0.055em da
+   unos 20 caracteres por linea: "Te armamos la lista de empresas a las que
+   vale la pena venderle" son 62, o sea cuatro o cinco lineas de titular
+   contra una escena de 288 px. A 54 la izquierda mide ~365 y la banda queda
+   pareja. */
+.banda-apertura .banda-apertura__texto h1 {
+  margin: 0;
+  font-size: clamp(34px, 3.6vw, 54px);
+  font-weight: 500;
+  letter-spacing: -0.045em;
+  line-height: 0.98;
+  text-wrap: balance;
+}
+
+@media (max-width: 1024px) {
+  .banda-apertura {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .banda-apertura__visual {
+    margin-top: 0;
+  }
 }
 
 /* La escena entra barriendo de izquierda a derecha, como si se dibujara

@@ -63,8 +63,11 @@ function ArrowUpRight() {
    Dos versiones de la misma idea: arriba el titulo del servicio y debajo la
    prueba mas fuerte que tenemos. En sitios web esa prueba son cinco sitios
    que se pueden abrir; en las otras cuatro, la escena del servicio andando.
-   Antes la escena vivia a media pagina y media 240 px de alto: era la pieza
-   mejor hecha de la pagina y estaba escondida. */
+
+   La escena ya no es hermana del titular sino su columna derecha: titulo a
+   la izquierda, dibujo a la derecha, que es la forma que pidio Nico. Como
+   hermana quedaba una tira de 1240x288 -4,3:1- que se leia como banner, y
+   dejaba 340 px de aire muerto a la derecha del h1. */
 
 function AperturaWeb({ titulo }: { titulo: string }) {
   return (
@@ -93,19 +96,38 @@ function AperturaEscena({ service, content }: { service: Service; content: Servi
   const escena = textoEscena(content.slug)
 
   return (
-    <section className="service-page-section service-page-section--apertura service-page-section--escena">
-      <div className="section-shell">
-        <div className="service-page-section__heading service-page-section__heading--wide">
+    <section
+      id="apertura"
+      className="service-page-section service-page-section--apertura service-page-section--escena"
+    >
+      <div className="section-shell banda-apertura">
+        <div className="banda-apertura__texto">
           <p className="eyebrow">{service.eyebrow}</p>
           <h1>{service.title}</h1>
           <p className="service-apertura__plazo">{service.plazo}</p>
+          {/* La escena es aria-hidden: lo que muestra va escrito aca, y de paso
+              es la unica linea de texto corrido que lleva la apertura. */}
+          {escena ? <p className="service-escena__pie">{escena.pie}</p> : null}
+          <div className="banda-apertura__accion">
+            <a
+              href={getWhatsappUrl(content.whatsappMessage)}
+              target="_blank"
+              rel="noreferrer"
+              className="button button--text"
+              data-analytics-event="service_whatsapp_click"
+              data-service-id={service.slug}
+              data-service-name={service.shortTitle}
+            >
+              {content.primaryCta}
+              <ArrowUpRight />
+            </a>
+          </div>
         </div>
-        <RevelaAlEntrar className="revela--escena">
-          <EscenaServicio slug={content.slug} />
-        </RevelaAlEntrar>
-        {/* La escena es aria-hidden: lo que muestra va escrito aca, y de paso
-            es la unica linea de texto corrido que lleva la apertura. */}
-        {escena ? <p className="service-escena__pie">{escena.pie}</p> : null}
+        <div className="banda-apertura__visual">
+          <RevelaAlEntrar className="revela--escena">
+            <EscenaServicio slug={content.slug} />
+          </RevelaAlEntrar>
+        </div>
       </div>
     </section>
   )
@@ -162,7 +184,7 @@ function AsiTrabajamos({ pasos }: { pasos: Paso[] }) {
 
 function Escribenos({ service, content }: { service: Service; content: ServicePageContent }) {
   return (
-    <section className="service-page-mid-cta">
+    <section id="escribenos" className="service-page-mid-cta">
       <div className="section-shell service-page-mid-cta__inner" data-revela="">
         <p>¿Se parece a lo que te pasa? Escríbenos y lo revisamos antes de proponerte nada.</p>
         <a
@@ -251,7 +273,7 @@ export function ServicePageTemplate({ service, content }: ServicePageTemplatePro
         </div>
       </section>
 
-      <section className="service-page-cta">
+      <section id="cierre" className="service-page-cta">
         <div className="section-shell service-page-cta__inner" data-revela="">
           <div>
             <p className="eyebrow">El siguiente paso</p>

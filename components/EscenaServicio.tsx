@@ -125,11 +125,16 @@ function EscenaSeguimiento() {
   )
 }
 
+/* Cada slug nombra la suya y no hay caida por omision: un slug sin escena
+   devuelve null y la apertura queda con la columna vacia, que se ve. Con un
+   return suelto al final, el slug nuevo se llevaba la escena de prospeccion
+   -otra historia, otro pie- y no habia error que lo delatara. */
 function EscenaPorSlug({ slug }: { slug: Slug }) {
   if (slug === 'plataformas-software-medida') return <EscenaPlanilla />
   if (slug === 'automatizaciones') return <EscenaTuberia />
   if (slug === 'soluciones-ia-medida') return <EscenaBandeja />
-  return <EscenaSeguimiento />
+  if (slug === 'prospeccion-b2b-gestionada') return <EscenaSeguimiento />
+  return null
 }
 
 export function EscenaServicio({ slug }: { slug: Slug }) {
