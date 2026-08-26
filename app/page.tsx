@@ -133,16 +133,20 @@ const productRows = [
     name: 'Citaly',
     category: 'Para negocios que atienden con hora',
     problem: 'El WhatsApp suena mientras tienes un cliente al frente. Uno de los dos espera.',
-    promise: 'Tu WhatsApp contesta y agenda la hora mientras tú sigues atendiendo.',
+    /* Todo el texto de Citaly hablaba de WhatsApp y dejaba el calendario
+       escondido, que es justo lo que hace. Ahora el sujeto es la agenda: la
+       toma, la mueve, la cancela y contesta por ti. El WhatsApp es por donde
+       entra, no lo que es. */
+    promise: 'Un agente de IA que se hace cargo de tu agenda: toma horas, las mueve y las cancela.',
     steps: [
       { label: 'Recibe', title: 'El mensaje del cliente', detail: 'Escrito o por audio', theme: 'wa' },
       { label: 'Entiende', title: 'Qué está pidiendo', detail: 'Y mira tu agenda real', theme: 'ai' },
-      { label: 'Agenda', title: 'La hora y la confirma', detail: 'Sin que tú toques nada', theme: 'software' },
+      { label: 'Resuelve', title: 'Toma, mueve o cancela', detail: 'Sin que tú toques nada', theme: 'software' },
     ],
     benefits: [
-      'Entiende también los audios.',
-      'Solo ofrece horas que tienes libres.',
-      'Confirma y recuerda la cita.',
+      'Toma, mueve y cancela horas.',
+      'Recomienda las que tienes libres.',
+      'Confirma, recuerda y contesta por ti.',
     ],
     href: 'https://citaly.cl',
   },
@@ -718,8 +722,8 @@ function ProblemSection() {
               <h2 id="model-heading">Tres pasos, y en ninguno te dejamos solo.</h2>
               <p className="operating-model__copy">
                 No partimos vendiéndote algo. Partimos entendiendo qué te está costando
-                hoy. Recién ahí sabemos qué hay que construir, y te lo decimos antes de
-                empezar.
+                hoy. Recién ahí sabemos qué hay que construir, y te decimos qué es y
+                cuánto vale antes de empezar.
               </p>
             </div>
           </Reveal>
@@ -727,26 +731,31 @@ function ProblemSection() {
           <div className="operating-model__steps">
             <span className="operating-model__carril" aria-hidden="true" />
             {[
+              /* El paso 02 decia "Avances desde el primer viernes". Suena a una
+                 cadencia semanal fija que no existe, y nadie la habia prometido:
+                 lo que si es cierto es que nada arranca hasta que la cotizacion
+                 esta aceptada, y que el plazo depende del tamano. Eso es lo que
+                 dicen ahora los tres pasos. */
               {
                 number: '01',
-                title: 'Conversamos',
-                text: 'Nos cuentas cómo trabajas hoy y qué te está costando. Sin compromiso y sin costo.',
-                deliverable: 'Qué haríamos y cuánto abarca, por escrito',
-                cuando: 'La primera semana',
+                title: 'Conversamos y te cotizamos',
+                text: 'Nos cuentas cómo trabajas hoy y qué te está costando. Te decimos qué haríamos y cuánto vale, sin costo y sin compromiso.',
+                deliverable: 'Qué haríamos y cuánto vale, por escrito',
+                cuando: 'Apenas nos escribes',
               },
               {
                 number: '02',
                 title: 'Lo construimos',
-                text: 'Hacemos lo acordado y te vamos mostrando avances, para que no haya sorpresas al final.',
+                text: 'Con la cotización aceptada empezamos, y te vamos mostrando cómo va para que no haya sorpresas al final.',
                 deliverable: 'Tu sitio, tu programa o tu asistente, funcionando',
-                cuando: 'Avances desde el primer viernes',
+                cuando: 'Apenas confirmas',
               },
               {
                 number: '03',
                 title: 'Lo dejamos andando',
                 text: 'Lo publicamos, te enseñamos a usarlo y quedamos disponibles para los ajustes que salgan.',
                 deliverable: 'Puesta en marcha, y nosotros ahí después',
-                cuando: 'El día que sale a la calle',
+                cuando: 'Según el tamaño del proyecto',
               },
             ].map((step, index) => (
               <Reveal key={step.number} className="operating-step" delay={index * 90}>
@@ -869,10 +878,16 @@ export default function HomePage() {
               Te hacemos la parte tecnológica.
               <em>Tú sigue con lo tuyo.</em>
             </h1>
+            {/* La segunda frase decia "los dejamos funcionando y te acompanamos
+                despues", que es cierto pero lo repiten los tres pasos mas abajo.
+                Aca va lo que no estaba dicho en ninguna parte del sitio: que lo
+                que hacemos no es la pagina, es lo que trabaja detras de ella.
+                La version larga vive en /servicios/desarrollo-web-ia/. */}
             <p className="home-hero__summary">
               Hacemos sitios web, tiendas online, programas a la medida de tu negocio y
-              asistentes con inteligencia artificial. Los dejamos funcionando y te
-              acompañamos después.
+              asistentes con inteligencia artificial. Y no solo lo que se ve: también el
+              cotizador, la plataforma y el sistema que trabaja por detrás, que después
+              administras tú.
             </p>
             <div className="home-hero__actions">
               <a

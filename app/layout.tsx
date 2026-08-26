@@ -140,8 +140,6 @@ const organizationSchema = {
   },
 }
 
-const prospectionService = services.find((service) => service.slug === 'prospeccion-b2b-gestionada')
-
 const serviceTrackingCatalog = services.reduce<Record<string, { id: string; name: string }>>(
   (catalog, service) => {
     catalog[service.slug] = { id: service.slug, name: service.shortTitle }
@@ -149,10 +147,12 @@ const serviceTrackingCatalog = services.reduce<Record<string, { id: string; name
   },
   {
     '': { id: 'servicios', name: 'Servicios' },
-    'leads-magnet': {
-      id: prospectionService?.slug || 'prospeccion-b2b-gestionada',
-      name: prospectionService?.shortTitle || 'Prospección B2B gestionada',
-    },
+    /* 'leads-magnet' era el nombre viejo del servicio de buscar clientes y
+       quedaba aca para que los enlaces antiguos siguieran midiendose con el
+       nombre correcto. Ese servicio ya no existe, asi que la etiqueta apunta
+       a Leads, el programa: quien llegue por un enlace viejo termina en
+       /productos/ y ahi es donde queremos verlo contado. */
+    'leads-magnet': { id: 'leads', name: 'Leads' },
   },
 )
 

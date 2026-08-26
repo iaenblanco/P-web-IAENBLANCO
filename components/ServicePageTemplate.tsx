@@ -207,6 +207,61 @@ function TrabajosWeb() {
   )
 }
 
+/* Lo que nos distingue no estaba escrito en ninguna parte del sitio. Estaba a
+   medias en una capacidad suelta -"boton de WhatsApp, formulario o carro de
+   compra"-, en una pregunta frecuente y en una linea perdida de la ficha de
+   Propinvest. Lo que hacemos no es la pagina: es lo que trabaja detras de ella.
+
+   Va antes de los ejemplos a proposito. Quien llega quiere saber que hacemos
+   antes de ver a quien se lo hicimos.
+
+   Usa .service-build-grid tal cual, sin el modificador --pasos: son cuatro
+   tarjetas sin numerar y esa ropa ya existe, asi que no suma CSS nuevo. */
+const sistemaDetras = [
+  {
+    titulo: 'Cotizadores en línea',
+    texto: 'El cliente arma lo que necesita y le sale el precio ahí mismo, con tus reglas y tus tramos. A ti te llega la consulta ya cuadrada.',
+  },
+  {
+    titulo: 'El programa de atrás',
+    texto: 'Reservas, fichas, pedidos, usuarios: cuando el sitio necesita un programa propio se lo construimos, y queda conectado, no pegado al lado.',
+  },
+  {
+    titulo: 'Lo administras tú',
+    texto: 'Los textos, los precios, las fotos y los productos los cambias desde adentro. No dependes de nosotros para publicar un cambio.',
+  },
+  {
+    titulo: 'Conectado a lo que usas',
+    texto: 'Tu WhatsApp, tu sistema de boletas, tu tienda: el sitio conversa con ellos en vez de obligarte a copiar los mismos datos dos veces.',
+  },
+]
+
+function SistemaDetras() {
+  return (
+    <section className="service-page-section">
+      <div className="section-shell">
+        <div className="service-page-section__heading service-page-section__heading--wide" data-revela="">
+          <p className="eyebrow">No es solo la página</p>
+          <h2>Lo que trabaja por detrás.</h2>
+          <p className="service-apertura__lead">
+            Una página que se vea bien la hace mucha gente. Lo nuestro es lo que va
+            detrás: la parte que cotiza, que agenda, que guarda y que después
+            administras tú sin pedirle permiso a nadie.
+          </p>
+        </div>
+        <div className="service-build-grid" data-revela="">
+          {sistemaDetras.map((pieza, index) => (
+            <article key={pieza.titulo} style={desfase(index)}>
+              <h3>{pieza.titulo}</h3>
+              <p>{pieza.texto}</p>
+            </article>
+          ))}
+        </div>
+      </div>
+    </section>
+  )
+}
+
 function AperturaEscena({ service, content }: { service: Service; content: ServicePageContent }) {
   const escena = textoEscena(content.slug)
 
@@ -329,16 +384,27 @@ export function ServicePageTemplate({ service, content }: ServicePageTemplatePro
 
   return (
     <main id="contenido" className="service-page">
+      {/* La pagina de web abria con el ejemplo y recien despues contaba que
+          hacemos: quien llegaba sin saber quienes somos veia primero el sitio
+          de otro. Ahora el orden es que hacemos, como lo hacemos y al final a
+          quien se lo hicimos. La rama es exclusiva de web, asi que las otras
+          cuatro paginas quedan igual que siempre -por eso AsiTrabajamos se
+          repite en las dos ramas en vez de ir suelto abajo-. La imagen de
+          apertura sigue siendo la primera del documento, asi que la marca de
+          eager/fetchPriority se queda donde esta. */}
       {esWeb ? (
         <>
           <AperturaWeb service={service} content={content} />
+          <SistemaDetras />
+          <AsiTrabajamos pasos={pasos} />
           <TrabajosWeb />
         </>
       ) : (
-        <AperturaEscena service={service} content={content} />
+        <>
+          <AperturaEscena service={service} content={content} />
+          <AsiTrabajamos pasos={pasos} />
+        </>
       )}
-
-      <AsiTrabajamos pasos={pasos} />
 
       <Escribenos service={service} content={content} />
 

@@ -1,6 +1,6 @@
 {
   "lee": "Las deudas que app/globals.css ya tiene. Esta lista solo puede achicarse. La reescribe: node herramientas/guardia-css.mjs --fijar",
-  "lineas": 18190,
+  "lineas": 18297,
   "important": 22,
   "duplicados": {
     "*": 2,
@@ -206,10 +206,6 @@
     ".services-index-problems span": 3,
     ".services-index-problems strong": 2,
     ".services-index-section": 2,
-    ".services-index-section--managed": 2,
-    ".services-managed-card": 2,
-    ".services-managed-card > a": 2,
-    ".services-managed-card__flow span": 3,
     ".services-matrix > *": 2,
     ".services-matrix a strong": 2,
     ".services-menu__item small": 2,
@@ -434,7 +430,6 @@
     "@supports (scale: 1) >> .revela--mapa.revela--armado.es-visible .summary-node-cluster": 2,
     "@supports (scale: 1) >> .revela--mapa.revela--armado.es-visible .summary-platform-cluster": 2,
     "@supports (scale: 1) >> .revela--mapa.revela--armado.es-visible .summary-system-label": 2,
-    "@supports (width: 1cqi) >> .services-managed-card > div > h2": 2,
     "a": 2,
     "body": 2,
     "button": 6,

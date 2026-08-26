@@ -8,9 +8,13 @@
 /soluciones/chatbots-asistentes/    /servicios/soluciones-ia-medida/    301
 /soluciones/soluciones-medida/    /servicios/soluciones-ia-medida/    301
 /soluciones/automatizaciones/    /servicios/automatizaciones/    301
-/soluciones/leads-magnet/    /servicios/prospeccion-b2b-gestionada/    301
-/soluciones/prospeccion-b2b/    /servicios/prospeccion-b2b-gestionada/    301
-/servicios/leads-magnet/    /servicios/prospeccion-b2b-gestionada/    301
+# Buscar clientes dejo de ser un servicio nuestro y paso a ser Leads, el
+# programa. Estas tres apuntaban a la pagina que se borro, asi que iban a dar
+# a un 404; ahora llevan a /productos/, que es donde vive Leads.
+/soluciones/leads-magnet/    /productos/    301
+/soluciones/prospeccion-b2b/    /productos/    301
+/servicios/leads-magnet/    /productos/    301
+/servicios/prospeccion-b2b-gestionada/    /productos/    301
 /soluciones/auditoria-sitios-personalizada    /servicios/desarrollo-web-ia/    301
 /soluciones/auditoria-sitios-personalizada/    /servicios/desarrollo-web-ia/    301
 /soluciones/    /servicios/    301

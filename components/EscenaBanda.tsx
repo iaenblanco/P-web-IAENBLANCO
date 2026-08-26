@@ -22,18 +22,17 @@ import { products, services } from '@/lib/site'
  * Ahora cada servicio es una marca distinta, y cada marca es una miniatura
  * de la escena que abre esa pagina: la ventana de plataformas, los bloques
  * a medida, las tres estaciones de automatizaciones, los globos del
- * asistente, los puntos del mapa de prospeccion. Detenida, lo que se lee no
- * es una lista sino la variedad -cinco cosas que no se parecen entre si-,
- * que es exactamente lo que dice el titulo de la pagina. Cinco palabras en
- * total, una por marca.
+ * asistente. Detenida, lo que se lee no es una lista sino la variedad
+ * -cuatro cosas que no se parecen entre si-, que es exactamente lo que dice
+ * el titulo de la pagina. Cuatro palabras en total, una por marca.
  *
  * El orden y la cantidad los sigue mandando `services`, igual que antes: si
- * manana entra un sexto servicio, la escena lo muestra sola. Lo que si va
+ * manana entra un quinto servicio, la escena lo muestra sola. Lo que si va
  * escrito aca es la palabra corta y las piezas del dibujo, porque `Service`
  * no tiene un campo de una palabra ni sabe dibujar. El mapa es por slug: si
  * un slug cambia, ese servicio se queda sin tile y se nota al mirar.
  *
- * Las cinco marcas encienden con el mismo acento y no una cada una, por lo
+ * Las marcas encienden con el mismo acento y no una cada una, por lo
  * mismo de siempre: los tres acentos de la paleta estan tomados por los tres
  * productos y pintar servicios con ellos afirmaria un parentesco que no
  * existe. */
@@ -42,7 +41,6 @@ const MARCAS: Record<string, { clave: string; palabra: string; piezas: number }>
   'plataformas-software-medida': { clave: 'bloques', palabra: 'Programa', piezas: 3 },
   automatizaciones: { clave: 'pasos', palabra: 'Tareas', piezas: 3 },
   'soluciones-ia-medida': { clave: 'globos', palabra: 'Asistente', piezas: 2 },
-  'prospeccion-b2b-gestionada': { clave: 'puntos', palabra: 'Clientes', piezas: 5 },
 }
 
 export function EscenaIndice() {

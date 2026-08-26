@@ -86,29 +86,33 @@ export const services: Service[] = [
     slug: 'plataformas-software-medida',
     index: '02',
     shortTitle: 'Un programa a tu medida',
-    title: 'Un programa hecho para la forma en que trabaja tu negocio',
-    eyebrow: 'Cuando el Excel ya no da',
-    statement: 'Cuando el negocio se lleva en planillas, cada persona termina con su propia versión y nadie sabe cuál es la buena.',
+    /* Todo esto se contaba como "salir del Excel", y eso deja afuera a quien
+       llega con una idea que cree que no se puede programar -que es la mayoria-.
+       Dos cosas nuevas: que si sabes explicar como funciona se puede construir,
+       y que despues lo administras tu, sin pedirnos permiso para cada cambio. */
+    title: 'Armamos el programa que crees que no se puede hacer',
+    eyebrow: 'Cuando no existe el programa que necesitas',
+    statement: 'Casi nunca es que no se pueda hacer: es que nadie te ha dicho cómo. Si sabes explicar cómo funciona tu negocio, se puede construir.',
     description:
-      'Si hoy trabajas con planillas de Excel, WhatsApp y memoria, te hacemos un programa propio: con tus reglas, tus usuarios y quién puede ver cada cosa. Todos miran la misma información.',
+      'Te hacemos un programa propio, con tus reglas, tus usuarios y quién puede ver cada cosa. Y queda autoadministrable: los precios, los textos, los usuarios y los permisos los cambias tú desde adentro, sin escribirnos y sin esperar a nadie.',
     capabilities: [
       'Entender cómo trabajas hoy, paso a paso',
       'Un programa con tus reglas, no con las de una plantilla',
+      'Que lo administres tú: cambiar cosas sin depender de nosotros',
       'Una cuenta por persona y permisos según el cargo',
       'Que la información quede guardada y ordenada',
       'Que converse con los programas que ya usas',
-      'Soporte y mejoras por etapas',
     ],
     idealFor: [
+      'Quien tiene una idea y le han dicho que no se puede',
       'Equipos que llevan el negocio en planillas',
       'Empresas con una forma de trabajar muy propia',
-      'Negocios donde cada persona debería ver solo lo suyo',
     ],
     plazo: 'La primera versión, entre 6 y 12 semanas',
-    signals: ['Tus reglas', 'Cada uno ve lo suyo', 'Todo en un lugar', 'Adiós al Excel'],
+    signals: ['Tus reglas', 'Lo administras tú', 'Cada uno ve lo suyo', 'Todo en un lugar'],
     seoTitle: 'Programas y plataformas a la medida de tu empresa',
     seoDescription:
-      'Desarrollamos programas a la medida para empresas que hoy llevan todo en planillas de Excel: con tus reglas, tus usuarios y tus permisos.',
+      'Desarrollamos programas a la medida para empresas: con tus reglas, tus usuarios y tus permisos, y autoadministrables para que los cambios los hagas tú.',
   },
   {
     slug: 'automatizaciones',
@@ -165,34 +169,6 @@ export const services: Service[] = [
     seoTitle: 'Asistentes con inteligencia artificial para empresas',
     seoDescription:
       'Creamos asistentes con inteligencia artificial que responden con la información real de tu negocio, atienden consultas y derivan a una persona cuando corresponde.',
-  },
-  {
-    slug: 'prospeccion-b2b-gestionada',
-    index: '05',
-    shortTitle: 'Te buscamos clientes',
-    title: 'Te armamos la lista de empresas a las que vale la pena venderle',
-    eyebrow: 'Empresas reales, no listas compradas',
-    statement: 'Una base de datos comprada no sirve. Lo que sirve es saber a quién llamar, por qué a esa empresa y qué decirle.',
-    description:
-      'Definimos juntos a qué tipo de empresa le quieres vender. Las buscamos una por una, revisamos que existan y que calcen contigo, y te las entregamos ordenadas por prioridad, con el contacto y qué decirles.',
-    capabilities: [
-      'Definir juntos a qué empresas les quieres vender',
-      'Buscarlas una por una, por rubro y por zona',
-      'Revisar que existan de verdad y que tengan cómo contactarlas',
-      'Ordenarlas: primero las que más te calzan',
-      'Un mensaje sugerido para cada una',
-      'Un servicio mensual que operamos nosotros',
-    ],
-    idealFor: [
-      'Empresas que le venden a otras empresas',
-      'Equipos comerciales que necesitan abrir mercado nuevo',
-      'Quien está cansado de listas compradas que no responden',
-    ],
-    plazo: 'Servicio mensual; la primera entrega, a unas 2 semanas de acordar el perfil',
-    signals: ['Empresas reales', 'Verificadas una a una', 'Ordenadas por prioridad', 'Con qué decirles'],
-    seoTitle: 'Buscamos clientes nuevos para tu empresa',
-    seoDescription:
-      'Servicio mensual que busca empresas reales a las que venderle, revisa que existan y te las entrega ordenadas por prioridad con el contacto y un mensaje sugerido.',
   },
 ]
 
@@ -296,19 +272,23 @@ export const products: Product[] = [
     ctaLabel: 'Hablemos de Citaly',
     selfServe: false,
     eyebrow: 'Para negocios que atienden con hora',
-    promise: 'Tu WhatsApp responde, entiende audios y agenda horas aunque estés atendiendo.',
+    /* Citaly se contaba entera desde el WhatsApp y el calendario quedaba
+       escondido, que es lo que de verdad hace. El sujeto ahora es la agenda:
+       toma la hora, la mueve, la cancela, recomienda y contesta por ti. El
+       WhatsApp es la puerta por donde entra el cliente, no el producto. */
+    promise: 'Un agente de IA que se hace cargo de tu agenda: toma horas, las mueve, las cancela y contesta por ti.',
     description:
-      'Citaly contesta tu WhatsApp cuando estás atendiendo: entiende lo que te piden (incluso por audio), ofrece las horas que tienes libres de verdad, confirma la reserva y te pasa el caso cuando se complica.',
+      'Citaly se hace cargo de tu calendario. Toma las horas, las mueve cuando el cliente no puede, las cancela, recomienda las que te quedan libres y contesta por ti mientras estás atendiendo. El cliente lo hace conversando por WhatsApp, escribiendo o por audio, y tú abres el teléfono con la agenda ya cuadrada.',
     problems: [
-      'Agenda, cambia y cancela horas conversando, como lo haría una persona.',
-      'Entiende los audios de WhatsApp y responde con tus horas libres reales.',
+      'Toma, mueve y cancela horas conversando, como lo haría una persona.',
+      'Recomienda las horas que tienes libres de verdad, no las que ya diste.',
       'Manda recordatorios y guarda tus clientes, tu equipo y tus cobros en un lugar.',
     ],
-    integrations: ['WhatsApp', 'Agenda', 'Audios', 'Reservas', 'Recordatorios', 'CRM'],
+    integrations: ['Agenda', 'WhatsApp', 'Audios', 'Reservas', 'Recordatorios', 'CRM'],
     href: getWhatsappUrl('Hola, atiendo con hora y quiero saber cómo funciona Citaly.'),
     sitio: 'https://citaly.cl',
     paraQuien: 'Si atiendes con hora',
-    promesaCorta: 'Contesta el WhatsApp mientras tú estás atendiendo.',
+    promesaCorta: 'Se hace cargo de tu agenda: toma horas, las mueve y las cancela.',
     diptico: {
       despuesLabel: 'Con Citaly',
       filas: [
@@ -318,7 +298,7 @@ export const products: Product[] = [
         { etiqueta: '08:30', detalle: 'Abres el teléfono', hoy: 'Mensajes sin leer', despues: 'Nada pendiente' },
       ],
       remateHoy: 'El cliente no espera. Se va donde le contesten.',
-      remateDespues: 'Contestó a las 21:41, cuando tú ya habías cerrado.',
+      remateDespues: 'Ofreció horas a las 21:41 y dejó la cita tomada, contigo cerrado.',
     },
   },
   {

@@ -2059,7 +2059,6 @@ button {
 
 .services-index-problems a,
 .services-index-cards article,
-.services-managed-card,
 .services-matrix > *,
 .services-case-grid article,
 .service-build-grid article,
@@ -2149,8 +2148,7 @@ button {
   line-height: 1.55;
 }
 
-.services-index-cards a,
-.services-managed-card > a {
+.services-index-cards a {
   display: inline-flex;
   align-items: center;
   gap: 10px;
@@ -2163,7 +2161,6 @@ button {
 }
 
 .services-index-cards svg,
-.services-managed-card svg,
 .service-case-card svg,
 .service-next-link svg {
   width: 18px;
@@ -2171,35 +2168,6 @@ button {
   transition: transform 260ms ease;
 }
 
-.services-index-section--managed {
-  padding-top: 0;
-}
-
-.services-managed-card {
-  display: grid;
-  grid-template-columns: minmax(0, 0.9fr) minmax(280px, 0.7fr) auto;
-  gap: 28px;
-  align-items: center;
-  padding: clamp(26px, 4vw, 46px);
-  border-color: rgba(217, 144, 25, 0.42);
-  background:
-    linear-gradient(100deg, rgba(217, 144, 25, 0.1), transparent 46%),
-    rgba(251, 250, 247, 0.9);
-}
-
-.services-managed-card h2 {
-  margin: 10px 0 14px;
-  font-size: clamp(34px, 4.8vw, 76px);
-  line-height: 0.92;
-}
-
-.services-managed-card__flow {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 10px;
-}
-
-.services-managed-card__flow span,
 .service-mode-grid span {
   min-height: 48px;
   display: grid;
@@ -2401,12 +2369,6 @@ button {
   background-size: 28px 28px;
 }
 
-.service-flow--prospeccion-b2b-gestionada {
-  --service-flow-accent: #d99019;
-  --service-flow-tinta: var(--accent-amber-ink);
-  border-color: rgba(217, 144, 25, 0.36);
-}
-
 .service-flow--soluciones-ia-medida {
   --service-flow-accent: #66a93f;
   --service-flow-tinta: var(--accent-green-ink);
@@ -2448,10 +2410,6 @@ button {
 
 .service-flow--soluciones-ia-medida .service-flow__track {
   --flow-columns: 6;
-}
-
-.service-flow--prospeccion-b2b-gestionada .service-flow__track {
-  --flow-columns: 7;
 }
 
 .service-flow__step {
@@ -3082,8 +3040,7 @@ button {
   }
 
   .service-flow__track,
-  .service-flow--soluciones-ia-medida .service-flow__track,
-  .service-flow--prospeccion-b2b-gestionada .service-flow__track {
+  .service-flow--soluciones-ia-medida .service-flow__track {
     grid-template-columns: repeat(3, minmax(0, 1fr));
   }
 }
@@ -3097,7 +3054,6 @@ button {
   }
 
   .services-index-hero__inner,
-  .services-managed-card,
   .services-index-final__inner,
   .service-page-two-col,
   .service-applied-example,
@@ -3190,8 +3146,7 @@ button {
   }
 
   .service-flow__track,
-  .service-flow--soluciones-ia-medida .service-flow__track,
-  .service-flow--prospeccion-b2b-gestionada .service-flow__track {
+  .service-flow--soluciones-ia-medida .service-flow__track {
     grid-template-columns: minmax(0, 1fr);
   }
 
@@ -3235,7 +3190,6 @@ button {
   .services-problem-router__note p,
   .services-index-editorial-note p,
   .services-index-cards article > div,
-  .services-managed-card__flow span,
   .service-mode-grid span,
   .services-case-grid article > span,
   .service-applied-example__grid span,
@@ -3268,8 +3222,6 @@ button {
   .services-index-editorial-note p,
   .services-index-cards article > div,
   .services-index-cards a,
-  .services-managed-card > a,
-  .services-managed-card__flow span,
   .service-mode-grid span,
   .services-case-grid article > span,
   .service-case-card a,
@@ -11035,13 +10987,6 @@ button {
   min-height: 0;
 }
 
-/* Unica excepcion deliberada que ya existia y hay que conservar: el bloque
-   "gestionado" continua la seccion anterior, no abre una nueva. */
-
-.services-index-section--managed {
-  padding-top: 0;
-}
-
 /* El hero de contacto tiene min-height: 780px. Al bajar su padding de 230/130
    al ritmo comun quedaria un hueco muerto abajo; centrando el contenido, el
    sobrante se reparte y el hero se sigue leyendo como hero. */
@@ -11260,14 +11205,13 @@ button {
 /* 5f. Los minimos en px (250/280) torcian el reparto de las tres filas de
    producto en cuanto la reticula se estrechaba. */
 
-/* 5g. El diagrama de cada servicio abria 5, 6 o 7 columnas dentro de un panel
+/* 5g. El diagrama de cada servicio abria 5 o 6 columnas dentro de un panel
    de 463-545 px: pasos de 51 a 63 px con el texto cortado por el
    overflow: hidden del panel. Con tres columnas los pasos quedan en 128 px. */
 
 @media (min-width: 1181px) {
   .service-flow__track,
-  .service-flow--soluciones-ia-medida .service-flow__track,
-  .service-flow--prospeccion-b2b-gestionada .service-flow__track {
+  .service-flow--soluciones-ia-medida .service-flow__track {
     grid-template-columns: repeat(3, minmax(0, 1fr));
     gap: var(--espacio-2);
   }
@@ -11637,13 +11581,11 @@ button {
    ========================================================================== */
 
 .services-index-cards a,
-.services-managed-card > a,
 .service-case-card a,
 .service-next-link a {
   min-height: 44px;
 }
 
-.services-managed-card__flow span,
 .service-mode-grid span,
 .service-page-hero__signals span,
 .service-entry__signals span {
@@ -12515,7 +12457,6 @@ button {
    contenedor.
    -------------------------------------------------------------------------- */
 
-.services-managed-card > div,
 .service-page-section__heading,
 .service-applied-example__copy,
 .site-footer__statement {
@@ -12523,7 +12464,6 @@ button {
 }
 
 @supports (width: 1cqi) {
-  .services-managed-card > div > h2,
   .service-page-section__heading > h2,
   .service-applied-example__copy > h2 {
     font-size: clamp(30px, 11.5cqi, 60px);
@@ -12863,24 +12803,6 @@ button {
   .site-footer__nav {
     grid-template-columns: minmax(0, 0.85fr) minmax(0, 1fr) minmax(0, 1.25fr);
     gap: 20px;
-  }
-}
-
-/* 3. "Verificadas una a una" mide 97 px y la pastilla dejaba 90 px útiles:
-      con overflow-wrap anywhere la palabra se partía como "VERIFICADA / S". */
-
-.services-managed-card__flow span {
-  overflow-wrap: normal;
-  word-break: normal;
-  hyphens: manual;
-}
-
-@media (max-width: 380px) {
-  .services-managed-card__flow span {
-    padding-right: 6px;
-    padding-left: 6px;
-    font-size: 12px;
-    letter-spacing: 0;
   }
 }
 
@@ -13357,15 +13279,6 @@ button {
     color: var(--text-body);
     font-size: 16px;
     line-height: 1.6;
-  }
-}
-
-/* El panel ámbar: el titular a 60 px en una columna de 529 salía en cuatro
-   líneas y desbalanceaba el bloque. Se mide contra su columna, como el resto. */
-
-@supports (width: 1cqi) {
-  .services-managed-card > div > h2 {
-    font-size: clamp(28px, 9.5cqi, 50px);
   }
 }
 
@@ -15887,44 +15800,14 @@ button {
   50%, 100% { opacity: 1; }
 }
 
-/* --- 04 · Prospeccion: el campo de empresas y a cual llamar -------
-   Antes eran cuatro barras grises al 14% de tinta que se encendian por
-   turno. Quietas se leen como el esqueleto de carga de una tabla, que es
-   justo lo que no queremos decir en la pagina que vende busqueda de
-   empresas.
-
-   No hay una sola regla de dibujo aca abajo: el mapa entero -.l2__busqueda,
-   .l2__campo, .l2__punto, .l2__punto--calza y el keyframe l2-punto- es el
-   de la ficha de Leads en /productos/, tal cual, con el mismo patron de
-   --x/--y/--o. El parecido es a proposito y no es un descuido: este
-   servicio ES Leads operado por nosotros. Lo unico propio es el numero de
-   llamada, que es lo que se compra cuando lo operamos nosotros. */
-
-.esc--prospeccion {
-  grid-template-rows: auto minmax(0, 1fr) auto;
-  gap: 12px;
-}
-
-/* El numero va AL LADO del punto y no adentro: .l2__punto mide 6 px y su
-   animacion lo escala a 1,9, asi que un hijo se escalaria con el. Toma el
-   mismo --x/--y corrido 11 px, y el mismo --o, para que aparezca en el
-   turno en que se enciende su punto. La opacidad la devuelve el bloque de
-   prefers-reduced-motion de mas arriba, que pone opacity: 1 !important
-   sobre ".esc *": sin eso, quien pide menos movimiento no veria un numero. */
-
-.esc__orden {
-  position: absolute;
-  left: calc(var(--x) + 11px);
-  top: calc(var(--y) - 3px);
-  color: var(--acento-tinta, var(--acento));
-  font-family: var(--font-mono);
-  font-size: 12px;
-  font-weight: 700;
-  line-height: 1;
-  opacity: 0;
-  animation: l2-aparece var(--esc-pasada) cubic-bezier(0.22, 1, 0.36, 1) 1 both;
-  animation-delay: calc(var(--o) * 100ms);
-}
+/* Aca vivia la cuarta escena de servicio, la de prospeccion: el campo de
+   empresas con cuatro encendidas y numeradas por orden de llamada. Se fue
+   con el servicio, que dejo de ser nuestro y paso a ser Leads, el programa.
+   No arrastra nada al irse: el mapa que dibujaba -.l2__busqueda, .l2__campo,
+   .l2__punto, .l2__punto--calza y el keyframe l2-punto- nunca fue de aca,
+   es el de la ficha de Leads en /productos/, que sigue en pie. Lo unico
+   propio que tenia era .esc__orden, el numero al lado del punto, y ese si
+   se va con ella. */
 
 /* --- Las fichas, que ahora usa solo el indice de servicios --------- */
 
@@ -15939,25 +15822,27 @@ button {
 
 /* --- 05 · El indice de servicios: el muestrario ------------------ */
 
-/* Cinco marcas, una por servicio, y cada marca es la miniatura de la escena
-   que abre esa pagina. La grilla es de seis columnas: las tres de arriba
-   toman dos cada una y las dos de abajo toman tres. Asi llena el ancho
-   entero sin celda vacia y sin inventar una sexta marca -los servicios son
-   cinco, y prometer un sexto seria afirmar algo que la pagina no dice-.
+/* Cuatro marcas, una por servicio, y cada marca es la miniatura de la escena
+   que abre esa pagina. Cuatro entra en dos por dos y no hace falta mas: la
+   grilla era de seis columnas -tres arriba tomando dos cada una, dos abajo
+   tomando tres- porque cinco no se reparte parejo. Al irse buscar clientes
+   dejo de haber nada que repartir, y con el reparto viejo la fila de abajo
+   quedaba con la mitad de las columnas vacias. Sin celda vacia y sin
+   inventar una quinta marca: los servicios son cuatro, y prometer uno mas
+   seria afirmar algo que la pagina no dice.
 
    Los tiles son .mu y no .esc__algo porque son de esta escena y de ninguna
    otra, igual que .u2__ o .l2__ en las de producto. La familia anterior
    -.esc__fichas, .esc__ficha, @keyframes esc-ficha- se fue entera: el
    indice era su unico usuario. */
 .esc--indice {
-  grid-template-columns: repeat(6, minmax(0, 1fr));
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   grid-template-rows: repeat(2, minmax(0, 1fr));
   gap: 10px;
 }
 
 .mu {
   display: grid;
-  grid-column: span 2;
   grid-template-rows: minmax(0, 1fr) auto;
   gap: 6px;
   padding: 8px 9px;
@@ -15965,10 +15850,6 @@ button {
   background: var(--paper-bright);
   animation: esc-pantalla var(--esc-pasada) cubic-bezier(0.22, 1, 0.36, 1) 1 both;
   animation-delay: calc(var(--i) * 90ms);
-}
-
-.mu:nth-child(n + 4) {
-  grid-column: span 3;
 }
 
 .mu__marca {
@@ -15990,7 +15871,7 @@ button {
   white-space: nowrap;
 }
 
-/* La luz llega despues del marco: primero aparecen los cinco tiles -cada uno
+/* La luz llega despues del marco: primero aparecen los cuatro tiles -cada uno
    con su retardo- y recien ahi enciende la pieza de color de cada uno. Dos
    tiempos con cero keyframes nuevos: esc-pantalla y esc-campo, los dos ya
    escritos para la planilla. La linea de esc-campo va repetida dentro de
@@ -16102,49 +15983,10 @@ button {
   background: color-mix(in srgb, var(--acento) 42%, var(--paper-bright));
 }
 
-/* Clientes: el campo de puntos de prospeccion. Cinco puntos, dos encendidos,
-   posiciones a mano para que no parezcan una grilla. */
-/* En cqi y no en px: los puntos son la unica marca que no tiene caja propia
-   -flotan sobre el tile- y con medida fija se veian bien en el telefono y
-   raquiticos en la caja ancha, que mide el doble. Escalan con el contenedor
-   y no hacen falta reglas nuevas en el bloque de escritorio. */
-.mu--puntos i {
-  position: absolute;
-  width: clamp(7px, 2.2cqi, 11px);
-  height: clamp(7px, 2.2cqi, 11px);
-  border-radius: 50%;
-  /* El mismo valor que .l2__punto: esta baldosa es la miniatura de ese
-     mapa, asi que los puntos apagados salen de la gama, no del gris. */
-  background: color-mix(in srgb, var(--acento) 58%, transparent);
-}
-
-.mu--puntos i:nth-child(1) { top: 12%; left: 10%; }
-.mu--puntos i:nth-child(3) { top: 62%; left: 24%; }
-.mu--puntos i:nth-child(4) { top: 78%; left: 66%; }
-
-/* Los dos encendidos llevan posicion y color juntos, por lo mismo que la
-   luz: partirlos en una regla de sitio y otra de color duplica el selector. */
-.mu--puntos i:nth-child(2) {
-  animation: esc-campo var(--esc-pasada) cubic-bezier(0.22, 1, 0.36, 1) 1 both;
-  animation-delay: calc(var(--i) * 90ms);
-  top: 6%;
-  left: 46%;
-  width: clamp(10px, 3.2cqi, 16px);
-  height: clamp(10px, 3.2cqi, 16px);
-  background: var(--acento);
-  box-shadow: 0 0 0 3px color-mix(in srgb, var(--acento) 18%, transparent);
-}
-
-.mu--puntos i:nth-child(5) {
-  animation: esc-campo var(--esc-pasada) cubic-bezier(0.22, 1, 0.36, 1) 1 both;
-  animation-delay: calc(var(--i) * 90ms);
-  top: 34%;
-  left: 80%;
-  width: clamp(10px, 3.2cqi, 16px);
-  height: clamp(10px, 3.2cqi, 16px);
-  background: var(--acento);
-  box-shadow: 0 0 0 3px color-mix(in srgb, var(--acento) 18%, transparent);
-}
+/* Aca iba la quinta baldosa del indice de servicios, "Clientes": el campo
+   de cinco puntos con dos encendidos, la miniatura del mapa de Leads. Se
+   fue con el servicio de buscar clientes, que ahora es el programa y vive
+   en /productos/. El indice muestra cuatro baldosas. */
 
 /* --- 06 · Contacto: el hilo --------------------------------------- */
 

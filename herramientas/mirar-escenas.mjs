@@ -47,7 +47,6 @@ const RUTAS = [
   ['/servicios/plataformas-software-medida/', 'planilla'],
   ['/servicios/automatizaciones/', 'tuberia'],
   ['/servicios/soluciones-ia-medida/', 'bandeja'],
-  ['/servicios/prospeccion-b2b-gestionada/', 'prospeccion'],
   ['/servicios/desarrollo-web-ia/', 'captura'],
   ['/servicios/', 'indice'],
   ['/contacto/', 'hilo'],

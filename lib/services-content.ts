@@ -5,7 +5,6 @@ export type ServiceSlug =
   | 'plataformas-software-medida'
   | 'automatizaciones'
   | 'soluciones-ia-medida'
-  | 'prospeccion-b2b-gestionada'
 
 export type ServiceProblemEntry = {
   label: string
@@ -67,8 +66,8 @@ export const serviceProblemEntries: ServiceProblemEntry[] = [
     serviceSlug: 'desarrollo-web-ia',
   },
   {
-    label: 'Llevo el negocio en planillas de Excel.',
-    detail: 'Te hacemos un programa con tus reglas y tus permisos.',
+    label: 'Necesito un programa que no existe, o lo llevo en Excel.',
+    detail: 'Te lo armamos a tu medida, y después lo administras tú.',
     href: '/servicios/plataformas-software-medida/',
     serviceSlug: 'plataformas-software-medida',
   },
@@ -85,10 +84,14 @@ export const serviceProblemEntries: ServiceProblemEntry[] = [
     serviceSlug: 'soluciones-ia-medida',
   },
   {
+    /* Buscar clientes dejo de ser un servicio que operamos nosotros. El
+       problema sigue siendo real, asi que la entrada se queda: lo que cambia
+       es la respuesta, que ahora es Leads, el programa, y no un servicio
+       mensual. Sin serviceSlug a proposito: ya no apunta a una pagina de
+       servicio. */
     label: 'Necesito clientes nuevos y no sé por dónde partir.',
-    detail: 'Te buscamos empresas reales a las que venderle.',
-    href: '/servicios/prospeccion-b2b-gestionada/',
-    serviceSlug: 'prospeccion-b2b-gestionada',
+    detail: 'Leads, nuestro programa, te arma la lista de empresas.',
+    href: '/productos/#leads',
   },
   {
     label: 'Sé que algo se puede mejorar, pero no sé qué.',
@@ -162,9 +165,9 @@ export const servicePageContent: ServicePageContentMap = {
   },
   'plataformas-software-medida': {
     slug: 'plataformas-software-medida',
-    primaryCta: 'Quiero salir del Excel',
+    primaryCta: 'Quiero contarles mi idea',
     whatsappMessage:
-      'Hola IAenBlanco, quiero revisar una plataforma o software a medida para ordenar mi operación.',
+      'Hola IAenBlanco, tengo una idea de un programa a medida y quiero saber si se puede hacer.',
     builds: [
       {
         title: 'Cómo trabajas hoy',
@@ -179,8 +182,8 @@ export const servicePageContent: ServicePageContentMap = {
         text: 'Dejamos la información guardada, ordenada y protegida, sin archivos sueltos.',
       },
       {
-        title: 'Crece de a poco',
-        text: 'Hacemos primero lo que más te urge, y dejamos todo listo para agregar más después.',
+        title: 'Lo administras tú',
+        text: 'Precios, textos, usuarios y permisos los cambias desde adentro, sin escribirnos. Y crece por etapas: primero lo que más te urge.',
       },
     ],
     caseStudy: {
@@ -192,6 +195,16 @@ export const servicePageContent: ServicePageContentMap = {
       actionLabel: 'Abrir el sitio',
     },
     faqs: [
+      {
+        question: '¿Y si lo que quiero no se puede hacer?',
+        answer:
+          'Casi siempre se puede. Si de verdad no se puede, te lo decimos al tiro y por qué, no después de cobrarte. Lo que pasa más seguido es lo contrario: que se puede resolver más simple de lo que imaginabas, y eso también te lo decimos.',
+      },
+      {
+        question: '¿Tengo que llamarlos cada vez que quiero cambiar algo?',
+        answer:
+          'No. El programa queda autoadministrable: los textos, los precios, los usuarios y los permisos los cambias tú desde adentro. Nos escribes cuando quieras algo nuevo, no para lo del día a día.',
+      },
       {
         question: '¿No me conviene mejor comprar un programa ya hecho?',
         answer:
@@ -211,11 +224,6 @@ export const servicePageContent: ServicePageContentMap = {
         question: '¿Qué necesitan para darme un precio?',
         answer:
           'Saber cuántas personas lo van a usar, qué hace cada una, qué información manejan y qué parte del proceso te duele más hoy. Una conversación suele bastar.',
-      },
-      {
-        question: '¿Cómo decidimos qué entra en la primera versión?',
-        answer:
-          'Partimos por lo que más te duele. Lo demás queda anotado para después, y te decimos con franqueza qué no vale la pena construir todavía.',
       },
       {
         question: '¿De qué depende el plazo?',
@@ -315,7 +323,7 @@ export const servicePageContent: ServicePageContentMap = {
       client: 'Citaly',
       label: 'Un programa nuestro',
       title: 'El mismo tipo de asistente, lo estamos terminando como programa.',
-      text: 'Citaly contesta el WhatsApp, entiende audios y agenda horas mirando la agenda real. Está por abrir, y es la mejor muestra de que esto lo sabemos construir: tu asistente sería a tu medida, con tus reglas.',
+      text: 'Citaly se hace cargo del calendario de un negocio: toma las horas, las mueve, las cancela y contesta por él, escrito o por audio. Está por abrir, y es la mejor muestra de que esto lo sabemos construir: tu asistente sería a tu medida, con tus reglas.',
       href: 'https://citaly.cl/',
       actionLabel: 'Ver el sitio',
     },
@@ -349,75 +357,6 @@ export const servicePageContent: ServicePageContentMap = {
         question: '¿Puedo probarlo antes de comprometerme?',
         answer:
           'Sí, y es lo que recomendamos. Partimos con algo chico, lo pruebas con casos reales de tu negocio, y si funciona lo ampliamos.',
-      },
-    ],
-  },
-  'prospeccion-b2b-gestionada': {
-    slug: 'prospeccion-b2b-gestionada',
-    primaryCta: 'Quiero clientes nuevos',
-    whatsappMessage:
-      'Hola IAenBlanco, quiero que me ayuden a encontrar clientes nuevos para mi empresa.',
-    builds: [
-      {
-        title: 'A quién le queremos vender',
-        text: 'Acordamos qué tipo de empresa te compra: rubro, tamaño, zona y qué señales mirar.',
-      },
-      {
-        title: 'Buscarlas y revisarlas',
-        text: 'Las buscamos una por una y revisamos que existan, que sigan operando y que tengan cómo contactarlas.',
-      },
-      {
-        title: 'Cuáles van primero',
-        text: 'Las ordenamos: arriba las que más te calzan, con el motivo anotado.',
-      },
-      {
-        title: 'No perder el hilo',
-        text: 'Dejamos anotado en qué va cada empresa, qué se conversó y cuál es el siguiente paso.',
-      },
-    ],
-    caseStudy: {
-      client: 'Leads',
-      label: 'Un programa nuestro',
-      title: 'La búsqueda y el orden vienen de Leads, un programa nuestro.',
-      text: 'Leads busca empresas reales y las ordena por cuál llamar primero. Está por abrir como programa; en este servicio lo operamos nosotros y le sumamos el criterio comercial y el seguimiento.',
-      href: 'https://leads.iaenblanco.com/',
-      actionLabel: 'Ver el sitio',
-    },
-    faqs: [
-      {
-        question: '¿Esto es lo mismo que comprar una base de datos?',
-        answer:
-          'No. Una base comprada es un archivo con miles de nombres que no contestan. Acá revisamos empresa por empresa, te decimos cuáles van primero y por qué.',
-      },
-      {
-        question: '¿Mandan mensajes masivos en mi nombre?',
-        answer:
-          'No. Nuestro trabajo es decirte a quién contactar, por qué y qué decirle. Quién manda el mensaje lo acordamos contigo: puedes ser tú o tu equipo.',
-      },
-      {
-        question: '¿En qué se diferencia del programa Leads?',
-        answer:
-          'Leads va a ser un programa que uses tú mismo, y todavía no abre. Este servicio lo operamos nosotros desde ya: definimos el perfil contigo, revisamos empresa por empresa y te acompañamos en el seguimiento.',
-      },
-      {
-        question: '¿De dónde salen esas empresas?',
-        answer:
-          'De fuentes públicas: sitios web, registros abiertos y directorios. No compramos bases de datos ni usamos información que la empresa no haya publicado ella misma.',
-      },
-      {
-        question: '¿Qué debe hacer el cliente durante la operación?',
-        answer:
-          'El cliente valida oferta, criterios, mensajes y conversaciones reales. IAenBlanco ordena búsqueda, evidencia, prioridad y seguimiento, pero no reemplaza el cierre comercial.',
-      },
-      {
-        question: '¿Garantizan reuniones o ventas?',
-        answer:
-          'No prometemos resultados cerrados. La prospección mejora foco, contexto y seguimiento; las reuniones o ventas dependen también de oferta, timing, conversación y cierre.',
-      },
-      {
-        question: '¿Qué necesitan para darme un precio?',
-        answer:
-          'Saber qué vendes, a qué tipo de empresa, en qué zona, cuánto cobras más o menos y a cuántas empresas alcanza a contactar tu equipo al mes.',
       },
     ],
   },

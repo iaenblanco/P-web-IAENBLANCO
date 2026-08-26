@@ -12,14 +12,14 @@ import {
 export const metadata: Metadata = {
   title: 'Todo lo que hacemos, explicado sin tecnicismos',
   description:
-    'Sitios web y tiendas online, programas a la medida de tu negocio, tareas que se hacen solas, asistentes con inteligencia artificial y búsqueda de clientes nuevos.',
+    'Sitios web y tiendas online, programas a la medida de tu negocio, tareas que se hacen solas y asistentes con inteligencia artificial.',
   alternates: {
     canonical: `${SITE_URL}/servicios/`,
   },
   openGraph: {
     title: 'Todo lo que hacemos, explicado sin tecnicismos | IAenBlanco',
     description:
-      'Sitios web, programas a medida, tareas automáticas, asistentes con IA y búsqueda de clientes nuevos para empresas chilenas.',
+      'Sitios web, programas a medida, tareas automáticas y asistentes con inteligencia artificial para empresas chilenas.',
     url: `${SITE_URL}/servicios/`,
     siteName: 'IAenBlanco',
     type: 'website',
@@ -57,8 +57,12 @@ function serviceNameForSlug(slug?: string) {
 }
 
 export default function ServicesIndexPage() {
-  const coreServices = services.filter((service) => service.slug !== 'prospeccion-b2b-gestionada')
-  const managedService = services.find((service) => service.slug === 'prospeccion-b2b-gestionada')
+  /* Antes habia un quinto servicio -buscar clientes- que se filtraba de la
+     grilla para mostrarlo aparte, en su propia tarjeta, porque era el unico
+     que operabamos nosotros mes a mes. Ese servicio ya no existe: buscar
+     clientes ahora es Leads, un programa, y vive en /productos/. Sin el
+     filtro, la grilla muestra los cuatro servicios que quedan. */
+  const coreServices = services
   const diagnosticUrl = getWhatsappUrl('Hola IAenBlanco, quiero diagnosticar qué servicio necesita mi negocio.')
 
   return (
@@ -68,13 +72,18 @@ export default function ServicesIndexPage() {
           <div className="banda-apertura__texto">
             <p className="eyebrow">Servicios IAenBlanco</p>
             <h1>Todo lo que hacemos, explicado sin tecnicismos.</h1>
+            {/* El remate anterior era "y si lo que necesitas son clientes nuevos,
+                eso lo operamos nosotros": ese servicio se fue. En su lugar va lo
+                que de verdad separa estas cuatro cosas de contratar una pagina,
+                dicho con otras palabras que en la portada para no repetirla. */}
             <p>
               Hacemos sitios web y tiendas online, programas a la medida de tu negocio, tareas que
-              se hacen solas y asistentes con inteligencia artificial. Y si lo que necesitas son
-              clientes nuevos, eso lo operamos nosotros mes a mes.
+              se hacen solas y asistentes con inteligencia artificial. Casi nunca es una sola:
+              lo normal es que el sitio necesite un programa detrás, y que ese programa lo
+              termines administrando tú.
             </p>
           </div>
-          {/* La escena es aria-hidden y lo que muestra -los cinco servicios- esta
+          {/* La escena es aria-hidden y lo que muestra -los cuatro servicios- esta
               escrito en el parrafo de al lado y en las tarjetas de mas abajo. */}
           <div className="banda-apertura__visual">
             <RevelaAlEntrar className="revela--escena">
@@ -199,32 +208,6 @@ export default function ServicesIndexPage() {
           </div>
         </div>
       </section>
-
-      {managedService ? (
-        <section className="services-index-section services-index-section--managed">
-          <div className="section-shell services-managed-card">
-            <div>
-              <p className="eyebrow">Este lo operamos nosotros</p>
-              <h2>{managedService.title}</h2>
-              <p>{managedService.description}</p>
-            </div>
-            <div className="services-managed-card__flow" aria-label="Cómo trabajamos la búsqueda de clientes">
-              {managedService.signals.map((signal) => <span key={signal}>{signal}</span>)}
-            </div>
-            <Link
-              href={`/servicios/${managedService.slug}`}
-              prefetch={false}
-              data-analytics-event="service_cta_click"
-              data-service-id={managedService.slug}
-              data-service-name={managedService.shortTitle}
-            >
-              Ver cómo funciona
-              <ArrowRight />
-            </Link>
-          </div>
-        </section>
-      ) : null}
-
 
       <section className="services-index-final">
         <div className="section-shell services-index-final__inner">
