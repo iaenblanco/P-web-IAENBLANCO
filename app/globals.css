@@ -351,7 +351,7 @@ button {
 }
 
 .page-transition {
-  animation: page-enter 560ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation: page-enter 320ms cubic-bezier(0.22, 1, 0.36, 1) both;
 }
 
 @supports (content-visibility: auto) {
@@ -376,13 +376,11 @@ button {
 @keyframes page-enter {
   from {
     opacity: 0;
-    transform: translateY(12px);
-    clip-path: inset(0 0 4% 0);
+    transform: translateY(8px);
   }
   to {
     opacity: 1;
     transform: translateY(0);
-    clip-path: inset(0);
   }
 }
 
@@ -991,7 +989,7 @@ button {
   height: 14px;
   margin-left: 3px;
   background: var(--signal);
-  animation: typing-cursor 760ms steps(2, end) infinite;
+  animation: typing-cursor 760ms steps(2, end) 4;
 }
 
 @keyframes typing-cursor {
@@ -11917,11 +11915,13 @@ button {
   line-height: 1.45;
 }
 
-@media (max-width: 980px) {
+@media (max-width: 700px) {
   .trabajos {
     grid-template-columns: minmax(0, 1fr);
   }
+}
 
+@media (max-width: 980px) {
   .trust-proof__signals {
     grid-template-columns: minmax(0, 1fr);
     gap: var(--espacio-3);
@@ -12913,21 +12913,43 @@ button {
 
 @media (max-width: 620px) {
   .consent-banner {
-    padding: 12px 14px 14px;
+    padding: 10px 14px 12px;
+  }
+
+  /* El rotulo "Medición" solo repite lo que dice la frase de abajo y se lleva
+     una linea entera de una pantalla de telefono. Sigue en el DOM porque es el
+     nombre accesible de la region (aria-labelledby lo lee igual estando
+     oculto), pero deja de ocupar alto. */
+  .consent-banner .eyebrow {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
   }
 
   .consent-banner__inner {
-    gap: 12px;
+    gap: 10px;
+  }
+
+  .consent-banner__copy {
+    gap: 0;
+  }
+
+  .consent-banner__copy p:not(.eyebrow) {
+    font-size: 13px;
+    line-height: 1.42;
   }
 
   .consent-banner__actions {
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 10px;
+    gap: 8px;
   }
 
   .consent-banner button {
-    min-height: 48px;
+    min-height: 44px;
     padding: 0 6px;
     letter-spacing: 0.01em;
   }
@@ -13716,14 +13738,13 @@ button {
     width: 134%;
     height: 134%;
     border: 1px dashed color-mix(in srgb, var(--summary-service) 46%, transparent);
-    animation: circuito-anillo 26s linear infinite;
   }
 
   .hero-summary-map__core::after {
     width: 117%;
     height: 117%;
     border: 1px solid color-mix(in srgb, var(--summary-service) 30%, transparent);
-    animation: circuito-halo 3.4s ease-in-out infinite;
+    animation: circuito-halo 3.4s ease-in-out 1 forwards;
   }
 }
 
@@ -13738,10 +13759,6 @@ button {
   0%, 60% { box-shadow: 0 0 0 0 color-mix(in srgb, var(--grupo) 40%, transparent); }
   82% { box-shadow: 0 0 0 6px color-mix(in srgb, var(--grupo) 0%, transparent); }
   100% { box-shadow: 0 0 0 0 color-mix(in srgb, var(--grupo) 0%, transparent); }
-}
-
-@keyframes circuito-anillo {
-  to { transform: translate(-50%, -50%) rotate(360deg); }
 }
 
 @keyframes circuito-halo {
@@ -14043,7 +14060,8 @@ button {
 
   .hero-kicker__lista {
     display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-columns: repeat(2, max-content);
+    justify-content: start;
     gap: 7px 14px;
     width: 100%;
     letter-spacing: 0.045em;
@@ -15941,9 +15959,9 @@ button {
    etiqueta del dibujo, no el dibujo. El color lo pone la marca. */
 .mu__palabra {
   overflow: hidden;
-  color: var(--graphite);
+  color: var(--ink);
   font-family: var(--font-mono);
-  font-size: 10px;
+  font-size: 12px;
   letter-spacing: 0.08em;
   line-height: 1.1;
   text-overflow: ellipsis;
@@ -15961,19 +15979,19 @@ button {
 .mu--ventana .mu__marca {
   display: grid;
   grid-template-rows: 10px minmax(0, 1fr);
-  border: 1px solid color-mix(in srgb, var(--acento) 34%, transparent);
+  border: 1px solid color-mix(in srgb, var(--acento) 62%, transparent);
 }
 
 .mu--ventana i:nth-child(1) {
-  border-bottom: 1px solid color-mix(in srgb, var(--acento) 30%, transparent);
-  background: color-mix(in srgb, var(--acento) 24%, var(--paper-bright));
+  border-bottom: 1px solid color-mix(in srgb, var(--acento) 58%, transparent);
+  background: color-mix(in srgb, var(--acento) 48%, var(--paper-bright));
 }
 
 .mu--ventana i:nth-child(2) {
   animation: esc-campo var(--esc-pasada) cubic-bezier(0.22, 1, 0.36, 1) 1 both;
   animation-delay: calc(var(--i) * 90ms);
   margin: 4px;
-  background: color-mix(in srgb, var(--acento) 16%, var(--paper-bright));
+  background: color-mix(in srgb, var(--acento) 30%, var(--paper-bright));
 }
 
 /* Programa a medida: tres bloques de tamanos distintos que encajan. Es lo
@@ -15990,8 +16008,8 @@ button {
   animation: esc-campo var(--esc-pasada) cubic-bezier(0.22, 1, 0.36, 1) 1 both;
   animation-delay: calc(var(--i) * 90ms);
   grid-row: span 2;
-  border: 1px solid color-mix(in srgb, var(--acento) 40%, transparent);
-  background: color-mix(in srgb, var(--acento) 22%, var(--paper-bright));
+  border: 1px solid color-mix(in srgb, var(--acento) 66%, transparent);
+  background: color-mix(in srgb, var(--acento) 45%, var(--paper-bright));
 }
 
 /* Rellenos y no contornos vacios: dos cuadrados solo dibujados con linea se
@@ -15999,8 +16017,8 @@ button {
    de wireframe que esta tanda vino a sacar. */
 .mu--bloques i:nth-child(2),
 .mu--bloques i:nth-child(3) {
-  border: 1px solid color-mix(in srgb, var(--ink) 15%, transparent);
-  background: color-mix(in srgb, var(--ink) 6%, transparent);
+  border: 1px solid color-mix(in srgb, var(--ink) 32%, transparent);
+  background: color-mix(in srgb, var(--ink) 13%, transparent);
 }
 
 /* Tareas que se hacen solas: tres estaciones colgadas de una linea, que es
@@ -16020,7 +16038,7 @@ button {
   right: 6px;
   left: 6px;
   height: 1px;
-  background: color-mix(in srgb, var(--acento) 38%, transparent);
+  background: color-mix(in srgb, var(--acento) 62%, transparent);
 }
 
 .mu--pasos i {
@@ -16028,8 +16046,8 @@ button {
   animation-delay: calc(var(--i) * 90ms);
   position: relative;
   height: 13px;
-  border: 1px solid color-mix(in srgb, var(--acento) 45%, transparent);
-  background: color-mix(in srgb, var(--acento) 20%, var(--paper-bright));
+  border: 1px solid color-mix(in srgb, var(--acento) 70%, transparent);
+  background: color-mix(in srgb, var(--acento) 42%, var(--paper-bright));
 }
 
 /* Asistente: dos globos, uno de cada lado. El de la derecha es la respuesta
@@ -16049,9 +16067,9 @@ button {
   justify-self: start;
   border: 1px solid var(--line);
   background:
-    radial-gradient(circle 2px at 13px 50%, color-mix(in srgb, var(--ink) 34%, transparent) 99%, transparent),
-    radial-gradient(circle 2px at 21px 50%, color-mix(in srgb, var(--ink) 34%, transparent) 99%, transparent),
-    radial-gradient(circle 2px at 29px 50%, color-mix(in srgb, var(--ink) 34%, transparent) 99%, transparent),
+    radial-gradient(circle 2px at 13px 50%, color-mix(in srgb, var(--ink) 56%, transparent) 99%, transparent),
+    radial-gradient(circle 2px at 21px 50%, color-mix(in srgb, var(--ink) 56%, transparent) 99%, transparent),
+    radial-gradient(circle 2px at 29px 50%, color-mix(in srgb, var(--ink) 56%, transparent) 99%, transparent),
     var(--paper);
 }
 
@@ -16059,8 +16077,8 @@ button {
   animation: esc-campo var(--esc-pasada) cubic-bezier(0.22, 1, 0.36, 1) 1 both;
   animation-delay: calc(var(--i) * 90ms);
   justify-self: end;
-  border: 1px solid color-mix(in srgb, var(--acento) 55%, transparent);
-  background: color-mix(in srgb, var(--acento) 20%, var(--paper-bright));
+  border: 1px solid color-mix(in srgb, var(--acento) 78%, transparent);
+  background: color-mix(in srgb, var(--acento) 42%, var(--paper-bright));
 }
 
 /* Clientes: el campo de puntos de prospeccion. Cinco puntos, dos encendidos,
@@ -16076,7 +16094,7 @@ button {
   border-radius: 50%;
   /* El mismo valor que .l2__punto: esta baldosa es la miniatura de ese
      mapa, asi que los puntos apagados salen de la gama, no del gris. */
-  background: color-mix(in srgb, var(--acento) 34%, transparent);
+  background: color-mix(in srgb, var(--acento) 58%, transparent);
 }
 
 .mu--puntos i:nth-child(1) { top: 12%; left: 10%; }
@@ -16233,15 +16251,6 @@ button {
   line-height: 1.35;
 }
 
-.esc__carta-pie {
-  overflow: hidden;
-  color: var(--acento-tinta, var(--acento));
-  font-family: var(--font-mono);
-  font-size: 10px;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-
 /* 10,8 s son tres turnos de 3,6: cada carta sube, se queda arriba poco mas
    de un segundo y vuelve, y recien entonces le toca a la siguiente. El
    z-index va declarado en los tres tramos y no solo en el de arriba: es
@@ -16388,7 +16397,7 @@ button {
   }
 
   .mu__palabra {
-    font-size: 11px;
+    font-size: 12px;
   }
 
   .mu--ventana .mu__marca {
@@ -16453,10 +16462,6 @@ button {
 
   .esc__carta-pitch {
     font-size: 13px;
-  }
-
-  .esc__carta-pie {
-    font-size: 11px;
   }
 }
 
@@ -17145,7 +17150,7 @@ button {
   grid-column: 1;
   color: color-mix(in srgb, var(--acento) 85%, #fff);
   font-family: var(--font-mono);
-  font-size: 10px;
+  font-size: 12px;
   font-weight: 700;
   letter-spacing: 0.11em;
   text-transform: uppercase;
@@ -17300,7 +17305,7 @@ button {
 .u2__union-rotulo {
   color: var(--acento-tinta, var(--acento));
   font-family: var(--font-mono);
-  font-size: 10px;
+  font-size: 12px;
   font-weight: 700;
   letter-spacing: 0.11em;
   text-transform: uppercase;
@@ -17840,13 +17845,13 @@ button {
 
 @media (max-width: 900px) {
   .summary-group--services { --fase: 0s; }
-  .summary-group--platforms { --fase: 4s; }
-  .summary-group--products { --fase: 8s; }
+  .summary-group--platforms { --fase: 1.6s; }
+  .summary-group--products { --fase: 3.2s; }
 
   /* El cable: mismo dibujo, pero ahora un solo pulso por vuelta y en
      el turno de su modulo. */
   .summary-group::before {
-    animation: circuito2-pulso 12s cubic-bezier(0.45, 0, 0.55, 1) infinite;
+    animation: circuito2-pulso 4.8s cubic-bezier(0.45, 0, 0.55, 1) 1;
     animation-delay: var(--fase);
   }
 
@@ -17857,7 +17862,7 @@ button {
 
   /* El nodo recibe la corriente justo cuando el cable la entrega. */
   .summary-group .summary-system-label::before {
-    animation: circuito2-nodo 12s ease-out infinite;
+    animation: circuito2-nodo 4.8s ease-out 1;
     animation-delay: var(--fase);
   }
 
@@ -17887,7 +17892,7 @@ button {
     background-size: 90px 1px;
     background-position-x: -90px;
     opacity: 0;
-    animation: circuito2-riel 12s cubic-bezier(0.45, 0, 0.55, 1) infinite;
+    animation: circuito2-riel 4.8s cubic-bezier(0.45, 0, 0.55, 1) 1;
     animation-delay: var(--fase);
     pointer-events: none;
   }
@@ -17902,13 +17907,13 @@ button {
 
   .summary-group .summary-orb,
   .summary-group .summary-platform {
-    animation: circuito2-ficha 12s cubic-bezier(0.45, 0, 0.55, 1) infinite;
+    animation: circuito2-ficha 4.8s cubic-bezier(0.45, 0, 0.55, 1) 1;
     animation-delay: calc(var(--fase) + 0.5s + var(--node-index, 0) * 0.3s);
   }
 
   .summary-group .summary-orb > span,
   .summary-group .summary-platform > span {
-    animation: circuito2-icono 12s ease-out infinite;
+    animation: circuito2-icono 4.8s ease-out 1;
     animation-delay: calc(var(--fase) + 0.5s + var(--node-index, 0) * 0.3s);
   }
 
@@ -17916,8 +17921,8 @@ button {
      sistema: celeste, verde, ambar. Los colores, moviendose despacio. */
   .hero-summary-map__core::after {
     animation:
-      circuito-halo 7.5s cubic-bezier(0.45, 0, 0.55, 1) infinite,
-      circuito2-halo-color 24s linear infinite;
+      circuito-halo 7.5s cubic-bezier(0.45, 0, 0.55, 1) 1 forwards,
+      circuito2-halo-color 4.8s linear 1 forwards;
   }
 }
 
@@ -18025,7 +18030,7 @@ button {
   stroke-dasharray: 0.06 2;
   opacity: 0;
   animation:
-    corriente-viaja 9s linear infinite,
+    corriente-viaja 4.5s linear 1,
     mapa-traza 1200ms cubic-bezier(0.22, 1, 0.36, 1) 1,
     mapa-traza-luz 1200ms linear 1;
   animation-delay:
@@ -18045,8 +18050,8 @@ button {
 /* Los turnos. Cada grupo tiene 3 s de los 9 del ciclo: primero lo que
    hacemos, despues con que se conecta, al final lo nuestro. */
 .summary-transfer--services { --fase: 0s; }
-.summary-transfer--connections { --fase: 3s; }
-.summary-transfer--products { --fase: 6s; }
+.summary-transfer--connections { --fase: 1.5s; }
+.summary-transfer--products { --fase: 3s; }
 
 /* El viaje: 26% de la vuelta (2,3 s) encendido y el resto en silencio,
    esperando su turno. */
@@ -18081,7 +18086,7 @@ button {
    compositor puro, sin repintar nada. */
 @media (min-width: 901px) {
   .hero-summary-map__core::after {
-    animation: nucleo-late 5.2s cubic-bezier(0.45, 0, 0.55, 1) infinite;
+    animation: nucleo-late 5.2s cubic-bezier(0.45, 0, 0.55, 1) 1 forwards;
   }
 }
 

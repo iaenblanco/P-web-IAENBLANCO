@@ -198,7 +198,7 @@ const PROSPECCION_LLAMAR = [6, 3, 12, 10]
 function EscenaProspeccion() {
   return (
     <div className="esc esc--servicio esc--prospeccion" aria-hidden="true">
-      <span className="l2__busqueda">Rubro · comuna</span>
+      <span className="l2__busqueda">Ferreterías · Maipú</span>
       <span className="l2__campo">
         {PROSPECCION_PUNTOS.map((p, i) => (
           <i

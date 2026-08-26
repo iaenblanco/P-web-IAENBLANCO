@@ -139,7 +139,7 @@ function EscenaLeads() {
   return (
     <div className="esc esc--l2" aria-hidden="true">
       <div className="l2__mapa">
-        <span className="l2__busqueda">Rubro · comuna</span>
+        <span className="l2__busqueda">Ferreterías · Maipú</span>
         <span className="l2__campo">
           {PUNTOS.map((p, i) => {
             const orden = ENCENDIDOS.indexOf(i)

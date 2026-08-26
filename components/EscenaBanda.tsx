@@ -122,7 +122,6 @@ export function EscenaAbanico() {
           >
             <span className="esc__carta-nombre">{producto.name}</span>
             <span className="esc__carta-pitch">{producto.eyebrow}</span>
-            <span className="esc__carta-pie">{producto.status}</span>
           </span>
         ))}
       </div>
