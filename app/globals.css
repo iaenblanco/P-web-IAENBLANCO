@@ -474,8 +474,12 @@ button {
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  height: 100%;
-  padding: 0;
+  /* Alto propio y no el del encabezado: estirado al 100% el texto se salia
+     1 px por abajo del marco. Los 6 px de relleno son los que dan ese aire,
+     y de ellos depende donde cae el subrayado de aca abajo, asi que las dos
+     cosas viven juntas a proposito. */
+  height: auto;
+  padding: 6px 0;
   border: 0;
   background: transparent;
   font-family: var(--font-mono);
@@ -488,7 +492,12 @@ button {
 .nav-link::after {
   position: absolute;
   right: 0;
-  bottom: 14px;
+  /* Medido: la caja mide 27 px y la base de las letras cae 10 px sobre su
+     borde de abajo. Con 7 px la linea queda 3 px bajo la base -la cola de
+     una "g" baja 2 px, asi que tampoco la tocaria- y se lee como subrayado.
+     Este numero es el relleno de arriba mas 1 px: si cambia el relleno del
+     enlace, cambia aca. */
+  bottom: 7px;
   left: 0;
   height: 1px;
   content: "";
@@ -11584,16 +11593,15 @@ button {
 
 /* ==========================================================================
    Aire contra las líneas de la estructura.
-   Dos cajas dejaban el texto tocando su propio borde: el marco del encabezado
-   (el texto de navegación se salía 1 px por abajo) y la tira "Nos cuentas →
-   Lo construimos → Queda funcionando" del diagrama del hero, que tenía entre
-   1 y 2,7 px de aire contra su marco.
-   ========================================================================== */
+   La tira "Nos cuentas → Lo construimos → Queda funcionando" del diagrama del
+   hero tenía entre 1 y 2,7 px de aire contra su marco.
 
-.site-header__inner .nav-link {
-  height: auto;
-  padding-block: 6px;
-}
+   Aquí vivía también el arreglo del texto de navegación, que se salía 1 px por
+   abajo del marco del encabezado. Se movió a la regla .nav-link: al darle alto
+   automático y relleno desde acá, el subrayado quedó calibrado para la caja
+   anterior y pasó a tachar las letras. Ahora la caja y su línea se definen en
+   el mismo lugar.
+   ========================================================================== */
 
 .summary-flow {
   /* Anclada por abajo con holgura propia: colgaba del borde inferior del mapa
