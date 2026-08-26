@@ -1,9 +1,7 @@
 'use client'
 
 import { useMemo, useState } from 'react'
-import { CONTACT_EMAIL } from '@/lib/site'
-
-const WHATSAPP_NUMBER = '56977684800'
+import { getWhatsappUrl } from '@/lib/site'
 
 function ArrowUpRight() {
   return (
@@ -57,7 +55,13 @@ export function ContactForm() {
     return lineas.join('\n')
   }, [campos])
 
-  function enviar(canal: 'whatsapp' | 'email') {
+  // Un solo destino. Antes habia un boton "Enviar por correo" que abria un
+  // mailto: en la misma pestana; si el visitante no tenia cliente de correo
+  // configurado -en el telefono es lo normal- el formulario no hacia nada
+  // visible y el mensaje se perdia sin que nadie se enterara. Mientras no
+  // exista una recepcion real en el servidor, todo sale por WhatsApp, que es
+  // el unico canal donde el mensaje se ve llegar.
+  function enviar() {
     setTocado(true)
     if (faltan) {
       const primero = document.getElementById(!campos.nombre.trim() ? 'contacto-nombre' : 'contacto-situacion')
@@ -65,14 +69,7 @@ export function ContactForm() {
       return
     }
 
-    const destino =
-      canal === 'whatsapp'
-        ? `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(mensaje)}`
-        : `mailto:${CONTACT_EMAIL}?subject=${encodeURIComponent(
-            `Proyecto: ${campos.tema}${campos.empresa.trim() ? ` · ${campos.empresa.trim()}` : ''}`,
-          )}&body=${encodeURIComponent(mensaje)}`
-
-    window.open(destino, canal === 'whatsapp' ? '_blank' : '_self', 'noopener,noreferrer')
+    window.open(getWhatsappUrl(mensaje), '_blank', 'noopener,noreferrer')
   }
 
   const errorNombre = tocado && !campos.nombre.trim()
@@ -83,7 +80,7 @@ export function ContactForm() {
       className="contact-form"
       onSubmit={(evento) => {
         evento.preventDefault()
-        enviar('whatsapp')
+        enviar()
       }}
       noValidate
     >
@@ -179,20 +176,11 @@ export function ContactForm() {
           Enviar por WhatsApp
           <ArrowUpRight />
         </button>
-        <button
-          type="button"
-          className="button button--text"
-          onClick={() => enviar('email')}
-          data-analytics-event="contact_form_email"
-        >
-          Enviar por correo
-          <ArrowUpRight />
-        </button>
       </div>
 
       <p className="contact-form__note">
-        No guardamos nada en el sitio: al enviar se abre tu WhatsApp o tu correo con el
-        mensaje ya escrito, y tú decides si lo mandas.
+        No guardamos nada en el sitio: al enviar se abre tu WhatsApp con el mensaje ya
+        escrito, y tú decides si lo mandas.
       </p>
     </form>
   )

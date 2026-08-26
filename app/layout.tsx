@@ -1,12 +1,14 @@
 import type { Metadata, Viewport } from 'next'
 import { IBM_Plex_Mono, Instrument_Sans } from 'next/font/google'
 import './globals.css'
+import { BotonWhatsapp } from '@/components/BotonWhatsapp'
 import { ConsentBanner } from '@/components/ConsentBanner'
 import { Footer } from '@/components/Footer'
 import { GoogleTagManager } from '@/components/GoogleTagManager'
 import { Header } from '@/components/Header'
 import {
   COMPANY_LEGAL_NAME,
+  COMPANY_PHONE,
   CONTACT_EMAIL,
   products,
   services,
@@ -110,7 +112,7 @@ const organizationSchema = {
   email: CONTACT_EMAIL,
   contactPoint: {
     '@type': 'ContactPoint',
-    telephone: '+56 9 7768 4800',
+    telephone: COMPANY_PHONE,
     contactType: 'sales',
     availableLanguage: ['Spanish'],
   },
@@ -404,6 +406,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
         <Header />
         {children}
         <Footer />
+        <BotonWhatsapp />
         <ConsentBanner />
         <script
           type="application/ld+json"

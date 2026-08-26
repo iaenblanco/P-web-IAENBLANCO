@@ -4,6 +4,7 @@ import { EscenaHilo } from '@/components/EscenaBanda'
 import { RevelaAlEntrar } from '@/components/RevelaAlEntrar'
 import { Reveal } from '@/components/Reveal'
 import {
+  COMPANY_PHONE,
   CONTACT_EMAIL,
   SITE_URL,
   socialLinks,
@@ -93,7 +94,7 @@ export default function ContactPage() {
               rel="noreferrer"
               data-cursor="Abrir"
             >
-              +56 9 7768 4800
+              {COMPANY_PHONE}
               <ArrowUpRight />
             </a>
           </Reveal>

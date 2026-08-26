@@ -1,7 +1,15 @@
 export const SITE_URL = 'https://iaenblanco.com'
 
-export const WHATSAPP_URL =
-  'https://wa.me/56977684800?text=Hola%20IAenBlanco%2C%20quiero%20conversar%20sobre%20un%20proyecto.'
+/**
+ * El unico lugar donde vive el numero. Estaba escrito a mano en ocho literales
+ * repartidos en cuatro archivos, asi que cambiarlo obligaba a cazarlos uno por
+ * uno y alcanzaba con olvidar uno para dejar mensajes cayendo en el viejo.
+ * Todo lo demas -el link de WhatsApp, el telefono que se muestra, el JSON-LD-
+ * se deriva de aca.
+ */
+export const WHATSAPP_NUMBER = '56986468029'
+
+export const WHATSAPP_URL = getWhatsappUrl('Hola IAenBlanco, quiero conversar sobre un proyecto.')
 
 export const CONTACT_EMAIL = 'contacto@iaenblanco.com'
 
@@ -12,7 +20,8 @@ export const CONTACT_EMAIL = 'contacto@iaenblanco.com'
 export const COMPANY_LEGAL_NAME = 'IAenBlanco SpA'
 export const COMPANY_ADDRESS = 'Badajoz 100 Of 1014 · Las Condes, Santiago'
 export const COMPANY_TAX_ID = 'RUT 78.403.861-0'
-export const COMPANY_PHONE = '+56 9 7768 4800'
+/** El mismo WHATSAPP_NUMBER de arriba, escrito como se lee. */
+export const COMPANY_PHONE = '+56 9 8646 8029'
 
 export const socialLinks = {
   linkedin: 'https://cl.linkedin.com/in/iaenblanco',
@@ -262,7 +271,7 @@ export const products: Product[] = [
       'WooCommerce',
       'Paris',
     ],
-    href: 'https://wa.me/56977684800?text=Hola%2C%20vendo%20en%20varios%20lados%20y%20quiero%20saber%20c%C3%B3mo%20funciona%20Unif%C3%ADcalo.',
+    href: getWhatsappUrl('Hola, vendo en varios lados y quiero saber cómo funciona Unifícalo.'),
     sitio: 'https://unificalo.cl',
     paraQuien: 'Si vendes en varios lados',
     promesaCorta: 'Vendes en cuatro partes y el stock es uno solo.',
@@ -296,7 +305,7 @@ export const products: Product[] = [
       'Manda recordatorios y guarda tus clientes, tu equipo y tus cobros en un lugar.',
     ],
     integrations: ['WhatsApp', 'Agenda', 'Audios', 'Reservas', 'Recordatorios', 'CRM'],
-    href: 'https://wa.me/56977684800?text=Hola%2C%20atiendo%20con%20hora%20y%20quiero%20saber%20c%C3%B3mo%20funciona%20Citaly.',
+    href: getWhatsappUrl('Hola, atiendo con hora y quiero saber cómo funciona Citaly.'),
     sitio: 'https://citaly.cl',
     paraQuien: 'Si atiendes con hora',
     promesaCorta: 'Contesta el WhatsApp mientras tú estás atendiendo.',
@@ -330,7 +339,7 @@ export const products: Product[] = [
       'Llevas el seguimiento de cada empresa hasta la reunión o la venta.',
     ],
     integrations: ['Fuentes públicas', 'Evidencia', 'Score', 'Pipeline', 'WhatsApp', 'CRM'],
-    href: 'https://wa.me/56977684800?text=Hola%2C%20le%20vendo%20a%20empresas%20y%20quiero%20saber%20c%C3%B3mo%20funciona%20Leads.',
+    href: getWhatsappUrl('Hola, le vendo a empresas y quiero saber cómo funciona Leads.'),
     sitio: 'https://leads.iaenblanco.com',
     paraQuien: 'Si le vendes a empresas',
     promesaCorta: 'Empresas que existen de verdad, ordenadas por cuál llamar primero.',
@@ -353,5 +362,5 @@ export function getService(slug: string) {
 }
 
 export function getWhatsappUrl(message: string) {
-  return `https://wa.me/56977684800?text=${encodeURIComponent(message)}`
+  return `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`
 }

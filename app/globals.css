@@ -18181,6 +18181,68 @@ button {
   }
 }
 
+/* --- El atajo de WhatsApp ---------------------------------------------
+   Un circulo fijo abajo a la derecha, en las once rutas. Va con el verde de
+   WhatsApp y no con la tinta del sitio a proposito: es el unico elemento que
+   tiene que reconocerse sin leerlo. Sin texto dentro -solo el glifo y el
+   aria-label- porque blanco sobre ese verde no llega al contraste que el
+   resto del sitio si cumple, y un rotulo ahi seria el unico texto ilegible
+   de la pagina. El tamaño no depende de ningun corte: crece con la pantalla
+   y nunca baja de 52px, que es mas que el minimo tactil de 40. Se mueve solo
+   cuando lo tocan; no tiene animacion propia. */
+.boton-whatsapp {
+  position: fixed;
+  right: clamp(14px, 4vw, 28px);
+  bottom: clamp(14px, 4vw, 28px);
+  z-index: 80;
+  display: grid;
+  place-items: center;
+  width: clamp(52px, 13vw, 60px);
+  height: clamp(52px, 13vw, 60px);
+  border-radius: 50%;
+  background: #25d366;
+  color: #fff;
+  box-shadow: 0 10px 30px rgb(0 0 0 / 22%);
+  transition: background 200ms ease, transform 200ms ease, opacity 200ms ease;
+}
+
+.boton-whatsapp svg {
+  width: 58%;
+  height: 58%;
+}
+
+.boton-whatsapp:hover {
+  background: #1da851;
+  transform: translateY(-2px);
+}
+
+.boton-whatsapp:focus-visible {
+  background: #1da851;
+  transform: translateY(-2px);
+  outline: 2px solid var(--ink);
+  outline-offset: 3px;
+}
+
+/* Mientras el aviso de medicion ocupa el borde inferior. Se responde una vez
+   y no vuelve: ver el comentario en components/BotonWhatsapp.tsx. */
+.boton-whatsapp--esperando {
+  display: none;
+}
+
+/* Al llegar al pie. Se apaga en vez de esconderse de golpe porque aca si hay
+   alguien mirando: el visitante acaba de terminar de bajar. */
+.boton-whatsapp--al-pie {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .boton-whatsapp {
+    transition: none;
+  }
+}
+
 /* --- GUARDIA-CSS: aca se termina la hoja -------------------------------
    Debajo de esta linea no va nada. Si algo no se ve como corresponde, la
    correccion va dentro de la regla que ya existe, no en una regla nueva
