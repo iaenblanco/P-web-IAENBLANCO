@@ -18125,7 +18125,12 @@ button {
 .carrusel-clientes__carril {
   display: flex;
   width: max-content;
-  animation: carrusel-clientes-desliza 42s linear infinite;
+  /* La duracion sigue al largo de la tira: el carril recorre -50% -una tira
+     entera-, asi que con menos logos el mismo tiempo seria un paseo mas
+     lento. Con siete eran 42s; con los cinco de hoy, 30 mantiene la misma
+     velocidad real (42 x 5/7). Si cambia el numero de trabajos, esta linea
+     cambia con el. */
+  animation: carrusel-clientes-desliza 30s linear infinite;
 }
 
 .carrusel-clientes:hover .carrusel-clientes__carril,

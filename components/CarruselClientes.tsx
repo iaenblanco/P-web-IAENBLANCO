@@ -13,7 +13,7 @@ import { trabajos } from '@/lib/trabajos'
  * carril se corre exactamente la mitad, asi que cuando termina el recorrido la
  * segunda copia esta justo donde estaba la primera y el salto de vuelta no se
  * ve. La segunda copia lleva aria-hidden -si no, un lector de pantalla leeria
- * los siete clientes dos veces- y sus enlaces salen del orden de tabulacion,
+ * los clientes dos veces- y sus enlaces salen del orden de tabulacion,
  * porque nada oculto para asistencia puede recibir el foco.
  *
  * Se detiene al pasar el mouse y al enfocar con teclado, y con
@@ -53,7 +53,7 @@ function Tira({ copia }: { copia?: boolean }) {
               {/* Sin carga perezosa a proposito. Un logo que hoy esta fuera del
                   borde derecho entra a pantalla en unos segundos por si solo, y
                   con lazy el navegador lo pedia recien en ese momento: se veia
-                  el hueco y despues el logo. Son catorce archivos de pocos kB. */}
+                  el hueco y despues el logo. Son pocos archivos de pocos kB. */}
               <BrandLogo name={trabajo.logo} alt="" sizes="120px" loading="eager" />
             </span>
             <span className="carrusel-clientes__nombre">{trabajo.client}</span>

@@ -82,28 +82,9 @@ export const trabajos: Trabajo[] = [
     system: 'Oferta explicada de forma simple y una vía directa de contacto.',
     proof: 'Quien los encuentra entiende qué venden y sabe cómo escribirles.',
   },
-  {
-    client: 'Amparo Vega',
-    href: 'https://amparovega.cl/',
-    captura: 'amparovega',
-    logo: 'amparo-vega',
-    sector: 'Nutrición deportiva',
-    project: 'Su sitio con la hora que se reserva sola',
-    velocidad: 'menos de 2 s',
-    peso: '1,1 MB',
-    system: 'Sitio con sus planes y sus precios a la vista, y la reserva de hora en línea.',
-    proof: 'La paciente elige el plan, ve cuánto cuesta y toma la hora sin escribirle a nadie ni esperar respuesta.',
-  },
-  {
-    client: 'Dovar',
-    href: 'https://dovar.cl/',
-    captura: 'dovar',
-    logo: 'dovar',
-    sector: 'Constructora industrial',
-    project: 'Su sitio para presentarse ante empresas grandes',
-    velocidad: 'menos de 2 s',
-    peso: '1,4 MB',
-    system: 'Cada área de obra explicada por separado y contacto directo por WhatsApp.',
-    proof: 'Trabajan para industria, minería e infraestructura en todo Chile: el sitio los presenta a la altura de esos clientes.',
-  },
+  /* Aca estuvieron Amparo Vega y Dovar, los dos que entraron el 26-ago con la
+     vitrina. Salieron al dia siguiente por revision del socio: uno de los dos
+     no existe como cliente y el otro quedo en pausa hasta que el tenga o haga
+     el logo. Sus capturas y logos siguen en public/ a proposito, para que
+     volver a ponerlos sea agregar la entrada aca y nada mas. */
 ]
