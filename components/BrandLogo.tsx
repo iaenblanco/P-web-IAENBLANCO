@@ -41,6 +41,16 @@ const brandLogoAssets = {
     width: 185,
     height: 104,
   },
+  dovar: {
+    src: '/brand-assets/logo-dovar.webp',
+    width: 321,
+    height: 80,
+  },
+  'amparo-vega': {
+    src: '/brand-assets/logo-amparo-vega.webp',
+    width: 494,
+    height: 96,
+  },
 } as const
 
 type BrandLogoProps = {

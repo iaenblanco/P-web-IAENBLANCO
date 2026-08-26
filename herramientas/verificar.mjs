@@ -370,6 +370,13 @@ const REVISAR = String.raw`
   //     pagina NO se desplaza de lado, simplemente se pierde el final de la
   //     frase. Es lo que se ve como "la seccion sale cortada".
   cajas.forEach(({ e, t }) => {
+    //     Una tira que se desliza sola guarda fuera del borde, a proposito, todo
+    //     lo que todavia no le toca pasar: medida asi da una falla por cada
+    //     ficha que aun no entra, y son falsas todas. Solo quedan exentas de
+    //     ESTE criterio y solo dentro de un contenedor marcado a mano con
+    //     data-desliza; contraste, tamaño de letra y area de toque se les
+    //     siguen midiendo igual que a cualquier otro texto.
+    if (e.closest('[data-desliza]')) return;
     const d = Math.max(t.right - innerWidth, -t.left);
     if (d > 2) F.cortado.push({ sel: ruta(e), d: Math.round(d), t: (e.textContent || '').trim().slice(0, 30) });
   });

@@ -7849,8 +7849,18 @@ button {
     opacity: 1;
   }
 
+  /* Estaba en display:none y por eso el celular nunca vio esta linea -ni el
+     bloque de 620px que la achicaba, que llevaba meses sin pintar nada-. Es
+     la unica frase del heroe que dice cuantos sitios hay andando, asi que en
+     un telefono hace mas falta todavia. Se deja envolver en dos lineas: en
+     una sola se sale de la pantalla. */
   .typing-line {
-    display: none;
+    flex-wrap: wrap;
+    row-gap: 2px;
+    min-height: 0;
+    margin-top: 28px;
+    font-size: 12px;
+    line-height: 1.5;
   }
 
   .hero-summary-map {
@@ -8344,9 +8354,12 @@ button {
     padding-inline: 0;
   }
 
+  /* 12px y no los 10 de escritorio: en un telefono esta linea se lee a un
+     brazo de distancia. Es el mismo piso que se le puso al resto de los
+     rotulos chicos del sitio. */
   .typing-line {
     margin-top: 26px;
-    font-size: 10px;
+    font-size: 12px;
   }
 
   .home-hero__visual {
@@ -18249,6 +18262,188 @@ button {
   .boton-whatsapp {
     transition: none;
   }
+}
+
+/* ==========================================================================
+   La tira de clientes de la home.
+   Reemplaza a las siete fichas completas, que en un telefono ocupaban casi
+   toda la pagina. El carril lleva la lista pintada dos veces y se corre la
+   mitad exacta: al terminar, la copia esta donde estaba el original y el
+   volver a empezar no se ve.
+   ========================================================================== */
+
+.carrusel-clientes {
+  position: relative;
+  overflow: hidden;
+  /* Los bordes se desvanecen contra el papel para que los logos no aparezcan
+     ni se corten de golpe contra el filo de la seccion. */
+  mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
+}
+
+.carrusel-clientes__carril {
+  display: flex;
+  width: max-content;
+  animation: carrusel-clientes-desliza 42s linear infinite;
+}
+
+.carrusel-clientes:hover .carrusel-clientes__carril,
+.carrusel-clientes:focus-within .carrusel-clientes__carril {
+  animation-play-state: paused;
+}
+
+.carrusel-clientes__tira {
+  display: flex;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.carrusel-clientes__item {
+  flex: 0 0 auto;
+}
+
+.carrusel-clientes__enlace {
+  display: grid;
+  gap: 6px;
+  justify-items: center;
+  width: clamp(150px, 26vw, 210px);
+  padding: 18px 16px;
+  color: var(--ink);
+  text-align: center;
+  text-decoration: none;
+}
+
+.carrusel-clientes__logo {
+  display: grid;
+  place-items: center;
+  height: 44px;
+}
+
+.carrusel-clientes__logo img {
+  width: auto;
+  max-width: 120px;
+  height: auto;
+  max-height: 44px;
+}
+
+/* El unico logo claro del conjunto: sobre el papel se pierde, asi que va
+   sobre su propio fondo oscuro. Es el mismo trato que recibe en las fichas. */
+.carrusel-clientes__logo--dark {
+  padding: 5px 9px;
+  border-radius: 6px;
+  background: var(--night);
+}
+
+.carrusel-clientes__nombre {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+}
+
+.carrusel-clientes__rubro {
+  color: var(--text-muted);
+  font-size: 12px;
+  line-height: 1.3;
+}
+
+.carrusel-clientes__enlace:hover .carrusel-clientes__nombre,
+.carrusel-clientes__enlace:focus-visible .carrusel-clientes__nombre {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.carrusel-clientes__enlace:focus-visible {
+  border-radius: 8px;
+  outline: 2px solid var(--ink);
+  outline-offset: 2px;
+}
+
+@keyframes carrusel-clientes-desliza {
+  from {
+    transform: translateX(0);
+  }
+
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+/* Sin movimiento: la tira se queda quieta y se arrastra a mano. La copia se
+   esconde entera -sin ella el carril mide justo el ancho de la lista- para
+   que nadie recorra los mismos siete logos dos veces. */
+@media (prefers-reduced-motion: reduce) {
+  .carrusel-clientes {
+    overflow-x: auto;
+    mask-image: none;
+  }
+
+  .carrusel-clientes__carril {
+    animation: none;
+  }
+
+  .carrusel-clientes__tira[aria-hidden="true"] {
+    display: none;
+  }
+}
+
+/* ==========================================================================
+   /trabajos/ — el portafolio completo, que antes vivia en la home.
+   ========================================================================== */
+
+.pagina-trabajos__apertura {
+  padding: clamp(48px, 9vw, 96px) 0 clamp(20px, 3vw, 34px);
+}
+
+.pagina-trabajos__apertura-inner {
+  max-width: 780px;
+}
+
+.pagina-trabajos__apertura h1 {
+  margin: 12px 0 0;
+  font-size: clamp(34px, 5.4vw, 62px);
+  line-height: 1.05;
+}
+
+.pagina-trabajos__lead {
+  margin: 18px 0 0;
+  max-width: 62ch;
+  color: var(--text-body);
+  font-size: clamp(15px, 1.5vw, 18px);
+  line-height: 1.6;
+}
+
+.pagina-trabajos__grilla {
+  padding: clamp(20px, 3vw, 34px) 0 clamp(48px, 8vw, 92px);
+}
+
+.pagina-trabajos__cierre {
+  padding: clamp(44px, 7vw, 80px) 0;
+  border-top: 1px solid var(--line-soft);
+}
+
+.pagina-trabajos__cierre-inner {
+  max-width: 720px;
+}
+
+.pagina-trabajos__cierre h2 {
+  margin: 0;
+  font-size: clamp(26px, 3.4vw, 40px);
+  line-height: 1.15;
+}
+
+.pagina-trabajos__cierre p {
+  margin: 14px 0 0;
+  color: var(--text-body);
+  line-height: 1.6;
+}
+
+.pagina-trabajos__acciones {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 14px 26px;
+  margin-top: 26px;
 }
 
 /* --- GUARDIA-CSS: aca se termina la hoja -------------------------------

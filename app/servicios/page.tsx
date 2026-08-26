@@ -1,7 +1,6 @@
 import type { Metadata } from 'next'
 import Image from 'next/image'
 import Link from 'next/link'
-import { BrandLogo } from '@/components/BrandLogo'
 import { EscenaIndice } from '@/components/EscenaBanda'
 import { RevelaAlEntrar } from '@/components/RevelaAlEntrar'
 import { Trabajos } from '@/components/Trabajos'

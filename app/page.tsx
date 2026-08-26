@@ -1,9 +1,9 @@
 import Image from 'next/image'
 import type { CSSProperties } from 'react'
 import { BrandLogo } from '@/components/BrandLogo'
+import { CarruselClientes } from '@/components/CarruselClientes'
 import { ContactBand } from '@/components/ContactBand'
 import { Reveal } from '@/components/Reveal'
-import { Trabajos } from '@/components/Trabajos'
 import { CorrienteScroll } from '@/components/CorrienteScroll'
 import { RevelaAlEntrar } from '@/components/RevelaAlEntrar'
 import { TypingLine } from '@/components/TypingLine'
@@ -105,13 +105,6 @@ function summaryPointStyle(x: number, y: number, w?: number) {
     ...(w ? { '--summary-w': summaryPercent(w, 'x') } : {}),
   } as CSSProperties
 }
-
-
-const trustSignals = [
-  { value: 'Menos de 2 segundos', label: 'es lo que demora en aparecer el contenido en los cinco sitios' },
-  { value: 'Los cinco en celular', label: 'se ven completos sin desplazar de lado, y los cinco van por conexión segura' },
-  { value: 'Tres rubros', label: 'mudanzas y carga, corretaje de propiedades, y venta de alimentos para personas y para mascotas' },
-]
 
 
 const productRows = [
@@ -686,17 +679,23 @@ function TrustProofSection() {
           <p className="eyebrow">Trabajos reales</p>
           <h2 id="trust-proof-heading">Míralo tú mismo.</h2>
           <p>
-            Cuatro negocios chilenos y cinco sitios: a Granja Magdalena le hicimos dos, uno
-            para su tienda y otro aparte para su línea de mascotas. Están tal como se ven
-            hoy: ábrelos y revisa el trabajo antes de escribirnos.
+            Llevamos más de 20 empresas atendidas. Estas son algunas de las pegas que
+            hemos hecho: están tal como se ven hoy, así que ábrelas y revisa el trabajo
+            antes de escribirnos.
           </p>
         </Reveal>
 
-        <Trabajos />
+        {/* Aca estaban las siete fichas completas, con captura de escritorio y
+            de celular cada una. En un telefono eran casi toda la pagina, y
+            quien llegaba buscando que hacemos tenia que pasarlas todas antes de
+            saberlo. Quedan los logos; el detalle vive en /trabajos/. */}
+        <CarruselClientes />
 
-        {/* La seccion cerraba sin ningun enlace propio: quien mira los cinco
-            sitios y queda convencido se quedaba sin adonde seguir. */}
         <Reveal className="trust-proof__accion" delay={90}>
+          <Link href="/trabajos" className="button button--text">
+            Ver los trabajos uno por uno
+            <ArrowRight />
+          </Link>
           <Link href="/servicios/desarrollo-web-ia" className="button button--text">
             Cómo hacemos un sitio así
             <ArrowRight />

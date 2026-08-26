@@ -107,8 +107,11 @@ function AperturaWeb({ service, content }: { service: Service; content: ServiceP
               se apila y la captura queda DEBAJO de este parrafo, asi que "a la
               derecha" era falso en celular y en tablet. */}
           <p className="service-escena__pie">
+            {/* El numero sale de la lista y no escrito a mano: decia "cuatro"
+                cuando ya eran seis, porque nadie se acuerda de este parrafo al
+                agregar un cliente. */}
             Es la portada de {dominio} tal como está hoy, no una maqueta. Más
-            abajo hay cuatro negocios chilenos más, todos con su sitio andando.
+            abajo hay {trabajos.length - 1} sitios más, todos andando hoy.
           </p>
           <div className="banda-apertura__accion">
             <a
