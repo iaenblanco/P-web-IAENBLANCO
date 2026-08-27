@@ -18108,10 +18108,12 @@ button {
 
 /* ==========================================================================
    La tira de clientes de la home.
-   Reemplaza a las siete fichas completas, que en un telefono ocupaban casi
-   toda la pagina. El carril lleva la lista pintada dos veces y se corre la
-   mitad exacta: al terminar, la copia esta donde estaba el original y el
-   volver a empezar no se ve.
+   Reemplaza a las fichas completas, que en un telefono ocupaban casi toda la
+   pagina. El carril lleva la lista pintada tres veces y se corre un tercio
+   exacto -una tira-: al terminar, la copia esta donde estaba el original y el
+   volver a empezar no se ve. Tres y no dos porque el bucle solo es continuo
+   si lo que respalda al borde cubre el contenedor: dos tiras de cinco logos
+   (750px minimo cada una) dejaban un hueco en pantallas anchas.
    ========================================================================== */
 
 .carrusel-clientes {
@@ -18125,11 +18127,11 @@ button {
 .carrusel-clientes__carril {
   display: flex;
   width: max-content;
-  /* La duracion sigue al largo de la tira: el carril recorre -50% -una tira
-     entera-, asi que con menos logos el mismo tiempo seria un paseo mas
-     lento. Con siete eran 42s; con los cinco de hoy, 30 mantiene la misma
-     velocidad real (42 x 5/7). Si cambia el numero de trabajos, esta linea
-     cambia con el. */
+  /* La duracion sigue al largo de la tira: cada ciclo recorre una tira
+     entera (un tercio del carril), asi que con menos logos el mismo tiempo
+     seria un paseo mas lento. Con siete eran 42s; con los cinco de hoy, 30
+     mantiene la misma velocidad real (42 x 5/7). Si cambia el numero de
+     trabajos, esta linea cambia con el. */
   animation: carrusel-clientes-desliza 30s linear infinite;
 }
 
@@ -18212,13 +18214,14 @@ button {
   }
 
   to {
-    transform: translateX(-50%);
+    /* Un tercio del carril = una tira exacta, con las tres copias pintadas. */
+    transform: translateX(calc(-100% / 3));
   }
 }
 
-/* Sin movimiento: la tira se queda quieta y se arrastra a mano. La copia se
-   esconde entera -sin ella el carril mide justo el ancho de la lista- para
-   que nadie recorra los mismos siete logos dos veces. */
+/* Sin movimiento: la tira se queda quieta y se arrastra a mano. Las copias se
+   esconden enteras -sin ellas el carril mide justo el ancho de la lista- para
+   que nadie recorra los mismos logos varias veces. */
 @media (prefers-reduced-motion: reduce) {
   .carrusel-clientes {
     overflow-x: auto;

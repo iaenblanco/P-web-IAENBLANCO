@@ -9,12 +9,17 @@ import { trabajos } from '@/lib/trabajos'
  * hacemos tenia que pasar cinco capturas de sitios ajenos antes de saberlo.
  * Las fichas se fueron a /trabajos/ y aca queda solo la marca de cada cliente.
  *
- * El movimiento es continuo y no de a saltos: la lista se pinta dos veces y el
- * carril se corre exactamente la mitad, asi que cuando termina el recorrido la
- * segunda copia esta justo donde estaba la primera y el salto de vuelta no se
- * ve. La segunda copia lleva aria-hidden -si no, un lector de pantalla leeria
- * los clientes dos veces- y sus enlaces salen del orden de tabulacion,
- * porque nada oculto para asistencia puede recibir el foco.
+ * El movimiento es continuo y no de a saltos: la lista se pinta tres veces y
+ * el carril se corre exactamente un tercio -una tira-, asi que cuando termina
+ * el recorrido la copia esta justo donde estaba el original y el salto de
+ * vuelta no se ve. Son tres y no dos porque el bucle solo es continuo si lo
+ * que queda detras del borde cubre el contenedor: con dos tiras de cinco
+ * logos quedaba un hueco en pantallas anchas cada vez que el ciclo llegaba al
+ * final; con tres, las dos tiras que respaldan (1500px como minimo) cubren
+ * cualquier contenedor del sitio (1440px como maximo). Las copias llevan
+ * aria-hidden -si no, un lector de pantalla leeria los clientes varias veces-
+ * y sus enlaces salen del orden de tabulacion, porque nada oculto para
+ * asistencia puede recibir el foco.
  *
  * Se detiene al pasar el mouse y al enfocar con teclado, y con
  * prefers-reduced-motion se queda quieto y pasa a ser una tira que se arrastra
@@ -70,6 +75,7 @@ export function CarruselClientes() {
     <div className="carrusel-clientes" data-desliza>
       <div className="carrusel-clientes__carril">
         <Tira />
+        <Tira copia />
         <Tira copia />
       </div>
     </div>
