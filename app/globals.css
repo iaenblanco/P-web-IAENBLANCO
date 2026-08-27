@@ -10522,9 +10522,18 @@ button {
 
 .trabajo__ficha {
   display: grid;
-  gap: var(--espacio-2);
+  grid-template-rows: 1fr auto;
+  gap: var(--espacio-3);
   align-content: start;
   padding: var(--espacio-4);
+}
+
+/* El cuerpo se lee de corrido y conserva los 16 px de siempre entre bloques;
+   la ficha ahora solo separa dos cosas, lo que se lee y lo que se toca. */
+.trabajo__cuerpo {
+  display: grid;
+  gap: var(--espacio-2);
+  align-content: start;
 }
 
 .trabajo__meta {
@@ -10578,11 +10587,44 @@ button {
   line-height: 1.15;
 }
 
-.trabajo__ficha > strong {
+/* Sin el ">" a proposito: con .trabajo__cuerpo el <strong> paso de hijo a
+   nieto. La especificidad es la misma (0,1,1), asi que nada mas se mueve. */
+.trabajo__ficha strong {
   color: var(--signal-ink);
   font-size: 16px;
   font-weight: 640;
   line-height: 1.4;
+}
+
+/* --- los rasgos: lo que cada sitio TIENE --- */
+
+/* Aca vivian la velocidad y el peso. Se fueron porque el visitante no los
+   podia comprobar -y cuando se midieron, 5 de los 10 eran falsos-. Lo que
+   ocupa el hueco es lo contrario: etiquetas que se verifican abriendo el sitio
+   del cliente, que es justo lo que la tarjeta pide hacer.
+   Chip cuadrado y mono, el mismo registro que .product-flow-card__chips y que
+   el .trabajo__orden que vive en esta misma tarjeta: en esta hoja el chip es
+   una etiqueta, no un control, y por eso no lleva ni radio ni hover -si
+   respondiera al mouse dentro de una tarjeta que entera es un enlace,
+   prometeria un clic propio que no existe-. El reset de listas de mas arriba
+   ya deja ul sin viñeta, sin margen y sin padding. */
+.trabajo__rasgos {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: -4px;
+}
+
+.trabajo__rasgos li {
+  padding: 5px 9px;
+  border: 1px solid var(--line);
+  border-left: 2px solid color-mix(in srgb, var(--signal) 62%, transparent);
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--font-mono);
+  font-size: 12px;
+  line-height: 1.25;
+  white-space: nowrap;
 }
 
 .trabajo__detalle {
@@ -10612,20 +10654,45 @@ button {
   line-height: 1.5;
 }
 
+/* El pie de la tarjeta. Se fue el "margin-top: auto" que tenia antes: no hacia
+   nada bajo align-content:start, y por eso en la grilla de dos columnas los
+   cinco "Abrir el sitio" caian a alturas distintas. Ahora lo ancla abajo la
+   fila "1fr auto" de .trabajo__ficha. */
 .trabajo__cta {
-  display: inline-flex;
+  display: flex;
+  flex-wrap: wrap;
   align-items: center;
-  gap: 9px;
-  width: max-content;
+  justify-content: space-between;
+  gap: 8px var(--espacio-2);
+  width: 100%;
   min-height: 44px;
-  margin-top: auto;
-  padding-top: var(--espacio-1);
+  padding-top: var(--espacio-2);
+  border-top: 1px solid var(--line-soft);
   color: var(--ink);
   font-family: var(--font-mono);
   font-size: 12px;
   font-weight: 700;
   letter-spacing: 0.07em;
   text-transform: uppercase;
+}
+
+.trabajo__cta-accion {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+}
+
+/* La direccion a la que lleva la tarjeta, escrita. Es lo unico que el pie
+   "afirma" y es lo que menos hay que creer: se comprueba tocandolo. */
+.trabajo__dominio {
+  min-width: 0;
+  overflow: hidden;
+  color: var(--signal-ink);
+  font-weight: 640;
+  letter-spacing: 0.01em;
+  text-overflow: ellipsis;
+  text-transform: lowercase;
+  white-space: nowrap;
 }
 
 .trabajo__cta svg {
@@ -10654,7 +10721,11 @@ button {
     min-height: 380px;
   }
 
+  /* "auto auto" deshace la fila 1fr de la ficha normal: si no, esa 1fr se come
+     todo el espacio libre y el align-content:center de abajo queda inerte, con
+     la ficha de la destacada descentrada frente a su foto. */
   .trabajo--destacado .trabajo__ficha {
+    grid-template-rows: auto auto;
     padding: var(--espacio-5);
     align-content: center;
   }
@@ -10663,7 +10734,7 @@ button {
     font-size: 28px;
   }
 
-  .trabajo--destacado .trabajo__ficha > strong {
+  .trabajo--destacado .trabajo__ficha strong {
     font-size: 18px;
   }
 }
@@ -10690,7 +10761,8 @@ button {
 }
 
 .trabajo__ficha,
-.trabajo__ficha > * {
+.trabajo__ficha > *,
+.trabajo__cuerpo > * {
   min-width: 0;
 }
 
@@ -11040,6 +11112,7 @@ button {
   /* etiquetas y antetitulos */
   .eyebrow,
   .trabajo__detalle dt,
+  .trabajo__rasgos li,
   .trabajo__meta p,
   .industry-line p,
   .industry-line span,

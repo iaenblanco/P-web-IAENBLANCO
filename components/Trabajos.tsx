@@ -11,6 +11,20 @@ function ArrowUpRight() {
 }
 
 /*
+ * El dominio al que lleva la tarjeta, sacado del mismo href. No es un dato
+ * nuevo ni una afirmacion sobre el cliente: es la direccion que el visitante
+ * va a ver en la barra del navegador si toca. Aca murieron la velocidad y el
+ * peso por afirmar cosas que el visitante podia desmentir en dos clics; esto
+ * es lo contrario, se comprueba con el propio clic.
+ */
+function dominio(href: string) {
+  return href
+    .replace(/^https?:\/\//, '')
+    .replace(/^www\./, '')
+    .replace(/\/+$/, '')
+}
+
+/*
  * La grilla de trabajos hechos para clientes.
  *
  * Vive en un solo lugar porque el sitio la muestra en tres: el inicio,
@@ -110,48 +124,79 @@ export function Trabajos({
             </figure>
 
             <div className="trabajo__ficha">
-              <div className="trabajo__meta">
-                <span
-                  className={`trabajo__logo${proof.logoTone === 'dark' ? ' trabajo__logo--dark' : ''}`}
-                >
-                  <BrandLogo name={proof.logo} alt={proof.client} loading={proof.destacado ? 'eager' : 'lazy'} sizes="44px" />
-                </span>
-                <p>{proof.sector}</p>
-                <span className="trabajo__orden" aria-hidden="true">
-                  {String(index + 1).padStart(2, '0')}
-                  <i />
-                  {String(trabajos.length).padStart(2, '0')}
-                </span>
+              {/* El cuerpo agrupa todo lo que se lee y el pie queda anclado
+                  abajo. Hacia falta: .trabajo__cta llevaba margin-top:auto
+                  dentro de una ficha con align-content:start, donde ese auto
+                  no tiene espacio libre que absorber, y en la grilla de dos
+                  columnas los cinco "Abrir el sitio" caian a alturas
+                  distintas. */}
+              <div className="trabajo__cuerpo">
+                <div className="trabajo__meta">
+                  <span
+                    className={`trabajo__logo${proof.logoTone === 'dark' ? ' trabajo__logo--dark' : ''}`}
+                  >
+                    <BrandLogo name={proof.logo} alt={proof.client} loading={proof.destacado ? 'eager' : 'lazy'} sizes="44px" />
+                  </span>
+                  <p>{proof.sector}</p>
+                  <span className="trabajo__orden" aria-hidden="true">
+                    {String(index + 1).padStart(2, '0')}
+                    <i />
+                    {String(trabajos.length).padStart(2, '0')}
+                  </span>
+                </div>
+
+                <TituloCliente>{proof.client}</TituloCliente>
+                <strong>{proof.project}</strong>
+
+                {/* Aca iban tambien la velocidad y el peso de cada sitio. Se
+                    quitaron: al medirlos contra los sitios en vivo, 5 de los
+                    10 numeros publicados ya no se sostenian -Granja Magdalena
+                    decia "menos de 1,5 s" y su evento load tardaba 17- y la
+                    ficha invitaba al visitante a comprobarlo. Las cifras
+                    siguen en lib/trabajos.ts como objetivo interno, que es lo
+                    unico que lee herramientas/medir-trabajos.mjs.
+
+                    Lo que ocupa el hueco son los rasgos: que TIENE cada sitio.
+                    Es la misma invitacion a comprobar, pero ahora el visitante
+                    gana la comprobacion -abre el sitio y el carro de compra
+                    esta ahi-. Van en las dos variantes, tambien en la
+                    resumida: son dos o tres palabras, no repiten la prosa del
+                    detalle, y sin ellos la tarjeta de /servicios se quedaba en
+                    meta + nombre + proyecto + CTA. La lista puede venir vacia
+                    mientras un cliente nuevo no este verificado, y entonces no
+                    se pinta ni deja hueco: .trabajo__cuerpo es un grid con
+                    gap. */}
+                {proof.rasgos.length > 0 && (
+                  <ul className="trabajo__rasgos">
+                    {proof.rasgos.map((rasgo) => (
+                      <li key={rasgo}>{rasgo}</li>
+                    ))}
+                  </ul>
+                )}
+
+                {!resumido && (
+                  <dl className="trabajo__detalle">
+                    <div>
+                      <dt>Qué le hicimos</dt>
+                      <dd>{proof.system}</dd>
+                    </div>
+                    <div>
+                      <dt>Para qué le sirve</dt>
+                      <dd>{proof.proof}</dd>
+                    </div>
+                  </dl>
+                )}
               </div>
 
-              <TituloCliente>{proof.client}</TituloCliente>
-              <strong>{proof.project}</strong>
-
-              {/* Aca iba tambien la velocidad y el peso de cada sitio. Se
-                  quitaron: al medirlos contra los sitios en vivo, 5 de los 10
-                  numeros publicados ya no se sostenian -Granja Magdalena decia
-                  "menos de 1,5 s" y cargaba en 13- y la ficha invitaba al
-                  visitante a comprobarlo. Las cifras siguen en lib/trabajos.ts
-                  como objetivo interno, no como afirmacion publica.
-
-                  .trabajo__ficha es un grid con gap: al sacar la lista la
-                  tarjeta se cierra sola y no hay hueco que compensar por CSS. */}
-              {!resumido && (
-                <dl className="trabajo__detalle">
-                  <div>
-                    <dt>Qué le hicimos</dt>
-                    <dd>{proof.system}</dd>
-                  </div>
-                  <div>
-                    <dt>Para qué le sirve</dt>
-                    <dd>{proof.proof}</dd>
-                  </div>
-                </dl>
-              )}
-
+              {/* El pie lo firma el dominio: es lo unico que la tarjeta
+                  "afirma" y es lo que menos hay que creer, porque se comprueba
+                  con el mismo clic que la tarjeta ya pedia. */}
               <span className="trabajo__cta">
-                Abrir el sitio
-                <ArrowUpRight />
+                <span className="trabajo__cta-accion">
+                  Abrir el sitio
+                  <ArrowUpRight />
+                </span>
+                <span className="trabajo__dominio">{dominio(proof.href)}</span>
               </span>
             </div>
           </a>
