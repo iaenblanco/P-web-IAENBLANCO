@@ -8,7 +8,7 @@ import { trabajos } from '@/lib/trabajos'
 export const metadata: Metadata = {
   title: 'Trabajos: los sitios que ya están atendiendo clientes',
   description:
-    'Los sitios y tiendas que hicimos para negocios chilenos, con lo que le hicimos a cada uno, para qué le sirve y cuánto pesa y demora en abrir. Ábrelos y revísalos.',
+    'Los sitios y tiendas que hicimos para negocios chilenos, con lo que le hicimos a cada uno, qué tiene por dentro y para qué le sirve. Ábrelos y revísalos.',
   alternates: {
     canonical: `${SITE_URL}/trabajos/`,
   },
@@ -42,6 +42,14 @@ function ArrowRight() {
 /*
  * El portafolio completo.
  *
+ * OJO con lo que promete la apertura. Hasta hoy el metadata y la bajada decian
+ * que de cada trabajo contamos "cuanto demora en abrir y cuanto pesa", y esas
+ * dos cifras dejaron de pintarse en a75a6a8 -la medicion no las respaldaba- sin
+ * que nadie tocara esta pagina: quedo prometiendo dos datos que la ficha ya no
+ * tiene. Ahora dice lo que la ficha SI muestra: que le hicimos, que tiene por
+ * dentro (los rasgos) y para que le sirve. Si algun dia vuelven las cifras,
+ * esta frase vuelve con ellas y no antes.
+ *
  * Antes estas fichas vivian en la home y ocupaban casi toda la pantalla de un
  * telefono: quien entraba buscando que hacemos tenia que pasar por siete
  * capturas de sitios ajenos antes de averiguarlo. La home quedo con la tira de
@@ -58,8 +66,8 @@ export default function TrabajosPage() {
      El href de cada trabajo es el sitio del CLIENTE, no una pagina nuestra, y
      no existe pagina de detalle por trabajo. Por eso el enlace externo va como
      el OBJETO del item -un WebSite ajeno- y no como la url del item: asi el
-     marcado dice lo que la lista es de verdad, cinco sitios de terceros que
-     hicimos nosotros, en vez de declarar cinco paginas de este dominio. */
+     marcado dice lo que la lista es de verdad, siete sitios de terceros que
+     hicimos nosotros, en vez de declarar siete paginas de este dominio. */
   const listaSchema = {
     '@context': 'https://schema.org',
     '@type': 'ItemList',
@@ -87,8 +95,8 @@ export default function TrabajosPage() {
             <p className="pagina-trabajos__lead">
               Estos son {cuantos} de los sitios que hemos hecho, y no son maquetas: están
               atendiendo clientes hoy, tal como se ven acá. De cada uno contamos qué le
-              hicimos, para qué le sirve al negocio, cuánto demora en abrir y cuánto pesa.
-              Ábrelos y revisa el trabajo antes de escribirnos.
+              hicimos, qué tiene por dentro y para qué le sirve al negocio. Ábrelos y
+              revisa el trabajo antes de escribirnos.
             </p>
           </div>
         </section>

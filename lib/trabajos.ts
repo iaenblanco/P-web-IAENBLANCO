@@ -23,10 +23,10 @@ export type Trabajo = {
    * asegurada"): eso lo dice su sitio, no lo respaldamos nosotros.
    * Tres como maximo, hasta 23 caracteres cada uno (van con white-space:
    * nowrap y a 13px en el telefono), y la misma palabra para la misma cosa en
-   * los cinco sitios: asi las tiras se comparan de un vistazo. Se pueden dejar
+   * los siete sitios: asi las tiras se comparan de un vistazo. Se pueden dejar
    * dos si el tercero no se pudo verificar; con cero la tira no se pinta.
    * Se revisan cuando un cliente rediseña: un rasgo tambien es una afirmacion
-   * y tambien caduca. Verificados abriendo los cinco sitios el 27-ago-2026.
+   * y tambien caduca. Verificados abriendo los siete sitios el 27-ago-2026.
    */
   rasgos: string[]
   /*
@@ -126,9 +126,62 @@ export const trabajos: Trabajo[] = [
     system: 'Oferta explicada de forma simple y una vía directa de contacto.',
     proof: 'Quien los encuentra entiende qué venden y sabe cómo escribirles.',
   },
-  /* Aca estuvieron Amparo Vega y Dovar, los dos que entraron el 26-ago con la
-     vitrina. Salieron al dia siguiente por revision del socio: uno de los dos
-     no existe como cliente y el otro quedo en pausa hasta que el tenga o haga
-     el logo. Sus capturas y logos siguen en public/ a proposito, para que
-     volver a ponerlos sea agregar la entrada aca y nada mas. */
+  /* Amparo Vega y Dovar entraron el 26-ago con la vitrina, salieron al dia
+     siguiente por revision del socio y vuelven hoy, 27-ago, porque Nico los
+     pidio de vuelta. Sus capturas y sus logos nunca se borraron de public/ ni
+     del catalogo de BrandLogo -se dejaron a proposito para que volver a
+     subirlos fuera agregar la entrada aca y nada mas-, asi que esto es
+     exactamente eso. Los dos rasgos y las dos fichas se volvieron a verificar
+     abriendo los sitios, porque el campo "rasgos" no existia cuando estuvieron
+     la primera vez. */
+  {
+    client: 'Amparo Vega',
+    href: 'https://amparovega.cl/',
+    captura: 'amparovega',
+    logo: 'amparo-vega',
+    sector: 'Nutrición deportiva',
+    project: 'Su sitio con la hora que se reserva sola',
+    /* "Pago en linea" aca y "Medios de pago visibles" en Granja Magdalena no es
+       una incoherencia: son dos cosas distintas. En Granja lo comprobable son
+       los logos de tarjeta en el pie, y decir "pago en linea" habria exigido
+       abrir un checkout. Aca la propia pagina de reserva lo dice en su texto
+       -"para confirmar tu reserva se paga online un abono de $20.000 [...] tu
+       hora queda tomada por 15 minutos mientras pagas"- y el sitio trae Webpay
+       y /api/reservas en su codigo. Se comprueba leyendo, sin pagar nada.
+       "Agenda dia y hora" se verifico entrando: en agosto no hay ningun dia
+       elegible -atiende los martes y ya no quedan- pero al pasar a septiembre
+       el 15, el 22 y el 29 quedan activos y al tocar el 15 aparecen las 10:00 y
+       las 15:00. Si algun dia el calendario deja de ofrecer horas, este rasgo
+       se cae con el. */
+    rasgos: ['Agenda día y hora', 'Pago en línea', 'WhatsApp directo'],
+    /* Objetivo interno remedido hoy con medir-trabajos.mjs: 497 ms y 313 KB. Las
+       cifras que traia del 26-ago -2 s y 1,1 MB- venian sin medir y quedaban tan
+       holgadas que el sitio podia triplicarse sin que la herramienta chistara. */
+    velocidad: 'menos de 1 s',
+    peso: '313 KB',
+    system: 'Sitio con sus planes y sus precios a la vista, y la reserva de hora en línea.',
+    proof: 'La paciente elige el plan, ve cuánto cuesta y toma la hora sin escribirle a nadie ni esperar respuesta.',
+  },
+  {
+    client: 'Dovar',
+    href: 'https://dovar.cl/',
+    captura: 'dovar',
+    logo: 'dovar',
+    sector: 'Constructora industrial',
+    project: 'Su sitio para presentarse ante empresas grandes',
+    /* "Pagina por servicio" es literal y es justo lo contrario de YoMeEncargo,
+       donde los cuatro servicios son secciones de una sola pagina: aca cada
+       linea tiene su URL propia con contenido propio -/servicios/mineria,
+       /obras-civiles, /infraestructura, /construccion-industrial-. "Preguntas
+       frecuentes" es el desplegable de la portada. Lo que NO va, aunque el
+       sitio lo diga en el pie, es "Todo Chile": esa es una afirmacion del
+       cliente sobre si mismo, no un rasgo del sitio. */
+    rasgos: ['Página por servicio', 'Preguntas frecuentes', 'WhatsApp directo'],
+    /* Mismo caso que Amparo Vega: remedido hoy en 920 ms y 410 KB, contra los
+       2 s y 1,4 MB sin medir que traia del 26-ago. */
+    velocidad: 'menos de 1,5 s',
+    peso: '410 KB',
+    system: 'Cada área de obra explicada por separado y contacto directo por WhatsApp.',
+    proof: 'Trabajan para industria, minería e infraestructura: el sitio los presenta a la altura de esos clientes.',
+  },
 ]

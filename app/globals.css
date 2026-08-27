@@ -11090,8 +11090,8 @@ button {
   }
 }
 
-/* El celular ahora va en las cinco tarjetas, no solo en la destacada: la
-   promesa "se ve bien en el celular" se demuestra cinco veces. */
+/* El celular ahora va en todas las tarjetas, no solo en la destacada: la
+   promesa "se ve bien en el celular" se demuestra en cada una. */
 
 .trabajo:not(.trabajo--destacado) .trabajo__movil {
   width: clamp(84px, 26%, 106px);
@@ -13884,7 +13884,7 @@ button {
 /* ==================================================================
    LAS CUATRO ESCENAS DE SERVICIO
    ------------------------------------------------------------------
-   La pagina de sitios web abre con "Trabajos reales": cinco negocios
+   La pagina de sitios web abre con "Trabajos reales": siete negocios
    chilenos con su captura y su enlace. Las otras cuatro no tienen
    todavia un trabajo de cliente que ensenar, asi que en ese mismo
    lugar muestran un momento del servicio andando. Mismo chasis que
@@ -16834,7 +16834,9 @@ button {
    exacto -una tira-: al terminar, la copia esta donde estaba el original y el
    volver a empezar no se ve. Tres y no dos porque el bucle solo es continuo
    si lo que respalda al borde cubre el contenedor: dos tiras de cinco logos
-   (750px minimo cada una) dejaban un hueco en pantallas anchas.
+   (750px minimo cada una) dejaban un hueco en pantallas anchas. Con los siete
+   de hoy la tira mide 1050px y las dos que respaldan sobran, pero la tercera
+   se queda: el dia que la lista vuelva a bajar, el bucle no se rompe.
    ========================================================================== */
 
 .carrusel-clientes {
@@ -16850,10 +16852,11 @@ button {
   width: max-content;
   /* La duracion sigue al largo de la tira: cada ciclo recorre una tira
      entera (un tercio del carril), asi que con menos logos el mismo tiempo
-     seria un paseo mas lento. Con siete eran 42s; con los cinco de hoy, 30
-     mantiene la misma velocidad real (42 x 5/7). Si cambia el numero de
-     trabajos, esta linea cambia con el. */
-  animation: carrusel-clientes-desliza 30s linear infinite;
+     seria un paseo mas lento. Son 6s por logo: con cinco fueron 30s y con los
+     siete de hoy vuelven a ser 42s, que es lo que corria antes de que salieran
+     Amparo Vega y Dovar. Si cambia el numero de trabajos, esta linea cambia
+     con el. */
+  animation: carrusel-clientes-desliza 42s linear infinite;
 }
 
 .carrusel-clientes:hover .carrusel-clientes__carril,

@@ -1,7 +1,7 @@
 // Las cifras de los trabajos, contrastadas contra los sitios de verdad.
 //
-// lib/trabajos.ts guarda diez numeros -la velocidad y el peso de los cinco
-// sitios de clientes- y hasta hoy nadie los volvia a medir: envejecian en
+// lib/trabajos.ts guarda dos numeros por trabajo -la velocidad y el peso de
+// cada sitio de cliente- y hasta hoy nadie los volvia a medir: envejecian en
 // silencio. Es el mismo camino por el que hubo que podar doce frases que ya no
 // se sostenian. Este script los lee del fuente y los va a comprobar al sitio
 // publicado, para que la cifra tenga quien la contradiga.
@@ -15,7 +15,7 @@
 //   node herramientas/medir-trabajos.mjs           mide y da el veredicto
 //   node herramientas/medir-trabajos.mjs --fijar   guarda la linea base
 //
-// Ojo con QUE mide: cinco sitios AJENOS, por internet. No es el build propio ni
+// Ojo con QUE mide: los sitios AJENOS, por internet. No es el build propio ni
 // una pagina servida en localhost, asi que la red del momento entra en la
 // medicion. Por eso cada sitio se carga TRES veces y manda la mediana, y por
 // eso los dos margenes son distintos:

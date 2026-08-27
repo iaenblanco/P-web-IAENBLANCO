@@ -21,12 +21,12 @@ import { type ServicePageContent } from '@/lib/services-content'
  *
  * Quedan cinco tiempos, en este orden:
  *
- *   1. Apertura   el titulo y la prueba. En sitios web, los cinco negocios
+ *   1. Apertura   el titulo y la prueba. En sitios web, los siete negocios
  *                 chilenos; en las otras cuatro, la escena del servicio
  *                 andando, que ahora es grande y abre la pagina.
  *   2. Pasos      cuatro, numerados, con una linea que se dibuja al entrar.
  *   3. Escribenos una sola frase.
- *   4. Caso       un trabajo nuestro (sitios web ya abrio con cinco).
+ *   4. Caso       un trabajo nuestro (sitios web ya abrio con los siete).
  *   5. Preguntas y cierre.
  *
  * Lo que se fue: el hero con sus cuatro chips y su parrafo de precio -el

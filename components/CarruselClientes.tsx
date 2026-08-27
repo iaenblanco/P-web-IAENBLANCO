@@ -19,8 +19,9 @@ import { trabajos } from '@/lib/trabajos'
  * vuelta no se ve. Son tres y no dos porque el bucle solo es continuo si lo
  * que queda detras del borde cubre el contenedor: con dos tiras de cinco
  * logos quedaba un hueco en pantallas anchas cada vez que el ciclo llegaba al
- * final; con tres, las dos tiras que respaldan (1500px como minimo) cubren
- * cualquier contenedor del sitio (1440px como maximo). Las copias llevan
+ * final; con tres, las dos tiras que respaldan (1500px como minimo con cinco
+ * logos, 2100px con los siete de hoy) cubren cualquier contenedor del sitio
+ * (1440px como maximo). Las copias llevan
  * aria-hidden -si no, un lector de pantalla leeria los clientes varias veces-
  * y sus enlaces salen del orden de tabulacion, porque nada oculto para
  * asistencia puede recibir el foco.

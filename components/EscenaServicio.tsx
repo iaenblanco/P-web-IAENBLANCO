@@ -3,7 +3,7 @@
  * portafolio que mostrar.
  *
  * La de sitios web abre con "Trabajos reales", que es lo que mas convence:
- * cinco negocios chilenos con su captura y su enlace. Las otras tres no
+ * siete negocios chilenos con su captura y su enlace. Las otras tres no
  * tienen todavia un trabajo de cliente que ensenar, y en vez de dejar el
  * hueco -o peor, de inventar un caso- muestran un momento del servicio
  * andando: la planilla que se vuelve pantalla, el pedido que se registra

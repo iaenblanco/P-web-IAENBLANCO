@@ -31,16 +31,19 @@ function dominio(href: string) {
  * /servicios y la pagina de sitios web. Antes habia dos componentes
  * distintos con datos distintos, y por eso la misma prueba se veia de dos
  * formas -y en servicios las cinco tarjetas caian 3 + 2, con un hueco en la
- * segunda fila-. Aca la destacada ocupa la fila entera y las otras cuatro
- * van de a dos: cinco tarjetas, ninguna fila coja.
+ * segunda fila-. Aca la destacada ocupa la fila entera y el resto va de a dos.
+ * Con los siete de hoy son 1 + 2 + 2 + 2: ninguna fila coja. La cuenta que hay
+ * que cuidar al agregar o sacar un trabajo es esa -que los que NO son
+ * destacados sean pares-, porque con un numero impar la ultima fila queda con
+ * una tarjeta sola y media grilla vacia al lado.
  *
  * "omitirDestacado" lo usa la pagina de sitios web, que desde hoy muestra la
  * destacada arriba, en la columna derecha de su banda de apertura, y aca deja
- * solo las otras cuatro -que caen 2 + 2, sin fila coja tampoco-. El indice se
+ * solo las demas -seis hoy, que caen 2 + 2 + 2, sin fila coja tampoco-. El indice se
  * saca ANTES de filtrar a proposito: el orden que se pinta ("02 / 05") es la
  * posicion en la lista completa, asi que las cuatro de abajo siguen desde el
  * 02 y el 01 es el de arriba. Si se numeraran despues de filtrar, la pagina
- * diria "01 / 05" dos veces.
+ * diria "01 / 07" dos veces.
  *
  * "resumido" existe porque /servicios y /trabajos mostraban la misma ficha
  * palabra por palabra, y la pagina nueva no puede posicionar contra su propia
@@ -128,7 +131,7 @@ export function Trabajos({
                   abajo. Hacia falta: .trabajo__cta llevaba margin-top:auto
                   dentro de una ficha con align-content:start, donde ese auto
                   no tiene espacio libre que absorber, y en la grilla de dos
-                  columnas los cinco "Abrir el sitio" caian a alturas
+                  columnas los "Abrir el sitio" caian a alturas
                   distintas. */}
               <div className="trabajo__cuerpo">
                 <div className="trabajo__meta">
