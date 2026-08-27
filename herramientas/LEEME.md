@@ -28,7 +28,7 @@ npm run build
 node herramientas/servir.mjs out 3210
 node herramientas/verificar.mjs .tmp/ver http://localhost:3210 \
   1920,1440,1280,1201,1024,768,430,390,360 \
-  /,/servicios/,/productos/,/contacto/,/servicios/desarrollo-web-ia/,/privacidad/,/terminos/
+  /,/servicios/,/productos/,/trabajos/,/contacto/,/servicios/desarrollo-web-ia/,/privacidad/,/terminos/
 ```
 
 Necesita Chrome instalado (habla CDP directo, sin dependencias) y Node 20 o
@@ -50,6 +50,52 @@ de conexión en vez de morirse con ellos.
 ```bash
 node herramientas/servir.mjs out 3210
 ```
+
+## `medir-trabajos.mjs`
+
+`lib/trabajos.ts` publica diez cifras —la velocidad y el peso de los cinco
+sitios de clientes— y nada las volvía a medir: envejecían en silencio, que es
+el mismo camino por el que hubo que podar doce frases que ya no se sostenían.
+Este script lee esas cifras del fuente y las va a comprobar al sitio publicado.
+
+Carga cada sitio **tres veces** con la caché apagada y se queda con la
+**mediana**: suma el `encodedDataLength` de cada recurso hasta el evento load
+(el peso real) y lee `loadEventEnd` del navegador (la velocidad). Así una red
+mala en un momento no tumba la batería.
+
+```bash
+npm run medir
+node herramientas/medir-trabajos.mjs --fijar   # guarda la línea base
+```
+
+| Cifra | Margen |
+|---|---|
+| velocidad | El techo publicado **tal cual**, sin margen extra: el «menos de» que decimos ya *es* el margen. |
+| peso | Un **15 %** por encima de lo publicado. Es una cifra exacta y necesita banda: un banner nuevo que subió el cliente no puede ser una falla nuestra; que el sitio pese el doble, sí. |
+
+Si la realidad quedó más de un 25 % **por debajo**, no falla: avisa que la cifra
+se quedó corta y conviene bajarla, igual que la guardia del CSS avisa cuando se
+limpiaron deudas.
+
+Sale 1 si alguna cifra publicada ya no se sostiene (nombrando cliente, lo
+publicado y lo medido), 2 si algún sitio no cargó y 0 si todas se sostienen.
+
+`medir-trabajos.json` es opcional: guarda la fecha y las medianas de la última
+pasada fijada. Sirve para distinguir «el cliente engordó su sitio» de «hoy la
+red anda mal»: si la cifra se rompe pero **todos** los sitios empeoraron parejo
+contra esa línea base, es la red. Sin ella el script mide igual, solo pierde esa
+distinción.
+
+### Qué no mide
+
+No juzga si el sitio del cliente está bien hecho: no mira su contraste, ni su
+maquetación, ni si el peso es razonable para lo que muestra. Solo contesta una
+pregunta, la única que nos compromete: si la cifra que publicamos sigue siendo
+cierta.
+
+Y no entra en `verificar.mjs` a propósito. Aquel recorre anchos por rutas del
+sitio propio ya construido; esto es una medición de red contra dominios ajenos.
+Mezclarlos mediría cinco veces lo mismo, una por ancho.
 
 ## `guardia-css.mjs`
 
@@ -83,8 +129,8 @@ dependencia nueva la instalaría Cloudflare en cada build.
 
 ### La línea base
 
-`guardia-css.json` es la lista de las deudas que el archivo YA tiene: hoy 458
-selectores repetidos, 6 `var()` sin definir y 23 `!important`. No es una lista
+`guardia-css.json` es la lista de las deudas que el archivo YA tiene: hoy 447
+selectores repetidos, 5 `var()` sin definir y 22 `!important`. No es una lista
 de cosas correctas, es lo que todavía está mal y hoy no se arregla. El script
 solo falla cuando algo empeora, y avisa cuando algo mejora para que la línea
 base se vuelva a fijar:
@@ -102,3 +148,34 @@ Nada sobre cómo se ve el sitio: para eso está `verificar.mjs`. Y la cuenta de
 `@keyframes` huérfanos es conservadora a propósito —si el nombre coincide con
 una clase, no lo marca—, porque una falsa alarma vuelve inservible a la
 guardia.
+
+## `mirar-escenas.mjs`
+
+Las escenas animadas de los servicios, juzgadas como se juzgan de verdad: en
+375 px de ancho y viendo la pasada entera, no una foto suelta. `verificar.mjs`
+mide una pantalla quieta; esto mide lo que se mueve.
+
+| Falla | Qué es |
+|---|---|
+| `QUIETA` | Después de la pasada quedó algo moviéndose: animaciones que a los 3 s siguen `running`, o declaradas `infinite`. |
+| `ESPERA` | Con la escena debajo del pliegue la pasada ya había avanzado. La función se dio en una sala vacía. |
+| `RECORTE` | La caja terminó recortada por su propio `clip-path` en vez de abierta. |
+
+```bash
+npm run dev
+node herramientas/mirar-escenas.mjs .tmp/escenas http://localhost:3000
+node herramientas/mirar-escenas.mjs .tmp/escenas http://localhost:3000 560 planilla
+```
+
+El tercer argumento es el alto del visor (560 por defecto, el único en el que
+la espera se puede comprobar) y el cuarto acota la corrida a las escenas cuyo
+nombre lo contenga, para mirar una sola sin pagar las siete rutas.
+
+Además de los números deja la película: la caja recortada a su rectángulo en
+ocho momentos de la pasada. El último cuadro es el que más importa, porque es
+el que el visitante va a estar mirando el resto del tiempo. Sale 1 si hay
+fallas y 2 si alguna ruta no cargó.
+
+Como `verificar.mjs`, cada pasada deja un perfil de Chrome de ~200 MB en la
+carpeta temporal: hay que vaciarla con `robocopy` contra una carpeta vacía
+antes de borrarla.

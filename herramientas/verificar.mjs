@@ -30,7 +30,7 @@ const PUERTO = 9371
 const SALIDA = resolve(process.argv[2] || '.tmp/ver')
 const BASE = process.argv[3] || 'http://localhost:3210'
 const ANCHOS = (process.argv[4] || '1440,390').split(',').map(Number)
-const RUTAS = (process.argv[5] || '/,/servicios/,/productos/,/contacto/,/servicios/desarrollo-web-ia/,/privacidad/,/terminos/').split(',')
+const RUTAS = (process.argv[5] || '/,/servicios/,/productos/,/trabajos/,/contacto/,/servicios/desarrollo-web-ia/,/privacidad/,/terminos/').split(',')
 
 const chrome = spawn(CHROME, ['--headless=new', '--disable-gpu', '--hide-scrollbars', '--no-first-run',
   `--remote-debugging-port=${PUERTO}`, '--window-size=1440,900',

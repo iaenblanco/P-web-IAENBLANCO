@@ -8,7 +8,8 @@
     "export": "next build && next export",
     "start": "next start",
     "lint": "next lint",
-    "guardia": "node herramientas/guardia-css.mjs"
+    "guardia": "node herramientas/guardia-css.mjs",
+    "medir": "node herramientas/medir-trabajos.mjs"
   },
   "dependencies": {
     "next": "^15.5.20",
