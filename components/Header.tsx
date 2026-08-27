@@ -33,6 +33,27 @@ function MenuIcon() {
 export function Header() {
   const [openMenu, setOpenMenu] = useState<'services' | 'products' | null>(null)
   const closeTimer = useRef<ReturnType<typeof setTimeout> | null>(null)
+  // Con Escape hay que devolver el foco al boton que abrio el panel; sin esto
+  // el foco cae al <body> y hay que tabular de nuevo desde el principio.
+  const serviciosBotonRef = useRef<HTMLButtonElement>(null)
+  const productosBotonRef = useRef<HTMLButtonElement>(null)
+  /*
+   * Dos banderas para que el foco no pelee con el estado del panel. Van en refs
+   * y no en estado porque se leen dentro del mismo evento que las escribe.
+   *
+   * restaurandoFoco: devolver el foco al boton con Escape dispara un focusin, y
+   * React se lo entrega al onFocus del envoltorio. Como focusin es sincronico,
+   * ese onFocus volveria a abrir el panel que Escape acaba de cerrar. Con la
+   * bandera arriba durante ese unico focus, el onFocus se ignora.
+   *
+   * abiertoPorFoco: el focusin del propio boton es un evento discreto y se
+   * despacha, con su render, ANTES del click. Cuando llega el onClick el estado
+   * ya dice "abierto", asi que alternar cerraria un panel que la misma
+   * interaccion acaba de abrir. La bandera recuerda ese caso para que el primer
+   * click no haga nada.
+   */
+  const restaurandoFoco = useRef(false)
+  const abiertoPorFoco = useRef(false)
   const pathname = usePathname()
 
   /*
@@ -68,12 +89,32 @@ export function Header() {
 
   function closeDesktopMenu() {
     clearCloseTimer()
+    // Cualquier cierre termina la interaccion que habia abierto el panel por
+    // foco: el proximo click vuelve a ser un toggle normal.
+    abiertoPorFoco.current = false
     closeTimer.current = setTimeout(() => setOpenMenu(null), 90)
   }
 
   function forceCloseDesktopMenu() {
     clearCloseTimer()
+    abiertoPorFoco.current = false
     setOpenMenu(null)
+  }
+
+  // En tactil no hay hover y el foco ya deja el panel abierto, asi que el boton
+  // tiene que alternar: si solo abriera, el segundo toque no lo cerraria nunca.
+  function toggleDesktopMenu(menu: 'services' | 'products') {
+    // El foco de esta misma interaccion ya lo abrio: cerrarlo ahora seria abrir
+    // y cerrar de un solo toque.
+    if (abiertoPorFoco.current) {
+      abiertoPorFoco.current = false
+      return
+    }
+    if (openMenu === menu) {
+      forceCloseDesktopMenu()
+      return
+    }
+    openDesktopMenu(menu)
   }
 
   useEffect(() => () => {
@@ -162,39 +203,55 @@ export function Header() {
             className={`nav-menu services-nav${openMenu === 'services' ? ' is-open' : ''}`}
             onMouseEnter={() => openDesktopMenu('services')}
             onMouseLeave={closeDesktopMenu}
-            onFocus={() => openDesktopMenu('services')}
+            onFocus={() => {
+              if (restaurandoFoco.current) return
+              if (openMenu !== 'services') abiertoPorFoco.current = true
+              openDesktopMenu('services')
+            }}
             onBlur={(event) => {
               const nextTarget = event.relatedTarget as Node | null
               if (!nextTarget || !event.currentTarget.contains(nextTarget)) closeDesktopMenu()
             }}
             onKeyDown={(event) => {
               if (event.key === 'Escape') {
+                // Sin frenarlo aqui, el mismo Escape sigue hasta el listener de
+                // document y de paso cierra el menu del telefono.
+                event.stopPropagation()
                 forceCloseDesktopMenu()
-                const activeElement = document.activeElement
-                if (activeElement instanceof HTMLElement) activeElement.blur()
+                // focusin es sincronico: el onFocus corre dentro de este focus()
+                // y la bandera ya esta abajo en la linea siguiente.
+                restaurandoFoco.current = true
+                serviciosBotonRef.current?.focus()
+                restaurandoFoco.current = false
               }
             }}
           >
             <button
               type="button"
               className="nav-link"
+              ref={serviciosBotonRef}
               aria-controls="services-menu"
               aria-expanded={openMenu === 'services'}
-              aria-haspopup="menu"
-              onClick={() => openDesktopMenu('services')}
+              onClick={() => toggleDesktopMenu('services')}
             >
               Servicios
               <span className={`nav-chevron${openMenu === 'services' ? ' is-open' : ''}`}>⌄</span>
             </button>
 
+            {/* Esto es un disclosure de enlaces, no un menubar: no hay flechas ni
+                roving tabindex, y con Tab se recorre solo. Por eso no lleva
+                role="menu"/"menuitem", que lo haria anunciarse como un menu que
+                no responde a las teclas que ese rol promete. El boton tampoco
+                lleva aria-haspopup: en ARIA el valor "true" es sinonimo exacto
+                de "menu", asi que anunciaria lo mismo por otra puerta. Con
+                aria-expanded y aria-controls, que si estan, alcanza. */}
             <div
               id="services-menu"
               className="services-menu"
-              role="menu"
             >
               <div className="services-menu__label">
                 <span>Capacidades</span>
-                <span>05 servicios</span>
+                <span>{String(services.length).padStart(2, '0')} servicios</span>
               </div>
               <div className="services-menu__grid">
                 {services.map((service) => (
@@ -203,7 +260,6 @@ export function Header() {
                     prefetch={false}
                     className="services-menu__item"
                     key={service.slug}
-                    role="menuitem"
                     onClick={forceCloseDesktopMenu}
                   >
                     <span className="services-menu__index">{service.index}</span>
@@ -222,35 +278,44 @@ export function Header() {
             className={`nav-menu products-nav${openMenu === 'products' ? ' is-open' : ''}`}
             onMouseEnter={() => openDesktopMenu('products')}
             onMouseLeave={closeDesktopMenu}
-            onFocus={() => openDesktopMenu('products')}
+            onFocus={() => {
+              if (restaurandoFoco.current) return
+              if (openMenu !== 'products') abiertoPorFoco.current = true
+              openDesktopMenu('products')
+            }}
             onBlur={(event) => {
               const nextTarget = event.relatedTarget as Node | null
               if (!nextTarget || !event.currentTarget.contains(nextTarget)) closeDesktopMenu()
             }}
             onKeyDown={(event) => {
               if (event.key === 'Escape') {
+                // Igual que en Servicios: el listener de document que cierra el
+                // menu movil escucha el mismo Escape.
+                event.stopPropagation()
                 forceCloseDesktopMenu()
-                const activeElement = document.activeElement
-                if (activeElement instanceof HTMLElement) activeElement.blur()
+                // Igual que en Servicios: la bandera tapa el focusin sincronico.
+                restaurandoFoco.current = true
+                productosBotonRef.current?.focus()
+                restaurandoFoco.current = false
               }
             }}
           >
             <button
               type="button"
               className="nav-link"
+              ref={productosBotonRef}
               aria-controls="products-menu"
               aria-expanded={openMenu === 'products'}
-              aria-haspopup="menu"
-              onClick={() => openDesktopMenu('products')}
+              onClick={() => toggleDesktopMenu('products')}
             >
               Productos
               <span className={`nav-chevron${openMenu === 'products' ? ' is-open' : ''}`}>⌄</span>
             </button>
 
+            {/* Disclosure, no menubar: ver la nota del panel de Servicios. */}
             <div
               id="products-menu"
               className="services-menu products-menu"
-              role="menu"
             >
               <div className="services-menu__label">
                 <span>Productos propios</span>
@@ -263,7 +328,6 @@ export function Header() {
                     prefetch={false}
                     className="services-menu__item products-menu__item"
                     key={product.name}
-                    role="menuitem"
                     onClick={forceCloseDesktopMenu}
                   >
                     <span className="services-menu__index">{String(index + 1).padStart(2, '0')}</span>
@@ -277,6 +341,13 @@ export function Header() {
               </div>
             </div>
           </div>
+          <Link
+            className="nav-link"
+            href="/trabajos/"
+            prefetch={false}
+          >
+            Trabajos
+          </Link>
           <Link
             className="nav-link"
             href="/contacto"
@@ -302,10 +373,12 @@ export function Header() {
         </a>
 
         <details className="mobile-nav-shell">
+          {/* Nombre neutro: el estado abierto/cerrado ya lo anuncia el <details>
+              nativo, y un "Abrir menu" fijo mentia con el panel abierto. */}
           <summary
             className="mobile-toggle"
             aria-controls="mobile-navigation"
-            aria-label="Abrir menú"
+            aria-label="Menú"
           >
             <MenuIcon />
           </summary>
@@ -365,12 +438,20 @@ export function Header() {
                 </div>
               </details>
               <Link
+                href="/trabajos/"
+                prefetch={false}
+                className="mobile-navigation__primary"
+                onClick={cerrarMenuMovil}
+              >
+                <span>04</span> Trabajos
+              </Link>
+              <Link
                 href="/contacto"
                 prefetch={false}
                 className="mobile-navigation__primary"
                 onClick={cerrarMenuMovil}
               >
-                <span>04</span> Contacto
+                <span>05</span> Contacto
               </Link>
               <a
                 href={WHATSAPP_URL}

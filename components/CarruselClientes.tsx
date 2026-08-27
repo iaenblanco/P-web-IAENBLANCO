@@ -1,3 +1,7 @@
+'use client'
+
+import { useRef, useState } from 'react'
+
 import { BrandLogo } from '@/components/BrandLogo'
 import { trabajos } from '@/lib/trabajos'
 
@@ -21,9 +25,26 @@ import { trabajos } from '@/lib/trabajos'
  * y sus enlaces salen del orden de tabulacion, porque nada oculto para
  * asistencia puede recibir el foco.
  *
- * Se detiene al pasar el mouse y al enfocar con teclado, y con
- * prefers-reduced-motion se queda quieto y pasa a ser una tira que se arrastra
- * a mano: el movimiento se apaga, pero ningun logo queda inalcanzable.
+ * Se detiene al pasar el mouse, pero el hover solo existe donde hay puntero:
+ * en un telefono no habia ninguna forma de detenerlo, y algo que se mueve solo
+ * y sin parar tiene que poder frenarse. De ahi el boton, y de ahi que vaya
+ * ANTES del carrusel: quien navega con teclado necesita poder detenerlo antes
+ * de entrar a los enlaces, no despues de perseguirlos. El boton no lleva
+ * aria-pressed porque su propio texto ya dice en que estado esta; con los dos,
+ * el lector lo anuncia dos veces.
+ *
+ * Al enfocar con teclado no alcanza con pausar. Pausado a secas el carril
+ * queda congelado donde venia, y el enlace que acaba de recibir el foco puede
+ * haber quedado bajo el degradado del borde o directamente fuera de la caja,
+ * que recorta. Por eso el foco ademas devuelve el carril a cero -sin animacion
+ * y sin transform- y vuelve la caja scrolleable: con desplazamiento real el
+ * navegador se encarga de traer a la vista el enlace enfocado. Es la misma
+ * receta de prefers-reduced-motion, que encima se queda quieto y pasa a ser
+ * una tira que se arrastra a mano: el movimiento se apaga, pero ningun logo
+ * queda inalcanzable.
+ *
+ * El estado del boton y del foco vive aca, asi que el componente es de
+ * cliente; el CSS hace el resto leyendo data-pausado y data-foco.
  *
  * Es el unico elemento con movimiento perpetuo del sitio. El 25 de agosto se
  * apagaron las 34 animaciones infinitas que habia; esta vuelve a poner una, a
@@ -32,12 +53,17 @@ import { trabajos } from '@/lib/trabajos'
  * El data-desliza no es decorativo: la bateria de verificacion marca como
  * "texto cortado" todo lo que asome fuera del borde de la pantalla, y aca eso
  * pasa con cada ficha que todavia no le toca entrar. Ese atributo la exime de
- * ese criterio -solo de ese- y esta explicado en verificar.mjs.
+ * ese criterio -solo de ese- y esta explicado en verificar.mjs. Sigue en el div
+ * de adentro, que es el que recorta: el marco que envuelve al boton no recorta
+ * nada y moverlo ahi eximiria de mas.
  */
 function Tira({ copia }: { copia?: boolean }) {
+  // El role="list" explicito no sobra: con list-style none, Safari y VoiceOver
+  // le sacan la semantica al ul y dejan de anunciar "lista, 5 elementos".
   return (
     <ul
       className="carrusel-clientes__tira"
+      role="list"
       {...(copia ? { 'aria-hidden': true } : {})}
     >
       {trabajos.map((trabajo) => (
@@ -71,12 +97,44 @@ function Tira({ copia }: { copia?: boolean }) {
 }
 
 export function CarruselClientes() {
+  const [pausado, setPausado] = useState(false)
+  const [hayFoco, setHayFoco] = useState(false)
+  const caja = useRef<HTMLDivElement>(null)
+
   return (
-    <div className="carrusel-clientes" data-desliza>
-      <div className="carrusel-clientes__carril">
-        <Tira />
-        <Tira copia />
-        <Tira copia />
+    <div className="carrusel-clientes-marco">
+      <button
+        type="button"
+        className="carrusel-clientes__pausa"
+        onClick={() => setPausado((antes) => !antes)}
+      >
+        {pausado ? 'Reanudar' : 'Pausar'} los logos
+      </button>
+      {/* onFocus y onBlur van en el contenedor porque en React el foco burbujea:
+          un solo par de manejadores cubre los enlaces de adentro. Las copias
+          tienen tabIndex -1, asi que el foco siempre cae en la tira original. */}
+      <div
+        className="carrusel-clientes"
+        ref={caja}
+        data-desliza
+        data-pausado={pausado || undefined}
+        data-foco={hayFoco || undefined}
+        onFocus={() => setHayFoco(true)}
+        onBlur={() => {
+          setHayFoco(false)
+          // Mientras hubo foco la caja fue scrolleable y el navegador la
+          // desplazo para traer a la vista el enlace enfocado. Volver a
+          // overflow hidden no deshace eso: la caja sigue siendo contenedor de
+          // scroll y conserva su scrollLeft, asi que el carril reinicia desde
+          // 0% pero pintado corrido y deja una franja vacia a la derecha.
+          if (caja.current) caja.current.scrollLeft = 0
+        }}
+      >
+        <div className="carrusel-clientes__carril">
+          <Tira />
+          <Tira copia />
+          <Tira copia />
+        </div>
       </div>
     </div>
   )
