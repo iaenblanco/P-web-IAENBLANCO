@@ -265,19 +265,15 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
       d.addEventListener('click', function(event){
         var target = event.target;
         var anchor = target && target.closest ? target.closest('a[href]') : null;
-        var caseElement = target && target.closest ? target.closest('.trust-proof-card, .featured-case__more article, .case-window') : null;
-        if (!anchor && caseElement) {
-          w.dataLayer = w.dataLayer || [];
-          w.dataLayer.push({
-            event: 'case_click',
-            case_name: clean(caseElement.textContent),
-            page_path: w.location.pathname,
-            section: sectionFor(caseElement),
-            device_type: deviceType(),
-            traffic_source_raw: trafficSourceRaw()
-          });
-          return;
-        }
+        /* Aca vivia un evento 'case_click' aparte. No podia dispararse nunca,
+           por dos motivos a la vez: buscaba .trust-proof-card,
+           .featured-case__more article y .case-window, que ya no los pinta
+           ningun componente, y ademas su rama exigia que el clic NO cayera en
+           un enlace, cuando la tarjeta de trabajo es justamente un <a>.
+           Sacarlo no pierde medicion: el clic en una tarjeta ya viaja por la
+           via de abajo como 'service_case_click' -lo declara Trabajos.tsx en
+           data-analytics-event, que eventNameFor respeta- y llega con
+           case_name, que ese mismo push lee de data-case-name. */
         if (!anchor) return;
         var eventName = eventNameFor(anchor);
         if (!eventName) return;
