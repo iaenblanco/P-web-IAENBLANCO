@@ -358,6 +358,21 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
           traffic_source_raw: trafficSourceRaw()
         });
       });
+      d.addEventListener('iaenblanco:diagnostico_paso', function(event){
+        var detail = event.detail || {};
+        w.dataLayer = w.dataLayer || [];
+        w.dataLayer.push({
+          event: 'diagnostico_step',
+          step_id: clean(detail.paso_id),
+          step_number: detail.paso_numero || 0,
+          answer: clean(detail.respuesta),
+          entry_problem: clean(detail.entry_problem),
+          diagnostico_completado: clean(detail.completado),
+          page_path: w.location.pathname,
+          device_type: deviceType(),
+          traffic_source_raw: trafficSourceRaw()
+        });
+      });
       d.addEventListener('iaenblanco:form_error', function(event){
         var detail = event.detail || {};
         w.dataLayer = w.dataLayer || [];

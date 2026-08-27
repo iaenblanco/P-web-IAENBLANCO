@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import { BrandLogo } from '@/components/BrandLogo'
 import { EscenaAbanico } from '@/components/EscenaBanda'
 import { EscenaProducto } from '@/components/EscenaProducto'
+import { FichaLeadsEjemplo } from '@/components/FichaLeadsEjemplo'
 import { Reveal } from '@/components/Reveal'
 import { RevelaAlEntrar } from '@/components/RevelaAlEntrar'
 import { products, SITE_URL, WHATSAPP_URL } from '@/lib/site'
@@ -140,6 +141,11 @@ export default function ProductsPage() {
                 </div>
 
                 <p className="ad__pie-escena">{product.diptico.remateDespues}</p>
+
+                {/* Solo Leads: su escena es un mapa y unas filas sin texto,
+                    y era el unico de los tres del que no se entendia que
+                    llega. Esto lo traduce a la ficha que se ve adentro. */}
+                {product.id === 'leads' ? <FichaLeadsEjemplo /> : null}
 
                 <footer className="ad__pie">
                   <div className="ad__pie-texto">

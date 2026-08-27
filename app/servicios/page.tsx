@@ -1,13 +1,10 @@
 import type { Metadata } from 'next'
-import Image from 'next/image'
 import Link from 'next/link'
+import { DiagnosticoServicios } from '@/components/DiagnosticoServicios'
 import { EscenaIndice } from '@/components/EscenaBanda'
 import { RevelaAlEntrar } from '@/components/RevelaAlEntrar'
 import { Trabajos } from '@/components/Trabajos'
 import { services, SITE_URL, getWhatsappUrl } from '@/lib/site'
-import {
-  serviceProblemEntries,
-} from '@/lib/services-content'
 
 export const metadata: Metadata = {
   title: 'Todo lo que hacemos, explicado sin tecnicismos',
@@ -49,11 +46,6 @@ function ArrowRight() {
       <path d="M4 12h15M14 6l6 6-6 6" stroke="currentColor" strokeWidth="1.5" />
     </svg>
   )
-}
-
-function serviceNameForSlug(slug?: string) {
-  if (!slug) return 'Diagnóstico'
-  return services.find((service) => service.slug === slug)?.shortTitle || 'Servicios'
 }
 
 export default function ServicesIndexPage() {
@@ -124,54 +116,20 @@ export default function ServicesIndexPage() {
           <div className="services-index-heading">
             <div>
               <p className="eyebrow">Empieza por acá</p>
-              <h2>Elige la frase que más se parece a lo que te pasa.</h2>
+              <h2>Tres preguntas y te decimos por dónde partiríamos.</h2>
             </div>
             <p className="services-index-heading__lead">
-              Cada una lleva al servicio que resuelve eso. Si ninguna te calza del todo,
-              la última es para ti: nos cuentas y lo ordenamos juntos.
+              La primera es la misma de siempre: elige la frase que más se parece a lo que te
+              pasa, y de ahí sale la recomendación. Las otras dos no la cambian: viajan dentro
+              del mensaje, para saber de dónde partes antes de la primera conversación. Al final
+              te dejamos ese mensaje escrito, con tus tres respuestas adentro.
             </p>
           </div>
-          <div className="services-index-problems">
-            {serviceProblemEntries.map((entry) => {
-              const isExternal = entry.href.startsWith('http')
-              const serviceId = entry.serviceSlug || 'diagnostico'
-              const serviceName = serviceNameForSlug(entry.serviceSlug)
-              const body = (
-                <>
-                  <strong>{entry.label}</strong>
-                  <span>{entry.detail}</span>
-                  <ArrowUpRight />
-                </>
-              )
-
-              return isExternal ? (
-                <a
-                  key={entry.label}
-                  href={entry.href}
-                  target="_blank"
-                  rel="noreferrer"
-                  data-analytics-event="service_whatsapp_click"
-                  data-service-id={serviceId}
-                  data-service-name={serviceName}
-                  data-entry-problem={entry.label}
-                >
-                  {body}
-                </a>
-              ) : (
-                <Link
-                  key={entry.label}
-                  href={entry.href}
-                  prefetch={false}
-                  data-analytics-event="service_cta_click"
-                  data-service-id={serviceId}
-                  data-service-name={serviceName}
-                  data-entry-problem={entry.label}
-                >
-                  {body}
-                </Link>
-              )
-            })}
-          </div>
+          {/* Antes aca vivian seis enlaces planos: la frase y, al tocarla, la
+              pagina del servicio. Las seis frases siguen siendo el paso 1 del
+              diagnostico -son las que la gente reconoce-, pero ahora terminan
+              en una recomendacion y en el mensaje ya escrito. */}
+          <DiagnosticoServicios />
           <div className="services-index-editorial-note">
             <span />
             <p>
@@ -182,7 +140,7 @@ export default function ServicesIndexPage() {
         </div>
       </section>
 
-      <section className="services-index-section">
+      <section id="lo-que-construimos" className="services-index-section">
         <div className="section-shell">
           <div className="services-index-heading">
             <div>

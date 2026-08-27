@@ -1,4 +1,4 @@
-import { getWhatsappUrl, services, SITE_URL } from '@/lib/site'
+import { products, services, SITE_URL } from '@/lib/site'
 
 export type ServiceSlug =
   | 'desarrollo-web-ia'
@@ -6,12 +6,6 @@ export type ServiceSlug =
   | 'automatizaciones'
   | 'soluciones-ia-medida'
 
-export type ServiceProblemEntry = {
-  label: string
-  detail: string
-  href: string
-  serviceSlug?: ServiceSlug
-}
 
 export type ServiceCase = {
   client: string
@@ -55,51 +49,201 @@ export type ServicePageContentMap = {
   [K in Exclude<ServiceSlug, 'desarrollo-web-ia'>]: ServicePageContentWithCase & { slug: K }
 }
 
-const diagnosticMessage =
-  'Hola IAenBlanco, quiero revisar qué servicio calza mejor con mi negocio.'
+/* El diagnostico de /servicios/ ---------------------------------------------
+   Antes esta pagina abria con seis frases planas y cada una era un enlace
+   directo al servicio que la resolvia. Las frases funcionaban -son las mismas
+   seis que siguen abriendo el paso 1- pero terminaban donde empezaban: el
+   visitante elegia solo, sin que nadie le preguntara nada, y si se equivocaba
+   de frase se iba a la pagina equivocada.
 
-export const serviceProblemEntries: ServiceProblemEntry[] = [
+   Ahora esas seis frases son la primera de tres preguntas. Al final el
+   diagnostico dice por donde partiriamos y deja el mensaje escrito con las
+   tres respuestas adentro, para que solo haya que mandarlo.
+
+   Regla: aca no se inventa ninguna promesa nueva. La recomendacion se arma
+   con lo que services[] y products[] ya publican -descripcion, plazo, senales
+   y el estado del producto-, asi que no puede quedar diciendo algo que la
+   pagina del servicio no diga. */
+
+export type DiagnosticoDestino = ServiceSlug | 'leads' | 'conversar'
+
+export type DiagnosticoOpcion = {
+  /** Lo que se lee en el boton. */
+  label: string
+  /** Como queda escrito en el mensaje de WhatsApp, en primera persona. */
+  resumen: string
+  /** Solo el paso 1 decide a donde llega el diagnostico. */
+  destino?: DiagnosticoDestino
+}
+
+export type DiagnosticoPaso = {
+  id: string
+  /** El rotulo corto con el que la respuesta viaja en el mensaje. */
+  rotulo: string
+  pregunta: string
+  ayuda: string
+  opciones: DiagnosticoOpcion[]
+}
+
+export const diagnosticoPasos: DiagnosticoPaso[] = [
   {
-    label: 'No tengo sitio web, o el que tengo da vergüenza.',
-    detail: 'Te hacemos el sitio o la tienda online.',
-    href: '/servicios/desarrollo-web-ia/',
-    serviceSlug: 'desarrollo-web-ia',
+    id: 'problema',
+    rotulo: 'Lo que más me cuesta',
+    pregunta: '¿Qué es lo que más te está costando hoy?',
+    ayuda:
+      'Elige la frase que más se parece a lo tuyo. Si ninguna te calza del todo, la última es para ti.',
+    opciones: [
+      {
+        label: 'No tengo sitio web, o el que tengo da vergüenza.',
+        resumen: 'No tengo sitio web, o el que tengo da vergüenza',
+        destino: 'desarrollo-web-ia',
+      },
+      {
+        label: 'Necesito un programa que no existe, o lo llevo en Excel.',
+        resumen: 'Necesito un programa que no existe, o lo llevo en Excel',
+        destino: 'plataformas-software-medida',
+      },
+      {
+        label: 'Paso el día copiando datos de un lado a otro.',
+        resumen: 'Paso el día copiando datos de un lado a otro',
+        destino: 'automatizaciones',
+      },
+      {
+        label: 'Contesto las mismas preguntas todo el día.',
+        resumen: 'Contesto las mismas preguntas todo el día',
+        destino: 'soluciones-ia-medida',
+      },
+      {
+        /* Buscar clientes dejo de ser un servicio que operamos nosotros: hoy
+           es Leads, un programa, y vive en /productos/. La frase se queda
+           porque el problema sigue siendo real; lo que cambia es a donde
+           lleva. */
+        label: 'Necesito clientes nuevos y no sé por dónde partir.',
+        resumen: 'Necesito clientes nuevos y no sé por dónde partir',
+        destino: 'leads',
+      },
+      {
+        label: 'Sé que algo se puede mejorar, pero no sé qué.',
+        resumen: 'Sé que algo se puede mejorar, pero no sé qué',
+        destino: 'conversar',
+      },
+    ],
   },
   {
-    label: 'Necesito un programa que no existe, o lo llevo en Excel.',
-    detail: 'Te lo armamos a tu medida, y después lo administras tú.',
-    href: '/servicios/plataformas-software-medida/',
-    serviceSlug: 'plataformas-software-medida',
+    id: 'punto',
+    rotulo: 'En qué punto estoy',
+    pregunta: '¿Y en qué punto estás con eso?',
+    ayuda: 'Nos sirve para saber si hay que partir de cero o arreglar lo que ya existe.',
+    opciones: [
+      { label: 'Estoy partiendo de cero.', resumen: 'Estoy partiendo de cero' },
+      {
+        label: 'Tengo algo armado, pero no funciona como debería.',
+        resumen: 'Tengo algo armado, pero no funciona como debería',
+      },
+      {
+        label: 'Funciona, pero lo estamos haciendo a mano.',
+        resumen: 'Funciona, pero lo estamos haciendo a mano',
+      },
+      {
+        label: 'Ya sé lo que quiero: me falta quién lo haga.',
+        resumen: 'Ya sé lo que quiero: me falta quién lo haga',
+      },
+    ],
   },
   {
-    label: 'Paso el día copiando datos de un lado a otro.',
-    detail: 'Hacemos que esas tareas se hagan solas.',
-    href: '/servicios/automatizaciones/',
-    serviceSlug: 'automatizaciones',
-  },
-  {
-    label: 'Contesto las mismas preguntas todo el día.',
-    detail: 'Te armamos un asistente que responde por ti.',
-    href: '/servicios/soluciones-ia-medida/',
-    serviceSlug: 'soluciones-ia-medida',
-  },
-  {
-    /* Buscar clientes dejo de ser un servicio que operamos nosotros. El
-       problema sigue siendo real, asi que la entrada se queda: lo que cambia
-       es la respuesta, que ahora es Leads, el programa, y no un servicio
-       mensual. Sin serviceSlug a proposito: ya no apunta a una pagina de
-       servicio. */
-    label: 'Necesito clientes nuevos y no sé por dónde partir.',
-    detail: 'Leads, nuestro programa, te arma la lista de empresas.',
-    href: '/productos/#leads',
-  },
-  {
-    label: 'Sé que algo se puede mejorar, pero no sé qué.',
-    detail: 'Conversemos y lo ordenamos juntos, sin costo.',
-    href: getWhatsappUrl(diagnosticMessage),
+    id: 'cuando',
+    rotulo: 'Para cuándo',
+    pregunta: '¿Para cuándo lo necesitas?',
+    ayuda: 'No es un compromiso: viaja en el mensaje, para saber con qué urgencia mirarlo.',
+    opciones: [
+      { label: 'Lo necesito andando ya.', resumen: 'Lo necesito andando ya' },
+      {
+        label: 'En los próximos dos o tres meses.',
+        resumen: 'En los próximos dos o tres meses',
+      },
+      {
+        label: 'Todavía estoy viendo si vale la pena.',
+        resumen: 'Todavía estoy viendo si vale la pena',
+      },
+    ],
   },
 ]
 
+export type DiagnosticoRecomendacion = {
+  destino: DiagnosticoDestino
+  /** Como se llama en el resto del sitio. */
+  nombre: string
+  /** Que es, con las palabras que ya usa su propia pagina. */
+  cuerpo: string
+  /** El plazo publicado del servicio, o el estado publicado del producto. */
+  nota: string
+  senales: string[]
+  href: string
+  hrefLabel: string
+}
+
+/**
+ * Traduce la respuesta del paso 1 a la recomendacion. Todo lo que devuelve
+ * sale de `services` o de `products`: si manana cambia el plazo de un
+ * servicio, cambia aca sin tocar este archivo.
+ */
+export function diagnosticoRecomendacion(destino: DiagnosticoDestino): DiagnosticoRecomendacion {
+  if (destino === 'leads') {
+    const leads = products.find((product) => product.id === 'leads')
+    return {
+      destino,
+      nombre: leads?.name || 'Leads',
+      cuerpo: leads?.description || '',
+      /* El estado publicado, tal cual lo dice /productos/. Recomendar Leads no
+         puede sonar mas disponible de lo que la ficha del producto dice. */
+      nota: leads?.statusMeaning || '',
+      senales: leads?.integrations || [],
+      href: '/productos/#leads',
+      hrefLabel: 'Ver qué hace Leads',
+    }
+  }
+
+  if (destino === 'conversar') {
+    return {
+      destino,
+      nombre: 'Una conversación para ordenarlo',
+      cuerpo:
+        'Cuando no está claro qué falta, lo primero no es contratar nada: es mirar juntos cómo trabajas hoy y decidir qué conviene hacer primero, qué puede esperar y qué directamente no vale la pena.',
+      nota: 'Sin costo y sin compromiso.',
+      senales: services.map((service) => service.shortTitle),
+      href: '/contacto/',
+      hrefLabel: 'Ver cómo contactarnos',
+    }
+  }
+
+  const service = services.find((item) => item.slug === destino)
+  return {
+    destino,
+    nombre: service?.shortTitle || 'Servicios',
+    cuerpo: service?.description || '',
+    nota: service?.plazo || '',
+    senales: service?.signals || [],
+    href: `/servicios/${destino}/`,
+    hrefLabel: 'Ver cómo lo hacemos',
+  }
+}
+
+/**
+ * El mensaje que se abre en WhatsApp: las tres respuestas y la recomendacion,
+ * en el orden en que se contestaron. El sitio no guarda nada -no hay backend-,
+ * pero el texto no es privado: el CTA final es un <a href> a wa.me y el
+ * despachador de app/layout.tsx empuja anchor.href a dataLayer como link_url,
+ * asi que las respuestas tambien llegan a la analitica. Si algun dia eso
+ * estorba, lo que hay que acortar es el href, no el mensaje.
+ */
+export function diagnosticoMensaje(respuestas: string[], recomendacion: DiagnosticoRecomendacion) {
+  const lineas = ['Hola IAenBlanco, contesté el diagnóstico de la web.', '']
+  diagnosticoPasos.forEach((paso, indice) => {
+    if (respuestas[indice]) lineas.push(`${paso.rotulo}: ${respuestas[indice]}`)
+  })
+  lineas.push('', `Me mostró: ${recomendacion.nombre}.`)
+  return lineas.join('\n')
+}
 
 export const servicePageContent: ServicePageContentMap = {
   'desarrollo-web-ia': {

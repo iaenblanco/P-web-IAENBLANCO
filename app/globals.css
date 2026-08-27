@@ -2051,13 +2051,6 @@ button {
   letter-spacing: 0;
 }
 
-.services-index-problems {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 12px;
-}
-
-.services-index-problems a,
 .services-index-cards article,
 .services-matrix > *,
 .services-case-grid article,
@@ -2075,15 +2068,6 @@ button {
   background: rgba(251, 250, 247, 0.84);
 }
 
-.services-index-problems a {
-  position: relative;
-  display: grid;
-  min-height: 146px;
-  padding: 20px;
-  box-shadow: inset 3px 0 0 color-mix(in srgb, var(--signal) 54%, transparent);
-}
-
-.services-index-problems strong,
 .services-index-cards h3,
 .services-case-grid h3,
 .service-build-grid h3,
@@ -2092,22 +2076,6 @@ button {
   margin: 0;
   font-size: clamp(20px, 2.2vw, 32px);
   line-height: 1;
-}
-
-.services-index-problems span {
-  align-self: end;
-  color: var(--graphite);
-  font-size: 14px;
-  line-height: 1.45;
-}
-
-.services-index-problems svg {
-  position: absolute;
-  right: 18px;
-  top: 18px;
-  width: 18px;
-  height: 18px;
-  color: var(--signal);
 }
 
 .services-index-cards {
@@ -2949,7 +2917,6 @@ button {
 
 @media (max-width: 900px) {
   .services-problem-router,
-  .services-index-problems,
   .services-case-grid,
   .service-use-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -2993,7 +2960,6 @@ button {
 
 @media (max-width: 640px) {
   .services-problem-router,
-  .services-index-problems,
   .services-index-cards,
   .services-case-grid,
   .service-build-grid,
@@ -3003,8 +2969,7 @@ button {
     grid-template-columns: minmax(0, 1fr);
   }
 
-  .services-problem-router__item,
-  .services-index-problems a {
+  .services-problem-router__item {
     min-height: 118px;
   }
 
@@ -10124,7 +10089,6 @@ button {
 
 .problem-strip__grid,
 .services-index-cards,
-.services-index-problems,
 .service-build-grid,
 .service-use-grid,
 .service-deliverables,
@@ -10134,7 +10098,6 @@ button {
 }
 
 .services-index-cards > article,
-.services-index-problems > *,
 .service-build-grid > article,
 .service-use-grid > article,
 .service-deliverables > div,
@@ -11019,12 +10982,6 @@ button {
   margin-top: var(--espacio-1);
 }
 
-.services-index-problems strong + span,
-.services-index-problems span {
-  margin-top: 4px;
-  display: block;
-}
-
 .services-index-cards h3 + p,
 .services-index-cards article > p {
   margin-top: 6px;
@@ -11440,15 +11397,6 @@ button {
 /* En pantallas de 360 px la orbita mide 307 px: con nodos de 112 y un nucleo
    de 112 el nodo de la derecha se montaba encima del nucleo y el texto
    quedaba sobre el borde del circulo. Se estrechan los dos. */
-
-/* La flecha de estas tarjetas esta anclada arriba a la derecha y el titular
-   llegaba a pisarla ("...o el que tengo↗" a 390 px). Se le reserva el hueco:
-   18 px de flecha + 18 px de margen + un respiro. */
-
-.services-index-problems strong,
-.services-index-problems span {
-  padding-right: 44px;
-}
 
 /* La segunda puerta de la rampa, para quien todavía no tiene sitio. Antes era
    texto gris de 14 px que no se podía tocar; ahora es un enlace con su propia
@@ -17076,6 +17024,442 @@ button {
   gap: var(--espacio-2) var(--espacio-3);
   margin-top: var(--espacio-3);
 }
+
+/* Diagnostico de /servicios/ --------------------------------------------
+   Reemplaza a los seis enlaces planos. Las seis frases siguen ahi, pero
+   ahora son el paso 1 de tres, y terminan en una recomendacion con el
+   mensaje de WhatsApp ya escrito. Vive dentro de una sola tarjeta para
+   que se lea como un formulario corto y no como otra grilla mas. */
+
+.diagnostico {
+  display: grid;
+  gap: 22px;
+  padding: 28px;
+  border: 1px solid var(--line);
+  background: rgba(251, 250, 247, 0.84);
+  box-shadow: inset 3px 0 0 color-mix(in srgb, var(--signal) 54%, transparent);
+}
+
+.diagnostico__cabecera {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+}
+
+.diagnostico__paso {
+  margin: 0;
+  color: var(--signal-ink);
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  line-height: 1.2;
+  text-transform: uppercase;
+}
+
+.diagnostico__barra {
+  display: flex;
+  gap: 6px;
+}
+
+.diagnostico__barra i {
+  width: 34px;
+  height: 3px;
+  background: var(--line);
+  transition: background 260ms ease;
+}
+
+.diagnostico__barra i[data-hecho='si'] {
+  background: var(--signal);
+}
+
+.diagnostico__enunciado {
+  display: grid;
+  gap: 10px;
+  max-width: 62ch;
+}
+
+.diagnostico__pregunta {
+  margin: 0;
+  font-size: clamp(22px, 2.4vw, 34px);
+  line-height: 1.08;
+}
+
+.diagnostico__ayuda {
+  margin: 0;
+  color: var(--graphite);
+  font-size: 14px;
+  line-height: 1.55;
+}
+
+.diagnostico__opciones {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.diagnostico__opcion {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 18px 20px;
+  border: 1px solid var(--line);
+  background: var(--paper-bright);
+  color: var(--ink);
+  font-family: inherit;
+  font-size: 15px;
+  line-height: 1.4;
+  text-align: left;
+  cursor: pointer;
+  transition: border-color 200ms ease, background 200ms ease;
+}
+
+.diagnostico__opcion svg {
+  flex: none;
+  width: 18px;
+  height: 18px;
+  color: var(--signal);
+  transition: transform 260ms ease;
+}
+
+.diagnostico__opcion:hover {
+  border-color: color-mix(in srgb, var(--signal) 54%, var(--line));
+  background: color-mix(in srgb, var(--signal) 7%, var(--paper-bright));
+}
+
+.diagnostico__opcion:hover svg {
+  transform: translateX(4px);
+}
+
+.diagnostico__resultado {
+  display: grid;
+  gap: 12px;
+  max-width: 66ch;
+}
+
+.diagnostico__nota {
+  margin: 0;
+  color: var(--ink);
+  font-family: var(--font-mono);
+  font-size: 12px;
+  line-height: 1.45;
+}
+
+.diagnostico__senales {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 4px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.diagnostico__senales li {
+  padding: 7px 12px;
+  border: 1px solid var(--line);
+  color: var(--graphite);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  line-height: 1.2;
+  text-transform: uppercase;
+}
+
+.diagnostico__respuestas {
+  display: grid;
+  gap: 8px;
+  margin: 0;
+  padding: 18px 0 0;
+  border-top: 1px solid var(--line);
+  list-style: none;
+}
+
+.diagnostico__respuestas li {
+  display: grid;
+  grid-template-columns: minmax(0, 200px) minmax(0, 1fr);
+  gap: 16px;
+  color: var(--ink);
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.diagnostico__respuestas span {
+  color: var(--graphite);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  line-height: 1.6;
+  text-transform: uppercase;
+}
+
+.diagnostico__mensaje summary {
+  color: var(--graphite);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.06em;
+  line-height: 1.2;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+
+.diagnostico__mensaje p {
+  margin: 12px 0 0;
+  padding: 16px;
+  border: 1px solid var(--line);
+  background: var(--paper-bright);
+  color: var(--graphite);
+  font-family: var(--font-mono);
+  font-size: 12px;
+  line-height: 1.6;
+  white-space: pre-line;
+}
+
+.diagnostico__acciones {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 14px 26px;
+}
+
+.diagnostico__pie {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px 20px;
+  padding-top: 18px;
+  border-top: 1px solid var(--line);
+}
+
+.diagnostico__volver,
+.diagnostico__saltar {
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--graphite);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.06em;
+  line-height: 1.2;
+  text-transform: uppercase;
+  text-decoration: underline;
+  text-underline-offset: 4px;
+  cursor: pointer;
+}
+
+.diagnostico__volver:hover,
+.diagnostico__saltar:hover {
+  color: var(--ink);
+}
+
+@media (max-width: 640px) {
+  .diagnostico {
+    gap: 18px;
+    padding: 20px;
+  }
+
+  .diagnostico__opciones {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .diagnostico__respuestas li {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 2px;
+  }
+
+  .diagnostico__acciones {
+    gap: 12px;
+  }
+
+  .diagnostico__acciones .button {
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  .diagnostico__pie {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .diagnostico__paso,
+  .diagnostico__senales li,
+  .diagnostico__respuestas span,
+  .diagnostico__mensaje p {
+    font-size: 12px;
+  }
+
+  .diagnostico__volver,
+  .diagnostico__saltar {
+    display: inline-flex;
+    align-items: center;
+    min-height: 40px;
+    font-size: 12px;
+  }
+
+  .diagnostico__mensaje summary {
+    padding: 13px 0;
+    font-size: 12px;
+  }
+}
+
+
+/* La ficha de ejemplo de Leads -------------------------------------------
+   Va dentro de la tarjeta de Leads, entre la escena y el pie. Se lee como
+   un pedazo de la aplicacion: fondo claro, borde fino y el marcador de
+   score arriba a la derecha, igual que adentro. El nombre de la empresa
+   queda con borde punteado porque es un campo en blanco, no un nombre. */
+
+.ficha-leads {
+  display: grid;
+  gap: 16px;
+  margin: 26px 0 0;
+}
+
+.ficha-leads__intro {
+  display: grid;
+  gap: 8px;
+  max-width: 64ch;
+}
+
+.ficha-leads__intro p + p {
+  margin: 0;
+  color: var(--graphite);
+  font-size: 14px;
+  line-height: 1.55;
+}
+
+.ficha-leads__tarjeta {
+  display: grid;
+  gap: 18px;
+  padding: 22px;
+  border: 1px solid var(--line);
+  background: var(--paper-bright);
+}
+
+.ficha-leads__cabecera {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 18px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid var(--line);
+}
+
+.ficha-leads__identidad {
+  display: grid;
+  gap: 6px;
+  min-width: 0;
+}
+
+.ficha-leads__busqueda {
+  color: var(--signal-ink);
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  line-height: 1.2;
+  text-transform: uppercase;
+}
+
+.ficha-leads__empresa {
+  justify-self: start;
+  border-bottom: 1px dashed color-mix(in srgb, var(--ink) 34%, transparent);
+  color: var(--graphite);
+  font-size: clamp(19px, 1.9vw, 24px);
+  font-weight: 600;
+  line-height: 1.15;
+}
+
+.ficha-leads__reserva {
+  color: var(--graphite);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  line-height: 1.4;
+}
+
+.ficha-leads__marca {
+  display: flex;
+  flex: none;
+  align-items: center;
+  gap: 10px;
+}
+
+.ficha-leads__marca b {
+  font-family: var(--font-mono);
+  font-size: 16px;
+  font-weight: 640;
+  line-height: 1;
+}
+
+.ficha-leads__marca i {
+  padding: 6px 10px;
+  border: 1px solid color-mix(in srgb, var(--signal) 54%, var(--line));
+  background: color-mix(in srgb, var(--signal) 12%, transparent);
+  color: var(--signal-ink);
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-style: normal;
+  letter-spacing: 0.08em;
+  line-height: 1.2;
+  text-transform: uppercase;
+}
+
+.ficha-leads__campos {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px 26px;
+  margin: 0;
+}
+
+.ficha-leads__campos > div {
+  display: grid;
+  gap: 3px;
+  min-width: 0;
+}
+
+.ficha-leads__campos dt {
+  color: var(--graphite);
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  line-height: 1.2;
+  text-transform: uppercase;
+}
+
+.ficha-leads__campos dd {
+  margin: 0;
+  color: var(--ink);
+  font-size: 14px;
+  line-height: 1.45;
+}
+
+.ficha-leads__cola {
+  margin: 0;
+  padding-top: 16px;
+  border-top: 1px solid var(--line);
+  color: var(--graphite);
+  font-size: 13px;
+  line-height: 1.55;
+}
+
+@media (max-width: 640px) {
+  .ficha-leads__cabecera {
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .ficha-leads__campos {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .ficha-leads__busqueda,
+  .ficha-leads__reserva,
+  .ficha-leads__marca i,
+  .ficha-leads__campos dt {
+    font-size: 12px;
+  }
+}
+
 
 /* --- GUARDIA-CSS: aca se termina la hoja -------------------------------
    Debajo de esta linea no va nada. Si algo no se ve como corresponde, la

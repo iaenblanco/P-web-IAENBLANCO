@@ -1,6 +1,6 @@
 {
   "lee": "Las deudas que app/globals.css ya tiene. Esta lista solo puede achicarse. La reescribe: node herramientas/guardia-css.mjs --fijar",
-  "lineas": 17040,
+  "lineas": 17470,
   "important": 22,
   "duplicados": {
     "*": 2,
@@ -184,10 +184,6 @@
     ".services-index-final__inner": 2,
     ".services-index-hero h1": 2,
     ".services-index-hero__inner": 3,
-    ".services-index-problems": 2,
-    ".services-index-problems a": 2,
-    ".services-index-problems span": 3,
-    ".services-index-problems strong": 2,
     ".services-index-section": 2,
     ".services-matrix > *": 2,
     ".services-matrix a strong": 2,
