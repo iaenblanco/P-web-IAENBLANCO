@@ -107,70 +107,6 @@ function summaryPointStyle(x: number, y: number, w?: number) {
 }
 
 
-const productRows = [
-  {
-    id: 'unificalo',
-    theme: 'unificalo',
-    name: 'Unifícalo',
-    category: 'Para quien vende en varios lados',
-    problem: 'Vendiste lo mismo dos veces. El reembolso y la disculpa los pones tú.',
-    promise: 'Tu inventario, tus precios y tus boletas cuadran solos en todos lados.',
-    steps: [
-      { label: 'Toma', title: 'Tu sistema de siempre', detail: 'Inventario, precios y boletas', theme: 'bsale' },
-      { label: 'Ordena', title: 'Deja todo cuadrado', detail: 'Sin que nadie lo actualice', theme: 'automation' },
-      { label: 'Actualiza', title: 'Todos tus canales', detail: 'Tienda online y marketplaces', theme: 'shopify' },
-    ],
-    benefits: [
-      'Dejas de vender lo que ya no tienes.',
-      'El mismo precio en todas partes.',
-      'Las boletas salen solas.',
-    ],
-    href: 'https://unificalo.cl',
-  },
-  {
-    id: 'citaly',
-    theme: 'citaly',
-    name: 'Citaly',
-    category: 'Para negocios que atienden con hora',
-    problem: 'El WhatsApp suena mientras tienes un cliente al frente. Uno de los dos espera.',
-    /* Todo el texto de Citaly hablaba de WhatsApp y dejaba el calendario
-       escondido, que es justo lo que hace. Ahora el sujeto es la agenda: la
-       toma, la mueve, la cancela y contesta por ti. El WhatsApp es por donde
-       entra, no lo que es. */
-    promise: 'Un agente de IA que se hace cargo de tu agenda: toma horas, las mueve y las cancela.',
-    steps: [
-      { label: 'Recibe', title: 'El mensaje del cliente', detail: 'Escrito o por audio', theme: 'wa' },
-      { label: 'Entiende', title: 'Qué está pidiendo', detail: 'Y mira tu agenda real', theme: 'ai' },
-      { label: 'Resuelve', title: 'Toma, mueve o cancela', detail: 'Sin que tú toques nada', theme: 'software' },
-    ],
-    benefits: [
-      'Toma, mueve y cancela horas.',
-      'Recomienda las que tienes libres.',
-      'Confirma, recuerda y contesta por ti.',
-    ],
-    href: 'https://citaly.cl',
-  },
-  {
-    id: 'leads',
-    theme: 'leads',
-    name: 'Leads',
-    category: 'Para quien le vende a empresas',
-    problem: 'Buscar empresas a mano se come la mañana y no sabes cuáles valen la pena.',
-    promise: 'Encuentras empresas reales y sabes a cuáles llamar primero.',
-    steps: [
-      { label: 'Eliges', title: 'A quién quieres venderle', detail: 'Rubro y comuna', theme: 'business' },
-      { label: 'Busca', title: 'Empresas de verdad', detail: 'Y revisa que existan', theme: 'leads' },
-      { label: 'Ordena', title: 'Cuáles van primero', detail: 'Con su contacto', theme: 'automation' },
-    ],
-    benefits: [
-      'Empresas que existen, no listas compradas.',
-      'Ordenadas por cuáles te calzan más.',
-      'Con el seguimiento en el mismo lugar.',
-    ],
-    href: 'https://leads.iaenblanco.com',
-  },
-]
-
 function HeroLogo({ theme }: { theme: string }) {
   if (theme === 'unificalo') {
     return <BrandLogo name="unificalo" className="hero-logo hero-logo--brand hero-logo--unificalo-real" sizes="64px" />
@@ -696,7 +632,7 @@ function TrustProofSection() {
         <CarruselClientes />
 
         <Reveal className="trust-proof__accion" delay={90}>
-          <Link href="/trabajos" className="button button--text">
+          <Link href="/trabajos/" className="button button--text">
             Ver los trabajos uno por uno
             <ArrowRight />
           </Link>
@@ -786,9 +722,9 @@ function ProblemSection() {
             <div>
               <h3>¿Y si a mitad de camino no me gusta?</h3>
               <p>
-                No trabajamos meses a puerta cerrada. Te vamos mostrando avances desde
-                la primera semana, así que cualquier cosa que no te cuadre la corregimos
-                cuando todavía es barato corregirla.
+                No trabajamos meses a puerta cerrada. Te vamos mostrando avances y
+                decides sobre cosas que se ven, así que cualquier cosa que no te cuadre
+                la corregimos cuando todavía es barato corregirla.
               </p>
             </div>
             <div>

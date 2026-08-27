@@ -18,7 +18,6 @@ const temas = [
   'Un programa a tu medida',
   'Tareas que se hacen solas',
   'Un asistente con IA',
-  'Que nos busquen clientes',
   'Todavía no lo tengo claro',
 ]
 

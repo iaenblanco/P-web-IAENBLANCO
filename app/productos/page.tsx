@@ -146,7 +146,7 @@ export default function ProductsPage() {
                     <p>{product.statusMeaning}</p>
                     {product.id === 'unificalo' ? (
                       <p className="ad__tambien">
-                        Se conecta con {product.integrations.join(', ')}.
+                        Pensado para conectarse con {product.integrations.join(', ')}.
                       </p>
                     ) : null}
                     {/* El sitio del producto existe y se puede mirar: esconderlo
