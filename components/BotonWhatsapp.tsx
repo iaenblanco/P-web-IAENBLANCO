@@ -20,18 +20,32 @@ export function BotonWhatsapp() {
   const [alPie, setAlPie] = useState(false)
 
   // Mientras se baja, que el boton tape un trozo de lo que pasa por debajo es
-  // lo normal: dura lo que dura el scroll. Al final de la pagina no: ahi el
-  // boton se queda parado encima de la direccion del pie -medido, 52x17 px de
-  // texto tapado en 390 y 24x13 en 1280- y eso ya no es un boton flotando, es
-  // una linea ilegible. Se retira cuando aparece la franja de abajo del pie,
-  // que es justo donde estan la direccion y los enlaces legales. No se pierde
-  // nada: el pie tiene sus propios enlaces de contacto.
+  // lo normal: dura lo que dura el scroll. En el pie no: ahi la pagina se
+  // detiene y el boton se queda parado encima de cosas que se tocan.
+  //
+  // Son DOS zonas, no una. La franja de abajo tiene la direccion y los enlaces
+  // legales -medido, 52x17 px de texto tapado en 390 y 24x13 en 1280-, pero
+  // mas arriba esta la navegacion del pie, y ahi el estorbo es peor que tapar:
+  // el boton se lleva el toque. Medido en 390, el ultimo tercio de "Servicios"
+  // y de "Trabajos" caia dentro del boton, asi que tocarlos abria WhatsApp en
+  // una pestaña nueva en vez de navegar. Se observan las dos y el boton se
+  // retira mientras cualquiera de ellas este a la vista. No se pierde nada: el
+  // pie tiene sus propios enlaces de contacto.
   useEffect(() => {
-    const franja = document.querySelector('.site-footer__bottom')
-    if (!franja) return
+    const zonas = ['.site-footer__nav', '.site-footer__bottom']
+      .map((selector) => document.querySelector(selector))
+      .filter((nodo): nodo is Element => nodo !== null)
+    if (zonas.length === 0) return
 
-    const ojo = new IntersectionObserver(([entrada]) => setAlPie(entrada.isIntersecting))
-    ojo.observe(franja)
+    const aLaVista = new Set<Element>()
+    const ojo = new IntersectionObserver((entradas) => {
+      for (const entrada of entradas) {
+        if (entrada.isIntersecting) aLaVista.add(entrada.target)
+        else aLaVista.delete(entrada.target)
+      }
+      setAlPie(aLaVista.size > 0)
+    })
+    zonas.forEach((zona) => ojo.observe(zona))
     return () => ojo.disconnect()
   }, [])
 

@@ -252,6 +252,13 @@ html {
   color: var(--ink);
   scroll-behavior: smooth;
   text-rendering: optimizeLegibility;
+  /* El aviso de medicion tapa la franja de abajo del visor mientras nadie lo
+     responde. Cuando alguien recorre el sitio con el tabulador, el navegador
+     desplaza el control enfocado hasta el borde inferior -que ahi esta debajo
+     del aviso- y el foco se pierde de vista: medido, 12 controles entre la
+     home y /contacto/, uno de ellos un <select>. Reservando abajo el alto del
+     aviso, el desplazamiento del foco se detiene por encima de el. */
+  scroll-padding-bottom: var(--aviso-alto, 0px);
 }
 
 main [id] {
@@ -7186,7 +7193,13 @@ button {
     inset: 0;
     z-index: -1;
     display: block;
-    padding: 100px 16px 16px;
+    /* El aviso de medicion es fixed abajo con z-index 900 y este panel va en
+       -1, asi que el aviso lo tapa. El CTA vive al final del panel, que es
+       justo donde cae el aviso: en la primera visita el boton quedaba entero
+       debajo y no habia scroll que lo rescatara, porque el panel scrollea
+       respecto del visor, no respecto del aviso. Se le reserva abajo lo que
+       mida el aviso, que el propio aviso publica en --aviso-alto. */
+    padding: 100px 16px calc(16px + var(--aviso-alto, 0px));
     background: var(--paper);
     opacity: 0;
     visibility: hidden;
