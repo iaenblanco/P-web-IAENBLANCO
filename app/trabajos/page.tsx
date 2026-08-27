@@ -51,47 +51,81 @@ export default function TrabajosPage() {
   const cuantos = trabajos.length
   const whatsappUrl = getWhatsappUrl('Hola IAenBlanco, vi sus trabajos y quiero uno para mi negocio.')
 
+  /* El listado sale de la misma fuente que pinta las fichas, asi que agregar un
+     trabajo en lib/trabajos.ts lo suma tambien aca y no hay dos listas que se
+     puedan contradecir. El orden es el de la grilla.
+
+     El href de cada trabajo es el sitio del CLIENTE, no una pagina nuestra, y
+     no existe pagina de detalle por trabajo. Por eso el enlace externo va como
+     el OBJETO del item -un WebSite ajeno- y no como la url del item: asi el
+     marcado dice lo que la lista es de verdad, cinco sitios de terceros que
+     hicimos nosotros, en vez de declarar cinco paginas de este dominio. */
+  const listaSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'ItemList',
+    itemListElement: trabajos.map((trabajo, index) => ({
+      '@type': 'ListItem',
+      position: index + 1,
+      item: {
+        '@type': 'WebSite',
+        name: trabajo.client,
+        url: trabajo.href,
+      },
+    })),
+  }
+
   return (
-    <main id="contenido" className="pagina-trabajos">
-      <section className="pagina-trabajos__apertura">
-        <div className="section-shell pagina-trabajos__apertura-inner">
-          <p className="eyebrow">Trabajos reales</p>
-          <h1>Míralo tú mismo.</h1>
-          <p className="pagina-trabajos__lead">
-            Estos son {cuantos} de los sitios que hemos hecho, y no son maquetas: están
-            atendiendo clientes hoy, tal como se ven acá. De cada uno contamos qué le
-            hicimos, para qué le sirve al negocio, cuánto demora en abrir y cuánto pesa.
-            Ábrelos y revisa el trabajo antes de escribirnos.
-          </p>
-        </div>
-      </section>
-
-      <section className="pagina-trabajos__grilla" aria-label="Sitios que hicimos">
-        <div className="section-shell">
-          <Trabajos />
-        </div>
-      </section>
-
-      <section className="pagina-trabajos__cierre">
-        <div className="section-shell pagina-trabajos__cierre-inner">
-          <Reveal>
-            <h2>¿Quieres uno así?</h2>
-            <p>
-              Cuéntanos qué vendes y te decimos qué necesitas y cuánto cuesta. Si te
-              interesa cómo llegamos hasta acá, el proceso está explicado paso a paso.
+    <>
+      <main id="contenido" className="pagina-trabajos">
+        <section className="pagina-trabajos__apertura">
+          <div className="section-shell pagina-trabajos__apertura-inner">
+            <p className="eyebrow">Trabajos reales</p>
+            {/* Antes decia "Miralo tu mismo", palabra por palabra el h2 de la
+                portada: dos paginas del sitio peleando por la misma frase. Este
+                titular es el de su propio metadata.title. */}
+            <h1>Los sitios que ya están atendiendo clientes.</h1>
+            <p className="pagina-trabajos__lead">
+              Estos son {cuantos} de los sitios que hemos hecho, y no son maquetas: están
+              atendiendo clientes hoy, tal como se ven acá. De cada uno contamos qué le
+              hicimos, para qué le sirve al negocio, cuánto demora en abrir y cuánto pesa.
+              Ábrelos y revisa el trabajo antes de escribirnos.
             </p>
-            <div className="pagina-trabajos__acciones">
-              <a className="button button--primary" href={whatsappUrl} target="_blank" rel="noreferrer" data-cursor="WhatsApp">
-                Escríbenos por WhatsApp
-              </a>
-              <Link href="/servicios/desarrollo-web-ia" className="button button--text">
-                Cómo hacemos un sitio así
-                <ArrowRight />
-              </Link>
-            </div>
-          </Reveal>
-        </div>
-      </section>
-    </main>
+          </div>
+        </section>
+
+        <section className="pagina-trabajos__grilla" aria-label="Sitios que hicimos">
+          <div className="section-shell">
+            {/* Ficha completa -es la pagina del detalle- y titulo en h2 para que
+                el documento vaya h1 -> h2 y no saltee un nivel. */}
+            <Trabajos nivelTitulo={2} />
+          </div>
+        </section>
+
+        <section className="pagina-trabajos__cierre">
+          <div className="section-shell pagina-trabajos__cierre-inner">
+            <Reveal>
+              <h2>¿Quieres uno así?</h2>
+              <p>
+                Cuéntanos qué vendes y te decimos qué necesitas y cuánto cuesta. Si te
+                interesa cómo llegamos hasta acá, el proceso está explicado paso a paso.
+              </p>
+              <div className="pagina-trabajos__acciones">
+                <a className="button button--primary" href={whatsappUrl} target="_blank" rel="noreferrer" data-cursor="WhatsApp">
+                  Escríbenos por WhatsApp
+                </a>
+                <Link href="/servicios/desarrollo-web-ia" className="button button--text">
+                  Cómo hacemos un sitio así
+                  <ArrowRight />
+                </Link>
+              </div>
+            </Reveal>
+          </div>
+        </section>
+      </main>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(listaSchema) }}
+      />
+    </>
   )
 }

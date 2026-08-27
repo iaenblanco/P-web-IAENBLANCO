@@ -1,4 +1,5 @@
 import { type CSSProperties } from 'react'
+import Link from 'next/link'
 import type { Service } from '@/lib/site'
 import { getWhatsappUrl } from '@/lib/site'
 import { EscenaServicio, textoEscena } from '@/components/EscenaServicio'
@@ -56,6 +57,14 @@ function ArrowUpRight() {
   return (
     <svg viewBox="0 0 20 20" fill="none" aria-hidden="true">
       <path d="M5 15 15 5M7 5h8v8" stroke="currentColor" strokeWidth="1.5" />
+    </svg>
+  )
+}
+
+function ArrowRight() {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+      <path d="M4 12h15M14 6l6 6-6 6" stroke="currentColor" strokeWidth="1.5" />
     </svg>
   )
 }
@@ -201,7 +210,19 @@ function TrabajosWeb() {
             clientes hoy: ábrelas, míralas en tu celular y decide antes de escribirnos.
           </p>
         </div>
-        <Trabajos omitirDestacado />
+        {/* Resumida a proposito, igual que en /servicios/: la ficha larga -que
+            le hicimos, para que le sirve, velocidad y peso- era identica a la
+            de /trabajos/, y esta pagina le ganaba a su propia copia. Aca queda
+            la muestra y el detalle se lee alla, con este enlace, que ademas era
+            el unico que faltaba: la pagina no llevaba a /trabajos/ por ningun
+            lado. */}
+        <Trabajos omitirDestacado resumido />
+        <div className="pagina-trabajos__acciones">
+          <Link href="/trabajos/" prefetch={false} className="button button--text">
+            Ver los trabajos uno por uno
+            <ArrowRight />
+          </Link>
+        </div>
       </div>
     </section>
   )

@@ -55,6 +55,7 @@ export function Footer() {
               <Link href="/" prefetch={false}>Inicio</Link>
               <Link href="/servicios" prefetch={false}>Servicios</Link>
               <Link href="/productos" prefetch={false}>Productos</Link>
+              <Link href="/trabajos/" prefetch={false}>Trabajos</Link>
               <Link href="/contacto" prefetch={false}>Contacto</Link>
             </div>
             <div>

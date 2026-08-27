@@ -105,7 +105,17 @@ export default function ServicesIndexPage() {
               míralos en tu celular y decide antes de escribirnos.
             </p>
           </div>
-          <Trabajos />
+          {/* Resumida a proposito: la ficha larga -que le hicimos, para que le
+              sirve, velocidad y peso- era identica a la de /trabajos/, y esta
+              pagina tiene mas enlaces, asi que le ganaba a su propia copia. Aca
+              queda la muestra y el detalle se lee alla, con este enlace. */}
+          <Trabajos resumido />
+          <div className="pagina-trabajos__acciones">
+            <Link href="/trabajos/" prefetch={false} className="button button--text">
+              Ver los trabajos uno por uno
+              <ArrowRight />
+            </Link>
+          </div>
         </div>
       </section>
 

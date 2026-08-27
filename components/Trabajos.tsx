@@ -27,8 +27,22 @@ function ArrowUpRight() {
  * posicion en la lista completa, asi que las cuatro de abajo siguen desde el
  * 02 y el 01 es el de arriba. Si se numeraran despues de filtrar, la pagina
  * diria "01 / 05" dos veces.
+ *
+ * "resumido" existe porque /servicios y /trabajos mostraban la misma ficha
+ * palabra por palabra, y la pagina nueva no puede posicionar contra su propia
+ * copia. En /servicios la tarjeta queda con captura, logo, sector, cliente,
+ * proyecto y CTA, y el detalle largo solo vive en /trabajos.
+ *
+ * "nivelTitulo" existe porque /trabajos usa esta grilla justo debajo de su h1
+ * y el h3 fijo dejaba un salto de encabezados. Las reglas CSS que pintan el
+ * titulo lo seleccionan por :is(h2, h3), asi que el estilo no depende del nivel.
  */
-export function Trabajos({ omitirDestacado = false }: { omitirDestacado?: boolean } = {}) {
+export function Trabajos({
+  omitirDestacado = false,
+  resumido = false,
+  nivelTitulo = 3,
+}: { omitirDestacado?: boolean; resumido?: boolean; nivelTitulo?: 2 | 3 } = {}) {
+  const TituloCliente = nivelTitulo === 2 ? 'h2' : 'h3'
   const lista = trabajos
     .map((proof, index) => ({ proof, index }))
     .filter(({ proof }) => !(omitirDestacado && proof.destacado))
@@ -110,34 +124,40 @@ export function Trabajos({ omitirDestacado = false }: { omitirDestacado?: boolea
                 </span>
               </div>
 
-              <h3>{proof.client}</h3>
+              <TituloCliente>{proof.client}</TituloCliente>
               <strong>{proof.project}</strong>
 
-              <dl className="trabajo__detalle">
-                <div>
-                  <dt>Qué le hicimos</dt>
-                  <dd>{proof.system}</dd>
-                </div>
-                <div>
-                  <dt>Para qué le sirve</dt>
-                  <dd>{proof.proof}</dd>
-                </div>
-              </dl>
+              {/* .trabajo__ficha es un grid con gap: al sacar las dos listas la
+                  tarjeta se cierra sola y no hay hueco que compensar por CSS. */}
+              {!resumido && (
+                <>
+                  <dl className="trabajo__detalle">
+                    <div>
+                      <dt>Qué le hicimos</dt>
+                      <dd>{proof.system}</dd>
+                    </div>
+                    <div>
+                      <dt>Para qué le sirve</dt>
+                      <dd>{proof.proof}</dd>
+                    </div>
+                  </dl>
 
-              {/* La medida va DENTRO del <a>, no despues: .trabajo__medida solo
-                  trae padding-top y border-top, asi que fuera de .trabajo__ficha
-                  quedaria sin el borde ni el padding lateral de la tarjeta. El
-                  costo es que el lector de pantalla la lee como parte del enlace. */}
-              <dl className="trabajo__medida">
-                <div>
-                  <dt>Velocidad</dt>
-                  <dd>{proof.velocidad}</dd>
-                </div>
-                <div>
-                  <dt>Peso</dt>
-                  <dd>{proof.peso}</dd>
-                </div>
-              </dl>
+                  {/* La medida va DENTRO del <a>, no despues: .trabajo__medida solo
+                      trae padding-top y border-top, asi que fuera de .trabajo__ficha
+                      quedaria sin el borde ni el padding lateral de la tarjeta. El
+                      costo es que el lector de pantalla la lee como parte del enlace. */}
+                  <dl className="trabajo__medida">
+                    <div>
+                      <dt>Velocidad</dt>
+                      <dd>{proof.velocidad}</dd>
+                    </div>
+                    <div>
+                      <dt>Peso</dt>
+                      <dd>{proof.peso}</dd>
+                    </div>
+                  </dl>
+                </>
+              )}
 
               <span className="trabajo__cta">
                 Abrir el sitio
