@@ -1,7 +1,6 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-import { CONSENT_EVENT, readStoredConsent } from '@/components/ConsentBanner'
 import { WHATSAPP_URL } from '@/lib/site'
 
 /**
@@ -9,28 +8,16 @@ import { WHATSAPP_URL } from '@/lib/site'
  * WHATSAPP_URL que el resto del sitio, asi que cambiar el numero en lib/site
  * lo cambia tambien aca.
  *
- * Se esconde mientras el aviso de medicion esta arriba. El aviso es una franja
- * fija que ocupa todo el borde inferior, exactamente donde va este boton: la
- * alternativa era subir el boton por encima del aviso, pero el alto del aviso
- * cambia con el ancho de la pantalla y cualquier numero que eligiera aca iba a
- * estar mal en algun ancho. El aviso se responde una sola vez y despues no
- * vuelve; el boton aparece apenas el visitante decide.
- *
- * Se lee el mismo localStorage que lee el aviso -la funcion viene de su
- * archivo, no es una copia- y se escucha el evento que dispara al decidir,
- * para que el boton baje sin esperar a que se recargue la pagina.
+ * Ya no se esconde mientras el aviso de medicion esta arriba. El aviso se
+ * puede quedar sin responder para siempre -ignorarlo es lo normal en un
+ * telefono- y este boton es el unico medio de contacto del sitio: esconderlo
+ * dejaba al visitante recorriendo las once rutas sin ningun CTA. Se apoya
+ * sobre el aviso en vez de desaparecer, subiendo lo que mida el aviso; el
+ * alto lo publica el propio aviso en la custom property --aviso-alto, que el
+ * CSS lee con 0px de fallback para cuando no hay aviso.
  */
 export function BotonWhatsapp() {
-  const [avisoArriba, setAvisoArriba] = useState(false)
   const [alPie, setAlPie] = useState(false)
-
-  useEffect(() => {
-    if (readStoredConsent() === null) setAvisoArriba(true)
-
-    const decidido = () => setAvisoArriba(false)
-    window.addEventListener(CONSENT_EVENT, decidido)
-    return () => window.removeEventListener(CONSENT_EVENT, decidido)
-  }, [])
 
   // Mientras se baja, que el boton tape un trozo de lo que pasa por debajo es
   // lo normal: dura lo que dura el scroll. Al final de la pagina no: ahi el
@@ -48,11 +35,7 @@ export function BotonWhatsapp() {
     return () => ojo.disconnect()
   }, [])
 
-  const clases = [
-    'boton-whatsapp',
-    avisoArriba ? 'boton-whatsapp--esperando' : '',
-    alPie ? 'boton-whatsapp--al-pie' : '',
-  ]
+  const clases = ['boton-whatsapp', alPie ? 'boton-whatsapp--al-pie' : '']
     .filter(Boolean)
     .join(' ')
 

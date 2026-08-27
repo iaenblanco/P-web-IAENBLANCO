@@ -1,7 +1,7 @@
 'use client'
 
 import Link from 'next/link'
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 
 export const CONSENT_STORAGE_KEY = 'iaenblanco.consent.v1'
 export const CONSENT_EVENT = 'iaenblanco:consent'
@@ -29,10 +29,33 @@ function storeConsent(valor: ConsentValue) {
 
 export function ConsentBanner() {
   const [visible, setVisible] = useState(false)
+  const nodo = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
     if (readStoredConsent() === null) setVisible(true)
   }, [])
+
+  // El boton de WhatsApp se apoya encima de este aviso en vez de esconderse, y
+  // para eso necesita saber cuanto mide. El alto no es un numero fijo: cambia
+  // con el ancho -el copy salta de una linea a tres- y con el tamano de letra
+  // del navegador, asi que lo mide el navegador y se publica aca. Se limpia al
+  // desmontar porque una vez respondido el aviso el boton vuelve a su sitio.
+  // Depende de `visible` porque el nodo no existe hasta que el aviso se pinta.
+  useEffect(() => {
+    const aviso = nodo.current
+    if (!aviso) return
+
+    const ojo = new ResizeObserver(([entrada]) => {
+      const alto = entrada.target.getBoundingClientRect().height
+      document.documentElement.style.setProperty('--aviso-alto', `${alto}px`)
+    })
+    ojo.observe(aviso)
+
+    return () => {
+      ojo.disconnect()
+      document.documentElement.style.removeProperty('--aviso-alto')
+    }
+  }, [visible])
 
   if (!visible) return null
 
@@ -42,7 +65,7 @@ export function ConsentBanner() {
   }
 
   return (
-    <div className="consent-banner" role="region" aria-labelledby="consent-title">
+    <div className="consent-banner" role="region" aria-labelledby="consent-title" ref={nodo}>
       <div className="consent-banner__inner">
         <div className="consent-banner__copy">
           <p className="eyebrow eyebrow--dark" id="consent-title">
