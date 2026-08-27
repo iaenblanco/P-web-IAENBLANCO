@@ -12,6 +12,15 @@ export type Trabajo = {
   logoTone?: 'dark'
   sector: string
   project: string
+  /*
+   * OJO: velocidad y peso YA NO SE PUBLICAN. Ningun componente los pinta.
+   * Se quedan aqui como objetivo interno, que es lo unico que lee
+   * herramientas/medir-trabajos.mjs: la herramienta compara cada sitio en vivo
+   * contra estas cifras y avisa cuando uno se degrada. Fue asi como se
+   * descubrio que Granja Magdalena habia pasado de 1,5 a 13 segundos.
+   * Si vuelves a mostrarlos en la ficha, mide antes: 5 de los 10 no se
+   * sostenian el 27-ago-2026.
+   */
   velocidad: string
   peso: string
   system: string

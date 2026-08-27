@@ -127,36 +127,26 @@ export function Trabajos({
               <TituloCliente>{proof.client}</TituloCliente>
               <strong>{proof.project}</strong>
 
-              {/* .trabajo__ficha es un grid con gap: al sacar las dos listas la
+              {/* Aca iba tambien la velocidad y el peso de cada sitio. Se
+                  quitaron: al medirlos contra los sitios en vivo, 5 de los 10
+                  numeros publicados ya no se sostenian -Granja Magdalena decia
+                  "menos de 1,5 s" y cargaba en 13- y la ficha invitaba al
+                  visitante a comprobarlo. Las cifras siguen en lib/trabajos.ts
+                  como objetivo interno, no como afirmacion publica.
+
+                  .trabajo__ficha es un grid con gap: al sacar la lista la
                   tarjeta se cierra sola y no hay hueco que compensar por CSS. */}
               {!resumido && (
-                <>
-                  <dl className="trabajo__detalle">
-                    <div>
-                      <dt>Qué le hicimos</dt>
-                      <dd>{proof.system}</dd>
-                    </div>
-                    <div>
-                      <dt>Para qué le sirve</dt>
-                      <dd>{proof.proof}</dd>
-                    </div>
-                  </dl>
-
-                  {/* La medida va DENTRO del <a>, no despues: .trabajo__medida solo
-                      trae padding-top y border-top, asi que fuera de .trabajo__ficha
-                      quedaria sin el borde ni el padding lateral de la tarjeta. El
-                      costo es que el lector de pantalla la lee como parte del enlace. */}
-                  <dl className="trabajo__medida">
-                    <div>
-                      <dt>Velocidad</dt>
-                      <dd>{proof.velocidad}</dd>
-                    </div>
-                    <div>
-                      <dt>Peso</dt>
-                      <dd>{proof.peso}</dd>
-                    </div>
-                  </dl>
-                </>
+                <dl className="trabajo__detalle">
+                  <div>
+                    <dt>Qué le hicimos</dt>
+                    <dd>{proof.system}</dd>
+                  </div>
+                  <div>
+                    <dt>Para qué le sirve</dt>
+                    <dd>{proof.proof}</dd>
+                  </div>
+                </dl>
               )}
 
               <span className="trabajo__cta">

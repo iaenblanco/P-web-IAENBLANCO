@@ -1,10 +1,16 @@
 // Las cifras de los trabajos, contrastadas contra los sitios de verdad.
 //
-// lib/trabajos.ts publica diez numeros -la velocidad y el peso de los cinco
+// lib/trabajos.ts guarda diez numeros -la velocidad y el peso de los cinco
 // sitios de clientes- y hasta hoy nadie los volvia a medir: envejecian en
 // silencio. Es el mismo camino por el que hubo que podar doce frases que ya no
 // se sostenian. Este script los lee del fuente y los va a comprobar al sitio
 // publicado, para que la cifra tenga quien la contradiga.
+//
+// La primera vez que se encendio, el 27-ago-2026, fallaron 5 de los 10, y por
+// eso las cifras DEJARON DE PUBLICARSE en la ficha: ahora son un objetivo
+// interno. Este script sigue siendo util -es la unica alarma de que un sitio de
+// cliente se degrado, como Granja Magdalena pasando de 1,5 a 13 segundos- pero
+// leelo sabiendo que lo que juzga ya no es una promesa hecha al visitante.
 //
 //   node herramientas/medir-trabajos.mjs           mide y da el veredicto
 //   node herramientas/medir-trabajos.mjs --fijar   guarda la linea base

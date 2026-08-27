@@ -10861,42 +10861,8 @@ button {
   }
 }
 
-/* La medición de cada trabajo. Es lo que convierte "mira lo que hicimos" en
-   un dato que el visitante puede comprobar por su cuenta. */
-
-.trabajo__medida {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: var(--espacio-2);
-  margin: 0;
-  padding-top: var(--espacio-2);
-  border-top: 1px solid var(--line-soft);
-}
-
-.trabajo__medida > div {
-  display: grid;
-  gap: 3px;
-  align-content: start;
-}
-
-.trabajo__medida dt {
-  color: var(--graphite);
-  font-family: var(--font-mono);
-  font-size: 10px;
-  font-weight: 700;
-  letter-spacing: 0.11em;
-  text-transform: uppercase;
-}
-
-.trabajo__medida dd {
-  margin: 0;
-  color: var(--signal-ink);
-  font-family: var(--font-mono);
-  font-size: 14px;
-  font-weight: 600;
-  line-height: 1.3;
-  font-variant-numeric: tabular-nums;
-}
+/* Aqui vivia .trabajo__medida, la banda de velocidad y peso de cada trabajo.
+   Se retiro junto con las cifras: ninguna regla la reclama ya. */
 
 /* Las dos notas de cierre comparten una sola banda de dos columnas: las
    mismas 608px de las tarjetas de arriba, para que el pie de la seccion
@@ -11074,7 +11040,6 @@ button {
   /* etiquetas y antetitulos */
   .eyebrow,
   .trabajo__detalle dt,
-  .trabajo__medida dt,
   .trabajo__meta p,
   .industry-line p,
   .industry-line span,
@@ -11101,10 +11066,6 @@ button {
   .social-strip a {
     font-size: 15px;
     letter-spacing: 0.04em;
-  }
-
-  .trabajo__medida dd {
-    font-size: 16px;
   }
 }
 
@@ -14003,12 +13964,8 @@ button {
   letter-spacing: -0.015em;
 }
 
-.esc__captura-dato {
-  color: var(--text-body);
-  font-family: var(--font-mono);
-  font-size: 12px;
-  letter-spacing: 0.02em;
-}
+/* .esc__captura-dato -"Carga en X · Y" bajo la captura destacada- se fue con
+   las cifras. El pie es flex con gap: al quedar dos hijos se cierra solo. */
 
 .esc__captura-abrir {
   display: inline-flex;

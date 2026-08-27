@@ -177,10 +177,9 @@ function AperturaWeb({ service, content }: { service: Service; content: ServiceP
               />
             </picture>
             <span className="esc__captura-pie">
+              {/* Aqui iba "Carga en X · Y". Fuera por lo mismo que en la ficha
+                  de /trabajos/: la cifra publicada no aguantaba la medicion. */}
               <strong>{destacado.client}</strong>
-              <span className="esc__captura-dato">
-                Carga en {destacado.velocidad} · {destacado.peso}
-              </span>
               <span className="esc__captura-abrir">
                 Abrir el sitio
                 <ArrowUpRight />
