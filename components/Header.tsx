@@ -21,6 +21,16 @@ function ChevronDown() {
   )
 }
 
+/*
+ * Con trailingSlash: true la misma pagina se escribe de dos formas segun quien
+ * arme el enlace, y comparando en crudo "/trabajos" y "/trabajos/" quedaban
+ * como rutas distintas: ninguna se marcaba. Se compara sin la barra final,
+ * salvo la raiz, que es solo esa barra.
+ */
+function normalizarRuta(ruta: string) {
+  return ruta.length > 1 ? ruta.replace(/\/+$/, '') : ruta
+}
+
 function MenuIcon() {
   return (
     <span className="menu-icon" aria-hidden="true">
@@ -55,6 +65,47 @@ export function Header() {
   const restaurandoFoco = useRef(false)
   const abiertoPorFoco = useRef(false)
   const pathname = usePathname()
+
+  /*
+   * Los dos grupos plegables del panel del telefono. Antes esto era un
+   * <details> nativo y no hacia falta estado, pero el renglon ahora tiene dos
+   * destinos -el rotulo navega, la flecha despliega- y un enlace no puede vivir
+   * dentro de un <summary> sin anidar dos cosas activables una dentro de otra.
+   * Se guardan los dos por separado, como estaban: abrir Productos no cierra
+   * Servicios.
+   *
+   * El ref va al lado del estado porque el listener de Escape se registra una
+   * sola vez, con [] de dependencias, y leeria para siempre el arreglo del
+   * primer render.
+   */
+  const [gruposAbiertos, setGruposAbiertos] = useState<string[]>([])
+  const gruposAbiertosRef = useRef<string[]>([])
+
+  function fijarGrupos(abiertos: string[]) {
+    gruposAbiertosRef.current = abiertos
+    setGruposAbiertos(abiertos)
+  }
+
+  const grupoAbierto = (id: string) => gruposAbiertos.includes(id)
+
+  function alternarGrupo(id: string) {
+    const abiertos = gruposAbiertosRef.current
+    fijarGrupos(abiertos.includes(id) ? abiertos.filter((otro) => otro !== id) : [...abiertos, id])
+  }
+
+  /*
+   * Decir en que pagina estamos. aria-current="page" va solo en la ruta exacta,
+   * que es lo unico que el lector de pantalla puede anunciar sin mentir; la
+   * clase .is-active es la parte visual y el CSS ya la dibuja como subrayado
+   * fijo (.nav-link.is-active::after). Los disparadores "Servicios" y
+   * "Productos" llevan solo la clase: dentro de una ficha de detalle el
+   * desplegable no es la pagina actual, pero la cabecera igual tiene que
+   * mostrar en que rama estamos parados.
+   */
+  const rutaActual = normalizarRuta(pathname)
+  const esRutaActual = (href: string) => rutaActual === normalizarRuta(href)
+  const enSeccion = (seccion: string) =>
+    rutaActual === seccion || rutaActual.startsWith(`${seccion}/`)
 
   /*
    * Estando ya en el inicio, tocar el logo o "Inicio" no hacia nada: Next ve
@@ -135,10 +186,9 @@ export function Header() {
       if (!(caja instanceof HTMLDetailsElement) || !caja.open) return
       // Si hay un subgrupo abierto (Servicios, Productos), Escape cierra ese
       // primero: llevarse el menu entero se come un paso que nadie pidio.
-      const grupos = caja.querySelectorAll('details.mobile-navigation__grupo[open]')
-      const ultimo = grupos[grupos.length - 1]
-      if (ultimo instanceof HTMLDetailsElement) {
-        ultimo.open = false
+      const abiertos = gruposAbiertosRef.current
+      if (abiertos.length > 0) {
+        fijarGrupos(abiertos.slice(0, -1))
         return
       }
       cerrarMenuMovil()
@@ -195,7 +245,13 @@ export function Header() {
         </Link>
 
         <nav className="desktop-nav" aria-label="Navegación principal">
-          <Link className="nav-link" href="/" prefetch={false} onClick={volverAlInicio}>
+          <Link
+            className={`nav-link${esRutaActual('/') ? ' is-active' : ''}`}
+            href="/"
+            prefetch={false}
+            aria-current={esRutaActual('/') ? 'page' : undefined}
+            onClick={volverAlInicio}
+          >
             Inicio
           </Link>
 
@@ -203,9 +259,14 @@ export function Header() {
             className={`nav-menu services-nav${openMenu === 'services' ? ' is-open' : ''}`}
             onMouseEnter={() => openDesktopMenu('services')}
             onMouseLeave={closeDesktopMenu}
-            onFocus={() => {
+            onFocus={(event) => {
               if (restaurandoFoco.current) return
-              if (openMenu !== 'services') abiertoPorFoco.current = true
+              // La bandera solo tiene sentido si el foco cayo en la flecha: es
+              // lo unico cuyo click alterna el panel. Desde que el rotulo es un
+              // enlace aparte, ponerla tambien cuando el foco llega al rotulo
+              // dejaba muerto el primer click de la flecha.
+              const enLaFlecha = serviciosBotonRef.current?.contains(event.target as Node) ?? false
+              if (openMenu !== 'services' && enLaFlecha) abiertoPorFoco.current = true
               openDesktopMenu('services')
             }}
             onBlur={(event) => {
@@ -226,15 +287,31 @@ export function Header() {
               }
             }}
           >
+            {/* El rotulo navega y la flecha despliega. Antes "Servicios" era un
+                boton y nada mas: desde la cabecera no habia manera de llegar a
+                /servicios/, y por eso el desplegable llevaba una fila extra
+                -"Ver los cuatro servicios"- que decia lo mismo que el renglon de
+                arriba. Partido en dos, el rotulo hace lo que promete y esa fila
+                sobra. El aria-expanded y el aria-controls viajan con la flecha,
+                que es la que manda sobre el panel. */}
+            <Link
+              href="/servicios/"
+              prefetch={false}
+              className={`nav-link${enSeccion('/servicios') ? ' is-active' : ''}`}
+              aria-current={esRutaActual('/servicios/') ? 'page' : undefined}
+              onClick={forceCloseDesktopMenu}
+            >
+              Servicios
+            </Link>
             <button
               type="button"
-              className="nav-link"
+              className="nav-desplegar"
               ref={serviciosBotonRef}
               aria-controls="services-menu"
               aria-expanded={openMenu === 'services'}
+              aria-label="Desplegar servicios"
               onClick={() => toggleDesktopMenu('services')}
             >
-              Servicios
               <span className={`nav-chevron${openMenu === 'services' ? ' is-open' : ''}`}>⌄</span>
             </button>
 
@@ -256,10 +333,11 @@ export function Header() {
               <div className="services-menu__grid">
                 {services.map((service) => (
                   <Link
-                    href={`/servicios/${service.slug}`}
+                    href={`/servicios/${service.slug}/`}
                     prefetch={false}
                     className="services-menu__item"
                     key={service.slug}
+                    aria-current={esRutaActual(`/servicios/${service.slug}/`) ? 'page' : undefined}
                     onClick={forceCloseDesktopMenu}
                   >
                     <span className="services-menu__index">{service.index}</span>
@@ -278,9 +356,11 @@ export function Header() {
             className={`nav-menu products-nav${openMenu === 'products' ? ' is-open' : ''}`}
             onMouseEnter={() => openDesktopMenu('products')}
             onMouseLeave={closeDesktopMenu}
-            onFocus={() => {
+            onFocus={(event) => {
               if (restaurandoFoco.current) return
-              if (openMenu !== 'products') abiertoPorFoco.current = true
+              // Igual que en Servicios: ver la nota del otro desplegable.
+              const enLaFlecha = productosBotonRef.current?.contains(event.target as Node) ?? false
+              if (openMenu !== 'products' && enLaFlecha) abiertoPorFoco.current = true
               openDesktopMenu('products')
             }}
             onBlur={(event) => {
@@ -300,15 +380,26 @@ export function Header() {
               }
             }}
           >
+            {/* Mismo reparto que en Servicios: ver la nota del otro
+                desplegable. */}
+            <Link
+              href="/productos/"
+              prefetch={false}
+              className={`nav-link${enSeccion('/productos') ? ' is-active' : ''}`}
+              aria-current={esRutaActual('/productos/') ? 'page' : undefined}
+              onClick={forceCloseDesktopMenu}
+            >
+              Productos
+            </Link>
             <button
               type="button"
-              className="nav-link"
+              className="nav-desplegar"
               ref={productosBotonRef}
               aria-controls="products-menu"
               aria-expanded={openMenu === 'products'}
+              aria-label="Desplegar productos"
               onClick={() => toggleDesktopMenu('products')}
             >
-              Productos
               <span className={`nav-chevron${openMenu === 'products' ? ' is-open' : ''}`}>⌄</span>
             </button>
 
@@ -321,10 +412,14 @@ export function Header() {
                 <span>Productos propios</span>
                 <span>Muy pronto</span>
               </div>
+              {/* Las tres fichas son anclas de esta misma pagina, asi que no
+                  llevan aria-current: serian tres "pagina actual" a la vez
+                  estando en /productos/. El rotulo "Productos" de arriba si lo
+                  lleva, y es el que corresponde. */}
               <div className="services-menu__grid products-menu__grid">
                 {products.map((product, index) => (
                   <Link
-                    href={`/productos#${product.id}`}
+                    href={`/productos/#${product.id}`}
                     prefetch={false}
                     className="services-menu__item products-menu__item"
                     key={product.name}
@@ -342,16 +437,18 @@ export function Header() {
             </div>
           </div>
           <Link
-            className="nav-link"
+            className={`nav-link${enSeccion('/trabajos') ? ' is-active' : ''}`}
             href="/trabajos/"
             prefetch={false}
+            aria-current={esRutaActual('/trabajos/') ? 'page' : undefined}
           >
             Trabajos
           </Link>
           <Link
-            className="nav-link"
-            href="/contacto"
+            className={`nav-link${esRutaActual('/contacto/') ? ' is-active' : ''}`}
+            href="/contacto/"
             prefetch={false}
+            aria-current={esRutaActual('/contacto/') ? 'page' : undefined}
           >
             Contacto
           </Link>
@@ -388,26 +485,64 @@ export function Header() {
               <Link
                 href="/"
                 prefetch={false}
-                className="mobile-navigation__primary"
+                className={`mobile-navigation__primary${esRutaActual('/') ? ' is-active' : ''}`}
+                aria-current={esRutaActual('/') ? 'page' : undefined}
                 onClick={volverAlInicio}
               >
-                <span>01</span> Inicio
+                {/* El rotulo va en su propia caja para que el subrayado de
+                    "estas aqui" caiga solo debajo de la palabra. Suelto como
+                    nodo de texto, la decoracion se originaba en el renglon
+                    entero y bajaba tambien al numero: quedaba una rayita en
+                    tinta plena bajo un numero gris, 26 px mas arriba que la del
+                    rotulo -cada uno toma su desplazamiento de su propia linea
+                    base- y se leia como dos marcas sueltas, no como una. */}
+                <span className="mobile-navigation__numero">01</span>
+                <span className="mobile-navigation__texto">Inicio</span>
               </Link>
               {/* Servicios y Productos son plegables y arrancan cerrados: antes
                   Servicios se abria solo y el menu partia con seis renglones de
-                  submenu antes de dejar ver Productos y Contacto. */}
-              <details className="mobile-navigation__grupo">
-                <summary>
-                  <span>02</span>
-                  Servicios
-                  <ChevronDown />
-                </summary>
-                <div className="mobile-navigation__sub">
+                  submenu antes de dejar ver Productos y Contacto.
+                  El renglon tiene dos destinos: el rotulo lleva a la pagina de
+                  la seccion y la flecha abre las fichas. Antes el renglon entero
+                  solo desplegaba, y la pagina de la seccion se alcanzaba con una
+                  fila extra dentro del acordeon que repetia el rotulo. Era un
+                  <details> nativo, que no admite un enlace dentro del <summary>
+                  sin anidar dos cosas activables una dentro de otra, asi que el
+                  estado pasa a React -ver gruposAbiertos, mas arriba-. */}
+              <div className="mobile-navigation__grupo">
+                <div className="mobile-navigation__fila">
+                  <Link
+                    href="/servicios/"
+                    prefetch={false}
+                    className={`mobile-navigation__primary${enSeccion('/servicios') ? ' is-active' : ''}`}
+                    aria-current={esRutaActual('/servicios/') ? 'page' : undefined}
+                    onClick={cerrarMenuMovil}
+                  >
+                    <span className="mobile-navigation__numero">02</span>
+                    <span className="mobile-navigation__texto">Servicios</span>
+                  </Link>
+                  <button
+                    type="button"
+                    className="mobile-navigation__disparador"
+                    aria-controls="mobile-servicios"
+                    aria-expanded={grupoAbierto('servicios')}
+                    aria-label="Desplegar servicios"
+                    onClick={() => alternarGrupo('servicios')}
+                  >
+                    <ChevronDown />
+                  </button>
+                </div>
+                <div
+                  id="mobile-servicios"
+                  className="mobile-navigation__sub"
+                  hidden={!grupoAbierto('servicios')}
+                >
                   {services.map((service) => (
                     <Link
                       key={service.slug}
-                      href={`/servicios/${service.slug}`}
+                      href={`/servicios/${service.slug}/`}
                       prefetch={false}
+                      aria-current={esRutaActual(`/servicios/${service.slug}/`) ? 'page' : undefined}
                       onClick={cerrarMenuMovil}
                     >
                       {service.shortTitle}
@@ -415,19 +550,43 @@ export function Header() {
                     </Link>
                   ))}
                 </div>
-              </details>
+              </div>
 
-              <details className="mobile-navigation__grupo">
-                <summary>
-                  <span>03</span>
-                  Productos
-                  <ChevronDown />
-                </summary>
-                <div className="mobile-navigation__sub">
+              {/* Mismo reparto que en Servicios: ver la nota de arriba. Las tres
+                  fichas son anclas de /productos/, asi que no llevan
+                  aria-current; el rotulo si. */}
+              <div className="mobile-navigation__grupo">
+                <div className="mobile-navigation__fila">
+                  <Link
+                    href="/productos/"
+                    prefetch={false}
+                    className={`mobile-navigation__primary${enSeccion('/productos') ? ' is-active' : ''}`}
+                    aria-current={esRutaActual('/productos/') ? 'page' : undefined}
+                    onClick={cerrarMenuMovil}
+                  >
+                    <span className="mobile-navigation__numero">03</span>
+                    <span className="mobile-navigation__texto">Productos</span>
+                  </Link>
+                  <button
+                    type="button"
+                    className="mobile-navigation__disparador"
+                    aria-controls="mobile-productos"
+                    aria-expanded={grupoAbierto('productos')}
+                    aria-label="Desplegar productos"
+                    onClick={() => alternarGrupo('productos')}
+                  >
+                    <ChevronDown />
+                  </button>
+                </div>
+                <div
+                  id="mobile-productos"
+                  className="mobile-navigation__sub"
+                  hidden={!grupoAbierto('productos')}
+                >
                   {products.map((product) => (
                     <Link
                       key={product.id}
-                      href={`/productos#${product.id}`}
+                      href={`/productos/#${product.id}`}
                       prefetch={false}
                       onClick={cerrarMenuMovil}
                     >
@@ -436,22 +595,26 @@ export function Header() {
                     </Link>
                   ))}
                 </div>
-              </details>
+              </div>
               <Link
                 href="/trabajos/"
                 prefetch={false}
-                className="mobile-navigation__primary"
+                className={`mobile-navigation__primary${enSeccion('/trabajos') ? ' is-active' : ''}`}
+                aria-current={esRutaActual('/trabajos/') ? 'page' : undefined}
                 onClick={cerrarMenuMovil}
               >
-                <span>04</span> Trabajos
+                <span className="mobile-navigation__numero">04</span>
+                <span className="mobile-navigation__texto">Trabajos</span>
               </Link>
               <Link
-                href="/contacto"
+                href="/contacto/"
                 prefetch={false}
-                className="mobile-navigation__primary"
+                className={`mobile-navigation__primary${esRutaActual('/contacto/') ? ' is-active' : ''}`}
+                aria-current={esRutaActual('/contacto/') ? 'page' : undefined}
                 onClick={cerrarMenuMovil}
               >
-                <span>05</span> Contacto
+                <span className="mobile-navigation__numero">05</span>
+                <span className="mobile-navigation__texto">Contacto</span>
               </Link>
               <a
                 href={WHATSAPP_URL}

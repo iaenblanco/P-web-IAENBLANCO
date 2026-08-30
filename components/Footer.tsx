@@ -53,15 +53,15 @@ export function Footer() {
             <div>
               <p>Navegación</p>
               <Link href="/" prefetch={false}>Inicio</Link>
-              <Link href="/servicios" prefetch={false}>Servicios</Link>
-              <Link href="/productos" prefetch={false}>Productos</Link>
+              <Link href="/servicios/" prefetch={false}>Servicios</Link>
+              <Link href="/productos/" prefetch={false}>Productos</Link>
               <Link href="/trabajos/" prefetch={false}>Trabajos</Link>
-              <Link href="/contacto" prefetch={false}>Contacto</Link>
+              <Link href="/contacto/" prefetch={false}>Contacto</Link>
             </div>
             <div>
               <p>Servicios</p>
               {services.map((service) => (
-                <Link key={service.slug} href={`/servicios/${service.slug}`} prefetch={false}>
+                <Link key={service.slug} href={`/servicios/${service.slug}/`} prefetch={false}>
                   {service.shortTitle}
                 </Link>
               ))}
@@ -85,8 +85,8 @@ export function Footer() {
         <div className="site-footer__bottom">
           <p>© {new Date().getFullYear()} {COMPANY_LEGAL_NAME} · {COMPANY_TAX_ID}</p>
           <div>
-            <Link href="/privacidad" prefetch={false}>Privacidad</Link>
-            <Link href="/terminos" prefetch={false}>Términos</Link>
+            <Link href="/privacidad/" prefetch={false}>Privacidad</Link>
+            <Link href="/terminos/" prefetch={false}>Términos</Link>
           </div>
           <p>{COMPANY_ADDRESS}</p>
         </div>

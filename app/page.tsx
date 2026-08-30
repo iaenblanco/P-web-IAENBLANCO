@@ -618,10 +618,14 @@ function TrustProofSection() {
         <Reveal className="trust-proof__copy">
           <p className="eyebrow">Trabajos reales</p>
           <h2 id="trust-proof-heading">Míralo tú mismo.</h2>
+          {/* Aca iba una cifra de cartera. El dato era cierto, pero el visitante
+              no tiene como comprobarlo, y una cifra sin respaldo pide confianza
+              en vez de ganarla. La prueba de este bloque son los trabajos, que
+              si se pueden abrir: por eso no hay ningun numero agregado, ni
+              exacto ni aproximado. */}
           <p>
-            Llevamos más de 20 empresas atendidas. Estas son algunas de las pegas que
-            hemos hecho: están tal como se ven hoy, así que ábrelas y revisa el trabajo
-            antes de escribirnos.
+            Estas son algunas de las pegas que hemos hecho: están tal como se ven hoy,
+            así que ábrelas y revisa el trabajo antes de escribirnos.
           </p>
         </Reveal>
 
@@ -636,7 +640,7 @@ function TrustProofSection() {
             Ver los trabajos uno por uno
             <ArrowRight />
           </Link>
-          <Link href="/servicios/desarrollo-web-ia" className="button button--text">
+          <Link href="/servicios/desarrollo-web-ia/" className="button button--text">
             Cómo hacemos un sitio así
             <ArrowRight />
           </Link>
@@ -653,7 +657,11 @@ function ProblemSection() {
         <div className="problem-strip__proceso operating-model">
 
           <Reveal className="operating-model__heading">
-            <p className="eyebrow">Y desde acá, cómo trabajamos</p>
+            {/* Decia "Y desde aca, como trabajamos": daba por hecho que venias
+                bajando desde el bloque anterior. Pero el boton del hero salta
+                directo hasta aca, asi que el rotulo tiene que sostenerse solo
+                para quien aterriza sin haber leido nada de lo de arriba. */}
+            <p className="eyebrow">Así trabajamos</p>
             <div>
               <h2 id="model-heading">Tres pasos, y en ninguno te dejamos solo.</h2>
               <p className="operating-model__copy">
@@ -769,7 +777,7 @@ function ProductLabSection() {
       <div className="section-shell repisa">
         {products.map((product, index) => (
           <Reveal key={product.id} className={`repisa__ficha repisa__ficha--${product.id}`} delay={index * 90}>
-            <Link href={`/productos#${product.id}`} prefetch={false} data-cursor="Ver">
+            <Link href={`/productos/#${product.id}`} prefetch={false} data-cursor="Ver">
               <span className="repisa__cabecera">
                 <span className="repisa__orden">{String(index + 1).padStart(2, '0')}</span>
                 <span className="repisa__marca"><HeroLogo theme={product.id} /></span>
@@ -837,8 +845,12 @@ export default function HomePage() {
                 Cuéntanos tu idea
                 <ArrowUpRight />
               </a>
+              {/* Decia "Ver que hacemos" y aterriza en los tres pasos, que son
+                  como trabajamos, no que hacemos: el que hacemos esta en el
+                  parrafo de arriba y en /servicios/. El rotulo ahora nombra lo
+                  que el ancla entrega. */}
               <a href="#empezar" className="button button--text">
-                Ver qué hacemos
+                Cómo trabajamos
                 <ArrowDown />
               </a>
             </div>
@@ -855,7 +867,7 @@ export default function HomePage() {
                 Antes apuntaba a #servicios igual que el boton "Ver que
                 hacemos" de la columna de al lado: dos enlaces con la misma
                 flecha y el mismo destino. Este lleva a la pagina completa. */}
-            <Link href="/servicios" prefetch={false} className="hero-summary-map__explore" data-cursor="Servicios">
+            <Link href="/servicios/" prefetch={false} className="hero-summary-map__explore" data-cursor="Servicios">
               Ver todos los servicios
               <ArrowUpRight />
             </Link>

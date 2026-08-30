@@ -161,8 +161,13 @@ export default function ServicesIndexPage() {
                 </div>
                 <h3>{service.shortTitle}</h3>
                 <p>{service.description}</p>
+                {/* La barra final no es cosmetica: con trailingSlash:true la version
+                    sin barra devuelve un 308 y el navegador recarga el documento
+                    entero, perdiendo la navegacion cliente de Next. Ademas es la
+                    forma que ya publica serviceCanonical, asi que enlazamos al
+                    canonical en vez de a la URL que redirige hacia el. */}
                 <Link
-                  href={`/servicios/${service.slug}`}
+                  href={`/servicios/${service.slug}/`}
                   prefetch={false}
                   data-analytics-event="service_cta_click"
                   data-service-id={service.slug}

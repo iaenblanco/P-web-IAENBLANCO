@@ -78,7 +78,7 @@ export function ConsentBanner() {
           <p>
             Usamos Google Analytics y Meta para saber cómo se usa el sitio. No se carga nada
             hasta que decidas. Detalles en{' '}
-            <Link href="/privacidad" prefetch={false}>
+            <Link href="/privacidad/" prefetch={false}>
               privacidad
             </Link>
             .

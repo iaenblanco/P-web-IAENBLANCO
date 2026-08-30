@@ -528,6 +528,25 @@ button {
   transform: translateY(2px) rotate(180deg);
 }
 
+/* La flecha, desde que el rotulo de al lado dejo de ser un boton y paso a ser
+   un enlace a la pagina de la seccion. Los 6 px de relleno de arriba y abajo
+   son los mismos de .nav-link para que las dos piezas queden en la misma linea
+   base; los 8 de la izquierda separan sin recurrir a un gap, que obligaria a
+   darle display al contenedor .nav-menu y ese es el que ancla el panel. */
+.nav-desplegar {
+  display: inline-flex;
+  align-items: center;
+  /* Medido: con relleno solo a la izquierda el blanco quedaba en 14x27 px.
+     Los 8 de cada lado lo dejan en 22x27 sin mover nada: el hueco sale del gap
+     de 34 px que .nav-links pone entre renglones. */
+  padding: 6px 8px;
+  border: 0;
+  background: transparent;
+  color: inherit;
+  font-size: 10px;
+  cursor: pointer;
+}
+
 .nav-menu {
   position: relative;
   height: 100%;
@@ -662,27 +681,6 @@ button {
 
 .products-menu__item {
   min-height: 74px;
-}
-
-.products-menu__all {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  min-height: 48px;
-  margin-top: 14px;
-  padding: 0 12px;
-  border: 1px solid var(--line-soft);
-  background: color-mix(in srgb, var(--signal) 8%, transparent);
-  color: var(--ink);
-  font-family: var(--font-mono);
-  font-size: 10px;
-  font-weight: 700;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-}
-
-.products-menu__all:hover .services-menu__arrow {
-  transform: translate(2px, -2px);
 }
 
 .header-cta {
@@ -928,7 +926,15 @@ button {
   grid-template-columns: minmax(0, 0.45fr) minmax(0, 0.55fr);
   gap: clamp(34px, 4vw, 72px);
   align-items: center;
-  min-height: min(760px, calc(100svh - 88px));
+  /* El aviso de medicion es fixed contra el borde de abajo, asi que el visor
+     util no es el visor entero: midiendo el heroe contra los 100svh completos
+     reservaba una pantalla que ya no tiene. Se descuenta lo que el aviso
+     publica en --aviso-alto; sin aviso la variable no existe, cae al fallback
+     0px y el heroe queda exactamente como estaba. Este piso solo manda cuando
+     el contenido cabe dentro: en 1280x800 no cabe, y lo que sube la ultima
+     linea del heroe por encima del aviso es el recorte de padding-top que
+     esta junto a --seccion-y, no esto. */
+  min-height: min(760px, calc(100svh - 88px - var(--aviso-alto, 0px)));
   padding-top: 64px;
   padding-bottom: 54px;
 }
@@ -7208,7 +7214,7 @@ button {
     letter-spacing: -0.05em;
   }
 
-  .mobile-navigation__primary span,
+  .mobile-navigation__numero,
   .mobile-navigation__services > p span {
     padding-top: 8px;
     color: var(--graphite);
@@ -9613,6 +9619,26 @@ button {
   .consent-banner button { flex: 1 1 auto; }
 }
 
+/* De 768px para arriba el aviso se calibra aparte, porque su alto sale del
+   pliegue del heroe: con el parrafo topado en 76ch y 16px de aire arriba y
+   abajo media 139,8px en 1024x768, el 18% del visor. El techo de 76ch es lo
+   que mas pesa y es el que no corresponde: 76 caracteres es una medida de
+   lectura para un parrafo largo, y esto son dos frases de servicio que se leen
+   una vez. Con flex-basis 0 el parrafo se queda con el ancho que le deja la
+   botonera en vez de partirse antes de tiempo, y el techo de 120ch esta para
+   que en un monitor ancho no se vuelva un renglon unico. El telefono no pasa
+   por aqui: su version compacta vive en el bloque de 620px, mas abajo. */
+@media (min-width: 768px) {
+  .consent-banner {
+    padding: 12px 16px;
+  }
+
+  .consent-banner__copy {
+    flex: 1 1 0;
+    max-width: 120ch;
+  }
+}
+
 /* --- Ritmo: dos bandas oscuras que cortan el crema --- */
 
 .problem-strip {
@@ -9873,6 +9899,31 @@ button {
 .service-page-cta {
   padding-top: var(--seccion-y);
   padding-bottom: var(--seccion-y);
+}
+
+/* El heroe, mientras el aviso de medicion siga sin responder, devuelve pliegue
+   por arriba. Va aqui pegado y no en las media queries del heroe porque son
+   estas dos longhand las que ganan: alli hay seis padding-top distintos y los
+   seis estan muertos desde que existe --seccion-y.
+   Tiene que ser el aire de ARRIBA. Medido en 1280x800 con el aviso publicando
+   78px: el heroe termina en 838,7 -ya se pasa del visor-, asi que bajarle el
+   padding de abajo no sube nada; lo unico que mueve el contenido hacia el
+   borde superior es este. Sin ese recorte, la linea de "sitios de clientes en
+   linea" cae en 725,5-755,5 y el aviso, que empieza en 722, se la comia
+   entera.
+   Se recortan hasta 32px y no lo que mida el aviso: el ritmo de --seccion-y
+   sigue mandando y 32px es lo que hace falta para dejar esa linea por encima
+   del aviso ya calibrado. Sin aviso la variable no existe, cae al fallback 0px
+   y el heroe conserva su ritmo intacto. El corte en 901px es el que el heroe
+   ya usa como frontera: tiene un bloque 621-900 y otro 901-1200. No baja mas
+   porque lo medido es escritorio -1280x800 y 1024x768-: en el telefono el
+   estorbo medido es otro, el boton flotante, y esa franja se resuelve
+   retirandolo; entre 621 y 900 no hay nada medido que justifique quitarle
+   aire al heroe. */
+@media (min-width: 901px) {
+  .home-hero__inner {
+    padding-top: calc(var(--seccion-y) - min(32px, var(--aviso-alto, 0px)));
+  }
 }
 
 /* Bandas de cierre: mismo sistema, 60 % del ritmo. Nunca un valor suelto. */
@@ -12555,9 +12606,10 @@ button {
    Antes "Servicios" no era plegable -era un titulo con sus cinco
    enlaces siempre desplegados-, asi que el menu se abria mostrando
    seis renglones de submenu antes de dejar ver Productos y Contacto.
-   Ahora los cuatro renglones se ven de una y cada uno con submenu se
-   abre al tocarlo. Va con <details>, sin JavaScript, y por eso
-   funciona igual con el teclado y con lector de pantalla.
+   Ahora los cinco renglones se ven de una y los dos con submenu se
+   abren con su flecha. Era un <details> nativo; desde que el rotulo
+   navega por su cuenta el estado vive en React, con aria-expanded y
+   aria-controls en la flecha, que es lo que el <details> daba gratis.
    ------------------------------------------------------------------ */
 
 @media (max-width: 900px) {
@@ -12565,29 +12617,34 @@ button {
     border-bottom: 1px solid var(--line);
   }
 
-  .mobile-navigation__grupo > summary {
+  /* El renglon del grupo son dos piezas: el enlace, que se queda con todo el
+     ancho que sobra y lleva a la pagina de la seccion, y el boton de la flecha,
+     que abre las fichas. El enlace trae su tipografia de
+     .mobile-navigation__primary, que es el mismo renglon de Inicio, Trabajos y
+     Contacto; lo unico que hay que apagarle es el borde de abajo, porque aqui
+     lo pone el grupo entero y saldrian dos. */
+  .mobile-navigation__fila {
     display: grid;
-    grid-template-columns: 42px minmax(0, 1fr) 26px;
+    grid-template-columns: minmax(0, 1fr) 26px;
     align-items: center;
-    padding: 22px 0;
-    font-size: clamp(30px, 3.4vw, 46px);
-    font-weight: 500;
-    letter-spacing: -0.05em;
-    list-style: none;
+  }
+
+  .mobile-navigation__fila > .mobile-navigation__primary {
+    border-bottom: 0;
+  }
+
+  .mobile-navigation__disparador {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    /* La flecha mide 22 px: sola seria un blanco de toque de 22x22, la mitad de
+       los 44 que necesita un pulgar. Estirada al alto del renglon el blanco
+       real pasa a 26x88. */
+    align-self: stretch;
+    padding: 0;
+    border: 0;
+    background: transparent;
     cursor: pointer;
-  }
-
-  .mobile-navigation__grupo > summary::-webkit-details-marker {
-    display: none;
-  }
-
-  .mobile-navigation__grupo > summary > span {
-    align-self: start;
-    padding-top: 8px;
-    color: var(--graphite);
-    font-family: var(--font-mono);
-    font-size: 10px;
-    letter-spacing: 0;
   }
 
   .mobile-navigation__chevron {
@@ -12598,7 +12655,7 @@ button {
     transition: transform 220ms cubic-bezier(0.22, 1, 0.36, 1);
   }
 
-  .mobile-navigation__grupo[open] .mobile-navigation__chevron {
+  .mobile-navigation__disparador[aria-expanded='true'] .mobile-navigation__chevron {
     transform: rotate(180deg);
   }
 
@@ -12620,6 +12677,49 @@ button {
 
   .mobile-navigation__sub svg {
     width: 18px;
+  }
+
+  /* Donde estas, en el panel del telefono.
+     En escritorio lo dice el subrayado de .nav-link.is-active (mas arriba, en
+     el bloque del nav): una linea de 1 px en tinta bajo el rotulo. Aqui no lo
+     decia nadie. Header.tsx ya emitia la clase is-active -en el enlace suelto
+     y en el <summary> del acordeon- pero ninguna regla la recogia: medido, el
+     renglon activo y uno inactivo devolvian cero propiedades calculadas
+     distintas, asi que bajo 900 px el menu se abria sin marcar ninguna de las
+     once rutas. Se repite el idioma de arriba y no una barra al costado ni un
+     color propio, para que sea la misma senal en las dos cabeceras.
+     Va con text-decoration y no con un ::after absoluto: el ::after solo puede
+     medir la columna entera de la rejilla y quedaba un filete de borde a borde
+     -probado- que se leia como un segundo separador, no como un subrayado.
+     Cuelga del <span> del rotulo y no del renglon completo. Puesta en el
+     renglon, la decoracion se originaba arriba y bajaba tambien al <span> del
+     numero, que no puede apagarla desde abajo (probado: text-decoration none en
+     el span no la quita) y encima la pinta con el color de quien la origino: un
+     guion en tinta plena bajo un numero gris, 26 px mas alto que la linea del
+     rotulo porque cada uno toma su desplazamiento de su propia linea base. Eran
+     dos marcas sueltas, no una. Con el rotulo en su propia caja el numero ya no
+     es descendiente de nada subrayado.
+     Los 8 px de separacion son los que dejan la linea por debajo de la cola de
+     la "j" de "Trabajos" sin que el skip-ink la corte en dos. */
+  .mobile-navigation__primary.is-active .mobile-navigation__texto {
+    text-decoration: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 8px;
+  }
+
+  /* Y dentro del acordeon, la pagina exacta.
+     El <summary> marcado dice "estas en Servicios", pero eso deja /servicios/
+     y las cuatro fichas viendose identicas: medido, el enlace de la ficha
+     abierta tenia aria-current="page" y cero propiedades calculadas distintas
+     de sus hermanos, o sea que lo anunciaba el lector de pantalla y no lo veia
+     nadie mas. Se cuelga de aria-current y no de una clase nueva porque el
+     atributo ya esta puesto en los ocho sub-enlaces y es la misma condicion.
+     Aqui el rotulo si tiene caja propia, pero se repite text-decoration para
+     que la senal sea una sola en toda la cabecera. */
+  .mobile-navigation__sub a[aria-current='page'] {
+    text-decoration: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 8px;
   }
 }
 
@@ -16719,11 +16819,14 @@ button {
    y nunca baja de 52px, que es mas que el minimo tactil de 40. Se mueve solo
    cuando lo tocan; no tiene animacion propia. */
 /* Cuando el aviso de medicion ocupa el borde inferior el boton se apoya ARRIBA
-   del aviso en vez de esconderse: es el unico medio de contacto del sitio, y
-   ocultarlo hasta que alguien conteste el banner dejaba sin CTA justamente a
-   quien lo ignora. El alto lo publica el propio aviso en --aviso-alto; sin
-   aviso la variable no existe, cae al fallback 0px y el boton queda donde
-   estaba. */
+   del aviso en vez de esconderse: es el unico medio de contacto que acompana
+   las once rutas, y ocultarlo hasta que alguien conteste el banner dejaba sin
+   CTA justamente a quien lo ignora. El alto lo publica el propio aviso en
+   --aviso-alto; sin aviso la variable no existe, cae al fallback 0px y el
+   boton queda donde estaba.
+   En un telefono esa subida no cabe y la excepcion esta al final del bloque:
+   lo que gana el boton al levantarse lo pierde el CTA del heroe, sobre el que
+   aterriza. */
 .boton-whatsapp {
   position: fixed;
   right: clamp(14px, 4vw, 28px);
@@ -16767,6 +16870,47 @@ button {
   opacity: 0;
   visibility: hidden;
   pointer-events: none;
+}
+
+/* En el telefono el boton no se sube al aviso: se queda en su esquina.
+   El estorbo que hay que evitar es que el boton se lleve el toque que le toca
+   al CTA del heroe, y en un telefono la subida es justamente lo que lo provoca.
+   Medido dos veces en el export: en 375x812, con el aviso publicando 134,36px,
+   el boton levantado cae en y 610,6-662,6 sobre el CTA primario -y 586,1-642,1,
+   31,5px de solape-; en 390x844 cae en y 642-694 sobre el SEGUNDO CTA -y
+   621,8-677,8, 35,8px-, que ni siquiera va a WhatsApp. No es un accidente de un
+   ancho: la pila de acciones del heroe mide 136px y el boton levantado siempre
+   aterriza dentro.
+   Las tres salidas se probaron y se descartaron con numeros. Correrlo a la
+   izquierda no sirve porque en telefono los dos CTA ocupan el ancho entero -de
+   x 12 al borde menos 12-. Mandarlo detras en el eje z tampoco: .home-hero__inner
+   abre contexto de apilado en z-index 1 y .home-hero__content en 2, asi que
+   nada de adentro del heroe puede pasar por encima del 80 de este boton sin
+   levantar el heroe entero por sobre la cabecera. Y subirlo mas hasta librar
+   los dos CTA pide +152px en 390: el boton terminaria flotando a media pantalla
+   sobre el texto. Queda la tercera: dejar de sumar --aviso-alto aca abajo.
+   Sin la subida el boton ocupa apenas los ultimos 67-73px de la pantalla y el
+   aviso -que mide entre 113 y 134px en los tres anchos medidos, 375, 390 y 430,
+   y va en z-index 900- lo tapa entero mientras esta abierto: comprobado con
+   getBoundingClientRect en los tres, el techo del boton queda por debajo del
+   techo del aviso. Asi no puede quedar a medias ni robar un toque, y el toque
+   en esa esquina va al aviso, que es lo que corresponde cuando el aviso esta
+   abierto. No se pierde el contacto en el intervalo: bajo 900px la cabecera es
+   sticky y lleva su propio boton de WhatsApp en las once rutas, y en la portada
+   el CTA primario del heroe apunta al mismo WHATSAPP_URL.
+   El primer intento fue esconder el boton entero -opacity, visibility y
+   pointer-events- mientras el aviso siguiera sin responder, colgado de un
+   :has(). Se descarto sin llegar a quedarse: dejaba el boton inutilizado en
+   las once rutas y en todo el scroll, cuando el solape solo pasaba en el
+   pliegue del heroe, y en iOS Safari anterior a 15.4 y Firefox anterior a 121
+   el :has() se cae y vuelve el solape sin que nadie lo note. Esta regla no
+   depende de ningun selector nuevo, asi que se comporta igual en todos los
+   navegadores. De paso desaparece el parpadeo de la primera visita: el boton
+   ya no salta al montarse el aviso ni al responderlo. */
+@media (max-width: 767px) {
+  .boton-whatsapp {
+    bottom: clamp(14px, 4vw, 28px);
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {

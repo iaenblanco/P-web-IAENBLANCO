@@ -121,7 +121,10 @@ export default function TrabajosPage() {
                 <a className="button button--primary" href={whatsappUrl} target="_blank" rel="noreferrer" data-cursor="WhatsApp">
                   Escríbenos por WhatsApp
                 </a>
-                <Link href="/servicios/desarrollo-web-ia" className="button button--text">
+                {/* Con barra final: sin ella trailingSlash:true responde un 308 y el
+                    salto deja de ser navegacion cliente para volverse recarga completa.
+                    Es tambien la URL que declara serviceCanonical para esta ficha. */}
+                <Link href="/servicios/desarrollo-web-ia/" className="button button--text">
                   Cómo hacemos un sitio así
                   <ArrowRight />
                 </Link>

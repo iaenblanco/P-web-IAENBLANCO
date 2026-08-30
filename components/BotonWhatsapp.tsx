@@ -8,13 +8,16 @@ import { WHATSAPP_URL } from '@/lib/site'
  * WHATSAPP_URL que el resto del sitio, asi que cambiar el numero en lib/site
  * lo cambia tambien aca.
  *
- * Ya no se esconde mientras el aviso de medicion esta arriba. El aviso se
- * puede quedar sin responder para siempre -ignorarlo es lo normal en un
- * telefono- y este boton es el unico medio de contacto del sitio: esconderlo
- * dejaba al visitante recorriendo las once rutas sin ningun CTA. Se apoya
- * sobre el aviso en vez de desaparecer, subiendo lo que mida el aviso; el
- * alto lo publica el propio aviso en la custom property --aviso-alto, que el
- * CSS lee con 0px de fallback para cuando no hay aviso.
+ * Nunca se esconde por codigo. Mientras el aviso de medicion esta arriba, el
+ * boton se sube lo que mida el aviso para no quedar tapado; el alto lo publica
+ * el propio aviso en la custom property --aviso-alto, que el CSS lee con 0px
+ * de fallback para cuando no hay aviso.
+ *
+ * Bajo 768px esa subida no se aplica -ver app/globals.css, el bloque del
+ * @media (max-width: 767px)-: en un telefono el boton levantado aterriza sobre
+ * los CTA del heroe y les roba el toque, que es peor. Ahi el aviso lo tapa
+ * mientras esta abierto, y el contacto no se pierde porque la cabecera es
+ * sticky y lleva su propio boton de WhatsApp en las once rutas.
  */
 export function BotonWhatsapp() {
   const [alPie, setAlPie] = useState(false)
