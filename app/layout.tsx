@@ -29,6 +29,20 @@ const ibmPlexMono = IBM_Plex_Mono({
   display: 'swap',
 })
 
+/*
+ * La bajada llana, escrita una sola vez. Metadata y organizationSchema la
+ * tomaban por separado y por eso llegaron a divergir: una en jerga y la otra
+ * llana, y la que Google mostraba era la jerga.
+ */
+const BAJADA =
+  'Hacemos sitios web, tiendas online, programas a la medida de tu negocio y asistentes con inteligencia artificial. En Chile.'
+
+/*
+ * El lema gobernante, decidido por el dueño el 30-ago-2026. Vive tambien como
+ * <h2> del pie (components/Footer.tsx:39); aca se declara para el schema.
+ */
+const LEMA = 'Trabajamos con negocios chilenos que ya están funcionando.'
+
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   title: {
@@ -38,8 +52,7 @@ export const metadata: Metadata = {
   // La misma bajada que ya publicaba el bloque openGraph. Estaban divergidas:
   // una en jerga y la otra llana, y la que Google muestra era la jerga.
   // Cambiada el 30-ago-2026; leer Search Console pasadas unas semanas.
-  description:
-    'Hacemos sitios web, tiendas online, programas a la medida de tu negocio y asistentes con inteligencia artificial. En Chile.',
+  description: BAJADA,
   keywords: [
     'inteligencia artificial para empresas',
     'soluciones de IA a medida',
@@ -69,8 +82,7 @@ export const metadata: Metadata = {
     url: SITE_URL,
     siteName: 'IAenBlanco',
     title: 'IAenBlanco | Sitios web, programas a medida e IA para tu negocio',
-    description:
-      'Hacemos sitios web, tiendas online, programas a la medida de tu negocio y asistentes con inteligencia artificial. En Chile.',
+    description: BAJADA,
     images: [
       {
         url: '/og.png',
@@ -129,6 +141,8 @@ const organizationSchema = {
   // Sin areaServed: la PostalAddress de arriba ya declara addressCountry 'CL',
   // y 'Latin America' era territorio que el sitio no sostiene en ninguna parte.
   alternateName: 'IAenBlanco',
+  slogan: LEMA,
+  description: BAJADA,
   sameAs: [socialLinks.linkedin, socialLinks.instagram],
   hasOfferCatalog: {
     '@type': 'OfferCatalog',

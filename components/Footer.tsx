@@ -35,7 +35,6 @@ export function Footer() {
               <Image src="/logo-ui.webp" width={256} height={256} alt="IAenBlanco" />
             </div>
             <p className="eyebrow eyebrow--dark">Tecnología que se usa, no que se explica</p>
-            <p className="site-footer__tagline">Sitios web, programas a medida y asistentes con IA.</p>
             <h2>Trabajamos con negocios chilenos que ya están funcionando.</h2>
             <a
               href={WHATSAPP_URL}
