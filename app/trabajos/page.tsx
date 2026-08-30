@@ -2,7 +2,7 @@ import type { Metadata } from 'next'
 import Link from 'next/link'
 import { Reveal } from '@/components/Reveal'
 import { Trabajos } from '@/components/Trabajos'
-import { SITE_URL, getWhatsappUrl } from '@/lib/site'
+import { OG_IMAGE, SITE_URL, getWhatsappUrl } from '@/lib/site'
 import { trabajos } from '@/lib/trabajos'
 
 export const metadata: Metadata = {
@@ -21,12 +21,7 @@ export const metadata: Metadata = {
     type: 'website',
     locale: 'es_CL',
     images: [
-      {
-        url: '/og.png',
-        width: 1200,
-        height: 630,
-        alt: 'IAenBlanco: sitios web, tiendas online y programas a la medida de tu negocio.',
-      },
+      OG_IMAGE,
     ],
   },
 }

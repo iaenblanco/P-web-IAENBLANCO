@@ -1,7 +1,7 @@
 import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 import { ServicePageTemplate } from '@/components/ServicePageTemplate'
-import { getService, services, SITE_URL } from '@/lib/site'
+import { getService, OG_IMAGE, services, SITE_URL } from '@/lib/site'
 import {
   getServicePageContent,
   serviceCanonical,
@@ -35,14 +35,7 @@ export async function generateMetadata({ params }: ServicePageProps): Promise<Me
       url: serviceCanonical(content.slug),
       siteName: 'IAenBlanco',
       type: 'website',
-      images: [
-        {
-          url: '/og.png',
-          width: 1200,
-          height: 630,
-          alt: `${service.title}, por IAenBlanco.`,
-        },
-      ],
+      images: [OG_IMAGE],
     },
   }
 }

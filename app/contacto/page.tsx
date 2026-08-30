@@ -6,6 +6,7 @@ import { Reveal } from '@/components/Reveal'
 import {
   COMPANY_PHONE,
   CONTACT_EMAIL,
+  OG_IMAGE,
   SITE_URL,
   socialLinks,
   WHATSAPP_URL,
@@ -30,12 +31,7 @@ export const metadata: Metadata = {
     type: 'website',
     locale: 'es_CL',
     images: [
-      {
-        url: '/og.png',
-        width: 1200,
-        height: 630,
-        alt: 'IAenBlanco: sitios web, tiendas online y programas a la medida de tu negocio.',
-      },
+      OG_IMAGE,
     ],
   },
 }

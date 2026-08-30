@@ -4,7 +4,7 @@ import { DiagnosticoServicios } from '@/components/DiagnosticoServicios'
 import { EscenaIndice } from '@/components/EscenaBanda'
 import { RevelaAlEntrar } from '@/components/RevelaAlEntrar'
 import { Trabajos } from '@/components/Trabajos'
-import { services, SITE_URL, getWhatsappUrl } from '@/lib/site'
+import { OG_IMAGE, services, SITE_URL, getWhatsappUrl } from '@/lib/site'
 
 export const metadata: Metadata = {
   title: 'Todo lo que hacemos, explicado sin tecnicismos',
@@ -22,12 +22,7 @@ export const metadata: Metadata = {
     type: 'website',
     locale: 'es_CL',
     images: [
-      {
-        url: '/og.png',
-        width: 1200,
-        height: 630,
-        alt: 'IAenBlanco: sitios web, tiendas online y programas a la medida de tu negocio.',
-      },
+      OG_IMAGE,
     ],
   },
 }

@@ -6,6 +6,7 @@ import {
   COMPANY_PHONE,
   COMPANY_TAX_ID,
   CONTACT_EMAIL,
+  LEMA,
   services,
   socialLinks,
   WHATSAPP_URL,
@@ -35,7 +36,7 @@ export function Footer() {
               <Image src="/logo-ui.webp" width={256} height={256} alt="IAenBlanco" />
             </div>
             <p className="eyebrow eyebrow--dark">Tecnología que se usa, no que se explica</p>
-            <h2>Trabajamos con negocios chilenos que ya están funcionando.</h2>
+            <h2>{LEMA}</h2>
             <a
               href={WHATSAPP_URL}
               target="_blank"

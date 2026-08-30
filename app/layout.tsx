@@ -12,6 +12,7 @@ import {
   CONTACT_EMAIL,
   products,
   services,
+  OG_IMAGE,
   SITE_URL,
   socialLinks,
 } from '@/lib/site'
@@ -84,12 +85,7 @@ export const metadata: Metadata = {
     title: 'IAenBlanco | Sitios web, programas a medida e IA para tu negocio',
     description: BAJADA,
     images: [
-      {
-        url: '/og.png',
-        width: 1200,
-        height: 630,
-        alt: 'IAenBlanco: sitios web, tiendas online y programas a la medida de tu negocio.',
-      },
+      OG_IMAGE,
     ],
   },
   /* Sin title ni description propios: los tenia congelados con la copia de la

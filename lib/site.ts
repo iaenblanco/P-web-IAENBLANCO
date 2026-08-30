@@ -14,6 +14,30 @@ export const WHATSAPP_URL = getWhatsappUrl('Hola IAenBlanco, quiero conversar so
 export const CONTACT_EMAIL = 'contacto@iaenblanco.com'
 
 /**
+ * La linea gobernante de la marca. Vive aca porque la escriben tres sitios: el
+ * pie del sitio, el texto alternativo de la tarjeta de enlace, y la tarjeta
+ * misma -herramientas/og.mjs, que no puede importar TypeScript y la lleva
+ * copiada con un comentario que apunta hasta aca-.
+ */
+export const LEMA = 'Trabajamos con negocios chilenos que ya están funcionando.'
+
+/**
+ * La tarjeta que se ve cuando alguien pega un enlace del sitio en un chat. Es
+ * una sola imagen para las once rutas, y se genera con herramientas/og.mjs.
+ *
+ * El alt describe lo que dice la IMAGEN, no lo que dice la pagina. Estaba
+ * escrito a mano en seis metadatas -cinco con el mismo texto y la de servicios
+ * con uno propio-, asi que al cambiar la tarjeta los seis quedaron
+ * describiendo un dibujo que ya no existe. Desde aca no puede volver a pasar.
+ */
+export const OG_IMAGE = {
+  url: '/og.png',
+  width: 1200,
+  height: 630,
+  alt: `IAenBlanco. ${LEMA}`,
+}
+
+/**
  * Identidad legal. El JSON-LD de cada página lleva nombre, correo, teléfono y
  * dirección, pero NO el RUT: el footer es el único lugar donde se publica.
  */
