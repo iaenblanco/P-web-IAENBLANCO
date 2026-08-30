@@ -13,6 +13,21 @@ function ArrowUpRight({ className = '' }: { className?: string }) {
   )
 }
 
+/* La flecha de los desplegables de escritorio. Antes era el caracter U+2304
+   escrito en el JSX: un glifo, o sea que su grosor lo decidia la fuente y no
+   el diseño, se desalineaba de la linea base del rotulo de al lado -habia un
+   translateY(-2px) puesto solo para taparlo- y el navegador que no tuviera
+   ese glifo pintaba un cuadro. Dibujada, mide siempre lo mismo y el trazo es
+   el del sistema. 1,5 y no los 1,6 de la version de telefono porque aqui va a
+   14 px y alla a 22: a menor tamaño, menor grosor para el mismo peso optico. */
+function ChevronNav() {
+  return (
+    <svg className="nav-chevron__glifo" viewBox="0 0 20 20" fill="none" aria-hidden="true" focusable="false">
+      <path d="m5 8 5 5 5-5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
+  )
+}
+
 function ChevronDown() {
   return (
     <svg className="mobile-navigation__chevron" viewBox="0 0 20 20" fill="none" aria-hidden="true">
@@ -312,7 +327,9 @@ export function Header() {
               aria-label="Desplegar servicios"
               onClick={() => toggleDesktopMenu('services')}
             >
-              <span className={`nav-chevron${openMenu === 'services' ? ' is-open' : ''}`}>⌄</span>
+              <span className={`nav-chevron${openMenu === 'services' ? ' is-open' : ''}`}>
+                <ChevronNav />
+              </span>
             </button>
 
             {/* Esto es un disclosure de enlaces, no un menubar: no hay flechas ni
@@ -400,7 +417,9 @@ export function Header() {
               aria-label="Desplegar productos"
               onClick={() => toggleDesktopMenu('products')}
             >
-              <span className={`nav-chevron${openMenu === 'products' ? ' is-open' : ''}`}>⌄</span>
+              <span className={`nav-chevron${openMenu === 'products' ? ' is-open' : ''}`}>
+                <ChevronNav />
+              </span>
             </button>
 
             {/* Disclosure, no menubar: ver la nota del panel de Servicios. */}

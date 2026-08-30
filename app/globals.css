@@ -527,14 +527,23 @@ button {
   transform-origin: left;
 }
 
+/* El desplazamiento vertical que habia aqui -y el de sentido contrario al
+   abrir- compensaba que el glifo U+2304 se dibuja alto dentro de su caja.
+   Con la flecha dibujada la caja es la flecha, asi que centrar es alinear y
+   abrir es solo girar. */
 .nav-chevron {
-  display: inline-block;
-  transform: translateY(-2px);
+  display: inline-flex;
+  align-items: center;
   transition: transform 220ms ease;
 }
 
+.nav-chevron__glifo {
+  width: 14px;
+  height: 14px;
+}
+
 .nav-chevron.is-open {
-  transform: translateY(2px) rotate(180deg);
+  transform: rotate(180deg);
 }
 
 /* La flecha, desde que el rotulo de al lado dejo de ser un boton y paso a ser
@@ -597,7 +606,7 @@ button {
 
 .nav-menu.is-open .nav-chevron,
 .nav-menu:hover .nav-chevron {
-  transform: translateY(2px) rotate(180deg);
+  transform: rotate(180deg);
 }
 
 .services-menu__label {
@@ -1296,7 +1305,7 @@ button {
 }
 
 .summary-system-label strong {
-  font-size: 14px;
+  font-size: var(--rotulo-fuerte, 14px);
   font-weight: 500;
   letter-spacing: 0.08em;
   line-height: 1;
@@ -1306,8 +1315,17 @@ button {
   --summary-accent: var(--summary-service);
 }
 
+/* La columna de la derecha es lo que TODAVIA no existe, y no puede pesar
+   igual que la de servicios, que si existe. Su rotulo no es un encabezado
+   simetrico del de la izquierda: las dos lineas van al mismo cuerpo, asi que
+   el par entero lee como nota del grupo y no como titulo de columna. El
+   codigo de color se conserva -la tinta ambar amarra con los cables ambar-,
+   solo se le quita jerarquia de tamano. Ver tambien el bloque de
+   .summary-orb--product, que hace lo mismo con los orbes. */
 .summary-system-label--products {
   --summary-accent: var(--summary-product);
+  --rotulo-fuerte: 11.5px;
+  --rotulo-fuerte-fluido: max(10.5px, 2.01cqi);
   text-align: right;
 }
 
@@ -1384,17 +1402,24 @@ button {
   box-shadow: 0 8px 18px rgba(7, 10, 15, 0.05);
 }
 
+/* Medido el 30-ago-2026 a 1440: el orbe de producto era el elemento mas
+   alto del mapa -55 px contra los 46 del de servicio- y su casilla de icono
+   la mas grande -62 px contra 45-. Lo que todavia no esta abierto pesaba mas
+   que lo que si se vende. Baja a la medida del de servicio: casilla al 71 %
+   y alto al nivel del vecino. La columna sigue en el mapa, que es lo que se
+   decidio el 21-ago; lo que cambia es cuanto grita. */
 .summary-orb--product {
   --orb-accent: var(--summary-product);
   grid-template-columns: minmax(0, 1fr) 31%;
-  height: min(62px, 74%);
+  height: min(46px, 58%);
 }
 
 .summary-orb--product > span {
   order: 2;
-  width: min(62px, 100%);
+  width: min(44px, 100%);
   aspect-ratio: 1;
-  border-radius: 18px;
+  border-radius: 13px;
+  box-shadow: none;
 }
 
 .summary-orb--product strong {
@@ -1406,8 +1431,17 @@ button {
   --orb-accent: var(--summary-product);
 }
 
-.summary-orb--citaly .hero-logo {
-  color: #68a85d;
+/* Dos de los tres iconos de producto son el logo de marca en color -webp de
+   Unificalo y de Citaly-, y el tercero se pintaba con el ambar del grupo. Eso
+   metia tres colores ajenos en la mitad derecha del mapa, frente al cian
+   uniforme de los cuatro servicios. En gris no compiten: la marca sigue
+   reconociendose y el color queda para lo que ya funciona.
+   (Antes aqui vivia .summary-orb--citaly .hero-logo pintando de verde una
+   etiqueta <img>, donde color no hace nada: era una regla muerta.) */
+.summary-orb--product .hero-logo {
+  filter: grayscale(1) contrast(0.92);
+  opacity: 0.62;
+  color: var(--graphite);
 }
 
 .summary-platform-cluster {
@@ -10242,7 +10276,7 @@ button {
 
   .summary-orb--product {
     height: auto;
-    min-height: min(62px, 74%);
+    min-height: min(46px, 58%);
   }
 }
 
@@ -11392,10 +11426,15 @@ button {
       gap: min(1.2cqi, 8px);
     }
 
+    /* Esta es la regla que manda de verdad sobre el cuerpo de los rotulos:
+       gana por venir despues, asi que el tamano estatico de mas arriba solo
+       se ve donde no hay unidades de contenedor. Por eso la excepcion del
+       rotulo de productos tiene que poder entrar tambien aqui, y entra por
+       variable. */
     .summary-system-label strong,
     .summary-orb strong,
     .summary-flow span {
-      font-size: max(11.5px, 2.35cqi);
+      font-size: var(--rotulo-fuerte-fluido, max(11.5px, 2.35cqi));
     }
   }
 }

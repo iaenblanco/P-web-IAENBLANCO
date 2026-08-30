@@ -67,7 +67,13 @@ const summaryMap = {
     connectionY: 238,
   },
   products: {
-    label: { x: 494, y: 36, w: 180 },
+    // El rotulo va 28 unidades mas abajo que el de servicios a proposito: a
+    // la misma altura los dos leian como encabezados pares de dos columnas
+    // del mismo rango, y la derecha es lo que todavia no abre. Aqui queda
+    // pegado al grupo que nombra. Ningun trazo del SVG usa products.label
+    // -los cables salen de trunkX, rows y branchEndX-, asi que moverlo no
+    // desalinea nada.
+    label: { x: 494, y: 64, w: 180 },
     cluster: { x: 494, y: 97, w: 180, h: 270 },
     rows: [142, 232, 322],
     trunkX: 468,
