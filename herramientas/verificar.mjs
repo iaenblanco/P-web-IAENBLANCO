@@ -13,6 +13,14 @@
 // La carpeta temporal se resuelve a ruta absoluta: Chrome 151 ya no acepta
 // un --user-data-dir relativo y se niega a arrancar sin decir por que.
 //
+// Ojo con las pasadas largas. El 30-ago-2026, las ocho rutas x nueve anchos en
+// una sola corrida murieron tres veces seguidas con "timeout Runtime.evaluate";
+// las mismas 72 cargas partidas en tres corridas -1 ruta, 4 rutas, 3 rutas-
+// pasaron las tres veces y dieron los totales de la linea base. Reproducido
+// 3 de 3 en cada sentido; la causa no esta diagnosticada. Si la bateria se
+// cuelga, pruebe partirla antes de buscar el defecto en el sitio: el mensaje
+// de error no distingue una cosa de la otra.
+//
 // Borra la carpeta temporal al terminar: cada pasada deja un perfil de Chrome
 // de ~200 MB, y en Windows las rutas son tan largas que Remove-Item no puede
 // con ellas (hay que vaciarlas antes con robocopy contra una carpeta vacia).

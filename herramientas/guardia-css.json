@@ -1,6 +1,6 @@
 {
   "lee": "Las deudas que app/globals.css ya tiene. Esta lista solo puede achicarse. La reescribe: node herramientas/guardia-css.mjs --fijar",
-  "lineas": 17690,
+  "lineas": 17774,
   "important": 22,
   "duplicados": {
     "*": 2,
@@ -233,7 +233,6 @@
     ".trust-proof-card__link svg": 2,
     ".trust-proof-card__sector": 2,
     ".trust-proof__copy": 3,
-    ".trust-proof__copy h2": 2,
     ".trust-proof__notas": 2,
     ".u2__cifra-antes": 2,
     ".u2__cifra-despues": 2,
@@ -255,7 +254,6 @@
     "@media (max-width: 620px) >> .connection-card span": 2,
     "@media (max-width: 620px) >> .consent-banner button": 2,
     "@media (max-width: 620px) >> .consent-banner__actions": 2,
-    "@media (max-width: 620px) >> .ecosystem-lab__heading h2": 2,
     "@media (max-width: 620px) >> .eyebrow": 3,
     "@media (max-width: 620px) >> .hero-kicker": 3,
     "@media (max-width: 620px) >> .hero-summary-map": 2,

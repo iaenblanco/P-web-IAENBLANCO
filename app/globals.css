@@ -268,6 +268,62 @@ video {
   --h1-interior-peso: 500;
   --h1-interior-interletrado: -0.045em;
   --h1-interior-linea: 0.98;
+
+  /* El titular de seccion: el escalon de la home que tres bloques distintos
+     usan y que hasta hoy cada uno se escribia por su cuenta. Medido el
+     30-ago-2026 en el DOM, a 1440 px los tres salian al mismo cuerpo -60,5 px-
+     y con tres densidades distintas:
+
+       .trust-proof__copy h2      -0.035em, peso 550
+       .ecosystem-lab__heading h2 -0.058em, peso 500
+       .operating-model__... h2   -0.065em, peso 500
+
+     A 60 px, 0,03 em de diferencia son 1,8 px por letra: sobre un titular de
+     treinta caracteres, medio centimetro de ancho. Son tres titulares del mismo
+     cuerpo en la misma pagina, uno debajo del otro.
+
+     Ninguna de las tres era una decision. Es mas: la de operating-model tenia
+     escrita al lado la intencion contraria -"va a la misma escala que Miralo tu
+     mismo y Tres programas propios"-, y aun asi solo se habia igualado el
+     cuerpo. La de trust-proof venia de que el selector estaba declarado dos
+     veces con 7000 lineas de por medio y la segunda copia solo pisaba la mitad
+     de las declaraciones. La de operating-model, de que su regla base es del
+     escalon de 76px: el cuerpo se lo pisa una regla mas especifica, pero el
+     interletrado se quedo con el del escalon de arriba.
+
+     De donde salen los valores. Peso 500 porque es lo que hace el sitio que se
+     ve: de los titulares de display vivos, de 92 a 62 px, todos van a 500 menos
+     .contact-hero h1, que va a 550. Interletrado -0.065em por descarte medido:
+     entre -0.06em y -0.065em la evidencia esta empatada -el escalon de 76px usa
+     los dos- y a 60 px la diferencia son 0,3 px por letra, que no se ve. Lo que
+     si se ve es el borde: a 360 px la linea mas larga de «Tres pasos, y en
+     ninguno te dejamos solo.» mide 331 de los 336 px de la columna con -0.065em
+     y 335 con -0.06em. Aflojar habria gastado 4 de los 5 px que quedaban en el
+     texto mas ajustado del sitio, a cambio de nada visible. Esos 5 px son
+     estrechos y vienen de antes; quedan anotados en el plan.
+
+     El text-wrap: balance no es decoracion, es lo que evita que la ultima linea
+     se pegue a la columna. Medido sobre lo que se sube -o sea ya con -0.065em-,
+     la linea mas larga de ese mismo titular pasa de 723 de 736 px a 491 a
+     1201 px, y de 662 a 603 a 1920. A 360 px no puede hacer nada porque el
+     corte ya lo impone el ancho: 331 con balance y sin el.
+
+     Cuidado al buscar mas ejemplos en este archivo: hay otras cuatro reglas con
+     este mismo cuerpo que declaran 550 y -0.06em, y las cuatro apuntan a clases
+     que ninguna pagina emite. No son precedente. Quedan apuntadas al contrato
+     por si alguna revive, pero el 43% de las reglas de este archivo esta en esa
+     situacion y limpiarlo es un trabajo aparte, anotado en el plan.
+
+     Que NO entra en el contrato: la interlinea, el ancho maximo y el margen.
+     Cada bloque tiene su columna -460, 880 y 950 px- y un titular de dos lineas
+     no lleva la interlinea de uno de una. Y a 620 px o menos hay una regla que
+     afloja el interletrado a -0.045em -el mismo valor que
+     --h1-interior-interletrado-, pero solo sobre parte de estos selectores;
+     extenderla mueve los cortes de linea en los anchos estrechos y pide su
+     propia medicion. */
+  --titular-seccion: clamp(34px, 4.2vw, 62px);
+  --titular-seccion-peso: 500;
+  --titular-seccion-interletrado: -0.065em;
 }
 
 * {
@@ -3449,9 +3505,10 @@ button {
 .system-map-section__copy h2 {
   max-width: 980px;
   margin: 0;
-  font-size: clamp(34px, 4.2vw, 62px);
-  font-weight: 550;
-  letter-spacing: -0.06em;
+  font-size: var(--titular-seccion);
+  font-weight: var(--titular-seccion-peso);
+  letter-spacing: var(--titular-seccion-interletrado);
+  text-wrap: balance;
   line-height: 0.96;
 }
 
@@ -3566,13 +3623,23 @@ button {
   align-content: center;
 }
 
+/* Este selector estaba declarado dos veces, con 7000 lineas de por medio, y lo
+   que se veia no era ninguna de las dos: el ancho, el margen y el peso salian
+   de la primera, y el tamano, la interlinea y el interletrado de la segunda.
+   Quien leyera la primera creeria que este titular llega a 46px; llega a 62.
+   Van juntas aqui, con el mismo resultado que ya se veia salvo el interletrado,
+   que pasa al contrato del escalon -ver --titular-seccion en el :root-. La
+   interlinea se queda en 1.06 y no baja al 0.98 de sus vecinas porque esta
+   frase cabe en una linea de 1920 a 360 px: aqui la interlinea solo decide el
+   alto de la caja, no como se reparte el texto. */
 .trust-proof__copy h2 {
   max-width: 460px;
   margin: 14px 0 0;
-  font-size: clamp(26px, 3.4vw, 46px);
-  font-weight: 550;
-  letter-spacing: -0.055em;
-  line-height: 0.98;
+  font-size: var(--titular-seccion);
+  font-weight: var(--titular-seccion-peso);
+  letter-spacing: var(--titular-seccion-interletrado);
+  text-wrap: balance;
+  line-height: 1.06;
 }
 
 .trust-proof__copy p:last-child {
@@ -3763,9 +3830,10 @@ button {
 .problem-strip__heading h2 {
   max-width: 520px;
   margin: 18px 0 0;
-  font-size: clamp(34px, 4.2vw, 62px);
-  font-weight: 550;
-  letter-spacing: -0.06em;
+  font-size: var(--titular-seccion);
+  font-weight: var(--titular-seccion-peso);
+  letter-spacing: var(--titular-seccion-interletrado);
+  text-wrap: balance;
   line-height: 0.98;
 }
 
@@ -4110,9 +4178,10 @@ button {
   max-width: 310px;
   margin-top: 12px;
   color: var(--ink);
-  font-size: clamp(34px, 4.2vw, 62px);
-  font-weight: 550;
-  letter-spacing: -0.06em;
+  font-size: var(--titular-seccion);
+  font-weight: var(--titular-seccion-peso);
+  letter-spacing: var(--titular-seccion-interletrado);
+  text-wrap: balance;
   line-height: 0.9;
 }
 
@@ -4199,9 +4268,10 @@ button {
 .ecosystem-lab__heading h2 {
   max-width: 880px;
   margin: 0;
-  font-size: clamp(34px, 4.2vw, 62px);
-  font-weight: 500;
-  letter-spacing: -0.058em;
+  font-size: var(--titular-seccion);
+  font-weight: var(--titular-seccion-peso);
+  letter-spacing: var(--titular-seccion-interletrado);
+  text-wrap: balance;
   line-height: 0.98;
 }
 
@@ -4307,9 +4377,10 @@ button {
   max-width: 620px;
   margin: 10px 0 0;
   color: var(--ink);
-  font-size: clamp(34px, 4.2vw, 62px);
-  font-weight: 550;
-  letter-spacing: -0.06em;
+  font-size: var(--titular-seccion);
+  font-weight: var(--titular-seccion-peso);
+  letter-spacing: var(--titular-seccion-interletrado);
+  text-wrap: balance;
   line-height: 0.94;
 }
 
@@ -4673,12 +4744,20 @@ button {
   align-items: start;
 }
 
+/* Aqui no hay font-size a proposito. Esta regla es del escalon de 76px y ese
+   tamano no llegaba a dibujarse nunca: lo pisa .problem-strip__proceso ... h2,
+   que es la unica forma en que este bloque existe en el sitio -aparece una sola
+   vez, en app/page.tsx-. Lo que si se dibujaba eran el peso y el interletrado
+   del escalon de arriba sobre un cuerpo del escalon de abajo. El tamano se
+   queda en la regla mas especifica porque tiene que ganarle al font-size: 44px
+   que un grupo de @media (max-width: 620px) le pone a este mismo selector: si
+   subiera aqui, en movil el titular saltaria de 34 a 44 px. */
 .operating-model__heading h2 {
   max-width: 950px;
   margin: 0;
-  font-size: clamp(38px, 4.8vw, 76px);
-  font-weight: 500;
-  letter-spacing: -0.065em;
+  font-weight: var(--titular-seccion-peso);
+  letter-spacing: var(--titular-seccion-interletrado);
+  text-wrap: balance;
   line-height: 0.98;
 }
 
@@ -7934,10 +8013,6 @@ button {
     padding: 82px 0 92px;
   }
 
-  .ecosystem-lab__heading h2 {
-    font-size: clamp(38px, 4.8vw, 76px);
-  }
-
   .ecosystem-lab__heading p {
     margin-top: 26px;
     font-size: 16px;
@@ -8556,6 +8631,15 @@ button {
 }
 
 @media (max-width: 620px) {
+  /* Aflojar el interletrado al bajar de tamano es lo correcto: el -0.065em del
+     contrato esta pensado para 62px y a 34px aprieta de mas. El problema es que
+     este escalon movil cubre tres de los siete titulares de --titular-seccion;
+     los otros cuatro se quedan apretados en movil.
+     No se extiende aqui porque no es gratis: "Tres pasos, y en ninguno te
+     dejamos solo." ya mide 331 de 336 px a 360 px con -0.065em, y 0.02em mas a
+     34px son unos 0.7px por letra, o sea trece y pico en esa linea. Pasarlo a
+     -0.045em la parte. Extender el escalon exige rehacer la medicion de las
+     cuatro que faltan, ancho por ancho; queda anotado en el plan. */
   .system-map-section__copy h2,
   .problem-strip__heading h2,
   .ecosystem-lab__heading h2 {
@@ -10516,12 +10600,6 @@ button {
   display: grid;
   gap: var(--espacio-2);
   max-width: 62ch;
-}
-
-.trust-proof__copy h2 {
-  font-size: clamp(34px, 4.2vw, 62px);
-  line-height: 1.06;
-  letter-spacing: -0.035em;
 }
 
 .trust-proof__copy p:not(.eyebrow) {
@@ -12651,10 +12729,16 @@ button {
 }
 
 /* Ahora es el titular de su seccion, no un segundo tiempo: va a la misma
-   escala que "Miralo tu mismo" y "Tres programas propios". */
+   escala que "Miralo tu mismo" y "Tres programas propios". La escala se
+   cumplio a medias: el cuerpo si se igualo -esta linea-, pero el peso y el
+   interletrado se quedaron con los del escalon de 76px de la regla base, asi
+   que los tres titulares salian del mismo tamano y con distinta densidad.
+   Desde el 30-ago-2026 los tres cumplen el mismo contrato: --titular-seccion.
+   El tamano vive aqui y no en la regla base por lo que explica el comentario
+   de .operating-model__heading h2, mas arriba. */
 .problem-strip__proceso .operating-model__heading h2 {
   max-width: none;
-  font-size: clamp(34px, 4.2vw, 62px);
+  font-size: var(--titular-seccion);
 }
 
 .problem-strip__proceso .operating-model__copy {
