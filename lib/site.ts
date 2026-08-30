@@ -219,11 +219,18 @@ export type Diptico = {
   remateDespues: string
 }
 
+/*
+ * El estado "en camino" en un solo lugar. Estaba escrito tres veces, y de el
+ * depende el numero que la franja del heroe muestra: si una ficha cambia el
+ * texto a mano, el conteo se despega de la lista sin que nadie se entere.
+ */
+export const ESTADO_EN_CAMINO = 'Próximamente'
+
 export const products: Product[] = [
   {
     id: 'unificalo',
     name: 'Unifícalo',
-    status: 'Próximamente',
+    status: ESTADO_EN_CAMINO,
     statusMeaning: 'Lo estamos terminando con los primeros negocios. Todavía no está listo.',
     offer: 'Sin compromiso · lo vemos por WhatsApp',
     ctaLabel: 'Hablemos de Unifícalo',
@@ -266,7 +273,7 @@ export const products: Product[] = [
   {
     id: 'citaly',
     name: 'Citaly',
-    status: 'Próximamente',
+    status: ESTADO_EN_CAMINO,
     statusMeaning: 'Está en pruebas con negocios reales.',
     offer: 'Sin compromiso · lo vemos por WhatsApp',
     ctaLabel: 'Hablemos de Citaly',
@@ -304,7 +311,7 @@ export const products: Product[] = [
   {
     id: 'leads',
     name: 'Leads',
-    status: 'Próximamente',
+    status: ESTADO_EN_CAMINO,
     statusMeaning: 'Lo estamos afinando con los primeros clientes.',
     offer: 'Sin compromiso · lo vemos por WhatsApp',
     ctaLabel: 'Hablemos de Leads',
@@ -336,6 +343,14 @@ export const products: Product[] = [
     },
   },
 ]
+
+/*
+ * Cuantos programas propios siguen sin abrir. Sale de la lista y no escrito a
+ * mano: la misma franja del heroe ya decia 5 sitios cuando ya eran 7.
+ */
+export const programasEnCamino = products.filter(
+  (producto) => producto.status === ESTADO_EN_CAMINO,
+).length
 
 export function getService(slug: string) {
   return services.find((service) => service.slug === slug)

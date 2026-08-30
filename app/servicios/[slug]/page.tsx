@@ -65,7 +65,9 @@ export default async function ServicePage({ params }: ServicePageProps) {
       name: 'IAenBlanco SpA',
       url: SITE_URL,
     },
-    areaServed: 'Latin America',
+    // Aqui no se puede borrar como en el layout: este provider no lleva
+    // PostalAddress, asi que sin esta linea el Service queda sin geografia.
+    areaServed: 'Chile',
   }
 
   const faqSchema = {

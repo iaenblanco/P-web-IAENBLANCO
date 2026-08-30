@@ -14,7 +14,7 @@ import {
 /* La misma bajada sirve para la metadata y para la tarjeta social. Una sola
    fuente, para que no quede una de las dos vieja. */
 const DESCRIPCION =
-  'Conversa con IAenBlanco sobre un sitio web, plataforma, automatización o solución de inteligencia artificial a medida.'
+  'Cuéntanos qué necesitas: un sitio web, una tienda online, un programa a la medida de tu negocio, o algo que hoy haces a mano y quieres que se haga solo.'
 
 export const metadata: Metadata = {
   title: 'Contacto',

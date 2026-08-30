@@ -48,7 +48,29 @@ export function RevelaAlEntrar({ children, className = '' }: { children: ReactNo
       return
     }
 
+    // Lo que ya se ve al cargar no se arma escondido: es la regla que escribio
+    // RevelaEnCascada -su comentario, «si se armara, el encabezado y el diagrama
+    // del hero parpadearian»- y que aca faltaba. Sin ella el mapa del hero se
+    // pinta, desaparece al hidratar y vuelve a entrar mucho despues.
+    //
+    // Se miden los HIJOS y no el envoltorio: el envoltorio es display:contents,
+    // no genera caja, su rect es 0x0 en el origen y el filtro no filtraria nada.
+    // Primero se lee todo y despues se escribe.
+    //
+    // Un visor sin alto -una pestana que nunca llego a pintarse- daria "esta
+    // abajo" para todo, incluido el hero: ahi no se filtra y se arma como antes.
+    const alto = window.innerHeight
+    const yaSeVe =
+      alto > 0 &&
+      Array.from(el.children).some((hijo) => hijo.getBoundingClientRect().top < alto * 0.85)
+
+    // "revela--armado" se pone SIEMPRE, tambien cuando la pieza ya se ve: de esa
+    // clase cuelgan el pausado de los bucles del mapa y el acelerador de las
+    // escenas. Devolver temprano sin ponerla las dejaria congeladas con JS
+    // activo. Las dos clases salen en el mismo commit del efecto, asi que el
+    // navegador nunca computa el estado escondido y no hay transicion que ver.
     setArmado(true)
+    if (yaSeVe) setVisible(true)
 
     // Se observan los hijos y no el envoltorio: el envoltorio es
     // display:contents, o sea que no genera caja, el navegador lo mide 0x0 y

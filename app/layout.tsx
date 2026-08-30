@@ -35,8 +35,11 @@ export const metadata: Metadata = {
     default: 'IAenBlanco | Sitios web, programas a medida e IA para tu negocio',
     template: '%s | IAenBlanco',
   },
+  // La misma bajada que ya publicaba el bloque openGraph. Estaban divergidas:
+  // una en jerga y la otra llana, y la que Google muestra era la jerga.
+  // Cambiada el 30-ago-2026; leer Search Console pasadas unas semanas.
   description:
-    'Diseñamos sitios web, plataformas, automatizaciones y soluciones de inteligencia artificial conectadas con operaciones reales.',
+    'Hacemos sitios web, tiendas online, programas a la medida de tu negocio y asistentes con inteligencia artificial. En Chile.',
   keywords: [
     'inteligencia artificial para empresas',
     'soluciones de IA a medida',
@@ -123,7 +126,9 @@ const organizationSchema = {
     addressRegion: 'Santiago',
     addressCountry: 'CL',
   },
-  areaServed: 'Latin America',
+  // Sin areaServed: la PostalAddress de arriba ya declara addressCountry 'CL',
+  // y 'Latin America' era territorio que el sitio no sostiene en ninguna parte.
+  alternateName: 'IAenBlanco',
   sameAs: [socialLinks.linkedin, socialLinks.instagram],
   hasOfferCatalog: {
     '@type': 'OfferCatalog',
