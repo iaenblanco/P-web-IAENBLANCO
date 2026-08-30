@@ -250,6 +250,24 @@ video {
      al color y al espaciado. Si hace falta una mono mas gruesa, se agrega
      el fichero en layout.tsx primero; subir el numero aqui no la trae. */
   --font-mono: "IBM Plex Mono", Consolas, monospace;
+
+  /* El titular de las paginas interiores, declarado una vez. Medido el
+     30-ago-2026 en el DOM: /servicios/, /productos/ y /contacto/ ya
+     compartian estos cuatro valores porque las tres pasan por
+     .banda-apertura, pero /trabajos/ no usa esa banda y se habia quedado
+     fuera del sistema. Ahi el h1 salia a clamp(34px, 5.4vw, 62px) y SIN
+     interletrado: a 1920 px eran 62 px contra 54, y el hueco entre palabras
+     0,200 em contra 0,150 em de las otras tres. Al lado se leia como otro
+     sitio.
+
+     Van como variables y no copiadas a un segundo selector porque asi es
+     como este archivo llego a 392 selectores repetidos: dos copias que
+     empiezan iguales y se separan en la primera correccion que solo toca
+     una. */
+  --h1-interior: clamp(34px, 3.6vw, 54px);
+  --h1-interior-peso: 500;
+  --h1-interior-interletrado: -0.045em;
+  --h1-interior-linea: 0.98;
 }
 
 * {
@@ -7007,10 +7025,6 @@ button {
     gap: 24px;
   }
 
-  .home-hero h1 {
-    font-size: clamp(38px, 4.8vw, 76px);
-  }
-
   .home-hero__summary {
     font-size: clamp(17px, 1.55vw, 21px);
   }
@@ -7798,7 +7812,6 @@ button {
   .page-hero h1,
   .contact-hero h1 {
     margin-top: 24px;
-    font-size: clamp(38px, 4.8vw, 76px);
     line-height: 0.93;
   }
 
@@ -8468,12 +8481,6 @@ button {
 }
 
 @media (max-width: 620px) {
-  .home-hero h1,
-  .page-hero h1,
-  .contact-hero h1 {
-    font-size: clamp(38px, 4.8vw, 76px);
-  }
-
   .problem-strip__grid {
     grid-template-columns: minmax(0, 1fr);
   }
@@ -9155,7 +9162,6 @@ button {
 
   .home-hero h1 {
     max-width: 680px;
-    font-size: clamp(38px, 4.8vw, 76px);
   }
 
   .home-hero__summary {
@@ -15544,10 +15550,10 @@ button {
    pareja. */
 .banda-apertura .banda-apertura__texto h1 {
   margin: 0;
-  font-size: clamp(34px, 3.6vw, 54px);
-  font-weight: 500;
-  letter-spacing: -0.045em;
-  line-height: 0.98;
+  font-size: var(--h1-interior);
+  font-weight: var(--h1-interior-peso);
+  letter-spacing: var(--h1-interior-interletrado);
+  line-height: var(--h1-interior-linea);
   text-wrap: balance;
 }
 
@@ -17184,10 +17190,18 @@ button {
   max-width: 780px;
 }
 
+/* Mismo contrato que las otras tres interiores -ver --h1-interior en el
+   :root-. El margen se queda propio: aqui el eyebrow va pegado arriba y en la
+   banda el h1 abre el bloque. Comprobado a 1920/1440/1201/1024/900/768/430/
+   375/360: cabe en todos, sin desbordes, y el text-wrap del contrato reparte
+   las dos lineas de escritorio (la tinta baja de 758 a 499 px a 1920). */
 .pagina-trabajos__apertura h1 {
   margin: 12px 0 0;
-  font-size: clamp(34px, 5.4vw, 62px);
-  line-height: 1.05;
+  font-size: var(--h1-interior);
+  font-weight: var(--h1-interior-peso);
+  letter-spacing: var(--h1-interior-interletrado);
+  line-height: var(--h1-interior-linea);
+  text-wrap: balance;
 }
 
 .pagina-trabajos__lead {
