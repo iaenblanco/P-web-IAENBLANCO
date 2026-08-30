@@ -324,6 +324,37 @@ video {
   --titular-seccion: clamp(34px, 4.2vw, 62px);
   --titular-seccion-peso: 500;
   --titular-seccion-interletrado: -0.065em;
+
+  /* Elevacion. Medido en el DOM el 30-ago-2026: de los 47 valores distintos de
+     box-shadow que hay escritos en este archivo, solo 17 llegan a dibujarse.
+     Y de esos 17, cinco estaban dentro de UN MISMO componente -el mapa del
+     heroe-, en elementos hermanos, con cinco valores distintos:
+
+       .summary-orb strong                 0 8px  18px  0.05
+       .summary-orb > span                 0 8px  18px  0.06
+       .summary-platform span              0 8px  16px  0.055
+       .summary-system-label--platforms    0 10px 22px  0.055
+       .summary-flow                       0 14px 30px  0.07
+
+     A esas opacidades la diferencia entre 0.05 y 0.06 no se ve; el problema no
+     es visual, es que no hay donde cambiar la elevacion del sitio. Son dos
+     alturas, no cinco: lo que descansa sobre el diagrama y lo que flota por
+     encima del contenido. El sitio ya trataba a la cabecera y a la barra de
+     flujo como la misma altura -0 14px 34px y 0 14px 30px-, asi que el segundo
+     escalon no es un invento: es lo que ya hacia, escrito una sola vez.
+
+     Lo que NO entra aqui, y por que: la sombra del telefono de /trabajos
+     -0 18px 40px al 24%- y la del boton flotante de WhatsApp -0 10px 30px al
+     22%- son de otro orden, un objeto que flota sobre una foto o sobre toda la
+     pagina; unificarlas con el panel se veria. Queda fuera tambien la tarjeta
+     de .rampa__accion -0 20px 44px al 6%-: misma tinta que el panel pero con
+     casi el doble de caida, que es lo que la separa de la columna de al lado;
+     bajarla a 14/32 la aplanaria. Tampoco entran las compuestas del mapa del
+     heroe ni los anillos de foco, que llevan color de senal y no tinta. Del
+     boton de WhatsApp solo se corrige el color: era el unico negro puro del
+     archivo, todo el resto tinta la sombra con --ink. */
+  --sombra-chip: 0 8px 18px rgba(7, 10, 15, 0.055);
+  --sombra-panel: 0 14px 32px rgba(7, 10, 15, 0.06);
 }
 
 * {
@@ -507,7 +538,7 @@ button {
   padding: 8px 10px 8px 8px;
   border: 1px solid var(--line-soft);
   background: rgba(244, 242, 236, 0.98);
-  box-shadow: 0 14px 34px rgba(7, 10, 15, 0.055);
+  box-shadow: var(--sombra-panel);
   transition:
     height 260ms ease,
     background-color 260ms ease,
@@ -1411,7 +1442,7 @@ button {
   border: 1px solid rgba(102, 169, 63, 0.2);
   background: rgba(251, 250, 247, 0.98);
   text-align: center;
-  box-shadow: 0 10px 22px rgba(7, 10, 15, 0.055);
+  box-shadow: var(--sombra-chip);
 }
 
 .summary-node-cluster {
@@ -1454,7 +1485,7 @@ button {
   background:
     radial-gradient(circle at 50% 44%, color-mix(in srgb, currentColor 12%, transparent), transparent 62%),
     rgba(251, 250, 247, 0.82);
-  box-shadow: 0 8px 18px rgba(7, 10, 15, 0.06);
+  box-shadow: var(--sombra-chip);
   animation: none;
 }
 
@@ -1473,7 +1504,7 @@ button {
   font-weight: 700;
   letter-spacing: -0.02em;
   line-height: 1.05;
-  box-shadow: 0 8px 18px rgba(7, 10, 15, 0.05);
+  box-shadow: var(--sombra-chip);
 }
 
 /* Medido el 30-ago-2026 a 1440: el orbe de producto era el elemento mas
@@ -1553,7 +1584,7 @@ button {
   border: 1px solid currentColor;
   border-radius: 50%;
   background: rgba(251, 250, 247, 0.82);
-  box-shadow: 0 8px 16px rgba(7, 10, 15, 0.055);
+  box-shadow: var(--sombra-chip);
   animation: none;
 }
 
@@ -1583,7 +1614,7 @@ button {
   min-height: 0;
   border: 1px solid color-mix(in srgb, var(--signal) 22%, transparent);
   background: rgba(251, 250, 247, 0.76);
-  box-shadow: 0 14px 30px rgba(7, 10, 15, 0.07);
+  box-shadow: var(--sombra-panel);
 }
 
 .summary-flow span {
@@ -16991,7 +17022,7 @@ button {
   border-radius: 50%;
   background: #25d366;
   color: #fff;
-  box-shadow: 0 10px 30px rgb(0 0 0 / 22%);
+  box-shadow: 0 10px 30px rgba(7, 10, 15, 0.22);
   /* visibility va en la lista porque sin ella el estado --al-pie desaparecia de
      golpe pese al fundido que promete su comentario; bottom, para que el
      corrimiento sobre el aviso acompanne cuando el visitante lo responde. */
