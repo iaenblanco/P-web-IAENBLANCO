@@ -294,10 +294,33 @@ video {
      Van como variables y no copiadas a un segundo selector porque asi es
      como este archivo llego a 392 selectores repetidos: dos copias que
      empiezan iguales y se separan en la primera correccion que solo toca
-     una. */
+     una.
+
+     El peso y el interletrado perdieron el «interior» del nombre el 30-ago-2026:
+     desde ese dia el titular de portada -.home-hero h1- usa los mismos. Era el
+     ultimo de los tres escalones con valores propios: 550 y -0.07em contra el
+     500 de los otros dos. El 550 no era un artefacto del navegador -la sans es
+     variable y cada escalon de 50 es una cara real: medida la tinta de la misma
+     linea a 62 px, 787,2 / 800,9 / 807,7 / 814,0 px a 400 / 500 / 550 / 600-,
+     era sencillamente un numero que nadie habia vuelto a mirar.
+
+     El interletrado si hacia dano, y no donde parece. Se resta a TODOS los
+     avances, tambien al del espacio: el espacio propio de Instrument Sans mide
+     0,196 em -derivado dos veces, 4,77 + 2,66 px a 38 px y 5,13 + 1,53 px a
+     34 px-, asi que a -0.07em el hueco entre palabras salia en 0,125 em y a
+     -0.045em sale en 0,150 em, el mismo de los otros titulares. No estaban
+     apretadas las letras: estaban pegadas las palabras. Es el defecto espejo
+     del que arreglo el escalon interior, donde el hueco era 0,200 em.
+
+     Lo que cambia en pantalla: el titular de portada adelgaza ~0,8 % de tinta
+     y gana un quinto de hueco. A 1024 px «Te hacemos la parte tecnologica.»
+     deja de caber en una linea -venia cabiendo en 746,9 de 760 px, o sea solo
+     gracias a la fusion- y pasa a cortar como ya cortaba a 1200 px, donde
+     nunca cupo. En los otros doce anchos medidos -360, 375, 390, 430, 620,
+     768, 900, 901, 1200, 1201, 1440, 1920- el numero de lineas no se mueve. */
   --h1-interior: clamp(34px, 3.6vw, 54px);
-  --h1-interior-peso: 500;
-  --h1-interior-interletrado: -0.045em;
+  --h1-peso: 500;
+  --h1-interletrado: -0.045em;
   --h1-interior-linea: 0.98;
 
   /* El titular de seccion: el escalon de la home que tres bloques distintos
@@ -348,8 +371,8 @@ video {
      Que NO entra en el contrato: la interlinea, el ancho maximo y el margen.
      Cada bloque tiene su columna -460, 880 y 950 px- y un titular de dos lineas
      no lleva la interlinea de uno de una. Y a 620 px o menos hay una regla que
-     afloja el interletrado a -0.045em -el mismo valor que
-     --h1-interior-interletrado-, pero solo sobre parte de estos selectores;
+     afloja el interletrado a -0.045em -el mismo valor que --h1-interletrado-,
+     pero solo sobre parte de estos selectores;
      extenderla mueve los cortes de linea en los anchos estrechos y pide su
      propia medicion. */
   --titular-seccion: clamp(34px, 4.2vw, 62px);
@@ -1106,9 +1129,8 @@ button {
   max-width: 680px;
   margin: 32px 0 0;
   font-size: clamp(44px, 5.6vw, 92px);
-  font-weight: 550;
-  letter-spacing: -0.07em;
-  line-height: 0.89;
+  font-weight: var(--h1-peso);
+  letter-spacing: var(--h1-interletrado);
 }
 
 .home-hero h1 em,
@@ -7953,7 +7975,6 @@ button {
   .page-hero h1,
   .contact-hero h1 {
     margin-top: 24px;
-    line-height: 0.93;
   }
 
   .home-hero__summary {
@@ -15697,8 +15718,8 @@ button {
 .banda-apertura .banda-apertura__texto h1 {
   margin: 0;
   font-size: var(--h1-interior);
-  font-weight: var(--h1-interior-peso);
-  letter-spacing: var(--h1-interior-interletrado);
+  font-weight: var(--h1-peso);
+  letter-spacing: var(--h1-interletrado);
   line-height: var(--h1-interior-linea);
   text-wrap: balance;
 }
@@ -17344,8 +17365,8 @@ button {
 .pagina-trabajos__apertura h1 {
   margin: 12px 0 0;
   font-size: var(--h1-interior);
-  font-weight: var(--h1-interior-peso);
-  letter-spacing: var(--h1-interior-interletrado);
+  font-weight: var(--h1-peso);
+  letter-spacing: var(--h1-interletrado);
   line-height: var(--h1-interior-linea);
   text-wrap: balance;
 }
