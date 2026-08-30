@@ -223,11 +223,42 @@ video {
   --paper-deep: #e9e6de;
   --ink: #070a0f;
   --night: #0c1824;
+  /* La rampa de tinta, medida en el DOM el 30-ago-2026 y no contada en el
+     archivo. Habia cinco grises entre --ink y el papel:
+
+       --text-strong  #343d46   12 declaraciones -> 6 elementos vivos
+       --text-deep    #35404b    6 declaraciones -> 2 elementos vivos
+       --text-body    #3c4650   25 declaraciones -> 40 elementos vivos
+       --graphite     #4a545f  100 declaraciones -> 141 elementos vivos
+       --text-muted   #4b5661    6 declaraciones -> 1 selector vivo
+
+     Dos de esas parejas no se distinguen: entre --text-muted y --graphite hay
+     1, 2 y 2 puntos por canal, y entre --text-deep y --text-strong hay 1, 3 y
+     5. No es una rampa, son cinco valores que fueron cayendo. Y se aplicaban a
+     lo mismo: .trust-proof-card p llevaba --text-muted y
+     .trust-proof-card__evidence p llevaba --text-strong, dos parrafos de la
+     misma tarjeta con 6,7 y 9,9 de contraste.
+
+     Quedan tres, por funcion y no por tono: --ink para titulares y maximo
+     enfasis, --text-body para toda la prosa, --graphite para rotulos, cifras
+     de apoyo y metadatos. Sobre --paper dan 17,7 / 8,6 / 6,9, los tres por
+     encima de AA y los dos primeros por encima de AAA.
+
+     Que cambia de verdad en pantalla: ocho elementos -el parrafo del heroe,
+     dos pies de escena, el plazo de apertura y dos parrafos de /servicios/-
+     pasan de 9,9 a 8,6 de contraste, es decir se aclaran un punto. El resto
+     del movimiento es sobre reglas que ninguna pagina construida emite: de las
+     24 declaraciones que se reescriben, 17 no llegaban a dibujarse.
+
+     No se dejan alias: se comprobo que ni un solo .tsx, .ts o .json nombra
+     estos tokens; el unico consumidor fuera de este archivo es
+     herramientas/og.mjs, que declara su propio --graphite con el mismo valor.
+
+     Si manana el parrafo del heroe necesita mas peso que el resto de la prosa,
+     eso se resuelve con peso o tamano y se escribe como decision, no
+     oscureciendolo ocho puntos por canal sin que nadie sepa por que. */
   --graphite: #4a545f;
-  --text-strong: #343d46;
   --text-body: #3c4650;
-  --text-muted: #4b5661;
-  --text-deep: #35404b;
   --signal: #40b0d0;
   --signal-ink: #1b6a80;
   --ice: #90e0e8;
@@ -1092,7 +1123,7 @@ button {
 .home-hero__summary {
   max-width: 560px;
   margin: 34px 0 0;
-  color: var(--text-strong);
+  color: var(--text-body);
   font-size: clamp(18px, 1.7vw, 24px);
   letter-spacing: -0.025em;
   line-height: 1.42;
@@ -2102,7 +2133,7 @@ button {
   gap: 14px;
   align-items: start;
   margin: -18px 0 46px;
-  color: var(--text-deep);
+  color: var(--text-body);
 }
 
 .services-index-editorial-note {
@@ -2177,7 +2208,7 @@ button {
    que tambien es un p. De ahi el :not. */
 .services-index-hero__inner .banda-apertura__texto > p:not(.eyebrow) {
   margin: 0;
-  color: var(--text-deep);
+  color: var(--text-body);
   font-size: clamp(18px, 1.6vw, 24px);
   line-height: 1.35;
 }
@@ -2548,7 +2579,7 @@ button {
 
 .service-flow__exception p {
   margin: 0;
-  color: var(--text-deep);
+  color: var(--text-body);
   font-size: 14px;
   line-height: 1.4;
 }
@@ -2685,7 +2716,7 @@ button {
 
 .service-applied-example__copy > p:not(.eyebrow) {
   margin: 0;
-  color: var(--text-deep);
+  color: var(--text-body);
   font-size: clamp(16px, 1.35vw, 20px);
   line-height: 1.45;
 }
@@ -2717,7 +2748,7 @@ button {
 
 .service-applied-example__grid p {
   margin: 0;
-  color: var(--text-deep);
+  color: var(--text-body);
   font-size: 14px;
   line-height: 1.42;
 }
@@ -3546,7 +3577,7 @@ button {
 .system-map-section__copy p {
   max-width: 680px;
   margin: 16px 0 0;
-  color: var(--text-strong);
+  color: var(--text-body);
   font-size: clamp(18px, 1.55vw, 23px);
   letter-spacing: -0.025em;
   line-height: 1.42;
@@ -3785,7 +3816,7 @@ button {
 
 .trust-proof-card p {
   margin: 8px 0 0;
-  color: var(--text-muted);
+  color: var(--text-body);
   font-size: 12px;
   line-height: 1.35;
 }
@@ -3825,7 +3856,7 @@ button {
 
 .trust-proof-card__evidence p {
   margin: 6px 0 0;
-  color: var(--text-strong);
+  color: var(--text-body);
   font-size: 12px;
   line-height: 1.3;
 }
@@ -3933,7 +3964,7 @@ button {
 .problem-card p {
   max-width: 330px;
   margin: 10px 0 0;
-  color: var(--text-muted);
+  color: var(--text-body);
   font-size: 14px;
   line-height: 1.42;
 }
@@ -4098,7 +4129,7 @@ button {
 
 .featured-case__more p {
   margin: 8px 0 0;
-  color: var(--text-muted);
+  color: var(--text-body);
   font-size: 14px;
   line-height: 1.35;
 }
@@ -5512,7 +5543,7 @@ button {
   margin: 14px 0 0;
   padding-left: 16px;
   border-left: 1px solid var(--signal);
-  color: var(--text-strong);
+  color: var(--text-body);
   font-size: 12px;
   line-height: 1.35;
 }
@@ -5837,7 +5868,7 @@ button {
 
 .lead-flow__item p {
   margin: 8px 0 0;
-  color: var(--text-strong);
+  color: var(--text-body);
   font-size: 12px;
   line-height: 1.35;
 }
@@ -5900,7 +5931,7 @@ button {
 
 .lead-contact-card p {
   margin: 10px 0 0;
-  color: var(--text-strong);
+  color: var(--text-body);
   font-size: 12px;
   line-height: 1.35;
 }
@@ -6186,7 +6217,7 @@ button {
 
 .unify-node strong {
   margin-top: 10px;
-  color: var(--text-deep);
+  color: var(--text-body);
   font-family: var(--font-mono);
   font-size: 10px;
   font-weight: 500;
@@ -6434,7 +6465,7 @@ button {
 .leads-search-card p {
   max-width: 520px;
   margin: 10px 0 0;
-  color: var(--text-muted);
+  color: var(--text-body);
   font-size: 12px;
   line-height: 1.42;
 }
@@ -6477,7 +6508,7 @@ button {
 
 .lead-evidence-card p {
   margin: 8px 0 0;
-  color: var(--text-muted);
+  color: var(--text-body);
   font-size: 12px;
 }
 
@@ -6746,7 +6777,7 @@ button {
 .service-hero__statement {
   max-width: 740px;
   margin: 56px 0 0 auto;
-  color: var(--text-strong);
+  color: var(--text-body);
   font-size: clamp(20px, 2.2vw, 32px);
   letter-spacing: -0.025em;
   line-height: 1.42;
@@ -13052,7 +13083,7 @@ button {
 .ad__promesa {
   max-width: 32ch;
   margin: 14px 0 0;
-  color: var(--text-strong);
+  color: var(--text-body);
   font-size: clamp(18px, 1.9vw, 26px);
   letter-spacing: -0.03em;
   line-height: 1.15;
@@ -13251,7 +13282,7 @@ button {
   white-space: nowrap;
 }
 
-.ad__mitad--hoy .ad__valor { color: var(--text-strong); }
+.ad__mitad--hoy .ad__valor { color: var(--text-body); }
 .ad__mitad--despues .ad__valor { color: var(--paper-bright); }
 
 .ad__mitad--hoy .ad__valor--alarma {
@@ -14075,7 +14106,7 @@ button {
 .ad__pie-escena {
   margin: 0;
   padding: 20px 28px 0;
-  color: var(--text-strong);
+  color: var(--text-body);
   font-size: clamp(16px, 1.6vw, 19px);
   letter-spacing: -0.015em;
   line-height: 1.35;
@@ -14136,7 +14167,7 @@ button {
 .service-escena__pie {
   max-width: 58ch;
   margin: 20px 0 0;
-  color: var(--text-strong);
+  color: var(--text-body);
   font-size: clamp(15px, 1.5vw, 18px);
   line-height: 1.45;
   text-wrap: pretty;
@@ -15570,7 +15601,7 @@ button {
   align-items: baseline;
   gap: 14px;
   margin: 20px 0 0;
-  color: var(--text-strong);
+  color: var(--text-body);
   font-family: var(--font-mono);
   font-size: 13px;
   letter-spacing: 0.02em;
@@ -17240,7 +17271,7 @@ button {
 }
 
 .carrusel-clientes__rubro {
-  color: var(--text-muted);
+  color: var(--graphite);
   font-size: 12px;
   line-height: 1.3;
 }
