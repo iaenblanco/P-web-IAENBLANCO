@@ -6,15 +6,20 @@ import { RevelaAlEntrar } from '@/components/RevelaAlEntrar'
 import { Trabajos } from '@/components/Trabajos'
 import { OG_IMAGE, services, SITE_URL, getWhatsappUrl } from '@/lib/site'
 
+/* El <title> cambio el 31-ago-2026. El anterior -"Todo lo que hacemos,
+   explicado sin tecnicismos"- describia el TONO del texto y no nombraba
+   ninguna de las cuatro cosas que vendemos: no tenia una sola palabra por la
+   que alguien pudiera buscarnos. Leer Search Console pasadas unas semanas; si
+   el cambio hunde la ruta, el titulo viejo esta escrito aca. */
 export const metadata: Metadata = {
-  title: 'Todo lo que hacemos, explicado sin tecnicismos',
+  title: 'Servicios: sitios web, programas a medida e IA',
   description:
     'Sitios web y tiendas online, programas a la medida de tu negocio, tareas que se hacen solas y asistentes con inteligencia artificial.',
   alternates: {
     canonical: `${SITE_URL}/servicios/`,
   },
   openGraph: {
-    title: 'Todo lo que hacemos, explicado sin tecnicismos | IAenBlanco',
+    title: 'Servicios de IAenBlanco: sitios web, programas a medida e IA',
     description:
       'Sitios web, programas a medida, tareas automáticas y asistentes con inteligencia artificial para empresas chilenas.',
     url: `${SITE_URL}/servicios/`,
@@ -57,18 +62,39 @@ export default function ServicesIndexPage() {
       <section className="services-index-hero">
         <div className="section-shell services-index-hero__inner banda-apertura">
           <div className="banda-apertura__texto">
-            <p className="eyebrow">Servicios IAenBlanco</p>
-            <h1>Todo lo que hacemos, explicado sin tecnicismos.</h1>
+            {/* "Sin tecnicismos" bajo del h1 al rotulo: es una promesa sobre
+                COMO esta escrita la pagina, no sobre lo que hacemos, y estaba
+                ocupando el titular entero. El titular lo toma ahora la tesis
+                que ya estaba publicada una linea mas abajo. */}
+            <p className="eyebrow">Servicios · explicados sin tecnicismos</p>
+            <h1>Casi nunca es una sola cosa.</h1>
             {/* El remate anterior era "y si lo que necesitas son clientes nuevos,
                 eso lo operamos nosotros": ese servicio se fue. En su lugar va lo
                 que de verdad separa estas cuatro cosas de contratar una pagina,
-                dicho con otras palabras que en la portada para no repetirla. */}
+                dicho con otras palabras que en la portada para no repetirla.
+                Sin "Casi nunca es una sola", que subio al h1. */}
             <p>
               Hacemos sitios web y tiendas online, programas a la medida de tu negocio, tareas que
-              se hacen solas y asistentes con inteligencia artificial. Casi nunca es una sola:
-              lo normal es que el sitio necesite un programa detrás, y que ese programa lo
-              termines administrando tú.
+              se hacen solas y asistentes con inteligencia artificial. Lo normal es que el sitio
+              necesite un programa detrás, y que ese programa lo termines administrando tú.
             </p>
+            {/* La apertura no tenia ni un enlace ni un boton: la primera
+                pantalla de la pagina no llevaba a ninguna parte. Va al
+                diagnostico y no al catalogo porque el catalogo ya quedo justo
+                debajo, a un scroll de distancia. */}
+            <div className="banda-apertura__accion">
+              <Link
+                href="/servicios/#diagnostico"
+                prefetch={false}
+                className="button button--text"
+                data-analytics-event="service_cta_click"
+                data-service-id="diagnostico"
+                data-service-name="Diagnóstico"
+              >
+                Responde tres preguntas y te decimos por dónde partir
+                <ArrowRight />
+              </Link>
+            </div>
           </div>
           {/* La escena es aria-hidden y lo que muestra -los cuatro servicios- esta
               escrito en el parrafo de al lado y en las tarjetas de mas abajo. */}
@@ -80,61 +106,15 @@ export default function ServicesIndexPage() {
         </div>
       </section>
 
-      <section className="services-index-section services-index-section--web-proof">
-        <div className="section-shell">
-          <div className="services-index-heading">
-            <div>
-              <p className="eyebrow">Trabajos reales</p>
-              <h2>Negocios chilenos para los que ya hicimos esto.</h2>
-            </div>
-            <p className="services-index-heading__lead">
-              No son maquetas. Son los sitios que están atendiendo clientes hoy: ábrelos,
-              míralos en tu celular y decide antes de escribirnos.
-            </p>
-          </div>
-          {/* Resumida a proposito: la ficha larga -que le hicimos, para que le
-              sirve, velocidad y peso- era identica a la de /trabajos/, y esta
-              pagina tiene mas enlaces, asi que le ganaba a su propia copia. Aca
-              queda la muestra y el detalle se lee alla, con este enlace. */}
-          <Trabajos resumido />
-          <div className="pagina-trabajos__acciones">
-            <Link href="/trabajos/" prefetch={false} className="button button--text">
-              Ver los trabajos uno por uno
-              <ArrowRight />
-            </Link>
-          </div>
-        </div>
-      </section>
-
-      <section className="services-index-section">
-        <div className="section-shell">
-          <div className="services-index-heading">
-            <div>
-              <p className="eyebrow">Empieza por acá</p>
-              <h2>Tres preguntas y te decimos por dónde partiríamos.</h2>
-            </div>
-            <p className="services-index-heading__lead">
-              La primera es la misma de siempre: elige la frase que más se parece a lo que te
-              pasa, y de ahí sale la recomendación. Las otras dos no la cambian: viajan dentro
-              del mensaje, para saber de dónde partes antes de la primera conversación. Al final
-              te dejamos ese mensaje escrito, con tus tres respuestas adentro.
-            </p>
-          </div>
-          {/* Antes aca vivian seis enlaces planos: la frase y, al tocarla, la
-              pagina del servicio. Las seis frases siguen siendo el paso 1 del
-              diagnostico -son las que la gente reconoce-, pero ahora terminan
-              en una recomendacion y en el mensaje ya escrito. */}
-          <DiagnosticoServicios />
-          <div className="services-index-editorial-note">
-            <span />
-            <p>
-              No necesitas saber cómo se llama la solución. Para eso está la primera conversación:
-              tú cuentas qué te está costando y nosotros te decimos qué haríamos.
-            </p>
-          </div>
-        </div>
-      </section>
-
+      {/* EL ORDEN DE ESTA PAGINA, y por que es este.
+          Hasta el 31-ago-2026 iba: heroe, TRABAJOS REALES, diagnostico y
+          recien al final los cuatro servicios. Medido en 1440, la lista de lo
+          que vendemos empezaba en el pixel 4.647 de un documento de 6.843: mas
+          de cuatro pantallas de scroll -y 3.069 px de sitios de OTRAS
+          empresas- antes de decir que hacemos. Quien hace clic en "Servicios"
+          viene a ver los servicios. Ahora el catalogo va primero, el
+          diagnostico segundo -ya sabe que hay para elegir- y la prueba
+          tercera. */}
       <section id="lo-que-construimos" className="services-index-section">
         <div className="section-shell">
           <div className="services-index-heading">
@@ -173,6 +153,64 @@ export default function ServicesIndexPage() {
                 </Link>
               </article>
             ))}
+          </div>
+        </div>
+      </section>
+
+      {/* El id no existia y esta es la unica pieza de la pagina a la que se
+          puede querer llegar desde afuera: la usan el CTA de la apertura y la
+          rampa de la portada. */}
+      <section id="diagnostico" className="services-index-section">
+        <div className="section-shell">
+          <div className="services-index-heading">
+            <div>
+              <p className="eyebrow">Empieza por acá</p>
+              <h2>Tres preguntas y te decimos por dónde partiríamos.</h2>
+            </div>
+            <p className="services-index-heading__lead">
+              La primera es la misma de siempre: elige la frase que más se parece a lo que te
+              pasa, y de ahí sale la recomendación. Las otras dos no la cambian: viajan dentro
+              del mensaje, para saber de dónde partes antes de la primera conversación. Al final
+              te dejamos ese mensaje escrito, con tus tres respuestas adentro.
+            </p>
+          </div>
+          {/* Antes aca vivian seis enlaces planos: la frase y, al tocarla, la
+              pagina del servicio. Las seis frases siguen siendo el paso 1 del
+              diagnostico -son las que la gente reconoce-, pero ahora terminan
+              en una recomendacion y en el mensaje ya escrito. */}
+          <DiagnosticoServicios />
+          <div className="services-index-editorial-note">
+            <span />
+            <p>
+              No necesitas saber cómo se llama la solución. Para eso está la primera conversación:
+              tú cuentas qué te está costando y nosotros te decimos qué haríamos.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <section className="services-index-section services-index-section--web-proof">
+        <div className="section-shell">
+          <div className="services-index-heading">
+            <div>
+              <p className="eyebrow">Trabajos reales</p>
+              <h2>Negocios chilenos para los que ya hicimos esto.</h2>
+            </div>
+            <p className="services-index-heading__lead">
+              No son maquetas. Son los sitios que están atendiendo clientes hoy: ábrelos,
+              míralos en tu celular y decide antes de escribirnos.
+            </p>
+          </div>
+          {/* Resumida a proposito: la ficha larga -que le hicimos, para que le
+              sirve, velocidad y peso- era identica a la de /trabajos/, y esta
+              pagina tiene mas enlaces, asi que le ganaba a su propia copia. Aca
+              queda la muestra y el detalle se lee alla, con este enlace. */}
+          <Trabajos resumido />
+          <div className="pagina-trabajos__acciones">
+            <Link href="/trabajos/" prefetch={false} className="button button--text">
+              Ver los trabajos uno por uno
+              <ArrowRight />
+            </Link>
           </div>
         </div>
       </section>

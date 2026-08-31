@@ -198,10 +198,11 @@ export function DiagnosticoServicios() {
             {terminado ? 'Empezar de nuevo' : 'Volver a la pregunta anterior'}
           </button>
         ) : null}
-        {/* La salida para quien no quiere contestar nada: las cuatro tarjetas
-            estan mas abajo en esta misma pagina. */}
+        {/* La salida para quien no quiere contestar nada. Desde el 31-ago-2026
+            las cuatro tarjetas quedaron ARRIBA de esta pieza, asi que el
+            enlace sube en vez de bajar: por eso ya no dice "prefiero". */}
         <a className="diagnostico__saltar" href="#lo-que-construimos" data-analytics-event="service_skip_click">
-          Prefiero ver los cuatro servicios
+          Ver los cuatro servicios
         </a>
       </div>
     </div>
