@@ -42,6 +42,12 @@ export function DiagnosticoServicios() {
      navegador se llevaria el scroll con el. Solo se mueve el foco despues de
      que la persona toco algo. */
   const [interactuado, setInteractuado] = useState(false)
+  /* Al volver atras, el paso reaparece con la respuesta que ya se habia dado
+     marcada: sin esto se vuelve a una pantalla identica a la primera vez y no
+     hay forma de saber cual se eligio. Guarda una sola -la del paso que se
+     esta mostrando-, que es siempre la que hace falta: volver dos veces deja
+     marcada la del segundo paso, no la del tercero. */
+  const [ultimaQuitada, setUltimaQuitada] = useState<DiagnosticoOpcion | null>(null)
   const focoRef = useRef<HTMLHeadingElement>(null)
 
   useEffect(() => {
@@ -61,6 +67,7 @@ export function DiagnosticoServicios() {
   function elegir(opcion: DiagnosticoOpcion) {
     const siguientes = [...elegidas, opcion]
     setInteractuado(true)
+    setUltimaQuitada(null)
     setElegidas(siguientes)
     /* Antes cada frase del paso 1 era un enlace y el clic se medía solo. Ahora
        son botones, y el despachador de layout.tsx solo escucha <a href>: sin
@@ -81,11 +88,13 @@ export function DiagnosticoServicios() {
 
   function volver() {
     setInteractuado(true)
+    setUltimaQuitada(elegidas[elegidas.length - 1] || null)
     setElegidas((previas) => previas.slice(0, -1))
   }
 
   function reiniciar() {
     setInteractuado(true)
+    setUltimaQuitada(null)
     setElegidas([])
   }
 
@@ -120,6 +129,8 @@ export function DiagnosticoServicios() {
                 type="button"
                 className="diagnostico__opcion"
                 data-cursor="Elegir"
+                data-elegida={ultimaQuitada?.label === opcion.label ? 'si' : undefined}
+                aria-current={ultimaQuitada?.label === opcion.label ? 'true' : undefined}
                 onClick={() => elegir(opcion)}
               >
                 <span>{opcion.label}</span>
@@ -189,14 +200,50 @@ export function DiagnosticoServicios() {
               <ArrowRight />
             </Link>
           </div>
+
+          {/* La misma rampa de la portada, en el unico caso en que aplica: si
+              lo que falta es el sitio, hay una puerta mas barata que pedir una
+              cotizacion. Copia y clase son las de la portada -no se estrena
+              nada aca- y viaja con rampa_revision_click, para que las dos
+              puertas de la revision gratis se cuenten juntas. */}
+          {recomendacion.destino === 'desarrollo-web-ia' ? (
+            <a
+              href={getWhatsappUrl(
+                'Hola IAenBlanco, quiero que revisen mi sitio y me digan qué le falta. El link es: ',
+              )}
+              target="_blank"
+              rel="noreferrer"
+              className="rampa__pie"
+              data-cursor="WhatsApp"
+              data-analytics-event="rampa_revision_click"
+            >
+              <strong>¿Prefieres partir por algo chico?</strong>
+              <span>
+                Mándanos el link de tu sitio y te decimos qué encontramos. Sin costo y sin que
+                tengas que contratar nada.
+              </span>
+              <ArrowUpRight />
+            </a>
+          ) : null}
         </>
       )}
 
       <div className="diagnostico__pie">
+        {/* Terminado, las dos salidas no son la misma: cambiar la ultima
+            respuesta conserva las otras dos, empezar de nuevo las borra. Hasta
+            ahora solo estaba la segunda, asi que corregir un clic costaba
+            contestar las tres preguntas de nuevo. */}
         {elegidas.length ? (
-          <button type="button" className="diagnostico__volver" onClick={terminado ? reiniciar : volver}>
-            {terminado ? 'Empezar de nuevo' : 'Volver a la pregunta anterior'}
-          </button>
+          <div className="diagnostico__vueltas">
+            <button type="button" className="diagnostico__volver" onClick={volver}>
+              {terminado ? 'Cambiar la última respuesta' : 'Volver a la pregunta anterior'}
+            </button>
+            {terminado ? (
+              <button type="button" className="diagnostico__volver" onClick={reiniciar}>
+                Empezar de nuevo
+              </button>
+            ) : null}
+          </div>
         ) : null}
         {/* La salida para quien no quiere contestar nada. Desde el 31-ago-2026
             las cuatro tarjetas quedaron ARRIBA de esta pieza, asi que el

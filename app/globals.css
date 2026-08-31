@@ -17790,13 +17790,17 @@ button {
 
 .diagnostico__barra i {
   width: 34px;
-  height: 3px;
+  height: 4px;
   background: var(--line);
   transition: background 260ms ease;
 }
 
+/* El relleno estaba en --signal (#40b0d0), que sobre el papel de la tarjeta da
+   2,41:1 -bajo el 3:1 que pide un elemento grafico-. --signal-ink (#1b6a80) da
+   5,88:1 con el mismo tono de la casa. La barra es lo unico que dice cuanto
+   falta, asi que no puede depender de mirar de cerca. */
 .diagnostico__barra i[data-hecho='si'] {
-  background: var(--signal);
+  background: var(--signal-ink);
 }
 
 .diagnostico__enunciado {
@@ -17809,6 +17813,11 @@ button {
   margin: 0;
   font-size: clamp(22px, 2.4vw, 34px);
   line-height: 1.08;
+  /* Al contestar, el foco salta a este titulo y el navegador lo trae a la
+     vista. Medido a 375 con la pregunta 40px sobre el borde: quedaba en -8,3
+     con el header terminando en 74, o sea 82px tapada. El header mide 86 en
+     escritorio y 74 en celular; 120 deja aire en los dos. */
+  scroll-margin-top: 120px;
 }
 
 .diagnostico__ayuda {
@@ -17822,6 +17831,13 @@ button {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 10px;
+}
+
+/* El paso 3 tiene tres opciones y la tercera quedaba sola en la columna
+   izquierda, con un hueco al lado que se leia como una opcion que falta.
+   Bajo 640 la grilla es de una columna y esta regla no cambia nada. */
+.diagnostico__opcion:last-child:nth-child(odd) {
+  grid-column: 1 / -1;
 }
 
 .diagnostico__opcion {
@@ -17845,7 +17861,7 @@ button {
   flex: none;
   width: 18px;
   height: 18px;
-  color: var(--signal);
+  color: var(--signal-ink);
   transition: transform 260ms ease;
 }
 
@@ -17856,6 +17872,16 @@ button {
 
 .diagnostico__opcion:hover svg {
   transform: translateX(4px);
+}
+
+/* Al volver atras, la respuesta anterior queda marcada. Toma el mismo tono que
+   el hover -no hay vocabulario nuevo- y la barra al canto es la de la tarjeta
+   del diagnostico, tres pixeles adentro, para que se distinga de tener el
+   mouse encima sin inventar un color. */
+.diagnostico__opcion[data-elegida='si'] {
+  border-color: color-mix(in srgb, var(--signal) 54%, var(--line));
+  background: color-mix(in srgb, var(--signal) 7%, var(--paper-bright));
+  box-shadow: inset 3px 0 0 var(--signal-ink);
 }
 
 .diagnostico__resultado {
@@ -17954,6 +17980,15 @@ button {
   gap: 12px 20px;
   padding-top: 18px;
   border-top: 1px solid var(--line);
+}
+
+/* Terminado el diagnostico son dos salidas -cambiar la ultima respuesta y
+   empezar de nuevo- y el pie las reparte con space-between contra el enlace de
+   salir. Sin este contenedor quedarian una en cada punta. */
+.diagnostico__vueltas {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px 20px;
 }
 
 .diagnostico__volver,

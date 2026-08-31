@@ -1014,6 +1014,24 @@ export default function HomePage() {
               <span>Cuéntanos qué vendes y te decimos por dónde partir. Igual de gratis.</span>
               <ArrowUpRight />
             </a>
+
+            {/* La tercera puerta. Las dos anteriores dan por hecho que el
+                problema es el sitio; quien llega hasta aca y lo que le falta es
+                otra cosa no tenia a donde ir. Las dos frases ya estan
+                publicadas en /servicios -el cierre y el boton de la apertura-,
+                asi que la rampa no estrena copy: estrena destino. */}
+            <Link
+              href="/servicios/#diagnostico"
+              prefetch={false}
+              className="rampa__pie"
+              data-analytics-event="service_cta_click"
+              data-service-id="diagnostico"
+              data-service-name="Diagnóstico"
+            >
+              <strong>No necesitas saber qué pedir.</strong>
+              <span>Responde tres preguntas y te decimos por dónde partir.</span>
+              <ArrowRight />
+            </Link>
           </Reveal>
         </div>
       </section>
