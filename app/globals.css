@@ -11183,6 +11183,10 @@ button {
 
 /* --- los tres pasos y el botón --- */
 
+/* Su sombra -0 20px 44px al 6%- se queda escrita a mano a proposito: es la
+   unica caja del sitio a esa altura, y un token con un solo consumidor no es
+   un sistema, es un literal con nombre largo. Si aparece una segunda, sube al
+   :root como --sombra-alta. */
 .rampa__accion {
   display: grid;
   gap: var(--espacio-3);
@@ -12517,7 +12521,12 @@ button {
     background:
       linear-gradient(180deg, color-mix(in srgb, var(--grupo) 7%, transparent), transparent 62%),
       rgba(251, 250, 247, 0.92);
-    box-shadow: 0 10px 26px rgba(7, 10, 15, 0.05);
+    /* El sexto valor del mapa del heroe. La tanda que unifico ese componente
+       listo cinco hermanos con cinco sombras distintas y se dejo este fuera:
+       .summary-group descansa sobre el diagrama igual que los otros, asi que
+       va al mismo escalon. La diferencia real es 2px de desplazamiento, 8 de
+       difuminado y 0.005 de opacidad. */
+    box-shadow: var(--sombra-chip);
   }
 
   .summary-group--services { order: 2; }
