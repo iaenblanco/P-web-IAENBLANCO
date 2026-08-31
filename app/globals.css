@@ -17549,19 +17549,41 @@ button {
   height: 44px;
 }
 
+/* Los siete van en SU COLOR DE MARCA y asi se quedan. Hubo un intento de
+   pasarlos a tinta (grayscale) el 31-ago-2026 y el dueno lo rechazo: son logos
+   de clientes, no un recurso grafico nuestro, y decolorarlos los desdibuja. No
+   volver a proponerlo.
+
+   Las medidas tampoco se tocan aunque dos queden mas bajos que los otros cinco
+   (Amparo Vega a 23px, Dovar a 30). Medida la masa de tinta de cada uno a su
+   tamano pintado, el orden no es el de las alturas: Amparo Vega pesa 325 con
+   sus 23px y el de Inasec pesa 250 con 44. Emparejar alturas agrandaria al
+   que ya pesa mas. El desparejo real es otro y esta anotado en la fase. */
 .carrusel-clientes__logo img {
   width: auto;
   max-width: 120px;
   height: auto;
   max-height: 44px;
+  object-fit: contain;
 }
 
 /* El unico logo claro del conjunto: sobre el papel se pierde, asi que va
-   sobre su propio fondo oscuro. Es el mismo trato que recibe en las fichas. */
+   sobre su propio fondo oscuro. Decia que era "el mismo trato que recibe en
+   las fichas" y no lo era: .trabajo__logo usa 6px de relleno y esquina viva,
+   este usaba 5/9 y radio 6. Ahora si es la misma caja. */
 .carrusel-clientes__logo--dark {
-  padding: 5px 9px;
-  border-radius: 6px;
+  padding: 6px;
   background: var(--night);
+}
+
+/* 44 del chip menos 6 de relleno arriba y 6 abajo. Sin este techo la imagen
+   pedia los 44 enteros y se pintaba 6px FUERA del fondo oscuro: como el logo de
+   GranjaPet es blanco, "MAGDALENA PET" se derramaba sobre el papel y
+   desaparecia. No sirve max-height: 100% (lo que hace .trabajo__logo img en las
+   fichas): aca el bloque contenedor no le da al hijo una altura definida, el
+   porcentaje no resuelve y manda el max-width, que llevaba los logos a 88px. */
+.carrusel-clientes__logo--dark img {
+  max-height: 32px;
 }
 
 .carrusel-clientes__nombre {
@@ -17569,6 +17591,7 @@ button {
   font-size: var(--texto-2);
   font-weight: 500;
   letter-spacing: 0.02em;
+  transition: color 180ms ease;
 }
 
 .carrusel-clientes__rubro {
@@ -17577,8 +17600,12 @@ button {
   line-height: 1.3;
 }
 
+/* El subrayado solo aparecia y desaparecia de golpe, y una transicion de
+   color no tenia color que animar porque el hover no cambiaba ninguno. Ahora
+   cambia: --signal-ink sobre --paper da 5,48:1, sobra para AA. */
 .carrusel-clientes__enlace:hover .carrusel-clientes__nombre,
 .carrusel-clientes__enlace:focus-visible .carrusel-clientes__nombre {
+  color: var(--signal-ink);
   text-decoration: underline;
   text-underline-offset: 3px;
 }
