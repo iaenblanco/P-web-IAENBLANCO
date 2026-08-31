@@ -1,9 +1,9 @@
 import type { Metadata } from 'next'
 import { AnclaAlCargar } from '@/components/AnclaAlCargar'
-import { BrandLogo } from '@/components/BrandLogo'
 import { EscenaAbanico } from '@/components/EscenaBanda'
 import { EscenaProducto } from '@/components/EscenaProducto'
 import { FichaLeadsEjemplo } from '@/components/FichaLeadsEjemplo'
+import { MarcaProducto } from '@/components/MarcaProducto'
 import { Reveal } from '@/components/Reveal'
 import { RevelaAlEntrar } from '@/components/RevelaAlEntrar'
 import { OG_IMAGE, products, SITE_URL, WHATSAPP_URL } from '@/lib/site'
@@ -36,18 +36,6 @@ function ArrowUpRight() {
   return (
     <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
       <path d="M6 18 18 6M8 6h10v10" stroke="currentColor" strokeWidth="1.5" />
-    </svg>
-  )
-}
-
-/* La marca de cada producto, al mismo tamaño y con el mismo encuadre en los
-   tres. Leads no tiene logo propio, así que usa el glifo de la casa. */
-function MarcaProducto({ id }: { id: string }) {
-  if (id === 'unificalo') return <BrandLogo name="unificalo" className="ad__marca-img" sizes="52px" />
-  if (id === 'citaly') return <BrandLogo name="citaly-mark" className="ad__marca-img" sizes="52px" />
-  return (
-    <svg className="ad__marca-svg" viewBox="0 0 64 64" fill="none" aria-hidden="true">
-      <path d="M18 48V16M18 48H48M24 40 34 30l7 6 9-14M46 22h4v4" stroke="currentColor" strokeWidth="3" strokeLinecap="square" />
     </svg>
   )
 }
@@ -123,7 +111,7 @@ export default function ProductsPage() {
                     <p className="ad__promesa">{product.promesaCorta}</p>
                   </div>
                   <div className="ad__marca">
-                    <span className="ad__marca-caja"><MarcaProducto id={product.id} /></span>
+                    <span className="ad__marca-caja"><MarcaProducto id={product.id} className="ad__marca-svg" /></span>
                     <span className="ad__estado"><i aria-hidden="true" />{product.status}</span>
                   </div>
                 </header>

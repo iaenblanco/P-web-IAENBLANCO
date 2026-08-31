@@ -1674,13 +1674,15 @@ button {
   --orb-accent: var(--summary-product);
 }
 
-/* Dos de los tres iconos de producto son el logo de marca en color -webp de
-   Unificalo y de Citaly-, y el tercero se pintaba con el ambar del grupo. Eso
-   metia tres colores ajenos en la mitad derecha del mapa, frente al cian
-   uniforme de los cuatro servicios. En gris no compiten: la marca sigue
-   reconociendose y el color queda para lo que ya funciona.
-   (Antes aqui vivia .summary-orb--citaly .hero-logo pintando de verde una
-   etiqueta <img>, donde color no hace nada: era una regla muerta.) */
+/* Los tres productos van apagados en el mapa: la mitad derecha no compite con
+   el cian uniforme de los cuatro servicios. Lo que apaga hoy es la pareja
+   opacity + color, que llega hasta el trazo porque los tres monogramas heredan
+   currentColor.
+   El filtro es lo que queda de cuando dos de los tres iconos eran el logo de
+   marca en color -las calcomanias .webp de Unificalo y de Citaly-: grayscale
+   estaba para sacarles el color. Desde el 31-ago-2026 no hay color que sacar y
+   solo contrast(0.92) sigue moviendo algo. Se deja para no correr el gris en
+   una fase de acabado; sale en la tanda de reglas muertas. */
 .summary-orb--product .hero-logo {
   filter: grayscale(1) contrast(0.92);
   opacity: 0.62;
@@ -6203,20 +6205,6 @@ button {
   max-width: 100%;
   height: auto;
   object-fit: contain;
-}
-
-.hero-logo--brand {
-  object-fit: contain;
-  overflow: hidden;
-  filter: none;
-}
-
-.hero-logo--unificalo-real {
-  border-radius: 50%;
-}
-
-.hero-logo--citaly-real {
-  border-radius: 14px;
 }
 
 .hero-logo path,
@@ -13396,11 +13384,9 @@ button {
   background: var(--paper);
 }
 
-.ad__marca-img,
 .ad__marca-svg {
   width: 30px;
   height: 30px;
-  object-fit: contain;
 }
 
 .ad__marca-svg {
@@ -13794,7 +13780,6 @@ button {
     height: 44px;
   }
 
-  .ad__marca-img,
   .ad__marca-svg {
     width: 26px;
     height: 26px;
@@ -16669,8 +16654,12 @@ button {
   animation: c2-tomada var(--esc-pasada) cubic-bezier(0.22, 1, 0.36, 1) 1 both;
 }
 
-/* El guion: llega el audio (6%), lo escucha (14-30%), responde (36%),
-   y la agenda toma la hora (56%). Al final todo vuelve. */
+/* El guion, medido contra los porcentajes de abajo y no contra la idea: el
+   audio llega (6-20%), aparece "escuchando" (32%), se responde (40-58%),
+   "escuchando" se va (58-72%) y la agenda toma la hora (62-82%).
+   Lo unico que vuelve al final es el aviso de "escuchando", que es de paso.
+   El audio, la respuesta y la hora tomada se quedan: la banda termina
+   ocupada, que es justamente lo que la escena cuenta. */
 @keyframes c2-temprano {
   0%, 6% { opacity: 0; transform: translateY(10px); }
   20%, 100% { opacity: 1; transform: translateY(0); }

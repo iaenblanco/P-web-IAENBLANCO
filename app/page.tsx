@@ -1,10 +1,10 @@
 import Image from 'next/image'
 import type { CSSProperties } from 'react'
-import { BrandLogo } from '@/components/BrandLogo'
 import { CarruselClientes } from '@/components/CarruselClientes'
 import { ContactBand } from '@/components/ContactBand'
 import { Reveal } from '@/components/Reveal'
 import { CorrienteScroll } from '@/components/CorrienteScroll'
+import { esMarcaProducto, MarcaProducto } from '@/components/MarcaProducto'
 import { RevelaAlEntrar } from '@/components/RevelaAlEntrar'
 import { TypingLine } from '@/components/TypingLine'
 import Link from 'next/link'
@@ -114,12 +114,12 @@ function summaryPointStyle(x: number, y: number, w?: number) {
 
 
 function HeroLogo({ theme }: { theme: string }) {
-  if (theme === 'unificalo') {
-    return <BrandLogo name="unificalo" className="hero-logo hero-logo--brand hero-logo--unificalo-real" sizes="64px" />
-  }
-
-  if (theme === 'citaly') {
-    return <BrandLogo name="citaly-mark" className="hero-logo hero-logo--brand hero-logo--citaly-real" sizes="64px" />
+  /* Los tres monogramas de producto viven en components/MarcaProducto.tsx.
+     Hasta el 31-ago-2026 estas dos ramas devolvian la calcomania .webp de
+     Unificalo y de Citaly y cortaban antes, dejando muertos los monogramas de
+     trazo que este mismo archivo tenia escritos mas abajo. */
+  if (esMarcaProducto(theme)) {
+    return <MarcaProducto id={theme} />
   }
 
   if (theme === 'wa') {
@@ -156,38 +156,6 @@ function HeroLogo({ theme }: { theme: string }) {
         <ellipse cx="36" cy="27" rx="24" ry="15" />
         <path d="M22 27c5.5-5.8 9.9-6.2 14.4-1.1 4.8-5 9.4-4.7 13.6 1" />
         <path d="M25.5 30.8c4.7 4.3 9.4 4.7 14.2.1" />
-      </svg>
-    )
-  }
-
-  if (theme === 'unificalo') {
-    return (
-      <svg className="hero-logo hero-logo--unificalo" viewBox="0 0 64 64" aria-hidden="true">
-        <path d="M18 12v28c0 9.2 6.3 15.5 14 15.5S46 49.2 46 40V12" />
-        <path d="M18 12h10v27.5c0 2.8 1.5 5.5 4 6.9 2.5-1.4 4-4.1 4-6.9V12h10" />
-      </svg>
-    )
-  }
-
-  if (theme === 'citaly') {
-    return (
-      <svg className="hero-logo hero-logo--citaly" viewBox="0 0 72 64" aria-hidden="true">
-        <rect x="12" y="12" width="48" height="40" rx="12" />
-        <path d="M43 24.5a10 10 0 1 0 0 15" />
-      </svg>
-    )
-  }
-
-  if (theme === 'leads') {
-    return (
-      <svg className="hero-logo hero-logo--leads" viewBox="0 0 64 64" aria-hidden="true">
-        <path d="M18 46V18" />
-        <path d="M18 46h30" />
-        <path d="M24 40 33 30l6 5 9-14" />
-        <circle cx="24" cy="40" r="3" />
-        <circle cx="33" cy="30" r="3" />
-        <circle cx="39" cy="35" r="3" />
-        <circle cx="48" cy="21" r="3" />
       </svg>
     )
   }
