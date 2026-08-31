@@ -1566,17 +1566,25 @@ button {
    que lo que si se vende. Baja a la medida del de servicio: casilla al 71 %
    y alto al nivel del vecino. La columna sigue en el mapa, que es lo que se
    decidio el 21-ago; lo que cambia es cuanto grita. */
+/* Este `height` no gobierna en ningun ancho y se deja documentado en vez de
+   borrado: sobre 901px lo reemplaza el `height: auto` de :10462, y bajo 901
+   lo tapa el `min-height: 96px` de :7645. Quien quiera mover el alto del
+   orbe de producto tiene que ir al `min-height` de :10466, no aqui. */
 .summary-orb--product {
   --orb-accent: var(--summary-product);
   grid-template-columns: minmax(0, 1fr) 31%;
   height: min(46px, 58%);
 }
 
+/* Arrastrada por lo anterior, no por decision propia: con aspect-ratio 1 una
+   casilla de 44 seria mas alta que un orbe de 41 y se saldria. 39 conserva
+   los 2 px de holgura que ya tenia, y el radio escala con ella para que el
+   cuadrado no se lea mas redondo al achicarse. */
 .summary-orb--product > span {
   order: 2;
-  width: min(44px, 100%);
+  width: min(39px, 100%);
   aspect-ratio: 1;
-  border-radius: 13px;
+  border-radius: 12px;
   box-shadow: none;
 }
 
@@ -10453,9 +10461,13 @@ button {
     min-height: min(58px, 88%);
   }
 
+  /* 30-ago: el dueno resolvio que el «~70 %» del plan era la altura del orbe,
+     no la casilla del icono. 41 de los 58 del orbe de servicio son 70,7 %. El
+     brazo en porcentaje no se toca: 58 sobre 88 ya es 66 %, mas exigente que
+     el objetivo, y subirlo agrandaria el orbe en contenedores bajos. */
   .summary-orb--product {
     height: auto;
-    min-height: min(46px, 58%);
+    min-height: min(41px, 58%);
   }
 }
 
