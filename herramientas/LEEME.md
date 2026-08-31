@@ -129,7 +129,7 @@ dependencia nueva la instalaría Cloudflare en cada build.
 
 ### La línea base
 
-`guardia-css.json` es la lista de las deudas que el archivo YA tiene: hoy 447
+`guardia-css.json` es la lista de las deudas que el archivo YA tiene: hoy 385
 selectores repetidos, 5 `var()` sin definir y 22 `!important`. No es una lista
 de cosas correctas, es lo que todavía está mal y hoy no se arregla. El script
 solo falla cuando algo empeora, y avisa cuando algo mejora para que la línea
