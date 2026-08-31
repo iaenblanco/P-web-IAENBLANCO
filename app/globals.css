@@ -610,6 +610,8 @@ button {
 
 .brand-mark {
   display: inline-flex;
+  align-items: center;
+  gap: 10px;
   width: max-content;
 }
 
@@ -628,10 +630,34 @@ button {
   height: 52px;
 }
 
+/* El simbolo es apaisado (199x128), no cuadrado como el logotipo que habia
+   antes: fijar los dos lados lo encajonaba en la caja cuadrada de la chapa
+   y `contain` lo dejaba en la mitad de alto. Se manda por el ancho y el
+   alto sale de la proporcion. */
 .brand-mark__image {
-  width: 92%;
-  height: 92%;
+  width: 74%;
+  height: auto;
   object-fit: contain;
+}
+
+.brand-mark__nombre {
+  color: var(--ink);
+  font-size: 19px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  line-height: 1;
+  white-space: nowrap;
+}
+
+/* Bajo 480 px el simbolo se queda solo: el nombre completo mas la chapa mas
+   el boton del menu no caben sin apretar el centro, y en un telefono la
+   marca ya viene dicha por la pestaña y la barra de direcciones. El enlace
+   conserva su aria-label, asi que el nombre accesible no se va con el
+   texto. */
+@media (max-width: 480px) {
+  .brand-mark__nombre {
+    display: none;
+  }
 }
 
 .desktop-nav {
@@ -12278,13 +12304,16 @@ button {
 }
 
 .brand-mark__image {
-  width: 78%;
-  height: 78%;
-  object-fit: contain;
+  width: 74%;
+  height: auto;
 }
 
 .site-header__inner {
-  grid-template-columns: minmax(64px, 1fr) auto minmax(64px, 1fr);
+  /* `max-content` en la primera y no 64px: con el lockup la marca ya no es
+     una chapa de ancho fijo, y un `minmax(64px, 1fr)` deja que el texto se
+     desborde sobre el menu cuando el reparto en fracciones da menos de lo
+     que el nombre mide. */
+  grid-template-columns: minmax(max-content, 1fr) auto minmax(64px, 1fr);
   padding: 10px;
 }
 
@@ -12308,7 +12337,7 @@ button {
   }
 
   .site-header__inner {
-    grid-template-columns: 56px minmax(0, 1fr) auto;
+    grid-template-columns: auto minmax(0, 1fr) auto;
     padding: 9px 8px;
   }
 }

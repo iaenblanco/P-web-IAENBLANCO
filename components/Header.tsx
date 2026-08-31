@@ -244,19 +244,26 @@ export function Header() {
           aria-label="IAenBlanco, ir al inicio"
           onClick={volverAlInicio}
         >
+          {/* El simbolo suelto, no el logotipo entero. `logo-ui.webp` trae la
+              palabra dibujada dentro, y a los 40 px de la chapa «en Blanco»
+              queda en 8 px de mancha ilegible. Aca el nombre lo pone el texto
+              -que se lee, se selecciona, se busca y escala- y la imagen se
+              queda solo con la marca. El alt va vacio a proposito: el nombre
+              esta al lado en texto real y repetirlo lo diria dos veces. */}
           <span className="brand-mark__plate">
             {/* eslint-disable-next-line @next/next/no-img-element -- The header logo is the local LCP element; a plain eager image avoids extra runtime work. */}
             <img
-              src="/logo-ui.webp"
-              alt="IAenBlanco"
-              width={256}
-              height={256}
+              src="/logo-simbolo.webp"
+              alt=""
+              width={199}
+              height={128}
               loading="eager"
               decoding="sync"
               fetchPriority="high"
               className="brand-mark__image"
             />
           </span>
+          <span className="brand-mark__nombre">IAenBlanco</span>
         </Link>
 
         <nav className="desktop-nav" aria-label="Navegación principal">
