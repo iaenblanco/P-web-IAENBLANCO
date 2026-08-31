@@ -397,7 +397,10 @@ function Escribenos({ service, content }: { service: Service; content: ServicePa
 export function ServicePageTemplate({ service, content }: ServicePageTemplateProps) {
   const whatsappUrl = getWhatsappUrl(content.whatsappMessage)
   const esWeb = content.slug === 'desarrollo-web-ia'
-  const caseStudy = esWeb ? undefined : content.caseStudy
+  /* Ya no alcanza con preguntar por esWeb: automatizaciones tampoco lleva caso
+     desde el 31-ago-2026, y el motivo esta escrito en lib/services-content.ts.
+     Se lee el campo y el que no lo tenga no pinta la seccion. */
+  const caseStudy = content.caseStudy
   const pasos = esWeb
     ? pasosWeb
     : content.builds.map((build) => ({ titulo: build.title, texto: build.text }))

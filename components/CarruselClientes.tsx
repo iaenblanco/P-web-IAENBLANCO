@@ -69,12 +69,15 @@ function Tira({ copia }: { copia?: boolean }) {
     >
       {trabajos.map((trabajo) => (
         <li key={trabajo.client} className="carrusel-clientes__item">
+          {/* El logo llevaba al sitio del cliente en una pestaña nueva. Ahora
+              lleva a su ficha en /trabajos/, que muestra la captura, lo que se
+              le construyó y para qué le sirve, Y ADEMÁS el enlace al sitio: se
+              gana el contexto sin perder la prueba, que queda a un clic más.
+              Volver atrás es cambiar este href por trabajo.href. */}
           <a
             className="carrusel-clientes__enlace"
-            href={trabajo.href}
-            target="_blank"
-            rel="noreferrer"
-            data-cursor="Abrir"
+            href={`/trabajos/#${trabajo.slug}`}
+            data-cursor="Ver"
             data-analytics-event="client_logo_click"
             data-case-name={trabajo.client}
             {...(copia ? { tabIndex: -1 } : {})}

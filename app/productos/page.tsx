@@ -1,4 +1,5 @@
 import type { Metadata } from 'next'
+import { AnclaAlCargar } from '@/components/AnclaAlCargar'
 import { BrandLogo } from '@/components/BrandLogo'
 import { EscenaAbanico } from '@/components/EscenaBanda'
 import { EscenaProducto } from '@/components/EscenaProducto'
@@ -64,6 +65,7 @@ function Tic() {
 export default function ProductsPage() {
   return (
     <main id="contenido">
+      <AnclaAlCargar />
       <section className="page-hero page-hero--products" data-cursor-theme="signal">
         <div className="section-shell banda-apertura">
           <div className="banda-apertura__texto">

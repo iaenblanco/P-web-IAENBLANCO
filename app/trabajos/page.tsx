@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
+import { AnclaAlCargar } from '@/components/AnclaAlCargar'
 import { Reveal } from '@/components/Reveal'
 import { Trabajos } from '@/components/Trabajos'
 import { OG_IMAGE, SITE_URL, getWhatsappUrl } from '@/lib/site'
@@ -80,6 +81,7 @@ export default function TrabajosPage() {
   return (
     <>
       <main id="contenido" className="pagina-trabajos">
+        <AnclaAlCargar />
         <section className="pagina-trabajos__apertura">
           <div className="section-shell pagina-trabajos__apertura-inner">
             <p className="eyebrow">Trabajos reales</p>

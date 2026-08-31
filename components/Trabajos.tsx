@@ -69,6 +69,12 @@ export function Trabajos({
       {lista.map(({ proof, index }) => (
         <Reveal
           key={proof.client}
+          /* El ancla que apuntan los logos de la portada. Va en las tres rutas
+             que pintan fichas, no solo en /trabajos: el id no molesta donde
+             nadie lo enlaza, y si manana /servicios recibe un enlace directo
+             ya funciona. El salto lo amortigua scroll-margin-top de
+             "main [id]" en globals.css. */
+          id={proof.slug}
           className={`trabajo${proof.destacado ? ' trabajo--destacado' : ''}`}
           delay={index * 60}
         >

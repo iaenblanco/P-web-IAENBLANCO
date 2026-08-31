@@ -6,6 +6,14 @@
  */
 export type Trabajo = {
   client: string
+  /*
+   * El ancla de la ficha en /trabajos/. Es el destino de los logos de la
+   * portada, asi que se escribe a mano y NO se deriva de captura ni de logo:
+   * esos dos son nombres de archivo -logo: 'yomercargo' arrastra el error de
+   * tipeo del asset- y en 4 de los 7 no coinciden entre si. Si cambia uno,
+   * el enlace de la portada se cae en silencio, sin romper el build.
+   */
+  slug: string
   href: string
   captura: string
   logo: string
@@ -48,6 +56,7 @@ export type Trabajo = {
 export const trabajos: Trabajo[] = [
   {
     client: 'Propinvest',
+    slug: 'propinvest',
     href: 'https://propinvest.cl/',
     captura: 'propinvest',
     logo: 'propinvest',
@@ -67,11 +76,12 @@ export const trabajos: Trabajo[] = [
   },
   {
     client: 'YoMeEncargo',
+    slug: 'yomeencargo',
     href: 'https://yomeencargo.cl/',
     captura: 'yomeencargo',
     logo: 'yomercargo',
     sector: 'Fletes y mudanzas',
-    project: 'Su sitio de servicios, ordenado para que se entienda',
+    project: 'Un cotizador de siete pasos para pedir precio sin llamar',
     rasgos: ['Cotizador paso a paso', 'Agenda día y hora', 'WhatsApp directo'],
     velocidad: 'menos de 1,5 s',
     peso: '770 KB',
@@ -79,16 +89,21 @@ export const trabajos: Trabajo[] = [
        secciones de una sola pagina -ancla #servicios-, no paginas propias, y
        los cuatro botones "Cotizar este servicio" llevan al mismo cotizador.
        No era falso del todo, pero prometia una separacion que no hay. */
-    system: 'Los cuatro servicios explicados en una sola página y un cotizador de siete pasos para pedir precio.',
+    /* Decia "los cuatro servicios". Al abrir el sitio el 31-ago-2026 aparece
+       ademas /nuestros-servicios con seis. El cotizador de siete pasos si se
+       comprueba entero. Se saca el numero: una cantidad publicada envejece
+       sola cada vez que el cliente agrega una linea. */
+    system: 'Los servicios explicados en una sola página y un cotizador de siete pasos para pedir precio.',
     proof: 'Ofrecen muchas cosas distintas. El sitio las ordena para que cada visitante encuentre la suya.',
   },
   {
     client: 'Granja Magdalena',
+    slug: 'granja-magdalena',
     href: 'https://granjamagdalena.cl/',
     captura: 'granjamagdalena',
     logo: 'granja-magdalena',
     sector: 'Venta de alimentos',
-    project: 'Su tienda online',
+    project: 'Una tienda con carro de compra y medios de pago',
     /* "Medios de pago visibles" es literal: los logos Visa, Mastercard,
        American Express y Diners en el pie, que se ven sin poner nada en el
        carro. No dice "Pago en linea", que exigiria abrir un checkout. Por eso
@@ -97,10 +112,21 @@ export const trabajos: Trabajo[] = [
     velocidad: 'menos de 1,5 s',
     peso: '4,6 MB',
     system: 'Catálogo, carro de compra y la venta ordenada en un solo lugar.',
-    proof: 'Pasaron de mostrar sus productos a poder venderlos por internet.',
+    /* Decia "pasaron de mostrar sus productos a poder venderlos por internet".
+       Es un antes-y-despues, y el antes esta desmentido en el archivo publico:
+       granjamagdalena.cl redirigia a distribuidoramagdalena.cl, que en la
+       captura del 01-dic-2022 YA era una tienda Shopify con /cart y Checkout.
+       Lo de 2025 fue un cambio de dominio, no pasar de catalogo a venta. Se
+       reemplaza por lo que hace hoy el visitante, que es lo unico que se
+       comprueba abriendo el sitio. Ojo con los cuantificadores al reescribirlo:
+       "cada producto tiene su boton" tambien seria falso, porque en la portada
+       hay mas fichas "Agotado" -con el boton deshabilitado- que fichas con
+       boton activo. */
+    proof: 'El cliente ve los precios, ve cuáles están agotados y va sumando al carrito lo que sí queda.',
   },
   {
     client: 'Granja Magdalena Pet',
+    slug: 'granja-magdalena-pet',
     href: 'https://granjamagdalenapet.cl/',
     captura: 'granjapet',
     logo: 'granjapet',
@@ -115,11 +141,12 @@ export const trabajos: Trabajo[] = [
   },
   {
     client: 'Inasec Pets',
+    slug: 'inasec-pets',
     href: 'https://inasecpets.cl/',
     captura: 'inasecpets',
     logo: 'inasec-pets',
     sector: 'Tienda especializada',
-    project: 'Su sitio para mostrar lo que venden y recibir consultas',
+    project: 'Un catálogo con carro de compra y contacto directo',
     rasgos: ['Fichas de producto', 'Carro de compra', 'WhatsApp directo'],
     velocidad: 'menos de 2 s',
     peso: '3,2 MB',
@@ -136,6 +163,7 @@ export const trabajos: Trabajo[] = [
      la primera vez. */
   {
     client: 'Amparo Vega',
+    slug: 'amparo-vega',
     href: 'https://amparovega.cl/',
     captura: 'amparovega',
     logo: 'amparo-vega',
@@ -160,15 +188,20 @@ export const trabajos: Trabajo[] = [
     velocidad: 'menos de 1 s',
     peso: '313 KB',
     system: 'Sitio con sus planes y sus precios a la vista, y la reserva de hora en línea.',
-    proof: 'La paciente elige el plan, ve cuánto cuesta y toma la hora sin escribirle a nadie ni esperar respuesta.',
+    /* Decia "la paciente elige el plan". Verificado el 31-ago-2026: /reserva
+       muestra un solo servicio -Consulta, 60 min, $40.000-, sin selector, y el
+       otro plan publicado -Asesoria Online- manda a WhatsApp. Lo que si ocurre
+       sin intervencion humana es lo que queda escrito. */
+    proof: 'La paciente ve el precio, toma día y hora en el calendario y paga el abono, sin escribirle a nadie ni esperar respuesta.',
   },
   {
     client: 'Dovar',
+    slug: 'dovar',
     href: 'https://dovar.cl/',
     captura: 'dovar',
     logo: 'dovar',
     sector: 'Constructora industrial',
-    project: 'Su sitio para presentarse ante empresas grandes',
+    project: 'Una página por cada área de obra, con las preguntas ya respondidas',
     /* "Pagina por servicio" es literal y es justo lo contrario de YoMeEncargo,
        donde los cuatro servicios son secciones de una sola pagina: aca cada
        linea tiene su URL propia con contenido propio -/servicios/mineria,
@@ -182,6 +215,11 @@ export const trabajos: Trabajo[] = [
     velocidad: 'menos de 1,5 s',
     peso: '410 KB',
     system: 'Cada área de obra explicada por separado y contacto directo por WhatsApp.',
-    proof: 'Trabajan para industria, minería e infraestructura: el sitio los presenta a la altura de esos clientes.',
+    /* Decia "trabajan para industria, mineria e infraestructura". Esa es la
+       misma clase de afirmacion que el comentario de arriba tuvo el cuidado de
+       excluir: dovar.cl no nombra un solo mandante ni muestra una sola obra
+       -sus dos unicas imagenes son el logo-. Lo que se comprueba abriendo el
+       sitio es como esta armado, no para quien. */
+    proof: 'El mandante llega directo al área de obra que le interesa, ya leyó las preguntas de siempre y escribe por WhatsApp.',
   },
 ]

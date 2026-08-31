@@ -31,22 +31,39 @@ type BaseServicePageContent = {
   faqs: ServiceFaq[]
 }
 
-export type WebsiteServicePageContent = BaseServicePageContent & {
-  slug: 'desarrollo-web-ia'
+/*
+ * Las rutas que NO llevan bloque de caso. Son dos, por motivos distintos.
+ * desarrollo-web-ia nunca tuvo uno: sus pruebas son las siete fichas de
+ * /trabajos/. automatizaciones lo perdio el 31-ago-2026. El que tenia era
+ * Granja Magdalena y su propio texto aclaraba "no como un trabajo de
+ * automatizacion que le hayamos hecho": un caso que se desmentia solo, que es
+ * peor prueba que ninguna. Hoy no hay ninguna automatizacion nuestra que pase
+ * la regla de lib/trabajos.ts -que se compruebe abriendo el sitio del cliente,
+ * sin cifras, plazos ni comparaciones-. La unica candidata era la reserva de
+ * Amparo Vega y se cae justo en lo verificable: el calendario abre en un mes
+ * sin horas disponibles, entre elegir la hora y pagar hay un formulario, y
+ * "Continuar al pago" se va de la pagina. Para devolver el bloque: sacar el
+ * slug de este union, con eso vuelve a los dos Exclude de abajo solo, y
+ * escribir su caseStudy.
+ */
+type SlugSinCaso = 'desarrollo-web-ia' | 'automatizaciones'
+
+export type ServicePageContentSinCaso = BaseServicePageContent & {
+  slug: SlugSinCaso
   caseStudy?: never
 }
 
 export type ServicePageContentWithCase = BaseServicePageContent & {
-  slug: Exclude<ServiceSlug, 'desarrollo-web-ia'>
+  slug: Exclude<ServiceSlug, SlugSinCaso>
   caseStudy: ServiceCase
 }
 
-export type ServicePageContent = WebsiteServicePageContent | ServicePageContentWithCase
+export type ServicePageContent = ServicePageContentSinCaso | ServicePageContentWithCase
 
 export type ServicePageContentMap = {
-  'desarrollo-web-ia': WebsiteServicePageContent
+  [K in SlugSinCaso]: ServicePageContentSinCaso & { slug: K }
 } & {
-  [K in Exclude<ServiceSlug, 'desarrollo-web-ia'>]: ServicePageContentWithCase & { slug: K }
+  [K in Exclude<ServiceSlug, SlugSinCaso>]: ServicePageContentWithCase & { slug: K }
 }
 
 /* El diagnostico de /servicios/ ---------------------------------------------
@@ -334,7 +351,12 @@ export const servicePageContent: ServicePageContentMap = {
       client: 'Propinvest',
       label: 'Un trabajo nuestro',
       title: 'Catálogo inmobiliario editable.',
-      text: 'IAenBlanco construyó una base digital para administrar propiedades, comunicar fichas y mantener contenido comercial sin depender de cambios manuales externos. La administración interna no es pública.',
+      /* Decía "una base digital para administrar propiedades, comunicar fichas
+         y mantener contenido comercial sin depender de cambios manuales
+         externos": tres líneas sin una sola cosa que el visitante pueda abrir
+         y mirar. Esta es la misma ficha de lib/trabajos.ts, contada igual, y
+         separa a propósito lo que se comprueba de lo que hay que creernos. */
+      text: 'Lo que se ve al abrirlo es el catálogo: la ficha de cada propiedad, el filtro por comuna y por tipo, y el WhatsApp en cada una. Lo que no se ve es el panel donde ellos mismos suben una propiedad y queda publicada, sin pedirnos ayuda.',
       href: 'https://propinvest.cl/',
       actionLabel: 'Abrir el sitio',
     },
@@ -399,14 +421,6 @@ export const servicePageContent: ServicePageContentMap = {
         text: 'Entras y ves en qué va todo, qué está pendiente y qué ya se hizo.',
       },
     ],
-    caseStudy: {
-      client: 'Granja Magdalena',
-      label: 'Un ejemplo del tipo de negocio',
-      title: 'Dónde este trabajo rinde: un negocio que vende, despacha y responde todos los días.',
-      text: 'Su tienda es de las que hicimos nosotros. La usamos acá como ejemplo del tipo de operación donde estas automatizaciones rinden —catálogo, pedidos, boletas y seguimiento—, no como un trabajo de automatización que le hayamos hecho.',
-      href: 'https://granjamagdalena.cl/',
-      actionLabel: 'Abrir el sitio',
-    },
     faqs: [
       {
         question: '¿Todo se debe automatizar?',
