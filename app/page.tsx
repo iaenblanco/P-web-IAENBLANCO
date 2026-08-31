@@ -8,7 +8,7 @@ import { CorrienteScroll } from '@/components/CorrienteScroll'
 import { RevelaAlEntrar } from '@/components/RevelaAlEntrar'
 import { TypingLine } from '@/components/TypingLine'
 import Link from 'next/link'
-import { getWhatsappUrl, products, WHATSAPP_URL } from '@/lib/site'
+import { getWhatsappUrl, products, services, WHATSAPP_URL } from '@/lib/site'
 
 function ArrowUpRight() {
   return (
@@ -804,6 +804,58 @@ function ProductLabSection() {
 }
 
 
+/* La repisa de servicios: el eslabon que faltaba. Hasta aca, de los cuatro
+   servicios solo desarrollo-web-ia tenia enlace en la portada; los otros tres
+   aparecian cero veces, aunque el heroe los enumera en texto.
+
+   No reutiliza .services-index-cards de /servicios/ a proposito. Alla la
+   tarjeta lleva la descripcion entera (150-230 caracteres) y min-height 360px,
+   que en el telefono son ~1.440px de alto metidos entre los logos y los tres
+   pasos. Aca la linea es el eyebrow del servicio, que ya esta escrito como
+   una linea, y la tarjeta mide lo que mide su texto. La descripcion completa
+   sigue viviendo en /servicios/, que es justo a donde lleva cada tarjeta. */
+function ServiciosShelfSection() {
+  return (
+    <section
+      id="lo-que-construimos"
+      className="home-servicios"
+      aria-labelledby="home-servicios-heading"
+    >
+      <div className="section-shell">
+        <div className="home-servicios__encabezado">
+          <p className="eyebrow">Lo que hacemos</p>
+          <h2 id="home-servicios-heading">Cuatro cosas que hacemos para ti.</h2>
+        </div>
+        <ul className="home-servicios__fila">
+          {services.map((service) => (
+            <li key={service.slug}>
+              {/* La tarjeta entera es el enlace: en el telefono el objetivo
+                  tactil pasa a ser la tarjeta y no un renglon de 12px. La
+                  barra final tampoco es cosmetica, con trailingSlash:true la
+                  version sin barra devuelve 308 y recarga el documento. */}
+              <Link
+                href={`/servicios/${service.slug}/`}
+                prefetch={false}
+                data-analytics-event="service_cta_click"
+                data-service-id={service.slug}
+                data-service-name={service.shortTitle}
+              >
+                <span className="home-servicios__num">{service.index}</span>
+                <h3>{service.shortTitle}</h3>
+                <p>{service.eyebrow}</p>
+                <span className="home-servicios__ir">
+                  Ver cómo lo hacemos
+                  <ArrowRight />
+                </span>
+              </Link>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </section>
+  )
+}
+
 export default function HomePage() {
   return (
     <main id="contenido">
@@ -851,12 +903,14 @@ export default function HomePage() {
                 Cuéntanos tu idea
                 <ArrowUpRight />
               </a>
-              {/* Decia "Ver que hacemos" y aterriza en los tres pasos, que son
-                  como trabajamos, no que hacemos: el que hacemos esta en el
-                  parrafo de arriba y en /servicios/. El rotulo ahora nombra lo
-                  que el ancla entrega. */}
-              <a href="#empezar" className="button button--text">
-                Cómo trabajamos
+              {/* Este rotulo fue "Como trabajamos" -> #empezar mientras la
+                  portada no tenia donde aterrizar el "que hacemos": el ancla
+                  caia en los tres pasos, que son otra cosa. Ahora existe la
+                  repisa de servicios, asi que el rotulo vuelve a nombrar lo que
+                  el ancla entrega de verdad. Si algun dia se borra la repisa,
+                  este href se queda sin destino: van juntos. */}
+              <a href="#lo-que-construimos" className="button button--text">
+                Ver qué hacemos
                 <ArrowDown />
               </a>
             </div>
@@ -882,6 +936,8 @@ export default function HomePage() {
       </section>
 
       <TrustProofSection />
+
+      <ServiciosShelfSection />
 
       <ProblemSection />
 

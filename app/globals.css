@@ -2432,6 +2432,114 @@ button {
   transition: transform 260ms ease;
 }
 
+/* La repisa de servicios de la portada. Prima de .services-index-cards, no
+   copia: comparte vocabulario (numero mono, titulo corto, enlace con flecha)
+   pero no su tarjeta alta. Cada selector aparece UNA vez por contexto, que es
+   lo que mira herramientas/guardia-css.mjs. */
+.home-servicios {
+  padding-top: var(--seccion-y);
+  padding-bottom: var(--seccion-y);
+  border-bottom: 1px solid var(--line-soft);
+}
+
+.home-servicios__encabezado {
+  display: grid;
+  gap: 14px;
+  max-width: 760px;
+  margin-bottom: 30px;
+}
+
+.home-servicios__encabezado h2 {
+  margin: 0;
+  font-size: clamp(32px, 4.2vw, 62px);
+  line-height: 0.96;
+  letter-spacing: 0;
+}
+
+.home-servicios__fila {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 12px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.home-servicios__fila > li {
+  display: flex;
+}
+
+.home-servicios__fila a {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: 10px;
+  padding: 20px;
+  border: 1px solid var(--line);
+  background: var(--paper-bright);
+  color: var(--ink);
+  text-decoration: none;
+}
+
+.home-servicios__fila h3 {
+  margin: 0;
+  font-size: clamp(20px, 1.9vw, 26px);
+  line-height: 1.05;
+}
+
+.home-servicios__fila p {
+  margin: 0;
+  color: var(--graphite);
+  font-size: var(--texto-3);
+  line-height: 1.5;
+}
+
+/* --texto-1 son 10px y el piso de la bateria son 12: el numero pasa porque
+   mide dos caracteres y el criterio solo mira textos de cinco o mas. El
+   rotulo de abajo, que si es largo, va en --texto-2 = 12px justos. */
+.home-servicios__num {
+  color: var(--signal-ink);
+  font-family: var(--font-mono);
+  font-size: var(--texto-1);
+  font-weight: 500;
+  line-height: 1.2;
+}
+
+.home-servicios__ir {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: auto;
+  padding-top: 14px;
+  font-family: var(--font-mono);
+  font-size: var(--texto-2);
+  font-weight: 500;
+  text-transform: uppercase;
+}
+
+.home-servicios__ir svg {
+  width: 18px;
+  height: 18px;
+  transition: transform 260ms ease;
+}
+
+.home-servicios__fila a:hover .home-servicios__ir svg,
+.home-servicios__fila a:focus-visible .home-servicios__ir svg {
+  transform: translateX(4px);
+}
+
+@media (max-width: 1000px) {
+  .home-servicios__fila {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 560px) {
+  .home-servicios__fila {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
 .services-matrix {
   display: grid;
   gap: 8px;
