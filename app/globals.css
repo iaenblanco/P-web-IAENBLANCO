@@ -2892,9 +2892,15 @@ button {
   font-size: 14px;
 }
 
+/* El 640 lo sintetizaba el navegador: de la mono solo se cargan 400 y 500
+   (`app/layout.tsx:28`), asi que 640 era la 500 engordada a mano, un negro
+   falso. Baja a la cara que existe y el enfasis lo toma el espaciado: en
+   versalitas monoespaciadas el aire entre letras separa tanto como el peso,
+   y no cuesta una descarga. Decision del dueno del 30-ago. */
 .service-case-card a strong {
   font-size: 12px;
-  font-weight: 640;
+  font-weight: 500;
+  letter-spacing: 0.08em;
 }
 
 .service-process-list article {
@@ -14403,11 +14409,15 @@ button {
   animation-delay: calc(var(--i) * 8ms);
 }
 
+/* El 700 era sintetico por el mismo motivo. Aqui no hace falta compensar
+   nada: la cabecera ya se distingue de la celda por otras tres vias -fondo
+   entintado, `--ink` contra `--graphite` y 0.09em de espaciado-, y el peso
+   era la cuarta, la unica que el navegador no podia cumplir. */
 .esc__celda--cabecera {
   background: color-mix(in srgb, var(--ink) 8%, transparent);
   color: var(--ink);
   font-size: 10px;
-  font-weight: 700;
+  font-weight: 500;
   letter-spacing: 0.09em;
   text-transform: uppercase;
 }
@@ -14591,6 +14601,12 @@ button {
   white-space: nowrap;
 }
 
+/* El unico de los tres que perdia algo al bajar: es un solo caracter, asi
+   que el espaciado no compensa y el color ya esta al maximo -blanco sobre
+   el rojo de sistema-. Se compensa con un punto de tamano, que tampoco
+   cuesta descarga. Y el 700 tampoco estaba ayudando: a 10px la sintesis
+   engorda el trazo hasta emborronar la abertura del signo, que es justo lo
+   que hay que leer en un disco de 15px. */
 .tu__falla-marca {
   display: grid;
   place-items: center;
@@ -14599,9 +14615,9 @@ button {
   border-radius: 50%;
   background: var(--alarma-servicio);
   color: var(--paper-bright);
-  font-size: 10px;
+  font-size: 11px;
   font-style: normal;
-  font-weight: 700;
+  font-weight: 500;
   line-height: 1;
 }
 
