@@ -3181,6 +3181,37 @@ button {
   font-size: var(--texto-2);
 }
 
+/* --- Los otros tres servicios, al cierre de cada pagina ------------------
+   El bloque de arriba llevaba meses en la hoja sin que ningun componente lo
+   usara: era el "siguiente servicio" de una pagina que ya no existe. Vuelve
+   el 31-ago-2026 con TRES enlaces en vez de uno, y estas tres reglas son lo
+   unico que se agrego para eso.
+
+   Sin @media a proposito: flex-wrap reparte los tres a lo ancho cuando caben
+   y los apila cuando no, sin repetir un solo selector. Repetir selectores es
+   exactamente como esta hoja llego a 385 duplicados.
+
+   Se probo antes con grid y auto-fit y NO sirve: el rotulo abarca de la
+   primera a la ultima columna, asi que ninguna pista queda vacia y auto-fit
+   -que solo colapsa las vacias- dejaba cinco columnas de 237 px en 1440 con
+   las tres tarjetas amontonadas a la izquierda. Medido, no supuesto. */
+.service-next-link--tres .section-shell {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.service-next-link--tres p {
+  flex: 1 0 100%;
+}
+
+/* La escala del bloque original -hasta 46 px- era para UN titular que ocupaba
+   el ancho entero. Repartido en tres columnas no cabe. */
+.service-next-link--tres a {
+  flex: 1 1 210px;
+  gap: 14px;
+  font-size: clamp(17px, 1.5vw, 22px);
+}
+
 /* --- Como se mueven las cuatro paginas de servicio ---------------------
    La de sitios web queda fuera a proposito: ya tiene el suyo con la grilla
    de trabajos. Las otras cuatro siguen la misma linea que el resto del

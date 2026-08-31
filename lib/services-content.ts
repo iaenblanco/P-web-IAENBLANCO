@@ -26,6 +26,13 @@ export type ServiceFaq = {
 type BaseServicePageContent = {
   slug: ServiceSlug
   primaryCta: string
+  /* El cierre repetia palabra por palabra el boton de la apertura. Cuando el
+     mismo boton aparece tres veces con la misma frase, las tres valen lo que
+     vale una. Desde el 31-ago-2026 la pagina tiene DOS apariciones -apertura
+     y cierre- y el cierre dice otra cosa: la apertura ofrece el servicio y el
+     cierre pide el caso, que es lo que su titular ya pedia. Es opcional: sin
+     el, el cierre vuelve a usar primaryCta. */
+  closingCta?: string
   whatsappMessage: string
   builds: { title: string; text: string }[]
   faqs: ServiceFaq[]
@@ -266,6 +273,7 @@ export const servicePageContent: ServicePageContentMap = {
   'desarrollo-web-ia': {
     slug: 'desarrollo-web-ia',
     primaryCta: 'Quiero revisar mi sitio',
+    closingCta: 'Les cuento cómo está mi sitio hoy',
     whatsappMessage:
       'Hola IAenBlanco, quiero revisar un proyecto de sitio web o Shopify que convierta mejor.',
     builds: [
@@ -327,6 +335,7 @@ export const servicePageContent: ServicePageContentMap = {
   'plataformas-software-medida': {
     slug: 'plataformas-software-medida',
     primaryCta: 'Quiero contarles mi idea',
+    closingCta: 'Les cuento cómo lo hago hoy',
     whatsappMessage:
       'Hola IAenBlanco, tengo una idea de un programa a medida y quiero saber si se puede hacer.',
     builds: [
@@ -401,6 +410,7 @@ export const servicePageContent: ServicePageContentMap = {
   automatizaciones: {
     slug: 'automatizaciones',
     primaryCta: 'Quiero automatizar una tarea',
+    closingCta: 'Les cuento qué tarea me quita tiempo',
     whatsappMessage:
       'Hola IAenBlanco, quiero revisar un flujo manual que podría automatizarse.',
     builds: [
@@ -457,6 +467,7 @@ export const servicePageContent: ServicePageContentMap = {
   'soluciones-ia-medida': {
     slug: 'soluciones-ia-medida',
     primaryCta: 'Quiero ver si me sirve',
+    closingCta: 'Les cuento qué necesito que conteste',
     whatsappMessage:
       'Hola IAenBlanco, quiero evaluar una solución de IA aplicada a mi operación.',
     builds: [
@@ -481,7 +492,11 @@ export const servicePageContent: ServicePageContentMap = {
       client: 'Citaly',
       label: 'Un programa nuestro',
       title: 'El mismo tipo de asistente, lo estamos terminando como programa.',
-      text: 'Citaly se hace cargo del calendario de un negocio: toma las horas, las mueve, las cancela y contesta por él, escrito o por audio. Está por abrir, y es la mejor muestra de que esto lo sabemos construir: tu asistente sería a tu medida, con tus reglas.',
+      /* "Está por abrir" prometia un lanzamiento que no tiene fecha. Citaly
+         no esta abierto al publico y no se sabe cuando lo estara, asi que la
+         frase decia algo que no podemos sostener. Lo que si sostiene el
+         bloque -y por eso sigue aca- es que sabemos construir esto. */
+      text: 'Citaly se hace cargo del calendario de un negocio: toma las horas, las mueve, las cancela y contesta por él, escrito o por audio. Todavía lo estamos construyendo y no está abierto al público: no te lo estamos ofreciendo, te lo mostramos porque es exactamente el tipo de asistente que sabemos armar. El tuyo sería a tu medida, con tus reglas.',
       href: 'https://citaly.cl/',
       actionLabel: 'Ver el sitio',
     },
@@ -505,6 +520,16 @@ export const servicePageContent: ServicePageContentMap = {
         question: '¿En qué se diferencia de usar ChatGPT?',
         answer:
           'ChatGPT no sabe tus precios, tus horarios ni tu stock. Este asistente sí, porque le damos tu información y le ponemos límites de qué puede decir.',
+      },
+      /* El bloque de "Enseñarle sobre tu negocio" de mas arriba dice que le
+         damos al asistente la informacion real del negocio -precios, horarios,
+         servicios- y ninguna de las seis preguntas decia despues que pasa con
+         esa informacion. La respuesta no promete nada nuevo: es la misma
+         promesa de propiedad que ya esta publicada en la portada. */
+      {
+        question: '¿Qué pasa con la información de mi negocio?',
+        answer:
+          'Es tuya y se queda tuya. Le damos al asistente solo lo que necesita para responder -tus servicios, tus precios, tus horarios- y eso vive en cuentas a tu nombre, igual que el dominio. Si mañana quieres que lo siga otro, se lo entregas y listo.',
       },
       {
         question: '¿Qué necesitan para darme un precio?',

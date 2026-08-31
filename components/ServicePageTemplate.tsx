@@ -1,7 +1,7 @@
 import { type CSSProperties } from 'react'
 import Link from 'next/link'
 import type { Service } from '@/lib/site'
-import { getWhatsappUrl } from '@/lib/site'
+import { getWhatsappUrl, services } from '@/lib/site'
 import { EscenaServicio, textoEscena } from '@/components/EscenaServicio'
 import { RevelaAlEntrar } from '@/components/RevelaAlEntrar'
 import { RevelaEnCascada } from '@/components/RevelaEnCascada'
@@ -370,25 +370,43 @@ function AsiTrabajamos({ pasos }: { pasos: Paso[] }) {
   )
 }
 
-/* --- 3. Escribenos ------------------------------------------------------- */
+/* --- 3. La fila de los otros tres servicios ------------------------------
+   Aca vivia Escribenos, un tercer boton de WhatsApp a mitad de pagina que
+   repetia palabra por palabra el de la apertura y el del cierre. Tres botones
+   con la misma frase no son tres oportunidades: son la misma, dicha tres
+   veces. Se retiro el 31-ago-2026 y quedan dos, con frases distintas.
 
-function Escribenos({ service, content }: { service: Service; content: ServicePageContent }) {
+   En su lugar, el problema que si estaba sin resolver: desde una pagina de
+   servicio no habia forma de llegar a las otras tres sin volver atras. Los
+   parametros source/target del despachador de app/layout.tsx existian desde
+   siempre y no los usaba nadie; ahora dicen desde donde salio el clic.
+
+   El CSS de .service-next-link ya existia y no lo usaba ningun componente:
+   era el bloque de "siguiente servicio" que se retiro cuando las cinco
+   paginas se unificaron. Vuelve con los tres que faltan en vez de uno. */
+
+function OtrosServicios({ service }: { service: Service }) {
+  const otros = services.filter((otro) => otro.slug !== service.slug)
   return (
-    <section id="escribenos" className="service-page-mid-cta">
-      <div className="section-shell service-page-mid-cta__inner" data-revela="">
-        <p>¿Se parece a lo que te pasa? Escríbenos y lo revisamos antes de proponerte nada.</p>
-        <a
-          href={getWhatsappUrl(content.whatsappMessage)}
-          target="_blank"
-          rel="noreferrer"
-          className="button button--text"
-          data-analytics-event="service_whatsapp_click"
-          data-service-id={service.slug}
-          data-service-name={service.shortTitle}
-        >
-          {content.primaryCta}
-          <ArrowUpRight />
-        </a>
+    <section className="service-next-link service-next-link--tres">
+      <div className="section-shell" data-revela="">
+        <p>Los otros tres servicios</p>
+        {otros.map((otro) => (
+          <Link
+            key={otro.slug}
+            href={`/servicios/${otro.slug}/`}
+            prefetch={false}
+            data-analytics-event="service_cta_click"
+            data-source-service-id={service.slug}
+            data-source-service-name={service.shortTitle}
+            data-target-service-id={otro.slug}
+            data-target-service-name={otro.shortTitle}
+          >
+            <span>{otro.index}</span>
+            {otro.shortTitle}
+            <ArrowRight />
+          </Link>
+        ))}
       </div>
     </section>
   )
@@ -428,8 +446,6 @@ export function ServicePageTemplate({ service, content }: ServicePageTemplatePro
           <AsiTrabajamos pasos={pasos} />
         </>
       )}
-
-      <Escribenos service={service} content={content} />
 
       {caseStudy ? (
         <section className="service-page-section service-page-section--case">
@@ -499,11 +515,13 @@ export function ServicePageTemplate({ service, content }: ServicePageTemplatePro
             data-service-id={service.slug}
             data-service-name={service.shortTitle}
           >
-            {content.primaryCta}
+            {content.closingCta ?? content.primaryCta}
             <ArrowUpRight />
           </a>
         </div>
       </section>
+
+      <OtrosServicios service={service} />
 
       {/* Un solo observador para toda la pagina: arma las piezas cuando se
           baja y apaga el bucle de la escena cuando deja de verse. No pinta
