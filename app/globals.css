@@ -378,6 +378,52 @@ video {
   --titular-seccion: clamp(34px, 4.2vw, 62px);
   --titular-seccion-peso: 500;
   --titular-seccion-interletrado: -0.065em;
+/* La escala de texto. Medido el 30-ago-2026 sobre este archivo: 530
+   declaraciones de font-size con 86 valores distintos. Pero debajo del ruido
+   ya habia una escala par, y la usa la mayoria:
+
+     10px  107 usos      16px   30
+     12px   88           18px   22
+     14px   63           20px   13
+
+   Seis escalones, 323 de las 530 declaraciones. No se inventa una escala:
+   se le pone nombre a la que el sitio ya sirve, sin mover ningun valor.
+
+   El numero CRECE con el cuerpo, igual que --espacio-1..8, para que quien
+   lea el archivo no tenga que recordar dos convenciones opuestas. Es al
+   reves de la costumbre tipografica (h1 = 1), y por eso queda dicho aqui.
+
+   Lo que NO entra, y por que. Quedan 81 declaraciones fuera de la escala:
+   11px (23 usos), 13px (30), 15px (13), 17px (3), 19px (2), 9px (1) y nueve
+   medios puntos (10.5, 12.5, 13.5, 14.5, 15.5). Caen ENTRE escalones, asi
+   que absorberlas no es ponerles nombre: es decidir si 13px sube a 14 o baja
+   a 12, y eso se ve en pantalla en 30 sitios. Es una decision de diseno, no
+   una de nomenclatura, y va en su propia tanda con su propia medicion. */
+  --texto-1: 10px;
+  --texto-2: 12px;
+  --texto-3: 14px;
+  --texto-4: 16px;
+  --texto-5: 18px;
+  --texto-6: 20px;
+
+/* Los titulares fluidos. Cuatro escalones, de mayor a menor, con
+   --titular-seccion (34-62) ya viviendo aqui arriba desde su propia tanda:
+
+     --titular-mayor    44 - 92px   9 usos   .service-hero h1, .not-found h1,
+                                             .contact-option h2, .contact-context h2,
+                                             .positioning-section__statement h2
+     --titular-medio    38 - 76px   8 usos   .services-index-hero h1, .contact-band h2,
+                                             .site-footer__statement h2, .service-fit h2,
+                                             .featured-case__copy h2
+     --titular-seccion  34 - 62px            (arriba, con su peso y su interletrado)
+     --titular-menor    30 - 46px   6 usos   .rampa__copy h2, .product-showcase__card strong
+
+   El plan los habia bautizado --texto-display; se prefiere la familia
+   --titular-* porque ya existe en el archivo y ya se usa por var() en siete
+   sitios. Una familia, no dos. */
+  --titular-mayor: clamp(44px, 5.6vw, 92px);
+  --titular-medio: clamp(38px, 4.8vw, 76px);
+  --titular-menor: clamp(30px, 3.4vw, 46px);
 
   /* Elevacion. Medido en el DOM el 30-ago-2026: de los 47 valores distintos de
      box-shadow que hay escritos en este archivo, solo 17 llegan a dibujarse.
@@ -439,7 +485,7 @@ body {
   background: var(--paper);
   color: var(--ink);
   font-family: var(--font-sans);
-  font-size: 16px;
+  font-size: var(--texto-4);
   -webkit-font-smoothing: antialiased;
   overflow-x: clip;
 }
@@ -480,7 +526,7 @@ button {
   color: white;
   padding: 12px 18px;
   font-family: var(--font-mono);
-  font-size: 12px;
+  font-size: var(--texto-2);
   transition: transform 180ms ease;
 }
 
@@ -498,7 +544,7 @@ button {
   margin: 0;
   color: var(--graphite);
   font-family: var(--font-mono);
-  font-size: 10px;
+  font-size: var(--texto-1);
   font-weight: 500;
   letter-spacing: 0.11em;
   line-height: 1.4;
@@ -682,7 +728,7 @@ button {
   border: 0;
   background: transparent;
   font-family: var(--font-mono);
-  font-size: 10px;
+  font-size: var(--texto-1);
   font-weight: 500;
   letter-spacing: 0.04em;
   cursor: pointer;
@@ -746,7 +792,7 @@ button {
   border: 0;
   background: transparent;
   color: inherit;
-  font-size: 10px;
+  font-size: var(--texto-1);
   cursor: pointer;
 }
 
@@ -801,7 +847,7 @@ button {
   border-bottom: 1px solid var(--line);
   color: var(--graphite);
   font-family: var(--font-mono);
-  font-size: 10px;
+  font-size: var(--texto-1);
   letter-spacing: 0.1em;
   text-transform: uppercase;
 }
@@ -834,7 +880,7 @@ button {
   align-self: start;
   color: var(--graphite);
   font-family: var(--font-mono);
-  font-size: 10px;
+  font-size: var(--texto-1);
 }
 
 .services-menu__item strong,
@@ -843,7 +889,7 @@ button {
 }
 
 .services-menu__item strong {
-  font-size: 14px;
+  font-size: var(--texto-3);
   font-weight: 550;
 }
 
@@ -851,7 +897,7 @@ button {
   margin-top: 4px;
   color: var(--graphite);
   font-family: var(--font-mono);
-  font-size: 10px;
+  font-size: var(--texto-1);
   letter-spacing: 0.02em;
 }
 
@@ -896,7 +942,7 @@ button {
   background: var(--signal);
   color: var(--ink);
   font-family: var(--font-mono);
-  font-size: 10px;
+  font-size: var(--texto-1);
   font-weight: 500;
   transition: background-color 180ms ease, color 180ms ease;
 }
@@ -998,7 +1044,7 @@ button {
   background: rgba(251, 250, 247, 0.82);
   color: var(--ink);
   font-family: var(--font-mono);
-  font-size: 10px;
+  font-size: var(--texto-1);
   font-weight: 500;
   letter-spacing: 0.07em;
   line-height: 1;
@@ -1053,7 +1099,7 @@ button {
   padding: 0 24px;
   border: 1px solid transparent;
   font-family: var(--font-mono);
-  font-size: 12px;
+  font-size: var(--texto-2);
   font-weight: 500;
   letter-spacing: 0.02em;
   white-space: nowrap;
@@ -1154,7 +1200,7 @@ button {
 .contact-hero h1 {
   max-width: 680px;
   margin: 32px 0 0;
-  font-size: clamp(44px, 5.6vw, 92px);
+  font-size: var(--titular-mayor);
   font-weight: var(--h1-peso);
   letter-spacing: var(--h1-interletrado);
 }
@@ -1484,7 +1530,7 @@ button {
 
 .summary-system-label span {
   color: rgba(94, 104, 116, 0.72);
-  font-size: 12px;
+  font-size: var(--texto-2);
   letter-spacing: 0.1em;
 }
 
@@ -1750,7 +1796,7 @@ button {
   align-items: center;
   color: var(--graphite);
   font-family: var(--font-mono);
-  font-size: 14px;
+  font-size: var(--texto-3);
   font-weight: 500;
   letter-spacing: 0.03em;
 }
@@ -1838,7 +1884,7 @@ button {
 
 .concept-card strong {
   color: var(--ink);
-  font-size: 14px;
+  font-size: var(--texto-3);
   font-weight: 700;
   letter-spacing: -0.02em;
   line-height: 1.05;
@@ -1910,7 +1956,7 @@ button {
 .connection-card strong {
   color: var(--ink);
   font-family: var(--font-mono);
-  font-size: 14px;
+  font-size: var(--texto-3);
   font-weight: 500;
   line-height: 1.15;
 }
@@ -1985,7 +2031,7 @@ button {
   }
 
   .concept-card strong {
-    font-size: 14px;
+    font-size: var(--texto-3);
   }
 
   .concept-card .hero-logo {
@@ -2004,7 +2050,7 @@ button {
   }
 
   .connection-card strong {
-    font-size: 14px;
+    font-size: var(--texto-3);
   }
 
   .process-step {
@@ -2050,7 +2096,7 @@ button {
   }
 
   .concept-card strong {
-    font-size: 14px;
+    font-size: var(--texto-3);
     line-height: 1.12;
   }
 
@@ -2071,7 +2117,7 @@ button {
   }
 
   .connection-card strong {
-    font-size: 14px;
+    font-size: var(--texto-3);
     line-height: 1.1;
   }
 
@@ -2081,7 +2127,7 @@ button {
   }
 
   .process-step strong {
-    font-size: 14px;
+    font-size: var(--texto-3);
     line-height: 1.1;
   }
 
@@ -2160,7 +2206,7 @@ button {
 .services-problem-router__item span {
   align-self: end;
   color: var(--graphite);
-  font-size: 14px;
+  font-size: var(--texto-3);
   line-height: 1.45;
 }
 
@@ -2254,7 +2300,7 @@ button {
 .services-index-hero h1 {
   max-width: 790px;
   margin: 12px 0 0;
-  font-size: clamp(44px, 5.6vw, 92px);
+  font-size: var(--titular-mayor);
   line-height: 0.9;
   letter-spacing: 0;
 }
@@ -2343,7 +2389,7 @@ button {
   margin-bottom: 34px;
   color: var(--signal-ink);
   font-family: var(--font-mono);
-  font-size: 10px;
+  font-size: var(--texto-1);
   font-weight: 500;
   line-height: 1.2;
   text-transform: uppercase;
@@ -2357,7 +2403,7 @@ button {
 .service-process-list p,
 .service-faq-list p {
   color: var(--graphite);
-  font-size: 14px;
+  font-size: var(--texto-3);
   line-height: 1.55;
 }
 
@@ -2368,7 +2414,7 @@ button {
   margin-top: auto;
   color: var(--ink);
   font-family: var(--font-mono);
-  font-size: 12px;
+  font-size: var(--texto-2);
   font-weight: 500;
   text-transform: uppercase;
 }
@@ -2398,7 +2444,7 @@ button {
   border-color: color-mix(in srgb, var(--signal) 42%, transparent);
   color: var(--signal-ink);
   font-family: var(--font-mono);
-  font-size: 10px;
+  font-size: var(--texto-1);
   font-weight: 500;
   text-transform: uppercase;
 }
@@ -2406,7 +2452,7 @@ button {
 .services-matrix a span,
 .services-matrix a strong {
   min-width: 0;
-  font-size: 14px;
+  font-size: var(--texto-3);
   line-height: 1.4;
 }
 
@@ -2451,7 +2497,7 @@ button {
   margin-bottom: 20px;
   color: var(--signal-ink);
   font-family: var(--font-mono);
-  font-size: 10px;
+  font-size: var(--texto-1);
   font-weight: 500;
   text-transform: uppercase;
 }
@@ -2464,7 +2510,7 @@ button {
 .services-case-grid strong {
   display: block;
   margin-top: 14px;
-  font-size: 16px;
+  font-size: var(--texto-4);
   line-height: 1.25;
 }
 
@@ -2495,7 +2541,7 @@ button {
 .service-page-cta p:not(.eyebrow) {
   max-width: 650px;
   color: rgba(255, 255, 255, 0.68);
-  font-size: 18px;
+  font-size: var(--texto-5);
   line-height: 1.45;
 }
 
@@ -2540,7 +2586,7 @@ button {
   margin-bottom: 20px;
   color: var(--service-flow-tinta);
   font-family: var(--font-mono);
-  font-size: 10px;
+  font-size: var(--texto-1);
   font-weight: 500;
   text-transform: uppercase;
 }
@@ -2572,7 +2618,7 @@ button {
 .service-flow__step > span {
   color: var(--service-flow-tinta);
   font-family: var(--font-mono);
-  font-size: 10px;
+  font-size: var(--texto-1);
   font-weight: 500;
 }
 
@@ -2586,7 +2632,7 @@ button {
 .service-flow__step p {
   margin: 10px 0 0;
   color: var(--graphite);
-  font-size: 14px;
+  font-size: var(--texto-3);
   line-height: 1.35;
 }
 
@@ -2628,7 +2674,7 @@ button {
 .service-flow__exception span {
   color: #9b640f;
   font-family: var(--font-mono);
-  font-size: 12px;
+  font-size: var(--texto-2);
   font-weight: 500;
   text-transform: uppercase;
 }
@@ -2636,7 +2682,7 @@ button {
 .service-flow__exception p {
   margin: 0;
   color: var(--text-body);
-  font-size: 14px;
+  font-size: var(--texto-3);
   line-height: 1.4;
 }
 
@@ -2671,7 +2717,7 @@ button {
 .service-process-list span {
   color: var(--signal-ink);
   font-family: var(--font-mono);
-  font-size: 12px;
+  font-size: var(--texto-2);
   font-weight: 500;
 }
 
@@ -2734,7 +2780,7 @@ button {
 .service-deliverables p {
   margin: 0;
   color: #26313c;
-  font-size: 14px;
+  font-size: var(--texto-3);
   line-height: 1.45;
 }
 
@@ -2792,7 +2838,7 @@ button {
 .service-applied-example__grid span {
   color: var(--signal-ink);
   font-family: var(--font-mono);
-  font-size: 12px;
+  font-size: var(--texto-2);
   font-weight: 500;
 }
 
@@ -2805,7 +2851,7 @@ button {
 .service-applied-example__grid p {
   margin: 0;
   color: var(--text-body);
-  font-size: 14px;
+  font-size: var(--texto-3);
   line-height: 1.42;
 }
 
@@ -2816,7 +2862,7 @@ button {
   border-left: 3px solid var(--signal);
   background: rgba(235, 249, 250, 0.52);
   color: #26313c;
-  font-size: 14px;
+  font-size: var(--texto-3);
   line-height: 1.45;
 }
 
@@ -2871,14 +2917,14 @@ button {
   color: #9b640f;
   background: rgba(255, 248, 232, 0.78);
   font-family: var(--font-mono);
-  font-size: 12px;
+  font-size: var(--texto-2);
   font-weight: 500;
   text-transform: uppercase;
 }
 
 .service-responsibility-grid p {
   color: #26313c;
-  font-size: 14px;
+  font-size: var(--texto-3);
   line-height: 1.45;
 }
 
@@ -2912,7 +2958,7 @@ button {
   background: rgba(235, 249, 250, 0.42);
   color: var(--ink);
   font-family: var(--font-mono);
-  font-size: 12px;
+  font-size: var(--texto-2);
   font-weight: 500;
   text-transform: uppercase;
   transition:
@@ -2923,7 +2969,7 @@ button {
 
 .service-case-card a span {
   color: var(--signal-ink);
-  font-size: 14px;
+  font-size: var(--texto-3);
 }
 
 /* El 640 lo sintetizaba el navegador: de la mono solo se cargan 400 y 500
@@ -2932,7 +2978,7 @@ button {
    versalitas monoespaciadas el aire entre letras separa tanto como el peso,
    y no cuesta una descarga. Decision del dueno del 30-ago. */
 .service-case-card a strong {
-  font-size: 12px;
+  font-size: var(--texto-2);
   font-weight: 500;
   letter-spacing: 0.08em;
 }
@@ -2994,7 +3040,7 @@ button {
   margin: 0;
   color: var(--graphite);
   font-family: var(--font-mono);
-  font-size: 10px;
+  font-size: var(--texto-1);
   font-weight: 500;
   text-transform: uppercase;
 }
@@ -3019,7 +3065,7 @@ button {
 .service-next-link a > span {
   color: var(--signal-ink);
   font-family: var(--font-mono);
-  font-size: 12px;
+  font-size: var(--texto-2);
 }
 
 /* --- Como se mueven las cuatro paginas de servicio ---------------------
@@ -3313,7 +3359,7 @@ button {
   .service-process-list span,
   .service-next-link p,
   .service-next-link a > span {
-    font-size: 14px;
+    font-size: var(--texto-3);
     letter-spacing: 0.04em;
   }
 }
@@ -3338,7 +3384,7 @@ button {
   .service-process-list span,
   .service-next-link p,
   .service-next-link a > span {
-    font-size: 14px;
+    font-size: var(--texto-3);
     letter-spacing: 0.03em;
   }
 }
@@ -3421,7 +3467,7 @@ button {
 
 .hero-product-chip span {
   color: var(--graphite);
-  font-size: 10px;
+  font-size: var(--texto-1);
   letter-spacing: 0.08em;
   text-transform: uppercase;
 }
@@ -3429,7 +3475,7 @@ button {
 .hero-product-chip strong {
   margin-top: 9px;
   color: var(--ink);
-  font-size: 12px;
+  font-size: var(--texto-2);
   font-weight: 500;
   line-height: 1.2;
 }
@@ -3552,7 +3598,7 @@ button {
 
 .hero-readout span {
   color: color-mix(in srgb, var(--ice) 84%, transparent);
-  font-size: 10px;
+  font-size: var(--texto-1);
   letter-spacing: 0.1em;
   text-transform: uppercase;
 }
@@ -3560,14 +3606,14 @@ button {
 .hero-readout strong {
   margin-top: 7px;
   color: white;
-  font-size: 12px;
+  font-size: var(--texto-2);
   font-weight: 640;
 }
 
 .hero-readout em {
   margin-top: 6px;
   color: rgba(255, 255, 255, 0.56);
-  font-size: 10px;
+  font-size: var(--texto-1);
   font-style: normal;
   letter-spacing: 0.03em;
   text-transform: uppercase;
@@ -3666,12 +3712,12 @@ button {
   grid-row: span 2;
   color: var(--signal-ink);
   font-family: var(--font-mono);
-  font-size: 10px;
+  font-size: var(--texto-1);
 }
 
 .system-map-section__steps strong {
   color: var(--ink);
-  font-size: 16px;
+  font-size: var(--texto-4);
   font-weight: 640;
   letter-spacing: -0.035em;
 }
@@ -3679,7 +3725,7 @@ button {
 .system-map-section__steps p {
   margin: 0;
   color: #56606a;
-  font-size: 14px;
+  font-size: var(--texto-3);
   line-height: 1.35;
 }
 
@@ -3708,7 +3754,7 @@ button {
   margin: 0;
   color: var(--graphite);
   font-family: var(--font-mono);
-  font-size: 10px;
+  font-size: var(--texto-1);
   letter-spacing: 0.08em;
   text-transform: uppercase;
 }
@@ -3770,7 +3816,7 @@ button {
   max-width: 470px;
   margin: 18px 0 0;
   color: var(--text-body);
-  font-size: 16px;
+  font-size: var(--texto-4);
   line-height: 1.45;
 }
 
@@ -3853,7 +3899,7 @@ button {
   margin: 0 0 8px;
   color: var(--graphite);
   font-family: var(--font-mono);
-  font-size: 10px;
+  font-size: var(--texto-1);
   font-weight: 500;
   letter-spacing: 0.08em;
   text-transform: uppercase;
@@ -3871,7 +3917,7 @@ button {
   display: block;
   margin-top: 7px;
   color: var(--signal-ink);
-  font-size: 12px;
+  font-size: var(--texto-2);
   font-weight: 700;
   line-height: 1.25;
 }
@@ -3879,7 +3925,7 @@ button {
 .trust-proof-card p {
   margin: 8px 0 0;
   color: var(--text-body);
-  font-size: 12px;
+  font-size: var(--texto-2);
   line-height: 1.35;
 }
 
@@ -3887,7 +3933,7 @@ button {
   margin: 0 0 8px;
   color: var(--graphite);
   font-family: var(--font-mono);
-  font-size: 10px;
+  font-size: var(--texto-1);
   font-weight: 500;
   letter-spacing: 0.08em;
   line-height: 1;
@@ -3910,7 +3956,7 @@ button {
   display: block;
   color: var(--signal-ink);
   font-family: var(--font-mono);
-  font-size: 10px;
+  font-size: var(--texto-1);
   font-weight: 500;
   letter-spacing: 0.08em;
   text-transform: uppercase;
@@ -3919,7 +3965,7 @@ button {
 .trust-proof-card__evidence p {
   margin: 6px 0 0;
   color: var(--text-body);
-  font-size: 12px;
+  font-size: var(--texto-2);
   line-height: 1.3;
 }
 
@@ -3996,7 +4042,7 @@ button {
 .problem-card__top span {
   color: var(--signal-ink);
   font-family: var(--font-mono);
-  font-size: 10px;
+  font-size: var(--texto-1);
 }
 
 .problem-card__top i {
@@ -4027,7 +4073,7 @@ button {
   max-width: 330px;
   margin: 10px 0 0;
   color: var(--text-body);
-  font-size: 14px;
+  font-size: var(--texto-3);
   line-height: 1.42;
 }
 
@@ -4042,7 +4088,7 @@ button {
 .problem-card__response span {
   color: var(--signal-ink);
   font-family: var(--font-mono);
-  font-size: 10px;
+  font-size: var(--texto-1);
   font-weight: 500;
   letter-spacing: 0.08em;
   text-transform: uppercase;
@@ -4051,7 +4097,7 @@ button {
 .problem-card__response p {
   margin: 0;
   color: var(--ink);
-  font-size: 14px;
+  font-size: var(--texto-3);
   line-height: 1.35;
 }
 
@@ -4078,7 +4124,7 @@ button {
 .featured-case__copy h2 {
   max-width: 720px;
   margin: 18px 0 0;
-  font-size: clamp(38px, 4.8vw, 76px);
+  font-size: var(--titular-medio);
   font-weight: 500;
   letter-spacing: -0.062em;
   line-height: 0.98;
@@ -4088,7 +4134,7 @@ button {
   max-width: 610px;
   margin: 24px 0 0;
   color: var(--text-body);
-  font-size: 18px;
+  font-size: var(--texto-5);
   line-height: 1.54;
 }
 
@@ -4110,7 +4156,7 @@ button {
 .featured-case__points span {
   color: var(--signal-ink);
   font-family: var(--font-mono);
-  font-size: 10px;
+  font-size: var(--texto-1);
   font-weight: 500;
   letter-spacing: 0.08em;
   text-transform: uppercase;
@@ -4119,7 +4165,7 @@ button {
 .featured-case__points p {
   margin: 0;
   color: var(--text-body);
-  font-size: 14px;
+  font-size: var(--texto-3);
   line-height: 1.44;
 }
 
@@ -4136,7 +4182,7 @@ button {
   background: rgba(31, 170, 209, 0.055);
   color: var(--ink);
   font-family: var(--font-mono);
-  font-size: 10px;
+  font-size: var(--texto-1);
   font-weight: 500;
   letter-spacing: 0.07em;
   line-height: 1;
@@ -4174,7 +4220,7 @@ button {
 .featured-case__more span {
   color: var(--signal-ink);
   font-family: var(--font-mono);
-  font-size: 10px;
+  font-size: var(--texto-1);
   font-weight: 500;
   letter-spacing: 0.08em;
   text-transform: uppercase;
@@ -4184,7 +4230,7 @@ button {
   display: block;
   margin-top: 10px;
   color: var(--ink);
-  font-size: 20px;
+  font-size: var(--texto-6);
   font-weight: 640;
   letter-spacing: -0.04em;
 }
@@ -4192,7 +4238,7 @@ button {
 .featured-case__more p {
   margin: 8px 0 0;
   color: var(--text-body);
-  font-size: 14px;
+  font-size: var(--texto-3);
   line-height: 1.35;
 }
 
@@ -4251,7 +4297,7 @@ button {
   border-bottom: 1px solid rgba(7, 10, 15, 0.12);
   color: var(--graphite);
   font-family: var(--font-mono);
-  font-size: 10px;
+  font-size: var(--texto-1);
   font-weight: 500;
   letter-spacing: 0.08em;
   text-transform: uppercase;
@@ -4291,7 +4337,7 @@ button {
   margin: 0;
   color: var(--graphite);
   font-family: var(--font-mono);
-  font-size: 10px;
+  font-size: var(--texto-1);
   font-weight: 500;
   letter-spacing: 0.08em;
   text-transform: uppercase;
@@ -4333,14 +4379,14 @@ button {
 .case-window__grid span {
   color: var(--signal-ink);
   font-family: var(--font-mono);
-  font-size: 10px;
+  font-size: var(--texto-1);
 }
 
 .case-window__grid strong {
   display: block;
   margin-top: 22px;
   color: var(--ink);
-  font-size: 18px;
+  font-size: var(--texto-5);
   font-weight: 640;
   letter-spacing: -0.035em;
 }
@@ -4408,7 +4454,7 @@ button {
   max-width: 620px;
   margin: 22px 0 0;
   color: var(--text-body);
-  font-size: 18px;
+  font-size: var(--texto-5);
   line-height: 1.46;
 }
 
@@ -4443,7 +4489,7 @@ button {
   background: rgba(251, 250, 247, 0.82);
   box-shadow: 0 18px 54px rgba(7, 10, 15, 0.1);
   font-family: var(--font-mono);
-  font-size: 10px;
+  font-size: var(--texto-1);
   letter-spacing: 0.08em;
   text-transform: uppercase;
 }
@@ -4491,7 +4537,7 @@ button {
   margin: 0;
   color: var(--signal-ink);
   font-family: var(--font-mono);
-  font-size: 10px;
+  font-size: var(--texto-1);
   font-weight: 500;
   letter-spacing: 0.1em;
   text-transform: uppercase;
@@ -4555,14 +4601,14 @@ button {
 .product-flow-card__intro > span {
   color: var(--flow-accent);
   font-family: var(--font-mono);
-  font-size: 10px;
+  font-size: var(--texto-1);
 }
 
 .product-flow-card__intro p {
   margin: 0;
   color: var(--flow-accent);
   font-family: var(--font-mono);
-  font-size: 10px;
+  font-size: var(--texto-1);
   font-weight: 500;
   letter-spacing: 0.08em;
   text-transform: uppercase;
@@ -4644,7 +4690,7 @@ button {
 .product-flow-node strong,
 .product-flow-core strong {
   color: var(--ink);
-  font-size: 12px;
+  font-size: var(--texto-2);
   font-weight: 700;
   letter-spacing: -0.02em;
   line-height: 1.04;
@@ -4688,7 +4734,7 @@ button {
   background: rgba(251, 250, 247, 0.74);
   color: var(--ink);
   font-family: var(--font-mono);
-  font-size: 10px;
+  font-size: var(--texto-1);
   line-height: 1;
 }
 
@@ -4709,7 +4755,7 @@ button {
 .positioning-section__statement h2 {
   max-width: 950px;
   margin: 0;
-  font-size: clamp(44px, 5.6vw, 92px);
+  font-size: var(--titular-mayor);
   font-weight: 500;
   letter-spacing: -0.065em;
   line-height: 0.98;
@@ -4724,7 +4770,7 @@ button {
   max-width: 610px;
   margin: 50px 0 0 auto;
   color: #3b434d;
-  font-size: 20px;
+  font-size: var(--texto-6);
   line-height: 1.55;
 }
 
@@ -4735,7 +4781,7 @@ button {
   padding-top: 8px;
   color: var(--graphite);
   font-family: var(--font-mono);
-  font-size: 10px;
+  font-size: var(--texto-1);
   letter-spacing: 0.08em;
   text-transform: uppercase;
 }
@@ -4792,7 +4838,7 @@ button {
   padding: 0 16px;
   color: var(--graphite);
   font-family: var(--font-mono);
-  font-size: 10px;
+  font-size: var(--texto-1);
   letter-spacing: 0.08em;
   text-transform: uppercase;
 }
@@ -4849,7 +4895,7 @@ button {
 
 .system-diagram__readout strong {
   color: var(--ink);
-  font-size: 10px;
+  font-size: var(--texto-1);
   font-weight: 500;
   text-align: right;
 }
@@ -4889,7 +4935,7 @@ button {
   max-width: 680px;
   margin: 20px 0 0;
   color: var(--text-body);
-  font-size: 16px;
+  font-size: var(--texto-4);
   line-height: 1.55;
 }
 
@@ -4914,7 +4960,7 @@ button {
 .operating-step > span {
   color: var(--graphite);
   font-family: var(--font-mono);
-  font-size: 10px;
+  font-size: var(--texto-1);
 }
 
 .operating-step h3 {
@@ -4941,7 +4987,7 @@ button {
   background: rgba(31, 170, 209, 0.07);
   color: var(--ink);
   font-family: var(--font-mono);
-  font-size: 10px;
+  font-size: var(--texto-1);
   font-weight: 500;
   letter-spacing: 0.07em;
   line-height: 1.15;
@@ -4960,7 +5006,7 @@ button {
   margin: 0;
   color: var(--graphite);
   font-family: var(--font-mono);
-  font-size: 10px;
+  font-size: var(--texto-1);
   letter-spacing: 0.08em;
   text-transform: uppercase;
 }
@@ -4974,7 +5020,7 @@ button {
 .industry-line span {
   padding: 13px 16px;
   border: 1px solid var(--line);
-  font-size: 12px;
+  font-size: var(--texto-2);
 }
 
 /* Contact band */
@@ -5002,7 +5048,7 @@ button {
 .contact-band h2 {
   max-width: 900px;
   margin: 0;
-  font-size: clamp(38px, 4.8vw, 76px);
+  font-size: var(--titular-medio);
   font-weight: 500;
   letter-spacing: -0.065em;
   line-height: 0.96;
@@ -5017,7 +5063,7 @@ button {
   border-top: 1px solid var(--ink);
   border-bottom: 1px solid var(--ink);
   font-family: var(--font-mono);
-  font-size: 10px;
+  font-size: var(--texto-1);
   text-transform: uppercase;
 }
 
@@ -5087,7 +5133,7 @@ button {
 .site-footer__statement h2 {
   max-width: 720px;
   margin: 24px 0 0;
-  font-size: clamp(38px, 4.8vw, 76px);
+  font-size: var(--titular-medio);
   font-weight: 500;
   letter-spacing: -0.06em;
   line-height: 0.98;
@@ -5104,7 +5150,7 @@ button {
   border-bottom: 1px solid rgba(255, 255, 255, 0.5);
   color: var(--ice);
   font-family: var(--font-mono);
-  font-size: 10px;
+  font-size: var(--texto-1);
   text-transform: uppercase;
 }
 
@@ -5129,14 +5175,14 @@ button {
   margin: 0 0 11px;
   color: rgba(255, 255, 255, 0.62);
   font-family: var(--font-mono);
-  font-size: 10px;
+  font-size: var(--texto-1);
   letter-spacing: 0.1em;
   text-transform: uppercase;
 }
 
 .site-footer__nav a {
   color: rgba(255, 255, 255, 0.72);
-  font-size: 12px;
+  font-size: var(--texto-2);
   transition: color 180ms ease;
 }
 
@@ -5153,7 +5199,7 @@ button {
   border-top: 1px solid rgba(255, 255, 255, 0.1);
   color: rgba(255, 255, 255, 0.62);
   font-family: var(--font-mono);
-  font-size: 10px;
+  font-size: var(--texto-1);
   letter-spacing: 0.06em;
   text-transform: uppercase;
 }
@@ -5196,7 +5242,7 @@ button {
   max-width: 680px;
   margin: 0;
   color: var(--graphite);
-  font-size: 20px;
+  font-size: var(--texto-6);
   line-height: 1.55;
 }
 
@@ -5264,7 +5310,7 @@ button {
 .product-showcase__card small {
   color: var(--graphite);
   font-family: var(--font-mono);
-  font-size: 10px;
+  font-size: var(--texto-1);
   font-style: normal;
   letter-spacing: 0.08em;
   text-transform: uppercase;
@@ -5294,7 +5340,7 @@ button {
   display: block;
   max-width: 320px;
   margin-top: 12px;
-  font-size: clamp(30px, 3.4vw, 46px);
+  font-size: var(--titular-menor);
   font-weight: 500;
   letter-spacing: -0.06em;
   line-height: 0.98;
@@ -5305,7 +5351,7 @@ button {
   max-width: 360px;
   margin-top: 16px;
   color: var(--text-body);
-  font-size: 16px;
+  font-size: var(--texto-4);
   font-style: normal;
   line-height: 1.38;
 }
@@ -5331,7 +5377,7 @@ button {
   border-bottom: 1px solid currentColor;
   color: var(--ink);
   font-family: var(--font-mono);
-  font-size: 10px;
+  font-size: var(--texto-1);
   font-weight: 500;
   letter-spacing: 0.07em;
   text-transform: uppercase;
@@ -5449,7 +5495,7 @@ button {
 
 .product-sticker span {
   font-family: var(--font-mono);
-  font-size: 10px;
+  font-size: var(--texto-1);
   letter-spacing: 0.08em;
   text-transform: uppercase;
 }
@@ -5457,7 +5503,7 @@ button {
 .product-sticker strong {
   max-width: 82px;
   margin-top: 6px;
-  font-size: 16px;
+  font-size: var(--texto-4);
   font-weight: 640;
   letter-spacing: -0.04em;
   line-height: 0.98;
@@ -5532,7 +5578,7 @@ button {
 .unify-core strong {
   display: block;
   margin-top: 14px;
-  font-size: 18px;
+  font-size: var(--texto-5);
   font-weight: 500;
   letter-spacing: -0.02em;
 }
@@ -5541,7 +5587,7 @@ button {
   margin: 8px 0 0;
   color: rgba(255, 255, 255, 0.62);
   font-family: var(--font-mono);
-  font-size: 10px;
+  font-size: var(--texto-1);
   line-height: 1.35;
 }
 
@@ -5566,7 +5612,7 @@ button {
 .unify-feed span,
 .unify-documents span {
   font-family: var(--font-mono);
-  font-size: 10px;
+  font-size: var(--texto-1);
   font-style: normal;
   letter-spacing: 0.08em;
   text-transform: uppercase;
@@ -5576,7 +5622,7 @@ button {
   display: block;
   margin-top: 22px;
   color: var(--ink);
-  font-size: 12px;
+  font-size: var(--texto-2);
   font-weight: 500;
   line-height: 1.25;
 }
@@ -5606,7 +5652,7 @@ button {
   padding-left: 16px;
   border-left: 1px solid var(--signal);
   color: var(--text-body);
-  font-size: 12px;
+  font-size: var(--texto-2);
   line-height: 1.35;
 }
 
@@ -5636,7 +5682,7 @@ button {
   padding-bottom: 14px;
   border-bottom: 1px solid rgba(7, 10, 15, 0.16);
   font-family: var(--font-mono);
-  font-size: 10px;
+  font-size: var(--texto-1);
 }
 
 .product-visual__status strong {
@@ -5693,7 +5739,7 @@ button {
 .sync-map__node {
   width: 56px;
   height: 56px;
-  font-size: 10px;
+  font-size: var(--texto-1);
 }
 
 .sync-map__node--1 { top: 4%; left: 4%; }
@@ -5738,7 +5784,7 @@ button {
   border-bottom: 1px solid rgba(7, 10, 15, 0.14);
   color: var(--graphite);
   font-family: var(--font-mono);
-  font-size: 10px;
+  font-size: var(--texto-1);
   letter-spacing: 0.06em;
   text-transform: uppercase;
 }
@@ -5760,14 +5806,14 @@ button {
 .conversation-card span {
   color: var(--graphite);
   font-family: var(--font-mono);
-  font-size: 10px;
+  font-size: var(--texto-1);
   letter-spacing: 0.07em;
   text-transform: uppercase;
 }
 
 .conversation-card p {
   margin: 16px 0 0;
-  font-size: 20px;
+  font-size: var(--texto-6);
   letter-spacing: -0.025em;
 }
 
@@ -5794,7 +5840,7 @@ button {
   margin-top: 22px;
   color: var(--ice);
   font-family: var(--font-mono);
-  font-size: 10px;
+  font-size: var(--texto-1);
 }
 
 .conversation-card--two i {
@@ -5850,7 +5896,7 @@ button {
 .lead-contact-card span {
   color: var(--graphite);
   font-family: var(--font-mono);
-  font-size: 10px;
+  font-size: var(--texto-1);
   letter-spacing: 0.08em;
   text-transform: uppercase;
 }
@@ -5858,7 +5904,7 @@ button {
 .lead-search strong {
   display: block;
   margin-top: 16px;
-  font-size: 20px;
+  font-size: var(--texto-6);
   font-weight: 500;
   letter-spacing: -0.03em;
 }
@@ -5888,7 +5934,7 @@ button {
   border-bottom: 1px solid rgba(7, 10, 15, 0.14);
   color: var(--graphite);
   font-family: var(--font-mono);
-  font-size: 10px;
+  font-size: var(--texto-1);
   letter-spacing: 0.08em;
   text-transform: uppercase;
 }
@@ -5916,7 +5962,7 @@ button {
   display: block;
   color: var(--graphite);
   font-family: var(--font-mono);
-  font-size: 10px;
+  font-size: var(--texto-1);
   letter-spacing: 0.02em;
 }
 
@@ -5931,7 +5977,7 @@ button {
 .lead-flow__item p {
   margin: 8px 0 0;
   color: var(--text-body);
-  font-size: 12px;
+  font-size: var(--texto-2);
   line-height: 1.35;
 }
 
@@ -5950,7 +5996,7 @@ button {
 .lead-score span {
   color: rgba(255, 255, 255, 0.52);
   font-family: var(--font-mono);
-  font-size: 10px;
+  font-size: var(--texto-1);
   letter-spacing: 0.08em;
   text-transform: uppercase;
 }
@@ -5967,7 +6013,7 @@ button {
   max-width: 150px;
   margin: 14px 0 0;
   color: rgba(255, 255, 255, 0.72);
-  font-size: 12px;
+  font-size: var(--texto-2);
   line-height: 1.35;
 }
 
@@ -5986,7 +6032,7 @@ button {
   display: block;
   margin-top: 22px;
   color: var(--ink);
-  font-size: 20px;
+  font-size: var(--texto-6);
   font-weight: 500;
   letter-spacing: -0.035em;
 }
@@ -5994,7 +6040,7 @@ button {
 .lead-contact-card p {
   margin: 10px 0 0;
   color: var(--text-body);
-  font-size: 12px;
+  font-size: var(--texto-2);
   line-height: 1.35;
 }
 
@@ -6043,7 +6089,7 @@ button {
 .hero-logo text {
   fill: currentColor;
   font-family: var(--font-mono);
-  font-size: 10px;
+  font-size: var(--texto-1);
   font-weight: 500;
   letter-spacing: 0;
   text-anchor: middle;
@@ -6053,12 +6099,12 @@ button {
 .hero-logo--meli text,
 .hero-logo--citaly text {
   font-family: var(--font-sans);
-  font-size: 10px;
+  font-size: var(--texto-1);
   font-weight: 700;
 }
 
 .hero-logo--meli text {
-  font-size: 10px;
+  font-size: var(--texto-1);
 }
 
 .product-mini-mark {
@@ -6239,7 +6285,7 @@ button {
 
 .unify-hub strong {
   margin-top: -8px;
-  font-size: 18px;
+  font-size: var(--texto-5);
   font-weight: 550;
 }
 
@@ -6271,7 +6317,7 @@ button {
 
 .unify-node span {
   color: var(--ink);
-  font-size: 18px;
+  font-size: var(--texto-5);
   font-weight: 640;
   letter-spacing: -0.045em;
   line-height: 0.95;
@@ -6281,7 +6327,7 @@ button {
   margin-top: 10px;
   color: var(--text-body);
   font-family: var(--font-mono);
-  font-size: 10px;
+  font-size: var(--texto-1);
   font-weight: 500;
   letter-spacing: 0.045em;
   line-height: 1.25;
@@ -6310,7 +6356,7 @@ button {
   background: rgba(2, 6, 13, 0.74);
   color: white;
   font-family: var(--font-mono);
-  font-size: 10px;
+  font-size: var(--texto-1);
   transform: translateX(50%);
 }
 
@@ -6377,7 +6423,7 @@ button {
 .citaly-brand-card p {
   margin: 0;
   color: #466156;
-  font-size: 18px;
+  font-size: var(--texto-5);
   font-weight: 550;
   letter-spacing: -0.045em;
 }
@@ -6392,7 +6438,7 @@ button {
 .citaly-routing span {
   color: var(--graphite);
   font-family: var(--font-mono);
-  font-size: 10px;
+  font-size: var(--texto-1);
   letter-spacing: 0.08em;
   text-transform: uppercase;
 }
@@ -6400,7 +6446,7 @@ button {
 .citaly-chat-panel p,
 .citaly-ai-panel p {
   margin: 16px 0 0;
-  font-size: 20px;
+  font-size: var(--texto-6);
   letter-spacing: -0.035em;
   line-height: 1.2;
 }
@@ -6432,7 +6478,7 @@ button {
   margin-top: 20px;
   color: var(--ice);
   font-family: var(--font-mono);
-  font-size: 10px;
+  font-size: var(--texto-1);
 }
 
 .citaly-ai-panel i {
@@ -6511,7 +6557,7 @@ button {
 .lead-evidence-card span {
   color: var(--graphite);
   font-family: var(--font-mono);
-  font-size: 10px;
+  font-size: var(--texto-1);
   letter-spacing: 0.08em;
   text-transform: uppercase;
 }
@@ -6528,7 +6574,7 @@ button {
   max-width: 520px;
   margin: 10px 0 0;
   color: var(--text-body);
-  font-size: 12px;
+  font-size: var(--texto-2);
   line-height: 1.42;
 }
 
@@ -6571,7 +6617,7 @@ button {
 .lead-evidence-card p {
   margin: 8px 0 0;
   color: var(--text-body);
-  font-size: 12px;
+  font-size: var(--texto-2);
 }
 
 .product-visual--network {
@@ -6645,7 +6691,7 @@ button {
   max-width: 670px;
   margin: 0;
   color: var(--graphite);
-  font-size: 20px;
+  font-size: var(--texto-6);
   line-height: 1.55;
 }
 
@@ -6680,14 +6726,14 @@ button {
   justify-content: space-between;
   color: var(--graphite);
   font-family: var(--font-mono);
-  font-size: 10px;
+  font-size: var(--texto-1);
   letter-spacing: 0.08em;
   text-transform: uppercase;
 }
 
 .contact-option h2 {
   margin: 120px 0 0;
-  font-size: clamp(44px, 5.6vw, 92px);
+  font-size: var(--titular-mayor);
   font-weight: 500;
   letter-spacing: -0.07em;
   line-height: 0.9;
@@ -6697,7 +6743,7 @@ button {
   max-width: 500px;
   margin: 30px 0 0;
   color: var(--graphite);
-  font-size: 16px;
+  font-size: var(--texto-4);
   line-height: 1.55;
 }
 
@@ -6710,7 +6756,7 @@ button {
   border-top: 1px solid var(--ink);
   border-bottom: 1px solid var(--ink);
   font-family: var(--font-mono);
-  font-size: 10px;
+  font-size: var(--texto-1);
 }
 
 .contact-option > a svg {
@@ -6732,7 +6778,7 @@ button {
 .contact-context h2 {
   max-width: 730px;
   margin: 30px 0 0;
-  font-size: clamp(44px, 5.6vw, 92px);
+  font-size: var(--titular-mayor);
   font-weight: 500;
   letter-spacing: -0.06em;
   line-height: 0.98;
@@ -6756,13 +6802,13 @@ button {
   gap: 16px;
   padding: 23px 0;
   border-bottom: 1px solid var(--line);
-  font-size: 16px;
+  font-size: var(--texto-4);
 }
 
 .contact-context__list li span {
   color: var(--graphite);
   font-family: var(--font-mono);
-  font-size: 10px;
+  font-size: var(--texto-1);
 }
 
 .social-strip {
@@ -6792,7 +6838,7 @@ button {
   gap: 10px;
   align-items: center;
   font-family: var(--font-mono);
-  font-size: 10px;
+  font-size: var(--texto-1);
   text-transform: uppercase;
 }
 
@@ -6822,7 +6868,7 @@ button {
   border-bottom: 1px solid var(--line);
   color: var(--graphite);
   font-family: var(--font-mono);
-  font-size: 10px;
+  font-size: var(--texto-1);
   letter-spacing: 0.08em;
   text-transform: uppercase;
 }
@@ -6830,7 +6876,7 @@ button {
 .service-hero h1 {
   max-width: 1160px;
   margin: 70px 0 0;
-  font-size: clamp(44px, 5.6vw, 92px);
+  font-size: var(--titular-mayor);
   font-weight: 500;
   letter-spacing: -0.075em;
   line-height: 0.86;
@@ -6862,7 +6908,7 @@ button {
 .capabilities-section__heading h2,
 .service-fit h2 {
   margin: 28px 0 0;
-  font-size: clamp(38px, 4.8vw, 76px);
+  font-size: var(--titular-medio);
   font-weight: 500;
   letter-spacing: -0.06em;
   line-height: 1;
@@ -6872,7 +6918,7 @@ button {
   max-width: 620px;
   margin: 38px 0 0;
   color: var(--graphite);
-  font-size: 18px;
+  font-size: var(--texto-5);
   line-height: 1.65;
 }
 
@@ -6890,7 +6936,7 @@ button {
   padding: 0 18px;
   color: var(--graphite);
   font-family: var(--font-mono);
-  font-size: 10px;
+  font-size: var(--texto-1);
   letter-spacing: 0.08em;
   text-transform: uppercase;
 }
@@ -6926,7 +6972,7 @@ button {
 .capability-graphic text {
   fill: var(--graphite);
   font-family: var(--font-mono);
-  font-size: 10px;
+  font-size: var(--texto-1);
   text-anchor: middle;
 }
 
@@ -6967,13 +7013,13 @@ button {
 .capability-item span {
   color: var(--graphite);
   font-family: var(--font-mono);
-  font-size: 10px;
+  font-size: var(--texto-1);
 }
 
 .capability-item p {
   max-width: 320px;
   margin: 96px 0 0;
-  font-size: 20px;
+  font-size: var(--texto-6);
   letter-spacing: -0.03em;
   line-height: 1.25;
 }
@@ -7004,12 +7050,12 @@ button {
 .service-fit__item span {
   color: var(--graphite);
   font-family: var(--font-mono);
-  font-size: 10px;
+  font-size: var(--texto-1);
 }
 
 .service-fit__item p {
   margin: 0;
-  font-size: 18px;
+  font-size: var(--texto-5);
   line-height: 1.45;
 }
 
@@ -7031,7 +7077,7 @@ button {
   margin: 0;
   color: var(--graphite);
   font-family: var(--font-mono);
-  font-size: 10px;
+  font-size: var(--texto-1);
   letter-spacing: 0.08em;
   text-transform: uppercase;
 }
@@ -7043,7 +7089,7 @@ button {
 }
 
 .engagement-strip span {
-  font-size: 14px;
+  font-size: var(--texto-3);
 }
 
 .next-service {
@@ -7055,7 +7101,7 @@ button {
   margin: 0 0 30px;
   color: var(--graphite);
   font-family: var(--font-mono);
-  font-size: 10px;
+  font-size: var(--texto-1);
   letter-spacing: 0.08em;
   text-transform: uppercase;
 }
@@ -7068,7 +7114,7 @@ button {
   padding: 38px 0;
   border-top: 1px solid var(--ink);
   border-bottom: 1px solid var(--ink);
-  font-size: clamp(38px, 4.8vw, 76px);
+  font-size: var(--titular-medio);
   font-weight: 500;
   letter-spacing: -0.06em;
   line-height: 1;
@@ -7077,7 +7123,7 @@ button {
 .next-service a > span {
   color: var(--graphite);
   font-family: var(--font-mono);
-  font-size: 10px;
+  font-size: var(--texto-1);
   letter-spacing: 0;
 }
 
@@ -7112,7 +7158,7 @@ button {
 .legal-page aside h1 {
   max-width: 520px;
   margin: 28px 0 0;
-  font-size: clamp(44px, 5.6vw, 92px);
+  font-size: var(--titular-mayor);
   font-weight: 500;
   letter-spacing: -0.065em;
   line-height: 0.95;
@@ -7122,7 +7168,7 @@ button {
   margin: 42px 0 0;
   color: var(--graphite);
   font-family: var(--font-mono);
-  font-size: 10px;
+  font-size: var(--texto-1);
   line-height: 1.7;
   text-transform: uppercase;
 }
@@ -7150,7 +7196,7 @@ button {
 .legal-page article > section > span {
   color: var(--graphite);
   font-family: var(--font-mono);
-  font-size: 10px;
+  font-size: var(--texto-1);
 }
 
 .legal-page h2 {
@@ -7192,7 +7238,7 @@ button {
 .not-found h1 {
   max-width: 980px;
   margin: 34px 0 0;
-  font-size: clamp(44px, 5.6vw, 92px);
+  font-size: var(--titular-mayor);
   font-weight: 500;
   letter-spacing: -0.07em;
   line-height: 0.9;
@@ -7202,7 +7248,7 @@ button {
   max-width: 520px;
   margin: 40px 0 0;
   color: var(--graphite);
-  font-size: 18px;
+  font-size: var(--texto-5);
   line-height: 1.6;
 }
 
@@ -7299,12 +7345,12 @@ button {
 
   .home-hero h1 {
     max-width: 760px;
-    font-size: clamp(44px, 5.6vw, 92px);
+    font-size: var(--titular-mayor);
   }
 
   .home-hero__summary {
     max-width: 680px;
-    font-size: 20px;
+    font-size: var(--texto-6);
   }
 
   .summary-orb {
@@ -7318,7 +7364,7 @@ button {
 
   .summary-orb strong {
     padding: 6px 7px;
-    font-size: 12px;
+    font-size: var(--texto-2);
     letter-spacing: -0.03em;
   }
 
@@ -7331,7 +7377,7 @@ button {
   }
 
   .summary-platform strong {
-    font-size: 12px;
+    font-size: var(--texto-2);
     line-height: 1.05;
     white-space: normal;
   }
@@ -7470,7 +7516,7 @@ button {
     grid-template-columns: 42px minmax(0, 1fr);
     padding: 22px 0;
     border-bottom: 1px solid var(--line);
-    font-size: clamp(30px, 3.4vw, 46px);
+    font-size: var(--titular-menor);
     font-weight: 500;
     letter-spacing: -0.05em;
   }
@@ -7480,7 +7526,7 @@ button {
     padding-top: 8px;
     color: var(--graphite);
     font-family: var(--font-mono);
-    font-size: 10px;
+    font-size: var(--texto-1);
     letter-spacing: 0;
   }
 
@@ -7493,7 +7539,7 @@ button {
     display: grid;
     grid-template-columns: 42px minmax(0, 1fr);
     margin: 0 0 20px;
-    font-size: clamp(30px, 3.4vw, 46px);
+    font-size: var(--titular-menor);
     font-weight: 500;
     letter-spacing: -0.05em;
   }
@@ -7506,7 +7552,7 @@ button {
     padding: 11px 0;
     border-top: 1px solid var(--line-soft);
     color: var(--graphite);
-    font-size: 14px;
+    font-size: var(--texto-3);
   }
 
   .mobile-navigation__services svg,
@@ -7524,7 +7570,7 @@ button {
     padding: 20px 20px calc(20px + env(safe-area-inset-bottom, 0px));
     background: var(--signal);
     font-family: var(--font-mono);
-    font-size: 10px;
+    font-size: var(--texto-1);
     text-transform: uppercase;
   }
 
@@ -7546,7 +7592,7 @@ button {
   }
 
   .home-hero h1 {
-    font-size: clamp(38px, 4.8vw, 76px);
+    font-size: var(--titular-medio);
   }
 
   .home-hero__visual {
@@ -7621,12 +7667,12 @@ button {
   }
 
   .summary-system-label span {
-    font-size: 14px;
+    font-size: var(--texto-3);
     line-height: 1;
   }
 
   .summary-system-label strong {
-    font-size: 16px;
+    font-size: var(--texto-4);
   }
 
   .summary-system-label--services {
@@ -7700,7 +7746,7 @@ button {
     padding: 0;
     border: 0;
     background: transparent;
-    font-size: 14px;
+    font-size: var(--texto-3);
     line-height: 1.12;
     text-align: center;
     overflow-wrap: anywhere;
@@ -7720,7 +7766,7 @@ button {
   }
 
   .summary-platform strong {
-    font-size: 14px;
+    font-size: var(--texto-3);
     overflow-wrap: anywhere;
   }
 
@@ -7917,7 +7963,7 @@ button {
   }
 
   .unify-core strong {
-    font-size: 14px;
+    font-size: var(--texto-3);
   }
 
   .unify-documents {
@@ -7998,7 +8044,7 @@ button {
 
   .eyebrow,
   .hero-kicker {
-    font-size: 10px;
+    font-size: var(--texto-1);
   }
 
   .home-hero {
@@ -8019,7 +8065,7 @@ button {
 
   .home-hero__summary {
     margin-top: 26px;
-    font-size: 16px;
+    font-size: var(--texto-4);
   }
 
   .home-hero__actions {
@@ -8101,7 +8147,7 @@ button {
   }
 
   .hero-product-chip strong {
-    font-size: 10px;
+    font-size: var(--texto-1);
   }
 
   .hero-product-chip--one {
@@ -8138,7 +8184,7 @@ button {
 
   .ecosystem-lab__heading p {
     margin-top: 26px;
-    font-size: 16px;
+    font-size: var(--texto-4);
   }
 
   .ecosystem-lab__stage {
@@ -8151,7 +8197,7 @@ button {
 
   .lab-sticker {
     padding: 9px 10px;
-    font-size: 10px;
+    font-size: var(--texto-1);
   }
 
   .positioning-section,
@@ -8175,7 +8221,7 @@ button {
 
   .positioning-section__statement > p {
     margin-top: 32px;
-    font-size: 16px;
+    font-size: var(--texto-4);
   }
 
   .positioning-section__aside {
@@ -8251,7 +8297,7 @@ button {
      sumarle 32 dejaba al parrafo mas lejos del titular que el titular del
      antetitulo. Mismo caso que el de contacto, aca abajo. */
   .page-hero--products .banda-apertura__texto > p:not(.hero-kicker) {
-    font-size: 16px;
+    font-size: var(--texto-4);
   }
 
   /* Sale del grupo de arriba: los 32 px de margen eran la separacion contra
@@ -8259,7 +8305,7 @@ button {
      separacion la da el gap de 14 px de la banda, y sumarle 32 dejaba al
      parrafo mas lejos del titular que el titular del antetitulo. */
   .contact-hero__inner .banda-apertura__texto > p:last-child {
-    font-size: 16px;
+    font-size: var(--texto-4);
   }
 
   .products-section {
@@ -8280,7 +8326,7 @@ button {
   .product-showcase__card > i,
   .product-showcase__card small,
   .product-showcase__card a {
-    font-size: 14px;
+    font-size: var(--texto-3);
   }
 
   .product-visual {
@@ -8299,7 +8345,7 @@ button {
 
   .unify-channel strong {
     margin-top: 14px;
-    font-size: 12px;
+    font-size: var(--texto-2);
   }
 
   .unify-core {
@@ -8339,7 +8385,7 @@ button {
   }
 
   .conversation-card p {
-    font-size: 16px;
+    font-size: var(--texto-4);
   }
 
   .product-visual--citaly .citaly-phone {
@@ -8364,7 +8410,7 @@ button {
   }
 
   .lead-search strong {
-    font-size: 18px;
+    font-size: var(--texto-5);
   }
 
   .lead-console {
@@ -8388,11 +8434,11 @@ button {
 
   .lead-flow__item strong {
     margin-top: 12px;
-    font-size: 18px;
+    font-size: var(--texto-5);
   }
 
   .lead-flow__item p {
-    font-size: 12px;
+    font-size: var(--texto-2);
   }
 
   .lead-score {
@@ -8422,7 +8468,7 @@ button {
   }
 
   .contact-option > a {
-    font-size: 10px;
+    font-size: var(--texto-1);
   }
 
   .social-strip .section-shell {
@@ -8441,7 +8487,7 @@ button {
 
   .service-hero__statement {
     margin-top: 34px;
-    font-size: 18px;
+    font-size: var(--texto-5);
   }
 
   .capability-graphic__footer {
@@ -8487,7 +8533,7 @@ button {
   }
 
   .legal-page__intro {
-    font-size: 20px;
+    font-size: var(--texto-6);
   }
 
   .legal-page article > section {
@@ -8565,7 +8611,7 @@ button {
 
   .unify-hub strong {
     margin-top: -18px;
-    font-size: 12px;
+    font-size: var(--texto-2);
   }
 
   .unify-hub p {
@@ -8578,11 +8624,11 @@ button {
   }
 
   .unify-node span {
-    font-size: 12px;
+    font-size: var(--texto-2);
   }
 
   .unify-node strong {
-    font-size: 10px;
+    font-size: var(--texto-1);
   }
 
   .unify-output {
@@ -8614,7 +8660,7 @@ button {
   .citaly-brand-card p,
   .citaly-chat-panel p,
   .citaly-ai-panel p {
-    font-size: 16px;
+    font-size: var(--texto-4);
   }
 
   .citaly-chat-panel,
@@ -8632,7 +8678,7 @@ button {
   }
 
   .leads-search-card strong {
-    font-size: 20px;
+    font-size: var(--texto-6);
   }
 
   .leads-board .lead-flow {
@@ -8778,7 +8824,7 @@ button {
   .trust-proof-card__mark {
     width: 48px;
     height: 48px;
-    font-size: 12px;
+    font-size: var(--texto-2);
   }
 
   .problem-strip__grid {
@@ -8815,7 +8861,7 @@ button {
   }
 
   .product-flow-panel__heading h3 {
-    font-size: clamp(30px, 3.4vw, 46px);
+    font-size: var(--titular-menor);
   }
 
   .product-flow-card {
@@ -8890,7 +8936,7 @@ button {
 
   .product-flow-node strong,
   .product-flow-core strong {
-    font-size: 10px;
+    font-size: var(--texto-1);
   }
 
   .product-flow-output {
@@ -8917,7 +8963,7 @@ button {
   }
 
   .product-flow-card__chips span {
-    font-size: 10px;
+    font-size: var(--texto-1);
   }
 
 }
@@ -9025,7 +9071,7 @@ button {
     border: 1px solid rgba(255, 255, 255, 0.16);
     background: var(--signal);
     color: var(--ink);
-    font-size: 14px;
+    font-size: var(--texto-3);
   }
 
   .footer-primary-link svg {
@@ -9055,7 +9101,7 @@ button {
   .site-footer__nav p {
     grid-column: 1 / -1;
     margin: 0 0 8px;
-    font-size: 12px;
+    font-size: var(--texto-2);
   }
 
   .site-footer__nav a {
@@ -9063,7 +9109,7 @@ button {
     align-items: center;
     min-height: 44px;
     color: rgba(255, 255, 255, 0.78);
-    font-size: 14px;
+    font-size: var(--texto-3);
   }
 
   .site-footer__bottom {
@@ -9071,7 +9117,7 @@ button {
     gap: 10px;
     min-height: 0;
     padding: 22px 0 30px;
-    font-size: 12px;
+    font-size: var(--texto-2);
   }
 
   .site-footer__bottom > div {
@@ -9083,7 +9129,7 @@ button {
     display: inline-flex;
     align-items: center;
     min-height: 44px;
-    font-size: 14px;
+    font-size: var(--texto-3);
   }
 
 }
@@ -9091,11 +9137,11 @@ button {
 @media (max-width: 620px) {
   .hero-kicker,
   .eyebrow {
-    font-size: 10px;
+    font-size: var(--texto-1);
   }
 
   .button {
-    font-size: 14px;
+    font-size: var(--texto-3);
   }
 
   .home-hero__inner {
@@ -9106,7 +9152,7 @@ button {
 
   .home-hero__summary {
     margin-top: 24px;
-    font-size: 18px;
+    font-size: var(--texto-5);
   }
 
   .home-hero__actions {
@@ -9152,7 +9198,7 @@ button {
     margin-top: 8px;
     color: var(--text-body);
     font-family: var(--font-sans);
-    font-size: 14px;
+    font-size: var(--texto-3);
     line-height: 1.28;
     text-transform: none;
   }
@@ -9171,7 +9217,7 @@ button {
 
   .hero-summary-map__explore {
     min-height: 46px;
-    font-size: 14px;
+    font-size: var(--texto-3);
   }
 
   .trust-proof-card,
@@ -9197,7 +9243,7 @@ button {
   }
 
   .trust-proof-card__mark span {
-    font-size: 16px;
+    font-size: var(--texto-4);
   }
 
   .product-flow-card {
@@ -9237,11 +9283,11 @@ button {
 
   .featured-case__copy > p,
   .operating-model__copy {
-    font-size: 16px;
+    font-size: var(--texto-4);
   }
 
   .case-window__hero strong {
-    font-size: clamp(30px, 3.4vw, 46px);
+    font-size: var(--titular-menor);
   }
 
   .case-window__grid article {
@@ -9263,13 +9309,13 @@ button {
 /* Final quality pass: commercial hierarchy, spacing and responsive cleanup */
 
 .button {
-  font-size: 12px;
+  font-size: var(--texto-2);
   letter-spacing: 0.04em;
 }
 
 .eyebrow,
 .hero-kicker {
-  font-size: 12px;
+  font-size: var(--texto-2);
   letter-spacing: 0.09em;
 }
 
@@ -9288,7 +9334,7 @@ button {
 .operating-step > span,
 .operating-step strong,
 .industry-line p {
-  font-size: 10px;
+  font-size: var(--texto-1);
   letter-spacing: 0.065em;
 }
 
@@ -9296,16 +9342,16 @@ button {
 .trust-proof-card p,
 .trust-proof-card__evidence p,
 .featured-case__more p {
-  font-size: 14px;
+  font-size: var(--texto-3);
 }
 
 .problem-card__top span {
-  font-size: 12px;
+  font-size: var(--texto-2);
   font-weight: 700;
 }
 
 .industry-line span {
-  font-size: 14px;
+  font-size: var(--texto-3);
 }
 
 .product-flow-panel {
@@ -9338,7 +9384,7 @@ button {
 
 .product-flow-node strong,
 .product-flow-core strong {
-  font-size: 12px;
+  font-size: var(--texto-2);
 }
 
 .product-flow-card__chips {
@@ -9373,7 +9419,7 @@ button {
 
   .home-hero__summary {
     max-width: 640px;
-    font-size: 18px;
+    font-size: var(--texto-5);
   }
 
   .hero-summary-map {
@@ -9409,7 +9455,7 @@ button {
     margin-top: 8px;
     color: var(--text-body);
     font-family: var(--font-sans);
-    font-size: 14px;
+    font-size: var(--texto-3);
     line-height: 1.28;
     text-transform: none;
   }
@@ -9428,7 +9474,7 @@ button {
 
   .hero-summary-map__explore {
     min-height: 48px;
-    font-size: 14px;
+    font-size: var(--texto-3);
   }
 
   .trust-proof-card,
@@ -9455,13 +9501,13 @@ button {
 
 @media (max-width: 620px) {
   .button {
-    font-size: 14px;
+    font-size: var(--texto-3);
     letter-spacing: 0.025em;
   }
 
   .eyebrow,
   .hero-kicker {
-    font-size: 12px;
+    font-size: var(--texto-2);
     letter-spacing: 0.07em;
   }
 
@@ -9487,7 +9533,7 @@ button {
 
   .trust-proof-card__sector,
   .trust-proof-card__evidence span {
-    font-size: 10px;
+    font-size: var(--texto-1);
   }
 
   .trust-proof-card__evidence {
@@ -9503,12 +9549,12 @@ button {
 
   .trust-proof-card p,
   .trust-proof-card__evidence p {
-    font-size: 14px;
+    font-size: var(--texto-3);
     line-height: 1.25;
   }
 
   .trust-proof-card strong {
-    font-size: 14px;
+    font-size: var(--texto-3);
     line-height: 1.2;
   }
 
@@ -9571,13 +9617,13 @@ button {
 
   .product-flow-node strong,
   .product-flow-core strong {
-    font-size: 12px;
+    font-size: var(--texto-2);
   }
 
   .product-flow-card__chips span,
   .featured-case__facts span,
   .industry-line span {
-    font-size: 10px;
+    font-size: var(--texto-1);
   }
 }
 
@@ -9625,7 +9671,7 @@ button {
   margin-top: 16px;
   color: var(--ink);
   font-family: var(--font-mono);
-  font-size: 10px;
+  font-size: var(--texto-1);
   font-weight: 500;
   letter-spacing: 0.06em;
   text-transform: uppercase;
@@ -9657,7 +9703,7 @@ button {
   max-width: 46ch;
   margin: 26px 0 0;
   color: var(--graphite);
-  font-size: 18px;
+  font-size: var(--texto-5);
   line-height: 1.55;
 }
 
@@ -9685,7 +9731,7 @@ button {
 .contact-form label {
   color: var(--ink);
   font-family: var(--font-mono);
-  font-size: 10px;
+  font-size: var(--texto-1);
   font-weight: 500;
   letter-spacing: 0.1em;
   text-transform: uppercase;
@@ -9706,7 +9752,7 @@ button {
   background: var(--paper-bright);
   color: var(--ink);
   font-family: var(--font-sans);
-  font-size: 16px;
+  font-size: var(--texto-4);
   line-height: 1.45;
   transition: border-color 200ms ease, background-color 200ms ease;
 }
@@ -9737,7 +9783,7 @@ button {
 .contact-form__error {
   margin: 0;
   color: #b0392a;
-  font-size: 14px;
+  font-size: var(--texto-3);
   line-height: 1.4;
 }
 
@@ -9760,7 +9806,7 @@ button {
   margin: 0;
   max-width: 52ch;
   color: var(--graphite);
-  font-size: 14px;
+  font-size: var(--texto-3);
   line-height: 1.5;
 }
 
@@ -9825,7 +9871,7 @@ button {
 .consent-banner__copy p:not(.eyebrow) {
   margin: 0;
   color: rgba(255, 255, 255, 0.8);
-  font-size: 14px;
+  font-size: var(--texto-3);
   line-height: 1.5;
 }
 
@@ -9846,7 +9892,7 @@ button {
   padding: 0 20px;
   border: 1px solid transparent;
   font-family: var(--font-mono);
-  font-size: 12px;
+  font-size: var(--texto-2);
   font-weight: 500;
   letter-spacing: 0.05em;
   cursor: pointer;
@@ -10373,11 +10419,11 @@ button {
 
 @media (min-width: 901px) {
   .page-hero h1 {
-    font-size: clamp(38px, 4.8vw, 76px);
+    font-size: var(--titular-medio);
   }
 
   .services-index-hero h1 {
-    font-size: clamp(38px, 4.8vw, 76px);
+    font-size: var(--titular-medio);
   }
 }
 
@@ -10575,7 +10621,7 @@ button {
   }
 
   .summary-platform strong {
-    font-size: 12px;
+    font-size: var(--texto-2);
     line-height: 1.08;
     white-space: normal;
     overflow-wrap: break-word;
@@ -10846,7 +10892,7 @@ button {
   margin: 0;
   color: var(--graphite);
   font-family: var(--font-mono);
-  font-size: 10px;
+  font-size: var(--texto-1);
   font-weight: 500;
   letter-spacing: 0.1em;
   line-height: 1.3;
@@ -10868,7 +10914,7 @@ button {
    nieto. La especificidad es la misma (0,1,1), asi que nada mas se mueve. */
 .trabajo__ficha strong {
   color: var(--signal-ink);
-  font-size: 16px;
+  font-size: var(--texto-4);
   font-weight: 640;
   line-height: 1.4;
 }
@@ -10899,7 +10945,7 @@ button {
   background: var(--paper);
   color: var(--ink);
   font-family: var(--font-mono);
-  font-size: 12px;
+  font-size: var(--texto-2);
   line-height: 1.25;
   white-space: nowrap;
 }
@@ -10918,7 +10964,7 @@ button {
 .trabajo__detalle dt {
   color: var(--graphite);
   font-family: var(--font-mono);
-  font-size: 10px;
+  font-size: var(--texto-1);
   font-weight: 500;
   letter-spacing: 0.11em;
   text-transform: uppercase;
@@ -10927,7 +10973,7 @@ button {
 .trabajo__detalle dd {
   margin: 0;
   color: var(--text-body);
-  font-size: 16px;
+  font-size: var(--texto-4);
   line-height: 1.5;
 }
 
@@ -10947,7 +10993,7 @@ button {
   border-top: 1px solid var(--line-soft);
   color: var(--ink);
   font-family: var(--font-mono);
-  font-size: 12px;
+  font-size: var(--texto-2);
   font-weight: 500;
   letter-spacing: 0.07em;
   text-transform: uppercase;
@@ -11012,7 +11058,7 @@ button {
   }
 
   .trabajo--destacado .trabajo__ficha strong {
-    font-size: 18px;
+    font-size: var(--texto-5);
   }
 }
 
@@ -11028,7 +11074,7 @@ button {
   }
 
   .trabajo__ficha :is(h2, h3) {
-    font-size: 20px;
+    font-size: var(--texto-6);
   }
 }
 
@@ -11086,7 +11132,7 @@ button {
 }
 
 .rampa__copy h2 {
-  font-size: clamp(30px, 3.4vw, 46px);
+  font-size: var(--titular-menor);
   line-height: 1.06;
   letter-spacing: -0.035em;
   max-width: 18ch;
@@ -11095,7 +11141,7 @@ button {
 .rampa__copy p:not(.eyebrow) {
   max-width: 56ch;
   color: var(--text-body);
-  font-size: 18px;
+  font-size: var(--texto-5);
   line-height: 1.55;
 }
 
@@ -11136,7 +11182,7 @@ button {
 .rampa__pasos span {
   color: var(--signal-ink);
   font-family: var(--font-mono);
-  font-size: 12px;
+  font-size: var(--texto-2);
   font-weight: 500;
   letter-spacing: 0.06em;
 }
@@ -11144,7 +11190,7 @@ button {
 .rampa__pasos p {
   margin: 0;
   color: var(--ink);
-  font-size: 16px;
+  font-size: var(--texto-4);
   line-height: 1.45;
 }
 
@@ -11155,7 +11201,7 @@ button {
 .rampa__pie {
   margin: 0;
   color: var(--graphite);
-  font-size: 14px;
+  font-size: var(--texto-3);
   line-height: 1.5;
 }
 
@@ -11242,7 +11288,7 @@ button {
 .trust-proof__notas h3 {
   margin: 0;
   color: var(--ink);
-  font-size: 16px;
+  font-size: var(--texto-4);
   font-weight: 600;
   line-height: 1.3;
   letter-spacing: -0.01em;
@@ -11340,7 +11386,7 @@ button {
 .objeciones h3 {
   margin: 0;
   color: var(--ice);
-  font-size: 18px;
+  font-size: var(--texto-5);
   font-weight: 640;
   letter-spacing: -0.02em;
   line-height: 1.25;
@@ -11422,7 +11468,7 @@ button {
   .unify-node strong,
   .unify-output span,
   .unify-output strong {
-    font-size: 12px;
+    font-size: var(--texto-2);
   }
 
   .unify-node span {
@@ -11581,7 +11627,7 @@ button {
   .header-cta {
     margin-right: 6px;
     padding: 0 11px;
-    font-size: 12px;
+    font-size: var(--texto-2);
   }
 }
 
@@ -11713,7 +11759,7 @@ button {
   }
 
   .unify-node strong {
-    font-size: 12px;
+    font-size: var(--texto-2);
     letter-spacing: 0.005em;
   }
 }
@@ -11750,7 +11796,7 @@ button {
 
 .rampa__pie span {
   grid-column: 1;
-  font-size: 14px;
+  font-size: var(--texto-3);
   line-height: 1.5;
 }
 
@@ -12074,7 +12120,7 @@ button {
     left: 0;
     width: 38px;
     height: 38px;
-    font-size: 12px;
+    font-size: var(--texto-2);
   }
 
   .operating-step strong.operating-step__entrega {
@@ -12087,7 +12133,7 @@ button {
   }
 
   .operating-step strong.operating-step__entrega span {
-    font-size: 12px;
+    font-size: var(--texto-2);
     letter-spacing: 0.1em;
   }
 }
@@ -12275,7 +12321,7 @@ button {
     max-width: 60ch;
     margin: var(--espacio-2) 0 0;
     color: var(--text-body);
-    font-size: 16px;
+    font-size: var(--texto-4);
     line-height: 1.6;
   }
 }
@@ -12403,7 +12449,7 @@ button {
 @media (max-width: 900px) {
   .problem-strip__todos {
     min-height: 44px;
-    font-size: 14px;
+    font-size: var(--texto-3);
   }
 }
 
@@ -12639,7 +12685,7 @@ button {
   }
 
   .summary-group--products .summary-orb strong {
-    font-size: 12px;
+    font-size: var(--texto-2);
     text-align: center;
     overflow-wrap: normal;
   }
@@ -12954,7 +13000,7 @@ button {
     padding: 11px 0;
     border-top: 1px solid var(--line-soft);
     color: var(--graphite);
-    font-size: 14px;
+    font-size: var(--texto-3);
   }
 
   .mobile-navigation__sub svg {
@@ -13189,7 +13235,7 @@ button {
   gap: 7px;
   color: var(--graphite);
   font-family: var(--font-mono);
-  font-size: 10px;
+  font-size: var(--texto-1);
   font-weight: 500;
   letter-spacing: 0.09em;
   text-transform: uppercase;
@@ -13222,7 +13268,7 @@ button {
   margin: 0;
   color: rgba(255, 255, 255, 0.5);
   font-family: var(--font-mono);
-  font-size: 12px;
+  font-size: var(--texto-2);
   letter-spacing: 0.08em;
   text-transform: uppercase;
 }
@@ -13326,7 +13372,7 @@ button {
   overflow: hidden;
   color: var(--graphite);
   font-family: var(--font-mono);
-  font-size: 12px;
+  font-size: var(--texto-2);
   font-style: normal;
   letter-spacing: 0.02em;
   line-height: 1.25;
@@ -13468,7 +13514,7 @@ button {
   margin: 0;
   color: var(--graphite);
   font-family: var(--font-mono);
-  font-size: 12px;
+  font-size: var(--texto-2);
   letter-spacing: 0.02em;
 }
 
@@ -13562,7 +13608,7 @@ button {
   .ad__promesa {
     max-width: 24ch;
     margin-top: 10px;
-    font-size: 18px;
+    font-size: var(--texto-5);
   }
 
   .ad__marca-caja {
@@ -13627,7 +13673,7 @@ button {
   }
 
   .ad__texto strong {
-    font-size: 14px;
+    font-size: var(--texto-3);
     line-height: 1.15;
   }
 
@@ -13639,7 +13685,7 @@ button {
   }
 
   .ad__valor {
-    font-size: 14px;
+    font-size: var(--texto-3);
   }
 
   .ad__costura svg {
@@ -13686,7 +13732,7 @@ button {
   }
 
   .ad__promesa {
-    font-size: 16px;
+    font-size: var(--texto-4);
   }
 
   .ad__mitad {
@@ -13805,7 +13851,7 @@ button {
 .repisa__promesa {
   margin-top: 12px;
   color: var(--text-body);
-  font-size: 16px;
+  font-size: var(--texto-4);
   line-height: 1.4;
   text-wrap: pretty;
 }
@@ -14199,7 +14245,7 @@ button {
 @media (max-width: 899px) {
   .ad__pie-escena {
     padding: 16px 20px 0;
-    font-size: 16px;
+    font-size: var(--texto-4);
   }
 }
 
@@ -14326,7 +14372,7 @@ button {
   background: var(--paper-bright);
   color: var(--text-body);
   font-family: var(--font-mono);
-  font-size: 12px;
+  font-size: var(--texto-2);
   letter-spacing: 0.02em;
 }
 
@@ -14357,7 +14403,7 @@ button {
   padding: 12px 16px;
   border-top: 1px solid var(--line);
   background: var(--paper-bright);
-  font-size: 14px;
+  font-size: var(--texto-3);
   line-height: 1.3;
 }
 
@@ -14457,7 +14503,7 @@ button {
 .esc__celda--cabecera {
   background: color-mix(in srgb, var(--ink) 8%, transparent);
   color: var(--ink);
-  font-size: 10px;
+  font-size: var(--texto-1);
   font-weight: 500;
   letter-spacing: 0.09em;
   text-transform: uppercase;
@@ -14490,7 +14536,7 @@ button {
 .esc__campo-nombre {
   color: var(--graphite);
   font-family: var(--font-mono);
-  font-size: 12px;
+  font-size: var(--texto-2);
   letter-spacing: 0.03em;
 }
 
@@ -14517,7 +14563,7 @@ button {
   background: var(--ink);
   color: var(--paper-bright);
   font-family: var(--font-mono);
-  font-size: 12px;
+  font-size: var(--texto-2);
   letter-spacing: 0.04em;
 }
 
@@ -14589,7 +14635,7 @@ button {
   background: color-mix(in srgb, var(--acento) 9%, transparent);
   color: var(--acento-tinta);
   font-family: var(--font-mono);
-  font-size: 10px;
+  font-size: var(--texto-1);
   font-weight: 500;
   letter-spacing: 0.08em;
   text-overflow: ellipsis;
@@ -14713,7 +14759,7 @@ button {
   background: var(--paper-bright);
   color: var(--alarma-servicio);
   font-family: var(--font-mono);
-  font-size: 12px;
+  font-size: var(--texto-2);
   letter-spacing: 0.03em;
   animation: esc-listo var(--esc-pasada) cubic-bezier(0.22, 1, 0.36, 1) 1 both;
 }
@@ -14815,7 +14861,7 @@ button {
 
 .esc__mensaje-texto {
   overflow: hidden;
-  font-size: 14px;
+  font-size: var(--texto-3);
   line-height: 1.2;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -14877,7 +14923,7 @@ button {
   align-self: center;
   color: var(--graphite);
   font-family: var(--font-mono);
-  font-size: 12px;
+  font-size: var(--texto-2);
   letter-spacing: 0.03em;
   animation: esc-listo var(--esc-pasada) cubic-bezier(0.22, 1, 0.36, 1) 1 both;
 }
@@ -14925,7 +14971,7 @@ button {
   overflow: hidden;
   color: var(--ink);
   font-family: var(--font-mono);
-  font-size: 12px;
+  font-size: var(--texto-2);
   letter-spacing: 0.08em;
   line-height: 1.1;
   text-overflow: ellipsis;
@@ -15154,7 +15200,7 @@ button {
 .esc__carta-nombre {
   overflow: hidden;
   color: var(--ink);
-  font-size: 12px;
+  font-size: var(--texto-2);
   line-height: 1.2;
   letter-spacing: -0.02em;
   text-overflow: ellipsis;
@@ -15172,7 +15218,7 @@ button {
   align-self: center;
   overflow: hidden;
   color: var(--text-body);
-  font-size: 12px;
+  font-size: var(--texto-2);
   line-height: 1.35;
 }
 
@@ -15225,14 +15271,14 @@ button {
 
   .esc__celda {
     height: 34px;
-    font-size: 12px;
+    font-size: var(--texto-2);
     line-height: 32px;
   }
 
   /* La cabecera no sigue a la celda: en versalitas y con 0.09em de espacio,
      "CLIENTE" a 12px mide 71 en una celda de 72 y se cortaba la E. */
   .esc__celda--cabecera {
-    font-size: 10px;
+    font-size: var(--texto-1);
   }
 
   .esc__pantalla {
@@ -15251,7 +15297,7 @@ button {
 
   .esc__campo-caja {
     height: 30px;
-    font-size: 14px;
+    font-size: var(--texto-3);
     line-height: 28px;
   }
 
@@ -15349,7 +15395,7 @@ button {
   }
 
   .esc--hilo .esc__mensaje-texto {
-    font-size: 16px;
+    font-size: var(--texto-4);
   }
 
   /* La carta crece con la caja pero con tope: hasta 899 la banda se
@@ -15454,7 +15500,7 @@ button {
   }
 
   .tu__aviso {
-    font-size: 12px;
+    font-size: var(--texto-2);
   }
 
   .esc__mensaje-texto {
@@ -15485,7 +15531,7 @@ button {
   }
 
   .esc--hilo .esc__mensaje-texto {
-    font-size: 18px;
+    font-size: var(--texto-5);
   }
 
   /* El abanico dibujado para ESTA caja y no encogido de la de escritorio.
@@ -15621,7 +15667,7 @@ button {
   margin-top: 6px;
   color: var(--graphite);
   font-family: var(--font-mono);
-  font-size: 12px;
+  font-size: var(--texto-2);
   letter-spacing: 0.02em;
   text-decoration: underline;
   text-decoration-color: var(--line);
@@ -16070,7 +16116,7 @@ button {
   grid-column: 1;
   color: color-mix(in srgb, var(--acento) 85%, #fff);
   font-family: var(--font-mono);
-  font-size: 12px;
+  font-size: var(--texto-2);
   font-weight: 500;
   letter-spacing: 0.11em;
   text-transform: uppercase;
@@ -16094,7 +16140,7 @@ button {
   border: 1px solid color-mix(in srgb, var(--acento) 55%, transparent);
   background: color-mix(in srgb, var(--acento) 14%, transparent);
   font-family: var(--font-mono);
-  font-size: 12px;
+  font-size: var(--texto-2);
   letter-spacing: 0.02em;
   white-space: nowrap;
   animation: u2-venta var(--esc-pasada) cubic-bezier(0.22, 1, 0.36, 1) 1 both;
@@ -16225,7 +16271,7 @@ button {
 .u2__union-rotulo {
   color: var(--acento-tinta, var(--acento));
   font-family: var(--font-mono);
-  font-size: 12px;
+  font-size: var(--texto-2);
   font-weight: 500;
   letter-spacing: 0.11em;
   text-transform: uppercase;
@@ -16342,7 +16388,7 @@ button {
 .c2__estado {
   color: var(--graphite);
   font-family: var(--font-mono);
-  font-size: 12px;
+  font-size: var(--texto-2);
   letter-spacing: 0.02em;
   animation: c2-estado var(--esc-pasada) cubic-bezier(0.22, 1, 0.36, 1) 1 both;
 }
@@ -16353,7 +16399,7 @@ button {
   padding: 10px 14px;
   border: 1px solid color-mix(in srgb, var(--acento) 45%, transparent);
   background: color-mix(in srgb, var(--acento) 11%, var(--paper-bright));
-  font-size: 14px;
+  font-size: var(--texto-3);
   line-height: 1.3;
   animation: c2-respuesta var(--esc-pasada) cubic-bezier(0.22, 1, 0.36, 1) 1 both;
 }
@@ -16373,7 +16419,7 @@ button {
 .c2__agenda-titulo {
   color: var(--graphite);
   font-family: var(--font-mono);
-  font-size: 10px;
+  font-size: var(--texto-1);
   font-weight: 500;
   letter-spacing: 0.11em;
   text-transform: uppercase;
@@ -16389,7 +16435,7 @@ button {
 .c2__slot-hora {
   color: var(--graphite);
   font-family: var(--font-mono);
-  font-size: 12px;
+  font-size: var(--texto-2);
   font-variant-numeric: tabular-nums;
 }
 
@@ -16506,7 +16552,7 @@ button {
   background: var(--paper-bright);
   color: var(--ink);
   font-family: var(--font-mono);
-  font-size: 12px;
+  font-size: var(--texto-2);
   letter-spacing: 0.04em;
   animation: l2-busqueda var(--esc-pasada) cubic-bezier(0.22, 1, 0.36, 1) 1 both;
 }
@@ -16581,7 +16627,7 @@ button {
   background: color-mix(in srgb, var(--acento) 10%, var(--paper-bright));
   color: var(--acento-tinta, var(--acento));
   font-family: var(--font-mono);
-  font-size: 12px;
+  font-size: var(--texto-2);
   letter-spacing: 0.03em;
   white-space: nowrap;
   opacity: 0;
@@ -16593,7 +16639,7 @@ button {
   margin-top: 3px;
   color: var(--acento-tinta, var(--acento));
   font-family: var(--font-mono);
-  font-size: 12px;
+  font-size: var(--texto-2);
   font-weight: 500;
   letter-spacing: 0.03em;
   animation: l2-cierre var(--esc-pasada) cubic-bezier(0.22, 1, 0.36, 1) 1 both;
@@ -16661,7 +16707,7 @@ button {
     grid-column: 1;
     grid-row: auto;
     margin-top: 5px;
-    font-size: 12px;
+    font-size: var(--texto-2);
   }
 
   .u2__union {
@@ -16695,7 +16741,7 @@ button {
 
   .u2__maestro-etiqueta,
   .u2__canal-detalle {
-    font-size: 12px;
+    font-size: var(--texto-2);
   }
 }
 
@@ -16719,13 +16765,13 @@ button {
   .c2__estado,
   .c2__hora,
   .c2__audio-dur {
-    font-size: 12px;
+    font-size: var(--texto-2);
   }
 
   .c2__agenda-titulo,
   .c2__slot-libre,
   .c2__slot-tomada {
-    font-size: 12px;
+    font-size: var(--texto-2);
   }
 }
 
@@ -16743,7 +16789,7 @@ button {
 
   .l2__busqueda,
   .l2__cierre {
-    font-size: 12px;
+    font-size: var(--texto-2);
   }
 }
 
@@ -17302,7 +17348,7 @@ button {
   background: var(--paper-bright);
   color: var(--ink);
   font-family: var(--font-mono);
-  font-size: 12px;
+  font-size: var(--texto-2);
 }
 
 .con-js .carrusel-clientes__pausa {
@@ -17373,14 +17419,14 @@ button {
 
 .carrusel-clientes__nombre {
   font-family: var(--font-mono);
-  font-size: 12px;
+  font-size: var(--texto-2);
   font-weight: 500;
   letter-spacing: 0.02em;
 }
 
 .carrusel-clientes__rubro {
   color: var(--graphite);
-  font-size: 12px;
+  font-size: var(--texto-2);
   line-height: 1.3;
 }
 
@@ -17525,7 +17571,7 @@ button {
   margin: 0;
   color: var(--signal-ink);
   font-family: var(--font-mono);
-  font-size: 10px;
+  font-size: var(--texto-1);
   font-weight: 500;
   letter-spacing: 0.08em;
   line-height: 1.2;
@@ -17563,7 +17609,7 @@ button {
 .diagnostico__ayuda {
   margin: 0;
   color: var(--graphite);
-  font-size: 14px;
+  font-size: var(--texto-3);
   line-height: 1.55;
 }
 
@@ -17617,7 +17663,7 @@ button {
   margin: 0;
   color: var(--ink);
   font-family: var(--font-mono);
-  font-size: 12px;
+  font-size: var(--texto-2);
   line-height: 1.45;
 }
 
@@ -17654,7 +17700,7 @@ button {
   grid-template-columns: minmax(0, 200px) minmax(0, 1fr);
   gap: 16px;
   color: var(--ink);
-  font-size: 14px;
+  font-size: var(--texto-3);
   line-height: 1.5;
 }
 
@@ -17683,7 +17729,7 @@ button {
   background: var(--paper-bright);
   color: var(--graphite);
   font-family: var(--font-mono);
-  font-size: 12px;
+  font-size: var(--texto-2);
   line-height: 1.6;
   white-space: pre-line;
 }
@@ -17759,7 +17805,7 @@ button {
   .diagnostico__senales li,
   .diagnostico__respuestas span,
   .diagnostico__mensaje p {
-    font-size: 12px;
+    font-size: var(--texto-2);
   }
 
   .diagnostico__volver,
@@ -17767,12 +17813,12 @@ button {
     display: inline-flex;
     align-items: center;
     min-height: 40px;
-    font-size: 12px;
+    font-size: var(--texto-2);
   }
 
   .diagnostico__mensaje summary {
     padding: 13px 0;
-    font-size: 12px;
+    font-size: var(--texto-2);
   }
 }
 
@@ -17798,7 +17844,7 @@ button {
 .ficha-leads__intro p + p {
   margin: 0;
   color: var(--graphite);
-  font-size: 14px;
+  font-size: var(--texto-3);
   line-height: 1.55;
 }
 
@@ -17828,7 +17874,7 @@ button {
 .ficha-leads__busqueda {
   color: var(--signal-ink);
   font-family: var(--font-mono);
-  font-size: 10px;
+  font-size: var(--texto-1);
   font-weight: 500;
   letter-spacing: 0.08em;
   line-height: 1.2;
@@ -17860,7 +17906,7 @@ button {
 
 .ficha-leads__marca b {
   font-family: var(--font-mono);
-  font-size: 16px;
+  font-size: var(--texto-4);
   font-weight: 500;
   line-height: 1;
 }
@@ -17871,7 +17917,7 @@ button {
   background: color-mix(in srgb, var(--signal) 12%, transparent);
   color: var(--signal-ink);
   font-family: var(--font-mono);
-  font-size: 10px;
+  font-size: var(--texto-1);
   font-style: normal;
   letter-spacing: 0.08em;
   line-height: 1.2;
@@ -17894,7 +17940,7 @@ button {
 .ficha-leads__campos dt {
   color: var(--graphite);
   font-family: var(--font-mono);
-  font-size: 10px;
+  font-size: var(--texto-1);
   letter-spacing: 0.08em;
   line-height: 1.2;
   text-transform: uppercase;
@@ -17903,7 +17949,7 @@ button {
 .ficha-leads__campos dd {
   margin: 0;
   color: var(--ink);
-  font-size: 14px;
+  font-size: var(--texto-3);
   line-height: 1.45;
 }
 
@@ -17930,7 +17976,7 @@ button {
   .ficha-leads__reserva,
   .ficha-leads__marca i,
   .ficha-leads__campos dt {
-    font-size: 12px;
+    font-size: var(--texto-2);
   }
 }
 
