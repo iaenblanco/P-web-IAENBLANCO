@@ -941,8 +941,12 @@ export default function HomePage() {
 
       <ProblemSection />
 
-      <ProductLabSection />
-
+      {/* La rampa va aqui, y no antes del contacto como estuvo hasta ahora:
+          sale del tiron oscuro de .problem-strip (1.269px a 1440, 1.226 a 390)
+          y ofrece lo barato antes de que el lector se tope con los productos.
+          Su borde inferior no es decorativo: la rampa termina en ice al 6% y
+          .ecosystem-lab arranca en paper-bright, asi que sin linea las dos se
+          funden en un unico bloque claro de 1.247px a 1440 y 2.108 a 390. */}
       <section className="rampa" id="rampa" aria-labelledby="rampa-heading">
         <div className="section-shell rampa__inner">
           <Reveal className="rampa__copy">
@@ -1007,6 +1011,8 @@ export default function HomePage() {
           </Reveal>
         </div>
       </section>
+
+      <ProductLabSection />
 
       <ContactBand />
     </main>

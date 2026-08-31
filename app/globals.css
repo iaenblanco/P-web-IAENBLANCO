@@ -11250,6 +11250,7 @@ button {
   padding-top: var(--seccion-y);
   padding-bottom: var(--seccion-y);
   border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
   background:
     linear-gradient(180deg, color-mix(in srgb, var(--ice) 16%, transparent), color-mix(in srgb, var(--ice) 6%, transparent)),
     var(--paper-bright);
