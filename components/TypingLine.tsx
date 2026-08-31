@@ -21,8 +21,14 @@ export function TypingLine() {
         {trabajos.length} sitios de clientes en línea · {programasEnCamino}{' '}
         {programasEnCamino === 1 ? 'programa propio' : 'programas propios'} en camino ·
         Santiago, Chile
+        {/* El caret va DENTRO del strong, no como hermano. Como hermano era
+            un item flex propio y en movil envolvia a una fila para el solo:
+            medido a 390px, el texto terminaba en 60,5px y el cuadrado caia en
+            62,5, pegado al margen izquierdo y a 16px por debajo de la frase.
+            Dentro del strong fluye detras de "Chile", que es donde un cursor
+            tiene sentido, y en escritorio queda exactamente donde ya estaba. */}
+        <i aria-hidden="true" />
       </strong>
-      <i aria-hidden="true" />
     </p>
   )
 }

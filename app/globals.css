@@ -1256,7 +1256,12 @@ button {
   font-weight: 500;
 }
 
+/* inline-block porque ya no es item flex: a un <i> en linea el ancho y el
+   alto no le aplican. vertical-align: middle lo centra contra la x de la
+   mono, que es lo que hacia el align-items: center del contenedor. */
 .typing-line i {
+  display: inline-block;
+  vertical-align: middle;
   width: 6px;
   height: 14px;
   margin-left: 3px;
@@ -7607,8 +7612,9 @@ button {
   /* Estaba en display:none y por eso el celular nunca vio esta linea -ni el
      bloque de 620px que la achicaba, que llevaba meses sin pintar nada-. Es
      la unica frase del heroe que dice cuantos sitios hay andando, asi que en
-     un telefono hace mas falta todavia. Se deja envolver en dos lineas: en
-     una sola se sale de la pantalla. */
+     un telefono hace mas falta todavia. Se deja envolver: en una sola linea
+     se sale de la pantalla. Cuantas ocupa, medido: tres filas a 620, 430 y
+     390 -"system /" en la suya, la frase en dos- y cuatro a 360. */
   .typing-line {
     flex-wrap: wrap;
     row-gap: 2px;
@@ -8085,9 +8091,10 @@ button {
     padding-inline: 0;
   }
 
-  /* 12px y no los 10 de escritorio: en un telefono esta linea se lee a un
-     brazo de distancia. Es el mismo piso que se le puso al resto de los
-     rotulos chicos del sitio. */
+  /* Este bloque ya solo mueve el margen. El escalon de 12px que anunciaba
+     este comentario no existe: la linea subio a 13px en la regla base y el
+     override se quedo sin objeto. Medido el 30-ago-2026 en el DOM, sirve
+     13px en 1440, 900, 768, 620, 430, 390 y 360. */
   .typing-line {
     margin-top: 26px;
   }
