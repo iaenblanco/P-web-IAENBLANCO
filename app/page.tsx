@@ -605,12 +605,18 @@ function HeroSummaryMap() {
         </div>
       </div>
 
+      {/* Estos tres rotulos son el resumen corto de los tres pasos de
+          ProblemSection ("Conversamos y te cotizamos" / "Lo construimos" /
+          "Lo dejamos andando"). Hasta ahora decian "Nos cuentas" y "Queda
+          funcionando", que nombraban lo mismo con otras palabras: el visitante
+          leia un proceso arriba y otro abajo. Si alla cambia un paso, aca
+          cambia su rotulo, o vuelven a divergir. */}
       <div className="summary-flow" style={summaryBoxStyle(summaryMap.flow)}>
-        <span>Nos cuentas</span>
+        <span>Te cotizamos</span>
         <i />
         <span>Lo construimos</span>
         <i />
-        <span>Queda funcionando</span>
+        <span>Lo dejamos andando</span>
       </div>
 
     </div>
@@ -630,8 +636,8 @@ function TrustProofSection() {
               si se pueden abrir: por eso no hay ningun numero agregado, ni
               exacto ni aproximado. */}
           <p>
-            Estas son algunas de las pegas que hemos hecho: están tal como se ven hoy,
-            así que ábrelas y revisa el trabajo antes de escribirnos.
+            Estos son algunos de los trabajos que hemos hecho: están tal como se ven
+            hoy, así que ábrelos y revísalos antes de escribirnos.
           </p>
         </Reveal>
 
