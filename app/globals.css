@@ -16581,7 +16581,22 @@ button {
 
 /* --- Celular ------------------------------------------------------ */
 
-@container escena (width < 400px) {
+/* Las tres escenas compartian un solo corte en 400 porque se escribio como
+   "el ancho de un telefono". Medido, cada una necesita el suyo: la consulta
+   salta a la disposicion ancha en 400 pero ninguna de las dos primeras cabe
+   ahi todavia, y las dos inconsistencias que se ven en /productos son la
+   misma causa vista dos veces. Se parte en tres bloques -uno por escena- en
+   vez de subir el umbral compartido, que habria movido Leads sin que nada lo
+   pidiera. Decision del dueno del 30-ago. */
+
+/* --- Celular: Unificalo ------------------------------------------------
+   Medido sobre el contenedor «escena», que va 26px por debajo del viewport:
+   a 402 la barra de canales se sale 69px y el recorte se la come, y «Carta
+   del dia» y «Publicacion» elipsan en tarjetas de 93px. El recorte se cierra
+   en 474 pero la elipsis aguanta hasta 551; a 553 entra todo. Se corta en
+   556 -tres de margen por el redondeo de metricas entre dispositivos- para
+   que la rejilla de cuatro solo aparezca cuando de verdad cabe. */
+@container escena (width < 556px) {
   .esc--u2 {
     grid-template-rows: auto auto auto;
     height: auto;
@@ -16598,11 +16613,14 @@ button {
     padding: 11px 14px;
   }
 
+  /* Los 12px salian de la regla agrupada de mas abajo, que pisaba este
+     11px sin que se notara. Se deja el valor que de verdad se aplica y la
+     agrupada suelta el selector. */
   .u2__venta {
     grid-column: 1;
     grid-row: auto;
     margin-top: 5px;
-    font-size: 11px;
+    font-size: 12px;
   }
 
   .u2__union {
@@ -16634,6 +16652,17 @@ button {
     line-height: 22px;
   }
 
+  .u2__maestro-etiqueta,
+  .u2__canal-detalle {
+    font-size: 12px;
+  }
+}
+
+/* --- Celular: Citaly ---------------------------------------------------
+   El corte en 400 le dejaba doce pixeles de aire: a 402 el chip «Tomada»
+   pide 60 y tiene 56, y el texto choca contra su propio borde. Entra
+   completo desde 412; se corta en 416 por el mismo margen. */
+@container escena (width < 416px) {
   .esc--c2 {
     grid-template-columns: minmax(0, 1fr);
     grid-template-rows: auto auto;
@@ -16652,6 +16681,17 @@ button {
     font-size: 12px;
   }
 
+  .c2__agenda-titulo,
+  .c2__slot-libre,
+  .c2__slot-tomada {
+    font-size: 12px;
+  }
+}
+
+/* --- Celular: Leads ----------------------------------------------------
+   Se queda en 400: no tiene defecto medido en la franja 400-556, y moverlo
+   seria cambiar lo que se ve sin evidencia de que haga falta. */
+@container escena (width < 400px) {
   .esc--l2 {
     grid-template-columns: minmax(0, 1fr);
     grid-template-rows: minmax(0, 1fr) auto;
@@ -16662,16 +16702,6 @@ button {
 
   .l2__busqueda,
   .l2__cierre {
-    font-size: 12px;
-  }
-
-  .u2__maestro-etiqueta,
-  .u2__venta,
-  .u2__canal-detalle,
-  .c2__agenda-titulo,
-  .c2__slot-libre,
-  .c2__slot-tomada,
-  .c2__audio-dur {
     font-size: 12px;
   }
 }
