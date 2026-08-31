@@ -8804,13 +8804,35 @@ button {
      contrato esta pensado para 62px y a 34px aprieta de mas. El problema es que
      este escalon movil cubre tres de los siete titulares de --titular-seccion;
      los otros cuatro se quedan apretados en movil.
-     No se extiende aqui porque no es gratis: "Tres pasos, y en ninguno te
-     dejamos solo." ya mide 331 de 336 px a 360 px con -0.065em, y 0.02em mas a
-     34px son unos 0.7px por letra, o sea trece y pico en esa linea. Pasarlo a
-     -0.045em la parte. Extender el escalon exige rehacer la medicion de las
-     cuatro que faltan, ancho por ancho; queda anotado en el plan. */
+
+     Rehecha esa medicion el 30-ago-2026, ancho por ancho (620/430/390/360),
+     midiendo la linea mas larga de cada titular con y sin el alivio. Dos cosas:
+
+     1. De los siete "consumidores", CUATRO no los emite ninguna pagina
+        construida: .system-map-section__copy, .problem-strip__heading,
+        .case-window__hero y .product-flow-panel__heading dan cero coincidencias
+        en el HTML de out/. Los titulares vivos de esta familia son tres, no
+        siete. Dos de esos cuatro muertos siguen escritos abajo: borrarlos es la
+        tanda de reglas muertas, no esta.
+
+     2. De los tres vivos, uno ya lo tenia (.ecosystem-lab__heading h2) y los
+        otros dos se comportan al reves:
+
+        .trust-proof__copy h2 -Miralo tu mismo.- entra sobrado. La linea pasa
+        de 225.9 a 236.8 px y la holgura mas ajustada, a 360 px, sigue siendo de
+        99 px sobre una columna de 336. Se suma al escalon: -0.065em esta
+        pensado para 62 px y este titular se sirve a 34.
+
+        "Tres pasos, y en ninguno te dejamos solo." NO. El comentario anterior
+        predijo que se partiria y se cumple exacto: a 360 px pasa de dos lineas
+        (330.9 de 336 px, 5.1 de holgura) a TRES. A 620, 430 y 390 aguantaria
+        -holguras de 14.3, 58.8 y 18.8-, pero un escalon que excluya solo 360 px
+        deja el acantilado escondido justo debajo, en 320. Se queda como esta, y
+        aflojarlo pide antes decidir el corte de ese titular en movil, que es
+        decision de diseno. Anotado en el plan. */
   .system-map-section__copy h2,
   .problem-strip__heading h2,
+  .trust-proof__copy h2,
   .ecosystem-lab__heading h2 {
     letter-spacing: -0.045em;
   }
