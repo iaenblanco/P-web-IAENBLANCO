@@ -489,10 +489,9 @@ export function Header() {
           data-whatsapp-origin="cabecera"
           aria-label="Escribirnos por WhatsApp"
         >
-          {/* En el telefono no hay hover que aclare a donde lleva, asi que el
-              boton dice el canal por su nombre. */}
-          <span className="header-cta__ancho">Hablemos</span>
-          <span className="header-cta__angosto">WhatsApp</span>
+          {/* Un solo rotulo en los dos anchos. El canal lo anuncian el
+              aria-label y data-cursor, no una segunda copia del texto. */}
+          <span>Hablemos</span>
           <ArrowUpRight className="header-cta__icon" />
         </a>
 

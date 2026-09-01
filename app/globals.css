@@ -11759,13 +11759,15 @@ button {
    El boton de la cabecera se escondia bajo 900 px y quedaba solo la
    hamburguesa: en la pantalla donde llega la mayoria, el canal principal
    estaba a dos toques y escondido. La columna del medio de la cabecera estaba
-   vacia, asi que el boton se queda ahi, compacto, y dice "WhatsApp" en vez de
-   "Hablemos" porque en tactil no hay hover que lo aclare.
-   -------------------------------------------------------------------------- */
+   vacia, asi que el boton se queda ahi, compacto.
 
-.header-cta__angosto {
-  display: none;
-}
+   El rotulo se unifico a "Hablemos" en los dos anchos por decision del dueno.
+   Antes el telefono decia "WhatsApp" -el canal- y el escritorio "Hablemos" -la
+   invitacion-, y sostener esa diferencia costaba dos <span> en Header.tsx y
+   tres reglas de CSS para alternarlos. Se fueron los cinco. El canal no queda
+   sin anunciar: el enlace lleva aria-label="Escribirnos por WhatsApp" y
+   data-cursor="WhatsApp", que es donde el dato hace falta de verdad.
+   -------------------------------------------------------------------------- */
 
 @media (max-width: 900px) {
   .header-cta {
@@ -11777,14 +11779,6 @@ button {
     padding: 0 14px;
     gap: 8px;
     font-size: 13px;
-  }
-
-  .header-cta__ancho {
-    display: none;
-  }
-
-  .header-cta__angosto {
-    display: inline;
   }
 
   .header-cta__icon {
@@ -12667,8 +12661,21 @@ button {
   }
 
   .summary-group--services { order: 2; }
-  .summary-group--platforms { order: 4; --grupo: var(--summary-connection); }
-  .summary-group--products { order: 6; --grupo: var(--summary-product); }
+
+  /* En el telefono el mapa se recorta a la corona y las cuatro etiquetas de
+     servicio: las plataformas y los programas se apagan aca. Medido a 375x812
+     sobre el sitio construido, no sobre el dev server: el mapa baja de 669,2 a
+     333,4 px y todo lo que viene despues sube 335,8 px -el carrusel de clientes
+     pasa de 2028 a 1692-. El apagado va con display:none dentro de la regla que
+     ya existia, no en una regla nueva, para no sumarle un selector repetido a
+     herramientas/guardia-css.mjs; las reglas de mas abajo que visten a estos dos
+     grupos quedan inertes bajo 900 px y vuelven solas si se saca esta palabra.
+     El aria-label del contenedor NO se toca: con role="img" el subarbol ya era
+     opaco para el lector de pantalla, asi que lo unico que ese lector recibia
+     -y sigue recibiendo- es el rotulo. El costo queda anotado y no escondido:
+     ese rotulo nombra plataformas y programas que el telefono ya no dibuja. */
+  .summary-group--platforms { order: 4; --grupo: var(--summary-connection); display: none; }
+  .summary-group--products { order: 6; --grupo: var(--summary-product); display: none; }
 
   /* Cable que baja desde el modulo anterior, con el pulso viajando. */
   .summary-group::before {
