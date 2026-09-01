@@ -5,6 +5,7 @@ import { EscenaProducto } from '@/components/EscenaProducto'
 import { FichaLeadsEjemplo } from '@/components/FichaLeadsEjemplo'
 import { MarcaProducto } from '@/components/MarcaProducto'
 import { Reveal } from '@/components/Reveal'
+import { RevelaEnCascada } from '@/components/RevelaEnCascada'
 import { RevelaAlEntrar } from '@/components/RevelaAlEntrar'
 import { getWhatsappDesde, OG_IMAGE, products, SITE_URL } from '@/lib/site'
 
@@ -100,7 +101,7 @@ export default function ProductsPage() {
               key={product.id}
               id={product.id}
               className={`ad ad--${product.id}`}
-              delay={index * 90}
+              indice={index}
             >
               <article>
                 <header className="ad__cabecera">
@@ -175,6 +176,10 @@ export default function ProductsPage() {
           ))}
         </div>
       </section>
+      {/* Un solo observador para toda la pagina: arma las piezas que todavia
+          no se ven y las revela cuando entran. No pinta nada, asi que va al
+          final. Sin el, los [data-revela] son divs comunes y todo se ve. */}
+      <RevelaEnCascada />
     </main>
   )
 }

@@ -3,6 +3,7 @@ import Link from 'next/link'
 import { DiagnosticoServicios } from '@/components/DiagnosticoServicios'
 import { EscenaIndice } from '@/components/EscenaBanda'
 import { RevelaAlEntrar } from '@/components/RevelaAlEntrar'
+import { RevelaEnCascada } from '@/components/RevelaEnCascada'
 import { Trabajos } from '@/components/Trabajos'
 import { OG_IMAGE, services, SITE_URL, getWhatsappUrl } from '@/lib/site'
 
@@ -239,6 +240,10 @@ export default function ServicesIndexPage() {
           </a>
         </div>
       </section>
+      {/* Un solo observador para toda la pagina: arma las piezas que todavia
+          no se ven y las revela cuando entran. No pinta nada, asi que va al
+          final. Sin el, los [data-revela] son divs comunes y todo se ve. */}
+      <RevelaEnCascada />
     </main>
   )
 }

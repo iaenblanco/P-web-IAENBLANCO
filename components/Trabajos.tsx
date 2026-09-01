@@ -76,7 +76,7 @@ export function Trabajos({
              "main [id]" en globals.css. */
           id={proof.slug}
           className={`trabajo${proof.destacado ? ' trabajo--destacado' : ''}`}
-          delay={index * 60}
+          indice={index}
         >
           <a
             href={proof.href}

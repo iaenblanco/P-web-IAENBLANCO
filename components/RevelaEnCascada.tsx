@@ -3,7 +3,11 @@
 import { useEffect } from 'react'
 
 /**
- * El movimiento de las cuatro paginas de servicio que no son la de sitios web.
+ * El movimiento de todo el sitio. Nacio para las cuatro paginas de servicio y
+ * desde el 1-sep-2026 es tambien el de la portada, contacto, trabajos,
+ * productos y el indice de servicios: antes esas cinco usaban un segundo
+ * vocabulario que emitia "reveal is-visible" junto desde el servidor y por eso
+ * no revelaba nada. Un solo guion, un solo observador por pagina.
  *
  * Hace dos cosas y las dos con UN SOLO observador para toda la pagina, no uno
  * por tarjeta: son unas treinta piezas y treinta observadores se notan en la
@@ -28,7 +32,11 @@ import { useEffect } from 'react'
  */
 export function RevelaEnCascada() {
   useEffect(() => {
-    const raiz = document.querySelector<HTMLElement>('main.service-page')
+    // Cualquier <main>: hay exactamente uno por pagina y asi el componente no
+    // necesita saber en cual esta montado. Antes pedia 'main.service-page' y
+    // por eso montarlo en la portada -que es <main id="contenido">- no habria
+    // hecho nada: salia por la puerta en la primera linea.
+    const raiz = document.querySelector<HTMLElement>('main')
     if (!raiz) return
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
     if (typeof IntersectionObserver === 'undefined') return

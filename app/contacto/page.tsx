@@ -3,6 +3,7 @@ import { ContactForm } from '@/components/ContactForm'
 import { EscenaHilo } from '@/components/EscenaBanda'
 import { RevelaAlEntrar } from '@/components/RevelaAlEntrar'
 import { Reveal } from '@/components/Reveal'
+import { RevelaEnCascada } from '@/components/RevelaEnCascada'
 import {
   COMPANY_PHONE,
   CONTACT_EMAIL,
@@ -96,7 +97,7 @@ export default function ContactPage() {
             </a>
           </Reveal>
 
-          <Reveal className="contact-option" delay={100}>
+          <Reveal className="contact-option" indice={1}>
             <div className="contact-option__top">
               <span>02</span>
               <span>Si prefieres escribir</span>
@@ -124,7 +125,7 @@ export default function ContactPage() {
               llegamos sabiendo de qué hablar.
             </p>
           </Reveal>
-          <Reveal className="contact-context__form" delay={100}>
+          <Reveal className="contact-context__form" indice={1}>
             <ContactForm />
           </Reveal>
         </div>
@@ -143,6 +144,10 @@ export default function ContactPage() {
           </div>
         </div>
       </section>
+      {/* Un solo observador para toda la pagina: arma las piezas que todavia
+          no se ven y las revela cuando entran. No pinta nada, asi que va al
+          final. Sin el, los [data-revela] son divs comunes y todo se ve. */}
+      <RevelaEnCascada />
     </main>
   )
 }

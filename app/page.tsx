@@ -6,6 +6,7 @@ import { Reveal } from '@/components/Reveal'
 import { CorrienteScroll } from '@/components/CorrienteScroll'
 import { esMarcaProducto, MarcaProducto } from '@/components/MarcaProducto'
 import { RevelaAlEntrar } from '@/components/RevelaAlEntrar'
+import { RevelaEnCascada } from '@/components/RevelaEnCascada'
 import { TypingLine } from '@/components/TypingLine'
 import Link from 'next/link'
 import { getWhatsappDesde, getWhatsappUrl, products, services } from '@/lib/site'
@@ -617,9 +618,14 @@ function TrustProofSection() {
             de celular cada una. En un telefono eran casi toda la pagina, y
             quien llegaba buscando que hacemos tenia que pasarlas todas antes de
             saberlo. Quedan los logos; el detalle vive en /trabajos/. */}
-        <CarruselClientes />
+        {/* Envuelto para que la tira deje de girar cuando la seccion sale de
+            pantalla. El envoltorio es display:contents: no agrega ninguna caja
+            a .trust-proof__inner, solo cuelga la clase que lee el CSS. */}
+        <RevelaAlEntrar className="revela--carrusel">
+          <CarruselClientes />
+        </RevelaAlEntrar>
 
-        <Reveal className="trust-proof__accion" delay={90}>
+        <Reveal className="trust-proof__accion" indice={1}>
           <Link href="/trabajos/" className="button button--text">
             Ver los trabajos uno por uno
             <ArrowRight />
@@ -686,7 +692,7 @@ function ProblemSection() {
                 cuando: 'Según el tamaño del proyecto',
               },
             ].map((step, index) => (
-              <Reveal key={step.number} className="operating-step" delay={index * 90}>
+              <Reveal key={step.number} className="operating-step" indice={index}>
                 <span className="operating-step__placa" aria-hidden="true">{step.number}</span>
                 <p className="operating-step__cuando">{step.cuando}</p>
                 <h3>{step.title}</h3>
@@ -699,7 +705,7 @@ function ProblemSection() {
             ))}
           </div>
 
-          <Reveal className="objeciones" delay={60} seccionVista="objeciones">
+          <Reveal className="objeciones" indice={1} seccionVista="objeciones">
             <p className="objeciones__titulo">Lo que se pregunta todo el mundo antes de escribir</p>
             <div className="objeciones__precio">
               <h3>¿Cuánto cuesta?</h3>
@@ -764,7 +770,7 @@ function ProductLabSection() {
           entera, con sus diagramas de flujo, y se hacia larguisimo. */}
       <div className="section-shell repisa">
         {products.map((product, index) => (
-          <Reveal key={product.id} className={`repisa__ficha repisa__ficha--${product.id}`} delay={index * 90}>
+          <Reveal key={product.id} className={`repisa__ficha repisa__ficha--${product.id}`} indice={index}>
             <Link href={`/productos/#${product.id}`} prefetch={false} data-cursor="Ver">
               <span className="repisa__cabecera">
                 <span className="repisa__orden">{String(index + 1).padStart(2, '0')}</span>
@@ -953,7 +959,7 @@ export default function HomePage() {
             </p>
           </Reveal>
 
-          <Reveal className="rampa__accion" delay={90}>
+          <Reveal className="rampa__accion" indice={1}>
             <ol className="rampa__pasos">
               <li>
                 <span>01</span>
@@ -1022,6 +1028,10 @@ export default function HomePage() {
       <ProductLabSection />
 
       <ContactBand />
+      {/* Un solo observador para toda la pagina: arma las piezas que todavia
+          no se ven y las revela cuando entran. No pinta nada, asi que va al
+          final. Sin el, los [data-revela] son divs comunes y todo se ve. */}
+      <RevelaEnCascada />
     </main>
   )
 }
