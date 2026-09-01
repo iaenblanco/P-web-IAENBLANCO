@@ -6,10 +6,10 @@ import { Reveal } from '@/components/Reveal'
 import {
   COMPANY_PHONE,
   CONTACT_EMAIL,
+  getWhatsappDesde,
   OG_IMAGE,
   SITE_URL,
   socialLinks,
-  WHATSAPP_URL,
 } from '@/lib/site'
 
 /* La misma bajada sirve para la metadata y para la tarjeta social. Una sola
@@ -81,14 +81,15 @@ export default function ContactPage() {
             </div>
             <h2>WhatsApp</h2>
             <p>
-              El canal principal para contarnos el contexto, compartir una idea y
-              decidir juntos el siguiente paso.
+              Es por donde contestamos más rápido. Cuéntanos qué está pasando y vemos
+              juntos por dónde partir.
             </p>
             <a
-              href={WHATSAPP_URL}
+              href={getWhatsappDesde('contacto')}
               target="_blank"
               rel="noreferrer"
               data-cursor="Abrir"
+              data-whatsapp-origin="contacto"
             >
               {COMPANY_PHONE}
               <ArrowUpRight />
@@ -98,12 +99,12 @@ export default function ContactPage() {
           <Reveal className="contact-option" delay={100}>
             <div className="contact-option__top">
               <span>02</span>
-              <span>Contexto por escrito</span>
+              <span>Si prefieres escribir</span>
             </div>
             <h2>Email</h2>
             <p>
-              Para documentos, alcances más extensos o información que prefieres
-              ordenar antes de conversar.
+              Si tienes archivos que mandarnos, o prefieres dejar todo escrito y
+              ordenado antes de hablar.
             </p>
             <a href={`mailto:${CONTACT_EMAIL}`} data-cursor="Escribir">
               {CONTACT_EMAIL}

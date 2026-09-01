@@ -8,7 +8,7 @@ import { esMarcaProducto, MarcaProducto } from '@/components/MarcaProducto'
 import { RevelaAlEntrar } from '@/components/RevelaAlEntrar'
 import { TypingLine } from '@/components/TypingLine'
 import Link from 'next/link'
-import { getWhatsappUrl, products, services, WHATSAPP_URL } from '@/lib/site'
+import { getWhatsappDesde, getWhatsappUrl, products, services } from '@/lib/site'
 
 function ArrowUpRight() {
   return (
@@ -593,7 +593,11 @@ function HeroSummaryMap() {
 
 function TrustProofSection() {
   return (
-    <section className="trust-proof" aria-labelledby="trust-proof-heading">
+    <section
+      className="trust-proof"
+      aria-labelledby="trust-proof-heading"
+      data-section-view="trust-proof"
+    >
       <div className="section-shell trust-proof__inner">
         <Reveal className="trust-proof__copy">
           <p className="eyebrow">Trabajos reales</p>
@@ -695,7 +699,7 @@ function ProblemSection() {
             ))}
           </div>
 
-          <Reveal className="objeciones" delay={60}>
+          <Reveal className="objeciones" delay={60} seccionVista="objeciones">
             <p className="objeciones__titulo">Lo que se pregunta todo el mundo antes de escribir</p>
             <div className="objeciones__precio">
               <h3>¿Cuánto cuesta?</h3>
@@ -740,7 +744,11 @@ function ProblemSection() {
 
 function ProductLabSection() {
   return (
-    <section className="ecosystem-lab" aria-labelledby="ecosystem-heading">
+    <section
+      className="ecosystem-lab"
+      aria-labelledby="ecosystem-heading"
+      data-section-view="repisa-productos"
+    >
       <div className="section-shell ecosystem-lab__intro">
         <Reveal>
           <p className="eyebrow">Nuestros productos</p>
@@ -794,6 +802,7 @@ function ServiciosShelfSection() {
       id="lo-que-construimos"
       className="home-servicios"
       aria-labelledby="home-servicios-heading"
+      data-section-view="repisa-servicios"
     >
       <div className="section-shell">
         <div className="home-servicios__encabezado">
@@ -867,11 +876,12 @@ export default function HomePage() {
             </p>
             <div className="home-hero__actions">
               <a
-                href={WHATSAPP_URL}
+                href={getWhatsappDesde('portada')}
                 target="_blank"
                 rel="noreferrer"
                 className="button button--primary"
                 data-cursor="WhatsApp"
+                data-whatsapp-origin="portada"
                 data-cursor-theme="signal"
               >
                 Cuéntanos tu idea
@@ -921,7 +931,12 @@ export default function HomePage() {
           Su borde inferior no es decorativo: la rampa termina en ice al 6% y
           .ecosystem-lab arranca en paper-bright, asi que sin linea las dos se
           funden en un unico bloque claro de 1.247px a 1440 y 2.108 a 390. */}
-      <section className="rampa" id="rampa" aria-labelledby="rampa-heading">
+      <section
+        className="rampa"
+        id="rampa"
+        aria-labelledby="rampa-heading"
+        data-section-view="rampa"
+      >
         <div className="section-shell rampa__inner">
           <Reveal className="rampa__copy">
             <p className="eyebrow">Antes de contratar nada</p>

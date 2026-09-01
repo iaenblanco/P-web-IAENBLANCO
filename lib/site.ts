@@ -9,7 +9,35 @@ export const SITE_URL = 'https://iaenblanco.com'
  */
 export const WHATSAPP_NUMBER = '56986468029'
 
-export const WHATSAPP_URL = getWhatsappUrl('Hola IAenBlanco, quiero conversar sobre un proyecto.')
+/**
+ * Los nueve botones generales de WhatsApp mandaban el mismo texto -"quiero
+ * conversar sobre un proyecto"- viniera el visitante de la portada, del pie o
+ * del boton flotante. Eso dejaba dos cosas rotas a la vez: la FAQ de servicios
+ * promete por escrito que "el boton abre tu WhatsApp con el mensaje ya escrito,
+ * asi sabes de que pagina viene la persona" -services-content.ts-, y sin ese
+ * dato no hay forma de saber, ni en la conversacion ni en la medicion, cual de
+ * los nueve botones trae gente.
+ *
+ * Cada mensaje lo escribe el visitante, no nosotros: nombra el lugar como el
+ * lo vio -"el boton de arriba", "el final del sitio"-, no como se llama el
+ * componente. Los que estan en la cabecera, el pie, la banda y el boton
+ * flotante viven en las once rutas, asi que nombran el lugar y no la pagina;
+ * los tres que si son de una pagina la nombran.
+ *
+ * Los otros trece enlaces del sitio ya llamaban a getWhatsappUrl con su propio
+ * mensaje; estos nueve eran los unicos que compartian uno solo.
+ */
+export const MENSAJES_WHATSAPP = {
+  portada: 'Hola IAenBlanco. Vengo de la portada del sitio y quiero contarles una idea.',
+  cabecera: 'Hola IAenBlanco. Escribo desde el botón de arriba del sitio para conversar sobre un proyecto.',
+  menu: 'Hola IAenBlanco. Escribo desde el menú del sitio para conversar sobre un proyecto.',
+  productos: 'Hola IAenBlanco. Estuve viendo la página de productos y quiero saber cuál me sirve.',
+  contacto: 'Hola IAenBlanco. Los escribo desde la página de contacto para conversar sobre un proyecto.',
+  banda: 'Hola IAenBlanco. Terminé de leer una página del sitio y quiero conversar sobre un proyecto.',
+  pie: 'Hola IAenBlanco. Llegué hasta el final del sitio y quiero conversar sobre un proyecto.',
+  'pie-datos': 'Hola IAenBlanco. Encontré este número en los datos de contacto del sitio.',
+  flotante: 'Hola IAenBlanco. Escribo desde el botón flotante del sitio para conversar sobre un proyecto.',
+} as const
 
 export const CONTACT_EMAIL = 'contacto@iaenblanco.com'
 
@@ -378,6 +406,13 @@ export const programasEnCamino = products.filter(
 
 export function getService(slug: string) {
   return services.find((service) => service.slug === slug)
+}
+
+export type OrigenWhatsapp = keyof typeof MENSAJES_WHATSAPP
+
+/** El enlace de WhatsApp del lugar desde donde se hace clic. Ver MENSAJES_WHATSAPP. */
+export function getWhatsappDesde(origen: OrigenWhatsapp) {
+  return getWhatsappUrl(MENSAJES_WHATSAPP[origen])
 }
 
 export function getWhatsappUrl(message: string) {

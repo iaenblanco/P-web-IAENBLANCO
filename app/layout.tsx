@@ -6,6 +6,7 @@ import { ConsentBanner } from '@/components/ConsentBanner'
 import { Footer } from '@/components/Footer'
 import { GoogleTagManager } from '@/components/GoogleTagManager'
 import { Header } from '@/components/Header'
+import { VistaSecciones } from '@/components/VistaSecciones'
 import {
   COMPANY_LEGAL_NAME,
   COMPANY_PHONE,
@@ -310,6 +311,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
           product_id: productIdFrom(anchor),
           product_name: productNameFrom(anchor),
           case_name: clean(anchor.getAttribute('data-case-name')),
+          whatsapp_origin: clean(anchor.getAttribute('data-whatsapp-origin')),
           entry_problem: clean(anchor.getAttribute('data-entry-problem')),
           device_type: deviceType(),
           traffic_source_raw: trafficSourceRaw()
@@ -334,10 +336,15 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
       d.addEventListener('focusin', function(event){
         var target = event.target;
         var field = target && target.closest ? target.closest('input, textarea, select, [contenteditable="true"]') : null;
-        if (!field || field.__iaenblancoFormStarted) return;
+        if (!field) return;
         var form = field.closest ? field.closest('form') : null;
-        if (!form) return;
-        field.__iaenblancoFormStarted = true;
+        /* La marca va en el <form>, no en el campo. Estaba en el campo, asi que
+           cada uno de los cinco campos del formulario de contacto empujaba su
+           propio form_start: quien recorria los cinco quedaba contado como
+           cinco inicios y el embudo arrancaba con hasta cinco veces la gente
+           que de verdad habia. */
+        if (!form || form.__iaenblancoFormStarted) return;
+        form.__iaenblancoFormStarted = true;
         w.dataLayer = w.dataLayer || [];
         w.dataLayer.push({
           event: 'form_start',
@@ -348,19 +355,27 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
           traffic_source_raw: trafficSourceRaw()
         });
       }, { passive: true });
-      d.addEventListener('submit', function(event){
-        var form = event.target;
-        if (!form || form.tagName !== 'FORM') return;
+      /* Antes esto escuchaba 'submit' en document y en fase de captura. El
+         unico <form> del sitio lleva noValidate y valida en React, o sea que el
+         navegador deja pasar el submit igual cuando faltan campos: el evento
+         llegaba aca antes de que nadie mirara nada y form_submit contaba
+         tambien los intentos fallidos. Con eso el paso "envio" del embudo
+         quedaba inflado justo por la gente que NO envio, que es lo contrario de
+         lo que hay que medir. Ahora el aviso lo da el propio formulario, que es
+         el unico que sabe si el envio era valido -ContactForm.tsx-, por el
+         mismo puente de CustomEvent que ya usaban generate_lead y form_error. */
+      d.addEventListener('iaenblanco:form_submit', function(event){
+        var detail = event.detail || {};
         w.dataLayer = w.dataLayer || [];
         w.dataLayer.push({
           event: 'form_submit',
-          form_name: form.getAttribute('name') || form.id || sectionFor(form) || 'form',
+          form_name: clean(detail.form_name) || 'form',
           page_path: w.location.pathname,
-          section: sectionFor(form),
+          section: clean(detail.section) || '',
           device_type: deviceType(),
           traffic_source_raw: trafficSourceRaw()
         });
-      }, true);
+      });
       d.addEventListener('iaenblanco:generate_lead', function(event){
         var detail = event.detail || {};
         w.dataLayer = w.dataLayer || [];
@@ -383,6 +398,20 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
           answer: clean(detail.respuesta),
           entry_problem: clean(detail.entry_problem),
           diagnostico_completado: clean(detail.completado),
+          page_path: w.location.pathname,
+          device_type: deviceType(),
+          traffic_source_raw: trafficSourceRaw()
+        });
+      });
+      d.addEventListener('iaenblanco:section_view', function(event){
+        var detail = event.detail || {};
+        var nombre = clean(detail.section_name);
+        if (!nombre) return;
+        w.dataLayer = w.dataLayer || [];
+        w.dataLayer.push({
+          event: 'section_view',
+          section: nombre,
+          section_name: nombre,
           page_path: w.location.pathname,
           device_type: deviceType(),
           traffic_source_raw: trafficSourceRaw()
@@ -433,6 +462,12 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
         {children}
         <Footer />
         <BotonWhatsapp />
+        {/* Fuera del guardia de produccion de arriba a proposito: no pinta nada
+            ni carga nada, solo avisa por CustomEvent, y el despachador que lo
+            escucha si esta detras del guardia. Dejarlo suelto permite revisar
+            en local que las seis secciones se cuentan cuando corresponde, que
+            es lo unico de esta medicion que se puede comprobar sin publicar. */}
+        <VistaSecciones />
         <ConsentBanner />
         <script
           type="application/ld+json"

@@ -6,10 +6,10 @@ import {
   COMPANY_PHONE,
   COMPANY_TAX_ID,
   CONTACT_EMAIL,
+  getWhatsappDesde,
   LEMA,
   services,
   socialLinks,
-  WHATSAPP_URL,
 } from '@/lib/site'
 
 function ArrowUpRight() {
@@ -38,11 +38,12 @@ export function Footer() {
             <p className="eyebrow eyebrow--dark">Tecnología que se usa, no que se explica</p>
             <h2>{LEMA}</h2>
             <a
-              href={WHATSAPP_URL}
+              href={getWhatsappDesde('pie')}
               target="_blank"
               rel="noreferrer"
               className="footer-primary-link"
               data-cursor="Hablemos"
+              data-whatsapp-origin="pie"
             >
               Hablemos
               <ArrowUpRight />
@@ -69,7 +70,12 @@ export function Footer() {
             <div>
               <p>Contacto</p>
               <a href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a>
-              <a href={WHATSAPP_URL} target="_blank" rel="noreferrer">
+              <a
+                href={getWhatsappDesde('pie-datos')}
+                target="_blank"
+                rel="noreferrer"
+                data-whatsapp-origin="pie-datos"
+              >
                 WhatsApp {COMPANY_PHONE}
               </a>
               <a href={socialLinks.linkedin} target="_blank" rel="noreferrer">

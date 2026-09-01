@@ -29,7 +29,7 @@ const CAMPOS = [
 
 export function FichaLeadsEjemplo() {
   return (
-    <figure className="ficha-leads">
+    <figure className="ficha-leads" data-section-view="ficha-leads">
       <figcaption className="ficha-leads__intro">
         <p className="eyebrow">Así llega una ficha</p>
         <p>

@@ -1,12 +1,12 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-import { WHATSAPP_URL } from '@/lib/site'
+import { getWhatsappDesde } from '@/lib/site'
 
 /**
  * El unico atajo que acompaña al visitante en las once rutas. Sale del mismo
- * WHATSAPP_URL que el resto del sitio, asi que cambiar el numero en lib/site
- * lo cambia tambien aca.
+ * numero que el resto del sitio -lib/site-, con el mensaje del origen
+ * 'flotante': el visitante llega diciendo por donde entro.
  *
  * Nunca se esconde por codigo. Mientras el aviso de medicion esta arriba, el
  * boton se sube lo que mida el aviso para no quedar tapado; el alto lo publica
@@ -59,12 +59,13 @@ export function BotonWhatsapp() {
   return (
     <a
       className={clases}
-      href={WHATSAPP_URL}
+      href={getWhatsappDesde('flotante')}
       target="_blank"
       rel="noreferrer"
       aria-label="Escríbenos por WhatsApp"
       data-cursor="WhatsApp"
       data-analytics-event="floating_whatsapp_click"
+      data-whatsapp-origin="flotante"
     >
       {/* El glifo de WhatsApp dibujado, no una imagen: son 700 bytes que van en
           el HTML y no cuestan una peticion mas. */}

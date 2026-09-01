@@ -3548,7 +3548,8 @@ button {
   }
 
   .service-flow::before,
-  .service-faq-list details[open] p {
+  .service-faq-list details[open] p,
+  .contact-form__error {
     animation: none;
   }
 
@@ -9936,11 +9937,19 @@ button {
   border-color: #b0392a;
 }
 
+/* El error entra, no aparece de golpe. Se monta condicionalmente en React, o
+   sea que sale de la nada debajo del campo y el ojo no registra de donde vino;
+   con los mismos fotogramas que ya usa la respuesta de una FAQ -baja seis
+   pixeles y se enciende- queda claro que el texto pertenece al campo de arriba.
+   Reusa faq-respuesta a proposito: es la unica entrada del sitio para texto que
+   se revela, y esta apagada mas arriba bajo prefers-reduced-motion, donde este
+   selector tambien esta anotado. */
 .contact-form__error {
   margin: 0;
   color: #b0392a;
   font-size: var(--texto-3);
   line-height: 1.4;
+  animation: faq-respuesta 320ms cubic-bezier(0.22, 1, 0.36, 1) both;
 }
 
 .contact-form__actions {

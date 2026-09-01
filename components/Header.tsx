@@ -3,7 +3,7 @@
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { useEffect, useRef, useState } from 'react'
-import { products, services, WHATSAPP_URL } from '@/lib/site'
+import { getWhatsappDesde, products, services } from '@/lib/site'
 
 function ArrowUpRight({ className = '' }: { className?: string }) {
   return (
@@ -481,11 +481,12 @@ export function Header() {
         </nav>
 
         <a
-          href={WHATSAPP_URL}
+          href={getWhatsappDesde('cabecera')}
           className="header-cta"
           target="_blank"
           rel="noreferrer"
           data-cursor="WhatsApp"
+          data-whatsapp-origin="cabecera"
           aria-label="Escribirnos por WhatsApp"
         >
           {/* En el telefono no hay hover que aclare a donde lleva, asi que el
@@ -643,10 +644,11 @@ export function Header() {
                 <span className="mobile-navigation__texto">Contacto</span>
               </Link>
               <a
-                href={WHATSAPP_URL}
+                href={getWhatsappDesde('menu')}
                 target="_blank"
                 rel="noreferrer"
                 className="mobile-navigation__cta"
+                data-whatsapp-origin="menu"
               >
                 Iniciar conversación
                 <ArrowUpRight />

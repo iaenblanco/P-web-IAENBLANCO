@@ -1,4 +1,4 @@
-import { WHATSAPP_URL } from '@/lib/site'
+import { getWhatsappDesde } from '@/lib/site'
 
 function ArrowUpRight() {
   return (
@@ -22,11 +22,12 @@ export function ContactBand({
         <div>
           <h2>{title}</h2>
           <a
-            href={WHATSAPP_URL}
+            href={getWhatsappDesde('banda')}
             target="_blank"
             rel="noreferrer"
             className="contact-band__link"
             data-cursor="WhatsApp"
+            data-whatsapp-origin="banda"
           >
             Hablemos por WhatsApp
             <ArrowUpRight />

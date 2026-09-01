@@ -1,6 +1,6 @@
 'use client'
 
-import { useMemo, useState } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import { getWhatsappUrl } from '@/lib/site'
 
 function ArrowUpRight() {
@@ -47,8 +47,9 @@ function nombrarFormulario(form: HTMLFormElement) {
 }
 
 /**
- * Los dos eventos que app/layout.tsx escucha en `document` (:349 y :376) y que
- * hasta ahora no emitia nadie. El detail viaja con los nombres que ese
+ * Los tres eventos que app/layout.tsx escucha en `document` y que no emite
+ * nadie mas: iaenblanco:form_submit, iaenblanco:generate_lead y
+ * iaenblanco:form_error. El detail viaja con los nombres que ese
  * despachador lee; un campo con otro nombre llega vacio a la capa de datos.
  */
 function avisar(nombre: string, detalle: Record<string, string>) {
@@ -59,6 +60,22 @@ export function ContactForm() {
   const [campos, setCampos] = useState<Campos>(VACIO)
   const [tocado, setTocado] = useState(false)
   const [estado, setEstado] = useState<'inactivo' | 'abierto' | 'bloqueado'>('inactivo')
+  // Dos avisos que se apagan solos. Viven aparte de `estado` porque no dicen
+  // en que quedo el envio, sino que algo acaba de pasar: el boton se apreto, el
+  // texto se copio. Los temporizadores se guardan para poder cortarlos si el
+  // componente se va antes -en el telefono, cerrar la pagina a los 400 ms es lo
+  // normal- y para que dos clics seguidos no dejen el cartel colgado.
+  const [abriendo, setAbriendo] = useState(false)
+  const [copiado, setCopiado] = useState<'inactivo' | 'listo' | 'falla'>('inactivo')
+  const relojAbriendo = useRef<ReturnType<typeof setTimeout> | null>(null)
+  const relojCopiado = useRef<ReturnType<typeof setTimeout> | null>(null)
+
+  useEffect(() => {
+    return () => {
+      if (relojAbriendo.current) clearTimeout(relojAbriendo.current)
+      if (relojCopiado.current) clearTimeout(relojCopiado.current)
+    }
+  }, [])
 
   const faltan = !campos.nombre.trim() || !campos.situacion.trim()
 
@@ -102,11 +119,28 @@ export function ContactForm() {
     const { form_name, section } = nombrarFormulario(form)
 
     if (faltan) {
+      // Sin form_submit: el envio invalido no es un envio. Lo unico que sale de
+      // esta rama es el form_error.
       avisar('iaenblanco:form_error', { form_name, section, error_type: 'missing_required_fields' })
       const primero = document.getElementById(!campos.nombre.trim() ? 'contacto-nombre' : 'contacto-situacion')
       primero?.focus()
       return
     }
+
+    // De aca para abajo el envio ya es valido, asi que este es el unico lugar
+    // del sitio que empuja form_submit. Va antes de abrir la ventana para que
+    // el orden en la capa de datos sea el del embudo real: form_submit y
+    // despues generate_lead -si abrio- o form_error -si el navegador bloqueo-.
+    avisar('iaenblanco:form_submit', { form_name, section })
+
+    // El boton dice en voz alta lo que esta pasando. Abrir una pestana nueva es
+    // invisible cuando el navegador la manda al fondo o cuando WhatsApp Web
+    // tarda en pintar, y ese silencio es justo el momento en que la persona
+    // vuelve a apretar. Se apaga solo a segundo y medio: no bloquea nada, solo
+    // acompaña el hueco.
+    setAbriendo(true)
+    if (relojAbriendo.current) clearTimeout(relojAbriendo.current)
+    relojAbriendo.current = setTimeout(() => setAbriendo(false), 1500)
 
     // Ojo con el tercer argumento: pedir 'noopener,noreferrer' obliga a
     // window.open a devolver null SIEMPRE -asi lo manda la especificacion-, o
@@ -137,6 +171,30 @@ export function ContactForm() {
 
     setEstado('abierto')
     avisar('iaenblanco:generate_lead', { form_name, section })
+  }
+
+  /**
+   * El segundo camino, para cuando el primero no sirve: la persona se lleva el
+   * texto y lo pega donde quiera -WhatsApp de otro telefono, un correo, una
+   * nota-. Aparece recien cuando hay algo que copiar; con el formulario vacio
+   * el mensaje dice "Nombre: —" y ofrecerlo seria una trampa.
+   *
+   * El portapapeles falla mas seguido de lo que parece: no existe fuera de un
+   * contexto seguro, y hay navegadores que lo niegan sin avisar. Cuando pasa se
+   * dice, en vez de dejar a alguien creyendo que copio algo que no copio.
+   */
+  async function copiarMensaje() {
+    if (relojCopiado.current) clearTimeout(relojCopiado.current)
+    let resultado: 'listo' | 'falla' = 'falla'
+    try {
+      if (!navigator.clipboard?.writeText) throw new Error('sin portapapeles')
+      await navigator.clipboard.writeText(mensaje)
+      resultado = 'listo'
+    } catch {
+      resultado = 'falla'
+    }
+    setCopiado(resultado)
+    relojCopiado.current = setTimeout(() => setCopiado('inactivo'), 2500)
   }
 
   const errorNombre = tocado && !campos.nombre.trim()
@@ -264,10 +322,26 @@ export function ContactForm() {
             atributo solo en los clics sobre <a href>, asi que en un <button>
             nunca midio nada. Lo que este envio reporta sale por los eventos
             iaenblanco:generate_lead y iaenblanco:form_error de enviar(). */}
-        <button type="submit" className="button button--primary" data-cursor="WhatsApp">
-          Enviar por WhatsApp
+        <button
+          type="submit"
+          className="button button--primary"
+          data-cursor="WhatsApp"
+          aria-busy={abriendo}
+        >
+          {abriendo ? 'Abriendo WhatsApp…' : 'Enviar por WhatsApp'}
           <ArrowUpRight />
         </button>
+
+        {!faltan ? (
+          <button
+            type="button"
+            className="button button--text"
+            data-cursor="Copiar"
+            onClick={copiarMensaje}
+          >
+            {copiado === 'listo' ? 'Mensaje copiado' : 'Copiar el mensaje'}
+          </button>
+        ) : null}
 
         {/* El clic en este respaldo ES el envio de quien se quedo con la ventana
             bloqueada, asi que tiene que contarse igual que el camino feliz: el
@@ -304,6 +378,13 @@ export function ContactForm() {
           </a>
         ) : null}
       </div>
+
+      {copiado === 'falla' ? (
+        <p className="contact-form__error" role="alert">
+          Tu navegador no dejó copiar el mensaje. Selecciónalo a mano desde los campos
+          de arriba, o envíalo por WhatsApp con el botón.
+        </p>
+      ) : null}
 
       <p className="contact-form__note">
         No guardamos nada en el sitio: al enviar se abre tu WhatsApp con el mensaje ya

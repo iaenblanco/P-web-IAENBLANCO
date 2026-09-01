@@ -6,7 +6,7 @@ import { FichaLeadsEjemplo } from '@/components/FichaLeadsEjemplo'
 import { MarcaProducto } from '@/components/MarcaProducto'
 import { Reveal } from '@/components/Reveal'
 import { RevelaAlEntrar } from '@/components/RevelaAlEntrar'
-import { OG_IMAGE, products, SITE_URL, WHATSAPP_URL } from '@/lib/site'
+import { getWhatsappDesde, OG_IMAGE, products, SITE_URL } from '@/lib/site'
 
 /* La misma bajada sirve para la metadata y para la tarjeta social. Una sola
    fuente, para que no quede una de las dos vieja. */
@@ -71,11 +71,12 @@ export default function ProductsPage() {
                 fuera de /servicios/, los cuenta como cta_whatsapp_click. */}
             <div className="banda-apertura__accion">
               <a
-                href={WHATSAPP_URL}
+                href={getWhatsappDesde('productos')}
                 target="_blank"
                 rel="noreferrer"
                 className="button button--text"
                 data-cursor="Escribir"
+                data-whatsapp-origin="productos"
               >
                 Cuéntanos cuál se parece a lo tuyo
                 <ArrowUpRight />
