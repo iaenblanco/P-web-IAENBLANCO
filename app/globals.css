@@ -531,7 +531,11 @@ button {
   position: fixed;
   left: 18px;
   top: 12px;
-  z-index: 999;
+  /* Por encima del cursor personalizado (z-index 1000). El anillo sigue al
+     mouse y su etiqueta puede quedar justo en el angulo superior izquierdo,
+     que es donde aparece este salto al apretar Tab. El afijo de accesibilidad
+     va arriba de todo, siempre. */
+  z-index: 1001;
   transform: translateY(-180%);
   background: var(--ink);
   color: white;
@@ -644,7 +648,6 @@ button {
   pointer-events: auto;
 }
 
-.site-header.is-scrolled .site-header__inner,
 .site-header:has(.nav-menu.is-open) .site-header__inner,
 .site-header:has(.nav-menu:hover) .site-header__inner {
   height: 66px;
@@ -667,11 +670,6 @@ button {
   overflow: hidden;
   background: var(--ink);
   transition: width 260ms ease, height 260ms ease, background-color 260ms ease;
-}
-
-.site-header.is-scrolled .brand-mark__plate {
-  width: 52px;
-  height: 52px;
 }
 
 /* El simbolo es apaisado (199x128), no cuadrado como el logotipo que habia
@@ -1086,6 +1084,17 @@ button {
   color: #f7f4e8;
 }
 
+/* El cinturon del cursor. Hoy no hace falta -CustomCursor.tsx pregunta por
+   (prefers-reduced-motion: no-preference) y devuelve null, asi que bajo
+   movimiento reducido no hay nodo-, pero toda su defensa era una linea de
+   JavaScript y es la unica pieza animada de esta hoja sin corte en CSS. El dia
+   que alguien afloje ese matchMedia a solo (pointer: fine), esto lo frena. */
+@media (prefers-reduced-motion: reduce) {
+  .custom-cursor {
+    transition: none;
+  }
+}
+
 /* Buttons */
 
 .button {
@@ -1254,23 +1263,6 @@ button {
   font-weight: 500;
 }
 
-/* inline-block porque ya no es item flex: a un <i> en linea el ancho y el
-   alto no le aplican. vertical-align: middle lo centra contra la x de la
-   mono, que es lo que hacia el align-items: center del contenedor. */
-.typing-line i {
-  display: inline-block;
-  vertical-align: middle;
-  width: 6px;
-  height: 14px;
-  margin-left: 3px;
-  background: var(--signal);
-  animation: typing-cursor 760ms steps(2, end) 4;
-}
-
-@keyframes typing-cursor {
-  50% { opacity: 0; }
-}
-
 .home-hero__visual {
   position: relative;
   display: grid;
@@ -1398,7 +1390,6 @@ button {
   stroke-width: 3.2;
   stroke-dasharray: 2 30;
   opacity: 0.72;
-  animation: summary-energy-transfer 3.8s linear infinite;
 }
 
 .summary-transfer--slow {
@@ -1427,14 +1418,12 @@ button {
   stroke-width: 1.7;
   stroke-dasharray: 16 9;
   opacity: 0.8;
-  animation: summary-signal-flow 10s linear infinite;
 }
 
 .summary-wire--core {
   stroke-width: 1.9;
   stroke-dasharray: 18 10;
   opacity: 0.82;
-  animation: summary-signal-flow 9s linear infinite;
 }
 
 .summary-wire--thin {
@@ -1466,7 +1455,6 @@ button {
   stroke-width: 1.5;
   stroke-dasharray: 16 12;
   opacity: 0.64;
-  animation: summary-signal-flow 12s linear infinite;
 }
 
 .summary-node {
@@ -1810,27 +1798,6 @@ button {
   width: 18px;
   height: 18px;
   color: var(--signal);
-}
-
-@keyframes summary-node-enter {
-  from {
-    opacity: 0;
-    filter: blur(4px);
-    transform: translateY(6px);
-  }
-  to {
-    opacity: 1;
-    filter: blur(0);
-    transform: translateY(0);
-  }
-}
-
-@keyframes summary-signal-flow {
-  to { stroke-dashoffset: -48; }
-}
-
-@keyframes summary-energy-transfer {
-  to { stroke-dashoffset: -96; }
 }
 
 .concept-card {
@@ -4713,7 +4680,6 @@ button {
     0 16px 34px rgba(7, 10, 15, 0.055),
     inset 3px 0 0 color-mix(in srgb, var(--flow-accent) 72%, transparent);
   opacity: 0;
-  animation: summary-node-enter 620ms ease forwards;
   animation-delay: calc(120ms + var(--node-index) * 90ms);
 }
 
@@ -7535,8 +7501,7 @@ button {
     background: rgba(244, 242, 236, 0.96);
   }
 
-  .brand-mark__plate,
-  .site-header.is-scrolled .brand-mark__plate {
+  .brand-mark__plate {
     width: 50px;
     height: 50px;
   }
@@ -12488,11 +12453,6 @@ button {
   box-shadow: 0 0 0 1px color-mix(in srgb, var(--signal) 28%, transparent), 0 8px 20px rgba(7, 10, 15, 0.16);
 }
 
-.site-header.is-scrolled .brand-mark__plate {
-  width: 46px;
-  height: 46px;
-}
-
 .brand-mark__image {
   width: 74%;
   height: auto;
@@ -12520,8 +12480,7 @@ button {
 }
 
 @media (max-width: 900px) {
-  .brand-mark__plate,
-  .site-header.is-scrolled .brand-mark__plate {
+  .brand-mark__plate {
     width: 46px;
     height: 46px;
   }
@@ -12642,20 +12601,18 @@ button {
 
   .summary-group--services { order: 2; }
 
-  /* En el telefono el mapa se recorta a la corona y las cuatro etiquetas de
-     servicio: las plataformas y los programas se apagan aca. Medido a 375x812
-     sobre el sitio construido, no sobre el dev server: el mapa baja de 669,2 a
-     333,4 px y todo lo que viene despues sube 335,8 px -el carrusel de clientes
-     pasa de 2028 a 1692-. El apagado va con display:none dentro de la regla que
-     ya existia, no en una regla nueva, para no sumarle un selector repetido a
-     herramientas/guardia-css.mjs; las reglas de mas abajo que visten a estos dos
-     grupos quedan inertes bajo 900 px y vuelven solas si se saca esta palabra.
-     El aria-label del contenedor NO se toca: con role="img" el subarbol ya era
-     opaco para el lector de pantalla, asi que lo unico que ese lector recibia
-     -y sigue recibiendo- es el rotulo. El costo queda anotado y no escondido:
-     ese rotulo nombra plataformas y programas que el telefono ya no dibuja. */
-  .summary-group--platforms { order: 4; --grupo: var(--summary-connection); display: none; }
-  .summary-group--products { order: 6; --grupo: var(--summary-product); display: none; }
+  /* Los tres modulos del mapa se dibujan enteros en el telefono. La fase 9
+     habia apagado plataformas y programas con display:none aca -el mapa bajaba
+     de 669,2 a 333,4 px a 375x812- y el dueno lo rechazo el 2-sep-2026: lo que
+     quedaba era la corona con un solo cable colgando, no un mapa mas corto.
+     Revertido a mano, sin tocar colores, animaciones ni marcado: las reglas de
+     mas abajo que visten a estos dos grupos ya estaban escritas y vuelven a
+     aplicar solas. El aria-label del contenedor vuelve a ser cierto: nombra
+     plataformas y programas que el telefono ahora si dibuja. Si el mapa movil
+     se vuelve a acortar alguna vez, que sea recortando contenido, no
+     escondiendo dos tercios del dibujo. */
+  .summary-group--platforms { order: 4; --grupo: var(--summary-connection); }
+  .summary-group--products { order: 6; --grupo: var(--summary-product); }
 
   /* Cable que baja desde el modulo anterior, con el pulso viajando. */
   .summary-group::before {
@@ -12670,7 +12627,6 @@ button {
       linear-gradient(180deg, transparent, var(--grupo)) 50% 0 / 1px 100% no-repeat,
       radial-gradient(circle, var(--grupo) 42%, transparent 46%) 50% -6px / 5px 5px no-repeat;
     opacity: 0.75;
-    animation: circuito-pulso 2.9s cubic-bezier(0.6, 0, 0.4, 1) infinite;
     pointer-events: none;
   }
 
@@ -12689,7 +12645,6 @@ button {
     border-radius: 50%;
     border: 1px solid var(--grupo);
     background: var(--paper-bright, #fff);
-    animation: circuito-nodo 2.9s ease-in-out infinite;
   }
 
   .summary-group--platforms .summary-system-label::before { animation-delay: 0.36s; }
@@ -12787,7 +12742,6 @@ button {
       transparent 66%
     );
     background-size: 260% 100%;
-    animation: circuito-barrido 5.2s ease-in-out infinite;
     animation-delay: calc(var(--node-index, 0) * 0.42s);
     pointer-events: none;
   }
@@ -12889,19 +12843,6 @@ button {
     border: 1px solid color-mix(in srgb, var(--summary-service) 30%, transparent);
     animation: circuito-halo 3.4s ease-in-out 1 forwards;
   }
-}
-
-@keyframes circuito-pulso {
-  0% { background-position: 50% 0, 50% -6px; opacity: 0; }
-  14% { opacity: 0.9; }
-  86% { opacity: 0.9; }
-  100% { background-position: 50% 0, 50% 21px; opacity: 0; }
-}
-
-@keyframes circuito-nodo {
-  0%, 60% { box-shadow: 0 0 0 0 color-mix(in srgb, var(--grupo) 40%, transparent); }
-  82% { box-shadow: 0 0 0 6px color-mix(in srgb, var(--grupo) 0%, transparent); }
-  100% { box-shadow: 0 0 0 0 color-mix(in srgb, var(--grupo) 0%, transparent); }
 }
 
 @keyframes circuito-halo {
@@ -13561,7 +13502,6 @@ button {
 
 .ad__mitad--hoy .ad__valor--alarma {
   color: var(--alarma);
-  animation: ad-desajuste 2.6s ease-in-out infinite alternate;
 }
 
 .ad__remate {
@@ -13596,7 +13536,6 @@ button {
   width: 20px;
   height: 20px;
   color: var(--acento);
-  animation: ad-flecha 3.2s ease-in-out infinite;
 }
 
 .ad__costura::after {
@@ -13605,7 +13544,6 @@ button {
   inset: -1px;
   border: 1px solid var(--acento);
   border-radius: 50%;
-  animation: ad-anillo 3.2s ease-out infinite;
 }
 
 /* --- Pie: un solo boton -------------------------------------------- */
@@ -13678,28 +13616,6 @@ button {
   letter-spacing: 0.02em;
 }
 
-/* --- Movimiento ---------------------------------------------------- */
-
-@keyframes ad-desajuste {
-  from { opacity: 1; }
-  to { opacity: 0.5; }
-}
-
-@keyframes ad-anillo {
-  0% { opacity: 0.45; transform: scale(1); }
-  70%, 100% { opacity: 0; transform: scale(1.55); }
-}
-
-@keyframes ad-flecha {
-  0%, 100% { transform: translateX(0); }
-  50% { transform: translateX(3px); }
-}
-
-@keyframes ad-barrido {
-  from { transform: translateX(-260px); }
-  to { transform: translateX(calc(100% + 260px)); }
-}
-
 /* El barrido de luz recorre solo la mitad resuelta. Va en un
    pseudo-elemento contenido con clip-path y no con overflow: hidden,
    porque overflow deja una costura de 1 px en pantallas con DPR
@@ -13717,7 +13633,6 @@ button {
   left: 0;
   width: 240px;
   background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.06), transparent);
-  animation: ad-barrido 7s linear infinite;
   pointer-events: none;
 }
 
@@ -13849,7 +13764,6 @@ button {
 
   .ad__costura svg {
     transform: rotate(90deg);
-    animation-name: ad-flecha-abajo;
   }
 
   .ad__ejemplo {
@@ -13878,11 +13792,6 @@ button {
     justify-content: space-between;
     min-height: 52px;
   }
-}
-
-@keyframes ad-flecha-abajo {
-  0%, 100% { transform: rotate(90deg) translateX(0); }
-  50% { transform: rotate(90deg) translateX(3px); }
 }
 
 @media (max-width: 380px) {
@@ -14171,14 +14080,6 @@ button {
     animation-duration: 7.5s;
     animation-timing-function: cubic-bezier(0.45, 0, 0.55, 1);
   }
-}
-
-/* El barrido recorre mas despacio y se toma un respiro entre pasadas,
-   para que el ojo lo siga en vez de sentir un parpadeo. */
-@keyframes circuito-barrido {
-  0% { background-position: 200% 0; }
-  55% { background-position: -60% 0; }
-  100% { background-position: -60% 0; }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -17754,6 +17655,12 @@ button {
 
 .diagnostico {
   display: grid;
+  /* Mientras la tarjeta encoge, la caja va quedando mas alta que su contenido,
+     y un grid con align-content normal reparte ese sobrante entre las filas: el
+     contenido se estiraria durante el viaje y despues volveria de golpe. Con
+     start el sobrante queda abajo y nada se mueve; en reposo no cambia nada,
+     porque en reposo no hay sobrante. */
+  align-content: start;
   gap: 22px;
   padding: 28px;
   border: 1px solid var(--line);
@@ -17785,18 +17692,31 @@ button {
 }
 
 .diagnostico__barra i {
+  position: relative;
   width: 34px;
   height: 4px;
   background: var(--line);
-  transition: background 260ms ease;
 }
 
 /* El relleno estaba en --signal (#40b0d0), que sobre el papel de la tarjeta da
    2,41:1 -bajo el 3:1 que pide un elemento grafico-. --signal-ink (#1b6a80) da
    5,88:1 con el mismo tono de la casa. La barra es lo unico que dice cuanto
-   falta, asi que no puede depender de mirar de cerca. */
-.diagnostico__barra i[data-hecho='si'] {
+   falta, asi que no puede depender de mirar de cerca.
+   El relleno vive en el ::after y no en el fondo del <i> porque ahora se
+   dibuja: entra de izquierda a derecha con los MISMOS keyframes que la raya de
+   los cuatro pasos -paso-linea-, pero a la duracion corta y la curva de la
+   casa en vez de los 620ms sueltos de alla. No hace falta ningun key: el
+   atributo pasa a 'si', la regla empieza a calzar y la animacion corre una
+   sola vez. Los segmentos que ya estaban en 'si' no se reinician. Con la
+   animacion apagada el ::after queda en scaleX(1), o sea el segmento lleno:
+   #1b6a80 sobre el papel, los mismos 5,88:1 de siempre. */
+.diagnostico__barra i[data-hecho='si']::after {
+  content: '';
+  position: absolute;
+  inset: 0;
   background: var(--signal-ink);
+  transform-origin: left center;
+  animation: paso-linea var(--dur-micro) var(--curva-casa);
 }
 
 .diagnostico__enunciado {
@@ -18008,6 +17928,23 @@ button {
   color: var(--ink);
 }
 
+/* El area de toque del enlace de salida ---------------------------------
+   "Ver los cuatro servicios" media 174 x 13 px: la letra es de 11 px y el
+   enlace no tenia relleno, asi que en tablet (768) no habia donde poner el
+   dedo. El relleno lo lleva a 45 px de alto y el margen negativo lo
+   devuelve entero, asi que el texto queda en el mismo pixel y el pie no
+   crece ni un punto. El reparto 8 arriba / 24 abajo hace que el area se
+   coma el relleno de abajo de la tarjeta (28 px), donde no hay nada, y no
+   suba hasta los botones de volver, que quedan a 12 px cuando el pie se
+   parte en dos lineas. Debajo de 640 px no hace falta: ahi el enlace ya
+   tiene min-height 40 px, y por eso esta regla no entra ahi. */
+@media (min-width: 641px) {
+  .diagnostico__saltar {
+    padding: 8px 0 24px;
+    margin: -8px 0 -24px;
+  }
+}
+
 @media (max-width: 640px) {
   .diagnostico {
     gap: 18px;
@@ -18055,6 +17992,81 @@ button {
   .diagnostico__mensaje summary {
     padding: 13px 0;
     font-size: var(--texto-2);
+  }
+}
+
+/* --- Tanda 4: el paso se mueve al cambiar --------------------------------
+   Contestar era un corte seco. React reusaba el mismo <h3> y el mismo <p> para
+   los tres pasos -las dos ramas eran fragmentos sin key-, asi que no habia
+   nada que volver a animar; y la tarjeta pasaba de seis opciones a cuatro y a
+   tres saltando 284 px de una vez a 375 de ancho.
+
+   El componente ahora monta cada paso con key propia, asi que estas reglas se
+   disparan de nuevo en cada paso. La entrada es "revela-entrada", la misma del
+   resto de la casa: no hay keyframes nuevos ni duraciones nuevas.
+
+   Todo cuelga de [data-animado='si'], que el componente enciende recien despues
+   del primer clic: al cargar la pagina la tarjeta no se mueve y las once rutas
+   siguen midiendo lo mismo. */
+
+.diagnostico[data-animado='si'] .diagnostico__enunciado {
+  animation: revela-entrada var(--dur-entrada) var(--curva-casa) backwards;
+}
+
+/* Las opciones entran detras de la pregunta, de a una cada 70 ms -el mismo
+   desfase que .revela-armado usa en toda la casa- y con la duracion corta: son
+   botones, y hasta que no estan opacos del todo se leen a medias. Con seis
+   opciones la ultima cierra a los 610 ms, o sea antes que la pregunta. */
+.diagnostico[data-animado='si'] .diagnostico__opcion {
+  animation: revela-entrada var(--dur-micro) var(--curva-casa)
+    calc(var(--i, 0) * 70ms) backwards;
+}
+
+/* El final tambien entra: es la pantalla que la persona vino a buscar. El --i
+   lo pone el JSX, como en las escenas. */
+.diagnostico[data-animado='si'] .diagnostico__resultado,
+.diagnostico[data-animado='si'] .diagnostico__respuestas,
+.diagnostico[data-animado='si'] .diagnostico__mensaje,
+.diagnostico[data-animado='si'] .diagnostico__acciones,
+.diagnostico[data-animado='si'] .rampa__pie {
+  animation: revela-entrada var(--dur-entrada) var(--curva-casa)
+    calc(var(--i, 0) * 70ms) backwards;
+}
+
+/* El alto lo anima el componente, no esta hoja, y no por gusto: "auto" no
+   interpola en ningun navegador, y aca el alto cambia porque cambio el
+   contenido -no porque cambie una declaracion-, asi que ni una transition ni
+   interpolate-size se enteran. Lo unico que la hoja aporta es el recorte, y
+   solo mientras dura el viaje: al volver del paso 3 al 1 la caja arranca mas
+   baja que el contenido nuevo y ese contenido se dibujaria encima del pie. En
+   reposo NO se recorta, porque el anillo de foco de las opciones sale 6 px de
+   la caja (outline 2px + offset 4px) y quedaria cortado; los 8 px de margen
+   son por si algo queda al borde. */
+.diagnostico[data-animando='si'] {
+  overflow: clip;
+  overflow-clip-margin: 8px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  /* Mismos selectores que arriba, misma especificidad: gana este porque va
+     despues. Es el ultimo bloque del archivo que los nombra. */
+  .diagnostico[data-animado='si'] .diagnostico__enunciado,
+  .diagnostico[data-animado='si'] .diagnostico__opcion,
+  .diagnostico[data-animado='si'] .diagnostico__resultado,
+  .diagnostico[data-animado='si'] .diagnostico__respuestas,
+  .diagnostico[data-animado='si'] .diagnostico__mensaje,
+  .diagnostico[data-animado='si'] .diagnostico__acciones,
+  .diagnostico[data-animado='si'] .rampa__pie,
+  .diagnostico__barra i[data-hecho='si']::after {
+    animation: none;
+    opacity: 1;
+    transform: none;
+  }
+
+  /* Sin viaje no hay nada que recortar, y un recorte de mas solo puede
+     comerse un anillo de foco. */
+  .diagnostico[data-animando='si'] {
+    overflow: visible;
   }
 }
 

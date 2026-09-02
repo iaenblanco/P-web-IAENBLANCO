@@ -3,6 +3,7 @@ import { IBM_Plex_Mono, Instrument_Sans } from 'next/font/google'
 import './globals.css'
 import { BotonWhatsapp } from '@/components/BotonWhatsapp'
 import { ConsentBanner } from '@/components/ConsentBanner'
+import { CustomCursor } from '@/components/CustomCursor'
 import { Footer } from '@/components/Footer'
 import { GoogleTagManager } from '@/components/GoogleTagManager'
 import { Header } from '@/components/Header'
@@ -469,6 +470,16 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
             es lo unico de esta medicion que se puede comprobar sin publicar. */}
         <VistaSecciones />
         <ConsentBanner />
+        {/* El cursor personalizado. Se monta aca, en el layout raiz, y no por
+            pagina, porque los 23 data-cursor viven en 13 archivos repartidos
+            por todas las rutas y el anillo es uno solo para el sitio entero.
+            No pinta nada en el servidor ni en el primer render del cliente:
+            arranca con enabled=false y recien se enciende dentro de un efecto,
+            cuando el navegador confirma (pointer: fine) and
+            (prefers-reduced-motion: no-preference). En tactil y con movimiento
+            reducido devuelve null, asi que no hay nodo, ni escuchas, ni
+            requestAnimationFrame. */}
+        <CustomCursor />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationSchema) }}
