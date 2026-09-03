@@ -35,6 +35,18 @@ yarn-error.log*
 # .tmp/ son los perfiles de Chrome que deja herramientas/verificar.mjs:
 # ~100 MB por pasada, y no estaban ignorados.
 /.tmp/
+
+# reports/ son las mediciones de Lighthouse. Los JSON por pasada pesan ~20 MB
+# por medicion y no se citan nunca. Entra al repositorio solo lo que despues
+# se lee: el resumen, las crudas y el LEEME. Son ~30 KB en total y son la
+# linea base contra la que compara la fase siguiente.
+# El !/reports/**/ es obligatorio: sin re-incluir los directorios, git no
+# entra a mirarlos y las excepciones de abajo nunca llegan a aplicarse.
+/reports/**
+!/reports/**/
+!/reports/**/resumen-*.json
+!/reports/**/crudas-*.json
+!/reports/**/LEEME.md
 # typescript
 *.tsbuildinfo
 next-env.d.ts
