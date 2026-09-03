@@ -41,6 +41,40 @@ Los 5 avisos de `revisar-html` son texto, no código, y quedan para Nico: tres
 títulos sobre 60 caracteres (`/`, `/servicios/soluciones-ia-medida/`,
 `/trabajos/`) y dos descripciones cortas (`/404.html`, `/terminos/`).
 
+## Navegación y export
+
+Medido sobre `out/` construido, sin navegador — el HTML ya dice la verdad:
+
+- **0 enlaces internos rotos** en las 12 páginas.
+- **0 rutas enlazadas sin barra final**: ninguna redirección 308 nace adentro
+  del sitio. `redirectCount` es 0 por construcción, no por suerte.
+- **0 páginas huérfanas**: las 11 se alcanzan desde `/` siguiendo enlaces.
+- `aria-current="page"` aparece dos veces por página (menú de escritorio y
+  móvil) y en las cinco rutas de nivel uno apunta al enlace correcto.
+- El sitemap lista 11 URLs — las 12 páginas menos el 404 — todas con barra
+  final. `out/404/` lo borra el postbuild; `out/404.html` queda.
+
+## Movimiento: la poda no se llevó ninguna animación
+
+Esto es lo que la huella NO puede ver, porque mide el estado asentado. Se
+corrió `mirar-motion.mjs` en modo `ambos` a 1440 y 390, contra el build
+podado y contra el prístino, y se compararon los nombres de animación vivos:
+
+| | podado | prístino |
+|---|---|---|
+| nombres en modo normal | 44 | 43 |
+| nombres en modo `reduce` | 2 | 2 |
+| animaciones avanzando al pie de página | **0** | **0** |
+
+**Ni un nombre del prístino falta en el podado.** La única diferencia va al
+revés: el podado muestra además `revela-entrada`, la animación de entrada que
+dispara el IntersectionObserver. Que esté o no en `getAnimations()` depende de
+hace cuánto disparó el observer — es el mismo temblor que dio el falso
+positivo de los 16 px, no un cambio del sitio.
+
+Con `prefers-reduced-motion` sobreviven dos nombres, los dos en 0 ms de
+duración: el modo reducido apaga el movimiento de verdad.
+
 ## Lo que esta fase NO cubrió
 
 - **PageSpeed / Lighthouse**: no se corrió. Necesita clave de API o una pasada
