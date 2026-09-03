@@ -5,8 +5,75 @@
 /_next/static/*
   Cache-Control: public, max-age=31536000, immutable
 
-# A proposito NO se toca nada mas. El HTML no lleva hash en el nombre: si se
+# A proposito NO se cachea nada mas. El HTML no lleva hash en el nombre: si se
 # cachea, el visitante sigue viendo la pagina vieja despues de un deploy.
-# /brand-assets/, /trabajos/ y /product-assets/ tampoco entran, porque los
-# nombres son fijos y reemplazar una imagen no cambia la ruta.
+# /brand-assets/ y /trabajos/ tampoco entran, porque los nombres son fijos y
+# reemplazar una imagen no cambia la ruta.
 # El default de Cloudflare Pages ya es el correcto para todo eso.
+
+# Las cabeceras de seguridad. Van en su propio bloque, aparte del cache: aquella
+# regla dice cuanto dura un archivo, estas dicen que le permitimos hacer al
+# navegador con la pagina. El sitio es estatico -output:'export'-, no hay
+# servidor propio donde ponerlas y este archivo es el unico lugar del repo que
+# Cloudflare Pages lee al servir. Los comentarios van arriba del bloque y no
+# entre las lineas indentadas: es el estilo de este archivo, y ademas la
+# documentacion de Pages solo muestra ese caso, nunca dice que el parser tolere
+# un comentario en medio de un bloque de reglas.
+#
+# Dos cabeceras NO estan aca a proposito: x-content-type-options: nosniff y
+# referrer-policy: strict-origin-when-cross-origin ya las manda Cloudflare por
+# su cuenta -comprobado con curl -sI https://iaenblanco.com/-, y repetir una
+# cabecera en este archivo no la pisa: Pages junta los dos valores con una coma.
+# Tampoco va Cache-Control aca, por lo mismo: chocaria con la regla de arriba.
+#
+# 1) Strict-Transport-Security: un ano de HTTPS obligatorio. SIN
+# includeSubDomains a proposito: hay subdominios -leads., follow., api.- que no
+# estan todos detras del proxy, e includeSubDomains los rompe sin aviso y sin
+# vuelta atras rapida. follow.iaenblanco.com hoy ni existe en DNS y es el
+# proximo en estrenarse: con includeSubDomains ya guardado, tendria que llegar
+# con certificado valido desde el primer request o el navegador lo bloquea sin
+# boton para seguir igual. Tampoco lleva preload, que es viaje de ida: salir de
+# esa lista tarda meses y una version nueva de cada navegador. Ojo: esto cubre
+# lo que sirve Pages, no el 301 de www al apex, que lo emite Cloudflare antes;
+# ese se activa en el panel, SSL/TLS > Edge Certificates.
+#
+# 2) X-Frame-Options: nadie enmarca el sitio en un iframe ajeno. Es la version
+# vieja de frame-ancestors y hay que mandarla igual: mientras la CSP siga en
+# Report-Only, frame-ancestors se ignora por especificacion y esta es la unica
+# que de verdad impide el enmarcado.
+#
+# 3) Permissions-Policy: el sitio no pide camara, microfono ni ubicacion.
+# La lista se queda en esas tres, las mismas que ya mandan leads.iaenblanco.com
+# y api.iaenblanco.com: un nombre que el navegador no conozca no rompe la
+# cabecera, pero deja un aviso en la consola en cada carga.
+#
+# 4) La CSP, todavia sin dientes: Report-Only avisa en la consola y no bloquea
+# nada. Lleva 'unsafe-inline' en script-src y en style-src y no hay como
+# evitarlo: el HTML servido trae 353 <script> en linea en los 13 archivos
+# generados -el snippet de medicion de app/layout.tsx:189-434, el
+# classList.add('con-js') de :450, los 22 bloques JSON-LD y el resto la carga
+# de hidratacion de Next- mas 239 atributos style="...". Los hashes cambiarian
+# en cada build y el nonce necesita un servidor que renderice, que con export
+# estatico no existe. Las fuentes son propias -12 .woff2 en
+# /_next/static/media/, cero url() externa-, asi que font-src 'self' alcanza.
+# Los dominios de Google y de Meta estan porque GTM carga GA4 y el pixel recien
+# cuando el visitante acepta las cookies, y el contenedor de GTM se configura
+# fuera del repo: esa parte es una apuesta informada, no un inventario. Por eso
+# no se agrego nada que no se pudiera medir aca: ni data: en img-src -cero
+# imagenes data: en el HTML y en el CSS de out/- ni los dominios de Google Ads.
+# Si hacen falta, lo va a decir la consola. No hay servicio de reportes: sin
+# report-uri esto solo escribe en la consola del navegador que la mire, asi que
+# se revisa a mano.
+# CONDICION PARA PROMOVERLA a Content-Security-Policy a secas -o sea, borrar el
+# sufijo -Report-Only-: recorrer las 12 rutas en produccion con las cookies
+# ACEPTADAS y la consola abierta, una semana sin una sola violacion, agregar lo
+# que haya reportado y dejar escrito quien puede tocar el contenedor de GTM.
+# Si alguna etiqueta usa HTML Personalizado o JavaScript Personalizado va a
+# pedir 'unsafe-eval': eso se decide antes de promover, no despues. Recien ahi
+# frame-ancestors empieza a bloquear de verdad, y recien ahi tiene sentido
+# discutir si X-Frame-Options sigue haciendo falta.
+/*
+  Strict-Transport-Security: max-age=31536000
+  X-Frame-Options: SAMEORIGIN
+  Permissions-Policy: camera=(), microphone=(), geolocation=()
+  Content-Security-Policy-Report-Only: default-src 'self'; base-uri 'self'; object-src 'none'; frame-ancestors 'self'; form-action 'self'; worker-src 'self'; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://connect.facebook.net; style-src 'self' 'unsafe-inline'; img-src 'self' https://www.googletagmanager.com https://*.google-analytics.com https://www.facebook.com; font-src 'self'; connect-src 'self' https://www.googletagmanager.com https://*.google-analytics.com https://*.analytics.google.com https://www.facebook.com

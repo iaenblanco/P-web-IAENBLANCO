@@ -31,6 +31,10 @@ yarn-error.log*
 # vercel
 .vercel
 
+# salidas de las herramientas de verificacion
+# .tmp/ son los perfiles de Chrome que deja herramientas/verificar.mjs:
+# ~100 MB por pasada, y no estaban ignorados.
+/.tmp/
 # typescript
 *.tsbuildinfo
 next-env.d.ts

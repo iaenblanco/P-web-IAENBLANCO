@@ -259,11 +259,28 @@ if (importantes.length > base.important) {
 }
 if (importantes.length < base.important) sobra += base.important - importantes.length
 
-console.log('\n=== RESUMEN (app/globals.css, ' + bruto.split('\n').length + ' lineas) ===')
+// El largo del archivo. Hasta la fase 11 este numero se ESCRIBIA con --fijar y
+// no lo leia nadie: la base decia 18.144 mientras el archivo iba en 18.238, o
+// sea 94 lineas de deriva que la guardia daba por buenas. Se compara igual que
+// !important: sube y no pasa, baja y hay que volver a fijarla.
+// Cuando la poda parta globals.css por ruta, este criterio se mide sobre la
+// suma de los archivos, no sobre uno: revisarlo entonces.
+const lineasHoy = bruto.split('\n').length
+if (typeof base.lineas === 'number') {
+  if (lineasHoy > base.lineas) {
+    const cuantas = lineasHoy - base.lineas
+    falla += 1
+    console.log(`\n### largo del archivo: ${cuantas} linea(s) de mas (eran ${base.lineas} y hay ${lineasHoy})`)
+  }
+  if (lineasHoy < base.lineas) sobra += 1
+}
+
+console.log('\n=== RESUMEN (app/globals.css, ' + lineasHoy + ' lineas) ===')
 for (const [id, texto, lista] of MARCAS) {
   console.log(`  ${texto.padEnd(30)} ${String(lista.length).padStart(4)} / ${String(Object.keys(base[id] || {}).length).padStart(4)} en la linea base`)
 }
 console.log(`  ${'!important'.padEnd(30)} ${String(importantes.length).padStart(4)} / ${String(base.important).padStart(4)} en la linea base`)
+console.log(`  ${'largo del archivo'.padEnd(30)} ${String(lineasHoy).padStart(4)} / ${String(base.lineas ?? '?').padStart(4)} en la linea base`)
 
 if (falla) {
   console.log(`\nNO PASA: ${falla} marca(s) nueva(s). La regla es editar la regla que ya existe, no agregar otra.`)

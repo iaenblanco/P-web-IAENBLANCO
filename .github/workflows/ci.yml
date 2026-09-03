@@ -1,0 +1,92 @@
+name: CI
+
+# Las dos revisiones baratas que Cloudflare NO hace.
+#
+# Cloudflare Pages construye desde main con "next build" a secas: no corre tsc
+# y no sabe nada de la guardia del CSS. Este workflow cubre justo ese hueco, y
+# nada mas. No construye el sitio: duplicar el build seria pagar dos veces por
+# la misma senal, y ademas next/font baja las tipografias de Google en tiempo
+# de build (app/layout.tsx:2), o sea una dependencia de red que puede pintar de
+# rojo un job por algo ajeno al sitio.
+#
+# Lo que este workflow NO hace: bloquear el despliegue. El push a main ES el
+# despliegue, asi que Actions y el build de Cloudflare arrancan a la vez y el
+# visto llega cuando el sitio ya salio. Para que bloquee de verdad hay que
+# trabajar por pull request y marcar el job como obligatorio en la proteccion
+# de rama: eso es un cambio de habito, no de archivo.
+#
+# La guardia del CSS vive aca y no dentro de "npm run build" a proposito, como
+# dice herramientas/LEEME.md:126-128: un CSS en falta tiene que avisar, no
+# tumbar un despliegue.
+#
+# DIFERIDO -- la bateria nocturna contra out/ (herramientas/verificar.mjs) no
+# entra todavia. Tres cosas la traban, con el ancla de cada una:
+#   1. herramientas/verificar.mjs:36 fija el binario de Chrome de Windows:
+#      const CHROME = 'C:/Program Files/Google/Chrome/Application/chrome.exe'
+#      En ubuntu-latest ese spawn no existe. Lo mismo en los otros seis
+#      scripts: inventario-mono.mjs:23, medir-trabajos.mjs:51,
+#      mirar-diagnostico.mjs:21, mirar-escenas.mjs:30, mirar-motion.mjs:40,
+#      og.mjs:33. Haria falta leer la ruta de un CHROME_BIN, con el valor de
+#      hoy como reserva para que Windows siga igual.
+#   2. herramientas/verificar.mjs:488 termina en process.exit(0) incondicional,
+#      que pisa el process.exitCode = 2 de la linea 456. Peor: los doce
+#      criterios de la linea 440 no tocan el codigo de salida en ningun lado,
+#      asi que aunque se corrija la 488 la bateria seguiria saliendo 0 con
+#      cuarenta hallazgos encima. Haria falta que la salida respete CRIT.
+#   3. No hay linea base tomada en Linux, y la bateria completa ya murio tres
+#      veces seguidas en la maquina propia con causa sin diagnosticar
+#      (herramientas/verificar.mjs:16-22). Haria falta correrla a mano una vez
+#      en el runner y guardar esa base antes de que una cron pueda fallar.
+# Ninguna de las tres se toca desde este archivo: los scripts de herramientas/
+# hoy funcionan en Windows y no son de esta tanda.
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+# Si entran tres commits seguidos, solo interesa el ultimo.
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+# Solo lectura: este workflow no escribe en el repo y no usa ningun secreto.
+# Importa porque el repo es publico y pull_request lo puede disparar un fork.
+permissions:
+  contents: read
+
+jobs:
+  revision:
+    name: tipos y guardia
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          # 22 LTS. La maquina de Nico corre v24, pero para tsc y para la
+          # guardia da igual. 22 es ademas el piso que pediria la bateria el
+          # dia que entre: usa el WebSocket global (verificar.mjs:433).
+          node-version: '22'
+          cache: 'npm'
+
+      # package-lock.json es lockfileVersion 3 y ya trae los binarios
+      # @next/swc-linux-*, asi que esto corre en ubuntu sin tocar nada.
+      - name: Instalar dependencias
+        run: npm ci
+
+      # Es el paso 2 del flujo que ya esta escrito en DEPLOYMENT.md, hecho
+      # automatico. No hace falta construir antes: en un arbol recien clonado
+      # (sin next-env.d.ts ni .next/types, los dos gitignoreados) igual pasa.
+      - name: Revisar los tipos
+        run: npx tsc --noEmit
+
+      # Cuenta las cinco marcas de app/globals.css contra la linea base de
+      # herramientas/guardia-css.json, que esta rastreado a proposito: sin el,
+      # este paso saldria 2 en un runner limpio. Sale 0 si no hay marca nueva,
+      # 1 si la hay, 2 si falta la linea base. No necesita build, ni servidor,
+      # ni Chrome, ni una sola dependencia.
+      - name: Guardia del CSS
+        run: node herramientas/guardia-css.mjs
