@@ -10892,31 +10892,28 @@ button {
      y el start/end de las dos mitades se repartia dentro de esos 164px,
      dejando 25 de aire arriba y abajo que no hacian falta. */
   .esc--planilla {
+    height: auto;
     grid-template-columns: minmax(0, 1fr);
-    grid-template-rows: minmax(0, 1fr);
-    gap: 0;
+    grid-template-rows: auto auto;
+    gap: 12px;
   }
 
-  /* En una columna las dos mitades no caben una sobre otra -son 286px en
-     una caja de 196- asi que se pisan a proposito: la hoja arriba, la
-     pantalla encima y abajo. Lo que asoma de la hoja es su cabecera, y
-     eso basta para que se lea de que sale la pantalla. */
-  .esc--planilla .esc__celdas {
-    grid-area: 1 / 1;
-    align-self: start;
-  }
+  /* Ya no se pisan. Superpuestas cabian -la hoja arriba, la pantalla
+     encima- pero el panel es opaco y tapaba las dos ultimas filas de la
+     hoja: la mitad del dibujo estaba ahi para no verse. Apiladas, las dos
+     mitades se leen enteras y la historia queda mas clara todavia, porque
+     la hoja fantasma al 28% se lee como el antes y la pantalla como el
+     despues.
 
+     El precio es el alto: 116 de hoja + 168 de pantalla no entran en los
+     196 utiles de una caja de 232, asi que aca la caja crece con su
+     contenido en vez de recortarlo. Es la unica de las cinco escenas de
+     servicio que no mide 232, y no se nota: cada una vive en su propia
+     pagina y nunca se ven dos juntas. */
   .esc--planilla .esc__pantalla {
-    grid-area: 1 / 1;
-    align-self: end;
-    justify-self: end;
-    width: 88%;
     gap: 8px;
   }
 
-  .esc__celdas {
-    animation-name: esc-planilla-sale-movil;
-  }
 
   .esc__celda {
     height: 26px;
@@ -10937,10 +10934,12 @@ button {
     padding: 0 8px 8px;
   }
 
+  /* 9px era el texto mas chico del sitio. A 11 sigue entrando
+     "CONTABILIDAD" en versalitas con su 0.08em. */
   .tu__app-nombre {
     margin: 0 -8px 2px;
     padding: 5px 8px;
-    font-size: 9px;
+    font-size: 11px;
   }
 
   .tu__fila,
@@ -11038,10 +11037,6 @@ button {
 /* Termina en fantasma y no en cero: apagada del todo, detenida solo
    quedaba un formulario, y la mitad de "la planilla convertida en
    pantalla" no se veia nunca. */
-@keyframes esc-planilla-sale-movil {
-  0%, 25% { opacity: 1; }
-  60%, 100% { opacity: 0.28; }
-}
 
 @media (prefers-reduced-motion: reduce) {
   .esc--servicio * {
