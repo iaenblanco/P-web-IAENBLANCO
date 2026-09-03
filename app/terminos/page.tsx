@@ -1,11 +1,23 @@
 import type { Metadata } from 'next'
-import { SITE_URL } from '@/lib/site'
+import { SITE_URL, OG_IMAGE } from '@/lib/site'
 
 export const metadata: Metadata = {
   title: 'Términos y condiciones',
   description: 'Términos y condiciones de uso del sitio web de IAenBlanco SpA.',
   alternates: {
     canonical: `${SITE_URL}/terminos/`,
+  },
+  openGraph: {
+    title: 'Términos y condiciones de IAenBlanco',
+    description:
+      'Condiciones de uso del sitio de IAenBlanco SpA y alcance de lo que se publica en él.',
+    url: `${SITE_URL}/terminos/`,
+    siteName: 'IAenBlanco',
+    type: 'website',
+    locale: 'es_CL',
+    images: [
+      OG_IMAGE,
+    ],
   },
 }
 

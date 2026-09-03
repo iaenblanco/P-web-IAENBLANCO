@@ -1,11 +1,23 @@
 import type { Metadata } from 'next'
-import { CONTACT_EMAIL, SITE_URL } from '@/lib/site'
+import { CONTACT_EMAIL, SITE_URL, OG_IMAGE } from '@/lib/site'
 
 export const metadata: Metadata = {
   title: 'Política de privacidad',
   description: 'Política de privacidad y tratamiento de datos del sitio de IAenBlanco SpA.',
   alternates: {
     canonical: `${SITE_URL}/privacidad/`,
+  },
+  openGraph: {
+    title: 'Política de privacidad de IAenBlanco',
+    description:
+      'Qué datos recibe este sitio, para qué se usan y cómo pedir que se borren.',
+    url: `${SITE_URL}/privacidad/`,
+    siteName: 'IAenBlanco',
+    type: 'website',
+    locale: 'es_CL',
+    images: [
+      OG_IMAGE,
+    ],
   },
 }
 
