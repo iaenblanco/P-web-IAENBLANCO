@@ -157,7 +157,9 @@ export function CircuitoHero({ variante }: { variante: Variante }) {
   const g = GEO[variante]
   const p = `neon-${variante}-`
   const mitad = ALTO_FICHA / 2
-  const radioAnillo = g.r + 9
+  // El anillo orbita fuera del disco, no pegado a el: a r + 9 el halo de
+  // trazo 11 rozaba el borde y parecia pasar por encima del logo.
+  const radioAnillo = g.r + 15
   const anchoLogo = Math.round(g.r * 1.2)
   const altoLogo = Math.round((anchoLogo * 128) / 199)
   const trazas = [

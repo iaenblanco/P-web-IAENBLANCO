@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
+import { ComoTrabajamos } from '@/components/ComoTrabajamos'
 import { DiagnosticoServicios } from '@/components/DiagnosticoServicios'
 import { EscenaIndice } from '@/components/EscenaBanda'
 import { RevelaAlEntrar } from '@/components/RevelaAlEntrar'
@@ -15,7 +16,7 @@ import { OG_IMAGE, services, SITE_URL, getWhatsappUrl } from '@/lib/site'
 export const metadata: Metadata = {
   title: 'Servicios: sitios web, programas a medida e IA',
   description:
-    'Sitios web y tiendas online, programas a la medida de tu negocio, tareas que se hacen solas y asistentes con inteligencia artificial.',
+    'Sitios web, programas a la medida de tu negocio, tareas que se hacen solas y asistentes con inteligencia artificial.',
   alternates: {
     canonical: `${SITE_URL}/servicios/`,
   },
@@ -75,7 +76,7 @@ export default function ServicesIndexPage() {
                 dicho con otras palabras que en la portada para no repetirla.
                 Sin "Casi nunca es una sola", que subio al h1. */}
             <p>
-              Hacemos sitios web y tiendas online, programas a la medida de tu negocio, tareas que
+              Hacemos sitios web, programas a la medida de tu negocio, tareas que
               se hacen solas y asistentes con inteligencia artificial. Lo normal es que el sitio
               necesite un programa detrás, y que ese programa lo termines administrando tú.
             </p>
@@ -158,9 +159,14 @@ export default function ServicesIndexPage() {
         </div>
       </section>
 
+      {/* Como es trabajar con nosotros: los tres pasos y las preguntas que
+          hace todo el mundo. Van despues de las cuatro cosas y antes del
+          diagnostico, que es donde se decide. */}
+      <ComoTrabajamos />
+
       {/* El id no existia y esta es la unica pieza de la pagina a la que se
           puede querer llegar desde afuera: la usan el CTA de la apertura y la
-          rampa de la portada. */}
+          banda de contacto de la portada. */}
       <section id="diagnostico" className="services-index-section">
         <div className="section-shell">
           <div className="services-index-heading">

@@ -1,13 +1,14 @@
 import { CarruselClientes } from '@/components/CarruselClientes'
 import { CircuitoHero } from '@/components/CircuitoHero'
 import { ContactBand } from '@/components/ContactBand'
+import { IconoServicio } from '@/components/IconoServicio'
 import { MarcaProducto } from '@/components/MarcaProducto'
 import { Reveal } from '@/components/Reveal'
 import { RevelaAlEntrar } from '@/components/RevelaAlEntrar'
 import { RevelaEnCascada } from '@/components/RevelaEnCascada'
 import { TypingLine } from '@/components/TypingLine'
 import Link from 'next/link'
-import { getWhatsappDesde, getWhatsappUrl, products, services } from '@/lib/site'
+import { getWhatsappDesde, products, services } from '@/lib/site'
 
 function ArrowUpRight() {
   return (
@@ -81,114 +82,6 @@ function TrustProofSection() {
   )
 }
 
-function ProblemSection() {
-  return (
-    <section className="problem-strip" id="empezar" aria-labelledby="model-heading">
-      <div className="section-shell problem-strip__inner">
-        <div className="problem-strip__proceso operating-model">
-
-          <Reveal className="operating-model__heading">
-            {/* Decia "Y desde aca, como trabajamos": daba por hecho que venias
-                bajando desde el bloque anterior. Pero el boton del hero salta
-                directo hasta aca, asi que el rotulo tiene que sostenerse solo
-                para quien aterriza sin haber leido nada de lo de arriba. */}
-            <p className="eyebrow">Así trabajamos</p>
-            <div>
-              <h2 id="model-heading">Tres pasos, y en ninguno te dejamos solo.</h2>
-              <p className="operating-model__copy">
-                No partimos vendiéndote algo. Partimos entendiendo qué te está costando
-                hoy. Recién ahí sabemos qué hay que construir, y te decimos qué es y
-                cuánto vale antes de empezar.
-              </p>
-            </div>
-          </Reveal>
-
-          <div className="operating-model__steps">
-            <span className="operating-model__carril" aria-hidden="true" />
-            {[
-              /* El paso 02 decia "Avances desde el primer viernes". Suena a una
-                 cadencia semanal fija que no existe, y nadie la habia prometido:
-                 lo que si es cierto es que nada arranca hasta que la cotizacion
-                 esta aceptada, y que el plazo depende del tamano. Eso es lo que
-                 dicen ahora los tres pasos. */
-              {
-                number: '01',
-                title: 'Conversamos y te cotizamos',
-                text: 'Nos cuentas cómo trabajas hoy y qué te está costando. Te decimos qué haríamos y cuánto vale, sin costo y sin compromiso.',
-                deliverable: 'Qué haríamos y cuánto vale, por escrito',
-                cuando: 'Apenas nos escribes',
-              },
-              {
-                number: '02',
-                title: 'Lo construimos',
-                text: 'Con la cotización aceptada empezamos, y te vamos mostrando cómo va para que no haya sorpresas al final.',
-                deliverable: 'Tu sitio, tu programa o tu asistente, funcionando',
-                cuando: 'Apenas confirmas',
-              },
-              {
-                number: '03',
-                title: 'Lo dejamos andando',
-                text: 'Lo publicamos, te enseñamos a usarlo y quedamos disponibles para los ajustes que salgan.',
-                deliverable: 'Puesta en marcha, y nosotros ahí después',
-                cuando: 'Según el tamaño del proyecto',
-              },
-            ].map((step, index) => (
-              <Reveal key={step.number} className="operating-step" indice={index}>
-                <span className="operating-step__placa" aria-hidden="true">{step.number}</span>
-                <p className="operating-step__cuando">{step.cuando}</p>
-                <h3>{step.title}</h3>
-                <p className="operating-step__texto">{step.text}</p>
-                <strong className="operating-step__entrega">
-                  <span>Te queda</span>
-                  {step.deliverable}
-                </strong>
-              </Reveal>
-            ))}
-          </div>
-
-          <Reveal className="objeciones" indice={1} seccionVista="objeciones">
-            <p className="objeciones__titulo">Lo que se pregunta todo el mundo antes de escribir</p>
-            <div className="objeciones__precio">
-              <h3>¿Cuánto cuesta?</h3>
-              <p>
-                Depende de lo que necesites, y por eso no ponemos un precio en la web
-                que después no calce. Lo que sí te garantizamos: el precio de lo acordado
-                te lo damos por escrito antes de empezar y ese número no se mueve. Si a
-                mitad de camino quieres sumar algo que no estaba, te lo cotizamos aparte
-                y decides tú antes de que lo hagamos.
-              </p>
-            </div>
-            <div>
-              <h3>¿Y si a mitad de camino no me gusta?</h3>
-              <p>
-                No trabajamos meses a puerta cerrada. Te vamos mostrando avances y
-                decides sobre cosas que se ven, así que cualquier cosa que no te cuadre
-                la corregimos cuando todavía es barato corregirla.
-              </p>
-            </div>
-            <div>
-              <h3>¿Después quedo amarrado con ustedes?</h3>
-              <p>
-                No. Lo que construimos queda tuyo: tu dominio, tus cuentas, tus datos.
-                Si más adelante quieres que lo siga otro, se lo entregas y listo.
-              </p>
-            </div>
-          </Reveal>
-
-          <Reveal className="industry-line">
-            <p>Ya trabajamos con negocios de</p>
-            <div>
-              <span>Venta de productos</span>
-              <span>Propiedades</span>
-              <span>Servicios a empresas</span>
-            </div>
-          </Reveal>
-        </div>
-      </div>
-    </section>
-  )
-}
-
 function ProductLabSection() {
   return (
     <section
@@ -252,32 +145,39 @@ function ServiciosShelfSection() {
       data-section-view="repisa-servicios"
     >
       <div className="section-shell">
-        <div className="home-servicios__encabezado">
+        <Reveal className="home-servicios__encabezado">
           <p className="eyebrow">Lo que hacemos</p>
           <h2 id="home-servicios-heading">Cuatro cosas que hacemos para ti.</h2>
-        </div>
+        </Reveal>
         <ul className="home-servicios__fila">
-          {services.map((service) => (
+          {services.map((service, index) => (
             <li key={service.slug}>
-              {/* La tarjeta entera es el enlace: en el telefono el objetivo
-                  tactil pasa a ser la tarjeta y no un renglon de 12px. La
-                  barra final tampoco es cosmetica, con trailingSlash:true la
-                  version sin barra devuelve 308 y recarga el documento. */}
-              <Link
-                href={`/servicios/${service.slug}/`}
-                prefetch={false}
-                data-analytics-event="service_cta_click"
-                data-service-id={service.slug}
-                data-service-name={service.shortTitle}
-              >
-                <span className="home-servicios__num">{service.index}</span>
-                <h3>{service.shortTitle}</h3>
-                <p>{service.eyebrow}</p>
-                <span className="home-servicios__ir">
-                  Ver cómo lo hacemos
-                  <ArrowRight />
-                </span>
-              </Link>
+              <Reveal className="home-servicios__pieza" indice={index}>
+                {/* La tarjeta entera es el enlace: en el telefono el objetivo
+                    tactil pasa a ser la tarjeta y no un renglon de 12px. La
+                    barra final tampoco es cosmetica, con trailingSlash:true la
+                    version sin barra devuelve 308 y recarga el documento. */}
+                <Link
+                  href={`/servicios/${service.slug}/`}
+                  prefetch={false}
+                  data-analytics-event="service_cta_click"
+                  data-service-id={service.slug}
+                  data-service-name={service.shortTitle}
+                >
+                  <span className="home-servicios__cabecera">
+                    <span className="home-servicios__num">{service.index}</span>
+                    <span className="home-servicios__icono">
+                      <IconoServicio slug={service.slug} />
+                    </span>
+                  </span>
+                  <h3>{service.shortTitle}</h3>
+                  <p>{service.eyebrow}</p>
+                  <span className="home-servicios__ir">
+                    Ver cómo lo hacemos
+                    <ArrowRight />
+                  </span>
+                </Link>
+              </Reveal>
             </li>
           ))}
         </ul>
@@ -371,105 +271,12 @@ export default function HomePage() {
 
       <ServiciosShelfSection />
 
-      <ProblemSection />
-
-      {/* La rampa va aqui, y no antes del contacto como estuvo hasta ahora:
-          sale del tiron oscuro de .problem-strip (1.269px a 1440, 1.226 a 390)
-          y ofrece lo barato antes de que el lector se tope con los productos.
-          Su borde inferior no es decorativo: la rampa termina en ice al 6% y
-          .ecosystem-lab arranca en paper-bright, asi que sin linea las dos se
-          funden en un unico bloque claro de 1.247px a 1440 y 2.108 a 390. */}
-      <section
-        className="rampa"
-        id="rampa"
-        aria-labelledby="rampa-heading"
-        data-section-view="rampa"
-      >
-        <div className="section-shell rampa__inner">
-          <Reveal className="rampa__copy">
-            <p className="eyebrow">Antes de contratar nada</p>
-            <h2 id="rampa-heading">¿Prefieres partir por algo chico?</h2>
-            <p>
-              Mándanos el link de tu sitio y te decimos qué encontramos: qué está
-              frenando las consultas, qué se ve mal en el celular y qué le falta para
-              que Google lo muestre bien. Sin costo y sin que tengas que contratar nada.
-            </p>
-            <p className="rampa__nota">
-              Es lo mismo que revisamos antes de cotizar cualquier proyecto. Si después
-              quieres trabajar con nosotros, perfecto. Si no, te quedas igual con el
-              diagnóstico.
-            </p>
-          </Reveal>
-
-          <Reveal className="rampa__accion" indice={1}>
-            <ol className="rampa__pasos">
-              <li>
-                <span>01</span>
-                <p>Nos mandas el link por WhatsApp</p>
-              </li>
-              <li>
-                <span>02</span>
-                <p>Lo revisamos en computador y en celular</p>
-              </li>
-              <li>
-                <span>03</span>
-                <p>Te contamos qué encontramos, punto por punto</p>
-              </li>
-            </ol>
-
-            <a
-              href={getWhatsappUrl(
-                'Hola IAenBlanco, quiero que revisen mi sitio y me digan qué le falta. El link es: ',
-              )}
-              target="_blank"
-              rel="noreferrer"
-              className="button button--primary"
-              data-cursor="WhatsApp"
-              data-analytics-event="rampa_revision_click"
-            >
-              Mandar mi sitio a revisar
-              <ArrowUpRight />
-            </a>
-
-            <a
-              href={getWhatsappUrl(
-                'Hola IAenBlanco, todavía no tengo sitio web. Vendo: ',
-              )}
-              target="_blank"
-              rel="noreferrer"
-              className="rampa__pie"
-              data-cursor="WhatsApp"
-              data-analytics-event="rampa_sin_sitio_click"
-            >
-              <strong>¿Todavía no tienes sitio?</strong>
-              <span>Cuéntanos qué vendes y te decimos por dónde partir. Igual de gratis.</span>
-              <ArrowUpRight />
-            </a>
-
-            {/* La tercera puerta. Las dos anteriores dan por hecho que el
-                problema es el sitio; quien llega hasta aca y lo que le falta es
-                otra cosa no tenia a donde ir. Las dos frases ya estan
-                publicadas en /servicios -el cierre y el boton de la apertura-,
-                asi que la rampa no estrena copy: estrena destino. */}
-            <Link
-              href="/servicios/#diagnostico"
-              prefetch={false}
-              className="rampa__pie"
-              data-analytics-event="service_cta_click"
-              data-service-id="diagnostico"
-              data-service-name="Diagnóstico"
-            >
-              <strong>No necesitas saber qué pedir.</strong>
-              <span>Responde tres preguntas y te decimos por dónde partir.</span>
-              <ArrowRight />
-            </Link>
-          </Reveal>
-        </div>
-      </section>
-
       <ProductLabSection />
 
-      <ContactBand />
+      {/* La rampa -la revision gratis del sitio- ya no es una seccion: es la
+          segunda puerta de la banda de contacto. El evento sigue siendo
+          rampa_revision_click, para que se cuente junto con la del diagnostico. */}
+      <ContactBand rampa />
       {/* Un solo observador para toda la pagina: arma las piezas que todavia
           no se ven y las revela cuando entran. No pinta nada, asi que va al
           final. Sin el, los [data-revela] son divs comunes y todo se ve. */}

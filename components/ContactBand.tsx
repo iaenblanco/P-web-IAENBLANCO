@@ -1,4 +1,4 @@
-import { getWhatsappDesde } from '@/lib/site'
+import { getWhatsappDesde, getWhatsappUrl } from '@/lib/site'
 
 function ArrowUpRight() {
   return (
@@ -11,9 +11,17 @@ function ArrowUpRight() {
 export function ContactBand({
   eyebrow = 'La primera conversación no cuesta nada',
   title = 'Cuéntanos qué te está costando hoy.',
+  rampa = false,
 }: {
   eyebrow?: string
   title?: string
+  /**
+   * La segunda puerta: la revision gratis del sitio, que en la portada fue
+   * una seccion entera (#rampa) hasta el 06-sep-2026. Misma copia y misma
+   * clase que la version del diagnostico en /servicios, y el mismo evento,
+   * para que las dos se cuenten juntas.
+   */
+  rampa?: boolean
 }) {
   return (
     <section className="contact-band">
@@ -33,6 +41,25 @@ export function ContactBand({
             <ArrowUpRight />
           </a>
         </div>
+        {rampa ? (
+          <a
+            href={getWhatsappUrl(
+              'Hola IAenBlanco, quiero que revisen mi sitio y me digan qué le falta. El link es: ',
+            )}
+            target="_blank"
+            rel="noreferrer"
+            className="rampa__pie contact-band__rampa"
+            data-cursor="WhatsApp"
+            data-analytics-event="rampa_revision_click"
+          >
+            <strong>¿Prefieres partir por algo chico?</strong>
+            <span>
+              Mándanos el link de tu sitio y te decimos qué encontramos. Sin costo y sin que
+              tengas que contratar nada.
+            </span>
+            <ArrowUpRight />
+          </a>
+        ) : null}
       </div>
     </section>
   )

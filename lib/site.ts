@@ -130,9 +130,9 @@ export const services: Service[] = [
     ],
     plazo: 'Entre 2 y 6 semanas, según cuántas páginas sean',
     signals: ['Sitio web', 'Tienda online', 'Se ve bien en el celular', 'Botón de WhatsApp'],
-    seoTitle: 'Sitios web y tiendas online para empresas',
+    seoTitle: 'Sitios web para empresas',
     seoDescription:
-      'Diseñamos y programamos páginas web, sitios web y tiendas online que explican tu oferta, se ven bien en el celular y hacen que te contacten.',
+      'Diseñamos y programamos páginas web, sitios web que explican tu oferta, se ven bien en el celular y hacen que te contacten.',
   },
   {
     slug: 'plataformas-software-medida',

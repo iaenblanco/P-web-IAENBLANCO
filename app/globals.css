@@ -2253,10 +2253,24 @@ html:not(.hero-fuera) .site-header--inicio .menu-line {
    copia: comparte vocabulario (numero mono, titulo corto, enlace con flecha)
    pero no su tarjeta alta. Cada selector aparece UNA vez por contexto, que es
    lo que mira herramientas/guardia-css.mjs. */
+/* La estanteria de servicios va sobre la misma placa oscura con rejilla que
+   el circuito del heroe: es la version en grande de las cuatro fichas de la
+   izquierda del mapa, y se lee como su continuacion. */
 .home-servicios {
   padding-top: var(--seccion-y);
   padding-bottom: var(--seccion-y);
-  border-bottom: 1px solid var(--line-soft);
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  background:
+    linear-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.05) 1px, transparent 1px),
+    var(--night);
+  background-size: 80px 80px;
+  color: var(--paper);
+}
+
+.home-servicios .eyebrow {
+  color: var(--ice);
 }
 
 .home-servicios__encabezado {
@@ -2268,6 +2282,7 @@ html:not(.hero-fuera) .site-header--inicio .menu-line {
 
 .home-servicios__encabezado h2 {
   margin: 0;
+  color: #fff;
   font-size: clamp(32px, 4.2vw, 62px);
   line-height: 0.96;
   letter-spacing: 0;
@@ -2286,16 +2301,54 @@ html:not(.hero-fuera) .site-header--inicio .menu-line {
   display: flex;
 }
 
+.home-servicios__pieza {
+  display: flex;
+  flex: 1;
+}
+
 .home-servicios__fila a {
+  position: relative;
   display: flex;
   flex: 1;
   flex-direction: column;
   gap: 10px;
-  padding: 20px;
-  border: 1px solid var(--line);
-  background: var(--paper-bright);
-  color: var(--ink);
+  min-height: 250px;
+  padding: 22px 22px 20px;
+  border: 1px solid rgba(144, 224, 232, 0.28);
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.04);
+  color: #fff;
   text-decoration: none;
+  transition: border-color 180ms ease, background-color 180ms ease, transform 260ms var(--curva-casa);
+}
+
+.home-servicios__fila a:hover,
+.home-servicios__fila a:focus-visible {
+  border-color: var(--ice);
+  background: rgba(255, 255, 255, 0.08);
+  transform: translateY(-3px);
+}
+
+/* La misma franja que la repisa de productos, en el color de la casa: las
+   dos estanterias de la portada son la misma pieza y entran igual. */
+.home-servicios__fila a::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  left: 0;
+  height: 3px;
+  border-radius: 12px 12px 0 0;
+  background: var(--ice);
+  transform-origin: left center;
+}
+
+.home-servicios__pieza.revela-armado a::before {
+  transform: scaleX(0);
+}
+
+.home-servicios__pieza.revela-armado.es-visible a::before {
+  animation: repisa-trazo var(--dur-entrada) var(--curva-casa) calc(var(--i, 0) * 70ms + 220ms) forwards;
 }
 
 .home-servicios__fila h3 {
@@ -2306,7 +2359,7 @@ html:not(.hero-fuera) .site-header--inicio .menu-line {
 
 .home-servicios__fila p {
   margin: 0;
-  color: var(--graphite);
+  color: rgba(255, 255, 255, 0.7);
   font-size: var(--texto-3);
   line-height: 1.5;
 }
@@ -2314,8 +2367,48 @@ html:not(.hero-fuera) .site-header--inicio .menu-line {
 /* --texto-1 son 10px y el piso de la bateria son 12: el numero pasa porque
    mide dos caracteres y el criterio solo mira textos de cinco o mas. El
    rotulo de abajo, que si es largo, va en --texto-2 = 12px justos. */
+/* Numero a la izquierda, icono a la derecha: la misma cabecera que la ficha
+   de producto (.repisa__cabecera), para que las dos estanterias se lean como
+   una sola pieza. El icono es el del circuito del heroe, sobre la misma placa
+   oscura, y entra con el mismo pop que el logo de cada producto. */
+.home-servicios__cabecera {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 14px;
+}
+
+.home-servicios__icono {
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  border: 1px solid rgba(144, 224, 232, 0.4);
+  border-radius: 10px;
+  background: rgba(144, 224, 232, 0.12);
+  color: var(--ice);
+  transition: background-color 180ms ease, color 180ms ease, border-color 180ms ease;
+}
+
+.home-servicios__icono svg {
+  width: 22px;
+  height: 22px;
+}
+
+.home-servicios__fila a:hover .home-servicios__icono,
+.home-servicios__fila a:focus-visible .home-servicios__icono {
+  border-color: var(--ice);
+  background: var(--ice);
+  color: var(--night);
+}
+
+.home-servicios__pieza.revela-armado.es-visible .home-servicios__icono {
+  animation: repisa-marca 520ms var(--curva-casa) calc(var(--i, 0) * 70ms + 160ms) backwards;
+}
+
 .home-servicios__num {
-  color: var(--signal-ink);
+  color: var(--ice);
   font-family: var(--font-mono);
   font-size: var(--texto-1);
   font-weight: 500;
@@ -2332,6 +2425,7 @@ html:not(.hero-fuera) .site-header--inicio .menu-line {
   font-size: var(--texto-2);
   font-weight: 500;
   text-transform: uppercase;
+  color: var(--ice);
 }
 
 .home-servicios__ir svg {
@@ -2354,6 +2448,10 @@ html:not(.hero-fuera) .site-header--inicio .menu-line {
 @media (max-width: 560px) {
   .home-servicios__fila {
     grid-template-columns: minmax(0, 1fr);
+  }
+
+  .home-servicios__fila a {
+    min-height: 0;
   }
 }
 
@@ -3494,6 +3592,13 @@ html:not(.hero-fuera) .site-header--inicio .menu-line {
 
 .contact-band__link:hover svg {
   transform: translate(3px, -3px);
+}
+
+/* La revision gratis, debajo del titular. -2 / -1 es la ultima columna tanto
+   en la rejilla de dos columnas del escritorio como en la de una del telefono. */
+.contact-band__rampa {
+  grid-column: -2 / -1;
+  max-width: 640px;
 }
 
 /* Footer */
@@ -7082,46 +7187,14 @@ html:not(.hero-fuera) .site-header--inicio .menu-line {
 }
 
 /* --------------------------------------------------------------------------
-   En el telefono no habia ninguna forma de escribirnos sin abrir el menu.
-
-   El boton de la cabecera se escondia bajo 900 px y quedaba solo la
-   hamburguesa: en la pantalla donde llega la mayoria, el canal principal
-   estaba a dos toques y escondido. La columna del medio de la cabecera estaba
-   vacia, asi que el boton se queda ahi, compacto.
-
-   El rotulo se unifico a "Hablemos" en los dos anchos por decision del dueno.
-   Antes el telefono decia "WhatsApp" -el canal- y el escritorio "Hablemos" -la
-   invitacion-, y sostener esa diferencia costaba dos <span> en Header.tsx y
-   tres reglas de CSS para alternarlos. Se fueron los cinco. El canal no queda
-   sin anunciar: el enlace lleva aria-label="Escribirnos por WhatsApp" y
-   data-cursor="WhatsApp", que es donde el dato hace falta de verdad.
+   El boton "Hablemos" de la cabecera se esconde bajo 900 px (la regla vive
+   con el resto de la cabecera del telefono). Entre el 27-ago y el 06-sep-2026
+   se mostraba tambien ahi, compacto, porque sin el la unica forma de
+   escribirnos era abrir el menu. Desde que existe el boton flotante de
+   WhatsApp (components/BotonWhatsapp.tsx) el telefono tenia dos puertas
+   iguales una encima de la otra; se queda la flotante, que acompana todo el
+   recorrido, y el menu conserva su enlace.
    -------------------------------------------------------------------------- */
-
-@media (max-width: 900px) {
-  .header-cta {
-    display: inline-flex;
-    grid-column: 2;
-    justify-self: end;
-    min-height: 44px;
-    margin-right: 10px;
-    padding: 0 14px;
-    gap: 8px;
-    font-size: 13px;
-  }
-
-  .header-cta__icon {
-    width: 14px;
-    height: 14px;
-  }
-}
-
-@media (max-width: 360px) {
-  .header-cta {
-    margin-right: 6px;
-    padding: 0 11px;
-    font-size: var(--texto-2);
-  }
-}
 
 /* El pie del mapa del hero era un hijo absoluto colgando 34 px por debajo del
    marco. Ahora es una fila mas de la columna visual: misma posicion a la
@@ -8569,6 +8642,7 @@ html:not(.hero-fuera) .site-header--inicio .menu-line {
   grid-template-rows: auto auto auto minmax(0, 1fr) auto;
   gap: 0;
   height: 100%;
+  position: relative;
   min-height: 300px;
   padding: 26px 26px 22px;
   border: 1px solid var(--line);
@@ -8697,6 +8771,75 @@ html:not(.hero-fuera) .site-header--inicio .menu-line {
 .repisa__mas svg {
   width: 14px;
   height: 14px;
+  transition: transform var(--dur-micro) var(--curva-casa);
+}
+
+.repisa__ficha > a:hover .repisa__mas svg,
+.repisa__ficha > a:focus-visible .repisa__mas svg {
+  transform: translate(2px, -2px);
+}
+
+/* La franja de identidad, la misma que llevan las fichas .ad--* en
+   /productos/. Sin JavaScript esta completa; con la cascada se traza de
+   izquierda a derecha justo despues de que la ficha aparece. El estado
+   final es el diseno: nada sigue moviendose pasados los tres segundos. */
+.repisa__ficha > a::before {
+  content: '';
+  position: absolute;
+  top: -1px;
+  right: -1px;
+  left: -1px;
+  height: 3px;
+  background: var(--acento-ficha);
+  transform-origin: left center;
+}
+
+.repisa__ficha.revela-armado > a::before {
+  transform: scaleX(0);
+}
+
+.repisa__ficha.revela-armado.es-visible > a::before {
+  animation: repisa-trazo var(--dur-entrada) var(--curva-casa) calc(var(--i, 0) * 70ms + 220ms) forwards;
+}
+
+.repisa__ficha.revela-armado.es-visible .repisa__marca {
+  animation: repisa-marca 520ms var(--curva-casa) calc(var(--i, 0) * 70ms + 160ms) backwards;
+}
+
+/* El punto de estado late dos veces y se queda quieto: la ultima ficha
+   termina antes de los tres segundos (140 + 760 + 2 x 900 ms). */
+.repisa__ficha.revela-armado.es-visible .repisa__estado i {
+  animation: repisa-pulso 900ms ease-out calc(var(--i, 0) * 70ms + 760ms) 2;
+}
+
+@keyframes repisa-trazo {
+  from { transform: scaleX(0); }
+  to { transform: scaleX(1); }
+}
+
+@keyframes repisa-marca {
+  from { opacity: 0; transform: scale(0.72) translateY(4px); }
+  to { opacity: 1; transform: none; }
+}
+
+@keyframes repisa-pulso {
+  from { box-shadow: 0 0 0 0 var(--acento-ficha); }
+  to { box-shadow: 0 0 0 9px transparent; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .repisa__ficha.revela-armado > a::before,
+  .repisa__ficha.revela-armado.es-visible > a::before,
+  .repisa__ficha.revela-armado.es-visible .repisa__marca,
+  .repisa__ficha.revela-armado.es-visible .repisa__estado i,
+  .home-servicios__pieza.revela-armado a::before,
+  .home-servicios__pieza.revela-armado.es-visible a::before,
+  .home-servicios__pieza.revela-armado.es-visible .home-servicios__icono,
+  .repisa__mas svg {
+    animation: none;
+    transform: none;
+    transition: none;
+  }
 }
 
 @media (max-width: 980px) {
