@@ -1,3 +1,4 @@
+import { MarcaProducto } from '@/components/MarcaProducto'
 import { products, services } from '@/lib/site'
 
 /*
@@ -118,6 +119,7 @@ export function EscenaAbanico() {
             style={{ ['--i' as string]: i }}
             key={producto.id}
           >
+            <span className="esc__carta-marca"><MarcaProducto id={producto.id} /></span>
             <span className="esc__carta-nombre">{producto.name}</span>
             <span className="esc__carta-pitch">{producto.eyebrow}</span>
           </span>

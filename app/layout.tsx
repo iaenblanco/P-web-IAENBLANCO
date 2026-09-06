@@ -40,7 +40,7 @@ const ibmPlexMono = IBM_Plex_Mono({
  * llana, y la que Google mostraba era la jerga.
  */
 const BAJADA =
-  'Hacemos sitios web, tiendas online, programas a la medida de tu negocio y asistentes con inteligencia artificial. En Chile.'
+  'Hacemos sitios web, programas a la medida de tu negocio y asistentes con inteligencia artificial. En Chile.'
 
 /*
  * El lema gobernante, decidido por el dueño el 30-ago-2026. Vive tambien como

@@ -109,7 +109,7 @@ export const services: Service[] = [
   {
     slug: 'desarrollo-web-ia',
     index: '01',
-    shortTitle: 'Sitio web y tienda online',
+    shortTitle: 'Sitio web',
     title: 'Una página web que explique lo que haces y haga que te escriban',
     eyebrow: 'Para que te encuentren y te contacten',
     statement: 'Tu sitio tiene que contestar tres cosas en diez segundos: qué haces, por qué confiar en ti y cómo hablar contigo.',

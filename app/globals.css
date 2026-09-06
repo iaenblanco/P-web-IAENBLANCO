@@ -1148,10 +1148,28 @@ button {
 /* Home hero */
 
 .home-hero {
+  /* Tokens del heroe «Neon»: viven solo aca, no tocan los globales. */
+  --fondo: #070a0f;
+  --sup: rgba(20, 26, 34, 0.85);
+  --tinta: #f4f2ec;
+  --texto: #c9d0d6;
+  --mute: #8e98a3;
+  --borde: rgba(64, 176, 208, 0.35);
+  --pista: rgba(64, 176, 208, 0.4);
+  --c1: #40b0d0;
+  --c2: #7c5cff;
+  --c2i: #c4b5ff;
+  --btn: #40b0d0;
+  --btn-txt: #070a0f;
+  --nodo: #0f151c;
+  --grid:
+    linear-gradient(rgba(244, 242, 236, 0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(244, 242, 236, 0.05) 1px, transparent 1px);
   position: relative;
   min-height: auto;
   overflow: hidden;
-  background: var(--paper);
+  background: var(--fondo);
+  color: var(--texto);
 }
 
 .home-hero__grid,
@@ -1164,6 +1182,20 @@ button {
     linear-gradient(90deg, rgba(7, 10, 15, 0.045) 1px, transparent 1px);
   background-size: 80px 80px;
   mask-image: linear-gradient(to bottom, black 0%, rgba(0, 0, 0, 0.65) 58%, transparent 100%);
+}
+
+/* En la portada la reticula es clara sobre oscuro, de 28 px, con una luz
+   cian que sube desde la esquina inferior izquierda. Sin mascara: el corte
+   con la seccion clara de abajo es duro a proposito. */
+.home-hero .home-hero__grid {
+  background-image:
+    radial-gradient(ellipse 46% 40% at 6% 100%, rgba(64, 176, 208, 0.12), transparent),
+    var(--grid);
+  background-size:
+    auto,
+    28px 28px,
+    28px 28px;
+  mask-image: none;
 }
 
 .home-hero__inner {
@@ -1215,7 +1247,7 @@ button {
 .home-hero__summary {
   max-width: 560px;
   margin: 34px 0 0;
-  color: var(--text-body);
+  color: var(--texto);
   font-size: clamp(18px, 1.7vw, 24px);
   letter-spacing: -0.025em;
   line-height: 1.42;
@@ -1265,517 +1297,617 @@ button {
   margin: 0 auto;
 }
 
-.hero-summary-map {
+/* ==========================================================================
+   HEROE «NEON» (sep-2026)
+   La portada abre en oscuro: una placa #070a0f con reticula de 28 px y un
+   circuito animado en SVG -cuatro servicios entran por la izquierda, pasan
+   por el nodo IAenBlanco y salen tres programas por la derecha-. El marcado
+   vive en components/CircuitoHero.tsx (dos geometrias: desk y tel, una por
+   corte); aca solo se viste.
+
+   Presupuesto de rendimiento, medido y no negociable:
+   - nada de filter, drop-shadow ni backdrop-filter sobre nada que se mueva:
+     el brillo son trazos gemelos anchos de baja opacidad y radialGradient;
+   - solo se anima transform, opacity, stroke-dashoffset y SMIL; box-shadow
+     unicamente en el hover del boton, con transition;
+   - el componente pausa el SVG y pone .esta-quieto (que pausa el CSS) cuando
+     el heroe no se ve, la pestaña esta oculta o la variante esta escondida.
+
+   Los tokens de color viven SOLO bajo .home-hero (y los tres que necesita la
+   cabecera bajo .site-header--inicio): no tocan los globales. La secuencia
+   de encendido corre una sola vez al cargar, en CSS con fill-mode both; el
+   estado de reposo (todo dibujado y encendido) es el que declara cada regla
+   sin animacion, asi que si la animacion no corre se ve igual.
+   ========================================================================== */
+
+.home-hero__content h1 {
+  color: var(--tinta);
+}
+
+.home-hero__content h1 em {
+  color: var(--c1);
+}
+
+.home-hero .hero-kicker {
+  color: var(--mute);
+}
+
+.home-hero .hero-kicker__lista > span + span::before {
+  color: var(--mute);
+}
+
+.home-hero .hero-kicker__punto {
   position: relative;
-  display: block;
-  width: 100%;
-  height: auto;
-  min-height: 0;
-  aspect-ratio: 720 / 560;
-  overflow: hidden;
-  --summary-service: #1faad1;
-  --summary-product: #d99019;
-  --summary-connection: #66a93f;
-  border: 1px solid rgba(7, 10, 15, 0.12);
-  background:
-    radial-gradient(circle at 50% 45%, color-mix(in srgb, var(--signal) 24%, transparent), transparent 27%),
-    radial-gradient(circle at 18% 34%, color-mix(in srgb, var(--signal) 12%, transparent), transparent 21%),
-    radial-gradient(circle at 82% 34%, rgba(255, 177, 61, 0.14), transparent 21%),
-    radial-gradient(circle at 50% 77%, rgba(102, 169, 63, 0.14), transparent 20%),
-    linear-gradient(135deg, rgba(251, 250, 247, 0.92), rgba(235, 249, 250, 0.72) 46%, rgba(255, 248, 232, 0.72));
+  background: var(--c1);
+  box-shadow: 0 0 0 6px color-mix(in srgb, var(--c1) 16%, transparent);
+}
+
+/* El latido del punto: un anillo que crece y se apaga. Solo transform y
+   opacity; la sombra de arriba es fija. */
+.home-hero .hero-kicker__punto::after {
+  content: "";
+  position: absolute;
+  inset: -5px;
+  border-radius: 50%;
+  border: 1px solid var(--c1);
+  opacity: 0;
+  animation: neon-latido 2.4s ease-out infinite;
+}
+
+/* El prefijo "system /": .typing-line span le pone el gris grafito mas
+   abajo, asi que hay que apuntar al span. */
+.home-hero .typing-line span {
+  color: var(--c1);
+}
+
+.home-hero .typing-line strong {
+  color: var(--mute);
+}
+
+.home-hero .button--primary {
+  background: var(--btn);
+  color: var(--btn-txt);
+  transition:
+    color 220ms ease,
+    background-color 220ms ease,
+    box-shadow 220ms ease,
+    transform 220ms ease;
+}
+
+.home-hero .button--primary:hover {
+  background: #7ed0e6;
+  color: var(--btn-txt);
   box-shadow:
-    0 28px 90px rgba(7, 10, 15, 0.1),
-    inset 0 0 64px color-mix(in srgb, var(--signal) 10%, transparent);
+    0 0 0 4px color-mix(in srgb, var(--c1) 22%, transparent),
+    0 12px 32px color-mix(in srgb, var(--c1) 35%, transparent);
 }
 
-.hero-summary-map::before {
-  position: absolute;
-  inset: 0;
-  content: "";
-  background-image:
-    linear-gradient(rgba(7, 10, 15, 0.04) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(7, 10, 15, 0.04) 1px, transparent 1px);
-  background-size: 48px 48px;
+.home-hero .button--text {
+  color: var(--tinta);
+  border-bottom-color: color-mix(in srgb, var(--c1) 45%, transparent);
 }
 
-.hero-summary-map::after {
-  position: absolute;
-  inset: 9% 8% 11%;
-  content: "";
-  border: 1px solid color-mix(in srgb, var(--signal) 12%, transparent);
-  background:
-    linear-gradient(90deg, transparent 49.8%, color-mix(in srgb, var(--signal) 14%, transparent) 50%, transparent 50.2%),
-    linear-gradient(transparent 45.8%, color-mix(in srgb, var(--signal) 10%, transparent) 46%, transparent 46.2%),
-    linear-gradient(transparent 78.8%, rgba(102, 169, 63, 0.13) 79%, transparent 79.2%);
-  opacity: 0.78;
+.home-hero .button--text svg {
+  color: var(--c1);
 }
 
-.hero-summary-map__wires,
-.hero-summary-map__core,
-.summary-system-label,
-.summary-node-cluster,
-.summary-platform-cluster,
-.summary-platform,
-.summary-flow,
+.home-hero .button--text:hover {
+  border-bottom-color: var(--c1);
+}
+
+/* El pie del marco: el enlace a la pagina de servicios. */
 .hero-summary-map__explore {
-  position: absolute;
-  z-index: 2;
-}
-
-.hero-summary-map__wires {
-  inset: 0;
-  z-index: 1;
-  width: 100%;
-  height: 100%;
-}
-
-.summary-ring {
-  fill: none;
-  stroke: color-mix(in srgb, var(--signal) 22%, transparent);
-  stroke-width: 1;
-  stroke-dasharray: 3 8;
-}
-
-.summary-ring--outer {
-  stroke: rgba(7, 10, 15, 0.12);
-  stroke-dasharray: 1 11;
-}
-
-.summary-circuit,
-.summary-transfer {
-  fill: none;
-  stroke-linecap: square;
-  stroke-linejoin: miter;
-  vector-effect: non-scaling-stroke;
-}
-
-
-.summary-circuit--services,
-.summary-transfer--services {
-  stroke: var(--summary-service);
-}
-
-.summary-circuit--products,
-.summary-transfer--products {
-  stroke: var(--summary-product);
-}
-
-.summary-circuit--connections,
-.summary-transfer--connections,
-.summary-circuit-pad {
-  stroke: var(--summary-connection);
-}
-
-
-.summary-transfer {
-  stroke-width: 3.2;
-  stroke-dasharray: 2 30;
-  opacity: 0.72;
-}
-
-
-.summary-wire {
-  fill: none;
-  stroke-width: 2.1;
-  stroke-dasharray: none;
-  stroke-linecap: round;
-  stroke-linejoin: round;
-  animation: none;
-  vector-effect: non-scaling-stroke;
-}
-
-.summary-wire--trunk {
-  stroke-width: 2.1;
-  stroke-dasharray: none;
-  opacity: 0.82;
-}
-
-.summary-wire--branch {
-  stroke-width: 1.7;
-  stroke-dasharray: 16 9;
-  opacity: 0.8;
-}
-
-.summary-wire--core {
-  stroke-width: 1.9;
-  stroke-dasharray: 18 10;
-  opacity: 0.82;
-}
-
-.summary-wire--thin {
-  stroke-width: 1.5;
-  opacity: 0.72;
-}
-
-.summary-wire--services,
-.summary-node--services {
-  stroke: var(--summary-service);
-}
-
-.summary-wire--products,
-.summary-node--products {
-  stroke: var(--summary-product);
-}
-
-.summary-wire--connections,
-.summary-node--connections {
-  stroke: var(--summary-connection);
-}
-
-.summary-wire--flow,
-.summary-node--flow {
-  stroke: rgba(31, 170, 209, 0.74);
-}
-
-.summary-wire--flow {
-  stroke-width: 1.5;
-  stroke-dasharray: 16 12;
-  opacity: 0.64;
-}
-
-.summary-node {
-  fill: var(--paper-bright);
-  stroke-width: 2;
-  animation: none;
-}
-
-.hero-summary-map__core {
-  top: var(--summary-y);
-  left: var(--summary-x);
-  display: grid;
-  place-items: center;
-  width: clamp(122px, 23.6%, 176px);
-  aspect-ratio: 1;
-  border: 1px solid color-mix(in srgb, var(--ice) 86%, transparent);
-  border-radius: 50%;
-  background:
-    radial-gradient(circle at 50% 44%, color-mix(in srgb, var(--signal) 44%, transparent), transparent 48%),
-    #071017;
-  box-shadow:
-    0 0 0 9px color-mix(in srgb, var(--signal) 6%, transparent),
-    0 18px 48px rgba(7, 10, 15, 0.2);
-  transform: translate(-50%, -50%);
-  animation: none;
-}
-
-.hero-summary-map__core::before {
-  position: absolute;
-  inset: -14px;
-  content: "";
-  border: 1px solid color-mix(in srgb, var(--signal) 28%, transparent);
-  border-radius: 50%;
-}
-
-.hero-summary-map__core::after {
-  position: absolute;
-  inset: -24px;
-  content: "";
-  border: 1px dashed color-mix(in srgb, var(--signal) 18%, transparent);
-  border-radius: 50%;
-}
-
-.hero-summary-map__core img {
-  position: relative;
-  z-index: 1;
-  width: 78%;
-  height: 78%;
-  object-fit: contain;
-  filter: brightness(1.1) saturate(1.12);
-}
-
-.summary-system-label {
-  top: var(--summary-y);
-  left: var(--summary-x);
-  display: grid;
-  gap: 3px;
-  width: var(--summary-w, auto);
-  height: var(--summary-h, auto);
-  color: var(--summary-accent);
-  font-family: var(--font-mono);
-  text-transform: uppercase;
-}
-
-.summary-system-label span {
-  color: rgba(94, 104, 116, 0.72);
-  font-size: var(--texto-2);
-  letter-spacing: 0.1em;
-}
-
-.summary-system-label strong {
-  font-size: var(--rotulo-fuerte, 14px);
-  font-weight: 500;
-  letter-spacing: 0.08em;
-  line-height: 1;
-}
-
-.summary-system-label--services {
-  --summary-accent: var(--summary-service);
-}
-
-/* La columna de la derecha es lo que TODAVIA no existe, y no puede pesar
-   igual que la de servicios, que si existe. Su rotulo no es un encabezado
-   simetrico del de la izquierda: las dos lineas van al mismo cuerpo, asi que
-   el par entero lee como nota del grupo y no como titulo de columna. El
-   codigo de color se conserva -la tinta ambar amarra con los cables ambar-,
-   solo se le quita jerarquia de tamano. Ver tambien el bloque de
-   .summary-orb--product, que hace lo mismo con los orbes. */
-.summary-system-label--products {
-  --summary-accent: var(--summary-product);
-  --rotulo-fuerte: 11.5px;
-  --rotulo-fuerte-fluido: max(10.5px, 2.01cqi);
-  text-align: right;
-}
-
-.summary-system-label--platforms {
-  --summary-accent: var(--summary-connection);
-  z-index: 4;
-  place-items: center;
-  padding: clamp(5px, 1.05vw, 9px) clamp(8px, 1.4vw, 18px);
-  border: 1px solid rgba(102, 169, 63, 0.2);
-  background: rgba(251, 250, 247, 0.98);
-  text-align: center;
-  box-shadow: var(--sombra-chip);
-}
-
-.summary-node-cluster {
-  top: var(--summary-y);
-  left: var(--summary-x);
-  display: grid;
-  width: var(--summary-w);
-  height: var(--summary-h);
-}
-
-.summary-node-cluster--services {
-  grid-template-rows: repeat(4, minmax(0, 1fr));
-}
-
-.summary-node-cluster--products {
-  grid-template-rows: repeat(3, minmax(0, 1fr));
-}
-
-.summary-orb {
-  --orb-accent: var(--summary-service);
-  display: grid;
-  grid-template-columns: 29% minmax(0, 1fr);
-  gap: clamp(6px, 1.25vw, 12px);
-  align-items: center;
-  align-self: center;
-  min-height: 0;
-  height: min(58px, 88%);
-  color: var(--orb-accent);
-  opacity: 1;
-  animation: none;
-}
-
-.summary-orb > span {
-  display: grid;
-  place-items: center;
-  width: min(54px, 100%);
-  aspect-ratio: 1;
-  border: 1px solid var(--orb-accent);
-  border-radius: 50%;
-  background:
-    radial-gradient(circle at 50% 44%, color-mix(in srgb, currentColor 12%, transparent), transparent 62%),
-    rgba(251, 250, 247, 0.82);
-  box-shadow: var(--sombra-chip);
-  animation: none;
-}
-
-.summary-orb .hero-logo {
-  width: 56%;
-  height: 56%;
-}
-
-.summary-orb strong {
-  display: block;
-  padding: clamp(5px, 1vw, 8px) clamp(7px, 1.2vw, 10px);
-  border: 1px solid color-mix(in srgb, currentColor 34%, transparent);
-  background: rgba(251, 250, 247, 0.72);
-  color: var(--ink);
-  font-size: clamp(12px, 1.55vw, 14px);
-  font-weight: 700;
-  letter-spacing: -0.02em;
-  line-height: 1.05;
-  box-shadow: var(--sombra-chip);
-}
-
-/* Medido el 30-ago-2026 a 1440: el orbe de producto era el elemento mas
-   alto del mapa -55 px contra los 46 del de servicio- y su casilla de icono
-   la mas grande -62 px contra 45-. Lo que todavia no esta abierto pesaba mas
-   que lo que si se vende. Baja a la medida del de servicio: casilla al 71 %
-   y alto al nivel del vecino. La columna sigue en el mapa, que es lo que se
-   decidio el 21-ago; lo que cambia es cuanto grita. */
-/* Este `height` no gobierna en ningun ancho y se deja documentado en vez de
-   borrado: sobre 901px lo reemplaza el `height: auto` de :10462, y bajo 901
-   lo tapa el `min-height: 96px` de :7645. Quien quiera mover el alto del
-   orbe de producto tiene que ir al `min-height` de :10466, no aqui. */
-.summary-orb--product {
-  --orb-accent: var(--summary-product);
-  grid-template-columns: minmax(0, 1fr) 31%;
-  height: min(46px, 58%);
-}
-
-/* Arrastrada por lo anterior, no por decision propia: con aspect-ratio 1 una
-   casilla de 44 seria mas alta que un orbe de 41 y se saldria. 39 conserva
-   los 2 px de holgura que ya tenia, y el radio escala con ella para que el
-   cuadrado no se lea mas redondo al achicarse. */
-.summary-orb--product > span {
-  order: 2;
-  width: min(39px, 100%);
-  aspect-ratio: 1;
-  border-radius: 12px;
-  box-shadow: none;
-}
-
-.summary-orb--product strong {
-  order: 1;
-  text-align: right;
-}
-
-.summary-orb--product.summary-orb--citaly {
-  --orb-accent: var(--summary-product);
-}
-
-/* Los tres productos van apagados en el mapa: la mitad derecha no compite con
-   el cian uniforme de los cuatro servicios. Lo que apaga hoy es la pareja
-   opacity + color, que llega hasta el trazo porque los tres monogramas heredan
-   currentColor.
-   El filtro es lo que queda de cuando dos de los tres iconos eran el logo de
-   marca en color -las calcomanias .webp de Unificalo y de Citaly-: grayscale
-   estaba para sacarles el color. Desde el 31-ago-2026 no hay color que sacar y
-   solo contrast(0.92) sigue moviendo algo. Se deja para no correr el gris en
-   una fase de acabado; sale en la tanda de reglas muertas. */
-.summary-orb--product .hero-logo {
-  filter: grayscale(1) contrast(0.92);
-  opacity: 0.62;
-  color: var(--graphite);
-}
-
-.summary-platform-cluster {
-  inset: 0;
-}
-
-.summary-platform {
-  top: var(--summary-y);
-  left: var(--summary-x);
-  width: var(--summary-w);
-  display: grid;
-  gap: clamp(4px, 0.9vw, 8px);
-  justify-items: center;
-  min-width: 0;
-  padding-bottom: 0;
-  color: var(--summary-connection);
-  opacity: 1;
-  transform: translateX(-50%);
-  animation: none;
-}
-
-.summary-platform:nth-child(2) {
-  --platform-offset: 0;
-}
-
-.summary-platform:nth-child(3) {
-  --platform-offset: 0;
-}
-
-.summary-platform span {
-  display: grid;
-  place-items: center;
-  width: min(46px, 62%);
-  aspect-ratio: 1;
-  border: 1px solid currentColor;
-  border-radius: 50%;
-  background: rgba(251, 250, 247, 0.82);
-  box-shadow: var(--sombra-chip);
-  animation: none;
-}
-
-.summary-platform .hero-logo {
-  width: 62%;
-  height: 62%;
-}
-
-.summary-platform strong {
-  color: var(--ink);
-  font-family: var(--font-mono);
-  font-size: clamp(11px, 1.45vw, 14px);
-  font-weight: 500;
-  line-height: 1.08;
-  text-align: center;
-  white-space: nowrap;
-}
-
-.summary-flow {
-  top: var(--summary-y);
-  left: var(--summary-x);
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) 42px minmax(0, 1fr) 42px minmax(0, 1.24fr);
-  align-items: center;
-  width: var(--summary-w);
-  height: var(--summary-h);
-  min-height: 0;
-  border: 1px solid color-mix(in srgb, var(--signal) 22%, transparent);
-  background: rgba(251, 250, 247, 0.76);
-  box-shadow: var(--sombra-panel);
-}
-
-.summary-flow span {
-  display: grid;
-  place-items: center;
-  min-width: 0;
-  color: var(--ink);
-  font-family: var(--font-mono);
-  font-size: clamp(12px, 1.22vw, 14px);
-  font-weight: 500;
-  letter-spacing: 0.02em;
-  line-height: 1.1;
-  text-align: center;
-  text-transform: uppercase;
-}
-
-.summary-flow span:last-child {
-  font-size: clamp(11px, 1.08vw, 13px);
-}
-
-.summary-flow i {
-  position: relative;
-  display: block;
-  width: 100%;
-  height: 2px;
-  background: rgba(31, 170, 209, 0.86);
-}
-
-.summary-flow i::after {
-  position: absolute;
-  top: -3px;
-  right: 0;
-  width: 8px;
-  height: 8px;
-  content: "";
-  border-top: 2px solid rgba(31, 170, 209, 0.94);
-  border-right: 2px solid rgba(31, 170, 209, 0.94);
-  transform: rotate(45deg);
-}
-
-.hero-summary-map__explore {
-  right: 8%;
-  bottom: -34px;
   display: inline-flex;
   gap: 10px;
   align-items: center;
-  color: var(--graphite);
+  justify-self: end;
+  min-height: 44px;
+  color: var(--texto);
   font-family: var(--font-mono);
   font-size: var(--texto-3);
   font-weight: 500;
   letter-spacing: 0.03em;
+  transition: color 180ms ease;
 }
 
 .hero-summary-map__explore svg {
   width: 18px;
   height: 18px;
-  color: var(--signal);
+  color: var(--c1);
 }
 
+.hero-summary-map__explore:hover {
+  color: var(--tinta);
+}
+
+/* --- El marco del circuito ------------------------------------------- */
+
+.circuito {
+  position: relative;
+  display: grid;
+  width: 100%;
+  padding: 46px 24px 22px;
+  border: 1px solid var(--borde);
+  border-radius: 18px;
+  background: rgba(20, 26, 34, 0.5);
+  /* Con el contexto propio, el resplandor de abajo (z-index -1) queda encima
+     del fondo del marco y debajo del SVG, que es donde tiene que estar. */
+  isolation: isolate;
+}
+
+/* El resplandor violeta detras del nodo: un gradiente estatico, sin filtros.
+   Se sale del marco a proposito para que la luz bañe la placa. */
+.circuito::before {
+  content: "";
+  position: absolute;
+  inset: -18% -10%;
+  z-index: -1;
+  background: radial-gradient(closest-side, rgba(124, 92, 255, 0.26), transparent);
+  pointer-events: none;
+}
+
+.circuito__tag {
+  position: absolute;
+  top: 16px;
+  left: 22px;
+  color: var(--mute);
+  font-family: var(--font-mono);
+  font-size: 12px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+/* viewBox y proporcion fijos: el marco mide lo mismo antes y despues de
+   pintar, sin salto de maquetacion. overflow visible porque el halo de las
+   fichas (trazo de 6) asoma 3 px fuera del viewBox por los lados. */
+.circuito__svg {
+  display: block;
+  width: 100%;
+  height: auto;
+  overflow: visible;
+}
+
+.circuito--desk .circuito__svg {
+  aspect-ratio: 592 / 420;
+}
+
+.circuito--tel .circuito__svg {
+  aspect-ratio: 358 / 330;
+}
+
+.circuito--tel {
+  display: none;
+}
+
+.circuito__tira {
+  margin: 10px 6px 0;
+  color: var(--mute);
+  font-family: var(--font-mono);
+  font-size: 12px;
+  line-height: 1.5;
+  text-align: center;
+  /* Tres pasos con flechas: repartidos en dos lineas parejas, no con la
+     ultima palabra sola abajo. */
+  text-wrap: balance;
+}
+
+.circuito__tira i {
+  margin: 0 4px;
+  color: var(--c1);
+  font-style: normal;
+}
+
+/* --- Dentro del SVG ---------------------------------------------------- */
+
+.circuito__rotulo {
+  fill: var(--mute);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.circuito__rotulo--c1 {
+  fill: var(--c1);
+}
+
+.circuito__rotulo--c2 {
+  fill: var(--c2i);
+}
+
+.circuito__pie {
+  fill: var(--texto);
+  font-family: var(--font-mono);
+  font-size: 12px;
+}
+
+/* Las trazas se dibujan al cargar: pathLength=1 en el marcado, el guion
+   mide el camino entero y el desfase va de 1 (nada) a 0 (todo). El retraso
+   de cada una viene en su style= (70 ms por traza). */
+.circuito .traza {
+  fill: none;
+  stroke: var(--pista);
+  stroke-width: 1.2;
+  stroke-dasharray: 1;
+  animation: neon-dibuja 1.1s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+/* La corriente: guiones blancos que avanzan sobre la traza, con un trazo
+   gemelo ancho y tenue debajo que hace de brillo. El grupo entero aparece a
+   los 1,3 s, cuando ya se dibujaron las trazas. */
+.circuito .corrientes,
+.circuito .paquetes {
+  animation: neon-aparece 0.6s ease-out 1.3s both;
+}
+
+.circuito .corriente {
+  fill: none;
+  stroke: #e9fbff;
+  stroke-width: 2.4;
+  stroke-linecap: round;
+  stroke-dasharray: 6 18;
+  animation: neon-flujo 0.9s linear infinite;
+}
+
+.circuito .corriente--der {
+  stroke: #efe9ff;
+}
+
+.circuito .corriente--brillo {
+  stroke: rgba(64, 176, 208, 0.32);
+  stroke-width: 8;
+}
+
+.circuito .corriente--der.corriente--brillo {
+  stroke: rgba(124, 92, 255, 0.36);
+}
+
+/* El nodo: disco, anillo de aire del color del fondo con un hilo cian, el
+   resplandor que respira detras y el anillo conico que gira (SMIL, en el
+   marcado). Resplandor y anillo se encienden a los 0,9 s. */
+.circuito .nodo__halo {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation:
+    neon-aparece 0.7s ease-out 0.9s both,
+    neon-respira 3s ease-in-out 1.6s infinite;
+}
+
+.circuito .nodo__aire {
+  fill: var(--fondo);
+  stroke: color-mix(in srgb, var(--c1) 55%, transparent);
+  stroke-width: 1;
+}
+
+.circuito .nodo__disco {
+  fill: var(--nodo);
+}
+
+.circuito .anillo {
+  animation: neon-aparece 0.5s ease-out 0.9s both;
+}
+
+.circuito .anillo__arco {
+  fill: none;
+  stroke-width: 3;
+  stroke-linecap: round;
+}
+
+.circuito .anillo__luz {
+  fill: none;
+  stroke-width: 11;
+  stroke-linecap: round;
+  opacity: 0.22;
+}
+
+/* Las fichas entran una a una (retraso en su style=) y despues se
+   "prenden" en bucle: el borde de color y el halo de trazo 6 suben y bajan
+   de opacidad, cada 2,4 s, al ritmo de los paquetes. */
+.circuito .ficha {
+  animation: neon-ficha 0.55s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.circuito .ficha--servicio {
+  --pc: var(--c1);
+}
+
+.circuito .ficha--programa {
+  --pc: var(--c2);
+}
+
+.circuito .ficha__caja {
+  fill: var(--sup);
+  stroke: var(--borde);
+  stroke-width: 1;
+}
+
+.circuito .ficha__borde {
+  fill: none;
+  stroke: var(--pc);
+  stroke-width: 1;
+  opacity: 0;
+  animation: neon-prende 2.4s linear infinite;
+}
+
+.circuito .ficha__halo {
+  fill: none;
+  stroke: var(--pc);
+  stroke-width: 6;
+  opacity: 0;
+  animation: neon-halo 2.4s linear infinite;
+}
+
+.circuito .ficha__icono {
+  fill: none;
+  stroke: var(--c1);
+  stroke-width: 1.5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.circuito .ficha__texto {
+  fill: var(--tinta);
+  font-family: var(--font-sans);
+  font-weight: 500;
+  letter-spacing: -0.01em;
+  dominant-baseline: central;
+}
+
+.circuito .ficha--programa .ficha__texto {
+  fill: var(--texto);
+}
+
+.circuito .ficha__sello {
+  fill: color-mix(in srgb, var(--c2) 24%, transparent);
+  stroke: var(--c2);
+  stroke-width: 1;
+}
+
+.circuito .ficha__letra {
+  fill: var(--c2i);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 500;
+  text-anchor: middle;
+  dominant-baseline: central;
+}
+
+/* Fuera de pantalla, pestaña oculta o variante escondida: el componente
+   pausa el SMIL y pone esta clase, que congela el CSS. */
+.circuito.esta-quieto .circuito__svg * {
+  animation-play-state: paused;
+}
+
+/* El latido del kicker vive fuera del SVG: se congela con la misma clase
+   que apaga la cabecera oscura cuando el heroe ya no se ve. */
+html.hero-fuera .hero-kicker__punto::after {
+  animation-play-state: paused;
+}
+
+@keyframes neon-dibuja {
+  from {
+    stroke-dashoffset: 1;
+  }
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+@keyframes neon-ficha {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes neon-aparece {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes neon-flujo {
+  to {
+    stroke-dashoffset: -24;
+  }
+}
+
+@keyframes neon-prende {
+  0%,
+  100% {
+    opacity: 0;
+  }
+  12% {
+    opacity: 1;
+  }
+}
+
+@keyframes neon-halo {
+  0%,
+  100% {
+    opacity: 0;
+  }
+  12% {
+    opacity: 0.3;
+  }
+}
+
+@keyframes neon-respira {
+  50% {
+    transform: scale(1.12);
+  }
+}
+
+@keyframes neon-latido {
+  from {
+    transform: scale(0.6);
+    opacity: 0.9;
+  }
+  to {
+    transform: scale(2);
+    opacity: 0;
+  }
+}
+
+/* Con menos movimiento el circuito queda encendido y quieto: trazas
+   dibujadas, corriente con guiones fijos, fichas con el borde de color,
+   nodo con su resplandor. Los paquetes no se pintan (su recorrido es SMIL,
+   que el componente ademas pausa). */
+@media (prefers-reduced-motion: reduce) {
+  .circuito .circuito__svg *,
+  .home-hero .hero-kicker__punto::after {
+    animation: none;
+  }
+
+  .circuito .ficha__borde {
+    opacity: 1;
+  }
+
+  .circuito .paquetes {
+    display: none;
+  }
+}
+
+/* --- La cabecera sobre el heroe oscuro ----------------------------------
+   Header.tsx pone .site-header--inicio en la portada (en el HTML estatico,
+   sin parpadeo). La cabecera es sticky, asi que cuando el heroe se va de la
+   pantalla el circuito pone html.hero-fuera y estas reglas dejan de aplicar:
+   por eso van bajo html:not(.hero-fuera) y no hace falta reescribir la
+   version clara. */
+
+.site-header--inicio {
+  --tinta: #f4f2ec;
+  --c1: #40b0d0;
+  --borde: rgba(64, 176, 208, 0.35);
+}
+
+html:not(.hero-fuera) .site-header--inicio {
+  background: linear-gradient(180deg, rgba(7, 10, 15, 0.98), rgba(7, 10, 15, 0.9));
+}
+
+html:not(.hero-fuera) .site-header--inicio .site-header__inner {
+  border-color: var(--borde);
+  background: rgba(13, 18, 25, 0.96);
+  box-shadow: 0 14px 32px rgba(0, 0, 0, 0.4);
+}
+
+/* Con un menu abierto o bajo el puntero la barra clara se aclara aun mas
+   (regla de :has() en la cabecera, mas especifica que estas); aca hace lo
+   propio en oscuro para que el texto claro no quede sobre crema. */
+html:not(.hero-fuera) .site-header--inicio:has(.nav-menu.is-open) .site-header__inner,
+html:not(.hero-fuera) .site-header--inicio:has(.nav-menu:hover) .site-header__inner {
+  border-color: var(--borde);
+  background: rgba(13, 18, 25, 0.98);
+}
+
+html:not(.hero-fuera) .site-header--inicio .brand-mark__nombre,
+html:not(.hero-fuera) .site-header--inicio .nav-link,
+html:not(.hero-fuera) .site-header--inicio .nav-desplegar {
+  color: var(--tinta);
+}
+
+html:not(.hero-fuera) .site-header--inicio .nav-link::after {
+  background: var(--c1);
+}
+
+/* El CTA: cian con la tinta oscura encima (7,9:1). La clara sobre cian
+   no llega a AA. */
+html:not(.hero-fuera) .site-header--inicio .header-cta {
+  background: var(--c1);
+  color: #070a0f;
+}
+
+html:not(.hero-fuera) .site-header--inicio .header-cta:hover {
+  background: var(--tinta);
+  color: #070a0f;
+}
+
+html:not(.hero-fuera) .site-header--inicio .mobile-toggle {
+  border-color: var(--borde);
+  background: rgba(20, 26, 34, 0.85);
+}
+
+html:not(.hero-fuera) .site-header--inicio .menu-line {
+  background: var(--tinta);
+}
+
+/* --- Celular -------------------------------------------------------------
+   Las dos columnas se disuelven (display: contents en los bloques de ≤900,
+   mas abajo) y cada pieza toma su lugar con order, sin mover el DOM:
+   kicker, titulo, circuito (con su tira), botones, resumen, linea de
+   sistema y el enlace a servicios. Los margenes van aqui porque el gap de
+   la grilla vale 0 en ese corte. */
+
+@media (max-width: 900px) {
+  /* La regla compartida "gap: var(--gap-ancho)" (48 px) gana sobre el
+     gap: 0 del corte de 900; con las columnas disueltas cada pieza trae su
+     margen, asi que aqui se apaga con mas especificidad. */
+  .home-hero .home-hero__inner {
+    gap: 0;
+  }
+
+  .home-hero .hero-kicker {
+    order: 1;
+  }
+
+  .home-hero .home-hero__content h1 {
+    order: 2;
+    margin-top: 14px;
+  }
+
+  .circuito--desk {
+    display: none;
+  }
+
+  /* Sin marco: la geometria tel mide 358 de ancho, que es 390 menos 32, y
+     la caja de la seccion deja 346; los 6 px de cada lado se recuperan
+     saliendose de ella. En tabletas se frena en 560. */
+  .circuito--tel {
+    display: grid;
+    order: 3;
+    width: calc(100% + 12px);
+    max-width: 560px;
+    justify-self: center;
+    margin-top: 24px;
+    padding: 34px 0 0;
+    border: 0;
+    border-radius: 0;
+    background: none;
+  }
+
+  .circuito--tel .circuito__tag {
+    top: 0;
+    left: 6px;
+  }
+
+  .home-hero .home-hero__actions {
+    order: 4;
+    margin-top: 22px;
+  }
+
+  .home-hero .home-hero__summary {
+    order: 5;
+    margin-top: 24px;
+  }
+
+  .home-hero .typing-line {
+    order: 6;
+    margin-top: 22px;
+  }
+
+  .hero-summary-map__explore {
+    order: 7;
+    justify-self: start;
+    margin-top: 12px;
+  }
+}
 
 .concept-card--product {
   --category-color: var(--concept-product);
@@ -2743,12 +2875,6 @@ button {
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .summary-wire,
-  .summary-transfer,
-  .summary-node,
-  .summary-orb,
-  .summary-platform,
-  .hero-summary-map__core,
   .concept-card__icon,
   .connection-card span {
     animation: none;
@@ -3512,11 +3638,26 @@ button {
 
 /* Generic page hero */
 
+/* /productos/ va entero sobre la placa oscura del heroe de la portada: el
+   mismo fondo, la reticula de 28 px y la luz cian desde abajo a la
+   izquierda (aqui, en la banda; la lista de fichas de abajo lleva solo la
+   reticula, para que la placa se lea como una sola). Los valores van
+   copiados de .home-hero porque sus tokens viven solo ahi. Las escenas
+   conservan su fondo claro: sobre la placa quedan como pantallas. */
 .page-hero {
   position: relative;
   padding: 108px 0 108px;
-  border-bottom: 1px solid var(--line);
-  background: var(--paper);
+  border-bottom: 1px solid rgba(64, 176, 208, 0.25);
+  background:
+    radial-gradient(ellipse 46% 40% at 6% 100%, rgba(64, 176, 208, 0.12), transparent),
+    linear-gradient(rgba(244, 242, 236, 0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(244, 242, 236, 0.05) 1px, transparent 1px),
+    #070a0f;
+  background-size:
+    auto,
+    28px 28px,
+    28px 28px,
+    auto;
 }
 
 /* La reja de dos carriles se fue con la banda. .page-hero tiene un solo
@@ -3534,7 +3675,7 @@ button {
 .page-hero--products .banda-apertura__texto > p:not(.hero-kicker) {
   max-width: 680px;
   margin: 0;
-  color: var(--graphite);
+  color: #c9d0d6;
   font-size: var(--texto-6);
   line-height: 1.55;
 }
@@ -3550,6 +3691,89 @@ button {
    pasa a disponer del ancho entero. */
 .page-hero--products h1 {
   max-width: 820px;
+  color: #f4f2ec;
+}
+
+/* El antetitulo y la cursiva del titular, como en la portada. */
+.page-hero--products .hero-kicker {
+  color: #f4f2ec;
+}
+
+.page-hero--products h1 em {
+  color: #40b0d0;
+}
+
+/* El enlace de texto de la banda, como el del heroe: tinta clara, subrayado
+   cian tenue que se enciende al pasar. */
+.page-hero--products .button--text {
+  color: #f4f2ec;
+  border-bottom-color: rgba(64, 176, 208, 0.45);
+}
+
+.page-hero--products .button--text svg {
+  color: #40b0d0;
+}
+
+.page-hero--products .button--text:hover {
+  border-bottom-color: #40b0d0;
+}
+
+/* El abanico de la banda va sobre la placa sin caja: las tres cartas son
+   superficies oscuras como las fichas del heroe, cada una con el logo y la
+   franja del color de su producto. Las tres filas de la carta: logo,
+   nombre, para quien. */
+.page-hero--products .esc--abanico {
+  border: 0;
+  background: transparent;
+}
+
+.page-hero--products .esc__abanico {
+  height: clamp(140px, 18vw, 176px);
+}
+
+.page-hero--products .esc__carta {
+  --ancho: clamp(118px, 26vw, 176px);
+  --paso: clamp(100px, 22vw, 150px);
+  grid-template-rows: auto auto 1fr;
+  gap: 8px;
+  padding: 12px 13px 14px;
+  border: 1px solid rgba(64, 176, 208, 0.35);
+  border-top: 3px solid var(--acento);
+  border-radius: 8px;
+  background: rgba(20, 26, 34, 0.96);
+  box-shadow: 0 14px 34px rgba(0, 0, 0, 0.45);
+}
+
+.page-hero--products .esc__carta-nombre {
+  color: #f4f2ec;
+  font-weight: 500;
+}
+
+.page-hero--products .esc__carta-pitch {
+  align-self: start;
+  color: #c9d0d6;
+}
+
+.esc__carta-marca {
+  display: grid;
+  place-items: center;
+  width: 30px;
+  height: 30px;
+  overflow: hidden;
+  border: 1px solid var(--marca-borde, var(--line));
+  border-radius: 7px;
+  background: var(--marca-fondo, var(--paper));
+  color: #17201c;
+}
+
+.esc__carta-marca .hero-logo {
+  width: 20px;
+  height: 20px;
+}
+
+.esc__carta-marca .hero-logo--unificalo {
+  width: 100%;
+  height: 100%;
 }
 
 /* Se fueron .page-hero--products > .section-shell > p:last-child -el
@@ -3558,7 +3782,11 @@ button {
 
 .products-section {
   padding: 56px 0 104px;
-  background: var(--paper-bright);
+  background:
+    linear-gradient(rgba(244, 242, 236, 0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(244, 242, 236, 0.05) 1px, transparent 1px),
+    #070a0f;
+  background-size: 28px 28px;
 }
 
 
@@ -4126,24 +4354,6 @@ button {
     font-size: clamp(17px, 1.55vw, 21px);
   }
 
-  .hero-summary-map {
-    min-height: 0;
-  }
-
-  .summary-node-cluster--services {
-    width: var(--summary-w);
-  }
-
-  .summary-node-cluster--products {
-    width: var(--summary-w);
-  }
-
-  .summary-platform-cluster {
-    inset: 0;
-  }
-
-
-
   .site-footer__top {
     grid-template-columns: minmax(0, 1fr);
   }
@@ -4186,34 +4396,6 @@ button {
     font-size: var(--texto-6);
   }
 
-  .summary-orb {
-    grid-template-columns: 26% minmax(0, 1fr);
-    gap: 8px;
-  }
-
-  .summary-orb--product {
-    grid-template-columns: minmax(0, 1fr) 28%;
-  }
-
-  .summary-orb strong {
-    padding: 6px 7px;
-    font-size: var(--texto-2);
-    letter-spacing: -0.03em;
-  }
-
-  .summary-platform {
-    gap: 2px;
-  }
-
-  .summary-platform span {
-    width: min(42px, 58%);
-  }
-
-  .summary-platform strong {
-    font-size: var(--texto-2);
-    line-height: 1.05;
-    white-space: normal;
-  }
 }
 
 @media (max-width: 900px) {
@@ -4392,26 +4574,25 @@ button {
     display: grid;
     grid-template-columns: minmax(0, 1fr);
     min-height: auto;
-    gap: 34px;
+    /* Las dos columnas se disuelven (display: contents mas abajo) y cada
+       pieza trae su margen. Este gap: 0 no gana -la regla compartida de
+       --gap-ancho, mas abajo, lo vuelve a poner-; lo apaga de verdad
+       .home-hero .home-hero__inner, en el bloque del heroe Neon. */
+    gap: 0;
     padding-top: 54px;
     padding-bottom: 56px;
   }
 
   .home-hero__content {
-    max-width: 880px;
+    display: contents;
   }
 
   .home-hero h1 {
-    font-size: var(--titular-medio);
+    font-size: clamp(34px, 8.8vw, 56px);
   }
 
   .home-hero__visual {
-    position: relative;
-    right: auto;
-    bottom: auto;
-    width: 100%;
-    min-height: auto;
-    opacity: 1;
+    display: contents;
   }
 
   /* Estaba en display:none y por eso el celular nunca vio esta linea -ni el
@@ -4427,179 +4608,6 @@ button {
     margin-top: 28px;
     line-height: 1.5;
   }
-
-  .hero-summary-map {
-    display: flex;
-    flex-direction: column;
-    gap: 14px;
-    height: auto;
-    min-height: 0;
-    aspect-ratio: auto;
-    padding: 34px 24px 24px;
-  }
-
-  .hero-summary-map__wires,
-  .summary-flow {
-    display: none;
-  }
-
-  .hero-summary-map__core,
-  .summary-system-label,
-  .summary-node-cluster,
-  .summary-platform-cluster,
-  .summary-platform,
-  .hero-summary-map__explore {
-    position: relative;
-    top: auto;
-    right: auto;
-    bottom: auto;
-    left: auto;
-    width: 100%;
-    height: auto;
-    transform: none;
-  }
-
-  .hero-summary-map__core {
-    order: 1;
-    align-self: center;
-    width: 150px;
-    height: 150px;
-    margin-bottom: 8px;
-  }
-
-  .hero-summary-map__core img {
-    width: 114px;
-    height: 114px;
-  }
-
-  .summary-system-label {
-    justify-items: start;
-    padding-top: 6px;
-  }
-
-  .summary-system-label span {
-    font-size: var(--texto-3);
-    line-height: 1;
-  }
-
-  .summary-system-label strong {
-    font-size: var(--texto-4);
-  }
-
-  .summary-system-label--services {
-    order: 2;
-  }
-
-  .summary-node-cluster--services {
-    order: 3;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    grid-template-rows: none;
-    gap: 10px;
-    min-width: 0;
-  }
-
-  .summary-system-label--platforms {
-    order: 4;
-    place-items: start;
-    text-align: left;
-  }
-
-  .summary-platform-cluster {
-    order: 5;
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 10px;
-    min-width: 0;
-  }
-
-  .summary-system-label--products {
-    order: 6;
-    text-align: left;
-  }
-
-  .summary-node-cluster--products {
-    order: 7;
-    grid-template-columns: minmax(0, 1fr);
-    grid-template-rows: none;
-    gap: 10px;
-    min-width: 0;
-  }
-
-  .summary-orb,
-  .summary-orb--product {
-    grid-template-columns: minmax(0, 1fr);
-    justify-items: center;
-    width: 100%;
-    min-width: 0;
-    min-height: 96px;
-    padding: 12px;
-    border: 1px solid var(--orb-accent);
-    background: rgba(251, 250, 247, 0.88);
-    text-align: center;
-    opacity: 1;
-    animation: none;
-  }
-
-  .summary-orb--product > span,
-  .summary-orb--product strong {
-    order: initial;
-  }
-
-  .summary-orb > span,
-  .summary-orb--product > span {
-    width: 48px;
-    height: 48px;
-    border-radius: 50%;
-  }
-
-  .summary-orb strong,
-  .summary-orb--product strong {
-    padding: 0;
-    border: 0;
-    background: transparent;
-    font-size: var(--texto-3);
-    line-height: 1.12;
-    text-align: center;
-    overflow-wrap: anywhere;
-    box-shadow: none;
-  }
-
-  .summary-platform {
-    width: 100%;
-    min-width: 0;
-    min-height: 84px;
-    padding: 12px;
-    border: 1px solid var(--summary-connection);
-    background: rgba(251, 250, 247, 0.88);
-    opacity: 1;
-    transform: none;
-    animation: none;
-  }
-
-  .summary-platform strong {
-    font-size: var(--texto-3);
-    overflow-wrap: anywhere;
-  }
-
-  .summary-platform span {
-    width: 44px;
-    height: 44px;
-  }
-
-  .hero-summary-map__explore {
-    order: 8;
-    justify-content: space-between;
-    min-height: 54px;
-    padding: 0 2px;
-    border-top: 1px solid var(--line);
-    color: var(--ink);
-  }
-
-
-
-
-
-
 
   .home-hero__content {
     pointer-events: none;
@@ -4805,42 +4813,6 @@ button {
     opacity: 1;
     overflow: hidden;
   }
-
-  .hero-summary-map {
-    gap: 12px;
-    padding: 28px 12px 18px;
-  }
-
-  .hero-summary-map__core {
-    width: 138px;
-    height: 138px;
-  }
-
-  .hero-summary-map__core img {
-    width: 104px;
-    height: 104px;
-  }
-
-  .summary-orb,
-  .summary-orb--product {
-    min-height: 90px;
-    padding: 11px 8px;
-  }
-
-  .summary-platform {
-    min-height: 82px;
-    padding: 10px 8px;
-  }
-
-
-
-
-
-
-
-
-
-
 
   .ecosystem-lab {
     padding: 82px 0 92px;
@@ -5328,7 +5300,6 @@ button {
   }
 
   .home-hero__inner {
-    gap: 26px;
     padding-top: 38px;
     padding-bottom: 42px;
   }
@@ -5346,61 +5317,6 @@ button {
   .home-hero__actions .button {
     width: 100%;
     justify-content: space-between;
-  }
-
-  .hero-summary-map {
-    gap: 8px;
-    padding: 18px;
-  }
-
-  .hero-summary-map__core {
-    width: 108px;
-    height: 108px;
-    margin-bottom: 2px;
-  }
-
-  .hero-summary-map__core img {
-    width: 82px;
-    height: 82px;
-  }
-
-  .summary-node-cluster--services,
-  .summary-platform-cluster,
-  .summary-node-cluster--products {
-    display: none;
-  }
-
-  .summary-system-label {
-    min-height: 68px;
-    padding: 12px;
-    border: 1px solid color-mix(in srgb, var(--summary-accent, var(--signal)) 38%, transparent);
-    background: rgba(251, 250, 247, 0.9);
-  }
-
-  .summary-system-label::after {
-    margin-top: 8px;
-    color: var(--text-body);
-    font-family: var(--font-sans);
-    font-size: var(--texto-3);
-    line-height: 1.28;
-    text-transform: none;
-  }
-
-  .summary-system-label--services::after {
-    content: "Web · Software · Automatización · IA";
-  }
-
-  .summary-system-label--platforms::after {
-    content: "WhatsApp · Shopify · Bsale · Datos";
-  }
-
-  .summary-system-label--products::after {
-    content: "Unifícalo · Citaly · Leads";
-  }
-
-  .hero-summary-map__explore {
-    min-height: 46px;
-    font-size: var(--texto-3);
   }
 
   .trust-proof-card,
@@ -5494,7 +5410,6 @@ button {
 
 @media (min-width: 621px) and (max-width: 900px) {
   .home-hero__inner {
-    gap: 28px;
     padding-top: 44px;
     padding-bottom: 46px;
   }
@@ -5506,61 +5421,6 @@ button {
   .home-hero__summary {
     max-width: 640px;
     font-size: var(--texto-5);
-  }
-
-  .hero-summary-map {
-    gap: 10px;
-    padding: 22px;
-  }
-
-  .hero-summary-map__core {
-    width: 118px;
-    height: 118px;
-    margin-bottom: 2px;
-  }
-
-  .hero-summary-map__core img {
-    width: 90px;
-    height: 90px;
-  }
-
-  .summary-node-cluster--services,
-  .summary-platform-cluster,
-  .summary-node-cluster--products {
-    display: none;
-  }
-
-  .summary-system-label {
-    min-height: 72px;
-    padding: 13px 14px;
-    border: 1px solid color-mix(in srgb, var(--summary-accent, var(--signal)) 38%, transparent);
-    background: rgba(251, 250, 247, 0.9);
-  }
-
-  .summary-system-label::after {
-    margin-top: 8px;
-    color: var(--text-body);
-    font-family: var(--font-sans);
-    font-size: var(--texto-3);
-    line-height: 1.28;
-    text-transform: none;
-  }
-
-  .summary-system-label--services::after {
-    content: "Web / Software / Automatización / IA";
-  }
-
-  .summary-system-label--platforms::after {
-    content: "WhatsApp / Shopify / Bsale / Datos";
-  }
-
-  .summary-system-label--products::after {
-    content: "Unifícalo / Citaly / Leads";
-  }
-
-  .hero-summary-map__explore {
-    min-height: 48px;
-    font-size: var(--texto-3);
   }
 
   .trust-proof-card,
@@ -5612,18 +5472,6 @@ button {
 
 
 
-
-  .summary-system-label--services::after {
-    content: "Web / Software / Automatización / IA";
-  }
-
-  .summary-system-label--platforms::after {
-    content: "WhatsApp / Shopify / Bsale / Datos";
-  }
-
-  .summary-system-label--products::after {
-    content: "Unifícalo / Citaly / Leads";
-  }
 
   .concept-card,
   .concept-card--product {
@@ -6024,22 +5872,6 @@ button {
   color: var(--graphite);
 }
 
-.summary-system-label span {
-  color: var(--graphite);
-}
-
-.summary-system-label--services strong {
-  color: var(--accent-cyan-ink);
-}
-
-.summary-system-label--products strong {
-  color: var(--accent-amber-ink);
-}
-
-.summary-system-label--platforms strong {
-  color: var(--accent-lime-ink);
-}
-
 /* Prueba real y servicios */
 
 
@@ -6390,75 +6222,6 @@ button {
    combinado con alto fijo o aspect-ratio.
    -------------------------------------------------------------------------- */
 
-/* 6a. El CTA "Ver los servicios" estaba 100 % invisible: vive en
-   bottom: -34px (por diseno, colgando bajo el marco) y .hero-summary-map lo
-   borraba con overflow: hidden. Esos son los 34 px que faltaban
-   (scrollHeight 524 contra clientHeight 490), no el diagrama.
-   Bajo 901 px el mapa ya se apila y sus hijos son position: relative, asi que
-   no hay nada que destapar. */
-
-@media (min-width: 901px) {
-  .hero-summary-map {
-    overflow: visible;
-  }
-
-  /* Reserva el cuelgue de 34 px mas el alto del enlace, para que .home-hero
-     (que tambien lleva overflow: hidden) no lo recorte de nuevo. */
-  .home-hero__visual {
-    padding-bottom: 56px;
-  }
-}
-
-/* 6b. Las etiquetas del diagrama tenian alto exacto (height: var(--summary-h))
-   con texto que envuelve: se salian 38 px y 7 px por abajo. El alto del dato
-   pasa a ser un minimo, no una jaula.
-   La placa de plataformas ademas se dimensiona por su contenido y queda
-   anclada por su borde inferior a la linea de conexion (336 + 48 = 384 =
-   platforms.lineY, o sea 100 - 384/560 = 31.4286 %), centrada en el eje del
-   nucleo (274 + 172/2 = 360 = core.x = 50 % del mapa). Asi crece hacia arriba,
-   contra el hueco vacio, y nunca hacia abajo, donde estan las plataformas.
-   Se resuelve por CSS y no ensanchando la caja en page.tsx porque la reticula
-   nueva estrecha el mapa: un ancho fijo en unidades del diagrama volveria a
-   quedarse corto. */
-
-@media (min-width: 901px) {
-  .summary-system-label {
-    height: auto;
-    min-height: var(--summary-h, 0px);
-  }
-
-  .summary-system-label--platforms {
-    top: auto;
-    bottom: var(--summary-b, 31.4286%);
-    left: 50%;
-    width: max-content;
-    min-width: var(--summary-w);
-    max-width: 62%;
-    transform: translateX(-50%);
-  }
-}
-
-/* 6c. Las pildoras de servicio tenian alto cerrado (58 px y 62 px) y los
-   titulos de dos lineas ("Programas a medida") se salian 2-3 px por abajo.
-   El circulo lo dimensiona su columna, no el alto, asi que soltar el alto no
-   lo achica. Cada variante conserva su propio minimo. */
-
-@media (min-width: 901px) {
-  .summary-orb {
-    height: auto;
-    min-height: min(58px, 88%);
-  }
-
-  /* 30-ago: el dueno resolvio que el «~70 %» del plan era la altura del orbe,
-     no la casilla del icono. 41 de los 58 del orbe de servicio son 70,7 %. El
-     brazo en porcentaje no se toca: 58 sobre 88 ya es 66 %, mas exigente que
-     el objetivo, y subirlo agrandaria el orbe en contenedores bajos. */
-  .summary-orb--product {
-    height: auto;
-    min-height: min(41px, 58%);
-  }
-}
-
 /* --------------------------------------------------------------------------
    7. DESBORDES DE TEXTO: el texto nunca se pinta sobre el borde de su caja.
    Queja del cliente: "no se deben superponer los textos sobre las lineas que
@@ -6503,40 +6266,6 @@ button {
 
 
 
-/* 7b. Textos del diagrama del hero. */
-
-@media (min-width: 901px) {
-  .summary-orb strong {
-    min-width: 0;
-    overflow-wrap: break-word;
-  }
-
-  /* Al destaparse el recorte del mapa, este enlace vuelve a verse: techo de
-     ancho para que no exceda el marco. */
-  .hero-summary-map__explore {
-    max-width: 84%;
-  }
-}
-
-@media (min-width: 1201px) {
-  /* Sobre 1200 px seguia activo el white-space: nowrap de la linea 1207:
-     "Tus planillas" mide unos 109 px dentro de una caja de 84 px, o sea 25 px
-     fuera. Entre 901 y 1200 px ya envolvia (linea 9859). Las plataformas
-     estan a 104 unidades de distancia entre centros y la caja mide 96:
-     ensancharla las haria chocar, asi que la salida correcta es la segunda
-     linea. */
-  .summary-platform {
-    gap: 6px;
-  }
-
-  .summary-platform strong {
-    font-size: var(--texto-2);
-    line-height: 1.08;
-    white-space: normal;
-    overflow-wrap: break-word;
-  }
-}
-
 /* 7c. Tarjetas del problema: el titular a 23 px y el parrafo llegaban justos
    al borde derecho (2-4 px fuera). Se les da permiso explicito de cortar y
    guionar antes de pisar el borde, y el max-width del parrafo deja de ser un
@@ -6578,44 +6307,6 @@ button {
   .contact-band {
     contain-intrinsic-size: auto 230px;
   }
-}
-
-/* ==========================================================================
-   Ajuste final: el flujo de tres pasos de cada producto.
-   A 1280 px el carril del flujo medía 396 px y, con flechas de 34 px y
-   17 px de relleno, a cada paso le quedaban 65 px útiles para textos que
-   miden 87 px ("Actualiza", "Tienda online y marketplaces"). El texto se
-   pintaba 6,5 px por fuera del borde de su caja.
-   Se recupera ancho estrechando las flechas y el relleno, y se agrega
-   partición de palabra como red de seguridad.
-
-   Corregido: este bloque empezaba en 901 px y pisaba la regla que apila el
-   flujo en una columna entre 768 y 1099 px. A 1024 px cada paso quedaba con
-   37 px utiles y palabras como "Actualiza" se partian en dos lineas. Los tres
-   pasos en fila solo tienen sentido desde 1100 px.
-   ========================================================================== */
-
-/* ==========================================================================
-   Aire contra las líneas de la estructura.
-   La tira "Nos cuentas → Lo construimos → Queda funcionando" del diagrama del
-   hero tenía entre 1 y 2,7 px de aire contra su marco.
-
-   Aquí vivía también el arreglo del texto de navegación, que se salía 1 px por
-   abajo del marco del encabezado. Se movió a la regla .nav-link: al darle alto
-   automático y relleno desde acá, el subrayado quedó calibrado para la caja
-   anterior y pasó a tachar las letras. Ahora la caja y su línea se definen en
-   el mismo lugar.
-   ========================================================================== */
-
-.summary-flow {
-  /* Anclada por abajo con holgura propia: colgaba del borde inferior del mapa
-     y su texto quedaba a menos de 1 px del marco exterior. */
-  top: auto;
-  bottom: max(12px, var(--summary-b, 0%));
-  height: auto;
-  min-height: var(--summary-h);
-  padding: 6px 14px;
-  grid-template-columns: minmax(0, 1fr) 30px minmax(0, 1fr) 30px minmax(0, 1.2fr);
 }
 
 /* ==========================================================================
@@ -7327,19 +7018,6 @@ button {
 
 
 
-/* El mapa del hero partia "Automatizar" en "Automatiza / r": la pastilla tenia
-   80 px utiles para una palabra de 84 px. Menos relleno lateral, un pelo menos
-   de espacio entre letras, y ninguna palabra se parte a la mitad. */
-
-.summary-orb strong {
-  padding-right: clamp(5px, 0.7vw, 7px);
-  padding-left: clamp(5px, 0.7vw, 7px);
-  letter-spacing: -0.03em;
-  overflow-wrap: normal;
-  word-break: normal;
-  hyphens: manual;
-}
-
 /* El carril del flujo de Unifícalo dejaba 77 px utiles por paso y
    "marketplaces" mide 91 px a 14 px: la palabra se partia en dos lineas.
    El carril central se lleva un poco del ancho de las columnas vecinas, que
@@ -7452,62 +7130,6 @@ button {
 .home-hero__visual {
   align-content: center;
   gap: 14px;
-}
-
-.hero-summary-map__explore {
-  position: static;
-  right: auto;
-  bottom: auto;
-  justify-self: end;
-}
-
-/* --------------------------------------------------------------------------
-   El mapa del hero se encoge, su letra no: a 1280 px la barra "Nos cuentas /
-   Lo construimos / Queda funcionando" caia justo encima de los nombres de las
-   plataformas y no se leia ninguno de los dos. El diagrama esta dibujado en
-   una cuadricula de 720 x 560 y todo se coloca en porcentaje, asi que la
-   unica pieza que no acompanaba era el texto. Ahora tambien se mide contra
-   el ancho del mapa. Bajo 900 px el mapa se convierte en una lista apilada y
-   ahi manda el piso de legibilidad del telefono.
-   -------------------------------------------------------------------------- */
-
-@supports (width: 1cqi) {
-  @media (min-width: 901px) {
-    .hero-summary-map {
-      container-type: inline-size;
-    }
-
-    .summary-system-label span {
-      font-size: max(10.5px, 2.01cqi);
-    }
-
-    /* La fila de plataformas es la que choca contra la barra del flujo: su
-       caja mide icono + separacion + una linea de texto, y las tres piezas
-       tienen que encoger a la par del mapa o el nombre queda debajo de la
-       barra. Sin piso en px: aqui el limite lo pone el espacio disponible. */
-    .summary-platform strong {
-      font-size: max(11.5px, 2.01cqi);
-    }
-
-    .summary-platform span {
-      width: min(5.4cqi, 40px);
-    }
-
-    .summary-platform {
-      gap: min(1.2cqi, 8px);
-    }
-
-    /* Esta es la regla que manda de verdad sobre el cuerpo de los rotulos:
-       gana por venir despues, asi que el tamano estatico de mas arriba solo
-       se ve donde no hay unidades de contenedor. Por eso la excepcion del
-       rotulo de productos tiene que poder entrar tambien aqui, y entra por
-       variable. */
-    .summary-system-label strong,
-    .summary-orb strong,
-    .summary-flow span {
-      font-size: var(--rotulo-fuerte-fluido, max(11.5px, 2.35cqi));
-    }
-  }
 }
 
 /* --------------------------------------------------------------------------
@@ -8193,311 +7815,6 @@ button {
 
 
 /* ------------------------------------------------------------------
-   Circuito del hero en celular (arreglo 1)
-   En celular el mapa se aplanaba: se ocultaban las fichas y las tres
-   etiquetas quedaban como cajas muertas con una lista separada por
-   barras. No se entendia que era un sistema ni por que estaban una
-   debajo de la otra.
-   Aca se rearma como circuito vertical: nucleo arriba, tres modulos
-   conectados por un cable con un pulso que baja, y las fichas reales
-   de vuelta a la vista. La agrupacion etiqueta+fichas viene del JSX
-   (.summary-group), que en escritorio es display:contents y por eso
-   no toca nada del mapa absoluto.
-   ------------------------------------------------------------------ */
-
-.summary-group {
-  display: contents;
-}
-
-@media (max-width: 900px) {
-  /* El cable vive en el hueco entre modulos: el hueco tiene que medir
-     lo mismo que el cable (20px) o el pulso queda pisado por la caja. */
-  .hero-summary-map {
-    gap: 20px;
-    padding: 22px 18px 18px;
-  }
-
-  .summary-group {
-    --grupo: var(--summary-service);
-    display: block;
-    position: relative;
-    width: 100%;
-    padding: 15px 14px 14px;
-    border: 1px solid color-mix(in srgb, var(--grupo) 34%, transparent);
-    background:
-      linear-gradient(180deg, color-mix(in srgb, var(--grupo) 7%, transparent), transparent 62%),
-      rgba(251, 250, 247, 0.92);
-    /* El sexto valor del mapa del heroe. La tanda que unifico ese componente
-       listo cinco hermanos con cinco sombras distintas y se dejo este fuera:
-       .summary-group descansa sobre el diagrama igual que los otros, asi que
-       va al mismo escalon. La diferencia real es 2px de desplazamiento, 8 de
-       difuminado y 0.005 de opacidad. */
-    box-shadow: var(--sombra-chip);
-  }
-
-  .summary-group--services { order: 2; }
-
-  /* Los tres modulos del mapa se dibujan enteros en el telefono. La fase 9
-     habia apagado plataformas y programas con display:none aca -el mapa bajaba
-     de 669,2 a 333,4 px a 375x812- y el dueno lo rechazo el 2-sep-2026: lo que
-     quedaba era la corona con un solo cable colgando, no un mapa mas corto.
-     Revertido a mano, sin tocar colores, animaciones ni marcado: las reglas de
-     mas abajo que visten a estos dos grupos ya estaban escritas y vuelven a
-     aplicar solas. El aria-label del contenedor vuelve a ser cierto: nombra
-     plataformas y programas que el telefono ahora si dibuja. Si el mapa movil
-     se vuelve a acortar alguna vez, que sea recortando contenido, no
-     escondiendo dos tercios del dibujo. */
-  .summary-group--platforms { order: 4; --grupo: var(--summary-connection); }
-  .summary-group--products { order: 6; --grupo: var(--summary-product); }
-
-  /* Cable que baja desde el modulo anterior, con el pulso viajando. */
-  .summary-group::before {
-    content: "";
-    position: absolute;
-    left: 50%;
-    top: -20px;
-    width: 9px;
-    height: 20px;
-    margin-left: -4.5px;
-    background:
-      linear-gradient(180deg, transparent, var(--grupo)) 50% 0 / 1px 100% no-repeat,
-      radial-gradient(circle, var(--grupo) 42%, transparent 46%) 50% -6px / 5px 5px no-repeat;
-    opacity: 0.75;
-    pointer-events: none;
-  }
-
-  .summary-group--platforms::before { animation-delay: 0.36s; }
-  .summary-group--products::before { animation-delay: 0.72s; }
-
-  /* Nodo donde el cable entra al modulo. */
-  .summary-group .summary-system-label::before {
-    content: "";
-    position: absolute;
-    left: 50%;
-    top: -19px;
-    width: 7px;
-    height: 7px;
-    margin-left: -3.5px;
-    border-radius: 50%;
-    border: 1px solid var(--grupo);
-    background: var(--paper-bright, #fff);
-  }
-
-  .summary-group--platforms .summary-system-label::before { animation-delay: 0.36s; }
-  .summary-group--products .summary-system-label::before { animation-delay: 0.72s; }
-
-  /* La etiqueta vuelve a ser solo texto: el marco lo pone el modulo. */
-  .summary-group .summary-system-label {
-    position: relative;
-    display: grid;
-    justify-items: start;
-    gap: 2px;
-    width: auto;
-    min-height: 0;
-    margin: 0 0 11px;
-    padding: 0;
-    border: 0;
-    background: none;
-    text-align: left;
-  }
-
-  .summary-group .summary-system-label::after {
-    content: none;
-  }
-
-  .summary-group .summary-system-label span {
-    font-family: var(--font-mono);
-    font-size: 13px;
-    font-weight: 500;
-    letter-spacing: 0.12em;
-    line-height: 1;
-    text-transform: uppercase;
-  }
-
-  .summary-group .summary-system-label strong {
-    font-size: 17px;
-    letter-spacing: -0.02em;
-    line-height: 1.06;
-  }
-
-  /* Fichas de vuelta a la vista, compactas y en dos columnas. */
-  .summary-group .summary-node-cluster,
-  .summary-group .summary-platform-cluster {
-    position: relative;
-    display: grid;
-    inset: auto;
-    top: auto;
-    left: auto;
-    width: 100%;
-    height: auto;
-    min-width: 0;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    grid-template-rows: none;
-    gap: 7px;
-    transform: none;
-  }
-
-  .summary-group--products .summary-node-cluster {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-  }
-
-  .summary-group .summary-orb,
-  .summary-group .summary-platform {
-    position: relative;
-    display: grid;
-    grid-template-columns: 22px minmax(0, 1fr);
-    align-items: center;
-    justify-items: start;
-    gap: 8px;
-    width: auto;
-    min-width: 0;
-    min-height: 40px;
-    height: auto;
-    top: auto;
-    left: auto;
-    padding: 7px 9px;
-    border: 1px solid color-mix(in srgb, var(--grupo) 28%, transparent);
-    background: rgba(255, 255, 255, 0.72);
-    text-align: left;
-    transform: none;
-    overflow: hidden;
-    opacity: 1;
-  }
-
-  /* Barrido de luz que recorre las fichas en orden: el circuito se
-     enciende de a una en vez de parpadear todo junto. */
-  .summary-group .summary-orb::before,
-  .summary-group .summary-platform::before {
-    content: "";
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(
-      100deg,
-      transparent 34%,
-      color-mix(in srgb, var(--grupo) 17%, transparent) 50%,
-      transparent 66%
-    );
-    background-size: 260% 100%;
-    animation-delay: calc(var(--node-index, 0) * 0.42s);
-    pointer-events: none;
-  }
-
-  .summary-group--platforms .summary-platform::before {
-    animation-delay: calc(var(--node-index, 0) * 0.42s + 0.5s);
-  }
-
-  .summary-group--products .summary-orb::before {
-    animation-delay: calc(var(--node-index, 0) * 0.42s + 1s);
-  }
-
-  .summary-group .summary-orb > span,
-  .summary-group .summary-platform > span {
-    order: 0;
-    width: 22px;
-    height: 22px;
-    min-width: 22px;
-    border: 1px solid color-mix(in srgb, var(--grupo) 52%, transparent);
-    border-radius: 50%;
-    background: rgba(251, 250, 247, 0.9);
-    box-shadow: none;
-  }
-
-  .summary-group .summary-orb .hero-logo,
-  .summary-group .summary-platform .hero-logo {
-    width: 62%;
-    height: 62%;
-  }
-
-  .summary-group .summary-orb strong,
-  .summary-group .summary-platform strong {
-    order: 1;
-    padding: 0;
-    border: 0;
-    background: none;
-    box-shadow: none;
-    color: var(--ink);
-    font-size: 12.5px;
-    font-weight: 500;
-    letter-spacing: 0;
-    line-height: 1.1;
-    text-align: left;
-    overflow-wrap: anywhere;
-  }
-
-  /* Los tres programas van en columna dentro de su ficha: en 360 px
-     "Unificalo" se partia en dos ("Unifical / o") cuando el logo le
-     robaba la mitad del ancho. Apilados, el nombre tiene la ficha
-     entera y ademas se distinguen de los servicios de arriba. */
-  .summary-group--products .summary-orb {
-    grid-template-columns: minmax(0, 1fr);
-    justify-items: center;
-    gap: 5px;
-    padding: 8px 5px;
-    text-align: center;
-  }
-
-  .summary-group--products .summary-orb strong {
-    font-size: var(--texto-2);
-    text-align: center;
-    overflow-wrap: normal;
-  }
-
-  .summary-group--products .summary-orb > span {
-    width: 22px;
-    height: 22px;
-    min-width: 22px;
-  }
-
-  /* El nucleo: dos anillos, uno girando y otro respirando. */
-  .hero-summary-map__core {
-    order: 1;
-    position: relative;
-    isolation: isolate;
-  }
-
-  .hero-summary-map__core::before,
-  .hero-summary-map__core::after {
-    content: "";
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    border-radius: 50%;
-    transform: translate(-50%, -50%);
-    pointer-events: none;
-    z-index: -1;
-  }
-
-  .hero-summary-map__core::before {
-    width: 134%;
-    height: 134%;
-    border: 1px dashed color-mix(in srgb, var(--summary-service) 46%, transparent);
-  }
-
-  .hero-summary-map__core::after {
-    width: 117%;
-    height: 117%;
-    border: 1px solid color-mix(in srgb, var(--summary-service) 30%, transparent);
-    animation: circuito-halo 3.4s ease-in-out 1 forwards;
-  }
-}
-
-@keyframes circuito-halo {
-  0%, 100% { opacity: 0.5; transform: translate(-50%, -50%) scale(1); }
-  50% { opacity: 0.16; transform: translate(-50%, -50%) scale(1.07); }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .summary-group::before,
-  .summary-group .summary-system-label::before,
-  .summary-group .summary-orb::before,
-  .summary-group .summary-platform::before,
-  .hero-summary-map__core::before,
-  .hero-summary-map__core::after {
-    animation: none;
-  }
-}
-
-/* ------------------------------------------------------------------
    "Miralo tu mismo" en celular (arreglo 2)
    En una columna las cinco tarjetas quedaban una encima de otra
    separadas solo por 24 px de aire entre dos fondos claros: bajando
@@ -8595,22 +7912,6 @@ button {
 
   .trabajo__detalle dt {
     color: var(--ink);
-  }
-}
-
-/* En tablet el modulo tenia ancho de sobra y las fichas quedaban con
-   media ficha vacia a la derecha. Con cuatro columnas cada bloque cabe
-   en una sola fila y el circuito baja mas corto. */
-
-@media (min-width: 621px) and (max-width: 900px) {
-  .summary-group--services .summary-node-cluster,
-  .summary-group--platforms .summary-platform-cluster {
-    grid-template-columns: repeat(4, minmax(0, 1fr));
-  }
-
-  .summary-group--products .summary-node-cluster {
-    max-width: 420px;
-    margin-inline: auto;
   }
 }
 
@@ -8890,14 +8191,26 @@ button {
   --despeje: 36px;
 }
 
-.ad--unificalo { --acento: #d99019; --acento-tinta: var(--accent-amber-ink); }
-.ad--citaly { --acento: #66a93f; --acento-tinta: var(--accent-lime-ink); }
-.ad--leads { --acento: var(--signal); --acento-tinta: var(--accent-cyan-ink); }
+/* Cada producto con la identidad de su propio sitio, no un acento generico:
+   Unificalo (unificalo.cl) es la U blanca sobre azul noche y el amarillo;
+   Citaly (citaly.cl) es el calendario-burbuja teal;
+   Leads (leads.iaenblanco.com) es el sello ambar con la chispa y el verde
+   de su panel. --acento pinta franja, escena y estado; --acento-tinta es la
+   version que aguanta como texto sobre papel; --marca-fondo y --marca-borde
+   son la caja del logo. La repisa del inicio usa los mismos valores. */
+.ad--unificalo { --acento: #f0c24a; --acento-tinta: #7d5a08; --marca-fondo: #07111f; --marca-borde: #07111f; }
+.ad--citaly { --acento: #14a394; --acento-tinta: #0a6b6b; --marca-fondo: #faf7f1; --marca-borde: rgba(20, 163, 148, 0.4); }
+.ad--leads { --acento: #177d5b; --acento-tinta: #0f5c43; --marca-fondo: #ffd166; --marca-borde: #ffd166; }
 
 .ad > article {
   display: grid;
   grid-template-rows: auto auto auto;
-  border: 1px solid var(--line);
+  /* Borde cian como las fichas del heroe: la ficha clara sobre la placa, y
+     arriba la franja con el color del producto. */
+  border: 1px solid rgba(64, 176, 208, 0.35);
+  border-top: 3px solid var(--acento);
+  border-radius: 10px;
+  overflow: hidden;
   background: var(--paper-bright);
 }
 
@@ -8948,19 +8261,32 @@ button {
 .ad__marca-caja {
   display: grid;
   place-items: center;
-  width: 52px;
-  height: 52px;
-  border: 1px solid var(--line);
-  background: var(--paper);
+  width: 60px;
+  height: 60px;
+  overflow: hidden;
+  border: 1px solid var(--marca-borde, var(--line));
+  border-radius: 10px;
+  background: var(--marca-fondo, var(--paper));
+  /* La chispa de Leads va en la tinta de su panel, sobre el ambar. */
+  color: #17201c;
 }
 
 .ad__marca-svg {
-  width: 30px;
-  height: 30px;
+  width: 38px;
+  height: 38px;
 }
 
-.ad__marca-svg {
-  color: var(--acento);
+/* La U de Unificalo trae su propio fondo azul noche: llena la caja. */
+.ad__marca-caja .hero-logo--unificalo {
+  width: 100%;
+  height: 100%;
+}
+
+/* La chispa de Leads es un glifo relleno, no de trazo como el resto de los
+   glifos de la casa (.hero-logo path los deja sin relleno). */
+.hero-logo--leads path {
+  fill: currentColor;
+  stroke: none;
 }
 
 .ad__estado {
@@ -9258,9 +8584,10 @@ button {
   transform: translateY(-3px);
 }
 
-.repisa__ficha--unificalo { --acento-ficha: #d99019; }
-.repisa__ficha--citaly { --acento-ficha: #66a93f; }
-.repisa__ficha--leads { --acento-ficha: var(--signal); }
+/* Los mismos valores que .ad--* en /productos/: la identidad de cada sitio. */
+.repisa__ficha--unificalo { --acento-ficha: #f0c24a; --marca-fondo: #07111f; --marca-borde: #07111f; }
+.repisa__ficha--citaly { --acento-ficha: #14a394; --marca-fondo: #faf7f1; --marca-borde: rgba(20, 163, 148, 0.4); }
+.repisa__ficha--leads { --acento-ficha: #177d5b; --marca-fondo: #ffd166; --marca-borde: #ffd166; }
 
 .repisa__cabecera {
   display: flex;
@@ -9282,13 +8609,21 @@ button {
   place-items: center;
   width: 40px;
   height: 40px;
-  border: 1px solid var(--line-soft);
-  background: var(--paper);
+  overflow: hidden;
+  border: 1px solid var(--marca-borde, var(--line-soft));
+  border-radius: 8px;
+  background: var(--marca-fondo, var(--paper));
+  color: #17201c;
 }
 
 .repisa__marca .hero-logo {
-  width: 24px;
-  height: 24px;
+  width: 26px;
+  height: 26px;
+}
+
+.repisa__marca .hero-logo--unificalo {
+  width: 100%;
+  height: 100%;
 }
 
 .repisa__para {
@@ -9395,117 +8730,6 @@ button {
   }
 }
 
-/* ==================================================================
-   EL MAPA DEL HERO: mas lento, mas fluido, y que se arme al bajar
-   ------------------------------------------------------------------
-   Nico: "debe ser mucho mas lento, colorido (no tan excesivo), y
-   fluida la transicion, es demasiado tosco y rapido, y no debe ser
-   que llegaste a toda la imagen, debe ser que vas bajando y al
-   momento que comienzas a ver la animacion, siga lento y fluido, y
-   que se note".
-   Tres cambios:
-   1. Todos los ciclos se alargan entre 1,9 y 2,3 veces y cambian de
-      curva: linear y ease-in-out sacuden, cubic-bezier suave no.
-   2. El mapa se arma solo cuando entra en pantalla, pieza por pieza,
-      con animation-timeline: view(). Es scroll-driven de CSS, corre
-      en el compositor y no necesita ni una linea de JavaScript. Donde
-      no exista, el navegador ignora el bloque y el mapa se ve armado
-      como hasta ahora: nunca queda a medio dibujar.
-   3. Mas color: la luz que recorre las fichas lleva el acento del
-      grupo y el nucleo respira con un halo del color de la marca, en
-      vez del gris de antes.
-   ================================================================== */
-
-/* --- 1. Mas lento y mas fluido ------------------------------------ */
-
-.summary-transfer {
-  animation-duration: 8.5s;
-  animation-timing-function: cubic-bezier(0.45, 0, 0.55, 1);
-}
-
-
-@media (max-width: 900px) {
-  .summary-group::before {
-    animation-duration: 6.2s;
-    animation-timing-function: cubic-bezier(0.5, 0, 0.5, 1);
-  }
-
-  .summary-group--platforms::before { animation-delay: 0.9s; }
-  .summary-group--products::before { animation-delay: 1.8s; }
-
-  .summary-group .summary-system-label::before {
-    animation-duration: 6.2s;
-  }
-
-  .summary-group--platforms .summary-system-label::before { animation-delay: 0.9s; }
-  .summary-group--products .summary-system-label::before { animation-delay: 1.8s; }
-
-  .summary-group .summary-orb::before,
-  .summary-group .summary-platform::before {
-    background: linear-gradient(
-      100deg,
-      transparent 30%,
-      color-mix(in srgb, var(--grupo) 26%, transparent) 50%,
-      transparent 70%
-    );
-    animation-duration: 11s;
-    animation-timing-function: cubic-bezier(0.4, 0, 0.35, 1);
-    animation-delay: calc(var(--node-index, 0) * 0.9s);
-  }
-
-  .summary-group--platforms .summary-platform::before {
-    animation-delay: calc(var(--node-index, 0) * 0.9s + 1.4s);
-  }
-
-  .summary-group--products .summary-orb::before {
-    animation-delay: calc(var(--node-index, 0) * 0.9s + 2.8s);
-  }
-
-  .hero-summary-map__core::before {
-    animation-duration: 60s;
-  }
-
-  .hero-summary-map__core::after {
-    border-color: color-mix(in srgb, var(--summary-service) 42%, transparent);
-    animation-duration: 7.5s;
-    animation-timing-function: cubic-bezier(0.45, 0, 0.55, 1);
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .hero-summary-map__core,
-  .summary-group,
-  .summary-group .summary-orb,
-  .summary-group .summary-platform,
-  .summary-system-label,
-  .summary-node-cluster,
-  .summary-platform-cluster,
-  .summary-flow,
-  .hero-summary-map__wires {
-    animation: none;
-    opacity: 1;
-    filter: none;
-  }
-
-  /* Ni el nucleo ni las piezas que se centran con translateX(-50%) entran
-     aca. Esos transform son posicion, no movimiento: el nucleo se centra con
-     translate(-50%, -50%) sobre su top/left, y .summary-system-label y cada
-     .summary-platform con translateX(-50%) sobre su left: 50%. Esta regla
-     -misma especificidad, mas abajo en el archivo- se los pisaba y las piezas
-     se corrian media caja a la derecha (el nucleo, ademas, hacia abajo). No
-     se redeclara nada en su lugar, basta con no anularlos; en celular ya
-     manda el transform: none de la regla agrupada del @media (max-width:
-     900px), que ademas les pone position: relative y left: auto. */
-  .summary-group,
-  .summary-group .summary-orb,
-  .summary-node-cluster,
-  .summary-platform-cluster,
-  .summary-flow,
-  .hero-summary-map__wires {
-    transform: none;
-  }
-}
-
 /* ------------------------------------------------------------------
    El mapa se arma al entrar en pantalla
    Sin JavaScript no hay ninguna clase y el mapa se ve completo: la
@@ -9517,95 +8741,6 @@ button {
 
 .revela {
   display: contents;
-}
-
-.revela--mapa.revela--armado .hero-summary-map__core,
-.revela--mapa.revela--armado .summary-group,
-.revela--mapa.revela--armado .summary-system-label,
-.revela--mapa.revela--armado .summary-node-cluster,
-.revela--mapa.revela--armado .summary-platform-cluster,
-.revela--mapa.revela--armado .summary-flow,
-.revela--mapa.revela--armado .hero-summary-map__wires {
-  opacity: 0;
-  transition: none;
-}
-
-.revela--mapa.revela--armado.es-visible .hero-summary-map__core,
-.revela--mapa.revela--armado.es-visible .summary-group,
-.revela--mapa.revela--armado.es-visible .summary-system-label,
-.revela--mapa.revela--armado.es-visible .summary-node-cluster,
-.revela--mapa.revela--armado.es-visible .summary-platform-cluster,
-.revela--mapa.revela--armado.es-visible .summary-flow,
-.revela--mapa.revela--armado.es-visible .hero-summary-map__wires {
-  opacity: 1;
-  transition:
-    opacity 1200ms cubic-bezier(0.22, 1, 0.36, 1),
-    transform 1500ms cubic-bezier(0.22, 1, 0.36, 1);
-}
-
-/* El orden en que se arma: primero el nucleo, despues los cables y
-   recien ahi cada grupo. Los retardos son largos a proposito: el
-   recorrido completo dura unos 2,4 s, para que se note. */
-.revela--mapa.revela--armado.es-visible .hero-summary-map__core { transition-delay: 0ms; }
-.revela--mapa.revela--armado.es-visible .hero-summary-map__wires { transition-delay: 260ms; }
-.revela--mapa.revela--armado.es-visible .summary-system-label--services,
-.revela--mapa.revela--armado.es-visible .summary-node-cluster--services,
-.revela--mapa.revela--armado.es-visible .summary-group--services { transition-delay: 480ms; }
-.revela--mapa.revela--armado.es-visible .summary-system-label--platforms,
-.revela--mapa.revela--armado.es-visible .summary-platform-cluster,
-.revela--mapa.revela--armado.es-visible .summary-group--platforms { transition-delay: 820ms; }
-.revela--mapa.revela--armado.es-visible .summary-system-label--products,
-.revela--mapa.revela--armado.es-visible .summary-node-cluster--products,
-.revela--mapa.revela--armado.es-visible .summary-group--products { transition-delay: 1160ms; }
-.revela--mapa.revela--armado.es-visible .summary-flow { transition-delay: 1500ms; }
-
-/* En celular los modulos ademas suben. En escritorio no se toca
-   transform: las piezas del mapa estan posicionadas con translate y
-   pisarlo las descuadraria. */
-@media (max-width: 900px) {
-  .revela--mapa.revela--armado .hero-summary-map__core,
-  .revela--mapa.revela--armado .summary-group {
-    transform: translateY(18px);
-  }
-
-  .revela--mapa.revela--armado.es-visible .hero-summary-map__core,
-  .revela--mapa.revela--armado.es-visible .summary-group {
-    transform: translateY(0);
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .revela--mapa.revela--armado .summary-group,
-  .revela--mapa.revela--armado .summary-node-cluster,
-  .revela--mapa.revela--armado .summary-platform-cluster,
-  .revela--mapa.revela--armado .summary-flow,
-  .revela--mapa.revela--armado .hero-summary-map__wires {
-    opacity: 1;
-    transform: none;
-    transition: none;
-  }
-
-  /* El nucleo y la etiqueta de sistema van aparte: necesitan la opacidad
-     y el corte de transicion, pero no el transform, que en escritorio los
-     descentra. El nucleo se centra con translate(-50%, -50%) y
-     .summary-system-label--platforms con translateX(-50%); ninguno de los
-     dos trae transform de revelado que haya que cancelar. */
-  .revela--mapa.revela--armado .hero-summary-map__core,
-  .revela--mapa.revela--armado .summary-system-label {
-    opacity: 1;
-    transition: none;
-  }
-}
-
-/* En celular el nucleo SI quiere transform: none, y hay que devolverselo
-   aca: la regla del @media (max-width: 900px) de mas arriba le pone
-   translateY(18px) mientras no tiene .es-visible, y esa clase la agrega el
-   IntersectionObserver un cuadro despues. Sin esto se veria 18 px mas abajo
-   hasta que aparece. */
-@media (prefers-reduced-motion: reduce) and (max-width: 900px) {
-  .revela--mapa.revela--armado .hero-summary-map__core {
-    transform: none;
-  }
 }
 
 /* ==================================================================
@@ -11408,1154 +10543,451 @@ button {
   color: var(--signal);
 }
 
-/* ------------------------------------------------------------------
-   El mapa del hero: introduccion mas suave (21-ago-2026)
-   En PC aparecia tosco -las piezas saltaban de 0 a 1 sin recorrido- y
-   en celular las animaciones de color partian con el reloj de la
-   pagina, asi que al llegar al mapa el ciclo iba por la mitad y se
-   veia pegado.
-   1) Los colores parten cuando el mapa entra en pantalla: todas las
-      animaciones del mapa nacen en pausa y arrancan con es-visible,
-      desde el cuadro cero. Sin JavaScript no hay clase y corren solas.
-      Y vuelven a pausarse cuando el mapa se va de la pantalla, con
-      revela--fuera: son 19 bucles que antes seguian corriendo con el
-      hero a seis mil pixeles de distancia. La entrada no se rearma;
-      solo se detiene el motor.
-   2) Los fundidos se alargan y las piezas ademas crecen desde 96,5%
-      con la propiedad scale, que no pisa el transform con que estan
-      posicionadas.
-   ------------------------------------------------------------------ */
-
-.revela--mapa.revela--armado .hero-summary-map *,
-.revela--mapa.revela--armado .hero-summary-map *::before,
-.revela--mapa.revela--armado .hero-summary-map *::after,
-.revela--mapa.revela--armado .hero-summary-map::before,
-.revela--mapa.revela--armado .hero-summary-map::after {
-  animation-play-state: paused;
-}
-
-.revela--mapa.revela--armado.es-visible:not(.revela--fuera) .hero-summary-map *,
-.revela--mapa.revela--armado.es-visible:not(.revela--fuera) .hero-summary-map *::before,
-.revela--mapa.revela--armado.es-visible:not(.revela--fuera) .hero-summary-map *::after,
-.revela--mapa.revela--armado.es-visible:not(.revela--fuera) .hero-summary-map::before,
-.revela--mapa.revela--armado.es-visible:not(.revela--fuera) .hero-summary-map::after {
-  animation-play-state: running;
-}
-
-/* Fundidos mas largos y con la misma curva suave de la casa. Van SOLO en
-   el estado visible: si tocan el estado escondido, el navegador tambien
-   anima el desaparecer y se ve el mapa irse antes de volver (ya nos paso).
-   Solo longhands: el shorthand pisaria los transition-delay del escalonado. */
-.revela--mapa.revela--armado.es-visible .hero-summary-map__core,
-.revela--mapa.revela--armado.es-visible .summary-group,
-.revela--mapa.revela--armado.es-visible .summary-system-label,
-.revela--mapa.revela--armado.es-visible .summary-node-cluster,
-.revela--mapa.revela--armado.es-visible .summary-platform-cluster,
-.revela--mapa.revela--armado.es-visible .summary-flow,
-.revela--mapa.revela--armado.es-visible .hero-summary-map__wires {
-  transition-duration: 1700ms, 2000ms;
-  transition-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-@supports (scale: 1) {
-  .revela--mapa.revela--armado .hero-summary-map__core,
-  .revela--mapa.revela--armado .summary-group,
-  .revela--mapa.revela--armado .summary-system-label,
-  .revela--mapa.revela--armado .summary-node-cluster,
-  .revela--mapa.revela--armado .summary-platform-cluster,
-  .revela--mapa.revela--armado .summary-flow {
-    scale: 0.965;
-  }
-
-  .revela--mapa.revela--armado.es-visible .hero-summary-map__core,
-  .revela--mapa.revela--armado.es-visible .summary-group,
-  .revela--mapa.revela--armado.es-visible .summary-system-label,
-  .revela--mapa.revela--armado.es-visible .summary-node-cluster,
-  .revela--mapa.revela--armado.es-visible .summary-platform-cluster,
-  .revela--mapa.revela--armado.es-visible .summary-flow {
-    scale: 1;
-    transition-property: opacity, transform, scale;
-    transition-duration: 1700ms, 2000ms, 2000ms;
-  }
-}
-
-/* En escritorio el marco entero ademas sube 16 px, despacio: la entrada
-   deja de ser un parpadeo y pasa a ser un gesto. */
-@media (min-width: 901px) {
-  .revela--mapa.revela--armado .hero-summary-map {
-    transform: translateY(16px);
-  }
-
-  .revela--mapa.revela--armado.es-visible .hero-summary-map {
-    transform: translateY(0);
-    transition: transform 2000ms cubic-bezier(0.16, 1, 0.3, 1);
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .revela--mapa.revela--armado .hero-summary-map,
-  .revela--mapa.revela--armado .summary-group,
-  .revela--mapa.revela--armado .summary-node-cluster,
-  .revela--mapa.revela--armado .summary-platform-cluster,
-  .revela--mapa.revela--armado .summary-flow {
-    scale: 1;
-    transform: none;
-    transition: none;
-  }
-
-  /* El marco .hero-summary-map SI conserva el transform: none, porque trae
-     un translateY(16px) de la regla de aca arriba. Los que salen de la
-     lista son el nucleo -.hero-summary-map__core, que es otra cosa- y la
-     etiqueta de sistema, que se centra con translateX(-50%). */
-  .revela--mapa.revela--armado .hero-summary-map__core,
-  .revela--mapa.revela--armado .summary-system-label {
-    scale: 1;
-    transition: none;
-  }
-}
-
 /* ==================================================================
-   LAS TRES ESCENAS DE PRODUCTOS, SEGUNDA VERSION (21-ago-2026)
+   LAS TRES ESCENAS DE PRODUCTOS, TERCERA VERSION (sep-2026)
    ------------------------------------------------------------------
-   Guiadas por el sitio real de cada producto. Unificalo: el canal
-   maestro del que bajan pistas de circuito a los canales. Citaly: el
-   audio con su forma de onda y la agenda donde la hora queda tomada.
-   Leads: el mapa de puntos que se encienden y terminan en una lista
-   ordenada. Misma disciplina de siempre: una sola pasada, solo
-   opacidad/transform/scale y algun borde, detenidas hasta entrar en
-   pantalla, y el estado resuelto como imagen fija si no hay movimiento.
+   Una gramatica para las tres: chip mono arriba (la situacion de hoy),
+   el producto haciendo su unica cosa en el centro, y un sello oscuro
+   abajo con lo que queda hecho. Cada escena es un svg de 360x280
+   (components/EscenaProducto.tsx): aspect-ratio fijo, sin layout shift,
+   un solo dibujo que escala igual en el celular y en escritorio.
+
+   Disciplina: la base de cada pieza es su estado FINAL; los keyframes
+   solo cuentan el camino (fill-mode both, una pasada de 2 s, ninguna
+   infinita). Se anima solo opacity y transform. Las piezas que viajan
+   leen --dx/--dy del atributo style del svg. La pausa fuera de pantalla
+   y el barrido de entrada son los de siempre (.esc * paused/running y
+   escena-barrido). Sin movimiento, el bloque generico ya deja todo en
+   opacity 1 / transform none; aqui solo se esconden las piezas de
+   "antes" y las transitorias para que quede la imagen resuelta.
    ================================================================== */
 
-.esc--u2,
-.esc--c2,
-.esc--l2 {
-  height: 264px;
-  padding: 20px 28px;
+.esc--u3,
+.esc--c3,
+.esc--l3 {
+  --esc-pasada: 2000ms;
+  height: auto;
+  padding: 16px 14px;
+  place-items: center;
 }
 
-/* --- 01 · UNIFICALO: el canal maestro ----------------------------- */
-
-.esc--u2 {
-  grid-template-rows: auto auto minmax(0, 1fr);
-  gap: 0;
-  align-content: center;
-}
-
-/* El maestro es oscuro, como el hero de unificalo.cl, con el acento
-   ambar de la casa. */
-.u2__maestro {
-  position: relative;
-  z-index: 1;
-  justify-self: center;
-  display: grid;
-  grid-template-columns: auto auto;
-  align-items: center;
-  gap: 3px 18px;
-  padding: 12px 18px;
-  background: var(--noche, #0c1824);
-  border: 1px solid color-mix(in srgb, var(--acento) 50%, transparent);
-  color: var(--paper-bright);
-}
-
-.u2__maestro-etiqueta {
-  grid-column: 1;
-  color: color-mix(in srgb, var(--acento) 85%, #fff);
-  font-family: var(--font-mono);
-  font-size: var(--texto-2);
-  font-weight: 500;
-  letter-spacing: 0.11em;
-  text-transform: uppercase;
-}
-
-.u2__maestro-nombre {
-  grid-column: 1;
-  font-size: 17px;
-  font-weight: 600;
-  letter-spacing: -0.02em;
-  white-space: nowrap;
-}
-
-.u2__venta {
-  grid-column: 2;
-  grid-row: 1 / 3;
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  padding: 6px 11px;
-  border: 1px solid color-mix(in srgb, var(--acento) 55%, transparent);
-  background: color-mix(in srgb, var(--acento) 14%, transparent);
-  font-family: var(--font-mono);
-  font-size: var(--texto-2);
-  letter-spacing: 0.02em;
-  white-space: nowrap;
-  animation: u2-venta var(--esc-pasada) cubic-bezier(0.22, 1, 0.36, 1) 1 both;
-}
-
-.u2__venta-punto {
-  width: 7px;
-  height: 7px;
-  border-radius: 50%;
-  background: var(--acento);
-}
-
-.u2__canales {
-  display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: 14px;
-  align-content: end;
-}
-
-.u2__columna {
-  display: grid;
-  grid-template-rows: 34px minmax(0, 1fr);
-  justify-items: center;
-  min-width: 0;
-}
-
-/* La pista de circuito. La corriente es un punto que baja por ella.
-   Era un punteado: mismo color, pero un guion de 1px es el gesto de "aca
-   iria una linea", no una linea. Solida se lee igual de circuito. */
-.u2__traza {
-  position: relative;
-  width: 1px;
-  height: 34px;
-  background: color-mix(in srgb, var(--acento) 45%, transparent);
-}
-
-.u2__traza i {
-  position: absolute;
-  left: 50%;
-  top: 0;
-  width: 7px;
-  height: 7px;
-  margin-left: -3.5px;
-  border-radius: 50%;
-  background: var(--acento);
-  box-shadow: 0 0 0 4px color-mix(in srgb, var(--acento) 18%, transparent);
-  opacity: 0;
-  animation: u2-corriente var(--esc-pasada) cubic-bezier(0.5, 0, 0.5, 1) 1 both;
-  animation-delay: calc(var(--i) * 90ms);
-}
-
-.u2__canal {
-  display: grid;
-  gap: 3px;
-  width: 100%;
-  padding: 11px 12px;
-  /* Igual que .esc__mensaje: el borde encendido es la regla base y el
-     keyframe solo cuenta como se llega. Ver el comentario de alla. */
-  border: 1px solid color-mix(in srgb, var(--acento) 60%, transparent);
-  background: var(--paper-bright);
-  animation: u2-canal var(--esc-pasada) cubic-bezier(0.22, 1, 0.36, 1) 1 both;
-  animation-delay: calc(var(--i) * 90ms);
-}
-
-.u2__canal-nombre {
-  font-size: 13.5px;
-  font-weight: 600;
-  letter-spacing: -0.01em;
-  line-height: 1.15;
-  overflow-wrap: normal;
-  word-break: keep-all;
-}
-
-.u2__canal-detalle {
-  overflow: hidden;
-  color: var(--graphite);
-  font-family: var(--font-mono);
-  font-size: 11px;
-  letter-spacing: 0.02em;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-
-.u2__cifra {
-  position: relative;
-  height: 26px;
-  overflow: hidden;
-  margin-top: 3px;
-  font-family: var(--font-mono);
-  font-size: 22px;
-  font-variant-numeric: tabular-nums;
-  font-weight: 500;
-  line-height: 26px;
-}
-
-.u2__cifra-antes,
-.u2__cifra-despues {
-  position: absolute;
-  left: 0;
-  top: 0;
-  animation: var(--esc-pasada) cubic-bezier(0.22, 1, 0.36, 1) 1 both;
-  animation-delay: calc(var(--i) * 90ms);
-}
-
-.u2__cifra-antes {
-  color: var(--graphite);
-  animation-name: u2-cifra-sale;
-}
-
-.u2__cifra-despues {
-  color: var(--acento-tinta, var(--acento));
-  animation-name: u2-cifra-entra;
-}
-
-/* La franja de la que cuelgan los cuatro canales, con la palabra que
-   dice de que son los numeros. Detenida, un «3» solo no dice nada: los
-   siete segundos que sobran se miran sobre el estado final, no sobre el
-   movimiento que lo explico. Y en el telefono la pista (.u2__traza) se
-   apaga, asi que sin esto nada une el maestro con los cuatro canales. */
-.u2__union {
-  display: grid;
-  grid-template-columns: auto minmax(0, 1fr);
-  align-items: center;
-  gap: 10px;
-  margin: 12px 0 10px;
-}
-
-.u2__union-rotulo {
-  color: var(--acento-tinta, var(--acento));
-  font-family: var(--font-mono);
-  font-size: var(--texto-2);
-  font-weight: 500;
-  letter-spacing: 0.11em;
-  text-transform: uppercase;
-}
-
-.u2__union-franja {
-  height: 3px;
-  background: var(--acento);
-  transform-origin: left center;
-  animation: u2-union var(--esc-pasada) cubic-bezier(0.22, 1, 0.36, 1) 1 both;
-}
-
-/* La venta aparece, la franja se tiende, el canal se enciende y la cifra
-   cambia: todo dentro de la misma pasada de 1,6 s. */
-@keyframes u2-venta {
-  0%, 6% { opacity: 0; transform: translateY(-8px); }
-  22%, 100% { opacity: 1; transform: translateY(0); }
-}
-
-@keyframes u2-corriente {
-  0%, 20% { opacity: 0; transform: translateY(-4px); }
-  32% { opacity: 1; transform: translateY(0); }
-  60% { opacity: 1; transform: translateY(30px); }
-  72%, 100% { opacity: 0; transform: translateY(30px); }
-}
-
-@keyframes u2-canal {
-  0%, 52% { border-color: var(--line); }
-  72%, 100% { border-color: color-mix(in srgb, var(--acento) 60%, transparent); }
-}
-
-@keyframes u2-cifra-sale {
-  0%, 55% { opacity: 1; transform: translateY(0); }
-  75%, 100% { opacity: 0; transform: translateY(-8px); }
-}
-
-@keyframes u2-cifra-entra {
-  0%, 55% { opacity: 0; transform: translateY(8px); }
-  75%, 100% { opacity: 1; transform: translateY(0); }
-}
-
-@keyframes u2-union {
-  0%, 18% { transform: scaleX(0); }
-  46%, 100% { transform: scaleX(1); }
-}
-
-/* --- 02 · CITALY: el audio y la agenda ---------------------------- */
-
-.esc--c2 {
-  grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr);
-  gap: 22px;
-  align-content: center;
-  align-items: center;
-}
-
-.c2__chat {
-  display: grid;
-  justify-items: start;
-  gap: 9px;
-}
-
-.c2__hora {
-  color: var(--graphite);
-  font-family: var(--font-mono);
-  font-size: 11px;
-  letter-spacing: 0.09em;
-  animation: c2-temprano var(--esc-pasada) cubic-bezier(0.22, 1, 0.36, 1) 1 both;
-}
-
-/* La burbuja de audio, como en citaly.cl: play, forma de onda y duracion. */
-.c2__audio {
-  display: inline-flex;
-  align-items: center;
-  gap: 10px;
-  padding: 10px 14px;
-  border: 1px solid var(--line);
-  background: var(--paper-bright);
-  animation: c2-temprano var(--esc-pasada) cubic-bezier(0.22, 1, 0.36, 1) 1 both;
-}
-
-.c2__audio-play {
-  width: 0;
-  height: 0;
-  border-left: 9px solid var(--acento-tinta, var(--acento));
-  border-top: 6px solid transparent;
-  border-bottom: 6px solid transparent;
-}
-
-.c2__onda {
-  display: inline-flex;
-  align-items: center;
-  gap: 2px;
-  height: 18px;
-}
-
-.c2__onda i {
-  width: 2px;
-  height: var(--h, 10px);
-  background: color-mix(in srgb, var(--acento) 75%, var(--ink));
-  transform-origin: center;
-  /* Una sola crecida y se queda: la altura de cada barra la pone --h, asi
-     que terminar en scaleY(1) es terminar en la onda dibujada. Latiendo
-     para siempre, el cuadro final caia en cualquier altura. */
-  animation: c2-onda 600ms ease-out 1 both;
-  animation-delay: calc(var(--i) * 40ms);
-}
-
-.c2__audio-dur {
-  color: var(--graphite);
-  font-family: var(--font-mono);
-  font-size: 11px;
-}
-
-.c2__estado {
-  color: var(--graphite);
-  font-family: var(--font-mono);
-  font-size: var(--texto-2);
-  letter-spacing: 0.02em;
-  animation: c2-estado var(--esc-pasada) cubic-bezier(0.22, 1, 0.36, 1) 1 both;
-}
-
-.c2__respuesta {
-  justify-self: end;
-  max-width: 92%;
-  padding: 10px 14px;
-  border: 1px solid color-mix(in srgb, var(--acento) 45%, transparent);
-  background: color-mix(in srgb, var(--acento) 11%, var(--paper-bright));
-  font-size: var(--texto-3);
-  line-height: 1.3;
-  animation: c2-respuesta var(--esc-pasada) cubic-bezier(0.22, 1, 0.36, 1) 1 both;
-}
-
-/* La agenda, como la de citaly.cl: horas a la izquierda, casillas a la
-   derecha, y la de las 11:30 queda tomada. */
-.c2__agenda {
-  display: grid;
-  gap: 7px;
-  padding: 13px 14px;
-  /* Idem. La agenda tomada es el estado final, no el premio por esperar. */
-  border: 1px solid color-mix(in srgb, var(--acento) 55%, transparent);
-  background: var(--paper-bright);
-  animation: c2-agenda var(--esc-pasada) cubic-bezier(0.22, 1, 0.36, 1) 1 both;
-}
-
-.c2__agenda-titulo {
-  color: var(--graphite);
-  font-family: var(--font-mono);
-  font-size: var(--texto-1);
-  font-weight: 500;
-  letter-spacing: 0.11em;
-  text-transform: uppercase;
-}
-
-.c2__slot {
-  display: grid;
-  grid-template-columns: 40px minmax(0, 1fr);
-  align-items: center;
-  gap: 10px;
-}
-
-.c2__slot-hora {
-  color: var(--graphite);
-  font-family: var(--font-mono);
-  font-size: var(--texto-2);
-  font-variant-numeric: tabular-nums;
-}
-
-/* La hora libre es un estado, no un hueco: antes era una casilla de borde
-   punteado gris con la palabra "libre" casi apagada adentro, o sea el
-   dibujo de una casilla vacia. Ahora tiene marco y fondo propios. */
-.c2__slot-caja {
-  position: relative;
-  height: 28px;
-  border: 1px solid color-mix(in srgb, var(--acento) 25%, transparent);
-  background: color-mix(in srgb, var(--acento) 5%, transparent);
-}
-
-.c2__slot-libre,
-.c2__slot-tomada {
-  position: absolute;
-  inset: 0;
-  display: inline-flex;
-  align-items: center;
-  gap: 7px;
-  padding: 0 9px;
-  font-family: var(--font-mono);
-  font-size: 11px;
-  letter-spacing: 0.04em;
-}
-
-.c2__slot-libre {
-  color: var(--text-body);
-}
-
-.c2__slot-tomada {
-  border: 1px solid color-mix(in srgb, var(--acento) 60%, transparent);
-  margin: -1px;
-  background: color-mix(in srgb, var(--acento) 14%, var(--paper-bright));
-  color: var(--ink);
-  font-weight: 500;
-  opacity: 0;
-}
-
-.c2__slot-tomada i {
-  width: 9px;
-  height: 5px;
-  border-left: 2px solid var(--acento-tinta, var(--acento));
-  border-bottom: 2px solid var(--acento-tinta, var(--acento));
-  transform: rotate(-45deg) translate(0, -1px);
-}
-
-.c2__slot-caja--toma .c2__slot-libre {
-  animation: c2-libre var(--esc-pasada) cubic-bezier(0.22, 1, 0.36, 1) 1 both;
-}
-
-.c2__slot-caja--toma .c2__slot-tomada {
-  animation: c2-tomada var(--esc-pasada) cubic-bezier(0.22, 1, 0.36, 1) 1 both;
-}
-
-/* El guion, medido contra los porcentajes de abajo y no contra la idea: el
-   audio llega (6-20%), aparece "escuchando" (32%), se responde (40-58%),
-   "escuchando" se va (58-72%) y la agenda toma la hora (62-82%).
-   Lo unico que vuelve al final es el aviso de "escuchando", que es de paso.
-   El audio, la respuesta y la hora tomada se quedan: la banda termina
-   ocupada, que es justamente lo que la escena cuenta. */
-@keyframes c2-temprano {
-  0%, 6% { opacity: 0; transform: translateY(10px); }
-  20%, 100% { opacity: 1; transform: translateY(0); }
-}
-
-@keyframes c2-onda {
-  from { transform: scaleY(0.35); }
-  to { transform: scaleY(1); }
-}
-
-@keyframes c2-estado {
-  0%, 20% { opacity: 0; }
-  32%, 58% { opacity: 1; }
-  72%, 100% { opacity: 0; }
-}
-
-@keyframes c2-respuesta {
-  0%, 40% { opacity: 0; transform: translateY(10px); }
-  58%, 100% { opacity: 1; transform: translateY(0); }
-}
-
-@keyframes c2-agenda {
-  0%, 62% { border-color: var(--line); }
-  82%, 100% { border-color: color-mix(in srgb, var(--acento) 55%, transparent); }
-}
-
-@keyframes c2-libre {
-  0%, 62% { opacity: 1; }
-  82%, 100% { opacity: 0; }
-}
-
-@keyframes c2-tomada {
-  0%, 62% { opacity: 0; transform: translateY(6px); }
-  82%, 100% { opacity: 1; transform: translateY(0); }
-}
-
-/* --- 03 · LEADS: del mapa de puntos a la lista -------------------- */
-
-.esc--l2 {
-  grid-template-columns: minmax(0, 1fr) minmax(0, 1.15fr);
-  gap: 22px;
-  align-content: center;
-  align-items: center;
-}
-
-.l2__mapa {
-  display: grid;
-  gap: 10px;
-  align-self: stretch;
-  grid-template-rows: auto minmax(0, 1fr);
-}
-
-.l2__busqueda {
-  justify-self: start;
-  padding: 6px 12px;
-  border: 1px solid color-mix(in srgb, var(--acento) 45%, transparent);
-  background: var(--paper-bright);
-  color: var(--ink);
-  font-family: var(--font-mono);
-  font-size: var(--texto-2);
-  letter-spacing: 0.04em;
-  animation: l2-busqueda var(--esc-pasada) cubic-bezier(0.22, 1, 0.36, 1) 1 both;
-}
-
-/* El campo de puntos, como el mapa encendido de leads.iaenblanco.com:
-   las empresas estan ahi, y las que calzan se encienden. */
-.l2__campo {
-  position: relative;
+.esc3__svg {
   display: block;
-  /* Era marco punteado sobre papel cuadriculado de hairlines al 4% de
-     tinta: el recurso de wireframe mas puro que hay. Ahora es el mismo
-     lavado de acento que usa el chasis de las escenas, y el marco es
-     solido: el mapa deja de parecer un boceto del mapa. */
-  border: 1px solid color-mix(in srgb, var(--acento) 30%, transparent);
-  background:
-    linear-gradient(180deg, color-mix(in srgb, var(--acento) 6%, transparent), transparent 60%),
-    var(--paper-bright);
+  width: 100%;
+  max-width: 480px;
+  height: auto;
 }
 
-.l2__punto {
-  position: absolute;
-  left: var(--x);
-  top: var(--y);
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
-  background: color-mix(in srgb, var(--acento) 34%, transparent);
+/* :where() deja la base con el peso de una clase: cada pieza la pisa con la suya */
+.esc3__svg :where(text) {
+  font-family: var(--font-sans);
+  font-size: 12px;
+  fill: var(--ink);
 }
 
-.l2__punto--calza {
-  background: var(--acento);
-  animation: l2-punto var(--esc-pasada) cubic-bezier(0.22, 1, 0.36, 1) 1 both;
-  animation-delay: calc(var(--o) * 100ms);
+.esc3__svg :where(path) {
+  fill: none;
+  stroke-width: 2.2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
 }
 
-.l2__lista {
-  display: grid;
-  gap: 9px;
+/* --- Piezas comunes: chip de arriba y sello de abajo --------------- */
+
+.esc3__chip rect {
+  fill: var(--paper-bright);
+  stroke: var(--line);
 }
 
-.l2__fila {
-  display: grid;
-  grid-template-columns: 18px minmax(0, 1fr);
-  align-items: center;
-  gap: 11px;
-}
-
-.l2__orden {
-  color: var(--acento-tinta, var(--acento));
+.esc3__chip text {
   font-family: var(--font-mono);
-  font-size: 13px;
+  font-size: 10px;
   font-weight: 500;
-  opacity: 0;
-  animation: l2-aparece var(--esc-pasada) cubic-bezier(0.22, 1, 0.36, 1) 1 both;
-  animation-delay: calc(var(--o) * 100ms);
+  letter-spacing: 0.04em;
+  fill: var(--graphite);
 }
 
-/* Lo que Leads sabe de cada empresa, escrito. Antes eran cuatro barras
-   grises de largo decreciente con un rotulo al lado: la forma canonica
-   del esqueleto de carga, viva en la escena que abre /productos/. Ahora
-   el largo lo dibuja el propio dato -la ficha mas completa es la fila
-   mas larga- y por eso se entiende que va primero. */
-.l2__datos {
-  display: flex;
-  gap: 6px;
-  min-width: 0;
+.esc3__sello rect {
+  fill: var(--noche);
 }
 
-.l2__dato {
-  padding: 2px 7px;
-  border: 1px solid color-mix(in srgb, var(--acento) 35%, transparent);
-  background: color-mix(in srgb, var(--acento) 10%, var(--paper-bright));
-  color: var(--acento-tinta, var(--acento));
-  font-family: var(--font-mono);
-  font-size: var(--texto-2);
-  letter-spacing: 0.03em;
-  white-space: nowrap;
-  opacity: 0;
-  animation: l2-aparece var(--esc-pasada) cubic-bezier(0.22, 1, 0.36, 1) 1 both;
-  animation-delay: calc(var(--o) * 100ms + 60ms);
+.esc3__sello circle {
+  fill: var(--acento);
 }
 
-.l2__cierre {
-  margin-top: 3px;
-  color: var(--acento-tinta, var(--acento));
-  font-family: var(--font-mono);
-  font-size: var(--texto-2);
+.esc3__sello-tic {
+  stroke: var(--noche);
+}
+
+.esc3__sello text {
+  font-size: 12.5px;
   font-weight: 500;
-  letter-spacing: 0.03em;
-  animation: l2-cierre var(--esc-pasada) cubic-bezier(0.22, 1, 0.36, 1) 1 both;
+  fill: var(--paper);
 }
 
-@keyframes l2-busqueda {
-  0%, 5% { opacity: 0; transform: translateY(-8px); }
-  20%, 100% { opacity: 1; transform: translateY(0); }
+/* --- Los cuatro caminos que recorren las piezas ------------------- */
+
+@keyframes esc3-llega {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: none; }
 }
 
-@keyframes l2-punto {
-  0%, 25% { transform: scale(1); box-shadow: 0 0 0 0 transparent; }
-  38% { transform: scale(1.9); box-shadow: 0 0 0 5px color-mix(in srgb, var(--acento) 25%, transparent); }
-  55%, 100% { transform: scale(1.35); box-shadow: 0 0 0 3px color-mix(in srgb, var(--acento) 16%, transparent); }
+@keyframes esc3-llega-lado {
+  from { opacity: 0; transform: translateX(-10px); }
+  to { opacity: 1; transform: none; }
 }
 
-@keyframes l2-aparece {
-  0%, 30% { opacity: 0; }
-  50%, 100% { opacity: 1; }
+@keyframes esc3-se-va {
+  from { opacity: 1; }
+  to { opacity: 0; }
 }
 
-@keyframes l2-cierre {
-  0%, 78% { opacity: 0; transform: translateY(6px); }
-  95%, 100% { opacity: 1; transform: translateY(0); }
+@keyframes esc3-pasa {
+  0% { opacity: 0; }
+  12% { opacity: 1; }
+  88% { opacity: 1; }
+  100% { opacity: 0; }
 }
 
-/* --- Celular ------------------------------------------------------ */
-
-/* Las tres escenas compartian un solo corte en 400 porque se escribio como
-   "el ancho de un telefono". Medido, cada una necesita el suyo: la consulta
-   salta a la disposicion ancha en 400 pero ninguna de las dos primeras cabe
-   ahi todavia, y las dos inconsistencias que se ven en /productos son la
-   misma causa vista dos veces. Se parte en tres bloques -uno por escena- en
-   vez de subir el umbral compartido, que habria movido Leads sin que nada lo
-   pidiera. Decision del dueno del 30-ago. */
-
-/* --- Celular: Unificalo ------------------------------------------------
-   Medido sobre el contenedor «escena», que va 26px por debajo del viewport:
-   a 402 la barra de canales se sale 69px y el recorte se la come, y «Carta
-   del dia» y «Publicacion» elipsan en tarjetas de 93px. El recorte se cierra
-   en 474 pero la elipsis aguanta hasta 551; a 553 entra todo. Se corta en
-   556 -tres de margen por el redondeo de metricas entre dispositivos- para
-   que la rejilla de cuatro solo aparezca cuando de verdad cabe. */
-@container escena (width < 556px) {
-  .esc--u2 {
-    grid-template-rows: auto auto auto;
-    height: auto;
-    min-height: 0;
-    gap: 12px;
-    padding: 16px 18px;
-  }
-
-  .u2__maestro {
-    grid-template-columns: minmax(0, 1fr);
-    justify-items: start;
-    width: 100%;
-    gap: 3px;
-    padding: 11px 14px;
-  }
-
-  /* Los 12px salian de la regla agrupada de mas abajo, que pisaba este
-     11px sin que se notara. Se deja el valor que de verdad se aplica y la
-     agrupada suelta el selector. */
-  .u2__venta {
-    grid-column: 1;
-    grid-row: auto;
-    margin-top: 5px;
-    font-size: var(--texto-2);
-  }
-
-  .u2__union {
-    margin: 0;
-  }
-
-  .u2__canales {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 8px;
-  }
-
-  /* En dos filas la pista ya no dibuja el arbol: se apaga y queda el
-     encendido de cada canal, que cuenta lo mismo. */
-  .u2__columna {
-    grid-template-rows: minmax(0, 1fr);
-  }
-
-  .u2__traza {
-    display: none;
-  }
-
-  .u2__canal {
-    padding: 9px 11px;
-  }
-
-  .u2__cifra {
-    height: 22px;
-    font-size: 19px;
-    line-height: 22px;
-  }
-
-  .u2__maestro-etiqueta,
-  .u2__canal-detalle {
-    font-size: var(--texto-2);
-  }
+@keyframes esc3-viaja {
+  0% { opacity: 0; transform: translate(0, 0); }
+  15% { opacity: 1; }
+  85% { opacity: 1; }
+  100% { opacity: 0; transform: translate(var(--dx), var(--dy)); }
 }
 
-/* --- Celular: Citaly ---------------------------------------------------
-   El corte en 400 le dejaba doce pixeles de aire: a 402 el chip «Tomada»
-   pide 60 y tiene 56, y el texto choca contra su propio borde. Entra
-   completo desde 412; se corta en 416 por el mismo margen. */
-@container escena (width < 416px) {
-  .esc--c2 {
-    grid-template-columns: minmax(0, 1fr);
-    grid-template-rows: auto auto;
-    height: 356px;
-    gap: 14px;
-    padding: 16px 18px;
-  }
-
-  .c2__respuesta {
-    font-size: 13px;
-  }
-
-  .c2__estado,
-  .c2__hora,
-  .c2__audio-dur {
-    font-size: var(--texto-2);
-  }
-
-  .c2__agenda-titulo,
-  .c2__slot-libre,
-  .c2__slot-tomada {
-    font-size: var(--texto-2);
-  }
+@keyframes esc3-anillo {
+  from { opacity: 0.9; transform: scale(1); }
+  to { opacity: 0; transform: scale(1.5); }
 }
 
-/* --- Celular: Leads ----------------------------------------------------
-   Se queda en 400: no tiene defecto medido en la franja 400-556, y moverlo
-   seria cambiar lo que se ve sin evidencia de que haga falta. */
-@container escena (width < 400px) {
-  .esc--l2 {
-    grid-template-columns: minmax(0, 1fr);
-    grid-template-rows: minmax(0, 1fr) auto;
-    height: 336px;
-    gap: 14px;
-    padding: 16px 18px;
-  }
-
-  .l2__busqueda,
-  .l2__cierre {
-    font-size: var(--texto-2);
-  }
+.esc3__sello {
+  animation: esc3-llega 250ms ease-out calc(var(--esc-pasada) * 0.825) both;
 }
 
-/* El unico numero que quedo pegado al telefono, y a proposito medido:
-   la columna mide 349 en una ventana de 375 y 364 en una de 390, asi
-   que 356 parte por el mismo lugar que partia el corte de 380. */
-@container escena (width < 356px) {
-  .u2__canal-detalle { display: none; }
+/* --- Unificalo: una venta en la tienda, el stock baja en los cuatro - */
+
+.u3__radios line {
+  stroke: var(--line);
+  stroke-width: 1.5;
+}
+
+.u3__canal rect {
+  fill: var(--paper-bright);
+  stroke: var(--line);
+}
+
+.u3__nombre {
+  font-weight: 600;
+}
+
+.u3__fuente {
+  font-family: var(--font-mono);
+  font-size: 9.5px;
+  fill: var(--graphite);
+}
+
+.u3__venta rect {
+  fill: var(--acento);
+}
+
+.u3__venta text {
+  font-family: var(--font-mono);
+  font-size: 9.5px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  fill: var(--noche);
+}
+
+.u3__cifra,
+.u3__cifra text {
+  font-size: 26px;
+  font-weight: 700;
+}
+
+.u3__tics path {
+  stroke: var(--acento-tinta);
+}
+
+.u3__hub circle {
+  fill: var(--noche);
+}
+
+.u3__hub-rotulo {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: 0.08em;
+  fill: var(--paper);
+  fill-opacity: 0.7;
+}
+
+.u3__hub-cifra {
+  font-size: 28px;
+  font-weight: 700;
+  fill: var(--paper);
+}
+
+.u3__anillo {
+  fill: none;
+  stroke: var(--acento);
+  stroke-width: 2;
+  opacity: 0;
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: esc3-anillo 400ms ease-out calc(var(--esc-pasada) * 0.45) both;
+}
+
+.u3__pulso {
+  fill: var(--acento);
+  opacity: 0;
+}
+
+.u3__venta {
+  animation: esc3-llega 200ms ease-out calc(var(--esc-pasada) * 0.15) both;
+}
+
+.u3__cifra-tienda-antes {
+  opacity: 0;
+  animation: esc3-se-va 120ms ease-out calc(var(--esc-pasada) * 0.25) both;
+}
+
+.u3__cifra-tienda {
+  animation: esc3-llega 200ms ease-out calc(var(--esc-pasada) * 0.25) both;
+}
+
+.u3__pulso-entra {
+  animation: esc3-viaja 380ms ease-in-out calc(var(--esc-pasada) * 0.26) both;
+}
+
+.u3__hub-antes {
+  opacity: 0;
+  animation: esc3-se-va 120ms ease-out calc(var(--esc-pasada) * 0.44) both;
+}
+
+.u3__hub-despues {
+  animation: esc3-llega 200ms ease-out calc(var(--esc-pasada) * 0.44) both;
+}
+
+.u3__pulso-sale {
+  animation: esc3-viaja 400ms ease-in-out calc(var(--esc-pasada) * 0.5) both;
+}
+
+.u3__cifras-antes {
+  opacity: 0;
+  animation: esc3-se-va 120ms ease-out calc(var(--esc-pasada) * 0.69) both;
+}
+
+.u3__cifras-despues {
+  animation: esc3-llega 200ms ease-out calc(var(--esc-pasada) * 0.69) both;
+}
+
+.u3__tics {
+  animation: esc3-llega 200ms ease-out calc(var(--esc-pasada) * 0.75) both;
+}
+
+/* --- Citaly: pregunta a las 21:41, hora tomada y recordada ---------- */
+
+.c3__cliente rect,
+.c3__escribe rect,
+.c3__agenda > rect {
+  fill: var(--paper-bright);
+  stroke: var(--line);
+}
+
+.c3__escribe circle {
+  fill: var(--graphite);
+}
+
+.c3__respuesta rect {
+  fill: var(--noche);
+}
+
+.c3__firma {
+  font-family: var(--font-mono);
+  font-size: 8.5px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  fill: var(--acento);
+}
+
+.c3__texto {
+  font-size: 12.5px;
+  fill: var(--paper);
+}
+
+.c3__tic {
+  stroke: var(--acento);
+}
+
+.c3__rotulo,
+.l3__rotulo {
+  font-family: var(--font-mono);
+  font-size: 9.5px;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  fill: var(--graphite);
+}
+
+.c3__agenda line,
+.l3__lista line,
+.l3__mapa line {
+  stroke: var(--line);
+  stroke-width: 1.5;
+}
+
+.c3__fila {
+  fill: var(--paper);
+  stroke: var(--line);
+}
+
+.c3__fila--ocupada {
+  fill: var(--line);
+  fill-opacity: 0.55;
+}
+
+.c3__toma {
+  fill: var(--acento);
+  animation: esc3-llega 180ms ease-out calc(var(--esc-pasada) * 0.6) both;
+}
+
+.c3__horas text {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 600;
+}
+
+.c3__estado {
+  font-size: 11px;
+  fill: var(--graphite);
+}
+
+.c3__estado--tomada {
+  font-weight: 600;
+  fill: var(--noche);
+  animation: esc3-llega 180ms ease-out calc(var(--esc-pasada) * 0.6) both;
+}
+
+.c3__pulso {
+  fill: var(--acento);
+  opacity: 0;
+  animation: esc3-viaja 300ms ease-in-out calc(var(--esc-pasada) * 0.48) both;
+}
+
+.c3__escribe {
+  opacity: 0;
+  animation: esc3-pasa 650ms ease-out calc(var(--esc-pasada) * 0.08) both;
+}
+
+.c3__respuesta {
+  animation: esc3-llega 220ms ease-out calc(var(--esc-pasada) * 0.4) both;
+}
+
+.c3__estado--libre-antes {
+  opacity: 0;
+  animation: esc3-se-va 120ms ease-out calc(var(--esc-pasada) * 0.6) both;
+}
+
+/* --- Leads: de toda la comuna, las tres que calzan, en orden -------- */
+
+.l3__mapa > rect,
+.l3__lista > rect {
+  fill: var(--paper-bright);
+  stroke: var(--line);
+}
+
+.l3__puntos circle {
+  fill: var(--graphite);
+  fill-opacity: 0.35;
+}
+
+.l3__barrido {
+  fill: var(--acento);
+  opacity: 0;
+  animation: esc3-viaja 600ms linear calc(var(--esc-pasada) * 0.08) both;
+}
+
+.l3__elegidos circle {
+  fill: var(--acento);
+  stroke: var(--paper-bright);
+  stroke-width: 2;
+}
+
+.l3__rangos text {
+  font-family: var(--font-mono);
+  font-size: 9.5px;
+  font-weight: 700;
+  fill: var(--acento-tinta);
+}
+
+.l3__fila circle {
+  fill: var(--acento);
+}
+
+.l3__num {
+  font-size: 10px;
+  font-weight: 700;
+  fill: var(--noche);
+}
+
+.l3__nombre {
+  font-size: 11.5px;
+  font-weight: 600;
+}
+
+.l3__datos {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  fill: var(--graphite);
+}
+
+.l3__tic {
+  stroke: var(--acento-tinta);
+}
+
+.l3__elegidos {
+  animation: esc3-llega 200ms ease-out calc(var(--esc-pasada) * 0.33) both;
+}
+
+.l3__rangos {
+  animation: esc3-llega 200ms ease-out calc(var(--esc-pasada) * 0.4) both;
+}
+
+.l3__fila--1 {
+  animation: esc3-llega-lado 220ms ease-out calc(var(--esc-pasada) * 0.48) both;
+}
+
+.l3__fila--2 {
+  animation: esc3-llega-lado 220ms ease-out calc(var(--esc-pasada) * 0.56) both;
+}
+
+.l3__fila--3 {
+  animation: esc3-llega-lado 220ms ease-out calc(var(--esc-pasada) * 0.64) both;
 }
 
 /* --- Sin movimiento: el estado resuelto como imagen fija ---------- */
 
 @media (prefers-reduced-motion: reduce) {
-  .esc--u2 *,
-  .esc--c2 *,
-  .esc--l2 * {
-    animation: none !important;
-    opacity: 1 !important;
-    transform: none !important;
-  }
-
-  .u2__cifra-antes,
-  .c2__slot-caja--toma .c2__slot-libre,
-  .c2__estado {
+  .u3__cifra-tienda-antes,
+  .u3__cifras-antes,
+  .u3__hub-antes,
+  .u3__anillo,
+  .u3__pulso,
+  .c3__escribe,
+  .c3__estado--libre-antes,
+  .c3__pulso,
+  .l3__barrido {
     display: none;
   }
-
-  .c2__audio-play {
-    /* el triangulo del play vive de sus bordes: sin transform queda igual */
-    transform: none;
-  }
 }
 
 /* ==================================================================
-   EL CIRCUITO DEL MAPA MOVIL, SEGUNDA VERSION (21-ago-2026)
+   LAS ESCENAS RESPONDEN AL MOUSE (23-ago-2026)
    ------------------------------------------------------------------
-   Nico: "en especial los movimientos, colores, circuitos y flujos de
-   energia, que sea fino y elegante el movimiento y los colores como
-   se muevan". La primera version tenia tres animaciones sueltas que
-   latian cada una por su lado: un pulso en cada cable casi al mismo
-   tiempo y un barrido de luz diagonal generico sobre las fichas.
-   Ahora es UNA corriente que recorre el sistema en orden, con un solo
-   reloj de 4,8 s: baja el cable hasta "A tu medida" (0 s), el nodo
-   recibe, un riel de luz corre por el borde del modulo y sus fichas
-   se energizan una por una -borde e icono-; a los 1,6 s el turno de
-   "Lo que ya usas"; a los 3,2 s el de "Los nuestros". El nucleo respira
-   y su halo va cambiando entre los tres colores del sistema, despacio.
+   De las cinco correcciones de animacion de esa fecha solo queda esta:
+   las otras cuatro eran del mapa viejo del heroe (--avance, mapa-traza,
+   los paquetes por turnos) y se fueron con el en sep-2026, cuando el
+   heroe paso a ser el circuito Neon (ver la seccion HEROE «NEON»).
    ================================================================== */
-
-@media (max-width: 900px) {
-  .summary-group--services { --fase: 0s; }
-  .summary-group--platforms { --fase: 1.6s; }
-  .summary-group--products { --fase: 3.2s; }
-
-  /* El cable: mismo dibujo, pero ahora un solo pulso por vuelta y en
-     el turno de su modulo. */
-  .summary-group::before {
-    animation: circuito2-pulso 4.8s cubic-bezier(0.45, 0, 0.55, 1) 1;
-    animation-delay: var(--fase);
-  }
-
-  .summary-group--platforms::before,
-  .summary-group--products::before {
-    animation-delay: var(--fase);
-  }
-
-  /* El nodo recibe la corriente justo cuando el cable la entrega. */
-  .summary-group .summary-system-label::before {
-    animation: circuito2-nodo 4.8s ease-out 1;
-    animation-delay: var(--fase);
-  }
-
-  .summary-group--platforms .summary-system-label::before,
-  .summary-group--products .summary-system-label::before {
-    animation-delay: var(--fase);
-  }
-
-  /* El riel: una luz fina que corre por el borde superior del modulo,
-     como la pista de un circuito impreso. Vive en el ::after del
-     grupo, que quedo libre cuando salio la escuadra de esquina. */
-  .summary-group::after {
-    content: "";
-    position: absolute;
-    left: 0;
-    right: 0;
-    top: -1px;
-    width: auto;
-    height: 1px;
-    border: 0;
-    background: linear-gradient(
-      90deg,
-      transparent 0%,
-      color-mix(in srgb, var(--grupo) 85%, #fff) 50%,
-      transparent 100%
-    ) no-repeat;
-    background-size: 90px 1px;
-    background-position-x: -90px;
-    opacity: 0;
-    animation: circuito2-riel 4.8s cubic-bezier(0.45, 0, 0.55, 1) 1;
-    animation-delay: var(--fase);
-    pointer-events: none;
-  }
-
-  /* Las fichas ya no reciben un barrido diagonal: se energizan una por
-     una cuando la corriente llega a su modulo. El borde sube de tono
-     y el anillo del icono emite un ping suave. */
-  .summary-group .summary-orb::before,
-  .summary-group .summary-platform::before {
-    content: none;
-  }
-
-  .summary-group .summary-orb,
-  .summary-group .summary-platform {
-    animation: circuito2-ficha 4.8s cubic-bezier(0.45, 0, 0.55, 1) 1;
-    animation-delay: calc(var(--fase) + 0.5s + var(--node-index, 0) * 0.3s);
-  }
-
-  .summary-group .summary-orb > span,
-  .summary-group .summary-platform > span {
-    animation: circuito2-icono 4.8s ease-out 1;
-    animation-delay: calc(var(--fase) + 0.5s + var(--node-index, 0) * 0.3s);
-  }
-
-  /* El halo del nucleo respira y su color recorre los tres acentos del
-     sistema: celeste, verde, ambar. Los colores, moviendose despacio. */
-  .hero-summary-map__core::after {
-    animation:
-      circuito-halo 7.5s cubic-bezier(0.45, 0, 0.55, 1) 1 forwards,
-      circuito2-halo-color 4.8s linear 1 forwards;
-  }
-}
-
-/* La corriente entra (0-6%), el riel corre (4-16%) y las fichas se
-   encienden (5-26%): todo cabe en el primer tercio de la vuelta, que
-   es el turno del modulo; los otros dos tercios son de sus hermanos. */
-
-/* El pulso del cable: un solo viaje por vuelta, rapido y limpio, y el
-   resto del ciclo en silencio. */
-@keyframes circuito2-pulso {
-  0%, 0.8% { background-position: 50% 0, 50% -6px; opacity: 0; }
-  2% { opacity: 0.9; }
-  5% { background-position: 50% 0, 50% 21px; opacity: 0.9; }
-  7%, 100% { background-position: 50% 0, 50% 21px; opacity: 0; }
-}
-
-@keyframes circuito2-nodo {
-  0%, 4% { box-shadow: 0 0 0 0 color-mix(in srgb, var(--grupo) 45%, transparent); }
-  8% { box-shadow: 0 0 0 7px color-mix(in srgb, var(--grupo) 0%, transparent); }
-  100% { box-shadow: 0 0 0 0 color-mix(in srgb, var(--grupo) 0%, transparent); }
-}
-
-@keyframes circuito2-riel {
-  0%, 4% { opacity: 0; background-position-x: -90px; }
-  7% { opacity: 1; }
-  15% { opacity: 1; background-position-x: calc(100% + 90px); }
-  18%, 100% { opacity: 0; background-position-x: calc(100% + 90px); }
-}
-
-@keyframes circuito2-ficha {
-  0%, 5% { border-color: color-mix(in srgb, var(--grupo) 28%, transparent); }
-  10%, 24% { border-color: color-mix(in srgb, var(--grupo) 72%, transparent); }
-  32%, 100% { border-color: color-mix(in srgb, var(--grupo) 28%, transparent); }
-}
-
-@keyframes circuito2-icono {
-  0%, 6% { box-shadow: 0 0 0 0 color-mix(in srgb, var(--grupo) 38%, transparent); }
-  13% { box-shadow: 0 0 0 6px color-mix(in srgb, var(--grupo) 0%, transparent); }
-  100% { box-shadow: 0 0 0 0 color-mix(in srgb, var(--grupo) 0%, transparent); }
-}
-
-@keyframes circuito2-halo-color {
-  0%, 100% { border-color: color-mix(in srgb, var(--summary-service) 42%, transparent); }
-  33% { border-color: color-mix(in srgb, var(--summary-connection) 42%, transparent); }
-  66% { border-color: color-mix(in srgb, var(--summary-product) 42%, transparent); }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .summary-group::after,
-  .summary-group .summary-orb,
-  .summary-group .summary-platform,
-  .summary-group .summary-orb > span,
-  .summary-group .summary-platform > span,
-  .hero-summary-map__core::after {
-    animation: none;
-  }
-}
-
-/* ==================================================================
-   LAS CINCO CORRECCIONES DE ANIMACION (23-ago-2026)
-   ------------------------------------------------------------------
-   De la evaluacion: el sitio promediaba 52/100 contra la vara del
-   "wow" porque TODO era bucle ambiental. Cero respuesta al visitante,
-   cero relato, cero fisica. Y el mapa en computador era lo peor de
-   todo (30/100): 25 lineas punteadas deslizandose a la vez, sin
-   jerarquia. Esto atiende las cinco recomendaciones:
-
-   1. La corriente sigue el dedo  -> --avance, que publica el scroll.
-   2. El mapa se dibuja solo      -> mapa-traza, una sola vez al entrar.
-   3. Arreglar el computador      -> se apagan las lineas que se
-                                     deslizaban y queda UN paquete por
-                                     cable, por turnos.
-   4. Las escenas responden       -> hover pausa y levanta la escena.
-   5. Fisica en vez de fundidos   -> curvas con sobrepaso al llegar.
-   ================================================================== */
-
-:root {
-  /* Cuantas vueltas de circuito lleva empujadas el scroll. La publica
-     CorrienteScroll; sin JavaScript se queda en 0 y todo corre solo. */
-  --avance: 0;
-}
-
-/* --- 3. El computador: silencio de fondo -------------------------- */
-/* Los cables dejan de deslizarse. Eran doce animaciones repintando el
-   trazo sin contar nada: ahora son infraestructura quieta y el unico
-   movimiento del mapa es la corriente, que si tiene algo que decir. */
-.summary-wire--branch,
-.summary-wire--core,
-.summary-wire--flow {
-  animation: none;
-}
-
-/* --- 1 + 2 + 3. La corriente ------------------------------------- */
-/* pathLength normaliza cada cable a largo 1, asi que el paquete tarda
-   lo mismo en el tronco largo que en la derivacion corta: se lee como
-   una sola corriente y no como cinco relojes distintos.
-   El patron mide 2,06 (0,06 de luz + 2 de vacio), mas largo que el
-   cable, para que nunca aparezca un segundo paquete por el otro lado. */
-.summary-transfer {
-  --d0: 0.06;
-  --d1: -1;
-  --t0: 0;
-  stroke-width: 3.4;
-  stroke-linecap: round;
-  stroke-dasharray: 0.06 2;
-  opacity: 0;
-  animation:
-    corriente-viaja 4.5s linear 1,
-    mapa-traza 1200ms cubic-bezier(0.22, 1, 0.36, 1) 1,
-    mapa-traza-luz 1200ms linear 1;
-  animation-delay:
-    calc(var(--fase, 0s) + var(--i, 0) * 0.13s - var(--avance, 0) * 1s),
-    calc(var(--fase, 0s) * 0.05 + var(--i, 0) * 0.1s),
-    calc(var(--fase, 0s) * 0.05 + var(--i, 0) * 0.1s);
-}
-
-/* Cables que hay que recorrer al reves para que la corriente SALGA del
-   nucleo y no entre en el. */
-.summary-transfer--rev {
-  --d0: -1;
-  --d1: 0.06;
-  --t0: -1;
-}
-
-/* Los turnos. Cada grupo tiene 1,5 s de los 4,5 del ciclo: primero lo que
-   hacemos, despues con que se conecta, al final lo nuestro. */
-.summary-transfer--services { --fase: 0s; }
-.summary-transfer--connections { --fase: 1.5s; }
-.summary-transfer--products { --fase: 3s; }
-
-/* El viaje: 26% de la vuelta (1,2 s) encendido y el resto en silencio,
-   esperando su turno. */
-@keyframes corriente-viaja {
-  0% { stroke-dashoffset: var(--d0); opacity: 0; }
-  2% { opacity: 0.92; }
-  23% { opacity: 0.92; }
-  26% { stroke-dashoffset: var(--d1); opacity: 0; }
-  100% { stroke-dashoffset: var(--d1); opacity: 0; }
-}
-
-/* 2. El trazado de la primera vez. El guion crece de 0 a 1 (o sea de
-   nada al cable entero) desde el nucleo hacia afuera. Va en dos
-   animaciones separadas -dibujo y luz- para que el dibujo tenga UN
-   solo tramo y la curva se sienta entera; si el fundido lo partiera en
-   pedazos, la linea avanzaria a tirones. Sin fill: cuando termina, la
-   corriente de siempre retoma el mando. */
-@keyframes mapa-traza {
-  from { stroke-dasharray: 0 2; stroke-dashoffset: var(--t0); }
-  to { stroke-dasharray: 1 2; stroke-dashoffset: 0; }
-}
-
-@keyframes mapa-traza-luz {
-  0% { opacity: 0; }
-  8% { opacity: 0.95; }
-  78% { opacity: 0.95; }
-  100% { opacity: 0; }
-}
-
-/* El nucleo respira tambien en computador: sin esto el mapa quedaba
-   muerto entre paquete y paquete. Solo opacidad y escala, o sea
-   compositor puro, sin repintar nada. */
-@media (min-width: 901px) {
-  .hero-summary-map__core::after {
-    animation: nucleo-late 5.2s cubic-bezier(0.45, 0, 0.55, 1) 1 forwards;
-  }
-}
-
-@keyframes nucleo-late {
-  0%, 100% { opacity: 0.55; scale: 1; }
-  50% { opacity: 0.18; scale: 1.055; }
-}
-
-/* --- 1. En celular la corriente tambien sigue el dedo ------------- */
-/* Mismos retardos de siempre, con el termino del scroll restado. */
-@media (max-width: 900px) {
-  .summary-group::before,
-  .summary-group .summary-system-label::before,
-  .summary-group::after {
-    animation-delay: calc(var(--fase, 0s) - var(--avance, 0) * 1s);
-  }
-
-  .summary-group .summary-orb,
-  .summary-group .summary-platform,
-  .summary-group .summary-orb > span,
-  .summary-group .summary-platform > span {
-    animation-delay: calc(var(--fase, 0s) + 0.5s + var(--node-index, 0) * 0.3s - var(--avance, 0) * 1s);
-  }
-}
 
 /* --- 4. Las escenas de producto responden al mouse ---------------- */
 /* Pasas el cursor y la escena se detiene para que puedas leerla. Se le
@@ -12583,44 +11015,8 @@ button {
   }
 }
 
-/* --- 5. Fisica en vez de fundidos -------------------------------- */
-/* Las piezas del mapa llegaban frenando en seco a su sitio. Ahora se
-   pasan un poco y se asientan. El sobrepaso va SOLO en transform y en
-   scale: en opacidad no sirve -pasarse de 1 no se ve- y solo dejaria
-   la pieza esperando. El orden de la lista es opacity, transform,
-   scale, igual que el transition-property de mas arriba. */
-@supports (scale: 1) {
-  .revela--mapa.revela--armado.es-visible .hero-summary-map__core,
-  .revela--mapa.revela--armado.es-visible .summary-group,
-  .revela--mapa.revela--armado.es-visible .summary-system-label,
-  .revela--mapa.revela--armado.es-visible .summary-node-cluster,
-  .revela--mapa.revela--armado.es-visible .summary-platform-cluster,
-  .revela--mapa.revela--armado.es-visible .summary-flow {
-    transition-timing-function:
-      cubic-bezier(0.16, 1, 0.3, 1),
-      cubic-bezier(0.18, 1.26, 0.36, 1),
-      cubic-bezier(0.18, 1.16, 0.36, 1);
-  }
-}
-
-@media (min-width: 901px) {
-  .revela--mapa.revela--armado.es-visible .hero-summary-map {
-    transition: transform 1600ms cubic-bezier(0.18, 1.2, 0.36, 1);
-  }
-}
-
 /* --- Quien pidio menos movimiento ------------------------------- */
 @media (prefers-reduced-motion: reduce) {
-  .summary-transfer,
-  .hero-summary-map__core::after {
-    animation: none;
-  }
-
-  .summary-transfer {
-    stroke-dasharray: 0.06 2;
-    opacity: 0.5;
-  }
-
   .ad .esc {
     transition: none;
   }

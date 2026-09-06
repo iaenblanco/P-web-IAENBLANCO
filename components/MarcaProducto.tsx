@@ -1,35 +1,24 @@
 /*
- * Los tres monogramas de producto, en un solo lugar.
+ * Las tres marcas de producto, en un solo lugar.
  *
- * Hasta el 31-ago-2026 esto estaba roto de dos maneras a la vez. Unificalo y
- * Citaly NUNCA se dibujaban: HeroLogo devolvia antes su calcomania .webp y los
- * monogramas de trazo quedaban inalcanzables mas abajo del mismo archivo
- * (app/page.tsx, dos ramas muertas). Y de Leads habia dos dibujos distintos:
- * el del mapa y la repisa llevaba cuatro puntos y trazo redondo; el de
- * /productos era otro path, trazo 3 y punta cuadrada.
+ * Hasta el 06-sep-2026 eran tres monogramas de trazo dibujados aca, iguales
+ * de familia y sin nada del producto: la U, una C dentro de una caja y una
+ * curva de grafico. Cada producto tiene su sitio y su identidad, y es esa la
+ * que va: la U blanca sobre azul noche de unificalo.cl, el calendario-burbuja
+ * teal de citaly.cl, y para Leads -que no tiene logo propio- la chispa sobre
+ * ambar con la que se presenta leads.iaenblanco.com.
  *
- * Las dos calcomanias no tienen canal alfa -chunk VP8 pelado, sin VP8X ni
- * ALPH-, asi que pintaban su propio fondo. En la repisa y en el mapa el CSS lo
- * tapaba recortandolas a circulo; en /productos no, y ahi quedaban crudas:
- * Unificalo un rectangulo casi negro (rgb 1,5,22 en las esquinas) y Citaly uno
- * casi blanco (rgb 245,236,235) que sobre el papel #f4f2ec no se distinguia de
- * su propia placa. Un logo que no se ve no es una marca, es un hueco.
+ * Las dos calcomanias viven en public/brand-assets/marca-*.webp (160x160,
+ * generadas con sharp desde los archivos que sirven los sitios; la de Citaly
+ * con canal alfa, la de Unificalo con su propio fondo azul noche, que ES la
+ * marca y llena la caja). La chispa de Leads es un glifo relleno; el color lo
+ * pone quien la monta via currentColor.
  *
- * Con los tres en trazo el color lo pone quien los monta -graphite al 62 % en
- * el mapa, tinta en la repisa, el acento de cada tarjeta en /productos- y el
- * dibujo es el mismo en las tres superficies. La familia la hace el trazo, no
- * el color: los tres acentos de /productos ya visten la tarjeta entera.
- *
- * Mismo lienzo para los tres: viewBox 0 0 64 64. Citaly venia en 72x64, y
- * dentro de una caja cuadrada eso lo dibujaba un 11 % mas chico que sus
- * hermanos y con aire de sobra arriba y abajo. Se corrio 4 unidades a la
- * izquierda para que siga centrado en el lienzo nuevo.
- *
- * El grosor del trazo no va aca: lo pone `.hero-logo path, .hero-logo rect,
- * .hero-logo circle` en app/globals.css, que es lo que mantiene a todos los
- * glifos de la casa con el mismo peso. Por eso la clase `hero-logo` viaja
- * siempre, tambien en /productos.
+ * La clase `hero-logo` sigue viajando: es la que dimensiona el glifo en
+ * cada superficie (.repisa__marca, .ad__marca-caja, .esc__carta-marca).
  */
+
+import Image from 'next/image'
 
 const MARCAS = ['unificalo', 'citaly', 'leads']
 
@@ -44,32 +33,34 @@ function clases(id: string, extra?: string) {
 export function MarcaProducto({ id, className }: { id: string; className?: string }) {
   if (id === 'unificalo') {
     return (
-      <svg className={clases(id, className)} viewBox="0 0 64 64" aria-hidden="true">
-        <path d="M18 12v28c0 9.2 6.3 15.5 14 15.5S46 49.2 46 40V12" />
-        <path d="M18 12h10v27.5c0 2.8 1.5 5.5 4 6.9 2.5-1.4 4-4.1 4-6.9V12h10" />
-      </svg>
+      <Image
+        src="/brand-assets/marca-unificalo.webp"
+        width={160}
+        height={160}
+        alt=""
+        className={clases(id, className)}
+      />
     )
   }
 
   if (id === 'citaly') {
     return (
-      <svg className={clases(id, className)} viewBox="0 0 64 64" aria-hidden="true">
-        <rect x="8" y="12" width="48" height="40" rx="12" />
-        <path d="M39 24.5a10 10 0 1 0 0 15" />
-      </svg>
+      <Image
+        src="/brand-assets/marca-citaly.webp"
+        width={160}
+        height={160}
+        alt=""
+        className={clases(id, className)}
+      />
     )
   }
 
   if (id === 'leads') {
     return (
       <svg className={clases(id, className)} viewBox="0 0 64 64" aria-hidden="true">
-        <path d="M18 46V18" />
-        <path d="M18 46h30" />
-        <path d="M24 40 33 30l6 5 9-14" />
-        <circle cx="24" cy="40" r="3" />
-        <circle cx="33" cy="30" r="3" />
-        <circle cx="39" cy="35" r="3" />
-        <circle cx="48" cy="21" r="3" />
+        <path d="M32 10c1.6 9.6 6.2 14.6 16 16.4-9.8 1.8-14.4 6.8-16 16.4-1.6-9.6-6.2-14.6-16-16.4 9.8-1.8 14.4-6.8 16-16.4Z" />
+        <path d="M49 40c.8 4.6 3 7 7.5 7.8-4.5.8-6.7 3.2-7.5 7.8-.8-4.6-3-7-7.5-7.8 4.5-.8 6.7-3.2 7.5-7.8Z" />
+        <path d="M15 44c.6 3.4 2.2 5.2 5.5 5.8-3.3.6-4.9 2.4-5.5 5.8-.6-3.4-2.2-5.2-5.5-5.8 3.3-.6 4.9-2.4 5.5-5.8Z" />
       </svg>
     )
   }

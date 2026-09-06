@@ -234,8 +234,17 @@ export function Header() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
+  /* En la portada la cabecera nace oscura -el heroe Neon lo es- y vuelve a
+     clara cuando el heroe se va de la pantalla: esa segunda parte la avisa
+     el circuito poniendo html.hero-fuera (y la saca al desmontarse, asi
+     que al navegar a otra pagina no queda puesta). En /productos/ la placa
+     oscura es la pagina entera y nadie pone hero-fuera: la cabecera queda
+     oscura de arriba a abajo. La clase va en el HTML estatico (pathname se
+     resuelve al exportar) para que no haya un parpadeo claro antes de
+     hidratar. */
+  const sobrePlacaOscura = pathname === '/' || pathname.replace(/\/$/, '') === '/productos'
   return (
-    <header className="site-header">
+    <header className={`site-header${sobrePlacaOscura ? ' site-header--inicio' : ''}`}>
       <div className="site-header__inner">
         <Link
           href="/"
