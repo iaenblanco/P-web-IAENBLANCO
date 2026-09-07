@@ -4,13 +4,16 @@
    Muestrea cada traza de cada variante -300 puntos por camino, repartidos
    por largo- y comprueba que la energia NUNCA entra al logo: la distancia
    de cada punto al centro del nodo tiene que superar el radio del disco mas
-   el halo del paquete mas una holgura. Ademas verifica que los arcos van
-   justo sobre el anillo, que los buses y el riel son tangentes al anillo
-   (no lo cortan), que el brillo del anillo no pisa las fichas, que ningun
-   camino retrocede, que los largos declarados coinciden con los muestreados
-   (de eso depende la velocidad constante), que en el relevo no coinciden
-   dos eventos y -recorriendo el periodo entero en el tiempo- que nunca hay
-   dos paquetes encendidos tan cerca que se vean como uno solo.
+   el halo del paquete mas una holgura. Ademas verifica que cada lado tiene
+   UN solo bus vertical, entre las fichas y el anillo (cada punto de cada
+   camino esta en el tramo de su ficha, en el bus o en el tronco), que cada
+   camino toca el anillo solo en su punto medio -a la altura del centro- y
+   ahi termina o nace, que el brillo del anillo no pisa las fichas, que
+   ningun camino retrocede, que los largos declarados coinciden con los
+   muestreados (de eso depende la velocidad constante), que en los puntos de
+   contacto no coinciden dos eventos y -recorriendo el periodo entero en el
+   tiempo- que nunca hay dos paquetes encendidos tan cerca que se vean como
+   uno solo.
 
    Uso:  node herramientas/probar-circuito.mjs        (sale con 1 si falla)
    Importa lib/circuito-geometria.ts directamente: Node 22+ pela los tipos. */
@@ -22,7 +25,7 @@ const MUESTRAS = 300
 const HOLGURA = 4
 /* aire minimo entre el brillo del anillo y las fichas */
 const AIRE_FICHA = 3
-/* dos eventos en el relevo tienen que estar al menos asi de lejos */
+/* dos eventos en los puntos de contacto tienen que estar al menos asi de lejos */
 const SEPARACION = 0.2
 /* paso del recorrido en el tiempo, en segundos */
 const PASO = 0.02
@@ -144,16 +147,16 @@ const mod = (n, m) => ((n % m) + m) % m
 
 for (const variante of Object.keys(GEO)) {
   const g = GEO[variante]
-  const { cx, R, bi, bd, xd, riel } = derivar(g)
+  const { cx, R, ai, ad, bi, bd, xd } = derivar(g)
   const paq = PAQUETE[variante]
   const exclusion = g.r + paq.halo + HOLGURA
-  console.log(`\n${variante}: disco r=${g.r}, anillo R=${R}, buses ${bi}/${bd}, riel ${riel}, centro del paquete a >= ${exclusion} del centro`)
+  console.log(`\n${variante}: disco r=${g.r}, anillo R=${R}, contacto en ${ai}/${ad}, buses ${bi}/${bd}, centro del paquete a >= ${exclusion} del centro`)
 
   if (R !== g.r + ANILLO) falla('el anillo no esta a ANILLO del disco')
-  if (bi > cx - R) falla(`el bus izquierdo (${bi}) entra al anillo (${cx - R})`)
-  if (bd < cx + R) falla(`el bus derecho (${bd}) entra al anillo (${cx + R})`)
-  if (riel < g.cy + R) falla(`el riel (${riel}) entra al anillo (${g.cy + R})`)
-  ok(`buses y riel tangentes al anillo: ${bi} = cx - R, ${bd} = cx + R, ${riel} = cy + R`)
+  if (Math.abs(ai - (cx - R)) > 1e-9 || Math.abs(ad - (cx + R)) > 1e-9) falla(`los puntos de contacto (${ai}/${ad}) no estan sobre el anillo (${cx - R}/${cx + R})`)
+  if (!(g.cw < bi && bi < ai)) falla(`el bus izquierdo (${bi}) no esta entre la ficha (${g.cw}) y el anillo (${ai})`)
+  if (!(ad < bd && bd < xd)) falla(`el bus derecho (${bd}) no esta entre el anillo (${ad}) y la ficha (${xd})`)
+  ok(`contacto en el punto medio del anillo, (${ai}, ${g.cy}) y (${ad}, ${g.cy}); un bus por lado, en ${bi} y ${bd}, entre ficha y anillo`)
 
   const brilloIzq = cx - R - LUZ_ANILLO / 2 - g.cw
   const brilloDer = xd - (cx + R + LUZ_ANILLO / 2)
@@ -174,7 +177,14 @@ for (const variante of Object.keys(GEO)) {
     const { puntos, total } = muestrear(segs, MUESTRAS)
     let min = Infinity
     let peor = null
-    let arcoFuera = 0
+    const izq = t.lado === 'izq'
+    const bus = izq ? bi : bd
+    const contacto = izq ? ai : ad
+    const ficha = izq ? g.cw : xd
+    const yFicha = izq ? g.izq[t.i] : g.der[t.i - g.izq.length]
+    const entre = (v, a, b) => v >= Math.min(a, b) - 0.01 && v <= Math.max(a, b) + 0.01
+    let dentroAnillo = 0
+    let fueraDeForma = 0
     let retrocede = false
     let sentidoY = 0
     for (let n = 0; n < puntos.length; n++) {
@@ -184,7 +194,11 @@ for (const variante of Object.keys(GEO)) {
         min = dist
         peor = q
       }
-      if (q.arco && Math.abs(dist - R) > 0.01) arcoFuera++
+      if (dist < R - 0.01) dentroAnillo++
+      const enBus = Math.abs(q.x - bus) < 0.01
+      const enTronco = Math.abs(q.y - g.cy) < 0.01 && entre(q.x, contacto, bus)
+      const enTramo = Math.abs(q.y - yFicha) < 0.01 && entre(q.x, ficha, bus)
+      if (!enBus && !enTronco && !enTramo) fueraDeForma++
       if (n) {
         const dx = q.x - puntos[n - 1].x
         const dy = q.y - puntos[n - 1].y
@@ -199,7 +213,8 @@ for (const variante of Object.keys(GEO)) {
     const etiqueta = `${t.id} (${t.lado}, ${t.via}, ${puntos.length} puntos, min ${min.toFixed(1)} en ${peor.x.toFixed(1)},${peor.y.toFixed(1)})`
     if (min < exclusion) falla(`${etiqueta}: el halo del paquete entra al disco`)
     else ok(etiqueta)
-    if (arcoFuera) falla(`${t.id}: ${arcoFuera} puntos del arco fuera del anillo`)
+    if (dentroAnillo) falla(`${t.id}: ${dentroAnillo} puntos por dentro del anillo`)
+    if (fueraDeForma) falla(`${t.id}: ${fueraDeForma} puntos fuera del tramo, del bus o del tronco (mas de una linea por lado)`)
     if (retrocede) falla(`${t.id}: el camino retrocede (la x baja o la y cambia de sentido)`)
     if (Math.abs(total - t.largo) > 0.01 * t.largo) falla(`${t.id}: largo declarado ${t.largo.toFixed(1)} vs muestreado ${total.toFixed(1)}`)
 
@@ -212,12 +227,14 @@ for (const variante of Object.keys(GEO)) {
     if (!monotono(ko) || ko.length !== c.opacidad.values.split(';').length) falla(`${t.id}: keyTimes de opacidad invalidos (${c.opacidad.keyTimes})`)
     const recorrido = c.enMarcha * CICLO * velocidad
     if (Math.abs(recorrido - t.largo) > 0.01 * t.largo) falla(`${t.id}: a ${velocidad.toFixed(1)} u/s recorreria ${recorrido.toFixed(1)}, no ${t.largo.toFixed(1)}`)
-    /* extremos: los servicios terminan en el relevo, los programas nacen ahi */
+    /* extremos: un servicio va de su ficha al punto medio izquierdo del
+       anillo; un programa nace en el punto medio derecho y va a su ficha */
     const fin = puntos[puntos.length - 1]
     const ini = puntos[0]
-    const enRelevo = (q) => Math.abs(q.x - cx) < 0.01 && Math.abs(q.y - riel) < 0.01
-    if (t.lado === 'izq' && !(Math.abs(ini.x - g.cw) < 0.01 && enRelevo(fin))) falla(`${t.id}: no va de la ficha al relevo`)
-    if (t.lado === 'der' && !(enRelevo(ini) && Math.abs(fin.x - xd) < 0.01)) falla(`${t.id}: no va del relevo a la ficha`)
+    const enFicha = (q) => Math.abs(q.x - ficha) < 0.01 && Math.abs(q.y - yFicha) < 0.01
+    const enContacto = (q) => Math.abs(q.x - contacto) < 0.01 && Math.abs(q.y - g.cy) < 0.01
+    if (izq && !(enFicha(ini) && enContacto(fin))) falla(`${t.id}: no va de la ficha (${ficha}, ${yFicha}) al anillo (${contacto}, ${g.cy})`)
+    if (!izq && !(enContacto(ini) && enFicha(fin))) falla(`${t.id}: no va del anillo (${contacto}, ${g.cy}) a la ficha (${ficha}, ${yFicha})`)
     eventos.push({ id: t.id, t: t.lado === 'izq' ? c.llega : c.sale, que: t.lado === 'izq' ? 'llega' : 'sale' })
   })
 
@@ -226,9 +243,9 @@ for (const variante of Object.keys(GEO)) {
     const a = orden[i]
     const b = orden[(i + 1) % orden.length]
     const gap = i + 1 < orden.length ? b.t - a.t : b.t + CICLO - a.t
-    if (gap < SEPARACION - 1e-9) falla(`relevo: ${a.id} ${a.que} a ${a.t.toFixed(2)} y ${b.id} ${b.que} a ${b.t.toFixed(2)}`)
+    if (gap < SEPARACION - 1e-9) falla(`contacto: ${a.id} ${a.que} a ${a.t.toFixed(2)} y ${b.id} ${b.que} a ${b.t.toFixed(2)}`)
   }
-  ok(`relevo: ${orden.map((e) => `${e.id} ${e.que} ${e.t.toFixed(2)}s`).join(', ')}`)
+  ok(`contacto: ${orden.map((e) => `${e.id} ${e.que} ${e.t.toFixed(2)}s`).join(', ')}`)
   ok(`velocidad comun ${velocidad.toFixed(1)} u/s; el cable mas largo ocupa el periodo de ${CICLO}s`)
 
   /* --- El periodo entero en el tiempo: donde esta cada paquete encendido */

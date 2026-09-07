@@ -188,13 +188,15 @@ tipos), genera las trazas de las dos variantes -escritorio y telefono- y
 las muestrea, 300 puntos por camino.
 
 Comprueba que la energia nunca entra al logo: cada punto queda a mas del
-radio del disco mas el halo del paquete mas 4 de holgura. Ademas: que los
-arcos van justo sobre el anillo, que los buses y el riel son tangentes (no
-lo cortan), que el brillo del anillo no pisa las fichas, que ningun camino
-retrocede, que el largo declarado de cada traza coincide con el muestreado
-(de eso depende que todos los paquetes vayan a la misma velocidad), que en
-el relevo no coinciden dos eventos y, recorriendo el periodo entero de a
-20 ms, que nunca hay dos paquetes encendidos tan cerca que se vean como uno.
+radio del disco mas el halo del paquete mas 4 de holgura. Ademas: que cada
+lado tiene un solo bus vertical entre las fichas y el anillo, que cada
+camino toca el anillo solo en su punto medio (a la altura del centro) y ahi
+termina o nace, que el brillo del anillo no pisa las fichas, que ningun
+camino retrocede, que el largo declarado de cada traza coincide con el
+muestreado (de eso depende que todos los paquetes vayan a la misma
+velocidad), que en los puntos de contacto no coinciden dos eventos y,
+recorriendo el periodo entero de a 20 ms, que nunca hay dos paquetes
+encendidos tan cerca que se vean como uno.
 
 ```bash
 npm run probar

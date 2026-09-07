@@ -2,31 +2,27 @@
    (components/CircuitoHero.tsx) y la prueba (herramientas/probar-circuito.mjs),
    que la importa con el type stripping de Node 22+.
 
-   El principio: el nodo es un objeto solido. Ninguna traza entra al disco;
-   toda la energia pasa POR DEBAJO del anillo, en un solo sentido, de las
-   fichas de servicio a las de programa:
-
-   - un servicio de arriba baja por el bus izquierdo, que es TANGENTE al
-     anillo, y dobla sobre el anillo un cuarto de vuelta hasta el punto de
-     abajo (cx, cy + R);
-   - un servicio de abajo va por el bus hasta el riel de abajo (la tangente
-     horizontal, y = cy + R) y sigue recto hasta ese mismo punto;
-   - ahi se releva la energia: un programa de arriba sigue el anillo otro
-     cuarto de vuelta y sale por el bus derecho; uno de abajo sigue por el
-     riel y escalona hasta su ficha.
-
-   Por que solo la mitad de abajo: si la energia rodeara el nodo por los dos
-   lados, el bus tangente llevaria trafico en los dos sentidos, y el paquete
-   que baja por el arco se cruzaba a 5 unidades del que sube por el bus:
-   en pantalla se veian dos puntos fundidos en uno. Con un solo sentido
-   ningun par de paquetes se cruza; a lo sumo van en fila.
+   La forma, que es la que Nico dibujo: a cada lado hay UNA linea vertical
+   (el bus) entre las fichas y el anillo. Cada ficha se engancha al bus con
+   un tramo corto horizontal; desde la mitad del bus, a la altura del
+   centro, sale un tramo horizontal que toca la circunferencia del anillo
+   justo en su punto medio, (cx - R, cy) a la izquierda y (cx + R, cy) a la
+   derecha. Nada entra al disco: la energia de los servicios llega al borde
+   del nodo y ahi se apaga; la de los programas nace en el borde opuesto y
+   sale hacia su ficha.
 
    Todo se deriva de pocos numeros: el ancho del SVG, el ancho de la ficha,
-   el radio del disco y las alturas de las fichas. Los buses, el riel, el
-   centro y la columna derecha se calculan; antes eran cifras sueltas y en
-   el telefono el bus quedo 5 px por DENTRO del disco (bus en 140 con el
-   borde en 135), asi que cada paquete cruzaba 26 unidades por adentro del
-   logo. */
+   el radio del disco y las alturas de las fichas. El anillo, los puntos de
+   contacto, el bus (a mitad de camino entre la ficha y el anillo) y la
+   columna derecha se calculan; antes eran cifras sueltas y en el telefono
+   el bus quedo 5 px por DENTRO del disco, asi que cada paquete cruzaba 26
+   unidades por adentro del logo.
+
+   El bus lleva paquetes en los dos sentidos (los de arriba bajan, los de
+   abajo suben). Para que dos no se crucen ni se vean como uno solo, la
+   cadencia alterna una ficha de arriba y una de abajo y separa las
+   llegadas; la prueba recorre el periodo entero y mide la distancia entre
+   paquetes encendidos. */
 
 export type Variante = 'desk' | 'tel'
 
@@ -65,10 +61,12 @@ export const PAQUETE: Record<Variante, { halo: number; nucleo: number }> = {
 
 export const GEO: Record<Variante, Geo> = {
   desk: { w: 592, h: 420, cw: 150, izq: [70, 150, 230, 310], der: [110, 190, 270], cy: 190, r: 56, pie: 370, letra: 13 },
-  /* 372 de ancho (no 358) para que quepan ficha + aire + bus + anillo sin
-     achicar la ficha: en pantalla el SVG mide lo mismo y todo escala un 4 %,
-     que la letra compensa con medio punto. */
-  tel: { w: 372, h: 330, cw: 118, izq: [60, 120, 180, 240], der: [90, 150, 210], cy: 150, r: 43, pie: 270, letra: 12.5 },
+  /* 400 de ancho para que entre ficha + tramo + bus + tramo + anillo sin
+     achicar la ficha: entre la ficha y el anillo quedan 24 unidades, 12 de
+     tramo y 12 de bus a anillo. En un telefono de 390 el SVG se muestra a
+     378 px, asi que todo escala un 5 % hacia abajo; la letra sube medio
+     punto para compensar. */
+  tel: { w: 400, h: 330, cw: 118, izq: [60, 120, 180, 240], der: [90, 150, 210], cy: 150, r: 43, pie: 270, letra: 13 },
 }
 
 export type Traza = {
@@ -77,8 +75,8 @@ export type Traza = {
   lado: 'izq' | 'der'
   /* indice global (servicios y despues programas), para el encendido */
   i: number
-  /* si dobla sobre el anillo o va derecho por el riel de abajo */
-  via: 'arco' | 'riel'
+  /* de que lado del centro esta la ficha: decide el sentido en el bus */
+  via: 'arriba' | 'abajo' | 'centro'
   /* largo del camino en unidades del viewBox, para que todos los paquetes
      vayan a la misma velocidad */
   largo: number
@@ -86,22 +84,26 @@ export type Traza = {
 
 export type Derivada = {
   cx: number
-  /* radio del anillo, y del corredor */
+  /* radio del anillo */
   R: number
-  /* buses: la vertical tangente al anillo por cada lado */
+  /* los puntos de contacto: donde el tramo horizontal toca el anillo, a la
+     altura del centro, por cada lado */
+  ai: number
+  ad: number
+  /* los buses: la vertical a mitad de camino entre la ficha y el anillo */
   bi: number
   bd: number
   /* borde izquierdo de las fichas de programa */
   xd: number
-  /* el riel: la horizontal tangente al anillo por abajo. Toca el anillo en
-     (cx, riel), que es el punto de relevo de toda la energia */
-  riel: number
 }
 
 export function derivar(g: Geo): Derivada {
   const R = g.r + ANILLO
   const cx = g.w / 2
-  return { cx, R, bi: cx - R, bd: cx + R, xd: g.w - g.cw, riel: g.cy + R }
+  const ai = cx - R
+  const ad = cx + R
+  const xd = g.w - g.cw
+  return { cx, R, ai, ad, bi: Math.round((g.cw + ai) / 2), bd: Math.round((ad + xd) / 2), xd }
 }
 
 const f1 = (n: number) => (Number.isInteger(n) ? String(n) : n.toFixed(1))
@@ -114,44 +116,33 @@ export function arco(cx: number, cy: number, radio: number, desde: number, hasta
   return `M${f1(cx + radio * Math.cos(a))} ${f1(cy + radio * Math.sin(a))}A${radio} ${radio} 0 0 1 ${f1(cx + radio * Math.cos(b))} ${f1(cy + radio * Math.sin(b))}`
 }
 
-/* Las trazas. Un servicio a la altura del centro o mas arriba: ficha ->
-   bus -> punto tangente (bi, cy) -> cuarto de anillo por abajo (sweep 0,
-   antihorario en pantalla) hasta el relevo (cx, riel). Uno mas abajo:
-   ficha -> bus -> riel -> relevo. Un programa a la altura del centro o mas
-   arriba: relevo -> cuarto de anillo -> punto tangente (bd, cy) -> bus ->
-   ficha (si esta justo al centro, dobla ahi). Uno mas abajo: relevo -> riel
-   -> escalon en el bus derecho -> ficha.
+/* Las trazas. Un servicio: ficha -> tramo hasta el bus -> por el bus hasta
+   la altura del centro -> tramo hasta el punto de contacto (ai, cy). Un
+   programa: punto de contacto (ad, cy) -> tramo hasta el bus -> por el bus
+   hasta la altura de su ficha -> tramo hasta la ficha. La ficha que esta
+   justo a la altura del centro va derecho.
 
-   Cada traza es UN camino continuo, sin retrocesos y sin bajar y volver a
-   subir: la x nunca decrece y la y no cambia de sentido. Recto, tangente
-   al anillo, arco, tangente, recto: por eso el paquete no salta ni cambia
-   de velocidad al entrar o salir del arco. */
+   Cada traza es UN camino continuo de tres rectas en angulo recto, sin
+   retrocesos: la x nunca decrece y la y no cambia de sentido. */
 export function trazas(g: Geo): Traza[] {
-  const { cx, R, bi, bd, xd, riel } = derivar(g)
-  const cuarto = (Math.PI / 2) * R
-  const servicios: Traza[] = g.izq.map((y, i) => {
-    const arco = y <= g.cy
-    return {
-      id: `a${i}`,
-      d: arco ? `M${g.cw} ${y}H${bi}V${g.cy}A${R} ${R} 0 0 0 ${cx} ${riel}` : `M${g.cw} ${y}H${bi}V${riel}H${cx}`,
-      lado: 'izq',
-      i,
-      via: arco ? 'arco' : 'riel',
-      largo: bi - g.cw + (arco ? g.cy - y + cuarto : Math.abs(riel - y) + R),
-    }
-  })
-  const programas: Traza[] = g.der.map((y, j) => {
-    const arco = y <= g.cy
-    const paso = (desde: number) => (y === desde ? '' : `V${y}`)
-    return {
-      id: `b${j}`,
-      d: arco ? `M${cx} ${riel}A${R} ${R} 0 0 0 ${bd} ${g.cy}${paso(g.cy)}H${xd}` : `M${cx} ${riel}H${bd}${paso(riel)}H${xd}`,
-      lado: 'der',
-      i: g.izq.length + j,
-      via: arco ? 'arco' : 'riel',
-      largo: xd - bd + (arco ? cuarto + g.cy - y : R + Math.abs(y - riel)),
-    }
-  })
+  const { ai, ad, bi, bd, xd } = derivar(g)
+  const via = (y: number): Traza['via'] => (y < g.cy ? 'arriba' : y > g.cy ? 'abajo' : 'centro')
+  const servicios: Traza[] = g.izq.map((y, i) => ({
+    id: `a${i}`,
+    d: y === g.cy ? `M${g.cw} ${y}H${ai}` : `M${g.cw} ${y}H${bi}V${g.cy}H${ai}`,
+    lado: 'izq',
+    i,
+    via: via(y),
+    largo: ai - g.cw + Math.abs(y - g.cy),
+  }))
+  const programas: Traza[] = g.der.map((y, j) => ({
+    id: `b${j}`,
+    d: y === g.cy ? `M${ad} ${y}H${xd}` : `M${ad} ${g.cy}H${bd}V${y}H${xd}`,
+    lado: 'der',
+    i: g.izq.length + j,
+    via: via(y),
+    largo: xd - ad + Math.abs(y - g.cy),
+  }))
   return [...servicios, ...programas]
 }
 
@@ -168,8 +159,8 @@ export function trazas(g: Geo): Traza[] {
    no aparezca ni desaparezca de golpe. */
 export const CICLO = 2.4
 
-/* Segundos entre que un paquete llega al relevo y sale el siguiente por el
-   otro lado. */
+/* Segundos entre que un paquete llega al borde izquierdo del nodo y sale
+   el siguiente por el borde derecho. */
 export const RELEVO = 0.25
 
 /* Largo del fundido al prender y al apagar, en unidades del viewBox. */
@@ -189,23 +180,26 @@ export type Cadencia = {
 
 const mod = (n: number, m: number) => ((n % m) + m) % m
 
-/* Los servicios LLEGAN al relevo repartidos parejo en el periodo, alternando
-   arco y riel para que dos paquetes seguidos no vayan por el mismo carril;
-   de la salida se despeja hacia atras. Cada programa SALE del relevo RELEVO
-   segundos despues de una llegada, en orden: lo que se ve es que la energia
-   entra, pasa por debajo del nodo y sigue hacia un programa. Como hay mas
-   servicios que programas, la ultima llegada se queda en el nodo. */
+/* Los servicios LLEGAN al nodo repartidos parejo en el periodo, alternando
+   una ficha de arriba y una de abajo: dos seguidas van en sentidos
+   opuestos por el bus y solo se acercan en el tramo final, donde van en
+   fila; de la llegada se despeja hacia atras la salida. Cada programa SALE
+   del nodo RELEVO segundos despues de una llegada, en orden: lo que se ve
+   es que la energia entra por un lado, pasa por el nodo y sigue hacia un
+   programa por el otro. Como hay mas servicios que programas, la ultima
+   llegada se queda en el nodo. */
 export function cadencias(todas: Traza[]): Cadencia[] {
   const velocidad = Math.max(...todas.map((t) => t.largo)) / CICLO
   const izq = todas.filter((t) => t.lado === 'izq')
   const der = todas.filter((t) => t.lado === 'der')
-  const arcos = izq.filter((t) => t.via === 'arco')
-  const rieles = izq.filter((t) => t.via === 'riel')
+  const arriba = izq.filter((t) => t.via === 'arriba')
+  const abajo = izq.filter((t) => t.via === 'abajo')
   const orden: Traza[] = []
-  for (let k = 0; k < Math.max(arcos.length, rieles.length); k++) {
-    if (arcos[k]) orden.push(arcos[k])
-    if (rieles[k]) orden.push(rieles[k])
+  for (let k = 0; k < Math.max(arriba.length, abajo.length); k++) {
+    if (arriba[k]) orden.push(arriba[k])
+    if (abajo[k]) orden.push(abajo[k])
   }
+  orden.push(...izq.filter((t) => t.via === 'centro'))
   const llega = new Map<string, number>()
   orden.forEach((t, k) => llega.set(t.id, (k * CICLO) / orden.length))
   const sale = new Map<string, number>()
