@@ -1472,7 +1472,7 @@ button {
 }
 
 .circuito--tel .circuito__svg {
-  aspect-ratio: 358 / 330;
+  aspect-ratio: 372 / 330;
 }
 
 .circuito--tel {
@@ -1866,9 +1866,10 @@ html:not(.hero-fuera) .site-header--inicio .menu-line {
     display: none;
   }
 
-  /* Sin marco: la geometria tel mide 358 de ancho, que es 390 menos 32, y
-     la caja de la seccion deja 346; los 6 px de cada lado se recuperan
-     saliendose de ella. En tabletas se frena en 560. */
+  /* Sin marco: la geometria tel mide 372 de ancho y se muestra a 390 menos
+     32 (la caja de la seccion deja 346; los 6 px de cada lado se recuperan
+     saliendose de ella), asi que escala un 4 % hacia abajo. En tabletas se
+     frena en 560. */
   .circuito--tel {
     display: grid;
     order: 3;

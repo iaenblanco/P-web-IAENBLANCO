@@ -1,10 +1,11 @@
 'use client'
 
 import { useEffect, useRef } from 'react'
+import { CICLO, GEO, PAQUETE, arco, cadencias, derivar, trazas as trazar, type Variante } from '@/lib/circuito-geometria'
 
 /* El circuito del heroe «Neón»: cuatro servicios a medida entran por la
-   izquierda, pasan por el nodo (el simbolo de IAenBlanco) y salen tres
-   programas propios por la derecha.
+   izquierda, rodean el nodo (el simbolo de IAenBlanco) por su anillo y
+   salen tres programas propios por la derecha.
 
    Todo lo que se ve esta en el HTML estatico: el SVG, las trazas, la
    corriente y los paquetes (SMIL). El JavaScript de aca abajo no dibuja
@@ -12,32 +13,14 @@ import { useEffect, useRef } from 'react'
    oculta, o la variante que el corte de 900 px esconde) y avisa a la
    cabecera cuando el heroe se fue de la pantalla (html.hero-fuera).
 
+   La geometria (buses, anillo, trazas, cadencia) vive en
+   lib/circuito-geometria.ts, que tambien usa la prueba
+   herramientas/probar-circuito.mjs: ahi esta garantizado que ningun
+   camino entra al disco del logo.
+
    Se renderiza dos veces -desk y tel- con geometrias distintas; el CSS
    muestra una por corte. Los ids llevan la variante de prefijo porque los
    <mpath href="#..."> chocarian si se repitieran. */
-
-type Variante = 'desk' | 'tel'
-
-type Geo = {
-  w: number
-  h: number
-  cw: number
-  izq: number[]
-  der: number[]
-  xd: number
-  bi: number
-  bd: number
-  cx: number
-  cy: number
-  r: number
-  pie: number
-  letra: number
-}
-
-const GEO: Record<Variante, Geo> = {
-  desk: { w: 592, h: 420, cw: 150, izq: [70, 150, 230, 310], der: [110, 190, 270], xd: 442, bi: 190, bd: 402, cx: 296, cy: 190, r: 56, pie: 370, letra: 13 },
-  tel: { w: 358, h: 330, cw: 118, izq: [60, 120, 180, 240], der: [90, 150, 210], xd: 240, bi: 140, bd: 218, cx: 179, cy: 150, r: 44, pie: 270, letra: 12 },
-}
 
 const ALTO_FICHA = 34
 const RADIO_FICHA = 10
@@ -82,22 +65,6 @@ const PRODUCTOS: { nombre: string; letra: string }[] = [
 const RETRASO_TRAZA = 0.07
 const RETRASO_FICHA = 0.4
 const PASO_FICHA = 0.15
-/* La corriente en bucle: un paquete por cable, por turnos. Los begin son
-   negativos para que TODOS los paquetes ya esten en su camino cuando la
-   corriente se hace visible; un animateMotion que todavia no empezo deja al
-   elemento en el origen del SVG, y eso se veria como un punto suelto en la
-   esquina. */
-const CICLO = 2.4
-
-function arco(cx: number, cy: number, radio: number, desde: number, hasta: number) {
-  const a = (desde * Math.PI) / 180
-  const b = (hasta * Math.PI) / 180
-  const x1 = (cx + radio * Math.cos(a)).toFixed(1)
-  const y1 = (cy + radio * Math.sin(a)).toFixed(1)
-  const x2 = (cx + radio * Math.cos(b)).toFixed(1)
-  const y2 = (cy + radio * Math.sin(b)).toFixed(1)
-  return `M${x1} ${y1}A${radio} ${radio} 0 0 1 ${x2} ${y2}`
-}
 
 export function CircuitoHero({ variante }: { variante: Variante }) {
   const raiz = useRef<HTMLDivElement>(null)
@@ -157,15 +124,12 @@ export function CircuitoHero({ variante }: { variante: Variante }) {
   const g = GEO[variante]
   const p = `neon-${variante}-`
   const mitad = ALTO_FICHA / 2
-  // El anillo orbita fuera del disco, no pegado a el: a r + 9 el halo de
-  // trazo 11 rozaba el borde y parecia pasar por encima del logo.
-  const radioAnillo = g.r + 15
+  const { cx, R, xd } = derivar(g)
   const anchoLogo = Math.round(g.r * 1.2)
   const altoLogo = Math.round((anchoLogo * 128) / 199)
-  const trazas = [
-    ...g.izq.map((y, i) => ({ id: `${p}a${i}`, d: `M${g.cw} ${y}H${g.bi}V${g.cy}H${g.cx - g.r}`, lado: 'izq' as const, i })),
-    ...g.der.map((y, j) => ({ id: `${p}b${j}`, d: `M${g.cx + g.r} ${g.cy}H${g.bd}V${y}H${g.xd}`, lado: 'der' as const, i: g.izq.length + j })),
-  ]
+  const trazas = trazar(g).map((t) => ({ ...t, id: p + t.id }))
+  const ritmo = cadencias(trazas)
+  const paquete = PAQUETE[variante]
   const corrienteIzq = trazas.filter((t) => t.lado === 'izq').map((t) => t.d).join('')
   const corrienteDer = trazas.filter((t) => t.lado === 'der').map((t) => t.d).join('')
 
@@ -203,10 +167,10 @@ export function CircuitoHero({ variante }: { variante: Variante }) {
           <linearGradient
             id={`${p}g-anillo`}
             gradientUnits="userSpaceOnUse"
-            x1={g.cx}
-            y1={g.cy - radioAnillo}
-            x2={g.cx + radioAnillo}
-            y2={g.cy + radioAnillo * 0.5}
+            x1={cx}
+            y1={g.cy - R}
+            x2={cx + R}
+            y2={g.cy + R * 0.5}
           >
             <stop offset="0" stopColor="#40b0d0" />
             <stop offset="1" stopColor="#7c5cff" />
@@ -221,9 +185,9 @@ export function CircuitoHero({ variante }: { variante: Variante }) {
               a tu medida
             </tspan>
           </text>
-          <text className="circuito__rotulo" x={g.xd} y={mitad - 3}>
-            <tspan x={g.xd}>Muy pronto</tspan>
-            <tspan x={g.xd} dy="14" className="circuito__rotulo--c2">
+          <text className="circuito__rotulo" x={xd} y={mitad - 3}>
+            <tspan x={xd}>Muy pronto</tspan>
+            <tspan x={xd} dy="14" className="circuito__rotulo--c2">
               los nuestros
             </tspan>
           </text>
@@ -234,7 +198,9 @@ export function CircuitoHero({ variante }: { variante: Variante }) {
             WhatsApp · Shopify · Bsale · Planillas
           </text>
 
-          {/* Trazas: se dibujan una a una al cargar (pathLength=1) */}
+          {/* Trazas: se dibujan una a una al cargar (pathLength=1). Sus
+              cuartos de arco forman, entre las cuatro, el aro fijo sobre el
+              que gira el anillo. */}
           {trazas.map((t) => (
             <path
               key={t.id}
@@ -256,26 +222,66 @@ export function CircuitoHero({ variante }: { variante: Variante }) {
             <path className="corriente corriente--der" d={corrienteDer} />
           </g>
 
-          {/* Nodo */}
+          {/* El halo del nodo va DEBAJO de los paquetes para no teñirlos. */}
+          <circle className="nodo__halo" cx={cx} cy={g.cy} r={g.r * 1.9} fill={`url(#${p}g-nodo)`} />
+
+          {/* Paquetes: uno por cable. Van en un grupo para que la aparicion
+              a los 1.3 s sea una sola animacion. El orden de capas es
+              trazas, corriente, paquetes, anillo, disco, fichas: el disco
+              queda encima por si acaso, pero ningun camino pasa por debajo
+              de el (lo prueba herramientas/probar-circuito.mjs). Cada
+              paquete se mueve a velocidad constante (calcMode linear con
+              keyPoints) y se funde al salir y al llegar. */}
+          <g className="paquetes">
+            {trazas.map((t, k) => {
+              const c = ritmo[k]
+              return (
+                <g key={`p-${t.id}`} className="paquete" opacity="0">
+                  <circle r={paquete.halo} fill={`url(#${p}g-paq-${t.lado})`} />
+                  <circle r={paquete.nucleo} fill="#fff" />
+                  <animateMotion
+                    dur={`${CICLO}s`}
+                    begin={c.begin}
+                    repeatCount="indefinite"
+                    calcMode="linear"
+                    keyTimes={c.keyTimes}
+                    keyPoints={c.keyPoints}
+                  >
+                    <mpath href={`#${t.id}`} />
+                  </animateMotion>
+                  <animate
+                    attributeName="opacity"
+                    dur={`${CICLO}s`}
+                    begin={c.begin}
+                    repeatCount="indefinite"
+                    calcMode="linear"
+                    values={c.opacidad.values}
+                    keyTimes={c.opacidad.keyTimes}
+                  />
+                </g>
+              )
+            })}
+          </g>
+
+          {/* Nodo: anillo, aire, disco y logo */}
           <g className="nodo">
-            <circle className="nodo__halo" cx={g.cx} cy={g.cy} r={g.r * 1.9} fill={`url(#${p}g-nodo)`} />
             <g className="anillo">
-              <path className="anillo__luz" d={arco(g.cx, g.cy, radioAnillo, -90, 30)} stroke={`url(#${p}g-anillo)`} />
-              <path className="anillo__arco" d={arco(g.cx, g.cy, radioAnillo, -90, 30)} stroke={`url(#${p}g-anillo)`} />
+              <path className="anillo__luz" d={arco(cx, g.cy, R, -90, 30)} stroke={`url(#${p}g-anillo)`} />
+              <path className="anillo__arco" d={arco(cx, g.cy, R, -90, 30)} stroke={`url(#${p}g-anillo)`} />
               <animateTransform
                 attributeName="transform"
                 type="rotate"
-                from={`0 ${g.cx} ${g.cy}`}
-                to={`360 ${g.cx} ${g.cy}`}
+                from={`0 ${cx} ${g.cy}`}
+                to={`360 ${cx} ${g.cy}`}
                 dur="2.6s"
                 repeatCount="indefinite"
               />
             </g>
-            <circle className="nodo__aire" cx={g.cx} cy={g.cy} r={g.r + 5} />
-            <circle className="nodo__disco" cx={g.cx} cy={g.cy} r={g.r} />
+            <circle className="nodo__aire" cx={cx} cy={g.cy} r={g.r + 5} />
+            <circle className="nodo__disco" cx={cx} cy={g.cy} r={g.r} />
             <image
               href="/logo-simbolo.webp"
-              x={g.cx - anchoLogo / 2}
+              x={cx - anchoLogo / 2}
               y={g.cy - altoLogo / 2}
               width={anchoLogo}
               height={altoLogo}
@@ -307,7 +313,7 @@ export function CircuitoHero({ variante }: { variante: Variante }) {
           })}
           {PRODUCTOS.map((pr, j) => {
             const y = g.der[j]
-            const x = g.xd
+            const x = xd
             const prende = `${(2.3 + j * 0.8).toFixed(1)}s`
             return (
               <g
@@ -328,23 +334,6 @@ export function CircuitoHero({ variante }: { variante: Variante }) {
               </g>
             )
           })}
-
-          {/* Paquetes: uno por cable, por turnos. Van en un grupo para que la
-              aparicion a los 1.3 s sea una sola animacion. */}
-          <g className="paquetes">
-            {trazas.map((t) => {
-              const comienzo = t.lado === 'izq' ? t.i * 0.6 : 0.3 + (t.i - g.izq.length) * 0.8
-              return (
-                <g key={`p-${t.id}`} className="paquete">
-                  <circle r="9" fill={`url(#${p}g-paq-${t.lado})`} />
-                  <circle r="4" fill="#fff" />
-                  <animateMotion dur={`${CICLO}s`} repeatCount="indefinite" begin={`${(comienzo - CICLO).toFixed(1)}s`}>
-                    <mpath href={`#${t.id}`} />
-                  </animateMotion>
-                </g>
-              )
-            })}
-          </g>
         </g>
       </svg>
       {variante === 'tel' && (

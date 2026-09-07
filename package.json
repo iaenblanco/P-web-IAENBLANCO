@@ -10,6 +10,7 @@
     "start": "next start",
     "lint": "next lint",
     "guardia": "node herramientas/guardia-css.mjs",
+    "probar": "node herramientas/probar-circuito.mjs",
     "medir": "node herramientas/medir-trabajos.mjs"
   },
   "dependencies": {
