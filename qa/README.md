@@ -73,10 +73,11 @@ Indeterminados (sin medición, no cuentan como que pasan):
 Avisos esperados: en `aviso-rechazado`, `.consent-banner` ya no existe y los dos
 solapes que lo nombran salen como selector sin coincidencias.
 
-Local y producción hoy no son el mismo código: producción sirve `94c1e5e`
-(`main`), anterior a `9551ac8`. La línea base de arriba es de la rama, medida
-en su preview; no describe producción hasta que la rama se mezcle en `main` y
-se despliegue.
+Local y producción son el mismo código desde el 6 de octubre de 2026:
+producción sirve `fb38bde` (`main`, deployment `4fbfb95b`), el merge de la rama
+de la línea base, con el mismo árbol que `5f1fb16`. La línea base de arriba se
+midió en el preview de la rama y se repitió contra `https://iaenblanco.com`
+con el mismo resultado: `contrast` 716 / 716 / 0 / 50 y `sanity` 10 de 10.
 
 Diferencias de entorno entre local y producción, aparte del código:
 
@@ -93,7 +94,8 @@ consentimiento aceptado y el QA no lo acepta.
 
 ## Botón flotante de WhatsApp: cuándo se ve
 
-Rama `fix/whatsapp-visibility-policy`, la misma de la línea base de arriba.
+En producción desde `fb38bde`; viene de la rama
+`fix/whatsapp-visibility-policy`, la misma de la línea base de arriba.
 Cambia lo que el QA va a encontrar en pantalla, así que conviene saberlo antes
 de leer una captura. En corto, el botón se retira cuando:
 
