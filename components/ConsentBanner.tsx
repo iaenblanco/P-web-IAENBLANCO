@@ -35,8 +35,10 @@ export function ConsentBanner() {
     if (readStoredConsent() === null) setVisible(true)
   }, [])
 
-  // El boton de WhatsApp se apoya encima de este aviso en vez de esconderse, y
-  // para eso necesita saber cuanto mide. El alto no es un numero fijo: cambia
+  // De 768px para arriba el boton de WhatsApp se apoya encima de este aviso, y
+  // para eso necesita saber cuanto mide; el menu del telefono y el heroe leen
+  // el mismo alto. En el telefono el boton no lo usa: se retira mientras el
+  // aviso esta abierto. El alto no es un numero fijo: cambia
   // con el ancho -el copy salta de una linea a tres- y con el tamano de letra
   // del navegador, asi que lo mide el navegador y se publica aca. Se limpia al
   // desmontar porque una vez respondido el aviso el boton vuelve a su sitio.

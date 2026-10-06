@@ -43,24 +43,26 @@ formulario.
 
 ## Línea base
 
-6 de octubre de 2026, commit `203e54f`, motor central `b55efe9`. Local (`out/`)
-y el preview de Cloudflare de la rama dan lo mismo.
+6 de octubre de 2026, commit `aef9e15`, motor central `b55efe9`. Medida en el
+preview de Cloudflare de la rama `fix/mobile-consent-whatsapp-overlap`
+(deployment `3d383e0d`).
 
 | Check | Resultado | Detalle |
 |---|---|---|
 | `contrast` | pasa (código 0) | 716 textos medidos, 716 pasan, 0 incumplen, 50 indeterminados |
-| `sanity` | FALLA (código 1) | 5 de 10 combinaciones, todas por el mismo solape |
+| `sanity` | pasa (código 0) | 10 de 10 combinaciones |
 | Fuentes | pasa | las dos requeridas aplicadas en todas las combinaciones |
-| Overflow, fuera de viewport, errores JS, recursos | pasa | 0 en todo |
+| Overflow, fuera de viewport, solapes, errores JS, recursos | pasa | 0 en todo |
 
-Fallo conocido, el único. No está excluido de la spec: mientras no se corrija o
-se decida otra cosa, `sanity` sale 1.
+Sin fallos conocidos y sin excepciones declaradas en la spec.
 
-- **Botón de WhatsApp bajo el aviso de cookies en móvil**: `a.boton-whatsapp` y
-  `div.consent-banner` se pisan 52 x 52 px en las tres rutas mientras el aviso
-  está abierto (las 5 combinaciones de móvil que lo muestran). Es una decisión
-  documentada en `components/BotonWhatsapp.tsx`, pero el solape existe y se
-  mide.
+El solape del botón de WhatsApp con el aviso de cookies en móvil, que tenía
+`sanity` en código 1 hasta `203e54f`, ya no existe: bajo 768px el botón se
+retira mientras el aviso está abierto y, bajo 900px, mientras el menú móvil
+está abierto; vuelve solo cuando se cierran. De 768px para arriba sigue
+subiéndose sobre el aviso. Las dos reglas dependen de CSS `:has()`
+(`app/globals.css`, bloque de estados móviles); no hay fallback para
+navegadores que no lo implementan.
 
 Indeterminados (sin medición, no cuentan como que pasan):
 
@@ -73,7 +75,12 @@ Indeterminados (sin medición, no cuentan como que pasan):
 Avisos esperados: en `aviso-rechazado`, `.consent-banner` ya no existe y los dos
 solapes que lo nombran salen como selector sin coincidencias.
 
-Diferencias entre local y producción:
+Local y producción hoy no son el mismo código: producción sirve `94c1e5e`
+(`main`), anterior a `aef9e15`. La línea base de arriba es de la rama, medida
+en su preview; no describe producción hasta que la rama se mezcle en `main` y
+se despliegue.
+
+Diferencias de entorno entre local y producción, aparte del código:
 
 - Producción pide `static.cloudflareinsights.com/beacon.min.js` (lo inyecta
   Cloudflare; no está en el repo). Queda bloqueado, una vez por carga. En local
@@ -82,7 +89,6 @@ Diferencias entre local y producción:
   (`/cdn-cgi/l/email-protection`). No cambió ninguna medición.
 - Producción manda una CSP en modo report-only (`public/_headers`); el servidor
   local del QA no manda cabeceras. Ninguna violación en producción.
-- Mediciones de contraste, altos de página, fuentes y solapes: idénticos.
 
 Google Tag Manager no se pidió en ninguna corrida: solo carga con el
 consentimiento aceptado y el QA no lo acepta.

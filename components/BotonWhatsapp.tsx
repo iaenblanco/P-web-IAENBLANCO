@@ -8,16 +8,15 @@ import { getWhatsappDesde } from '@/lib/site'
  * numero que el resto del sitio -lib/site-, con el mensaje del origen
  * 'flotante': el visitante llega diciendo por donde entro.
  *
- * Nunca se esconde por codigo. Mientras el aviso de medicion esta arriba, el
- * boton se sube lo que mida el aviso para no quedar tapado; el alto lo publica
- * el propio aviso en la custom property --aviso-alto, que el CSS lee con 0px
- * de fallback para cuando no hay aviso.
+ * De 768px para arriba, mientras el aviso de medicion esta abierto, el boton
+ * se sube lo que mida el aviso para no quedar tapado; el alto lo publica el
+ * propio aviso en la custom property --aviso-alto, que el CSS lee con 0px de
+ * fallback para cuando no hay aviso.
  *
- * Bajo 768px esa subida no se aplica -ver app/globals.css, el bloque del
- * @media (max-width: 767px)-: en un telefono el boton levantado aterriza sobre
- * los CTA del heroe y les roba el toque, que es peor. Ahi el aviso lo tapa
- * mientras esta abierto, y el contacto no se pierde porque la cabecera es
- * sticky y lleva su propio boton de WhatsApp en las once rutas.
+ * En el telefono no se sube: se retira entero mientras el aviso esta abierto
+ * y mientras el menu esta abierto, y vuelve a su esquina cuando se cierran.
+ * Eso es CSS puro -ver app/globals.css, el bloque de estados moviles-; aca no
+ * hay estado para ninguno de los dos casos.
  */
 export function BotonWhatsapp() {
   const [alPie, setAlPie] = useState(false)
