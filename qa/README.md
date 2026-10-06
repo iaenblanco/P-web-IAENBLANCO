@@ -43,9 +43,9 @@ formulario.
 
 ## Línea base
 
-6 de octubre de 2026, commit `aef9e15`, motor central `b55efe9`. Medida en el
-preview de Cloudflare de la rama `fix/mobile-consent-whatsapp-overlap`
-(deployment `3d383e0d`).
+6 de octubre de 2026, commit `9551ac8`, motor central `b55efe9`. Medida en el
+preview de Cloudflare de la rama `fix/whatsapp-visibility-policy`
+(deployment `ac0df7c6`).
 
 | Check | Resultado | Detalle |
 |---|---|---|
@@ -57,12 +57,10 @@ preview de Cloudflare de la rama `fix/mobile-consent-whatsapp-overlap`
 Sin fallos conocidos y sin excepciones declaradas en la spec.
 
 El solape del botón de WhatsApp con el aviso de cookies en móvil, que tenía
-`sanity` en código 1 hasta `203e54f`, ya no existe: bajo 768px el botón se
-retira mientras el aviso está abierto y, bajo 900px, mientras el menú móvil
-está abierto; vuelve solo cuando se cierran. De 768px para arriba sigue
-subiéndose sobre el aviso. Las dos reglas dependen de CSS `:has()`
-(`app/globals.css`, bloque de estados móviles); no hay fallback para
-navegadores que no lo implementan.
+`sanity` en código 1 hasta `203e54f`, ya no existe: el botón se retira según
+la política descrita en "Botón flotante de WhatsApp: cuándo se ve". El aviso
+ya no depende de CSS `:has()`; solo la regla del menú móvil lo usa, sin
+fallback para navegadores que no lo implementan.
 
 Indeterminados (sin medición, no cuentan como que pasan):
 
@@ -76,7 +74,7 @@ Avisos esperados: en `aviso-rechazado`, `.consent-banner` ya no existe y los dos
 solapes que lo nombran salen como selector sin coincidencias.
 
 Local y producción hoy no son el mismo código: producción sirve `94c1e5e`
-(`main`), anterior a `aef9e15`. La línea base de arriba es de la rama, medida
+(`main`), anterior a `9551ac8`. La línea base de arriba es de la rama, medida
 en su preview; no describe producción hasta que la rama se mezcle en `main` y
 se despliegue.
 
@@ -95,9 +93,14 @@ consentimiento aceptado y el QA no lo acepta.
 
 ## Botón flotante de WhatsApp: cuándo se ve
 
-Rama `fix/whatsapp-visibility-policy`, posterior a la línea base de arriba (que
-no se volvió a medir en preview). Cambia lo que el QA va a encontrar en
-pantalla, así que conviene saberlo antes de leer una captura:
+Rama `fix/whatsapp-visibility-policy`, la misma de la línea base de arriba.
+Cambia lo que el QA va a encontrar en pantalla, así que conviene saberlo antes
+de leer una captura. En corto, el botón se retira cuando:
+
+- el aviso de cookies no está resuelto o está abierto, en móvil;
+- el menú móvil está abierto;
+- hay un CTA prioritario marcado a la vista;
+- el pie está a la vista.
 
 El botón es un CTA secundario. Se ve solo si no hay ninguna razón para
 retirarlo, y las razones son estados con nombre, no medidas:
