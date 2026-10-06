@@ -1,63 +1,87 @@
 'use client'
 
+import { usePathname } from 'next/navigation'
 import { useEffect, useState } from 'react'
 import { getWhatsappDesde } from '@/lib/site'
+
+/**
+ * Donde esta parado el visitante, segun el unico observador de este archivo:
+ *   pendiente  el observador todavia no informo (HTML servido, cambio de ruta)
+ *   libre      no hay a la vista nada con lo que el boton compita
+ *   cta        hay a la vista una zona marcada con data-zona-cta: el CTA
+ *              principal de la pagina o sus medios de contacto directo
+ *   pie        hay a la vista navegacion o franja legal del pie
+ */
+type Zona = 'pendiente' | 'libre' | 'cta' | 'pie'
+
+const ZONAS_PIE = '.site-footer__nav, .site-footer__bottom'
+const ZONAS_CTA = '[data-zona-cta]'
 
 /**
  * El unico atajo que acompaña al visitante en las once rutas. Sale del mismo
  * numero que el resto del sitio -lib/site-, con el mensaje del origen
  * 'flotante': el visitante llega diciendo por donde entro.
  *
- * De 768px para arriba, mientras el aviso de medicion esta abierto, el boton
- * se sube lo que mida el aviso para no quedar tapado; el alto lo publica el
- * propio aviso en la custom property --aviso-alto, que el CSS lee con 0px de
- * fallback para cuando no hay aviso.
+ * Es un CTA secundario: cede ante el aviso de medicion, el menu, el CTA
+ * principal de la pagina y el pie. No se corre para esquivarlos; se retira y
+ * vuelve. Cuando se muestra lo decide el CSS -app/globals.css, "Politica de
+ * visibilidad"- cruzando cuatro estados que cada dueño publica:
  *
- * En el telefono no se sube: se retira entero mientras el aviso esta abierto
- * y mientras el menu esta abierto, y vuelve a su esquina cuando se cierran.
- * Eso es CSS puro -ver app/globals.css, el bloque de estados moviles-; aca no
- * hay estado para ninguno de los dos casos.
+ *   html[data-aviso]            ConsentBanner
+ *   .mobile-nav-shell[open]     el <details> del menu, en Header
+ *   [data-zona] de este boton   el observador de abajo
+ *
+ * Aca solo vive el ultimo. De 768px para arriba, mientras el aviso esta
+ * abierto, el boton se sube lo que mida el aviso -que el propio aviso publica
+ * en --aviso-alto- en vez de retirarse.
  */
 export function BotonWhatsapp() {
-  const [alPie, setAlPie] = useState(false)
+  const [zona, setZona] = useState<Zona>('pendiente')
+  const ruta = usePathname()
 
   // Mientras se baja, que el boton tape un trozo de lo que pasa por debajo es
-  // lo normal: dura lo que dura el scroll. En el pie no: ahi la pagina se
-  // detiene y el boton se queda parado encima de cosas que se tocan.
+  // lo normal: dura lo que dura el scroll. Donde la pagina se detiene o donde
+  // el visitante viene a tocar algo, no.
   //
-  // Son DOS zonas, no una. La franja de abajo tiene la direccion y los enlaces
-  // legales -medido, 52x17 px de texto tapado en 390 y 24x13 en 1280-, pero
-  // mas arriba esta la navegacion del pie, y ahi el estorbo es peor que tapar:
-  // el boton se lleva el toque. Medido en 390, el ultimo tercio de "Servicios"
-  // y de "Trabajos" caia dentro del boton, asi que tocarlos abria WhatsApp en
-  // una pestaña nueva en vez de navegar. Se observan las dos y el boton se
-  // retira mientras cualquiera de ellas este a la vista. No se pierde nada: el
-  // pie tiene sus propios enlaces de contacto.
+  // En el pie son DOS zonas, no una. La franja de abajo tiene la direccion y
+  // los enlaces legales -medido, 52x17 px de texto tapado en 390 y 24x13 en
+  // 1280-, pero mas arriba esta la navegacion del pie, y ahi el estorbo es
+  // peor que tapar: el boton se lleva el toque. Medido en 390, el ultimo
+  // tercio de "Servicios" y de "Trabajos" caia dentro del boton, asi que
+  // tocarlos abria WhatsApp en una pestaña nueva en vez de navegar.
+  //
+  // Las zonas CTA las marca cada pagina con data-zona-cta: los dos botones del
+  // heroe de la portada -medido, el flotante se llevaba el toque de "Cuentanos
+  // tu idea" en 360, 375 y 390 de ancho y el de "Ver que hacemos" en 430- y
+  // las dos tarjetas de /contacto/, donde pisaba el telefono al cargar en
+  // 900x1000 y al pasar en todos los anchos menores. En las dos el visitante
+  // ya tiene delante el mismo WhatsApp, con mejor rotulo.
+  //
+  // Un solo observador para todo. Depende de la ruta porque el boton vive en
+  // el layout y no se desmonta al navegar: las zonas de la pagina anterior ya
+  // no existen. Al cambiar vuelve a 'pendiente' hasta que el observador
+  // informe sobre la pagina nueva.
   useEffect(() => {
-    const zonas = ['.site-footer__nav', '.site-footer__bottom']
-      .map((selector) => document.querySelector(selector))
-      .filter((nodo): nodo is Element => nodo !== null)
-    if (zonas.length === 0) return
-
+    setZona('pendiente')
     const aLaVista = new Set<Element>()
     const ojo = new IntersectionObserver((entradas) => {
       for (const entrada of entradas) {
         if (entrada.isIntersecting) aLaVista.add(entrada.target)
         else aLaVista.delete(entrada.target)
       }
-      setAlPie(aLaVista.size > 0)
+      const zonas = Array.from(aLaVista)
+      if (zonas.some((nodo) => nodo.matches(ZONAS_PIE))) setZona('pie')
+      else if (zonas.length > 0) setZona('cta')
+      else setZona('libre')
     })
-    zonas.forEach((zona) => ojo.observe(zona))
+    document.querySelectorAll(`${ZONAS_PIE}, ${ZONAS_CTA}`).forEach((nodo) => ojo.observe(nodo))
     return () => ojo.disconnect()
-  }, [])
-
-  const clases = ['boton-whatsapp', alPie ? 'boton-whatsapp--al-pie' : '']
-    .filter(Boolean)
-    .join(' ')
+  }, [ruta])
 
   return (
     <a
-      className={clases}
+      className="boton-whatsapp"
+      data-zona={zona}
       href={getWhatsappDesde('flotante')}
       target="_blank"
       rel="noreferrer"

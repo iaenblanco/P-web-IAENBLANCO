@@ -27,12 +27,32 @@ function storeConsent(valor: ConsentValue) {
   window.dispatchEvent(new CustomEvent<ConsentValue>(CONSENT_EVENT, { detail: valor }))
 }
 
+/**
+ * Lo que la app sabe del aviso, publicado en <html data-aviso>:
+ *   sin atributo  todavia no se sabe (HTML recien servido, React sin hidratar)
+ *   "abierto"     se leyo el storage y hay que preguntar: el aviso esta en pantalla
+ *   "cerrado"     ya hay respuesta, de esta visita o de una anterior
+ * Lo lee el CSS del boton flotante de WhatsApp, que en el telefono no se
+ * muestra hasta ver "cerrado". Antes dependia de :has(.consent-banner), que no
+ * distingue "no hay aviso" de "todavia no se sabe si hay": el boton venia en el
+ * HTML, se veia, y se escondia recien cuando React montaba el aviso.
+ * El storage se lee una sola vez, aca; nadie mas tiene que volver a leerlo.
+ */
+function publicarAviso(estado: 'abierto' | 'cerrado') {
+  document.documentElement.dataset.aviso = estado
+}
+
 export function ConsentBanner() {
   const [visible, setVisible] = useState(false)
   const nodo = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
-    if (readStoredConsent() === null) setVisible(true)
+    const falta = readStoredConsent() === null
+    if (falta) setVisible(true)
+    publicarAviso(falta ? 'abierto' : 'cerrado')
+    return () => {
+      delete document.documentElement.dataset.aviso
+    }
   }, [])
 
   // De 768px para arriba el boton de WhatsApp se apoya encima de este aviso, y
@@ -64,6 +84,7 @@ export function ConsentBanner() {
   function decidir(valor: ConsentValue) {
     storeConsent(valor)
     setVisible(false)
+    publicarAviso('cerrado')
   }
 
   return (

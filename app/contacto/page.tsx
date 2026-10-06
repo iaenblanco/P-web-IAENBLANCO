@@ -73,7 +73,10 @@ export default function ContactPage() {
         </div>
       </section>
 
-      <section className="contact-options" aria-label="Formas de contacto">
+      {/* data-zona-cta: mientras estas dos tarjetas estan a la vista, el
+          flotante de WhatsApp se retira (components/BotonWhatsapp.tsx). La
+          primera ya es ese mismo WhatsApp, con el numero escrito. */}
+      <section className="contact-options" aria-label="Formas de contacto" data-zona-cta>
         <div className="section-shell contact-options__grid">
           <Reveal className="contact-option contact-option--primary">
             <div className="contact-option__top">

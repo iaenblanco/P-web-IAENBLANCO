@@ -92,3 +92,35 @@ Diferencias de entorno entre local y producción, aparte del código:
 
 Google Tag Manager no se pidió en ninguna corrida: solo carga con el
 consentimiento aceptado y el QA no lo acepta.
+
+## Botón flotante de WhatsApp: cuándo se ve
+
+Rama `fix/whatsapp-visibility-policy`, posterior a la línea base de arriba (que
+no se volvió a medir en preview). Cambia lo que el QA va a encontrar en
+pantalla, así que conviene saberlo antes de leer una captura:
+
+El botón es un CTA secundario. Se ve solo si no hay ninguna razón para
+retirarlo, y las razones son estados con nombre, no medidas:
+
+| Razón | Dónde se publica | Rige |
+| --- | --- | --- |
+| Todavía no se sabe si hay que mostrar el aviso | `<html>` sin `data-aviso` | bajo 768px |
+| El aviso de cookies está abierto | `<html data-aviso="abierto">` | bajo 768px |
+| El menú móvil está abierto | `<details class="mobile-nav-shell" open>` | hasta 900px |
+| Hay una zona de CTA principal a la vista | botón con `data-zona="cta"` | hasta 900px |
+| Aún no se sabe qué zona hay a la vista | botón con `data-zona="pendiente"` | hasta 900px |
+| El pie está a la vista | botón con `data-zona="pie"` | siempre |
+
+- Una zona de CTA principal es cualquier elemento con el atributo
+  `data-zona-cta`. Hoy son dos: los botones del héroe de la portada y las
+  tarjetas de WhatsApp y correo de `/contacto/`. Si una página nueva tiene un
+  CTA que el botón tapa, se marca su contenedor; no se mueve el botón.
+- En el teléfono el botón **no** aparece en la primera pantalla de `/` ni de
+  `/contacto/`: es lo esperado, no un fallo. Aparece al pasar la zona marcada.
+- `data-aviso` lo escribe `ConsentBanner` (el único que lee el storage) y
+  `data-zona` lo escribe `BotonWhatsapp` con un solo `IntersectionObserver`.
+- Sin JavaScript no hay aviso ni observador: el botón se ve siempre. Las reglas
+  que lo retiran al cargar cuelgan de `html.con-js`.
+- De 768px para arriba el botón sigue subiéndose sobre el aviso; en escritorio
+  solo lo retira el pie, igual que antes.
+- El aviso ya no depende de `:has()`; el menú móvil sí.

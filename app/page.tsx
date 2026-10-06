@@ -220,7 +220,9 @@ export default function HomePage() {
               cotizador, la plataforma y el sistema que trabaja por detrás, que después
               administras tú.
             </p>
-            <div className="home-hero__actions">
+            {/* data-zona-cta: mientras estos dos botones estan a la vista, el
+                flotante de WhatsApp se retira (components/BotonWhatsapp.tsx). */}
+            <div className="home-hero__actions" data-zona-cta>
               <a
                 href={getWhatsappDesde('portada')}
                 target="_blank"
