@@ -11180,13 +11180,9 @@ html:not(.hero-fuera) .site-header--inicio .menu-line {
    CTA justamente a quien lo ignora. El alto lo publica el propio aviso en
    --aviso-alto; sin aviso la variable no existe, cae al fallback 0px y el
    boton queda donde estaba.
-   Vale en todos los anchos, telefono incluido. Ahi la subida estuvo apagada un
-   tiempo -el boton se quedaba en su esquina y el aviso lo tapaba entero-
-   porque con el heroe de entonces aterrizaba sobre los CTA; medido de nuevo
-   en el export en 360, 375, 390 y 430, eso ya no describe al heroe: el boton
-   pisa un CTA justamente en su esquina de siempre, con o sin aviso, y
-   levantado lo libra en los tres primeros y lo pisa menos en 430. Quedarse
-   abajo dejaba 52 x 52 px de boton bajo el aviso, sin poder tocarse.
+   La subida vale de 768px para arriba. En el telefono el boton no se sube:
+   mientras el aviso esta abierto se retira entero -ver el bloque de estados
+   moviles, mas abajo-.
    La separacion con el aviso es el mismo margen que el boton guarda con el
    borde de la pantalla: no hay un numero aparte para esto. */
 .boton-whatsapp {
@@ -11232,6 +11228,45 @@ html:not(.hero-fuera) .site-header--inicio .menu-line {
   opacity: 0;
   visibility: hidden;
   pointer-events: none;
+}
+
+/* Estados moviles: el boton flotante es secundario frente al consentimiento,
+   a la navegacion y a los CTA propios de cada pagina, y no compite con ellos
+   por el mismo sitio. Se retira entero -no se corre- en dos casos:
+   - bajo 768px, mientras el aviso de medicion esta abierto. Subirlo sobre el
+     aviso, que fue el intento anterior, libraba el solape en 390x844 y lo
+     trasladaba a otros controles en otros tamanos. Aca el boton tampoco suma
+     --aviso-alto: al responder el aviso reaparece en su esquina de siempre,
+     sin corrimiento que deshacer.
+   - bajo 900px -donde existe el menu del telefono-, mientras el menu esta
+     abierto: el panel ya trae su propio CTA de WhatsApp y el flotante pisaba
+     enlaces de la lista.
+   La senal es la que ya hay: el aviso solo esta en el DOM mientras no se
+   responde y el menu es un <details> nativo; no hay estado nuevo ni medicion.
+   visibility lo saca tambien del orden de tabulacion y del arbol de
+   accesibilidad, y pointer-events evita que quede un area invisible que se
+   lleve el toque durante el fundido.
+   Donde :has() no existe -Safari anterior a 15.4, Firefox anterior a 121- las
+   dos reglas se caen solas y el boton se queda en su esquina: bajo el aviso,
+   que va en z-index 900 y lo tapa entero, y sobre el menu como antes. */
+@media (max-width: 767px) {
+  .boton-whatsapp {
+    bottom: clamp(14px, 4vw, 28px);
+  }
+
+  html:has(.consent-banner) .boton-whatsapp {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+  }
+}
+
+@media (max-width: 900px) {
+  html:has(.mobile-nav-shell[open]) .boton-whatsapp {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
