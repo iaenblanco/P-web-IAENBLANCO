@@ -1,0 +1,74 @@
+{
+  "// que es": "Spec de QA visual de iaenblanco.com (repo P-web-IAENBLANCO). La corre tools/qa/visual del repo iaenblanco-agent-system. Ver qa/README.md.",
+  "// origen": "out/ es el export estatico de 'npm run build'. Para medir produccion se usa una copia temporal con 'url' en vez de 'dist' (qa/README.md).",
+  "dist": "../out",
+  "spa": false,
+
+  "// rutas": "Tres plantillas: inicio (heroe oscuro, cabecera sobre placa), indice de servicios (pagina interior larga) y contacto (formulario). Con barra final: trailingSlash esta activo.",
+  "rutas": ["/", "/servicios/", "/contacto/"],
+  "viewports": [
+    { "nombre": "escritorio", "width": 1440, "height": 900 },
+    { "nombre": "movil", "width": 390, "height": 844 }
+  ],
+  "reducedMotion": "reduce",
+
+  "// fuentes": "Las dos familias de next/font/google en app/layout.tsx, servidas desde el propio sitio. Instrument Sans es la principal (--font-sans, body); IBM Plex Mono es la mono (--font-mono, etiquetas y navegacion).",
+  "fuentes": { "requeridas": ["Instrument Sans", "IBM Plex Mono"], "timeoutFalla": true },
+  "esperas": { "hasta": "networkidle", "fuentes": true, "fuentesMs": 10000, "selector": "main#contenido", "recorrer": true, "asentarMs": 2000, "timeoutMs": 30000 },
+  "navegador": { "channel": "chrome" },
+  "salida": "./.salida",
+
+  "// estados": "Dos. menu-movil: un <details> nativo (components/Header.tsx), en inicio y en servicios porque la cabecera tiene dos variantes (site-header--inicio y la normal). aviso-rechazado: se pulsa Rechazar en el aviso de cookies, porque mientras esta abierto tapa la ultima franja del pie y esos textos salen indeterminados en base; solo en inicio, el pie es el mismo en todas las rutas. Sin hover ni focus en esta version.",
+  "estadoBase": true,
+  "estados": [
+    {
+      "nombre": "menu-movil",
+      "viewports": ["movil"],
+      "rutas": ["/", "/servicios/"],
+      "acciones": [
+        { "tipo": "click", "selector": "summary.mobile-toggle" },
+        { "tipo": "esperar", "selector": "#mobile-navigation", "condicion": "visible", "timeoutMs": 3000 }
+      ],
+      "contrast": { "incluir": ["#mobile-navigation *"] }
+    },
+    {
+      "nombre": "aviso-rechazado",
+      "rutas": ["/"],
+      "acciones": [
+        { "tipo": "click", "selector": "button.consent-banner__deny" },
+        { "tipo": "esperar", "selector": ".consent-banner", "condicion": "oculto", "timeoutMs": 3000 }
+      ],
+      "contrast": { "incluir": [".site-footer *"] }
+    }
+  ],
+
+  "// origenesBloqueados": "Analitica que no debe recibir trafico del QA. Los dos de cloudflareinsights se ven en el HTML de produccion (los inyecta Cloudflare, no estan en el repo). googletagmanager esta en components/GoogleTagManager.tsx y solo carga con consentimiento aceptado, que el QA nunca da: queda como seguro; si alguna vez sale en 'bloqueados', el consentimiento dejo de frenarlo.",
+  "origenesBloqueados": ["static.cloudflareinsights.com", "cloudflareinsights.com", "www.googletagmanager.com"],
+
+  "contrast": {
+    "// incluir": "Todo elemento con texto propio dentro de las cuatro regiones que el sitio pinta en cada pagina. Los menus cerrados no se pintan y quedan como no renderizados.",
+    "incluir": ["#contenido *", ".site-header *", ".site-footer *", ".consent-banner *"],
+    "excluir": [],
+    "umbralNormal": 4.5,
+    "umbralGrande": 3,
+    "factorP10": 0.85,
+    "indeterminadoFalla": false
+  },
+
+  "sanity": {
+    "overflow": { "activo": true, "toleranciaPx": 0 },
+    "fueraDeViewport": { "activo": true, "selector": "#contenido *, .site-header *, .site-footer *, .consent-banner *", "ignorar": [], "toleranciaPx": 1, "max": 0 },
+    "solapes": {
+      "toleranciaPx": 4,
+      "max": 0,
+      "grupos": [
+        { "nombre": "cabecera sobre titulo", "entre": [".site-header", "#contenido h1"] },
+        { "nombre": "aviso de cookies sobre titulo", "entre": [".consent-banner", "#contenido h1"] },
+        { "nombre": "boton de whatsapp sobre aviso de cookies", "entre": [".boton-whatsapp", ".consent-banner"] }
+      ]
+    },
+    "erroresJs": { "activo": true, "ignorar": [], "max": 0 },
+    "recursos": { "activo": true, "ignorar": [], "max": 0 },
+    "selectores": { "activo": true, "estricto": false }
+  }
+}
