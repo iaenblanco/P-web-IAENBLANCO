@@ -43,26 +43,24 @@ formulario.
 
 ## Línea base
 
-6 de octubre de 2026, commit `94c1e5e`, motor central `b55efe9`. Local (`out/`)
-y producción dan lo mismo.
+6 de octubre de 2026, commit `203e54f`, motor central `b55efe9`. Local (`out/`)
+y el preview de Cloudflare de la rama dan lo mismo.
 
 | Check | Resultado | Detalle |
 |---|---|---|
-| `contrast` | FALLA (código 1) | 716 textos medidos, 708 pasan, 8 incumplen, 50 indeterminados |
+| `contrast` | pasa (código 0) | 716 textos medidos, 716 pasan, 0 incumplen, 50 indeterminados |
 | `sanity` | FALLA (código 1) | 5 de 10 combinaciones, todas por el mismo solape |
 | Fuentes | pasa | las dos requeridas aplicadas en todas las combinaciones |
 | Overflow, fuera de viewport, errores JS, recursos | pasa | 0 en todo |
 
-Fallos conocidos. No están excluidos de la spec: mientras no se corrijan o se
-decida otra cosa, el QA sale 1.
+Fallo conocido, el único. No está excluido de la spec: mientras no se corrija o
+se decida otra cosa, `sanity` sale 1.
 
-1. **Numerales de "Lo que construimos"** (`app/servicios/page.tsx:136`, los
-   `01` a `04`): ratio 2.62 contra 4.5, en escritorio y en móvil. Son los 8
-   textos que incumplen.
-2. **Botón de WhatsApp bajo el aviso de cookies en móvil**: se pisan 52 x 52 px
-   en las tres rutas mientras el aviso está abierto. Es una decisión
-   documentada en `components/BotonWhatsapp.tsx`, pero el solape existe y se
-   mide.
+- **Botón de WhatsApp bajo el aviso de cookies en móvil**: `a.boton-whatsapp` y
+  `div.consent-banner` se pisan 52 x 52 px en las tres rutas mientras el aviso
+  está abierto (las 5 combinaciones de móvil que lo muestran). Es una decisión
+  documentada en `components/BotonWhatsapp.tsx`, pero el solape existe y se
+  mide.
 
 Indeterminados (sin medición, no cuentan como que pasan):
 
