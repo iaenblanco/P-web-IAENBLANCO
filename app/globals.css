@@ -11180,9 +11180,15 @@ html:not(.hero-fuera) .site-header--inicio .menu-line {
    CTA justamente a quien lo ignora. El alto lo publica el propio aviso en
    --aviso-alto; sin aviso la variable no existe, cae al fallback 0px y el
    boton queda donde estaba.
-   En un telefono esa subida no cabe y la excepcion esta al final del bloque:
-   lo que gana el boton al levantarse lo pierde el CTA del heroe, sobre el que
-   aterriza. */
+   Vale en todos los anchos, telefono incluido. Ahi la subida estuvo apagada un
+   tiempo -el boton se quedaba en su esquina y el aviso lo tapaba entero-
+   porque con el heroe de entonces aterrizaba sobre los CTA; medido de nuevo
+   en el export en 360, 375, 390 y 430, eso ya no describe al heroe: el boton
+   pisa un CTA justamente en su esquina de siempre, con o sin aviso, y
+   levantado lo libra en los tres primeros y lo pisa menos en 430. Quedarse
+   abajo dejaba 52 x 52 px de boton bajo el aviso, sin poder tocarse.
+   La separacion con el aviso es el mismo margen que el boton guarda con el
+   borde de la pantalla: no hay un numero aparte para esto. */
 .boton-whatsapp {
   position: fixed;
   right: clamp(14px, 4vw, 28px);
@@ -11226,47 +11232,6 @@ html:not(.hero-fuera) .site-header--inicio .menu-line {
   opacity: 0;
   visibility: hidden;
   pointer-events: none;
-}
-
-/* En el telefono el boton no se sube al aviso: se queda en su esquina.
-   El estorbo que hay que evitar es que el boton se lleve el toque que le toca
-   al CTA del heroe, y en un telefono la subida es justamente lo que lo provoca.
-   Medido dos veces en el export: en 375x812, con el aviso publicando 134,36px,
-   el boton levantado cae en y 610,6-662,6 sobre el CTA primario -y 586,1-642,1,
-   31,5px de solape-; en 390x844 cae en y 642-694 sobre el SEGUNDO CTA -y
-   621,8-677,8, 35,8px-, que ni siquiera va a WhatsApp. No es un accidente de un
-   ancho: la pila de acciones del heroe mide 136px y el boton levantado siempre
-   aterriza dentro.
-   Las tres salidas se probaron y se descartaron con numeros. Correrlo a la
-   izquierda no sirve porque en telefono los dos CTA ocupan el ancho entero -de
-   x 12 al borde menos 12-. Mandarlo detras en el eje z tampoco: .home-hero__inner
-   abre contexto de apilado en z-index 1 y .home-hero__content en 2, asi que
-   nada de adentro del heroe puede pasar por encima del 80 de este boton sin
-   levantar el heroe entero por sobre la cabecera. Y subirlo mas hasta librar
-   los dos CTA pide +152px en 390: el boton terminaria flotando a media pantalla
-   sobre el texto. Queda la tercera: dejar de sumar --aviso-alto aca abajo.
-   Sin la subida el boton ocupa apenas los ultimos 67-73px de la pantalla y el
-   aviso -que mide entre 113 y 134px en los tres anchos medidos, 375, 390 y 430,
-   y va en z-index 900- lo tapa entero mientras esta abierto: comprobado con
-   getBoundingClientRect en los tres, el techo del boton queda por debajo del
-   techo del aviso. Asi no puede quedar a medias ni robar un toque, y el toque
-   en esa esquina va al aviso, que es lo que corresponde cuando el aviso esta
-   abierto. No se pierde el contacto en el intervalo: bajo 900px la cabecera es
-   sticky y lleva su propio boton de WhatsApp en las once rutas, y en la portada
-   el CTA primario del heroe apunta al mismo WHATSAPP_URL.
-   El primer intento fue esconder el boton entero -opacity, visibility y
-   pointer-events- mientras el aviso siguiera sin responder, colgado de un
-   :has(). Se descarto sin llegar a quedarse: dejaba el boton inutilizado en
-   las once rutas y en todo el scroll, cuando el solape solo pasaba en el
-   pliegue del heroe, y en iOS Safari anterior a 15.4 y Firefox anterior a 121
-   el :has() se cae y vuelve el solape sin que nadie lo note. Esta regla no
-   depende de ningun selector nuevo, asi que se comporta igual en todos los
-   navegadores. De paso desaparece el parpadeo de la primera visita: el boton
-   ya no salta al montarse el aviso ni al responderlo. */
-@media (max-width: 767px) {
-  .boton-whatsapp {
-    bottom: clamp(14px, 4vw, 28px);
-  }
 }
 
 @media (prefers-reduced-motion: reduce) {

@@ -73,7 +73,11 @@ Indeterminados (sin medición, no cuentan como que pasan):
 Avisos esperados: en `aviso-rechazado`, `.consent-banner` ya no existe y los dos
 solapes que lo nombran salen como selector sin coincidencias.
 
-Diferencias entre local y producción:
+Local y producción hoy no son el mismo código: producción sirve `94c1e5e`
+(`main`), anterior a `203e54f`. La línea base de arriba es de la rama, medida
+en local y en su preview; no describe producción hasta que la rama se publique.
+
+Diferencias de entorno entre local y producción, aparte del código:
 
 - Producción pide `static.cloudflareinsights.com/beacon.min.js` (lo inyecta
   Cloudflare; no está en el repo). Queda bloqueado, una vez por carga. En local
@@ -82,7 +86,6 @@ Diferencias entre local y producción:
   (`/cdn-cgi/l/email-protection`). No cambió ninguna medición.
 - Producción manda una CSP en modo report-only (`public/_headers`); el servidor
   local del QA no manda cabeceras. Ninguna violación en producción.
-- Mediciones de contraste, altos de página, fuentes y solapes: idénticos.
 
 Google Tag Manager no se pidió en ninguna corrida: solo carga con el
 consentimiento aceptado y el QA no lo acepta.

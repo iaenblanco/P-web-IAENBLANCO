@@ -13,11 +13,8 @@ import { getWhatsappDesde } from '@/lib/site'
  * el propio aviso en la custom property --aviso-alto, que el CSS lee con 0px
  * de fallback para cuando no hay aviso.
  *
- * Bajo 768px esa subida no se aplica -ver app/globals.css, el bloque del
- * @media (max-width: 767px)-: en un telefono el boton levantado aterriza sobre
- * los CTA del heroe y les roba el toque, que es peor. Ahi el aviso lo tapa
- * mientras esta abierto, y el contacto no se pierde porque la cabecera es
- * sticky y lleva su propio boton de WhatsApp en las once rutas.
+ * La subida vale en todos los anchos, telefono incluido: el boton nunca queda
+ * debajo del aviso, y cuando el visitante lo responde vuelve a su esquina.
  */
 export function BotonWhatsapp() {
   const [alPie, setAlPie] = useState(false)
