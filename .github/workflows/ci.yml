@@ -1,13 +1,18 @@
 name: CI
 
-# Las dos revisiones baratas que Cloudflare NO hace.
+# Dos jobs: "tipos y guardia" (barato, corre siempre) y "visual QA" (build +
+# sanity + contrast, solo si el primero pasa y solo para codigo de este repo).
 #
+# Job "tipos y guardia": las dos revisiones baratas que Cloudflare NO hace.
 # Cloudflare Pages construye desde main con "next build" a secas: no corre tsc
-# y no sabe nada de la guardia del CSS. Este workflow cubre justo ese hueco, y
-# nada mas. No construye el sitio: duplicar el build seria pagar dos veces por
-# la misma senal, y ademas next/font baja las tipografias de Google en tiempo
-# de build (app/layout.tsx:2), o sea una dependencia de red que puede pintar de
-# rojo un job por algo ajeno al sitio.
+# y no sabe nada de la guardia del CSS. Ese job cubre justo ese hueco, y nada
+# mas. No construye el sitio.
+#
+# Job "visual QA": si construye, porque mide el artefacto que se quiere
+# mergear (out/), no produccion. Eso trae la dependencia de red que antes se
+# evitaba: next/font baja las tipografias de Google en tiempo de build
+# (app/layout.tsx:2). Un rojo en el paso "Construir" puede ser Google y no el
+# sitio: se relanza.
 #
 # Lo que este workflow NO hace: bloquear el despliegue. El push a main ES el
 # despliegue, asi que Actions y el build de Cloudflare arrancan a la vez y el
@@ -51,8 +56,17 @@ concurrency:
   group: ci-${{ github.ref }}
   cancel-in-progress: true
 
-# Solo lectura: este workflow no escribe en el repo y no usa ningun secreto.
-# Importa porque el repo es publico y pull_request lo puede disparar un fork.
+# Solo lectura: este workflow no escribe en el repo. Importa porque el repo es
+# publico y pull_request lo puede disparar un fork.
+#
+# Secreto requerido (solo el job "visual QA"):
+#   IAENBLANCO_AGENT_SYSTEM_TOKEN
+#   Para que sirve: checkout de solo lectura del motor central de QA, que es
+#   un repo privado (IAenBlanco-Oracle/iaenblanco-agent-system).
+#   Permiso minimo: Contents: Read, solo sobre ese repo. Nada mas.
+# Con el disparador pull_request GitHub no entrega secretos a los PR de forks,
+# y ademas el job visual se salta en ese caso (ver su "if"). Nunca cambiar el
+# disparador a pull_request_target: correria codigo ajeno con el secreto.
 permissions:
   contents: read
 
@@ -90,3 +104,118 @@ jobs:
       # ni Chrome, ni una sola dependencia.
       - name: Guardia del CSS
         run: node herramientas/guardia-css.mjs
+
+  # Mide el artefacto del commit: build estatico a out/ y, sobre eso, los dos
+  # checks del motor central con qa/visual.spec.json. No compara capturas.
+  #
+  # En pull_request es la senal previa al merge. En push a main es solo una
+  # verificacion posterior: Cloudflare ya empezo a desplegar, esto no lo frena.
+  visual-qa:
+    name: visual QA
+    needs: revision
+    # Solo codigo de confianza: push a main, workflow_dispatch, o un PR cuya
+    # rama vive en este mismo repo. Un PR de fork queda "skipped": no llega a
+    # tocar el secreto ni el motor privado.
+    if: github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    env:
+      # El motor se fija por SHA completo, nunca por rama: la linea base de
+      # qa/README.md se midio con este commit. Subirlo es un cambio deliberado
+      # que va junto con volver a medir la linea base.
+      MOTOR_REPO: IAenBlanco-Oracle/iaenblanco-agent-system
+      MOTOR_SHA: b55efe91f8570090c806502cc1805488de82ec50
+      MOTOR_DIR: .iaenblanco-agent-system
+      SALIDA: qa/.salida-ci
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: 'npm'
+
+      - name: Instalar dependencias
+        run: npm ci
+
+      # Antes de traer el motor a proposito: asi tsc y next no ven ningun
+      # archivo ajeno dentro del arbol.
+      - name: Construir
+        run: npm run build
+
+      - name: Confirmar out/
+        run: |
+          test -f out/index.html
+          test -f out/servicios/index.html
+          test -f out/contacto/index.html
+
+      # Sin secreto no hay motor, y sin motor no hay veredicto: falla con un
+      # mensaje claro en vez de saltarse el QA o usar otra copia del tooling.
+      # Solo comprueba que no este vacio; no lo imprime.
+      - name: Comprobar el secreto del motor
+        env:
+          TOKEN: ${{ secrets.IAENBLANCO_AGENT_SYSTEM_TOKEN }}
+        run: |
+          if [ -z "$TOKEN" ]; then
+            echo "::error title=Falta el secreto IAENBLANCO_AGENT_SYSTEM_TOKEN::El job visual QA necesita el secreto de Actions IAENBLANCO_AGENT_SYSTEM_TOKEN (solo lectura, Contents: Read sobre $MOTOR_REPO) para traer el motor central. Crearlo en Settings > Secrets and variables > Actions y relanzar el job."
+            exit 1
+          fi
+
+      - name: Traer el motor central
+        uses: actions/checkout@v4
+        with:
+          repository: ${{ env.MOTOR_REPO }}
+          ref: ${{ env.MOTOR_SHA }}
+          token: ${{ secrets.IAENBLANCO_AGENT_SYSTEM_TOKEN }}
+          path: ${{ env.MOTOR_DIR }}
+          persist-credentials: false
+
+      - name: Confirmar el SHA del motor
+        run: |
+          real="$(git -C "$MOTOR_DIR" rev-parse HEAD)"
+          echo "motor: $real"
+          test "$real" = "$MOTOR_SHA"
+
+      # Playwright en la version exacta del lock del motor. Solo la libreria:
+      # el navegador es el Chrome del sistema (la spec pide channel "chrome").
+      - name: Instalar el runtime del motor
+        working-directory: ${{ env.MOTOR_DIR }}/tools/runtime
+        env:
+          PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD: '1'
+        run: npm ci
+
+      # La imagen ubuntu-latest trae Google Chrome estable en
+      # /opt/google/chrome/chrome, que es donde Playwright busca el channel
+      # "chrome". Se usa ese y se deja la version en el log. Si un dia la
+      # imagen no lo trae, lo instala el propio Playwright del motor (paquete
+      # oficial de Google). La version de Chrome no se puede fijar: es la
+      # estable del dia, igual que en la maquina de Nico.
+      - name: Chrome
+        run: |
+          if [ ! -x /opt/google/chrome/chrome ]; then
+            echo "::warning::La imagen no trae Google Chrome; se instala con Playwright."
+            (cd "$MOTOR_DIR/tools/runtime" && npx playwright install chrome)
+          fi
+          /opt/google/chrome/chrome --version
+
+      - name: Sanity
+        id: sanity
+        run: node "$MOTOR_DIR/tools/qa/visual/bin/sanity.mjs" --spec qa/visual.spec.json --out "$SALIDA"
+
+      # Corre aunque sanity incumpla: interesa ver los dos informes juntos.
+      - name: Contrast
+        if: ${{ !cancelled() && (steps.sanity.outcome == 'success' || steps.sanity.outcome == 'failure') }}
+        run: node "$MOTOR_DIR/tools/qa/visual/bin/contrast.mjs" --spec qa/visual.spec.json --out "$SALIDA"
+
+      # Solo los dos JSON y solo si algo fallo. Con codigo 2 (error de entorno)
+      # el motor no escribe informe: en ese caso no hay nada que subir.
+      - name: Subir los informes si fallo
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: visual-qa-${{ github.sha }}
+          path: |
+            qa/.salida-ci/sanity.json
+            qa/.salida-ci/contrast.json
+          if-no-files-found: ignore
+          retention-days: 14

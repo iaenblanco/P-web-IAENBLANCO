@@ -25,6 +25,18 @@ Contra producción: copiar la spec fuera del repo, cambiar `"dist": "../out"`
 por `"url": "https://iaenblanco.com"`, quitar `"spa"` y correr igual. La copia
 no se guarda acá.
 
+## En CI
+
+Los pull requests internos (rama en este mismo repo) corren `npm run build`,
+`sanity` y `contrast` contra `out/`, con el motor central fijado al commit
+`b55efe9`. Es el job `visual QA` de `.github/workflows/ci.yml`, y arranca solo
+si `tipos y guardia` pasa. Los PR de forks no lo corren. En `main` corre
+después del merge: avisa, no frena el despliegue.
+
+Necesita el secreto de Actions `IAENBLANCO_AGENT_SYSTEM_TOKEN`: lectura del
+repo central, nada más. Si falla, los dos JSON quedan como artifact del run.
+Subir el motor de versión es cambiar ese SHA y volver a medir la línea base.
+
 ## Qué cubre
 
 | | |
@@ -42,6 +54,10 @@ Sin cubrir: `/productos/`, `/trabajos/`, `/servicios/[slug]/`, `/privacidad/`,
 formulario.
 
 ## Línea base
+
+La línea base describe el árbol funcional que se midió. Un commit posterior
+que solo toca documentación no la invalida ni obliga a actualizar el SHA en
+cada línea de esta sección.
 
 6 de octubre de 2026, commit `9551ac8`, motor central `b55efe9`. Medida en el
 preview de Cloudflare de la rama `fix/whatsapp-visibility-policy`
