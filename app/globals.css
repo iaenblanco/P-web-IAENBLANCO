@@ -7737,7 +7737,6 @@ html:not(.hero-fuera) .site-header--inicio .menu-line {
 
 .services-index-cards article > div span {
   font-variant-numeric: tabular-nums;
-  opacity: 0.6;
 }
 
 /* El encabezado de sección de /servicios pasa a dos columnas: el titular a la
