@@ -27,6 +27,11 @@ No se requieren otras variables.
 4. Revisar el contenido de `out/` localmente.
 5. Publicar solo después de validar diseño, contenido, enlaces y Analytics.
 
+Los PRs desde forks no reciben secretos de Actions y `visual QA` queda
+skipped, lo que GitHub cuenta como verde. Por eso un PR de fork no se mergea
+directo: si un cambio externo se quiere integrar, primero se traslada a una
+rama de este repo y se valida mediante un PR interno.
+
 ## Dominio
 
 En Cloudflare Pages, agrega `iaenblanco.com` en **Custom domains** y conserva los
