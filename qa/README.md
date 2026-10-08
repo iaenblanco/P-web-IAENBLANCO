@@ -145,3 +145,5 @@ retirarlo, y las razones son estados con nombre, no medidas:
 - De 768px para arriba el botón sigue subiéndose sobre el aviso; en escritorio
   solo lo retira el pie, igual que antes.
 - El aviso ya no depende de `:has()`; el menú móvil sí.
+
+<!-- PASO 38: linea de prueba del ruleset "Protect main". Sin efecto funcional; no se mergea. -->
