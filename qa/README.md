@@ -29,7 +29,7 @@ no se guarda acá.
 
 Los pull requests internos (rama en este mismo repo) corren `npm run build`,
 `sanity` y `contrast` contra `out/`, con el motor central fijado al commit
-`b55efe9`. Es el job `visual QA` de `.github/workflows/ci.yml`, y arranca solo
+`7d3358e`. Es el job `visual QA` de `.github/workflows/ci.yml`, y arranca solo
 si `tipos y guardia` pasa. Los PR de forks no lo corren. En `main` corre
 después del merge: avisa, no frena el despliegue.
 
