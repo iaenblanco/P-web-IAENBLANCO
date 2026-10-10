@@ -70,5 +70,8 @@
     "erroresJs": { "activo": true, "ignorar": [], "max": 0 },
     "recursos": { "activo": true, "ignorar": [], "max": 0 },
     "selectores": { "activo": true, "estricto": false }
-  }
+  },
+
+  "// screenshots": "Piloto, no bloqueante. Captura las 14 combinaciones de arriba a pagina completa y las compara pixel por pixel contra qa/baseline/. Tolerancia 0 y 0: el ruido medido Linux contra Linux, misma imagen de runner y mismo Chrome, es 0 px. La linea base solo vale generada en Linux, con el job manual 'linea base visual' de .github/workflows/ci.yml: nunca en Windows. Ver qa/README.md.",
+  "screenshots": { "baseline": "./baseline", "paginaCompleta": true, "toleranciaCanal": 0, "toleranciaPixeles": 0 }
 }
