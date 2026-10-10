@@ -1,0 +1,121 @@
+{
+ "herramienta": "iaenblanco-qa-visual",
+ "schemaVersion": 1,
+ "plataforma": "linux",
+ "navegador": "154.0.8037.97",
+ "paginaCompleta": true,
+ "capturas": [
+  {
+   "archivo": "home__escritorio__base.png",
+   "ruta": "/",
+   "viewport": "escritorio",
+   "estado": "base",
+   "ancho": 1440,
+   "alto": 4026
+  },
+  {
+   "archivo": "home__escritorio__aviso-rechazado.png",
+   "ruta": "/",
+   "viewport": "escritorio",
+   "estado": "aviso-rechazado",
+   "ancho": 1440,
+   "alto": 4058
+  },
+  {
+   "archivo": "servicios__escritorio__base.png",
+   "ruta": "/servicios/",
+   "viewport": "escritorio",
+   "estado": "base",
+   "ancho": 1440,
+   "alto": 8362
+  },
+  {
+   "archivo": "servicios__escritorio__aviso-rechazado.png",
+   "ruta": "/servicios/",
+   "viewport": "escritorio",
+   "estado": "aviso-rechazado",
+   "ancho": 1440,
+   "alto": 8362
+  },
+  {
+   "archivo": "contacto__escritorio__base.png",
+   "ruta": "/contacto/",
+   "viewport": "escritorio",
+   "estado": "base",
+   "ancho": 1440,
+   "alto": 3046
+  },
+  {
+   "archivo": "contacto__escritorio__aviso-rechazado.png",
+   "ruta": "/contacto/",
+   "viewport": "escritorio",
+   "estado": "aviso-rechazado",
+   "ancho": 1440,
+   "alto": 3046
+  },
+  {
+   "archivo": "home__movil__base.png",
+   "ruta": "/",
+   "viewport": "movil",
+   "estado": "base",
+   "ancho": 390,
+   "alto": 5720
+  },
+  {
+   "archivo": "home__movil__menu-movil.png",
+   "ruta": "/",
+   "viewport": "movil",
+   "estado": "menu-movil",
+   "ancho": 390,
+   "alto": 5720
+  },
+  {
+   "archivo": "home__movil__aviso-rechazado.png",
+   "ruta": "/",
+   "viewport": "movil",
+   "estado": "aviso-rechazado",
+   "ancho": 390,
+   "alto": 5720
+  },
+  {
+   "archivo": "servicios__movil__base.png",
+   "ruta": "/servicios/",
+   "viewport": "movil",
+   "estado": "base",
+   "ancho": 390,
+   "alto": 13540
+  },
+  {
+   "archivo": "servicios__movil__menu-movil.png",
+   "ruta": "/servicios/",
+   "viewport": "movil",
+   "estado": "menu-movil",
+   "ancho": 390,
+   "alto": 13540
+  },
+  {
+   "archivo": "servicios__movil__aviso-rechazado.png",
+   "ruta": "/servicios/",
+   "viewport": "movil",
+   "estado": "aviso-rechazado",
+   "ancho": 390,
+   "alto": 13540
+  },
+  {
+   "archivo": "contacto__movil__base.png",
+   "ruta": "/contacto/",
+   "viewport": "movil",
+   "estado": "base",
+   "ancho": 390,
+   "alto": 4234
+  },
+  {
+   "archivo": "contacto__movil__aviso-rechazado.png",
+   "ruta": "/contacto/",
+   "viewport": "movil",
+   "estado": "aviso-rechazado",
+   "ancho": 390,
+   "alto": 4234
+  }
+ ]
+}
