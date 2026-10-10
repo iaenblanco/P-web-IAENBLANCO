@@ -29,7 +29,7 @@ no se guarda acá.
 
 Los pull requests internos (rama en este mismo repo) corren `npm run build`,
 `sanity` y `contrast` contra `out/`, con el motor central fijado al commit
-`700c12a`. Es el job `visual QA` de `.github/workflows/ci.yml`, y arranca solo
+`23c7c13`. Es el job `visual QA` de `.github/workflows/ci.yml`, y arranca solo
 si `tipos y guardia` pasa. Los PR de forks no lo corren. En `main` corre
 después del merge: avisa, no frena el despliegue.
 
@@ -79,6 +79,11 @@ cada línea de esta sección.
 
 9 de octubre de 2026, motor central `700c12a`, sobre el commit que agrega
 este bloque (padre `1b9fbf7`). Medida en local contra `out/`.
+
+Ese `700c12a` es el registro de con qué se midió. El motor vigente es
+`23c7c13` (10 de octubre de 2026): agrega el check `screenshots` y no toca
+`sanity` ni `contrast`. Con ese motor y el sitio sin tocar, la tabla sale
+igual.
 
 | Check | Resultado | Detalle |
 |---|---|---|
