@@ -66,6 +66,18 @@ const RETRASO_TRAZA = 0.07
 const RETRASO_FICHA = 0.4
 const PASO_FICHA = 0.15
 
+/* Flecha de la tira, dibujada. El caracter U+2192 no esta en IBM Plex Mono y
+   cada sistema lo pintaba con la fuente que tuviera a mano (Arial en Windows,
+   una serif en Linux): cambiaba de forma y de tamano segun el equipo. Es la
+   misma flecha de los botones. */
+function ArrowRight() {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+      <path d="M4 12h15M14 6l6 6-6 6" stroke="currentColor" strokeWidth="1.5" />
+    </svg>
+  )
+}
+
 export function CircuitoHero({ variante }: { variante: Variante }) {
   const raiz = useRef<HTMLDivElement>(null)
 
@@ -338,7 +350,7 @@ export function CircuitoHero({ variante }: { variante: Variante }) {
       </svg>
       {variante === 'tel' && (
         <p className="circuito__tira">
-          Te cotizamos <i aria-hidden="true">→</i> lo construimos <i aria-hidden="true">→</i> lo dejamos andando
+          Te cotizamos <ArrowRight /> lo construimos <ArrowRight /> lo dejamos andando
         </p>
       )}
     </div>
