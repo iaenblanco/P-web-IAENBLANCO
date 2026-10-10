@@ -18,7 +18,7 @@
   "navegador": { "channel": "chrome" },
   "salida": "./.salida",
 
-  "// estados": "Dos. menu-movil: un <details> nativo (components/Header.tsx), en inicio y en servicios porque la cabecera tiene dos variantes (site-header--inicio y la normal). aviso-rechazado: se pulsa Rechazar en el aviso de cookies, porque mientras esta abierto tapa la ultima franja del pie y esos textos salen indeterminados en base; solo en inicio, el pie es el mismo en todas las rutas. Sin hover ni focus en esta version.",
+  "// estados": "Dos. menu-movil: un <details> nativo (components/Header.tsx), en inicio y en servicios porque la cabecera tiene dos variantes (site-header--inicio y la normal). aviso-rechazado: se pulsa Rechazar en el aviso de cookies, porque mientras esta abierto tapa la ultima franja del pie y esos textos salen indeterminados en base; en las tres rutas, porque en base esa franja queda tapada en todas y sin este estado no tendria ninguna medicion. Sin hover ni focus en esta version.",
   "estadoBase": true,
   "estados": [
     {
@@ -33,7 +33,7 @@
     },
     {
       "nombre": "aviso-rechazado",
-      "rutas": ["/"],
+      "rutas": ["/", "/servicios/", "/contacto/"],
       "acciones": [
         { "tipo": "click", "selector": "button.consent-banner__deny" },
         { "tipo": "esperar", "selector": ".consent-banner", "condicion": "oculto", "timeoutMs": 3000 }

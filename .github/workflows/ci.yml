@@ -124,7 +124,7 @@ jobs:
       # qa/README.md se midio con este commit. Subirlo es un cambio deliberado
       # que va junto con volver a medir la linea base.
       MOTOR_REPO: IAenBlanco-Oracle/iaenblanco-agent-system
-      MOTOR_SHA: 7d3358e0cbd79edde1c74c574dd336dd4c5c576c
+      MOTOR_SHA: 700c12a163b4b068015b20fe33191267662ee3d5
       MOTOR_DIR: .iaenblanco-agent-system
       SALIDA: qa/.salida-ci
     steps:

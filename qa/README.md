@@ -19,7 +19,7 @@ node <central>/tools/qa/visual/bin/contrast.mjs --spec qa/visual.spec.json
 ```
 
 Sale a `qa/.salida/` (ignorada). Código 0 pasa, 1 incumple un criterio, 2 error
-de uso o de entorno. Tarda cerca de 30 s `sanity` y 90 s `contrast`.
+de uso o de entorno. Tarda cerca de 40 s `sanity` y 110 s `contrast`.
 
 Contra producción: copiar la spec fuera del repo, cambiar `"dist": "../out"`
 por `"url": "https://iaenblanco.com"`, quitar `"spa"` y correr igual. La copia
@@ -29,7 +29,7 @@ no se guarda acá.
 
 Los pull requests internos (rama en este mismo repo) corren `npm run build`,
 `sanity` y `contrast` contra `out/`, con el motor central fijado al commit
-`7d3358e`. Es el job `visual QA` de `.github/workflows/ci.yml`, y arranca solo
+`700c12a`. Es el job `visual QA` de `.github/workflows/ci.yml`, y arranca solo
 si `tipos y guardia` pasa. Los PR de forks no lo corren. En `main` corre
 después del merge: avisa, no frena el despliegue.
 
@@ -43,7 +43,7 @@ Subir el motor de versión es cambiar ese SHA y volver a medir la línea base.
 |---|---|
 | Rutas | `/`, `/servicios/`, `/contacto/` |
 | Viewports | escritorio 1440x900, móvil 390x844 |
-| Estados | `base`; `menu-movil` (móvil, en `/` y `/servicios/`); `aviso-rechazado` (en `/`, para medir el pie sin el aviso de cookies encima) |
+| Estados | `base`; `menu-movil` (móvil, en `/` y `/servicios/`); `aviso-rechazado` (en las tres rutas, para medir el pie sin el aviso de cookies encima) |
 | Fuentes requeridas | Instrument Sans (principal), IBM Plex Mono (mono) |
 | Contraste | todo texto de `#contenido`, `.site-header`, `.site-footer` y `.consent-banner`; sin exclusiones; 4.5 normal, 3 grande |
 | Sanidad | overflow, fuera de viewport, tres solapes declarados, errores JS, recursos fallidos |
@@ -53,11 +53,67 @@ Sin cubrir: `/productos/`, `/trabajos/`, `/servicios/[slug]/`, `/privacidad/`,
 `/terminos/`, hover, focus, los desplegables de escritorio y el envío del
 formulario.
 
+## Cómo leer los indeterminados
+
+Un indeterminado es un texto que en ese estado no se pudo medir. No cuenta como
+que pasa, y tampoco quiere decir que ese texto no se validó nunca: el motor
+cuenta por estado, y un texto tapado en uno puede estar medido en otro.
+
+El caso de este sitio es la última franja del pie. En `base` el aviso de
+cookies la tapa y sale indeterminada; en `aviso-rechazado`, que es el escenario
+donde se ve, se mide. Por eso la cobertura se lee por escenario visible: un
+texto está cubierto si se mide en algún estado declarado de su misma ruta y
+viewport. El indeterminado de `base` no se esconde: describe lo que pasa en ese
+estado.
+
+El JSON no trae ese cruce. Se hace a mano: cada entrada de
+`textosIndeterminados` se busca en `mediciones` de los otros estados de la
+misma ruta y viewport, por selector y texto. Lo que no puede quedar es un texto
+visible sin medición en ningún estado.
+
 ## Línea base
 
 La línea base describe el árbol funcional que se midió. Un commit posterior
 que solo toca documentación no la invalida ni obliga a actualizar el SHA en
 cada línea de esta sección.
+
+9 de octubre de 2026, motor central `700c12a`, sobre el commit que agrega
+este bloque (padre `1b9fbf7`). Medida en local contra `out/`.
+
+| Check | Resultado | Detalle |
+|---|---|---|
+| `contrast` | pasa (código 0) | 826 textos medidos, 826 pasan, 0 incumplen, 18 indeterminados |
+| `sanity` | pasa (código 0) | 14 de 14 combinaciones |
+| Fuentes | pasa | las dos requeridas aplicadas en todas las combinaciones; ninguna del sistema |
+| Overflow, fuera de viewport, solapes, errores JS, recursos | pasa | 0 en todo |
+
+Sin fallos conocidos y sin excepciones declaradas en la spec.
+
+Qué cambió contra la anterior (716 medidos, 50 indeterminados, 10
+combinaciones):
+
+- Los 32 rótulos `<text>` de SVG del inicio se miden y pasan: el motor ya aísla
+  sus glifos. Con el motor nuevo y el sitio sin tocar, las 716 mediciones que
+  ya había salieron iguales.
+- `aviso-rechazado` corre en las tres rutas y no solo en `/`: cuatro
+  combinaciones más, 80 mediciones del pie.
+- Las dos flechas de la tira del héroe eran el carácter `→`, que IBM Plex Mono
+  no trae: lo pintaba la fuente que tuviera el sistema (Arial en Windows, una
+  serif en Linux), y en Linux una de las dos no llegaba al mínimo de píxeles
+  para medirse. Ahora son un SVG y dejaron de ser texto: dos mediciones menos.
+
+Indeterminados: 18, todos en `base`. Son la última franja del pie (razón
+social, dirección, Privacidad, Términos) tapada por el aviso de cookies, en las
+tres rutas. Los 18 se miden y pasan en `aviso-rechazado` de su misma ruta y
+viewport: no queda ningún texto visible sin medición.
+
+Avisos esperados: en `aviso-rechazado`, `.consent-banner` ya no existe y los dos
+solapes que lo nombran salen como selector sin coincidencias. Son 12, dos por
+cada una de las seis combinaciones de ese estado.
+
+## Línea base anterior
+
+Queda como registro: es la medición con la que se comparó la de arriba.
 
 6 de octubre de 2026, commit `9551ac8`, motor central `b55efe9`. Medida en el
 preview de Cloudflare de la rama `fix/whatsapp-visibility-policy`

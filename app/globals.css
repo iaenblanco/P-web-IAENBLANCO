@@ -1491,10 +1491,15 @@ button {
   text-wrap: balance;
 }
 
-.circuito__tira i {
+.circuito__tira svg {
+  /* La caja que ocupaba el caracter (16 x 15), para que el texto no se
+     mueva. El alto impar deja el trazo sobre una fila entera de pixeles. */
+  display: inline-block;
+  width: 16px;
+  height: 15px;
   margin: 0 4px;
   color: var(--c1);
-  font-style: normal;
+  vertical-align: -4px;
 }
 
 /* --- Dentro del SVG ---------------------------------------------------- */
