@@ -21,21 +21,31 @@ node <central>/tools/qa/visual/bin/contrast.mjs --spec qa/visual.spec.json
 Sale a `qa/.salida/` (ignorada). Código 0 pasa, 1 incumple un criterio, 2 error
 de uso o de entorno. Tarda cerca de 40 s `sanity` y 110 s `contrast`.
 
+El tercer check del motor, `screenshots`, no se corre en local: compara contra
+una línea base de capturas hecha en Linux y en otra plataforma sale con código
+2 a propósito. Se mira en CI (ver "Diff visual").
+
 Contra producción: copiar la spec fuera del repo, cambiar `"dist": "../out"`
 por `"url": "https://iaenblanco.com"`, quitar `"spa"` y correr igual. La copia
 no se guarda acá.
 
 ## En CI
 
-Los pull requests internos (rama en este mismo repo) corren `npm run build`,
-`sanity` y `contrast` contra `out/`, con el motor central fijado al commit
-`23c7c13`. Es el job `visual QA` de `.github/workflows/ci.yml`, y arranca solo
-si `tipos y guardia` pasa. Los PR de forks no lo corren. En `main` corre
-después del merge: avisa, no frena el despliegue.
+Los pull requests internos (rama en este mismo repo) corren `npm run build` y,
+contra `out/`, los tres checks del motor central fijado al commit `23c7c13`.
+Son dos jobs de `.github/workflows/ci.yml`, y arrancan solo si
+`tipos y guardia` pasa:
 
-Necesita el secreto de Actions `IAENBLANCO_AGENT_SYSTEM_TOKEN`: lectura del
-repo central, nada más. Si falla, los dos JSON quedan como artifact del run.
-Subir el motor de versión es cambiar ese SHA y volver a medir la línea base.
+- `visual QA`: `sanity` y `contrast`. Es obligatorio para mergear.
+- `visual diff`: `screenshots`, el piloto de "Diff visual". No es obligatorio.
+
+Los PR de forks no corren ninguno de los dos. En `main` corren después del
+merge: avisan, no frenan el despliegue.
+
+Necesitan el secreto de Actions `IAENBLANCO_AGENT_SYSTEM_TOKEN`: lectura del
+repo central, nada más. Si `visual QA` falla, los dos JSON quedan como artifact
+del run. Subir el motor de versión es cambiar ese SHA, una sola vez para todos
+los jobs, y volver a medir la línea base.
 
 ## Qué cubre
 
@@ -47,6 +57,7 @@ Subir el motor de versión es cambiar ese SHA y volver a medir la línea base.
 | Fuentes requeridas | Instrument Sans (principal), IBM Plex Mono (mono) |
 | Contraste | todo texto de `#contenido`, `.site-header`, `.site-footer` y `.consent-banner`; sin exclusiones; 4.5 normal, 3 grande |
 | Sanidad | overflow, fuera de viewport, tres solapes declarados, errores JS, recursos fallidos |
+| Capturas | las 14 combinaciones, a página completa, contra `qa/baseline/`; tolerancia 0 (piloto) |
 | Terceros bloqueados | `static.cloudflareinsights.com`, `cloudflareinsights.com`, `www.googletagmanager.com` |
 
 Sin cubrir: `/productos/`, `/trabajos/`, `/servicios/[slug]/`, `/privacidad/`,
@@ -70,6 +81,87 @@ El JSON no trae ese cruce. Se hace a mano: cada entrada de
 `textosIndeterminados` se busca en `mediciones` de los otros estados de la
 misma ruta y viewport, por selector y texto. Lo que no puede quedar es un texto
 visible sin medición en ningún estado.
+
+## Diff visual (piloto)
+
+El check `screenshots` saca una captura de página completa de cada una de las
+14 combinaciones de "Qué cubre" y la compara píxel por píxel con la que está
+guardada en `qa/baseline/`. Tolerancia cero: un solo píxel distinto es un
+fallo.
+
+Es un piloto. Corre en cada pull request interno y en `main` como job
+`visual diff`, se ve en el PR y **no es obligatorio para mergear**: no está
+entre los checks requeridos de la protección de `main`. La idea es mirarlo un
+tiempo en corridas reales antes de decidir si se exige.
+
+| Código | Qué pasó |
+|---|---|
+| 0 | Las 14 capturas son iguales a la línea base |
+| 1 | Alguna difiere, cambió de tamaño o se pintó sin una fuente requerida |
+| 2 | No se pudo comparar: falta `qa/baseline/`, el manifiesto no vale o es de otra plataforma |
+
+Un rojo quiere decir que el sitio se ve distinto, no que esté mal. Si el cambio
+es el que se buscaba, se actualiza la línea base de capturas (más abajo). Si
+no, es una regresión.
+
+Cuando falla, el run deja el artifact `visual-diff-<sha>` (14 días) con
+`screenshots.json`, la salida de consola (`screenshots.log`) y, solo de las
+capturas que difieren, tres imágenes en `screenshots/`:
+`<captura>.baseline.png`, `<captura>.candidate.png` y `<captura>.diff.png`. El
+diff es la línea base en gris aclarado con los píxeles distintos en rojo y un
+marco magenta en cada zona. Cuando pasa no sube nada.
+
+### La línea base de capturas
+
+`qa/baseline/` son 14 PNG y `baseline.json`, que anota la plataforma, la
+versión de Chrome y el tamaño de cada captura. Está en Git a propósito, sin
+LFS: pesa 13,7 MB.
+
+Solo vale hecha en Linux. El texto se pinta distinto en cada sistema, y la
+herramienta rechaza con código 2 una línea base de otra plataforma. Por eso
+`screenshots` no se corre en Windows, y por eso la línea base **nunca** se
+genera en local.
+
+La vigente: 10 de octubre de 2026, sobre el commit `6ecb2e2` (el sitio de
+`896e83e` sin cambios visuales), motor `23c7c13`, imagen `ubuntu-24.04`
+`20261004.327.1`, Chrome `154.0.8037.97`. Recién generada se comparó en el
+mismo job, sobre el mismo build: 14 de 14, 0 píxeles.
+
+### Actualizar la línea base de capturas
+
+Cuando un cambio visual es intencional:
+
+1. En GitHub: Actions > CI > Run workflow, elegir la rama del cambio y marcar
+   "Generar la linea base de capturas". Es el job `linea base visual`.
+2. El job genera las 14 capturas, las compara contra sí mismas (tiene que dar
+   0 píxeles) y deja el artifact `linea-base-visual-<sha>`. Es todo o nada: si
+   una captura sale sin una fuente requerida o la página no se queda quieta, no
+   escribe ninguna.
+3. Bajar el artifact, borrar `qa/baseline/` y descomprimirlo dentro de `qa/`.
+   Trae `baseline/` y los dos informes del job en `.salida-ci/`, que Git
+   ignora.
+4. Commit de `qa/baseline/` en esa misma rama. Entra a `main` por pull request
+   como cualquier cambio, y ahí `visual diff` tiene que dar verde.
+
+El workflow no escribe en el repo ni abre pull requests: generar no cambia
+nada hasta que alguien hace ese commit. Ningún check normal (pull request o
+push) actualiza la línea base; `--update-baseline` aparece una sola vez en
+`.github/workflows/ci.yml`, en el job manual.
+
+### Lo que se sabe que la va a mover
+
+- **El año del pie.** El pie pinta el año en curso
+  (`components/Footer.tsx`). Al cambiar el año, las capturas que incluyen el
+  pie dejan de coincidir y hay que actualizar la línea base a propósito. No hay
+  máscaras: durante el piloto se acepta.
+- **Chrome.** No está fijado: es el estable que trae la imagen del runner. Si
+  cambia respecto del de la línea base, el check avisa (`AVISO` en la consola)
+  y compara igual. Con la misma imagen y el mismo Chrome el ruido medido es 0
+  píxeles; entre versiones de Chrome no está medido, y el piloto sirve para
+  verlo.
+- **La imagen del runner.** `visual diff` y `linea base visual` corren en
+  `ubuntu-24.04` y no en `ubuntu-latest`: cambiar de imagen es cambiar de línea
+  base.
 
 ## Línea base
 

@@ -1,9 +1,12 @@
 name: CI
 
-# Dos jobs en cada corrida: "tipos y guardia" (barato, corre siempre) y
-# "visual QA" (build + sanity + contrast, solo si el primero pasa y solo para
-# codigo de este repo). Y uno manual, "linea base visual", que solo corre a
-# pedido.
+# Tres jobs en cada corrida: "tipos y guardia" (barato, corre siempre) y, solo
+# si ese pasa y solo para codigo de este repo, "visual QA" (build + sanity +
+# contrast) y "visual diff" (build + capturas contra la linea base). Y uno
+# manual, "linea base visual", que solo corre a pedido.
+#
+# Para mergear a main se exigen dos: "tipos y guardia" y "visual QA". "visual
+# diff" es un piloto: se ve en el pull request, puede fallar y no frena nada.
 #
 # Job "tipos y guardia": las dos revisiones baratas que Cloudflare NO hace.
 # Cloudflare Pages construye desde main con "next build" a secas: no corre tsc
@@ -15,6 +18,10 @@ name: CI
 # evitaba: next/font baja las tipografias de Google en tiempo de build
 # (app/layout.tsx:2). Un rojo en el paso "Construir" puede ser Google y no el
 # sitio: se relanza.
+#
+# Job "visual diff": construye igual y compara las 14 capturas de
+# qa/visual.spec.json contra qa/baseline/. Si difieren deja un artifact con el
+# informe y las imagenes de las que fallaron. Nunca escribe la linea base.
 #
 # Job "linea base visual": genera la linea base de capturas del check
 # screenshots (qa/baseline/). Es manual: workflow_dispatch con la casilla
@@ -75,8 +82,8 @@ concurrency:
 # Solo lectura: este workflow no escribe en el repo. Importa porque el repo es
 # publico y pull_request lo puede disparar un fork.
 #
-# Secreto requerido (solo los jobs que traen el motor: "visual QA" y "linea
-# base visual"):
+# Secreto requerido (solo los jobs que traen el motor: "visual QA", "visual
+# diff" y "linea base visual"):
 #   IAENBLANCO_AGENT_SYSTEM_TOKEN
 #   Para que sirve: checkout de solo lectura del motor central de QA, que es
 #   un repo privado (IAenBlanco-Oracle/iaenblanco-agent-system).
@@ -251,6 +258,68 @@ jobs:
             qa/.salida-ci/sanity.json
             qa/.salida-ci/contrast.json
           if-no-files-found: ignore
+          retention-days: 14
+
+  # PILOTO, NO OBLIGATORIO. Compara las capturas del build contra la linea base
+  # versionada en qa/baseline/, pixel por pixel.
+  #
+  # Es un job aparte y no un paso de "visual QA" a proposito: "visual QA" es un
+  # check requerido para mergear y este no. Asi un rojo aca se ve en el pull
+  # request sin frenar el merge, y "visual QA" sigue diciendo lo mismo que
+  # antes. No esta en los checks requeridos de la proteccion de rama, y no hay
+  # que agregarlo ahi mientras dure el piloto.
+  #
+  # Solo compara. Nunca lleva --update-baseline: la linea base cambia a mano,
+  # con el job "linea base visual" de mas abajo.
+  visual-diff:
+    name: visual diff
+    needs: revision
+    # La misma regla que "visual QA": un PR de fork queda "skipped" y no llega
+    # a tocar el secreto ni el motor privado.
+    if: github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository
+    # La misma imagen con la que se genero la linea base.
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - *prep-checkout
+      - *prep-node
+      - *prep-dependencias
+      - *prep-construir
+      - *prep-out
+      - *prep-secreto
+      - *prep-motor
+      - *prep-motor-sha
+      - *prep-runtime
+      - *prep-chrome
+
+      - name: Imagen del runner
+        run: echo "imagen ${ImageOS:-desconocida} ${ImageVersion:-desconocida}"
+
+      # Codigo 0: ninguna captura difiere. 1: alguna difiere. 2: no se pudo
+      # comparar (falta la linea base, el manifiesto no vale o es de otra
+      # plataforma). Con 2 la herramienta no escribe informe, solo consola:
+      # por eso la consola tambien se guarda.
+      - name: Comparar las capturas
+        run: |
+          set -o pipefail
+          mkdir -p "$SALIDA"
+          node "$MOTOR_DIR/tools/qa/visual/bin/screenshots.mjs" --spec qa/visual.spec.json --out "$SALIDA" 2>&1 | tee "$SALIDA/screenshots.log"
+
+      # Solo si fallo. En screenshots/ la herramienta deja tres imagenes por
+      # cada captura que difiere (linea base, candidata y diff) y ninguna de
+      # las que pasan: el artifact no carga la linea base entera.
+      - name: Subir el diff si fallo
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: visual-diff-${{ github.sha }}
+          path: |
+            qa/.salida-ci/screenshots.json
+            qa/.salida-ci/screenshots.log
+            qa/.salida-ci/screenshots/
+          include-hidden-files: true
+          if-no-files-found: ignore
+          overwrite: true
           retention-days: 14
 
   # Genera la linea base de capturas del check screenshots. Es el UNICO lugar
